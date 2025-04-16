@@ -1,0 +1,637 @@
+---
+title: "ACE Project master"
+author: "Caleb"
+date: "`r Sys.Date()`"
+output:
+  html_document: default
+  pdf_document: default
+editor_options: 
+  markdown: 
+    wrap: 72
+---
+
+## Generate trees
+
+```{r}
+
+library(treats)
+
+bd_params <- make.bd.params(speciation = 1, extinction = 0.7)
+
+stop_rule <- list(max.living = 50)
+set.seed(123)
+trees <- treats(stop.rule = stop_rule, bd.params = bd_params, null.error = 100, replicates = 20)
+# write.tree(tree, file = "../Data/processed/trees/simulated.tre")
+# tree <- read.tree("../Data/processed/trees/simulated.tre")
+
+# tree <- read.nexus("../Data/raw/trees/Beck2014.tre")
+# tree <- makeNodeLabel(tree)
+# tree <- set.root.time(tree)
+
+```
+
+
+## Discrete trait simulation
+
+Firstly lets simulate completely random matrix.
+
+```{r}
+
+tree_labels <- lapply(trees, function(tree) {
+  c(tree$tip.label, tree$node.label)
+})
+
+# Create a matrix with random numbers between 0 and 3
+# how do the number of character states influence ancestral states???? say if there are 5 different states, does this influence disparity analyses. could do another matrix where the number of states changes halfway through the tree to see how ace compares??? 
+random_discrete <- lapply(tree_labels, function(tree){
+                        matrix <- matrix(sample(0:3, length(tree) * 100, replace = TRUE), 
+                        nrow = length(tree), 
+                        ncol = 100)
+                        rownames(matrix) <- tree
+                        return(matrix)})
+
+
+
+
+
+```
+
+
+Now we can simulate trait data at varying levels of transition rate.
+
+```{r}
+
+
+low_transitions <- matrix(c(
+    0.90, 0.05, 0.05, 
+    0.05, 0.99, 0.05,
+    0.05, 0.05, 0.99 
+), nrow = 3, byrow = TRUE)
+
+low_traits <- treats::make.traits(process = discrete.process, n = 100, process.args = list(transitions = low_transitions))
+
+med_transitions <- matrix(c(
+    0.5, 0.25, 0.25, 
+    0.25, 0.5, 0.25,
+    0.25, 0.25, 0.5 
+), nrow = 3, byrow = TRUE)
+
+med_traits <- treats::make.traits(process = discrete.process, n = 100, process.args = list(transitions = med_transitions))
+
+
+high_transitions <- matrix(c(
+    0.33, 0.33, 0.33, 
+    0.33, 0.33, 0.33,
+    0.33, 0.33, 0.33 
+), nrow = 3, byrow = TRUE)
+
+high_traits <- treats::make.traits(process = discrete.process, n = 100, process.args = list(transitions = high_transitions))
+
+
+## map the traits
+
+low_matrices <- lapply(trees, function(tree){
+    mapped <- map.traits(low_traits, tree)
+    matrix <- mapped$data
+    return(matrix)
+})
+
+med_matrices <- lapply(trees, function(tree){
+    mapped <- map.traits(low_traits, tree)
+    matrix <- mapped$data
+    return(matrix)
+})
+
+high_matrices <- lapply(trees, function(tree){
+    mapped <- map.traits(high_traits, tree)
+    matrix <- mapped$data
+    return(matrix)
+})
+
+discrete_matrices <- list(random = random_discrete, low = low_matrices, med = med_matrices, high = high_matrices )
+
+
+
+# test <- geiger::sim.char(tree, Q, nsim = 100, model = "discrete")
+# test <- do.call(cbind, test)
+# q <- list(rbind(c(-.5, .5), c(.5, -.5)))
+
+
+```
+
+## Different tree coverages
+
+```{r}
+
+## fossil degredation as well
+# tree <- trees[[1]]
+remove.fossil <- function(trees, matrices) {
+  living_matrices <- Map(function(tree, matrix) {
+    ages <- tree.age(tree) # get tip ages
+    tips <- ages$element[ages$ages == 0] # find only living species
+    living_matrix <- matrix[rownames(matrix) %in% tips, ]
+    living_matrix <- apply(living_matrix, c(1, 2), as.character)
+ # keep only living species in matrix
+    living_tree <- keep.tip(tree, tips) # keep only living species in tree
+    return(list(matrix = living_matrix, tree = living_tree)) # return as list
+  }, trees, matrices)
+  
+  return(living_matrices)
+}
+
+#     tip_matrix_characters <- apply(tip_matrix, c(1, 2), as.character)
+
+
+fossil.pres <- function(trees, matrices, preservation = c(0.05, 0.15, 0.5)){
+  if (!preservation %in% c(0.05, 0.15, 0.5)) {
+       stop("Invalid preservation value. Must be one of 0.05, 0.15, or 0.5.")
+   }
+   fossil_matrices <- Map(function(tree, matrix){
+    ages <- tree.age(tree)
+    tips <- ages$element[ages$ages == 0] # keep living species
+    fossils <- ages$element[ages$ages > 0 & grepl("^t", ages$element)]  # find fossils
+    if(preservation == 0.5){
+        sample <- sample(fossils, size = length(fossils)/2)
+        } ## sample fossils by a specified preservation level
+    if(preservation == 0.15){
+        sample <- sample(fossils, size = ceiling(length(fossils) * 0.15))
+        }
+    if(preservation == 0.05){
+        sample <- sample(fossils, size = ceiling(length(fossils) * 0.05))
+        }
+    kept <- c(sample, tips)
+    fossil_matrix <- matrix[rownames(matrix) %in% kept, ] # keep taxa that are fossil preserved
+    fossil_matrix <- apply(fossil_matrix, c(1, 2), as.character) # make character for ace
+    pruned  <- keep.tip(tree, kept) # prune tree
+    return(list(matrix = fossil_matrix, tree = pruned))
+   }, trees, matrices)
+   return(fossil_matrices)
+}
+
+living <- lapply(discrete_matrices, remove.fossil, trees = trees)
+fossilised_high <- lapply(discrete_matrices, fossil.pres, trees = trees, preservation = 0.5)
+fossilised_med <- lapply(discrete_matrices, fossil.pres, trees = trees, preservation = 0.15)
+fossilised_low <- lapply(discrete_matrices, fossil.pres, trees = trees, preservation = 0.05)
+
+
+fossil_levels <- list(living = living, fossil_high = fossilised_high, fossil_med = fossilised_med, fossil_low = fossilised_low)
+
+
+```
+
+
+
+
+## Now simulating continuous characters
+
+```{r}
+## BM process
+
+bm <- make.traits(process = BM.process, n = 100)
+ou <- make.traits(process = OU.process, n = 100)
+random_cont <- make.traits(process = no.process, n = 100)
+
+bm_matrices <- lapply(trees, function(tree){
+    mapped <- map.traits(bm, tree)
+    matrix <- mapped$data
+    return(matrix)
+})
+ou_matrices <- lapply(trees, function(tree){
+    mapped <- map.traits(ou, tree)
+    matrix <- mapped$data
+    return(matrix)
+})
+random_cont_matrices <- lapply(trees, function(tree){
+    mapped <- map.traits(random_cont, tree)
+    matrix <- mapped$data
+    return(matrix)
+}) 
+continuous_matrices <- list(bm = bm_matrices, ou = ou_matrices, random = random_cont_matrices)
+
+living_cont <- lapply(continuous_matrices, remove.fossil, trees = trees)
+fossilised_high_cont <- lapply(continuous_matrices, fossil.pres, trees = trees, preservation = 0.5)
+fossilised_med_cont <- lapply(continuous_matrices, fossil.pres, trees = trees, preservation = 0.15)
+fossilised_low_cont <- lapply(continuous_matrices, fossil.pres, trees = trees, preservation = 0.05)
+
+# fossil_list <- list(living = livin)
+
+```
+
+
+## discrete pipeline
+
+```{R}
+source("../Functions/apply.dist.R")
+source("../Functions/apply.ordination.R")
+
+distances <- lapply(discrete_matrices, dist.func)
+traitspaces <- ord.func(distances)
+
+disp_obj <- lapply(traitspaces, make.dispRity, tree = tree)
+
+do.time.slice <- function(matrices, chrono_models, FADLAD = NULL, time_interval) {
+  time_slices <- lapply(chrono_models, function(model) {
+    chrono.subsets(matrices, method = "continuous", FADLAD = FADLAD, model = model, time = time_interval)
+  })
+  names(time_slices) <- chrono_models
+  return(time_slices)
+}
+
+chrono_models <- c("acctran", "deltran", "random", "proximity", "equal.split", "gradual.split")
+
+
+time_sliced_discrete <- lapply(disp_obj, do.time.slice, chrono_models = chrono_models, time_interval = 10)
+
+bootstrapped_discrete <- lapply(time_sliced_discrete, lapply, boot.matrix, bootstraps = 100)
+
+disparity_discrete <- lapply(bootstrapped_discrete, lapply,  dispRity, metric = c(sum, variances), na.rm = TRUE, verbose = TRUE)
+
+saveRDS(disparity_discrete, "../Data/processed/disparity/aceproject/beckdiscrete.Rds")
+saveRDS(disparity_discrete, "../Data/processed/disparity/aceproject/simdiscrete.Rds")
+
+
+plot(disparity_discrete$low$gradual.split)
+
+```
+
+
+## Continuous pipeline
+
+```{r}
+
+traitspace_cont <- pca.func(continuous_matrices)
+
+disp_obj_cont <- lapply(traitspace_cont, make.dispRity, tree = tree)
+
+
+time_sliced_cont <- lapply(disp_obj_cont, do.time.slice, chrono_models = chrono_models, time_interval = 10)
+
+bootstrapped_cont <- lapply(time_sliced_cont, lapply, boot.matrix, bootstraps = 100)
+
+disparity_cont <- lapply(bootstrapped_cont, lapply,  dispRity, metric = c(sum, variances), na.rm = TRUE, verbose = TRUE)
+
+saveRDS(disparity_cont, "../Data/processed/disparity/aceproject/beckcont.Rds")
+saveRDS(disparity_cont, "../Data/processed/disparity/aceproject/simcont.Rds")
+
+
+plot(disparity_cont$ou$proximity)
+
+```
+
+## Discrete with ace (pre-ord)
+
+```{r}
+
+# tip_matrices <- lapply(discrete_matrices, function(matrix){
+#     tip_matrix <- matrix[!grepl("^n", rownames(matrix)), ]
+#     tip_matrix_characters <- apply(tip_matrix, c(1, 2), as.character)
+#     return(tip_matrix_characters)
+# })
+
+
+# tips_noncharacter <- apply(tip_matrices$low, c(1,2), as.numeric)
+# test_simmap <- make.simmap(tree, state1, nsim = 10)
+# outp <- describe.simmap(test_simmap)
+
+anc.states <- function(fossil_levels){
+  lapply(fossil_levels, function(level){
+    lapply(level, function(x) {
+  # Run multi.ace for each tree
+  anc_states <- multi.ace(data = x$matrix, 
+                          tree = x$tree, 
+                          models = "ER", 
+                          output = "combined")
+  return(anc_states)})})}
+
+fossil_anc <- lapply(fossil_levels, anc.states)
+
+test <- fossil_anc$living$high[[1]]
+true <- discrete_matrices$high[[1]]
+
+
+get.nodes <- function(true, ace){
+  node_v <- rownames(ace)[grepl("^n", rownames(ace))]
+  ace_filtered <- ace[node_v,]
+  true_filtered <- true[node_v,]
+  return(list(ace = ace_filtered, true = true_filtered))
+}
+
+source("../Functions/node.dist.R")
+
+
+true_vs_ace <- lapply(names(fossil_anc), function(preservation) {
+  lapply(names(discrete_matrices), function(level) {
+    result <- Map(function(true_matrix, ace_matrix) {
+      get.nodes(true_matrix, ace_matrix)
+    }, discrete_matrices[[level]], preservation[[level]])
+    names(result) <- names(discrete_matrices[[level]])  # Preserve names at this level
+    return(result)
+  })
+})
+
+names(true_vs_ace) <- names(fossil_anc)
+
+
+
+names(fossil_high_all) <- names(discrete_matrices)
+
+node_dist <- lapply(true_vs_ace, function(preservation){
+lapply(preservation, function(level){
+  lapply(level, function(matrices){
+    distances <- node.dist(matrices)
+  })
+})
+})
+
+
+distance_means <- lapply(node_dist, function(preservation){
+  lapply(preservation, function(level){
+  lapply(level, function(matrices){
+    means <- mean(matrices)
+  })
+})
+})
+
+
+
+
+test <- lapply(fossil_high_all$high, node.dist)
+
+
+# Parse ACE
+n_rows <- nrow(test)
+n_cols <- ncol(test)
+parsed_ace <- vector("list", n_rows)
+for (i in 1:n_rows) {
+  parsed_ace[[i]] <- vector("list", n_cols)
+  for (j in 1:n_cols) {
+    cell <- test[i, j]
+    if (is.na(cell) || cell == "") {
+      parsed_ace[[i]][[j]] <- NA
+    } else {
+      parsed_ace[[i]][[j]] <- as.numeric(unlist(strsplit(cell, "/")))
+    }
+  }
+}
+
+# Distance function using numeric vector directly
+compute_distance <- function(true_state, ace_states) {
+  # If the state is the same (exact match), distance is 0
+  if (true_state %in% ace_states && length(ace_states) == 1) {
+    return(0)
+  }
+  
+  # If there is uncertainty of 3 (i.e., 0/1/2), assign 0.5 distance
+  if (length(ace_states) == 3) {
+    return(0.5)
+  }
+  
+  # If there is uncertainty of 2 (i.e., 0/1)
+  if (length(ace_states) == 2) {
+    # If true state is not in the estimated states, return 1
+    if (!(true_state %in% ace_states)) {
+      return(1)
+    }
+    # If true state is in the estimated states (0 or 1), return 0.5
+    return(0.25)
+  }
+  
+  # Otherwise, the true state and estimated state are different (i.e., distance is 1)
+  return(1)
+}
+
+# Initialize distance matrix
+n_rows <- length(parsed_ace)
+n_cols <- length(parsed_ace[[1]])
+distance_matrix <- matrix(NA, nrow = n_rows, ncol = n_cols)
+
+# Loop through nodes and characters
+for (i in 1:n_rows) {
+  for (j in 1:n_cols) {
+    true_state <- as.numeric(true_nodes[i, j])  # assumes true_nodes is a numeric matrix
+    ace_states <- parsed_ace[[i]][[j]]          # this is already a numeric vector
+    distance_matrix[i, j] <- compute_distance(true_state, ace_states)
+  }
+}
+
+
+## mean(distance_matrix)
+#[1] 0.5040306
+
+# r$> sd(distance_matrix)
+# [1] 0.244602
+
+distances_anc <- lapply(fossil_anc,  dist.func)
+traitspaces_anc <- lapply(distances_anc, ord.func)
+
+
+## map the corresponding trees and ancestral states
+disp_obj_anc <- lapply(names(traitspaces_anc), function(level) {
+  Map(function(traitspace, fossil_level) {
+    make.dispRity(traitspace, fossil_level$tree)
+  }, traitspaces_anc[[level]], low_fossil_levels[[level]])
+})
+names(disp_obj_anc) <- names(traitspaces_anc)
+
+
+
+time_sliced_discrete_anc <- lapply(disp_obj_anc, lapply, do.time.slice, chrono_models = "gradual.split", time_interval = 10)
+
+bootstrapped_discrete_anc <- lapply(time_sliced_discrete_anc, lapply, lapply, boot.matrix, bootstraps = 100)
+
+disparity_discrete_anc <- lapply(bootstrapped_discrete_anc, lapply, lapply,  dispRity, metric = c(sum, variances), na.rm = TRUE, verbose = TRUE)
+
+plot(disparity_discrete_anc$fossil_low[[8]]$gradual.split)
+
+
+##but when running with beck tree, i find that ace recovers the correct disparity signal. this is likely because of the distribution of tips through time
+plot(disparity_discrete_anc$wide_random$gradual.split)
+
+saveRDS(disparity_discrete_anc, "../Data/processed/disparity/aceproject/beckdiscreteanc.Rds")
+
+saveRDS(disparity_discrete_anc, "../Data/processed/disparity/aceproject/simdiscreteanc.Rds")
+
+
+## this is super important, as this means we have likely been inflating disparity of earlier nodes due to ancestral state estimation. and because the fossil record of these earlier nodes is usually very incomplete anyway, it adds a smoothing effect.
+
+
+```
+
+## Continuous with ace (pre-ord)
+
+```{r}
+
+tip_matrices_cont <- lapply(continuous_matrices, function(matrix){
+    tip_matrix <- matrix[!grepl("^n", rownames(matrix)), ]
+    return(tip_matrix)
+})
+
+
+cont_anc_states <- lapply(tip_matrices_cont, function(matrix) {
+  # Run multi.ace for each tree
+  anc_states <- multi.ace(data = matrix, 
+                          tree = tree, 
+                          models = "ML", 
+                          output = "combined")
+  
+  return(anc_states)  
+})
+
+traitspace_cont_anc <- pca.func(cont_anc_states)
+
+disp_obj_cont_anc <- lapply(traitspace_cont_anc, make.dispRity, tree = tree)
+
+
+time_sliced_cont_anc <- lapply(disp_obj_cont_anc, do.time.slice, chrono_models = chrono_models, time_interval = 10)
+
+bootstrapped_contanc <- lapply(time_sliced_cont_anc, lapply, boot.matrix, bootstraps = 100)
+
+disparity_cont_anc <- lapply(bootstrapped_contanc, lapply,  dispRity, metric = c(sum, variances), na.rm = TRUE, verbose = TRUE)
+
+saveRDS(disparity_cont_anc, "../Data/processed/disparity/aceproject/beckcontanc.Rds")
+saveRDS(disparity_cont_anc, "../Data/processed/disparity/aceproject/simcontanc.Rds")
+
+
+
+plot(disparity_cont_anc$ou$gradual.split)
+
+```
+
+## Discrete with ace (post-ord)
+
+```{r}
+
+tip_matrices <- lapply(discrete_matrices, function(matrix){
+    tip_matrix <- matrix[!grepl("^n", rownames(matrix)), ]
+    tip_matrix_characters <- apply(tip_matrix, c(1, 2), as.character)
+    return(tip_matrix_characters)
+})
+
+
+distances <- dist.func(tip_matrices)
+traitspaces <- ord.func(distances)
+
+post_ord_anc <- lapply(traitspaces, function(matrix) {
+  # Run multi.ace for each tree
+  anc_states <- multi.ace(data = matrix, 
+                          tree = tree, 
+                          models = "ML", 
+                          output = "combined")
+  
+  return(anc_states)  
+})
+
+
+disp_obj_post_anc <- lapply(post_ord_anc, make.dispRity, tree = tree)
+
+
+time_sliced_discrete_post_anc <- lapply(disp_obj_post_anc, do.time.slice, chrono_models = chrono_models, time_interval = 10)
+
+bootstrapped_discrete_post_anc <- lapply(time_sliced_discrete_post_anc, lapply, boot.matrix, bootstraps = 100)
+
+disparity_discrete_post_anc <- lapply(bootstrapped_discrete_post_anc, lapply,  dispRity, metric = c(sum, variances), na.rm = TRUE, verbose = TRUE)
+
+plot(disparity_discrete_post_anc$low$gradual.split)
+
+saveRDS(disparity_discrete_post_anc, "../Data/processed/disparity/aceproject/simpostancdiscrete.Rds")
+
+## this is super important, as this means we have likely been inflating disparity of earlier nodes due to ancestral state estimation. and because the fossil record of these earlier nodes is usually very incomplete anyway, it adds a smoothing effect.
+
+
+```
+
+
+## Discrete with ace (pre-ord & sample)
+
+```{r}
+
+tip_matrices <- lapply(discrete_matrices, function(matrix){
+    tip_matrix <- matrix[!grepl("^n", rownames(matrix)), ]
+    tip_matrix_characters <- apply(tip_matrix, c(1, 2), as.character)
+    return(tip_matrix_characters)
+})
+
+normal_sampling <- list(fun = rnorm, param = list(mean = mean, sd = function(x)return(diff(range(x))/4)))
+
+
+discrete_anc_states_sample <- lapply(tip_matrices, function(matrix) {
+  # Run multi.ace for each tree
+  anc_states <- multi.ace(data = matrix, 
+                          tree = tree, 
+                          models = "ER", 
+                          output = "combined",
+                          sample = 1000,
+                          sample.fun = normal_sampling)
+  
+  return(anc_states)  
+})
+
+distances_anc_sample <- lapply(discrete_anc_states_sample, dist.func)
+traitspaces_anc_sample <- lapply(distances_anc_sample, ord.func)
+
+disp_obj_anc_sample <- lapply(traitspaces_anc_sample, lapply, make.dispRity, tree = tree)
+
+
+time_sliced_discrete_anc_sample <- lapply(disp_obj_anc_sample, lapply, chrono.subsets, method = "continuous", model = "gradual.split", time = 10)
+
+# bootstrapped_discrete_anc_sample <- lapply(time_sliced_discrete_anc_sample, lapply, boot.matrix, bootstraps = 100)
+
+disparity_discrete_anc_sample <- lapply(time_sliced_discrete_anc_sample, lapply,  dispRity, metric = c(sum, variances), na.rm = TRUE, verbose = TRUE)
+
+saveRDS(disparity_discrete_anc_sample, "../Data/processed/disparity/aceproject/simancdiscretesample.Rds")
+
+plot(disparity_discrete_anc_sample$low[[234]])
+
+low <- lapply(disparity_discrete_anc_sample$low, get.disparity)
+low <- do.call(cbind, low)
+
+
+
+subset_names <- names(disparity_discrete_anc_sample$low[[1]]$disparity)
+
+# Group the 1000 values into 10 subsets
+grouped_subsets <- lapply(subset_names, function(subset_name) {
+  # Extract the values for the current subset across all 1000 lists
+  values <- sapply(low, function(x) x[[subset_name]])
+  
+  # Calculate the median of the values
+  median_value <- median(values, na.rm = TRUE)
+  
+  # Reshape the values into a single row with 1000 columns
+  values_matrix <- matrix(values, nrow = 1, byrow = TRUE)
+  
+  # Create the desired structure
+  list(
+    elements = matrix(median_value, nrow = 1),  # Median as a single-row matrix
+     values_matrix               # All values as a matrix
+  )
+})
+names(grouped_subsets) <- subset_names
+
+
+disparity_discrete_anc_sample$low[[1]]$disparity <- grouped_subsets
+disparity_discrete_anc_sample$low[[1]]$call$bootstrap <- list(1000, "full", NULL)
+
+plot(disparity_discrete_anc_sample$low[[1]])
+
+print.dispRity(disparity_discrete_anc_sample$low[[1]])
+
+
+    
+## this is super important, as this means we have likely been inflating disparity of earlier nodes due to ancestral state estimation. and because the fossil record of these earlier nodes is usually very incomplete anyway, it adds a smoothing effect.
+
+
+```
+
+
+## Testing against claddis
+
+```{r echo = FALSE}
+# write.nexus.data(discrete_matrices$low, file = "../Data/raw/matrices/random.nex") 
+
+# claddis_matrix <- read_nexus_matrix("../Data/raw/matrices/Brusatte2014.nex")
+# bru_tree <- read.nexus("../Data/raw/trees/Brusatte2014.nex")
+
+
+# ancestral_states <- estimate_ancestral_states(claddis_matrix,  bru_tree)
+```
