@@ -1,0 +1,159 @@
+---
+title: "ACE Project continuous"
+author: "Caleb"
+date: "`r Sys.Date()`"
+output:
+  html_document: default
+  pdf_document: default
+editor_options: 
+  markdown: 
+    wrap: 72
+---
+
+## Load trees
+
+```{R}
+library(treats)
+trees <- read.tree("../Data/trees/simulated.tre")
+
+```
+
+
+## Now simulating continuous characters
+
+```{r}
+## BM process
+
+source("../Functions/fossil.pres.R")
+
+bm <- make.traits(process = BM.process, n = 100)
+ou <- make.traits(process = OU.process, n = 100)
+random_cont <- make.traits(process = no.process, n = 100)
+
+bm_matrices <- lapply(trees, function(tree){
+    mapped <- map.traits(bm, tree)
+    matrix <- mapped$data
+    return(matrix)
+})
+ou_matrices <- lapply(trees, function(tree){
+    mapped <- map.traits(ou, tree)
+    matrix <- mapped$data
+    return(matrix)
+})
+random_cont_matrices <- lapply(trees, function(tree){
+    mapped <- map.traits(random_cont, tree)
+    matrix <- mapped$data
+    return(matrix)
+}) 
+continuous_matrices <- list(bm = bm_matrices, ou = ou_matrices)
+
+living_cont <- lapply(continuous_matrices, remove.fossil, trees = trees, type = "continuous")
+fossilised_high_cont <- lapply(continuous_matrices, fossil.pres, trees = trees, preservation = 0.5, type = "continuous")
+fossilised_med_cont <- lapply(continuous_matrices, fossil.pres, trees = trees, preservation = 0.15, type = "continuous")
+fossilised_low_cont <- lapply(continuous_matrices, fossil.pres, trees = trees, preservation = 0.05, type = "continuous")
+
+
+fossil_levels_cont <- list(living = living_cont, fossil_high = fossilised_high_cont, fossil_med = fossilised_med_cont, fossil_low = fossilised_low_cont)
+
+
+fossil_matrices_cont <- lapply(names(continuous_matrices), function(level) {
+  lapply(names(fossil_levels_cont), function(fossil_type) {
+    fossil_levels_cont[[fossil_type]][[level]]
+  })
+})
+
+names(fossil_matrices_cont) <- names(continuous_matrices)
+for (level in names(fossil_matrices_cont)) {
+  names(fossil_matrices_cont[[level]]) <- names(fossil_levels_cont)
+}
+
+```
+
+## Continuous pipeline
+
+```{r}
+
+# traitspace_cont <- pca.func(continuous_matrices)
+
+# disp_obj_cont <- lapply(traitspace_cont, make.dispRity, tree = tree)
+
+
+# time_sliced_cont <- lapply(disp_obj_cont, do.time.slice, chrono_models = chrono_models, time_interval = 10)
+
+# bootstrapped_cont <- lapply(time_sliced_cont, lapply, boot.matrix, bootstraps = 100)
+
+# disparity_cont <- lapply(bootstrapped_cont, lapply,  dispRity, metric = c(sum, variances), na.rm = TRUE, verbose = TRUE)
+
+# saveRDS(disparity_cont, "../Data/processed/disparity/aceproject/beckcont.Rds")
+# saveRDS(disparity_cont, "../Data/processed/disparity/aceproject/simcont.Rds")
+
+
+# plot(disparity_cont$ou$proximity)
+
+```
+
+## ace continuous
+
+```{r}
+
+anc.states <- function(fossil_matrices_cont){
+  lapply(fossil_matrices_cont, function(level){
+    lapply(level, function(x) {
+  # Run multi.ace for each tree
+  anc_states <- multi.ace(data = x$matrix, 
+                          tree = x$tree, 
+                          models = "BM", 
+                          output = "combined",
+                          verbose = TRUE)
+  return(anc_states)})})}
+
+
+fossil_anc <- lapply(fossil_matrices_cont, anc.states)
+saveRDS(fossil_anc, "../Data/matrices/contanc.Rds")
+
+```
+
+## Measure raw euclidean distance
+
+```{R}
+
+get.nodes <- function(true, ace){
+  node_v <- rownames(ace)[grepl("^n", rownames(ace))] # vector of nodes
+  ace_filtered <- ace[node_v, ] #filter ace so that only nodes left in matrix
+  true_filtered <- true[node_v, ] # filter true matrix so only nodes left in matrix
+  return(list(ace = ace_filtered, true = true_filtered))
+}
+
+true_vs_ace <- lapply(names(continuous_matrices), function(level) {
+  level_result <- lapply(names(fossil_levels), function(preservation) {
+    result <- Map(function(true_matrix, ace_matrix) {
+      get.nodes(true_matrix, ace_matrix)
+    }, continuous_matrices[[level]], fossil_anc[[level]][[preservation]])
+    names(result) <- names(continuous_matrices[[level]])  # Preserve names at this level
+    return(result)
+  })
+  names(level_result) <- names(fossil_levels)  # Preserve names for preservation levels
+  return(level_result)
+})
+names(true_vs_ace) <- names(continuous_matrices)
+
+binded_matrices <- lapply(true_vs_ace, function(preservation) {
+  lapply(preservation, function(rates) {
+    lapply(rates, function(matrices) {
+      rownames(matrices$ace) <- paste0("ace", rownames(matrices$ace))
+      matrices <- rbind(matrices$ace, matrices$true)
+      return(matrices)  # Return the modified matrices
+    })
+  })
+})
+
+
+morphospace.dist <- function(binded_matrices){
+  ace_scores <- binded_matrices[grepl("^ace", rownames(binded_matrices)), ]
+  true_scores <- binded_matrices[!grepl("^ace", rownames(binded_matrices)), ]
+  distances <- sqrt(rowSums((ace_scores - true_scores)^2))
+  return(distances)
+}
+
+
+```
