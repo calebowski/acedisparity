@@ -22,7 +22,7 @@ apply.distance.metrics.two <- function(matrix, metrics = c("mord", "euclidean", 
 
 
 
-dist.func <- function (matrix_list){
+dist.func <- function(matrix_list) {
     distance_matrices <- lapply(matrix_list, char.diff, method = "mord", by.col = FALSE)
     return(distance_matrices)
 }

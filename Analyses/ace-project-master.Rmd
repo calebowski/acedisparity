@@ -145,21 +145,21 @@ remove.fossil <- function(trees, matrices) {
 #     tip_matrix_characters <- apply(tip_matrix, c(1, 2), as.character)
 
 
-fossil.pres <- function(trees, matrices, preservation = c(0.05, 0.15, 0.5)){
+fossil.pres <- function(trees, matrices, preservation = c(0.05, 0.15, 0.5)) {
   if (!preservation %in% c(0.05, 0.15, 0.5)) {
        stop("Invalid preservation value. Must be one of 0.05, 0.15, or 0.5.")
    }
-   fossil_matrices <- Map(function(tree, matrix){
+   fossil_matrices <- Map(function(tree, matrix) {
     ages <- tree.age(tree)
     tips <- ages$element[ages$ages == 0] # keep living species
     fossils <- ages$element[ages$ages > 0 & grepl("^t", ages$element)]  # find fossils
-    if(preservation == 0.5){
+    if (preservation == 0.5) {
         sample <- sample(fossils, size = length(fossils)/2)
         } ## sample fossils by a specified preservation level
-    if(preservation == 0.15){
+    if (preservation == 0.15) {
         sample <- sample(fossils, size = ceiling(length(fossils) * 0.15))
         }
-    if(preservation == 0.05){
+    if (preservation == 0.05) {
         sample <- sample(fossils, size = ceiling(length(fossils) * 0.05))
         }
     kept <- c(sample, tips)
@@ -181,6 +181,19 @@ fossilised_low <- lapply(discrete_matrices, fossil.pres, trees = trees, preserva
 
 fossil_levels <- list(living = living, fossil_high = fossilised_high, fossil_med = fossilised_med, fossil_low = fossilised_low)
 
+
+fossil_matrices <- lapply(names(discrete_matrices), function(level) {
+  lapply(names(fossil_levels), function(fossil_type) {
+    fossil_levels[[fossil_type]][[level]]
+  })
+})
+
+names(fossil_matrices) <- names(discrete_matrices)
+for (level in names(fossil_matrices)) {
+  names(fossil_matrices[[level]]) <- names(fossil_levels)
+}
+
+str(fossil_matrices$low$fossil_low)
 
 ```
 
@@ -298,8 +311,8 @@ plot(disparity_cont$ou$proximity)
 # test_simmap <- make.simmap(tree, state1, nsim = 10)
 # outp <- describe.simmap(test_simmap)
 
-anc.states <- function(fossil_levels){
-  lapply(fossil_levels, function(level){
+anc.states <- function(fossil_matrices){
+  lapply(fossil_matrices, function(level){
     lapply(level, function(x) {
   # Run multi.ace for each tree
   anc_states <- multi.ace(data = x$matrix, 
@@ -308,7 +321,7 @@ anc.states <- function(fossil_levels){
                           output = "combined")
   return(anc_states)})})}
 
-fossil_anc <- lapply(fossil_levels, anc.states)
+fossil_anc <- lapply(fossil_matrices, anc.states)
 
 ```
 
@@ -325,18 +338,18 @@ get.nodes <- function(true, ace){
 source("../Functions/node.dist.R")
 
 
-true_vs_ace <- lapply(names(fossil_anc), function(preservation) {
-  preservation_result <- lapply(names(discrete_matrices), function(level) {
+true_vs_ace <- lapply(names(discrete_matrices), function(level) {
+  level_result <- lapply(names(fossil_levels), function(preservation) {
     result <- Map(function(true_matrix, ace_matrix) {
       get.nodes(true_matrix, ace_matrix)
-    }, discrete_matrices[[level]], fossil_anc[[preservation]][[level]])
+    }, discrete_matrices[[level]], fossil_anc[[level]][[preservation]])
     names(result) <- names(discrete_matrices[[level]])  # Preserve names at this level
     return(result)
   })
-  names(preservation_result) <- names(discrete_matrices)  # Preserve names for levels
-  return(preservation_result)
+  names(level_result) <- names(fossil_levels)  # Preserve names for preservation levels
+  return(level_result)
 })
-names(true_vs_ace) <- names(fossil_anc)
+names(true_vs_ace) <- names(discrete_matrices)  # Preserve names for levels
 
 
 
@@ -358,10 +371,10 @@ lapply(preservation, function(level){
 })
 })
 
-test <- dist_strict$living$low[[1]]
+# test <- dist_strict$living$low[[1]]
 
-class(test) <- "char.diff"
-plot.char.diff(test)
+# class(test) <- "char.diff"
+# plot.char.diff(test)
 
 strict_means <- lapply(dist_strict, function(preservation){
   lapply(preservation, function(level){
@@ -378,6 +391,31 @@ uncertain_means <- lapply(dist_uncertain, function(preservation){
   })
 })
 })
+
+## plotting
+
+
+# Ensure the order of categories is preserved
+
+strict_means_low <- unlist(strict_means$low, recursive = TRUE)
+strict_means_med <- unlist(strict_means$med, recursive = TRUE)
+uncertain_means_low <- unlist(uncertain_means$low, recursive = TRUE)
+
+categories <- c("living", "fossil_high", "fossil_med", "fossil_low")
+split_means_low <- split(strict_means_low, gsub("\\d+", "", names(strict_means_low)))
+split_means_high <- split(strict_means_high, gsub("\\d+", "", names(strict_means_high)))
+split_means_med <- split(strict_means_med, gsub("\\d+", "", names(strict_means_med)))
+split_means_low <- split(uncertain_means_low, gsub("\\d+", "", names(uncertain_means_low)))
+
+# Create a boxplot
+
+boxplot(split_means_low, 
+        main = "Strict Means by Category", 
+        ylab = "Mean Values", 
+        xlab = "Categories", 
+        las = 2)  # Rotate x-axis labels for better readability
+
+
 
 ```
 
@@ -398,30 +436,53 @@ binded_matrices <- lapply(true_vs_ace, function(preservation) {
 })
 ace_distances <-  lapply(binded_matrices, lapply, dist.func)
 ace_ord <- lapply(ace_distances, lapply, ord.func)
+scaled_ace_ord <- lapply(ace_ord, function(preservation){
+  lapply(preservation, function(rate){
+    lapply(rate, function(matrix){
+    scaled_pc <- apply(matrix, 2, function(x) (x - min(x)) / (max(x) - min(x)))
+    return(scaled_pc)
+    })
+  })
+})
 
-plot(ace_ord$fossil_high$low[[1]])
-text(ace_ord$fossil_high$low[[1]], labels = rownames(ace_ord$fossil_high$low[[1]]), pos = 4, cex = 0.7)
+
+# plot(scaled_ace_ord$fossil_low$low[[15]])
+# text(scaled_ace_ord$fossil_low$low[[15]], labels = rownames(scaled_ace_ord$fossil_low$low[[15]]), pos = 4, cex = 0.6)
 
 
 morphospace.dist <- function(ace_ord){
   ace_scores <- ace_ord[grepl("^ace", rownames(ace_ord)), ]
   true_scores <- ace_ord[!grepl("^ace", rownames(ace_ord)), ]
-  distances <- sqrt(rowSums((ace_scores[,1:50] - true_scores[,1:50])^2))
+  distances <- sqrt(rowSums((ace_scores[,1:3] - true_scores[,1:3])^2))
   return(distances)
 }
 
-ace_ord_scores <- ace_ord$fossil_high$low[[1]][grepl("^ace", rownames(ace_ord$fossil_high$low[[1]])), ]
-true_ord_scores <- ace_ord$fossil_high$low[[1]][!grepl("^ace", rownames(ace_ord$fossil_high$low[[1]])), ]
-test <- ace_ord_scores[94,1:10]
-test2 <- true_ord_scores[94,1:10]
-morpho_distances <- sqrt(rowSums((ace_ord_scores[,1:10] - true_ord_scores[,1:10])^2))
-## tends to converge on exactly the same value
-# sqrt(sum((test - test2)^2))
+# ace_ord_scores <- ace_ord$fossil_high$low[[1]][grepl("^ace", rownames(ace_ord$fossil_high$low[[1]])), ]
+# true_ord_scores <- ace_ord$fossil_high$low[[1]][!grepl("^ace", rownames(ace_ord$fossil_high$low[[1]])), ]
+# test <- ace_ord_scores[94,1:10]
+# test2 <- true_ord_scores[94,1:10]
+# morpho_distances <- sqrt(rowSums((ace_ord_scores[,1:10] - true_ord_scores[,1:10])^2))
+# ## tends to converge on exactly the same value
+# # sqrt(sum((test - test2)^2))
 
-morpho_dists <- lapply(ace_ord, lapply, lapply, morphospace.dist)
+morpho_dists <- lapply(scaled_ace_ord, lapply, lapply, morphospace.dist)
+morpho_dists_med <- unlist(morpho_dists$med)
 
-mean(morpho_dists$living$high[[5]])
-mean(morpho_dists$fossil_high$high[[5]])
+mean(morpho_dists_med$fossil_high.acen)
+
+
+categories <- c("living", "fossil_high", "fossil_med", "fossil_low")
+morpho_dists_med <- split(morpho_dists_med, gsub("\\d+", "", names(morpho_dists_med)))
+boxplot(morpho_dists_med, 
+        main = "", 
+        ylab = "", 
+        xlab = "Categories", 
+        las = 2)
+
+## lowering number of pc axes increases high fossil recovery rate. Try this by lowering the number of pc axes included in distance function
+
+mean(morpho_dists$fossil_low$low[[15]])
+mean(morpho_dists$fossil_high$low[[15]])
 
 ## larger distances in fossil high cos range is larger - perhaps need to scale.
 ## using first 10 pc axes finds considerably more correct values.
