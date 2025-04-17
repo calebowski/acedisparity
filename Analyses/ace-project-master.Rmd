@@ -21,6 +21,9 @@ bd_params <- make.bd.params(speciation = 1, extinction = 0.7)
 stop_rule <- list(max.living = 50)
 set.seed(123)
 trees <- treats(stop.rule = stop_rule, bd.params = bd_params, null.error = 100, replicates = 20)
+
+## write the saved trees
+write.tree(trees, "../Data/trees/simulated.tre")
 # write.tree(tree, file = "../Data/processed/trees/simulated.tre")
 # tree <- read.tree("../Data/processed/trees/simulated.tre")
 
@@ -44,7 +47,7 @@ tree_labels <- lapply(trees, function(tree) {
 # Create a matrix with random numbers between 0 and 3
 # how do the number of character states influence ancestral states???? say if there are 5 different states, does this influence disparity analyses. could do another matrix where the number of states changes halfway through the tree to see how ace compares??? 
 random_discrete <- lapply(tree_labels, function(tree){
-                        matrix <- matrix(sample(0:3, length(tree) * 100, replace = TRUE), 
+                        matrix <- matrix(sample(0:2, length(tree) * 100, replace = TRUE), 
                         nrow = length(tree), 
                         ncol = 100)
                         rownames(matrix) <- tree
@@ -168,6 +171,8 @@ fossil.pres <- function(trees, matrices, preservation = c(0.05, 0.15, 0.5)){
    return(fossil_matrices)
 }
 
+source("../Functions/fossil.pres.R")
+
 living <- lapply(discrete_matrices, remove.fossil, trees = trees)
 fossilised_high <- lapply(discrete_matrices, fossil.pres, trees = trees, preservation = 0.5)
 fossilised_med <- lapply(discrete_matrices, fossil.pres, trees = trees, preservation = 0.15)
@@ -278,7 +283,7 @@ plot(disparity_cont$ou$proximity)
 
 ```
 
-## Discrete with ace (pre-ord)
+## Ace discrete
 
 ```{r}
 
@@ -305,10 +310,11 @@ anc.states <- function(fossil_levels){
 
 fossil_anc <- lapply(fossil_levels, anc.states)
 
-test <- fossil_anc$living$high[[1]]
-true <- discrete_matrices$high[[1]]
+```
 
+## Compare true vs ace nodes by distance
 
+```{r}
 get.nodes <- function(true, ace){
   node_v <- rownames(ace)[grepl("^n", rownames(ace))]
   ace_filtered <- ace[node_v,]
@@ -320,31 +326,44 @@ source("../Functions/node.dist.R")
 
 
 true_vs_ace <- lapply(names(fossil_anc), function(preservation) {
-  lapply(names(discrete_matrices), function(level) {
+  preservation_result <- lapply(names(discrete_matrices), function(level) {
     result <- Map(function(true_matrix, ace_matrix) {
       get.nodes(true_matrix, ace_matrix)
-    }, discrete_matrices[[level]], preservation[[level]])
+    }, discrete_matrices[[level]], fossil_anc[[preservation]][[level]])
     names(result) <- names(discrete_matrices[[level]])  # Preserve names at this level
     return(result)
   })
+  names(preservation_result) <- names(discrete_matrices)  # Preserve names for levels
+  return(preservation_result)
 })
-
 names(true_vs_ace) <- names(fossil_anc)
 
 
 
-names(fossil_high_all) <- names(discrete_matrices)
+# names(fossil_high_all) <- names(discrete_matrices)
 
-node_dist <- lapply(true_vs_ace, function(preservation){
+dist_uncertain <- lapply(true_vs_ace, function(preservation){
 lapply(preservation, function(level){
   lapply(level, function(matrices){
-    distances <- node.dist(matrices)
+    distances <- node.dist(matrices, distance = "uncertain")
   })
 })
 })
 
+dist_strict <- lapply(true_vs_ace, function(preservation){
+lapply(preservation, function(level){
+  lapply(level, function(matrices){
+    distances <- node.dist(matrices, distance = "strict")
+  })
+})
+})
 
-distance_means <- lapply(node_dist, function(preservation){
+test <- dist_strict$living$low[[1]]
+
+class(test) <- "char.diff"
+plot.char.diff(test)
+
+strict_means <- lapply(dist_strict, function(preservation){
   lapply(preservation, function(level){
   lapply(level, function(matrices){
     means <- mean(matrices)
@@ -352,80 +371,67 @@ distance_means <- lapply(node_dist, function(preservation){
 })
 })
 
+uncertain_means <- lapply(dist_uncertain, function(preservation){
+  lapply(preservation, function(level){
+  lapply(level, function(matrices){
+    means <- mean(matrices)
+  })
+})
+})
+
+```
 
 
 
-test <- lapply(fossil_high_all$high, node.dist)
+## Comparison of morphospace
+
+```{R}
+
+binded_matrices <- lapply(true_vs_ace, function(preservation) {
+  lapply(preservation, function(rates) {
+    lapply(rates, function(matrices) {
+      rownames(matrices$ace) <- paste0("ace", rownames(matrices$ace))
+      matrices <- rbind(matrices$ace, matrices$true)
+      return(matrices)  # Return the modified matrices
+    })
+  })
+})
+ace_distances <-  lapply(binded_matrices, lapply, dist.func)
+ace_ord <- lapply(ace_distances, lapply, ord.func)
+
+plot(ace_ord$fossil_high$low[[1]])
+text(ace_ord$fossil_high$low[[1]], labels = rownames(ace_ord$fossil_high$low[[1]]), pos = 4, cex = 0.7)
 
 
-# Parse ACE
-n_rows <- nrow(test)
-n_cols <- ncol(test)
-parsed_ace <- vector("list", n_rows)
-for (i in 1:n_rows) {
-  parsed_ace[[i]] <- vector("list", n_cols)
-  for (j in 1:n_cols) {
-    cell <- test[i, j]
-    if (is.na(cell) || cell == "") {
-      parsed_ace[[i]][[j]] <- NA
-    } else {
-      parsed_ace[[i]][[j]] <- as.numeric(unlist(strsplit(cell, "/")))
-    }
-  }
+morphospace.dist <- function(ace_ord){
+  ace_scores <- ace_ord[grepl("^ace", rownames(ace_ord)), ]
+  true_scores <- ace_ord[!grepl("^ace", rownames(ace_ord)), ]
+  distances <- sqrt(rowSums((ace_scores[,1:50] - true_scores[,1:50])^2))
+  return(distances)
 }
 
-# Distance function using numeric vector directly
-compute_distance <- function(true_state, ace_states) {
-  # If the state is the same (exact match), distance is 0
-  if (true_state %in% ace_states && length(ace_states) == 1) {
-    return(0)
-  }
-  
-  # If there is uncertainty of 3 (i.e., 0/1/2), assign 0.5 distance
-  if (length(ace_states) == 3) {
-    return(0.5)
-  }
-  
-  # If there is uncertainty of 2 (i.e., 0/1)
-  if (length(ace_states) == 2) {
-    # If true state is not in the estimated states, return 1
-    if (!(true_state %in% ace_states)) {
-      return(1)
-    }
-    # If true state is in the estimated states (0 or 1), return 0.5
-    return(0.25)
-  }
-  
-  # Otherwise, the true state and estimated state are different (i.e., distance is 1)
-  return(1)
-}
+ace_ord_scores <- ace_ord$fossil_high$low[[1]][grepl("^ace", rownames(ace_ord$fossil_high$low[[1]])), ]
+true_ord_scores <- ace_ord$fossil_high$low[[1]][!grepl("^ace", rownames(ace_ord$fossil_high$low[[1]])), ]
+test <- ace_ord_scores[94,1:10]
+test2 <- true_ord_scores[94,1:10]
+morpho_distances <- sqrt(rowSums((ace_ord_scores[,1:10] - true_ord_scores[,1:10])^2))
+## tends to converge on exactly the same value
+# sqrt(sum((test - test2)^2))
 
-# Initialize distance matrix
-n_rows <- length(parsed_ace)
-n_cols <- length(parsed_ace[[1]])
-distance_matrix <- matrix(NA, nrow = n_rows, ncol = n_cols)
+morpho_dists <- lapply(ace_ord, lapply, lapply, morphospace.dist)
 
-# Loop through nodes and characters
-for (i in 1:n_rows) {
-  for (j in 1:n_cols) {
-    true_state <- as.numeric(true_nodes[i, j])  # assumes true_nodes is a numeric matrix
-    ace_states <- parsed_ace[[i]][[j]]          # this is already a numeric vector
-    distance_matrix[i, j] <- compute_distance(true_state, ace_states)
-  }
-}
+mean(morpho_dists$living$high[[5]])
+mean(morpho_dists$fossil_high$high[[5]])
+
+## larger distances in fossil high cos range is larger - perhaps need to scale.
+## using first 10 pc axes finds considerably more correct values.
 
 
-## mean(distance_matrix)
-#[1] 0.5040306
-
-# r$> sd(distance_matrix)
-# [1] 0.244602
-
-distances_anc <- lapply(fossil_anc,  dist.func)
-traitspaces_anc <- lapply(distances_anc, ord.func)
-
+```
 
 ## map the corresponding trees and ancestral states
+
+```{R}
 disp_obj_anc <- lapply(names(traitspaces_anc), function(level) {
   Map(function(traitspace, fossil_level) {
     make.dispRity(traitspace, fossil_level$tree)
