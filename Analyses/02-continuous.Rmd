@@ -110,6 +110,7 @@ anc.states <- function(fossil_matrices_cont){
 
 fossil_anc <- lapply(fossil_matrices_cont, anc.states)
 saveRDS(fossil_anc, "../Data/matrices/contanc.Rds")
+fossil_anc <- readRDS("../Data/matrices/contanc.Rds")
 
 ```
 
@@ -146,7 +147,8 @@ binded_matrices <- lapply(true_vs_ace, function(preservation) {
     })
   })
 })
-
+plot(binded_matrices$bm$fossil_low[[1]])
+text(binded_matrices$bm$fossil_low[[1]], labels = rownames(binded_matrices$bm$fossil_low[[1]]), pos = 4, cex = 0.6)
 
 morphospace.dist <- function(binded_matrices){
   ace_scores <- binded_matrices[grepl("^ace", rownames(binded_matrices)), ]
@@ -154,6 +156,20 @@ morphospace.dist <- function(binded_matrices){
   distances <- sqrt(rowSums((ace_scores - true_scores)^2))
   return(distances)
 }
+
+morpho_dists <- lapply(binded_matrices, lapply, lapply, morphospace.dist)
+
+morpho_dists_ou <- unlist(morpho_dists$ou)
+
+categories <- c("living", "fossil_high", "fossil_med", "fossil_low")
+morpho_dists_ou <- split(morpho_dists_ou, gsub("\\d+", "", names(morpho_dists_ou)))
+boxplot(morpho_dists_ou, 
+        main = "", 
+        ylab = "", 
+        xlab = "Categories", 
+        las = 2)
+
+
 
 
 ```

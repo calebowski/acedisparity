@@ -20,7 +20,7 @@ bd_params <- make.bd.params(speciation = 1, extinction = 0.7)
 
 stop_rule <- list(max.living = 50)
 set.seed(123)
-trees <- treats(stop.rule = stop_rule, bd.params = bd_params, null.error = 100, replicates = 20)
+trees <- treats(stop.rule = stop_rule, bd.params = bd_params, null.error = 100, replicates = 100)
 
 ## write the saved trees
 write.tree(trees, "../Data/trees/simulated.tre")
@@ -30,6 +30,7 @@ write.tree(trees, "../Data/trees/simulated.tre")
 # tree <- read.nexus("../Data/raw/trees/Beck2014.tre")
 # tree <- makeNodeLabel(tree)
 # tree <- set.root.time(tree)
+trees <- read.tree("../Data/trees/simulated.tre")
 
 ```
 
@@ -64,14 +65,13 @@ Now we can simulate trait data at varying levels of transition rate.
 
 ```{r}
 
-
-low_transitions <- matrix(c(
+slow_transitions <- matrix(c(
     0.90, 0.05, 0.05, 
     0.05, 0.99, 0.05,
     0.05, 0.05, 0.99 
 ), nrow = 3, byrow = TRUE)
 
-low_traits <- treats::make.traits(process = discrete.process, n = 100, process.args = list(transitions = low_transitions))
+slow_traits <- treats::make.traits(process = discrete.process, n = 100, process.args = list(transitions = slow_transitions))
 
 med_transitions <- matrix(c(
     0.5, 0.25, 0.25, 
@@ -82,36 +82,36 @@ med_transitions <- matrix(c(
 med_traits <- treats::make.traits(process = discrete.process, n = 100, process.args = list(transitions = med_transitions))
 
 
-high_transitions <- matrix(c(
+fast_transitions <- matrix(c(
     0.33, 0.33, 0.33, 
     0.33, 0.33, 0.33,
     0.33, 0.33, 0.33 
 ), nrow = 3, byrow = TRUE)
 
-high_traits <- treats::make.traits(process = discrete.process, n = 100, process.args = list(transitions = high_transitions))
+fast_traits <- treats::make.traits(process = discrete.process, n = 100, process.args = list(transitions = fast_transitions))
 
 
 ## map the traits
 
-low_matrices <- lapply(trees, function(tree){
-    mapped <- map.traits(low_traits, tree)
+slow_matrices <- lapply(trees, function(tree){
+    mapped <- map.traits(slow_traits, tree)
     matrix <- mapped$data
     return(matrix)
 })
 
 med_matrices <- lapply(trees, function(tree){
-    mapped <- map.traits(low_traits, tree)
+    mapped <- map.traits(med_traits, tree)
     matrix <- mapped$data
     return(matrix)
 })
 
-high_matrices <- lapply(trees, function(tree){
-    mapped <- map.traits(high_traits, tree)
+fast_matrices <- lapply(trees, function(tree){
+    mapped <- map.traits(fast_traits, tree)
     matrix <- mapped$data
     return(matrix)
 })
 
-discrete_matrices <- list(random = random_discrete, low = low_matrices, med = med_matrices, high = high_matrices )
+discrete_matrices <- list(random = random_discrete, slow = slow_matrices, med = med_matrices, fast = fast_matrices)
 
 
 
@@ -130,11 +130,12 @@ discrete_matrices <- list(random = random_discrete, low = low_matrices, med = me
 
 source("../Functions/fossil.pres.R")
 
-living <- lapply(discrete_matrices, remove.fossil, trees = trees)
-fossilised_high <- lapply(discrete_matrices, fossil.pres, trees = trees, preservation = 0.5)
-fossilised_med <- lapply(discrete_matrices, fossil.pres, trees = trees, preservation = 0.15)
-fossilised_low <- lapply(discrete_matrices, fossil.pres, trees = trees, preservation = 0.05)
+living <- lapply(discrete_matrices, remove.fossil, trees = trees, type = "discrete")
+fossilised_high <- lapply(discrete_matrices, fossil.pres, trees = trees, preservation = 0.5, type = "discrete")
+fossilised_med <- lapply(discrete_matrices, fossil.pres, trees = trees, preservation = 0.15, type = "discrete")
+fossilised_low <- lapply(discrete_matrices, fossil.pres, trees = trees, preservation = 0.05, type = "discrete")
 
+plot(living$slow[[1]]$tree)
 
 fossil_levels <- list(living = living, fossil_high = fossilised_high, fossil_med = fossilised_med, fossil_low = fossilised_low)
 
@@ -203,10 +204,14 @@ anc.states <- function(fossil_matrices){
   anc_states <- multi.ace(data = x$matrix, 
                           tree = x$tree, 
                           models = "ER", 
-                          output = "combined")
+                          output = "combined",
+                          verbose = TRUE)
   return(anc_states)})})}
 
 fossil_anc <- lapply(fossil_matrices, anc.states)
+
+saveRDS(fossil_anc, "../Data/matrices/discreteanc.Rds")
+
 
 ```
 
@@ -216,10 +221,11 @@ fossil_anc <- lapply(fossil_matrices, anc.states)
 ## Compare true vs ace nodes by distance
 
 ```{r}
-get.nodes <- function(true, ace){
+## this function returns matrices of ace and true node states
+get.nodes <- function(true, ace) {
   node_v <- rownames(ace)[grepl("^n", rownames(ace))]
-  ace_filtered <- ace[node_v,]
-  true_filtered <- true[node_v,]
+  ace_filtered <- ace[node_v, ]
+  true_filtered <- true[node_v, ]
   return(list(ace = ace_filtered, true = true_filtered))
 }
 
@@ -231,15 +237,15 @@ true_vs_ace <- lapply(names(discrete_matrices), function(level) {
     result <- Map(function(true_matrix, ace_matrix) {
       get.nodes(true_matrix, ace_matrix)
     }, discrete_matrices[[level]], fossil_anc[[level]][[preservation]])
-    names(result) <- names(discrete_matrices[[level]])  # Preserve names at this level
+    names(result) <- names(discrete_matrices[[level]])
     return(result)
   })
-  names(level_result) <- names(fossil_levels)  # Preserve names for preservation levels
+  names(level_result) <- names(fossil_levels)
   return(level_result)
 })
-names(true_vs_ace) <- names(discrete_matrices)  # Preserve names for levels
+names(true_vs_ace) <- names(discrete_matrices)
 
-
+nrow(true_vs_ace$slow$living[[1]]$ace)
 
 # names(fossil_high_all) <- names(discrete_matrices)
 
@@ -258,46 +264,57 @@ lapply(preservation, function(level){
   })
 })
 })
+true_vs_ace$slow$living[[1]]
+dist_strict$slow$living[[1]]
+dist_strict$slow$fossil_high[[1]]
+
 
 # test <- dist_strict$living$low[[1]]
 
 # class(test) <- "char.diff"
 # plot.char.diff(test)
 
-strict_means <- lapply(dist_strict, function(preservation){
-  lapply(preservation, function(level){
-  lapply(level, function(matrices){
+strict_means <- lapply(dist_strict, function(preservation) {
+  lapply(preservation, function(level) {
+  lapply(level, function(matrices) {
     means <- mean(matrices)
   })
 })
 })
 
-uncertain_means <- lapply(dist_uncertain, function(preservation){
-  lapply(preservation, function(level){
-  lapply(level, function(matrices){
+uncertain_means <- lapply(dist_uncertain, function(preservation) {
+  lapply(preservation, function(level) {
+  lapply(level, function(matrices) {
     means <- mean(matrices)
   })
 })
 })
 
 ## plotting
-
+names(uncertain_means)
 
 # Ensure the order of categories is preserved
 
-strict_means_low <- unlist(strict_means$low, recursive = TRUE)
-strict_means_med <- unlist(strict_means$med, recursive = TRUE)
-uncertain_means_low <- unlist(uncertain_means$low, recursive = TRUE)
+unlisted_strict <- lapply(strict_means, function(mean){
+    unlist(mean, recursive = TRUE)
+})
+
+unlisted_uncertain <- lapply(uncertain_means, function(mean){
+    unlist(mean, recursive = TRUE)
+})
 
 categories <- c("living", "fossil_high", "fossil_med", "fossil_low")
-split_means_low <- split(strict_means_low, gsub("\\d+", "", names(strict_means_low)))
-split_means_high <- split(strict_means_high, gsub("\\d+", "", names(strict_means_high)))
-split_means_med <- split(strict_means_med, gsub("\\d+", "", names(strict_means_med)))
-split_means_low <- split(uncertain_means_low, gsub("\\d+", "", names(uncertain_means_low)))
 
-# Create a boxplot
 
-boxplot(split_means_low, 
+split_strict <- lapply(unlisted_strict, function(mean){
+  split(mean, gsub("\\d+", "", names(mean)))
+})
+
+split_uncertain <- lapply(unlisted_uncertain, function(mean){
+  split(mean, gsub("\\d+", "", names(mean)))
+})
+
+boxplot(split_strict$slow, 
         main = "Strict Means by Category", 
         ylab = "Mean Values", 
         xlab = "Categories", 
