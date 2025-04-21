@@ -1,0 +1,125 @@
+---
+title: "ACE Project plotting"
+author: "Caleb"
+date: "`r Sys.Date()`"
+output:
+  html_document: default
+  pdf_document: default
+editor_options: 
+  markdown: 
+    wrap: 72
+---
+
+## Load data
+
+```{r echo = FALSE}
+uncertain_means <- readRDS("../Data/matrices/uncertainmeans.rds")
+strict_means <- readRDS("../Data/matrices/strictmeans.rds")
+#
+unlisted_strict <- lapply(strict_means, function(mean) {
+    unlist(mean, recursive = TRUE)
+})
+
+unlisted_uncertain <- lapply(uncertain_means, function(mean) {
+    unlist(mean, recursive = TRUE)
+})
+
+split_strict <- lapply(unlisted_strict, function(mean){
+  split(mean, gsub("\\d+", "", names(mean)))
+})
+
+split_uncertain <- lapply(unlisted_uncertain, function(mean){
+  split(mean, gsub("\\d+", "", names(mean)))
+})
+
+
+```
+
+## Plotting strict distance
+
+```{r echo = FALSE}
+boxplot(split_strict$slow, 
+        main = "Slow strict", 
+        ylab = "Distances", 
+        xlab = "Preservation levels",
+        las = 2)  # Rotate x-axis labels for better readability
+
+
+boxplot(split_strict$med, 
+        main = "Med strict",
+        ylab = "Distances",
+        xlab = "Preservation levels",
+        las = 2)  # Rotate x-axis labels for better readability
+
+boxplot(split_strict$fast, 
+        main = "Fast strict",
+        ylab = "Distances",
+        xlab = "Preservation levels",
+        las = 2)  # Rotate x-axis labels for better readability
+
+
+
+```
+
+## Plotting uncertain distance
+
+```{r echo = FALSE}
+boxplot(split_uncertain$slow, 
+        main = "Slow uncertain", 
+        ylab = "Distances", 
+        xlab = "Preservation levels",
+        las = 2)  # Rotate x-axis labels for better readability
+
+
+boxplot(split_uncertain$med, 
+        main = "Med uncertain",
+        ylab = "Distances",
+        xlab = "Preservation levels",
+        las = 2)  # Rotate x-axis labels for better readability
+
+boxplot(split_uncertain$fast, 
+        main = "Fast uncertain",
+        ylab = "Distances",
+        xlab = "Preservation levels",
+        las = 2)  # Rotate x-axis labels for better readability
+
+```
+
+## Load ordinated distances
+
+```{R}
+ord_dist <- readRDS("../Data/matrices/orddists.Rds")
+unlisted_morpho_dists <- lapply(ord_dist, function(rate) {
+    unlist(rate, recursive = TRUE)
+})
+
+split_dists <- lapply(unlisted_morpho_dists, function(rate){
+  split(rate, gsub("\\d+", "", names(rate)))
+})
+
+```
+
+
+```{R}
+boxplot(split_dists$slow, 
+        main = "Slow ", 
+        ylab = "Distances", 
+        xlab = "Preservation levels",
+        las = 2)  # Rotate x-axis labels for better readability
+
+
+boxplot(split_dists$med, 
+        main = "Med ",
+        ylab = "Distances",
+        xlab = "Preservation levels",
+        las = 2)  # Rotate x-axis labels for better readability
+
+boxplot(split_dists$fast, 
+        main = "Fast ",
+        ylab = "Distances",
+        xlab = "Preservation levels",
+        las = 2)  # Rotate x-axis labels for better readability
+
+
+
+```

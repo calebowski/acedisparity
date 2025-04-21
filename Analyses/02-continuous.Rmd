@@ -15,7 +15,11 @@ editor_options:
 ```{R}
 library(treats)
 trees <- read.tree("../Data/trees/simulated.tre")
+bd_params <- make.bd.params(speciation = 1, extinction = 0.7)
 
+stop_rule <- list(max.living = 50)
+set.seed(123)
+trees <- treats(stop.rule = stop_rule, bd.params = bd_params, null.error = 100, replicates = 100)
 ```
 
 

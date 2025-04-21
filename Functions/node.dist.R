@@ -1,4 +1,4 @@
-# Distance function using numeric vector directly
+# Distance metric function with lower penalty for uncertainty
 uncertain.distance <- function(true_state, ace_states) {
   # If the ace state is an exact match, distance is 0
   if (true_state %in% ace_states && length(ace_states) == 1) {
@@ -24,6 +24,7 @@ uncertain.distance <- function(true_state, ace_states) {
   return(1)
 }
 
+# Distance metric with strict penalty against uncertainty
 strict.distance <- function(true_state, ace_states) {
   # If the state is exact match, distance is 0
   if (true_state %in% ace_states && length(ace_states) == 1) {
@@ -36,11 +37,11 @@ strict.distance <- function(true_state, ace_states) {
 
 
 node.dist <- function(matrices, distance = c("strict", "uncertain")){
-    true <- matrices$true
-    ace <- matrices$ace
+  true <- matrices$true
+  ace <- matrices$ace
 
-    n_rows <- nrow(ace)
-    n_cols <- ncol(ace)
+  n_rows <- nrow(ace)
+  n_cols <- ncol(ace)
 
 
   parsed_ace <- vector("list", n_rows)

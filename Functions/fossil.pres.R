@@ -36,12 +36,11 @@ fossil.pres <- function(trees, matrices, preservation = c(0.05, 0.15, 0.5), type
     fossilb1 <- ages$element[ages$ages > 0 & grepl("^t", ages$element) & ages$bin == 1]
     fossilb2 <- ages$element[ages$ages > 0 & grepl("^t", ages$element) & ages$bin == 2]
     fossilb3 <- ages$element[ages$ages > 0 & grepl("^t", ages$element) & ages$bin == 3]
-    fossilb4 <- ages$element[ages$ages > 0 & grepl("^t", ages$element) & ages$bin == 4]
-    fossilb5 <- ages$element[ages$ages > 0 & grepl("^t", ages$element) & ages$bin == 5]
-    fossils <- list(bin1 = fossilb1, bin2 = fossilb2, bin3 = fossilb3, bin4 = fossilb4, bin5 = fossilb5)  # find fossils
+
+    fossils <- list(bin1 = fossilb1, bin2 = fossilb2, bin3 = fossilb3)  # find fossils
 
     sample <- lapply(fossils, function(bin) {
-      sample(bin, size = length(bin) * preservation)
+      sample(bin, size = ceiling(length(bin) * preservation))
     })
 
     kept <- c(unlist(unname(sample)), tips, "t1")

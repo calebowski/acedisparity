@@ -113,13 +113,6 @@ fast_matrices <- lapply(trees, function(tree){
 
 discrete_matrices <- list(random = random_discrete, slow = slow_matrices, med = med_matrices, fast = fast_matrices)
 
-
-
-# test <- geiger::sim.char(tree, Q, nsim = 100, model = "discrete")
-# test <- do.call(cbind, test)
-# q <- list(rbind(c(-.5, .5), c(.5, -.5)))
-
-
 ```
 
 ## Different tree coverages
@@ -135,7 +128,7 @@ fossilised_high <- lapply(discrete_matrices, fossil.pres, trees = trees, preserv
 fossilised_med <- lapply(discrete_matrices, fossil.pres, trees = trees, preservation = 0.15, type = "discrete")
 fossilised_low <- lapply(discrete_matrices, fossil.pres, trees = trees, preservation = 0.05, type = "discrete")
 
-plot(living$slow[[1]]$tree)
+# plot(fossilised_low$slow[[13]]$tree)
 
 fossil_levels <- list(living = living, fossil_high = fossilised_high, fossil_med = fossilised_med, fossil_low = fossilised_low)
 
@@ -249,17 +242,17 @@ nrow(true_vs_ace$slow$living[[1]]$ace)
 
 # names(fossil_high_all) <- names(discrete_matrices)
 
-dist_uncertain <- lapply(true_vs_ace, function(preservation){
-lapply(preservation, function(level){
-  lapply(level, function(matrices){
+dist_uncertain <- lapply(true_vs_ace, function(preservation) {
+lapply(preservation, function(level) {
+  lapply(level, function(matrices) {
     distances <- node.dist(matrices, distance = "uncertain")
   })
 })
 })
 
-dist_strict <- lapply(true_vs_ace, function(preservation){
-lapply(preservation, function(level){
-  lapply(level, function(matrices){
+dist_strict <- lapply(true_vs_ace, function(preservation) {
+lapply(preservation, function(level) {
+  lapply(level, function(matrices) {
     distances <- node.dist(matrices, distance = "strict")
   })
 })
@@ -290,20 +283,24 @@ uncertain_means <- lapply(dist_uncertain, function(preservation) {
 })
 })
 
+saveRDS(uncertain_means, "../Data/matrices/uncertainmeans.rds")
+saveRDS(strict_means, "../Data/matrices/strictmeans.rds")
+
+
 ## plotting
 names(uncertain_means)
 
 # Ensure the order of categories is preserved
 
-unlisted_strict <- lapply(strict_means, function(mean){
+unlisted_strict <- lapply(strict_means, function(mean) {
     unlist(mean, recursive = TRUE)
 })
 
-unlisted_uncertain <- lapply(uncertain_means, function(mean){
+unlisted_uncertain <- lapply(uncertain_means, function(mean) {
     unlist(mean, recursive = TRUE)
 })
 
-categories <- c("living", "fossil_high", "fossil_med", "fossil_low")
+# categories <- c("living", "fossil_high", "fossil_med", "fossil_low")
 
 
 split_strict <- lapply(unlisted_strict, function(mean){
@@ -339,8 +336,14 @@ binded_matrices <- lapply(true_vs_ace, function(preservation) {
     })
   })
 })
+
+source("../Functions/apply.dist.R")
+source("../Functions/apply.ordination.R")
+
 ace_distances <-  lapply(binded_matrices, lapply, dist.func)
+
 ace_ord <- lapply(ace_distances, lapply, ord.func)
+
 scaled_ace_ord <- lapply(ace_ord, function(preservation){
   lapply(preservation, function(rate){
     lapply(rate, function(matrix){
@@ -350,15 +353,17 @@ scaled_ace_ord <- lapply(ace_ord, function(preservation){
   })
 })
 
-
-# plot(scaled_ace_ord$fossil_low$low[[15]])
-# text(scaled_ace_ord$fossil_low$low[[15]], labels = rownames(scaled_ace_ord$fossil_low$low[[15]]), pos = 4, cex = 0.6)
+range(scaled_ace_ord$slow$fossil_low[[1]])
 
 
-morphospace.dist <- function(ace_ord){
+plot(scaled_ace_ord$slow$fossil_high[[15]])
+text(scaled_ace_ord$slow$fossil_high[[15]], labels = rownames(scaled_ace_ord$slow$fossil_high[[15]]), pos = 4, cex = 0.6)
+
+
+morphospace.dist <- function(ace_ord) {
   ace_scores <- ace_ord[grepl("^ace", rownames(ace_ord)), ]
   true_scores <- ace_ord[!grepl("^ace", rownames(ace_ord)), ]
-  distances <- sqrt(rowSums((ace_scores[,1:3] - true_scores[,1:3])^2))
+  distances <- sqrt(rowSums((ace_scores[,1:15] - true_scores[,1:15])^2))
   return(distances)
 }
 
@@ -371,14 +376,19 @@ morphospace.dist <- function(ace_ord){
 # # sqrt(sum((test - test2)^2))
 
 morpho_dists <- lapply(scaled_ace_ord, lapply, lapply, morphospace.dist)
-morpho_dists_med <- unlist(morpho_dists$med)
+# morpho_dists_med <- unlist(morpho_dists$slow)
+saveRDS(morpho_dists, "../Data/matrices/orddists.Rds")
 
-mean(morpho_dists_med$fossil_high.acen)
+unlisted_morpho_dists <- lapply(morpho_dists, function(rate) {
+    unlist(rate, recursive = TRUE)
+})
 
+split_dists <- lapply(unlisted_morpho_dists, function(rate){
+  split(rate, gsub("\\d+", "", names(rate)))
+})
 
 categories <- c("living", "fossil_high", "fossil_med", "fossil_low")
-morpho_dists_med <- split(morpho_dists_med, gsub("\\d+", "", names(morpho_dists_med)))
-boxplot(morpho_dists_med, 
+boxplot(split_dists$med, 
         main = "", 
         ylab = "", 
         xlab = "Categories", 
