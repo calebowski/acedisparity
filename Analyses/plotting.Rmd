@@ -123,3 +123,33 @@ boxplot(split_dists$fast,
 
 
 ```
+
+
+```{R}
+data <- split_strict$fast
+n <- length(data$fossil_high)  # assuming all same length
+
+df <- data.frame(
+  replicate = 1:n,
+  high = data$fossil_high,
+  mid  = data$fossil_med,
+  low  = data$fossil_low,
+  living = data$living
+)
+
+library(tidyr)
+
+df_long <- pivot_longer(df, cols = c("high", "mid", "low", "living"), names_to = "preservation_level", values_to = "distance")
+
+df_long$preservation_level <- factor(df_long$preservation_level, levels = c("high", "mid", "low", "living"))
+
+library(ggplot2)
+
+ggplot(df_long, aes(x = preservation_level, y = distance, group = replicate)) +
+  geom_line(alpha = 0.3) +  # thin, semi-transparent lines
+  geom_point(alpha = 0.3) +
+  stat_summary(aes(group = 1), fun = mean, geom = "line", color = "red", size = 1.2) + 
+  labs(x = "Fossil Preservation Level", y = "Distance to True Value") +
+  theme_minimal()
+
+```

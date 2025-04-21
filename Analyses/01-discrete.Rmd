@@ -66,26 +66,26 @@ Now we can simulate trait data at varying levels of transition rate.
 ```{r}
 
 slow_transitions <- matrix(c(
-    0.90, 0.05, 0.05, 
-    0.05, 0.99, 0.05,
-    0.05, 0.05, 0.99 
+    0.95, 0.025, 0.025,
+    0.025, 0.95, 0.025,
+    0.025, 0.025, 0.95
 ), nrow = 3, byrow = TRUE)
 
 slow_traits <- treats::make.traits(process = discrete.process, n = 100, process.args = list(transitions = slow_transitions))
 
 med_transitions <- matrix(c(
-    0.5, 0.25, 0.25, 
-    0.25, 0.5, 0.25,
-    0.25, 0.25, 0.5 
+  0.6, 0.2, 0.2,
+  0.3, 0.4, 0.3,
+  0.2, 0.3, 0.5
 ), nrow = 3, byrow = TRUE)
 
 med_traits <- treats::make.traits(process = discrete.process, n = 100, process.args = list(transitions = med_transitions))
 
 
 fast_transitions <- matrix(c(
-    0.33, 0.33, 0.33, 
-    0.33, 0.33, 0.33,
-    0.33, 0.33, 0.33 
+    1/3, 1/3, 1/3, 
+    1/3, 1/3, 1/3,
+    1/3, 1/3, 1/3 
 ), nrow = 3, byrow = TRUE)
 
 fast_traits <- treats::make.traits(process = discrete.process, n = 100, process.args = list(transitions = fast_transitions))
@@ -190,8 +190,8 @@ plot(disparity_discrete$low$gradual.split)
 
 ```{r}
 
-anc.states <- function(fossil_matrices){
-  lapply(fossil_matrices, function(level){
+anc.states <- function(fossil_matrices) {
+  lapply(fossil_matrices, function(level) {
     lapply(level, function(x) {
   # Run multi.ace for each tree
   anc_states <- multi.ace(data = x$matrix, 
@@ -238,7 +238,7 @@ true_vs_ace <- lapply(names(discrete_matrices), function(level) {
 })
 names(true_vs_ace) <- names(discrete_matrices)
 
-nrow(true_vs_ace$slow$living[[1]]$ace)
+# nrow(true_vs_ace$slow$living[[1]]$ace)
 
 # names(fossil_high_all) <- names(discrete_matrices)
 
@@ -274,6 +274,8 @@ strict_means <- lapply(dist_strict, function(preservation) {
   })
 })
 })
+
+## do i need to divide by number of rows?
 
 uncertain_means <- lapply(dist_uncertain, function(preservation) {
   lapply(preservation, function(level) {
