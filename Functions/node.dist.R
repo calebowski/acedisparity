@@ -1,25 +1,10 @@
 # Distance metric function with lower penalty for uncertainty
-uncertain.distance <- function(true_state, ace_states) {
-  # If the ace state is an exact match, distance is 0
-  if (true_state %in% ace_states && length(ace_states) == 1) {
+lenient.distance <- function(true_state, ace_states) {
+  # If the ace state contains true state, return 0
+  if (true_state %in% ace_states) {
     return(0)
   }
-  
-  # If there is uncertainty of 3 (i.e., 0/1/2), assign 0.5 distance
-  if (length(ace_states) == 3) {
-    return(0.5)
-  }
-  
-  # If there is uncertainty of 2 (i.e., 0/1)
-  if (length(ace_states) == 2) {
-    # If true state is not in the estimated states, return 1
-    if (!(true_state %in% ace_states)) {
-      return(1)
-    }
-    # If true state is in the estimated states (0 or 1), return 0.25
-    return(0.25)
-  }
-  
+
   # Otherwise, the true state and estimated state are different (i.e., distance is 1)
   return(1)
 }
@@ -58,13 +43,13 @@ node.dist <- function(matrices, distance = c("strict", "uncertain")){
   }
   distance_matrix <- matrix(NA, nrow = n_rows, ncol = n_cols)
 
-  if (distance == "uncertain"){
+  if (distance == "lenient"){
   # Loop through nodes and characters
   for (i in 1:n_rows) {
     for (j in 1:n_cols) {
       true_states <- as.numeric(true[i, j])  
       ace_states <- parsed_ace[[i]][[j]]          
-      distance_matrix[i, j] <- uncertain.distance(true_states, ace_states)
+      distance_matrix[i, j] <- lenient.distance(true_states, ace_states)
     }
   }
   }

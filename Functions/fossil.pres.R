@@ -5,7 +5,7 @@ remove.fossil <- function(trees, matrices, type = c("discrete", "continuous")) {
     tips <- ages$element[ages$ages == 0]# find only living species
     # root <- tree$node.label[1] 
     living_matrix <- matrix[rownames(matrix) %in% c(tips, "t1"), ]
-    if (type == "discrete"){
+    if (type == "discrete") {
     living_matrix <- apply(living_matrix, c(1, 2), as.character)
     }
  # keep only living species in matrix
@@ -18,9 +18,9 @@ remove.fossil <- function(trees, matrices, type = c("discrete", "continuous")) {
 
 ## function to remove fossils at varying preservation levels
 ## idea - split time into time bins and vary preservation level per bin
-fossil.pres <- function(trees, matrices, preservation = c(0.05, 0.15, 0.5), type = c("discrete", "continuous")){
-  if (!preservation %in% c(0.05, 0.15, 0.5)) {
-       stop("Invalid preservation value. Must be one of 0.05, 0.15, or 0.5.")
+fossil.pres <- function(trees, matrices, preservation = c(0.05, 0.15, 0.5, 1.0), type = c("discrete", "continuous")){
+  if (!preservation %in% c(0.05, 0.15, 0.5, 1.0)) {
+       stop("Invalid preservation value. Must be one of 1.0, 0.05, 0.15, or 0.5.")
    }
    fossil_matrices <- Map(function(tree, matrix){
     ages <- tree.age(tree)

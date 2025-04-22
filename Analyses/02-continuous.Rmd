@@ -48,16 +48,17 @@ random_cont_matrices <- lapply(trees, function(tree){
     mapped <- map.traits(random_cont, tree)
     matrix <- mapped$data
     return(matrix)
-}) 
+})
+
 continuous_matrices <- list(bm = bm_matrices, ou = ou_matrices)
 
 living_cont <- lapply(continuous_matrices, remove.fossil, trees = trees, type = "continuous")
 fossilised_high_cont <- lapply(continuous_matrices, fossil.pres, trees = trees, preservation = 0.5, type = "continuous")
 fossilised_med_cont <- lapply(continuous_matrices, fossil.pres, trees = trees, preservation = 0.15, type = "continuous")
 fossilised_low_cont <- lapply(continuous_matrices, fossil.pres, trees = trees, preservation = 0.05, type = "continuous")
+all_fossil <- lapply(continuous_matrices, fossil.pres, trees = trees, preservation = 1.0, type = "continuous")
 
-
-fossil_levels_cont <- list(living = living_cont, fossil_high = fossilised_high_cont, fossil_med = fossilised_med_cont, fossil_low = fossilised_low_cont)
+fossil_levels_cont <- list(all = all_fossil, fossil_high = fossilised_high_cont, fossil_med = fossilised_med_cont, fossil_low = fossilised_low_cont, living = living_cont)
 
 
 fossil_matrices_cont <- lapply(names(continuous_matrices), function(level) {
