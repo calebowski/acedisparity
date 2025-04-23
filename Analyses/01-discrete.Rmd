@@ -17,7 +17,7 @@ Things to note
 - use z-score scaling or whatever it is with scale() function.
 - explore with extinction.
 - use median rather than mean.
--
+- then look at disparity metrics
 
 
 ## Generate trees
@@ -146,6 +146,8 @@ fast_matrices <- lapply(trees, function(tree) {
 
 
 discrete_matrices <- list(slow = slow_matrices, med = med_matrices, fast = fast_matrices)
+saveRDS(discrete_matrices, "../Data/matrices/discretematrices.rds")
+discrete_matrices <- readRDS("../Data/matrices/discretematrices.rds")
 
 ```
 
@@ -165,7 +167,7 @@ fossilised_low <- lapply(discrete_matrices, fossil.pres, trees = trees, preserva
 
 # plot(fossilised_low$slow[[13]]$tree)
 
-fossil_levels <- list(fossil_high = fossilised_high, fossil_med = fossilised_med, fossil_low = fossilised_low)
+fossil_levels <- list(all = all_fossil, fossil_high = fossilised_high, fossil_med = fossilised_med, fossil_low = fossilised_low, living = living)
 
 
 fossil_matrices <- lapply(names(discrete_matrices), function(level) {
@@ -179,7 +181,7 @@ for (level in names(fossil_matrices)) {
   names(fossil_matrices[[level]]) <- names(fossil_levels)
 }
 
-str(fossil_matrices$low$fossil_low)
+str(fossil_matrices$slow$all[[56]])
 
 ```
 
@@ -234,11 +236,14 @@ anc.states <- function(fossil_matrices) {
                           models = "ER", 
                           output = "combined",
                           verbose = TRUE)
-  return(anc_states)})})}
+  return(anc_states)})})
+  }
 
 fossil_anc <- lapply(fossil_matrices, anc.states)
 
 saveRDS(fossil_anc, "../Data/matrices/discreteanc.Rds")
+fossil_anc <- readRDS("../Data/matrices/discreteanc.Rds")
+
 
 
 ```
@@ -338,72 +343,136 @@ saveRDS(strict_means, "../Data/matrices/strictmeans.rds")
 
 ```{R}
 
-true_nodes <- lapply(nodes_living, function(rate){
-  lapply(rate, function(matrix){
-    lapply(matrix, function(preservation){
-      node_labels <- rownames(preservation$ace)
-    })
-  })
-})
+# true_nodes <- lapply(nodes_living, function(rate){
+#   lapply(rate, function(matrix){
+#     lapply(matrix, function(preservation){
+#       node_labels <- rownames(preservation$ace)
+#     })
+#   })
+# })
 
 
-true_nodes <- lapply(true_nodes, function(rate){
-  lapply(rate, function(matrix){
-    matrix$fossil_high
-  })
-})
-true_nodes <- true_nodes$fast
-
-true_nodes <- unlist(true_nodes, recursive = FALSE, use.names = FALSE)
+# true_nodes <- lapply(true_nodes, function(rate){
+#   lapply(rate, function(matrix){
+#     matrix$fossil_high
+#   })
+# })
+# true_nodes <- true_nodes$fast
 
 
 
 
-bound_true <- 
-  lapply(discrete_matrices, function(rate){
-  Map(function(nodes, matrix){
-  node_characters <- matrix[nodes,]
-}, true_nodes, rate)
-})
+# ## get the true nodes
+# bound_true <- 
+#   lapply(discrete_matrices, function(rate){
+#   Map(function(nodes, matrix){
+#   node_characters <- matrix[nodes,]
+# }, true_nodes, rate)
+# })
+
+# ## bind to true tips
+# true_matrices <- lapply(names(living), function(rate) {
+#   lapply(seq_along(living[[rate]]), function(i) {
+#     rbind(living[[rate]][[i]]$matrix, bound_true[[rate]][[i]])
+#   })
+# })
+# names(true_matrices) <- names(bound_true)
+
+# # get the tips for each matrix
+# filtered_fossil_anc <- lapply(names(fossil_anc), function(level) {
+#   lapply(names(fossil_anc[[level]]), function(preservation) {
+#     lapply(seq_along(fossil_anc[[level]][[preservation]]), function(i) {
+#       # Get the current matrix from fossil_anc
+#       fossil_matrix <- fossil_anc[[level]][[preservation]][[i]]
+      
+#       # Get the corresponding true nodes
+#       nodes_to_keep <- true_nodes[[i]]
+      
+#       # Filter the fossil_matrix to only keep rows with matching nodes
+#       fossil_matrix[rownames(fossil_matrix) %in% nodes_to_keep, , drop = FALSE]
+#     })
+#   })
+# })
+
+# # Preserve the names of the structure
+# names(filtered_fossil_anc) <- names(fossil_anc)
+# for (level in names(fossil_anc)) {
+#   names(filtered_fossil_anc[[level]]) <- names(fossil_anc[[level]])
+# }
 
 
-true_matrices <- lapply(names(living), function(rate) {
-  lapply(seq_along(living[[rate]]), function(i) {
-    rbind(living[[rate]][[i]]$matrix, bound_true[[rate]][[i]])
-  })
-})
-names(true_matrices) <- names(bound_true)
+distances <- lapply(nodes_living, lapply, lapply, dist.func)
+
+
+## these are anc estimated matrices with relevant tips but only with relevant nodes.
+anc_matrices_living
 
 
 source("../Functions/apply.dist.R")
 source("../Functions/apply.ordination.R")
 
-ace_distances <-  lapply(binded_matrices, lapply, dist.func)
 
-ace_ord <- lapply(ace_distances, lapply, ord.func)
+ord <- lapply(distances, lapply, lapply, ord.func)
 
-scaled_ace_ord <- lapply(ace_ord, function(preservation){
+scaled_ord <- lapply(ord, function(preservation){
   lapply(preservation, function(rate){
-    lapply(rate, function(matrix){
-    scaled_pc <- apply(matrix, 2, function(x) (x - min(x)) / (max(x) - min(x)))
-    return(scaled_pc)
+    lapply(rate, function(treatment){
+      lapply(treatment, function(matrix){
+        scaled_pc <- scale(matrix)
+        return(scaled_pc)
+      })
     })
   })
 })
 
-range(scaled_ace_ord$slow$fossil_low[[1]])
+
+test <- dispRity::dispRity(ord$slow[[1]]$living$true, metric = c(pairwise.dist))
+
+## Relative distance in trait space
+
+morphospace.dist <- function(matrix, ...) {
+    ## Get the pairwise distances between all points
+    distances <- pairwise.dist(matrix)
+    ## Calculate the longest distance from the center
+    longest_distance_from_center <- max(as.numeric(centroids(matrix, centroid = 0)), na.rm = TRUE)
+    ## Make all these distances relative to the longest distance from the center of the traitspace
+    return(distances/longest_distance_from_center)
+}
+
+
+
+morpho_diffs <- lapply(scaled_ord, lapply, lapply, function(matrices){
+  diffs <- abs((morphospace.dist(matrices$ace)) - (morphospace.dist(matrices$true)))
+  averages <- mean(diffs)
+})
+
+
+sum_var <- lapply(ord, lapply, lapply, lapply, function(matrix){
+    disparity <- (dispRity(matrix, metric = c(sum, variances)))$disparity})
+
+sum_var <- lapply(ord, lapply, lapply, lapply, function(matrix){
+    disparity <- (dispRity(matrix, metric = c(sum, variances)))$disparity})
+
+disparity_diffs <- lapply(sum_var, lapply, lapply, function(matrices){
+  diffs <- abs(matrices$ace[[1]]$elements[1] - matrices$true[[1]]$elements[1])
+})
+
+
+## Effect of removing fossils
+
+
 
 
 plot(scaled_ace_ord$slow$fossil_high[[15]])
 text(scaled_ace_ord$slow$fossil_high[[15]], labels = rownames(scaled_ace_ord$slow$fossil_high[[15]]), pos = 4, cex = 0.6)
 
 
-morphospace.dist <- function(ace_ord) {
-  ace_scores <- ace_ord[grepl("^ace", rownames(ace_ord)), ]
-  true_scores <- ace_ord[!grepl("^ace", rownames(ace_ord)), ]
-  distances <- sqrt(rowSums((ace_scores[,1:15] - true_scores[,1:15])^2))
-  return(distances)
-}
+# morphospace.dist <- function(ace_ord) {
+#   ace_scores <- ace_ord[grepl("^ace", rownames(ace_ord)), ]
+#   true_scores <- ace_ord[!grepl("^ace", rownames(ace_ord)), ]
+#   distances <- sqrt(rowSums((ace_scores[,1:15] - true_scores[,1:15])^2))
+#   return(distances)
+# }
 
 # ace_ord_scores <- ace_ord$fossil_high$low[[1]][grepl("^ace", rownames(ace_ord$fossil_high$low[[1]])), ]
 # true_ord_scores <- ace_ord$fossil_high$low[[1]][!grepl("^ace", rownames(ace_ord$fossil_high$low[[1]])), ]

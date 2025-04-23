@@ -47,8 +47,8 @@ node.dist <- function(matrices, distance = c("strict", "uncertain")){
   # Loop through nodes and characters
   for (i in 1:n_rows) {
     for (j in 1:n_cols) {
-      true_states <- as.numeric(true[i, j])  
-      ace_states <- parsed_ace[[i]][[j]]          
+      true_states <- as.numeric(true[i, j])
+      ace_states <- parsed_ace[[i]][[j]]
       distance_matrix[i, j] <- lenient.distance(true_states, ace_states)
     }
   }
@@ -57,8 +57,8 @@ node.dist <- function(matrices, distance = c("strict", "uncertain")){
   if (distance == "strict"){
     for (i in 1:n_rows) {
     for (j in 1:n_cols) {
-      true_states <- as.numeric(true[i, j])  
-      ace_states <- parsed_ace[[i]][[j]]          
+      true_states <- as.numeric(true[i, j])
+      ace_states <- parsed_ace[[i]][[j]]
       distance_matrix[i, j] <- strict.distance(true_states, ace_states)
     }
   }

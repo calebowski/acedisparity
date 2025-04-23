@@ -30,7 +30,42 @@ split_strict <- lapply(unlisted_strict, function(mean){
 
 split_uncertain <- lapply(unlisted_uncertain, function(mean){
   split(mean, gsub("\\d+", "", names(mean)))
-})
+})#
+
+
+
+combined_data <- do.call(rbind, lapply(names(strict_means), function(level) {
+  # Iterate over replicates within each level
+  do.call(rbind, lapply(seq_along(strict_means[[level]]), function(replicate_index) {
+    # Extract the data for the current replicate
+    data <- strict_means[[level]][[replicate_index]]
+    
+    # Create a data frame for the current replicate
+    df <- data.frame(
+      replicate = replicate_index,
+      all = data$all,
+      high = data$fossil_high,
+      mid  = data$fossil_med,
+      low  = data$fossil_low,
+      living = data$living,
+      level = level  # Add a column to indicate the level
+    )
+    
+    # Convert to long format
+    df_long <- pivot_longer(df, cols = c("all", "high", "mid", "low", "living"), 
+                            names_to = "preservation_level", values_to = "distance")
+    df_long$preservation_level <- factor(df_long$preservation_level, levels = c("all", "high", "mid", "low", "living"))
+    
+    return(df_long)
+  }))
+}))
+
+ggplot(combined_data, aes(x = preservation_level, y = distance, fill = preservation_level)) +
+  geom_boxplot() +
+  facet_wrap(~level, scales = "free_y") +  # Separate plots for each level (fast, med, slow)
+  labs(x = "Fossil Preservation Level", y = "Distance to True Value", title = "Strict Means by Preservation Level") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))  # Rotate x-axis labels for readability
 
 
 ```
@@ -175,33 +210,43 @@ library(ggplot2)
 levels <- c("fast", "med", "slow")
 
 # Loop through each level and generate a plot
-for (level in levels) {
-  # Extract the data for the current level
-  data <- split_uncertain[[level]]
-  n <- length(data$fossil_high)  # assuming all same length
-  
-  # Create a data frame
-  df <- data.frame(
-    replicate = 1:n,
-    high = data$fossil_high,
-    mid  = data$fossil_med,
-    low  = data$fossil_low,
-    living = data$living
-  )
-  
-  # Convert to long format
-  df_long <- pivot_longer(df, cols = c("high", "mid", "low", "living"), names_to = "preservation_level", values_to = "distance")
-  df_long$preservation_level <- factor(df_long$preservation_level, levels = c("high", "mid", "low", "living"))
-  
-  # Generate the plot
-  p <- ggplot(df_long, aes(x = preservation_level, y = distance, group = replicate)) +
-    geom_line(alpha = 0.3) +  # thin, semi-transparent lines
-    geom_point(alpha = 0.3) +
-    stat_summary(aes(group = 1), fun = median, geom = "line", color = "red", size = 1.2) + 
-    labs(x = "Fossil Preservation Level", y = "Distance to True Value", title = paste("Transition rate:", level)) +
-    theme_minimal()
-  
-  # Print the plot
-  print(p)
-}
+library(tidyr)
+library(ggplot2)
+
+# Combine data for all levels and replicates into a single data frame
+combined_data <- do.call(rbind, lapply(names(morpho_diffs), function(level) {
+  # Iterate over replicates within each level
+  do.call(rbind, lapply(seq_along(morpho_diffs[[level]]), function(replicate_index) {
+    # Extract the data for the current replicate
+    data <- morpho_diffs[[level]][[replicate_index]]
+    
+    # Create a data frame
+    df <- data.frame(
+      replicate = replicate_index,
+      all = data$all
+      high = data$fossil_high,
+      mid  = data$fossil_med,
+      low  = data$fossil_low,
+      living = data$living,
+      level = level  # Add a column to indicate the level
+    )
+    
+    # Convert to long format
+    df_long <- pivot_longer(df, cols = c("all", "high", "mid", "low", "living"), 
+                            names_to = "preservation_level", values_to = "distance")
+    df_long$preservation_level <- factor(df_long$preservation_level, levels = c("all","high", "mid", "low", "living"))
+    
+    return(df_long)
+  }))
+}))
+
+# Generate the combined plot
+ggplot(combined_data, aes(x = preservation_level, y = distance, group = interaction(replicate, level), color = level)) +
+  geom_line(alpha = 0.3) +  # thin, semi-transparent lines
+  geom_point(alpha = 0.3) +
+  stat_summary(aes(group = level), fun = median, geom = "line", size = 1.2) + 
+  labs(x = "Fossil Preservation Level", y = "Distance to True Value", title = "Transition Rates: Fast, Med, Slow") +
+  theme_minimal() +
+  scale_color_manual(values = c("fast" = "blue", "med" = "green", "slow" = "orange"))  # Optional: Customize colors
+
 ```
