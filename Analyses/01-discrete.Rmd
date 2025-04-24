@@ -98,8 +98,8 @@ med_binary_transitions <- matrix(c(
 
 med_multi_transitions <- matrix(c(
   0.6, 0.2, 0.2,
-  0.3, 0.4, 0.3,
-  0.2, 0.3, 0.5
+  0.2, 0.6, 0.2,
+  0.2, 0.2, 0.6
 ), nrow = 3, byrow = TRUE)
 
 med_binary <- treats::make.traits(process = discrete.process, n = 85, process.args = list(transitions = med_binary_transitions))
@@ -234,6 +234,33 @@ anc.states <- function(fossil_matrices) {
   anc_states <- multi.ace(data = x$matrix, 
                           tree = x$tree, 
                           models = "ER", 
+                          output = "multi.ace",
+                          verbose = TRUE)
+  return(anc_states)})})
+  }
+
+point.anc.states <- function(fossil_matrices) {
+  lapply(fossil_matrices, function(level) {
+    lapply(level, function(x) {
+  # Run multi.ace for each tree
+  anc_states <- multi.ace(data = x$matrix, 
+                          tree = x$tree, 
+                          models = "SYM", 
+                          output = "combined",
+                          verbose = TRUE)
+  return(anc_states)})})
+  }
+normal_sampling <- list(fun = rnorm, param = list(mean = mean, sd = function(x)return(diff(range(x))/4)))
+
+sample.anc.states <- function(fossil_matrices) {
+  lapply(fossil_matrices, function(level) {
+    lapply(level, function(x) {
+  # Run multi.ace for each tree
+  anc_states <- multi.ace(data = x$matrix, 
+                          tree = x$tree, 
+                          models = "ER",
+                          sample = 100,
+                          sample.fun = normal_sampling,
                           output = "combined",
                           verbose = TRUE)
   return(anc_states)})})
@@ -241,6 +268,11 @@ anc.states <- function(fossil_matrices) {
 
 fossil_anc <- lapply(fossil_matrices, anc.states)
 
+sampled_fossil_anc <- lapply(fossil_anc, sample.anc.states)
+
+point_fossil_anc <- lapply(fossil_matrices, point.anc.states)
+
+fossil_anc <- point_fossil_anc
 saveRDS(fossil_anc, "../Data/matrices/discreteanc.Rds")
 fossil_anc <- readRDS("../Data/matrices/discreteanc.Rds")
 
@@ -331,7 +363,7 @@ lenient_means <- lapply(dist_lenient, function(preservation) {
 })
 })
 
-saveRDS(uncertain_means, "../Data/matrices/uncertainmeans.rds")
+saveRDS(lenient_means, "../Data/matrices/lenientmeans.rds")
 saveRDS(strict_means, "../Data/matrices/strictmeans.rds")
 
 
@@ -401,18 +433,28 @@ saveRDS(strict_means, "../Data/matrices/strictmeans.rds")
 # }
 
 
-distances <- lapply(nodes_living, lapply, lapply, dist.func)
 
 
 ## these are anc estimated matrices with relevant tips but only with relevant nodes.
-anc_matrices_living
+# anc_matrices_living
 
 
 source("../Functions/apply.dist.R")
 source("../Functions/apply.ordination.R")
 
 
+distances <- lapply(nodes_living, lapply, lapply, dist.func)
+
+
 ord <- lapply(distances, lapply, lapply, ord.func)
+
+plot(ord$fast[[100]]$all$ace)
+plot(ord$fast[[100]]$all$true)
+
+
+(dispRity(ord$fast[[100]]$all$ace, metric = c(sum, variances)))$disparity
+(dispRity(ord$fast[[100]]$all$true, metric = c(sum, variances)))$disparity
+
 
 scaled_ord <- lapply(ord, function(preservation){
   lapply(preservation, function(rate){
@@ -441,11 +483,13 @@ morphospace.dist <- function(matrix, ...) {
 
 
 
-morpho_diffs <- lapply(scaled_ord, lapply, lapply, function(matrices){
+morpho_diffs <- lapply(ord, lapply, lapply, function(matrices){
   diffs <- abs((morphospace.dist(matrices$ace)) - (morphospace.dist(matrices$true)))
-  averages <- mean(diffs)
+  averages <- median(diffs)
 })
 
+saveRDS(morpho_diffs, "../Data/matrices/morphospacediffs.Rds")
+
 
 sum_var <- lapply(ord, lapply, lapply, lapply, function(matrix){
     disparity <- (dispRity(matrix, metric = c(sum, variances)))$disparity})
@@ -453,10 +497,39 @@ sum_var <- lapply(ord, lapply, lapply, lapply, function(matrix){
 sum_var <- lapply(ord, lapply, lapply, lapply, function(matrix){
     disparity <- (dispRity(matrix, metric = c(sum, variances)))$disparity})
 
-disparity_diffs <- lapply(sum_var, lapply, lapply, function(matrices){
+
+sum_var_low_dim <- lapply(ord, lapply, lapply, lapply, function(matrix){
+    disparity <- (dispRity(matrix[,1:10], metric = c(sum, variances)))$disparity})
+
+sum_ranges <- lapply(ord, lapply, lapply, lapply, function(matrix){
+    disparity <- (dispRity(matrix, metric = c(sum, ranges)))$disparity})
+
+av_displ <- lapply(ord, lapply, lapply, lapply, function(matrix){
+    disparity <- (dispRity(matrix, metric = c(displacements)))$disparity})
+
+ranges_diffs <- lapply(sum_ranges, lapply, lapply, function(matrices){
   diffs <- abs(matrices$ace[[1]]$elements[1] - matrices$true[[1]]$elements[1])
 })
 
+variance_diffs_low_dim <- lapply(sum_var_low_dim, lapply, lapply, function(matrices){
+  diffs <- abs(matrices$ace[[1]]$elements[1] - matrices$true[[1]]$elements[1])
+})
+
+displ_diffs <- lapply(av_displ, lapply, lapply, function(matrices){
+  diffs <- abs(matrices$ace[[1]]$elements[1] - matrices$true[[1]]$elements[1])
+})
+
+
+
+
+variance_diffs <- lapply(sum_var, lapply, lapply, function(matrices){
+  diffs <- abs(matrices$ace[[1]]$elements[1] - matrices$true[[1]]$elements[1])
+})
+saveRDS(variance_diffs, "../Data/matrices/vardiffs.rds")
+saveRDS(ranges_diffs, "../Data/matrices/rangediffs.rds")
+saveRDS(variance_diffs_low_dim, "../Data/matrices/vardiffs_lowdim.rds")
+
+saveRDS(displ_diffs, "../Data/matrices/dispdiffs.rds")
 
 ## Effect of removing fossils
 

@@ -10,62 +10,91 @@ editor_options:
     wrap: 72
 ---
 
+# How ace really is ASE?
+
+Fossils are hypothesised to increase the accuracy of ASE by breaking long branches. This project aims to investigate how fossil coverage affects the accuracy of ASE in discrete and continuous trait matrices. 
+
+To do this, I simulated a set of 100 trees with 50 extant tips and speciation at 1 and extinction at 0.7. This leaves trees with 50 - 200 fossil tips (i.e tips > time 0).
+
+For discrete traits, i simulated trait data across each tree (100 characters, 85% binary, 15% 3-state) using Mk model with 3 different transition rates (low - medium - high). For continuous traits, I simulated both BM and OU model trait data (100 characters again). This outputs matrices where both tips and nodes have values (these are termed 'true values').
+
+I then pruned these matrices of the node values and tip values at 5 levels:
+living - only extant tips
+fossil low - 5% fossil coverage and all extant tips
+fossil mid - 15% fossil coverage and all extant tips
+fossil high - 50% fossil coverage and all extant tips 
+all - all tips (extant and fossils)
+
+
+
+
+
+
+
 ## Load data
 
 ```{r echo = FALSE}
-uncertain_means <- readRDS("../Data/matrices/uncertainmeans.rds")
+lenient_means <- readRDS("../Data/matrices/lenientmeans.rds")
 strict_means <- readRDS("../Data/matrices/strictmeans.rds")
+morpho_diffs <- readRDS("../Data/matrices/morphospacediffs.Rds")
+sum_var <- readRDS("../Data/matrices/vardiffs.rds")
+sum_range <- readRDS("../Data/matrices/rangediffs.rds")
+displ_diffs <-  readRDS("../Data/matrices/dispdiffs.rds")
+
+sum_var_low_dim <- readRDS("../Data/matrices/vardiffs_lowdim.rds")
+
+cont_dists <- readRDS("../Data/matrices/contdists.Rds")
 #
-unlisted_strict <- lapply(strict_means, function(mean) {
-    unlist(mean, recursive = TRUE)
-})
+# unlisted_strict <- lapply(strict_means, function(mean) {
+#     unlist(mean, recursive = TRUE)
+# })
 
-unlisted_uncertain <- lapply(uncertain_means, function(mean) {
-    unlist(mean, recursive = TRUE)
-})
+# unlisted_uncertain <- lapply(uncertain_means, function(mean) {
+#     unlist(mean, recursive = TRUE)
+# })
 
-split_strict <- lapply(unlisted_strict, function(mean){
-  split(mean, gsub("\\d+", "", names(mean)))
-})
+# split_strict <- lapply(unlisted_strict, function(mean){
+#   split(mean, gsub("\\d+", "", names(mean)))
+# })
 
-split_uncertain <- lapply(unlisted_uncertain, function(mean){
-  split(mean, gsub("\\d+", "", names(mean)))
-})#
+# split_uncertain <- lapply(unlisted_uncertain, function(mean){
+#   split(mean, gsub("\\d+", "", names(mean)))
+# })#
 
 
 
-combined_data <- do.call(rbind, lapply(names(strict_means), function(level) {
-  # Iterate over replicates within each level
-  do.call(rbind, lapply(seq_along(strict_means[[level]]), function(replicate_index) {
-    # Extract the data for the current replicate
-    data <- strict_means[[level]][[replicate_index]]
+# combined_data <- do.call(rbind, lapply(names(strict_means), function(level) {
+#   # Iterate over replicates within each level
+#   do.call(rbind, lapply(seq_along(strict_means[[level]]), function(replicate_index) {
+#     # Extract the data for the current replicate
+#     data <- strict_means[[level]][[replicate_index]]
     
-    # Create a data frame for the current replicate
-    df <- data.frame(
-      replicate = replicate_index,
-      all = data$all,
-      high = data$fossil_high,
-      mid  = data$fossil_med,
-      low  = data$fossil_low,
-      living = data$living,
-      level = level  # Add a column to indicate the level
-    )
+#     # Create a data frame for the current replicate
+#     df <- data.frame(
+#       replicate = replicate_index,
+#       all = data$all,
+#       high = data$fossil_high,
+#       mid  = data$fossil_med,
+#       low  = data$fossil_low,
+#       living = data$living,
+#       level = level  # Add a column to indicate the level
+#     )
     
-    # Convert to long format
-    df_long <- pivot_longer(df, cols = c("all", "high", "mid", "low", "living"), 
-                            names_to = "preservation_level", values_to = "distance")
-    df_long$preservation_level <- factor(df_long$preservation_level, levels = c("all", "high", "mid", "low", "living"))
+#     # Convert to long format
+#     df_long <- pivot_longer(df, cols = c("all", "high", "mid", "low", "living"), 
+#                             names_to = "preservation_level", values_to = "distance")
+#     df_long$preservation_level <- factor(df_long$preservation_level, levels = c("all", "high", "mid", "low", "living"))
     
-    return(df_long)
-  }))
-}))
+#     return(df_long)
+#   }))
+# }))
 
-ggplot(combined_data, aes(x = preservation_level, y = distance, fill = preservation_level)) +
-  geom_boxplot() +
-  facet_wrap(~level, scales = "free_y") +  # Separate plots for each level (fast, med, slow)
-  labs(x = "Fossil Preservation Level", y = "Distance to True Value", title = "Strict Means by Preservation Level") +
-  theme_minimal() +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1))  # Rotate x-axis labels for readability
+# ggplot(combined_data, aes(x = preservation_level, y = distance, fill = preservation_level)) +
+#   geom_boxplot() +
+#   facet_wrap(~level, scales = "free_y") +  # Separate plots for each level (fast, med, slow)
+#   labs(x = "Fossil Preservation Level", y = "Distance to True Value", title = "Strict Means by Preservation Level") +
+#   theme_minimal() +
+#   theme(axis.text.x = element_text(angle = 45, hjust = 1))  # Rotate x-axis labels for readability
 
 
 ```
@@ -73,24 +102,24 @@ ggplot(combined_data, aes(x = preservation_level, y = distance, fill = preservat
 ## Plotting strict distance
 
 ```{r echo = FALSE}
-boxplot(split_strict$slow, 
-        main = "Slow strict", 
-        ylab = "Distances", 
-        xlab = "Preservation levels",
-        las = 2)  # Rotate x-axis labels for better readability
+# boxplot(split_strict$slow, 
+#         main = "Slow strict", 
+#         ylab = "Distances", 
+#         xlab = "Preservation levels",
+#         las = 2)  # Rotate x-axis labels for better readability
 
 
-boxplot(split_strict$med, 
-        main = "Med strict",
-        ylab = "Distances",
-        xlab = "Preservation levels",
-        las = 2)  # Rotate x-axis labels for better readability
+# boxplot(split_strict$med, 
+#         main = "Med strict",
+#         ylab = "Distances",
+#         xlab = "Preservation levels",
+#         las = 2)  # Rotate x-axis labels for better readability
 
-boxplot(split_strict$fast, 
-        main = "Fast strict",
-        ylab = "Distances",
-        xlab = "Preservation levels",
-        las = 2)  # Rotate x-axis labels for better readability
+# boxplot(split_strict$fast, 
+#         main = "Fast strict",
+#         ylab = "Distances",
+#         xlab = "Preservation levels",
+#         las = 2)  # Rotate x-axis labels for better readability
 
 
 
@@ -99,60 +128,60 @@ boxplot(split_strict$fast,
 ## Plotting uncertain distance
 
 ```{r echo = FALSE}
-boxplot(split_uncertain$slow, 
-        main = "Slow uncertain", 
-        ylab = "Distances", 
-        xlab = "Preservation levels",
-        las = 2)  # Rotate x-axis labels for better readability
+# boxplot(split_uncertain$slow, 
+#         main = "Slow uncertain", 
+#         ylab = "Distances", 
+#         xlab = "Preservation levels",
+#         las = 2)  # Rotate x-axis labels for better readability
 
 
-boxplot(split_uncertain$med, 
-        main = "Med uncertain",
-        ylab = "Distances",
-        xlab = "Preservation levels",
-        las = 2)  # Rotate x-axis labels for better readability
+# boxplot(split_uncertain$med, 
+#         main = "Med uncertain",
+#         ylab = "Distances",
+#         xlab = "Preservation levels",
+#         las = 2)  # Rotate x-axis labels for better readability
 
-boxplot(split_uncertain$fast, 
-        main = "Fast uncertain",
-        ylab = "Distances",
-        xlab = "Preservation levels",
-        las = 2)  # Rotate x-axis labels for better readability
+# boxplot(split_uncertain$fast, 
+#         main = "Fast uncertain",
+#         ylab = "Distances",
+#         xlab = "Preservation levels",
+#         las = 2)  # Rotate x-axis labels for better readability
 
 ```
 
 ## Load ordinated distances
 
 ```{R}
-ord_dist <- readRDS("../Data/matrices/orddists.Rds")
-unlisted_morpho_dists <- lapply(ord_dist, function(rate) {
-    unlist(rate, recursive = TRUE)
-})
+# ord_dist <- readRDS("../Data/matrices/orddists.Rds")
+# unlisted_morpho_dists <- lapply(ord_dist, function(rate) {
+#     unlist(rate, recursive = TRUE)
+# })
 
-split_dists <- lapply(unlisted_morpho_dists, function(rate){
-  split(rate, gsub("\\d+", "", names(rate)))
-})
+# split_dists <- lapply(unlisted_morpho_dists, function(rate){
+#   split(rate, gsub("\\d+", "", names(rate)))
+# })
 
 ```
 
 
 ```{R}
-boxplot(split_dists$slow, 
-        main = "Slow ", 
-        ylab = "Distances", 
-        xlab = "Preservation levels",
-        las = 2)  # Rotate x-axis labels for better readability
+# boxplot(split_dists$slow, 
+#         main = "Slow ", 
+#         ylab = "Distances", 
+#         xlab = "Preservation levels",
+#         las = 2)  # Rotate x-axis labels for better readability
 
-boxplot(split_dists$med, 
-        main = "Med ",
-        ylab = "Distances",
-        xlab = "Preservation levels",
-        las = 2)  # Rotate x-axis labels for better readability
+# boxplot(split_dists$med, 
+#         main = "Med ",
+#         ylab = "Distances",
+#         xlab = "Preservation levels",
+#         las = 2)  # Rotate x-axis labels for better readability
 
-boxplot(split_dists$fast, 
-        main = "Fast ",
-        ylab = "Distances",
-        xlab = "Preservation levels",
-        las = 2)  # Rotate x-axis labels for better readability
+# boxplot(split_dists$fast, 
+#         main = "Fast ",
+#         ylab = "Distances",
+#         xlab = "Preservation levels",
+#         las = 2)  # Rotate x-axis labels for better readability
 
 
 
@@ -161,46 +190,48 @@ boxplot(split_dists$fast,
 ## plots for strict distances
 
 ```{R echo = FALSE}
-library(tidyr)
-library(ggplot2)
+# library(tidyr)
+# library(ggplot2)
 
-# List of levels to loop through
-levels <- c("fast", "med", "slow")
+# # List of levels to loop through
+# levels <- c("fast", "med", "slow")
 
-# Loop through each level and generate a plot
-for (level in levels) {
-  # Extract the data for the current level
-  data <- split_strict[[level]]
-  n <- length(data$fossil_high)  # assuming all same length
+# # Loop through each level and generate a plot
+# for (level in levels) {
+#   # Extract the data for the current level
+#   data <- split_strict[[level]]
+#   n <- length(data$fossil_high)  # assuming all same length
   
-  # Create a data frame
-  df <- data.frame(
-    replicate = 1:n,
-    high = data$fossil_high,
-    mid  = data$fossil_med,
-    low  = data$fossil_low,
-    living = data$living
-  )
+#   # Create a data frame
+#   df <- data.frame(
+#     replicate = 1:n,
+#     high = data$fossil_high,
+#     mid  = data$fossil_med,
+#     low  = data$fossil_low,
+#     living = data$living
+#   )
   
-  # Convert to long format
-  df_long <- pivot_longer(df, cols = c("high", "mid", "low", "living"), names_to = "preservation_level", values_to = "distance")
-  df_long$preservation_level <- factor(df_long$preservation_level, levels = c("high", "mid", "low", "living"))
+#   # Convert to long format
+#   df_long <- pivot_longer(df, cols = c("high", "mid", "low", "living"), names_to = "preservation_level", values_to = "distance")
+#   df_long$preservation_level <- factor(df_long$preservation_level, levels = c("high", "mid", "low", "living"))
   
-  # Generate the plot
-  p <- ggplot(df_long, aes(x = preservation_level, y = distance, group = replicate)) +
-    geom_line(alpha = 0.3) +  # thin, semi-transparent lines
-    geom_point(alpha = 0.3) +
-    stat_summary(aes(group = 1), fun = median, geom = "line", color = "red", size = 1.2) + 
-    labs(x = "Fossil Preservation Level", y = "Distance to True Value", title = paste("Transition rate:", level)) +
-    theme_minimal()
+#   # Generate the plot
+#   p <- ggplot(df_long, aes(x = preservation_level, y = distance, group = replicate)) +
+#     geom_line(alpha = 0.3) +  # thin, semi-transparent lines
+#     geom_point(alpha = 0.3) +
+#     stat_summary(aes(group = 1), fun = median, geom = "line", color = "red", size = 1.2) + 
+#     labs(x = "Fossil Preservation Level", y = "Distance to True Value", title = paste("Transition rate:", level)) +
+#     theme_minimal()
   
-  # Print the plot
-  print(p)
-}
+#   # Print the plot
+#   print(p)
+# }
 ```
 
 
-## Uncertain distances
+## Strict distances
+
+This gives a score of 0 only if the true state is solely recovered by ace (i.e 0/1 gets penalised even if true state is 1).
 
 ```{R echo = FALSE}
 library(tidyr)
@@ -214,6 +245,137 @@ library(tidyr)
 library(ggplot2)
 
 # Combine data for all levels and replicates into a single data frame
+
+# Combine data for all levels and replicates into a single data frame
+combined_data <- do.call(rbind, lapply(names(strict_means), function(level) {
+  # Iterate over replicates within each level
+  do.call(rbind, lapply(seq_along(strict_means[[level]]), function(replicate_index) {
+    # Extract the data for the current replicate
+    data <- strict_means[[level]][[replicate_index]]
+    
+    # Create a data frame
+    df <- data.frame(
+      replicate = replicate_index,
+      all = data$all,
+      high = data$fossil_high,
+      mid  = data$fossil_med,
+      low  = data$fossil_low,
+      living = data$living,
+      level = level  # Add a column to indicate the level
+    )
+    
+    # Convert to long format
+    df_long <- pivot_longer(df, cols = c("living", "low", "mid", "high", "all"), 
+                            names_to = "preservation_level", values_to = "distance")
+    df_long$preservation_level <- factor(df_long$preservation_level, levels = c("living", "low", "mid", "high", "all"))
+    
+    return(df_long)
+  }))
+}))
+
+# Generate the combined plot
+# Generate the combined plot
+ggplot(combined_data, aes(x = preservation_level, y = distance, color = level, fill = level)) +
+  stat_summary(
+    aes(group = level),
+    fun.data = function(y) {
+      data.frame(
+        y = median(y),
+        ymin = quantile(y, 0.25),  # 25th percentile
+        ymax = quantile(y, 0.75)  # 75th percentile
+      )
+    },
+    geom = "ribbon",
+    alpha = 0.2,  # Transparency for the shaded area
+    color = NA    # No border for the ribbon
+  ) +
+  stat_summary(
+    aes(group = level),
+    fun = median,
+    geom = "line",
+    size = 1.2
+  ) +
+  labs(
+    x = "Fossil Preservation Level",
+    y = "Distance to True Value",
+    title = "Shaded Median with Confidence Intervals"
+  ) +
+  theme_minimal() +
+  scale_y_reverse()    # Match fill colors to line colors
+
+```
+
+
+
+## Lenient distances
+
+Lenient distances score 0 if the correct state is given, allowing uncertainty (i.e. 0/1 would be scored 0 if true state is 1).
+
+```{R echo = FALSE}
+# library(tidyr)
+# library(ggplot2)
+
+combined_data <- do.call(rbind, lapply(names(lenient_means), function(level) {
+  # Iterate over replicates within each level
+  do.call(rbind, lapply(seq_along(lenient_means[[level]]), function(replicate_index) {
+    # Extract the data for the current replicate
+    data <- lenient_means[[level]][[replicate_index]]
+    
+    # Create a data frame
+    df <- data.frame(
+      replicate = replicate_index,
+      all = data$all,
+      high = data$fossil_high,
+      mid  = data$fossil_med,
+      low  = data$fossil_low,
+      living = data$living,
+      level = level  # Add a column to indicate the level
+    )
+    
+    # Convert to long format
+    df_long <- pivot_longer(df, cols = c("living", "low", "mid", "high", "all"), 
+                            names_to = "preservation_level", values_to = "distance")
+    df_long$preservation_level <- factor(df_long$preservation_level, levels = c("living", "low", "mid", "high", "all"))
+    
+    return(df_long)
+  }))
+}))
+
+# Generate the combined plot
+# Generate the combined plot
+ggplot(combined_data, aes(x = preservation_level, y = distance, color = level, fill = level)) +
+  stat_summary(
+    aes(group = level),
+    fun.data = function(y) {
+      data.frame(
+        y = median(y),
+        ymin = quantile(y, 0.25),  # 25th percentile
+        ymax = quantile(y, 0.75)  # 75th percentile
+      )
+    },
+    geom = "ribbon",
+    alpha = 0.2,  # Transparency for the shaded area
+    color = NA    # No border for the ribbon
+  ) +
+  stat_summary(
+    aes(group = level),
+    fun = median,
+    geom = "line",
+    size = 1.2
+  ) +
+  labs(
+    x = "Fossil Preservation Level",
+    y = "Distance to True Value",
+    title = "Shaded Median with Confidence Intervals"
+  ) +
+  theme_minimal() +
+  scale_y_reverse()   # Match fill colors to line colors
+
+```
+
+## Difference in morphospace distribution
+
+```{R echo = FALSE}
 combined_data <- do.call(rbind, lapply(names(morpho_diffs), function(level) {
   # Iterate over replicates within each level
   do.call(rbind, lapply(seq_along(morpho_diffs[[level]]), function(replicate_index) {
@@ -223,7 +385,7 @@ combined_data <- do.call(rbind, lapply(names(morpho_diffs), function(level) {
     # Create a data frame
     df <- data.frame(
       replicate = replicate_index,
-      all = data$all
+      all = data$all,
       high = data$fossil_high,
       mid  = data$fossil_med,
       low  = data$fossil_low,
@@ -232,21 +394,307 @@ combined_data <- do.call(rbind, lapply(names(morpho_diffs), function(level) {
     )
     
     # Convert to long format
-    df_long <- pivot_longer(df, cols = c("all", "high", "mid", "low", "living"), 
+    df_long <- pivot_longer(df, cols = c("living", "low", "mid", "high", "all"), 
                             names_to = "preservation_level", values_to = "distance")
-    df_long$preservation_level <- factor(df_long$preservation_level, levels = c("all","high", "mid", "low", "living"))
+    df_long$preservation_level <- factor(df_long$preservation_level, levels = c("living", "low", "mid", "high", "all"))
     
     return(df_long)
   }))
 }))
 
 # Generate the combined plot
-ggplot(combined_data, aes(x = preservation_level, y = distance, group = interaction(replicate, level), color = level)) +
-  geom_line(alpha = 0.3) +  # thin, semi-transparent lines
-  geom_point(alpha = 0.3) +
-  stat_summary(aes(group = level), fun = median, geom = "line", size = 1.2) + 
-  labs(x = "Fossil Preservation Level", y = "Distance to True Value", title = "Transition Rates: Fast, Med, Slow") +
+# Generate the combined plot
+ggplot(combined_data, aes(x = preservation_level, y = distance, color = level, fill = level)) +
+  stat_summary(
+    aes(group = level),
+    fun.data = function(y) {
+      data.frame(
+        y = median(y),
+        ymin = quantile(y, 0.25),  # 25th percentile
+        ymax = quantile(y, 0.75)  # 75th percentile
+      )
+    },
+    geom = "ribbon",
+    alpha = 0.2,  # Transparency for the shaded area
+    color = NA    # No border for the ribbon
+  ) +
+  stat_summary(
+    aes(group = level),
+    fun = median,
+    geom = "line",
+    size = 1.2
+  ) +
+  labs(
+    x = "Fossil Preservation Level",
+    y = "Distance to True Value",
+    title = "Shaded Median with Confidence Intervals"
+  ) +
   theme_minimal() +
-  scale_color_manual(values = c("fast" = "blue", "med" = "green", "slow" = "orange"))  # Optional: Customize colors
+  scale_y_reverse()   # Match fill colors to line colors
+
+
+
+```
+
+## Sum of variances
+
+Fast and medium transition rates tend to find agreeding values of disparity.
+Slow does not. Having had a look at the values, this tends to be because when using just living taxa, it inflates disparity. Disparity in the true slow matrix is very low (less transitions, less differences between taxa), so higher uncertainty inflates disparity. With added fossils, this decreases.
+
+What is interesting is that even though ace is poor at recovering true fast and medium, it finds values of ace as correct. This is because the uncertainty creates wide morphospace, which is what is found in the true matrices, so it 'accidently' finds the correct morphospace values.
+
+What can we take from this: in empirical studies, if transition rates are low, absence of fossils will find higher disparity than true disparity.
+
+```{R echo = FALSE}
+combined_data <- do.call(rbind, lapply(names(sum_var), function(level) {
+  # Iterate over replicates within each level
+  do.call(rbind, lapply(seq_along(sum_var[[level]]), function(replicate_index) {
+    # Extract the data for the current replicate
+    data <- sum_var[[level]][[replicate_index]]
+    
+    # Create a data frame
+    df <- data.frame(
+      replicate = replicate_index,
+      all = data$all,
+      high = data$fossil_high,
+      mid  = data$fossil_med,
+      low  = data$fossil_low,
+      living = data$living,
+      level = level  # Add a column to indicate the level
+    )
+    
+    # Convert to long format
+    df_long <- pivot_longer(df, cols = c("living", "low", "mid", "high", "all"), 
+                            names_to = "preservation_level", values_to = "distance")
+    df_long$preservation_level <- factor(df_long$preservation_level, levels = c("living", "low", "mid", "high", "all"))
+    
+    return(df_long)
+  }))
+}))
+
+# Generate the combined plot
+# Generate the combined plot
+ggplot(combined_data, aes(x = preservation_level, y = distance, color = level, fill = level)) +
+  stat_summary(
+    aes(group = level),
+    fun.data = function(y) {
+      data.frame(
+        y = median(y),
+        ymin = quantile(y, 0.25),  # 25th percentile
+        ymax = quantile(y, 0.75)  # 75th percentile
+      )
+    },
+    geom = "ribbon",
+    alpha = 0.2,  # Transparency for the shaded area
+    color = NA    # No border for the ribbon
+  ) +
+  stat_summary(
+    aes(group = level),
+    fun = median,
+    geom = "line",
+    size = 1.2
+  ) +
+  labs(
+    x = "Fossil Preservation Level",
+    y = "Distance to True Value",
+    title = "Shaded Median with Confidence Intervals"
+  ) +
+  theme_minimal() +
+  scale_y_reverse()   # Match fill colors to line colors
+
+
+
+```
+
+## Sum of variances lower dim
+
+Lets now only use the first 10 pc axes of the ordinated matrices.
+
+```{R echo = FALSE}
+combined_data <- do.call(rbind, lapply(names(sum_var_low_dim), function(level) {
+  # Iterate over replicates within each level
+  do.call(rbind, lapply(seq_along(sum_var_low_dim[[level]]), function(replicate_index) {
+    # Extract the data for the current replicate
+    data <- sum_var_low_dim[[level]][[replicate_index]]
+    
+    # Create a data frame
+    df <- data.frame(
+      replicate = replicate_index,
+      all = data$all,
+      high = data$fossil_high,
+      mid  = data$fossil_med,
+      low  = data$fossil_low,
+      living = data$living,
+      level = level  # Add a column to indicate the level
+    )
+    
+    # Convert to long format
+    df_long <- pivot_longer(df, cols = c("living", "low", "mid", "high", "all"), 
+                            names_to = "preservation_level", values_to = "distance")
+    df_long$preservation_level <- factor(df_long$preservation_level, levels = c("living", "low", "mid", "high", "all"))
+    
+    return(df_long)
+  }))
+}))
+
+# Generate the combined plot
+# Generate the combined plot
+ggplot(combined_data, aes(x = preservation_level, y = distance, color = level, fill = level)) +
+  stat_summary(
+    aes(group = level),
+    fun.data = function(y) {
+      data.frame(
+        y = median(y),
+        ymin = quantile(y, 0.25),  # 25th percentile
+        ymax = quantile(y, 0.75)  # 75th percentile
+      )
+    },
+    geom = "ribbon",
+    alpha = 0.2,  # Transparency for the shaded area
+    color = NA    # No border for the ribbon
+  ) +
+  stat_summary(
+    aes(group = level),
+    fun = median,
+    geom = "line",
+    size = 1.2
+  ) +
+  labs(
+    x = "Fossil Preservation Level",
+    y = "Distance to True Value",
+    title = "Shaded Median with Confidence Intervals"
+  ) +
+  theme_minimal() +
+  scale_y_reverse()   # Match fill colors to line colors
+
+
+
+```
+
+## Sum of ranges
+
+```{R echo = FALSE}
+combined_data <- do.call(rbind, lapply(names(sum_range), function(level) {
+  # Iterate over replicates within each level
+  do.call(rbind, lapply(seq_along(sum_range[[level]]), function(replicate_index) {
+    # Extract the data for the current replicate
+    data <- sum_range[[level]][[replicate_index]]
+    
+    # Create a data frame
+    df <- data.frame(
+      replicate = replicate_index,
+      all = data$all,
+      high = data$fossil_high,
+      mid  = data$fossil_med,
+      low  = data$fossil_low,
+      living = data$living,
+      level = level  # Add a column to indicate the level
+    )
+    
+    # Convert to long format
+    df_long <- pivot_longer(df, cols = c("living", "low", "mid", "high", "all"), 
+                            names_to = "preservation_level", values_to = "distance")
+    df_long$preservation_level <- factor(df_long$preservation_level, levels = c("living", "low", "mid", "high", "all"))
+    
+    return(df_long)
+  }))
+}))
+
+# Generate the combined plot
+# Generate the combined plot
+ggplot(combined_data, aes(x = preservation_level, y = distance, color = level, fill = level)) +
+  stat_summary(
+    aes(group = level),
+    fun.data = function(y) {
+      data.frame(
+        y = median(y),
+        ymin = quantile(y, 0.25),  # 25th percentile
+        ymax = quantile(y, 0.75)  # 75th percentile
+      )
+    },
+    geom = "ribbon",
+    alpha = 0.2,  # Transparency for the shaded area
+    color = NA    # No border for the ribbon
+  ) +
+  stat_summary(
+    aes(group = level),
+    fun = median,
+    geom = "line",
+    size = 1.2
+  ) +
+  labs(
+    x = "Fossil Preservation Level",
+    y = "Distance to True Value",
+    title = "Shaded Median with Confidence Intervals"
+  ) +
+  theme_minimal() +
+  scale_y_reverse()   # Match fill colors to line colors
+
+
+
+```
+
+
+
+## Continuous traits (BM vs OU)
+
+```{R echo = FALSE}
+combined_data <- do.call(rbind, lapply(names(cont_dists), function(level) {
+  # Iterate over replicates within each level
+  do.call(rbind, lapply(seq_along(cont_dists[[level]]), function(replicate_index) {
+    # Extract the data for the current replicate
+    data <- cont_dists[[level]][[replicate_index]]
+    
+    # Create a data frame
+    df <- data.frame(
+      replicate = replicate_index,
+      all = data$all,
+      high = data$fossil_high,
+      mid  = data$fossil_med,
+      low  = data$fossil_low,
+      living = data$living,
+      level = level  # Add a column to indicate the level
+    )
+    
+    # Convert to long format
+    df_long <- pivot_longer(df, cols = c("living", "low", "mid", "high", "all"), 
+                            names_to = "preservation_level", values_to = "distance")
+    df_long$preservation_level <- factor(df_long$preservation_level, levels = c("living", "low", "mid", "high", "all"))
+    
+    return(df_long)
+  }))
+}))
+
+# Generate the combined plot
+# Generate the combined plot
+ggplot(combined_data, aes(x = preservation_level, y = distance, color = level, fill = level)) +
+  stat_summary(
+    aes(group = level),
+    fun.data = function(y) {
+      data.frame(
+        y = median(y),
+        ymin = quantile(y, 0.25),  # 25th percentile
+        ymax = quantile(y, 0.75)  # 75th percentile
+      )
+    },
+    geom = "ribbon",
+    alpha = 0.2,  # Transparency for the shaded area
+    color = NA    # No border for the ribbon
+  ) +
+  stat_summary(
+    aes(group = level),
+    fun = median,
+    geom = "line",
+    size = 1.2
+  ) +
+  labs(
+    x = "Fossil Preservation Level",
+    y = "Distance to True Value",
+    title = "Shaded Median with Confidence Intervals"
+  ) +
+  theme_minimal() +
+  scale_y_reverse()   # Match fill colors to line colors
+
+
 
 ```
