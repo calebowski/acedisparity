@@ -54,7 +54,7 @@ continuous_matrices <- list(bm = bm_matrices, ou = ou_matrices)
 
 
 saveRDS(continuous_matrices, "../Data/matrices/contmatrices.Rds")
-continuous_matrices <- readRDS("../Data/matrices/contmatrices.Rds")
+continuous_matrices <- readRDS("~/Documents/PhD/largefiles/acedisparity/contmatrices.Rds")
 
 living_cont <- lapply(continuous_matrices, remove.fossil, trees = trees, type = "continuous")
 fossilised_high_cont <- lapply(continuous_matrices, fossil.pres, trees = trees, preservation = 0.5, type = "continuous")
@@ -121,14 +121,14 @@ anc.states <- function(fossil_matrices_cont){
 fossil_anc <- lapply(fossil_matrices_cont, anc.states)
 # test_anc <- lapply(fossil_matrices_cont, anc.states)
 saveRDS(fossil_anc, "../Data/matrices/contanc.Rds")
-fossil_anc <- readRDS("../Data/matrices/contanc.Rds")
+fossil_anc <- readRDS("~/Documents/PhD/largefiles/acedisparity/contanc.Rds")
 
-str(fossil_anc$bm$all[[1]])
-fossil_anc$ou$living[[2]][,1]
+# str(fossil_anc$bm$all[[1]])
+# fossil_anc$ou$living[[2]][,1]
 
 
-fossil_anc$bm$living[[5]][,1]
-fossil_anc$bm$fossil_high[[5]][,1]
+# fossil_anc$bm$living[[5]][,1]
+# fossil_anc$ou$living[[2]][,1]
 
 
 str(test_anc)
@@ -234,36 +234,75 @@ cont_dists <- lapply(scaled, lapply, lapply, function(preservation){
   return(median)
   })
 
-# binded_matrices <- lapply(true_vs_ace, function(preservation) {
-#   lapply(preservation, function(rates) {
-#     lapply(rates, function(matrices) {
-#       rownames(matrices$ace) <- paste0("ace", rownames(matrices$ace))
-#       matrices <- rbind(matrices$ace, matrices$true)
-#       return(matrices)  # Return the modified matrices
-#     })
-#   })
-# })
-plot(binded_matrices$bm$fossil_low[[1]])
-text(binded_matrices$bm$fossil_low[[1]], labels = rownames(binded_matrices$bm$fossil_low[[1]]), pos = 4, cex = 0.6)
+saveRDS(cont_dists, "../Data/matrices/contdists.Rds")
 
-morphospace.dist <- function(binded_matrices){
-  ace_scores <- binded_matrices[grepl("^ace", rownames(binded_matrices)), ]
-  true_scores <- binded_matrices[!grepl("^ace", rownames(binded_matrices)), ]
-  distances <- sqrt(rowSums((ace_scores - true_scores)^2))
-  return(distances)
-}
+# # binded_matrices <- lapply(true_vs_ace, function(preservation) {
+# #   lapply(preservation, function(rates) {
+# #     lapply(rates, function(matrices) {
+# #       rownames(matrices$ace) <- paste0("ace", rownames(matrices$ace))
+# #       matrices <- rbind(matrices$ace, matrices$true)
+# #       return(matrices)  # Return the modified matrices
+# #     })
+# #   })
+# # })
+# plot(binded_matrices$bm$fossil_low[[1]])
+# text(binded_matrices$bm$fossil_low[[1]], labels = rownames(binded_matrices$bm$fossil_low[[1]]), pos = 4, cex = 0.6)
 
-morpho_dists <- lapply(binded_matrices, lapply, lapply, morphospace.dist)
+# morphospace.dist <- function(binded_matrices){
+#   ace_scores <- binded_matrices[grepl("^ace", rownames(binded_matrices)), ]
+#   true_scores <- binded_matrices[!grepl("^ace", rownames(binded_matrices)), ]
+#   distances <- sqrt(rowSums((ace_scores - true_scores)^2))
+#   return(distances)
+# }
 
-morpho_dists_ou <- unlist(morpho_dists$ou)
+# morpho_dists <- lapply(binded_matrices, lapply, lapply, morphospace.dist)
 
-categories <- c("living", "fossil_high", "fossil_med", "fossil_low")
-morpho_dists_ou <- split(morpho_dists_ou, gsub("\\d+", "", names(morpho_dists_ou)))
-boxplot(morpho_dists_ou, 
-        main = "", 
-        ylab = "", 
-        xlab = "Categories", 
-        las = 2)
+# morpho_dists_ou <- unlist(morpho_dists$ou)
+
+# categories <- c("living", "fossil_high", "fossil_med", "fossil_low")
+# morpho_dists_ou <- split(morpho_dists_ou, gsub("\\d+", "", names(morpho_dists_ou)))
+# boxplot(morpho_dists_ou, 
+#         main = "", 
+#         ylab = "", 
+#         xlab = "Categories", 
+#         las = 2)
+
+
+
+
+```
+
+
+## Ordinating
+
+```{r}
+
+test_true <- prcomp(scaled$bm[[1]]$living$true)
+
+
+new_pca <- stats::predict(test_true, newdata = scaled$bm[[1]]$living$ace)
+
+traits1 <- matrix(rnorm(5 * 2), nrow = 5)
+traits2 <- matrix(rnorm(5 * 2), nrow = 5)
+traits2[5,] <- traits1[5,]
+rownames(traits2) <- rownames(traits1) <-  paste0("Taxon", 1:5)
+
+pca1 <- prcomp(traits1, center = TRUE, scale. = TRUE)
+
+projected_ace <- predict(pca1, newdata = traits2)
+
+
+
+
+projections <- lapply(nodes_living, lapply, lapply, function(matrices){
+    ordinated <- prcomp(matrices$true, center = TRUE, scale. = TRUE)
+    predicted <- predict(ordinated, newdata = matrices$ace)
+    return(list(true = ordinated$x, ace = predicted))
+})
+displacements <- lapply(projections, lapply, lapply, function(matrices){
+  distances <-   sqrt(rowSums((matrices$ace - matrices$true)^2))
+})
+
 
 
 

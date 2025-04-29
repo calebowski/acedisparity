@@ -76,14 +76,14 @@ Now we can simulate trait data at varying levels of transition rate.
 ```{r}
 
 slow_binary_transitions <- matrix(c(
-    0.95, 0.05,
-    0.05, 0.95
+    0.99, 0.01,
+    0.01, 0.99
 ), nrow = 2, byrow = TRUE)
 
 slow_multi_transitions <- matrix(c(
-    0.95, 0.025, 0.025,
-    0.025, 0.95, 0.025,
-    0.025, 0.025, 0.95
+    0.99, 0.025, 0.025,
+    0.025, 0.99, 0.025,
+    0.025, 0.025, 0.99
 ), nrow = 3, byrow = TRUE)
 
 slow_binary <- treats::make.traits(process = discrete.process, n = 85, process.args = list(transitions = slow_binary_transitions))
@@ -91,29 +91,29 @@ slow_multi <- treats::make.traits(process = discrete.process, n = 15, process.ar
 
 
 med_binary_transitions <- matrix(c(
-  0.7, 0.3,
-  0.3, 0.7
+  0.90, 0.1,
+  0.1, 0.9
 ), nrow = 2, byrow = TRUE)
 
 
 med_multi_transitions <- matrix(c(
-  0.6, 0.2, 0.2,
-  0.2, 0.6, 0.2,
-  0.2, 0.2, 0.6
+  0.9, 0.05, 0.05,
+  0.05, 0.9, 0.05,
+  0.05, 0.05, 0.9
 ), nrow = 3, byrow = TRUE)
 
 med_binary <- treats::make.traits(process = discrete.process, n = 85, process.args = list(transitions = med_binary_transitions))
 med_multi <- treats::make.traits(process = discrete.process, n = 15, process.args = list(transitions = med_multi_transitions))
 
 fast_binary_transitions <- matrix(c(
-    1/2, 1/2,
-    1/2, 1/2 
+    0.1, 0.9,
+    0.9, 0.1
 ), nrow = 2, byrow = TRUE)
 
 fast_multi_transitions <- matrix(c(
-    1/3, 1/3, 1/3, 
-    1/3, 1/3, 1/3,
-    1/3, 1/3, 1/3 
+    0.1, 0.45, 0.45, 
+    0.45, 0.1, 0.45,
+    0.45, 0.45, 0.1 
 ), nrow = 3, byrow = TRUE)
 
 fast_binary <- treats::make.traits(process = discrete.process, n = 85, process.args = list(transitions = fast_binary_transitions))
@@ -442,33 +442,38 @@ saveRDS(strict_means, "../Data/matrices/strictmeans.rds")
 source("../Functions/apply.dist.R")
 source("../Functions/apply.ordination.R")
 
-
 distances <- lapply(nodes_living, lapply, lapply, dist.func)
 
+ord <- lapply(distances, lapply, lapply, function(matrices){
+  ordinated_true <- cmdscale(matrices$true, k = ncol(matrices$true) - 2, add = TRUE)
+    traitspace <- ordinated_true$points})
 
-ord <- lapply(distances, lapply, lapply, ord.func)
+true <- ord$slow[[1]]$living
 
-plot(ord$fast[[100]]$all$ace)
-plot(ord$fast[[100]]$all$true)
+# perform principal components analysis
 
+# project new data onto the PCA space
+scale(newdata, v$center, true$scale) %*% true$rotation 
 
-(dispRity(ord$fast[[100]]$all$ace, metric = c(sum, variances)))$disparity
-(dispRity(ord$fast[[100]]$all$true, metric = c(sum, variances)))$disparity
+## To project things on a already estimated PCA (fixed eigenvector)
+## 1- get your pca
+my_pca <- prcomp(...)
+## 2- get your new data centered
+new_data <- scale(my_new_data, centre = TRUE, scale = FALSE) # not sure about scale FALSE
+## 3- project it
+new_pca <- stats::predict(my_pca, newdata = new_data)
 
+# scaled_ord <- lapply(ord, function(preservation){
+#   lapply(preservation, function(rate){
+#     lapply(rate, function(treatment){
+#       lapply(treatment, function(matrix){
+#         scaled_pc <- scale(matrix)
+#         return(scaled_pc)
+#       })
+#     })
+#   })
+# })
 
-scaled_ord <- lapply(ord, function(preservation){
-  lapply(preservation, function(rate){
-    lapply(rate, function(treatment){
-      lapply(treatment, function(matrix){
-        scaled_pc <- scale(matrix)
-        return(scaled_pc)
-      })
-    })
-  })
-})
-
-
-test <- dispRity::dispRity(ord$slow[[1]]$living$true, metric = c(pairwise.dist))
 
 ## Relative distance in trait space
 
@@ -490,7 +495,7 @@ morpho_diffs <- lapply(ord, lapply, lapply, function(matrices){
 
 saveRDS(morpho_diffs, "../Data/matrices/morphospacediffs.Rds")
 
-
+## can we make this relative disparity, so that we know what is good vs bad metrics for ancestral state estimation?
 sum_var <- lapply(ord, lapply, lapply, lapply, function(matrix){
     disparity <- (dispRity(matrix, metric = c(sum, variances)))$disparity})
 

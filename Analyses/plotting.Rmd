@@ -10,9 +10,9 @@ editor_options:
     wrap: 72
 ---
 
-# How ace really is ASE?
+# Aceing our understanding of ASE
 
-Fossils are hypothesised to increase the accuracy of ASE by breaking long branches. This project aims to investigate how fossil coverage affects the accuracy of ASE in discrete and continuous trait matrices. 
+Fossils are hypothesised to increase the accuracy of ASE by breaking long branches in phylogenetic trees. This project aims to investigate how fossil coverage affects the accuracy of ASE in discrete and continuous trait matrices. 
 
 To do this, I simulated a set of 100 trees with 50 extant tips and speciation at 1 and extinction at 0.7. This leaves trees with 50 - 200 fossil tips (i.e tips > time 0).
 
@@ -25,13 +25,11 @@ fossil mid - 15% fossil coverage and all extant tips
 fossil high - 50% fossil coverage and all extant tips 
 all - all tips (extant and fossils)
 
+I then ran ancestral state estimation on the pruned discrete and continuous matrices.
+
+To allow for comparisons between different fossil coverages, only the nodes estimated in living were used in subsequent analyses. This leaves 49 nodes for each tree used.
 
 
-
-
-
-
-## Load data
 
 ```{r echo = FALSE}
 lenient_means <- readRDS("../Data/matrices/lenientmeans.rds")
@@ -39,7 +37,7 @@ strict_means <- readRDS("../Data/matrices/strictmeans.rds")
 morpho_diffs <- readRDS("../Data/matrices/morphospacediffs.Rds")
 sum_var <- readRDS("../Data/matrices/vardiffs.rds")
 sum_range <- readRDS("../Data/matrices/rangediffs.rds")
-displ_diffs <-  readRDS("../Data/matrices/dispdiffs.rds")
+# displ_diffs <-  readRDS("../Data/matrices/dispdiffs.rds")
 
 sum_var_low_dim <- readRDS("../Data/matrices/vardiffs_lowdim.rds")
 
@@ -99,7 +97,6 @@ cont_dists <- readRDS("../Data/matrices/contdists.Rds")
 
 ```
 
-## Plotting strict distance
 
 ```{r echo = FALSE}
 # boxplot(split_strict$slow, 
@@ -125,7 +122,6 @@ cont_dists <- readRDS("../Data/matrices/contdists.Rds")
 
 ```
 
-## Plotting uncertain distance
 
 ```{r echo = FALSE}
 # boxplot(split_uncertain$slow, 
@@ -149,9 +145,8 @@ cont_dists <- readRDS("../Data/matrices/contdists.Rds")
 
 ```
 
-## Load ordinated distances
 
-```{R}
+```{R echo = FALSE}
 # ord_dist <- readRDS("../Data/matrices/orddists.Rds")
 # unlisted_morpho_dists <- lapply(ord_dist, function(rate) {
 #     unlist(rate, recursive = TRUE)
@@ -164,7 +159,7 @@ cont_dists <- readRDS("../Data/matrices/contdists.Rds")
 ```
 
 
-```{R}
+```{R echo = FALSE}
 # boxplot(split_dists$slow, 
 #         main = "Slow ", 
 #         ylab = "Distances", 
@@ -187,7 +182,6 @@ cont_dists <- readRDS("../Data/matrices/contdists.Rds")
 
 ```
 
-## plots for strict distances
 
 ```{R echo = FALSE}
 # library(tidyr)
@@ -231,7 +225,7 @@ cont_dists <- readRDS("../Data/matrices/contdists.Rds")
 
 ## Strict distances
 
-This gives a score of 0 only if the true state is solely recovered by ace (i.e 0/1 gets penalised even if true state is 1).
+Anything over than correct single point estimates are penalised, including uncertainty. I then calculated the mean score (somewhere between 0-1) for each matrix at each preservation level.
 
 ```{R echo = FALSE}
 library(tidyr)
@@ -243,6 +237,7 @@ levels <- c("fast", "med", "slow")
 # Loop through each level and generate a plot
 library(tidyr)
 library(ggplot2)
+
 
 # Combine data for all levels and replicates into a single data frame
 
@@ -297,8 +292,7 @@ ggplot(combined_data, aes(x = preservation_level, y = distance, color = level, f
   ) +
   labs(
     x = "Fossil Preservation Level",
-    y = "Distance to True Value",
-    title = "Shaded Median with Confidence Intervals"
+    y = "Distance to True State"
   ) +
   theme_minimal() +
   scale_y_reverse()    # Match fill colors to line colors
@@ -309,7 +303,7 @@ ggplot(combined_data, aes(x = preservation_level, y = distance, color = level, f
 
 ## Lenient distances
 
-Lenient distances score 0 if the correct state is given, allowing uncertainty (i.e. 0/1 would be scored 0 if true state is 1).
+Lenient distances score 0 if the correct state is given, allowing uncertainty (i.e. 0/1 would be scored 0 if true state is 1). Penalties are given for wrong point estimates (i.e. ace recovers 1 when true state is 0).
 
 ```{R echo = FALSE}
 # library(tidyr)
@@ -365,15 +359,18 @@ ggplot(combined_data, aes(x = preservation_level, y = distance, color = level, f
   ) +
   labs(
     x = "Fossil Preservation Level",
-    y = "Distance to True Value",
-    title = "Shaded Median with Confidence Intervals"
+    y = "Distance to True Value"
   ) +
   theme_minimal() +
   scale_y_reverse()   # Match fill colors to line colors
 
 ```
 
-## Difference in morphospace distribution
+## Relative Difference in traitspace 
+
+Here, I ordinated the true nodal morphospace vs the aced nodal morphospace. I then calcualted the pairwise distances between nodes and divided these by the maximum distance from the centre of the morphospace. I then took the median for each tree replicate for each preservation.
+
+I'm wondering if the clustering of points near the centre of traitspace in fast is artificially decreasing this distance?
 
 ```{R echo = FALSE}
 combined_data <- do.call(rbind, lapply(names(morpho_diffs), function(level) {
@@ -426,8 +423,7 @@ ggplot(combined_data, aes(x = preservation_level, y = distance, color = level, f
   ) +
   labs(
     x = "Fossil Preservation Level",
-    y = "Distance to True Value",
-    title = "Shaded Median with Confidence Intervals"
+    y = "Distance to True Value"
   ) +
   theme_minimal() +
   scale_y_reverse()   # Match fill colors to line colors
@@ -438,12 +434,9 @@ ggplot(combined_data, aes(x = preservation_level, y = distance, color = level, f
 
 ## Sum of variances
 
-Fast and medium transition rates tend to find agreeding values of disparity.
-Slow does not. Having had a look at the values, this tends to be because when using just living taxa, it inflates disparity. Disparity in the true slow matrix is very low (less transitions, less differences between taxa), so higher uncertainty inflates disparity. With added fossils, this decreases.
+Fast and medium transition rates results in higher disparity than low transition rates (more character differences between taxa). Because there is high uncertainty in estimating fast/medium rates (resulting in 0/1/2 etc) this creates high aced disparity estimates, which are therefore more similar to the true value
 
-What is interesting is that even though ace is poor at recovering true fast and medium, it finds values of ace as correct. This is because the uncertainty creates wide morphospace, which is what is found in the true matrices, so it 'accidently' finds the correct morphospace values.
-
-What can we take from this: in empirical studies, if transition rates are low, absence of fossils will find higher disparity than true disparity.
+Slow does not. Disparity in the true slow matrix is very low (less transitions, less differences between taxa).  With low fossil coverage, there is higher uncertainty in ace estimate which inflates disparity. With added fossils, this decreases, hence why slow estimates improve with increased fossil coverage.
 
 ```{R echo = FALSE}
 combined_data <- do.call(rbind, lapply(names(sum_var), function(level) {
@@ -496,8 +489,7 @@ ggplot(combined_data, aes(x = preservation_level, y = distance, color = level, f
   ) +
   labs(
     x = "Fossil Preservation Level",
-    y = "Distance to True Value",
-    title = "Shaded Median with Confidence Intervals"
+    y = "Distance to True Value"
   ) +
   theme_minimal() +
   scale_y_reverse()   # Match fill colors to line colors
@@ -508,7 +500,7 @@ ggplot(combined_data, aes(x = preservation_level, y = distance, color = level, f
 
 ## Sum of variances lower dim
 
-Lets now only use the first 10 pc axes of the ordinated matrices.
+When use first 10 PC axes of morphospace you find that aced estimates becomes much stronger, particularly slow rates.
 
 ```{R echo = FALSE}
 combined_data <- do.call(rbind, lapply(names(sum_var_low_dim), function(level) {
@@ -561,8 +553,7 @@ ggplot(combined_data, aes(x = preservation_level, y = distance, color = level, f
   ) +
   labs(
     x = "Fossil Preservation Level",
-    y = "Distance to True Value",
-    title = "Shaded Median with Confidence Intervals"
+    y = "Distance to True Value"
   ) +
   theme_minimal() +
   scale_y_reverse()   # Match fill colors to line colors
@@ -624,8 +615,7 @@ ggplot(combined_data, aes(x = preservation_level, y = distance, color = level, f
   ) +
   labs(
     x = "Fossil Preservation Level",
-    y = "Distance to True Value",
-    title = "Shaded Median with Confidence Intervals"
+    y = "Distance to True Value"
   ) +
   theme_minimal() +
   scale_y_reverse()   # Match fill colors to line colors
@@ -637,6 +627,8 @@ ggplot(combined_data, aes(x = preservation_level, y = distance, color = level, f
 
 
 ## Continuous traits (BM vs OU)
+
+Here, i measured the euclidean distance between scaled BM and OU ace estimates and true values. BM is closer to true value than OU because there model misspecification with OU (ace estimates using BM model). Interestingly, fossil coverage appears to make no improvement to ace estimates.
 
 ```{R echo = FALSE}
 combined_data <- do.call(rbind, lapply(names(cont_dists), function(level) {
@@ -689,8 +681,7 @@ ggplot(combined_data, aes(x = preservation_level, y = distance, color = level, f
   ) +
   labs(
     x = "Fossil Preservation Level",
-    y = "Distance to True Value",
-    title = "Shaded Median with Confidence Intervals"
+    y = "Distance to True Value"
   ) +
   theme_minimal() +
   scale_y_reverse()   # Match fill colors to line colors

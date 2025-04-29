@@ -5,6 +5,7 @@ remove.fossil <- function(trees, matrices, type = c("discrete", "continuous")) {
     tips <- ages$element[ages$ages == 0]# find only living species
     # root <- tree$node.label[1] 
     living_matrix <- matrix[rownames(matrix) %in% c(tips, "t1"), ]
+    living_matrix["t1", ] <- "?"
     if (type == "discrete") {
     living_matrix <- apply(living_matrix, c(1, 2), as.character)
     }
@@ -45,6 +46,11 @@ fossil.pres <- function(trees, matrices, preservation = c(0.05, 0.15, 0.5, 1.0),
 
     kept <- c(unlist(unname(sample)), tips, "t1")
     fossil_matrix <- matrix[rownames(matrix) %in% kept, ]
+    
+    if (preservation %in% c(0.05, 0.15)) {
+      fossil_matrix["t1", ] <- "?"
+    } 
+
     if (type == "discrete") { # keep taxa that are fossil preserved
     fossil_matrix <- apply(fossil_matrix, c(1, 2), as.character)
     } # make character for discrete ace
