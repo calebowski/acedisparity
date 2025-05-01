@@ -165,23 +165,25 @@ all_fossil <- lapply(discrete_matrices, fossil.pres, trees = trees, preservation
 fossilised_med <- lapply(discrete_matrices, fossil.pres, trees = trees, preservation = 0.15, type = "discrete")
 fossilised_low <- lapply(discrete_matrices, fossil.pres, trees = trees, preservation = 0.05, type = "discrete")
 
+
+
 # plot(fossilised_low$slow[[13]]$tree)
 
-fossil_levels <- list(all = all_fossil, fossil_high = fossilised_high, fossil_med = fossilised_med, fossil_low = fossilised_low, living = living)
-
-
 fossil_matrices <- lapply(names(discrete_matrices), function(level) {
-  lapply(names(fossil_levels), function(fossil_type) {
-    fossil_levels[[fossil_type]][[level]]
+  lapply(seq_along(discrete_matrices[[level]]), function(i) {
+    list(
+      all = all_fossil[[level]][[i]],
+      fossil_high = fossilised_high[[level]][[i]],
+      fossil_med = fossilised_med[[level]][[i]],
+      fossil_low = fossilised_low[[level]][[i]],
+      living = living[[level]][[i]]
+    )
   })
 })
 
+# Assign names to the outer list
 names(fossil_matrices) <- names(discrete_matrices)
-for (level in names(fossil_matrices)) {
-  names(fossil_matrices[[level]]) <- names(fossil_levels)
-}
 
-str(fossil_matrices$slow$all[[56]])
 
 ```
 
@@ -274,12 +276,16 @@ sampled_fossil_anc <- lapply(fossil_anc, lapply, lapply, multi.ace, sample = 10,
 
 
 
-point_fossil_anc <- lapply(fossil_matrices, point.anc.states)
+point_fossil_anc <- lapply(fossil_anc, lapply, lapply, multi.ace, output = "combined.matrix", verbose = TRUE)
 
 fossil_anc <- point_fossil_anc
-saveRDS(fossil_anc, "../Data/matrices/discreteanc.Rds")
+saveRDS(fossil_anc, "../Data/matrices/discreteanc.rds")
 saveRDS(sampled_fossil_anc, "../Data/matrices/sampleddiscreteanc.Rds")
+saveRDS(point_fossil_anc, "../Data/matrices/pointddiscreteanc.Rds")
+
+
 fossil_anc <- readRDS("../Data/matrices/discreteanc.rds")
+
 sampled_fossil_anc <- readRDS("../Data/matrices/sampleddiscreteanc.Rds")
 
 slow <- sampled_fossil_anc$slow
@@ -294,10 +300,16 @@ slow <- sampled_fossil_anc$slow
 ```{r}
 ## this function returns matrices of ace and true node states
 get.living.nodes <- function(living) {
-  matrix <- living[[1]]
+  if (inherits(living$living, "list")) {
+  matrix <- living$living[[1]]
+  } else {
+  matrix <- living$living}
   node_v <- rownames(matrix)[grepl("^n", rownames(matrix))]
   return(node_v)
 }
+
+
+node_labels <- lapply(sampled_fossil_anc$slow, get.living.nodes)
 
 filter.nodes <- function(true, ace, node_v) {
   ace_filtered <- ace[node_v, , drop = FALSE]
@@ -305,98 +317,168 @@ filter.nodes <- function(true, ace, node_v) {
   return(list(ace = ace_filtered, true = true_filtered))
 }
 
-nodes_living <- function(true_matrices, aced_matrices) {
-  output <- lapply(names(true_matrices), function(i) {
+# nodes_living <- function(true_matrices, aced_matrices) {
+#   output <- lapply(names(true_matrices), function(i) {
 
-    # Step 1: Get node names from "living" ACE
-    living_node <- get.living.nodes(
-      living = aced_matrices$living[[i]]
-    )
+#     # Step 1: Get node names from "living" ACE
+#     living_node <- get.living.nodes(
+#       living = aced_matrices$living[[i]]
+#     )
 
-    # Step 2: For the current level, filter all preservation states
-    filtered_preservations <- lapply(names(aced_matrices), function(pres) {
-      lapply(seq_along(aced_matrices[[pres]][[i]]), function(j) {
+#     # Step 2: For the current level, filter all preservation states
+#     filtered_preservations <- lapply(names(aced_matrices), function(pres) {
+#       lapply(seq_along(aced_matrices[[pres]][[i]]), function(j) {
+#         filter.nodes(
+#           true = true_matrices[[i]],
+#           ace = aced_matrices[[pres]][[i]][[j]],
+#           node_v = living_node
+#         )
+#       })
+#     })
+#     names(filtered_preservations) <- names(aced_matrices)
+#     return(filtered_preservations)
+#   })
+
+#   names(output) <- names(true_matrices)
+#   return(output)
+# }
+
+
+sample_living_nodes <- lapply(seq_along(sampled_fossil_anc), function(rate) {
+  lapply(seq_along(sampled_fossil_anc[[rate]]), function(i) {
+    node_v <- node_labels[[i]]
+    levels <- names(sampled_fossil_anc[[rate]][[i]])
+    
+    level_out <- lapply(seq_along(levels), function(level_idx) {
+      level_name <- levels[[level_idx]]
+      reps <- sampled_fossil_anc[[rate]][[i]][[level_name]]
+      
+      lapply(seq_along(reps), function(rep) {
         filter.nodes(
-          true = true_matrices[[i]],
-          ace = aced_matrices[[pres]][[i]][[j]],
-          node_v = living_node
+          true = discrete_matrices[[rate]][[i]],
+          ace = reps[[rep]],
+          node_v = node_v
         )
       })
     })
-    names(filtered_preservations) <- names(aced_matrices)
-    return(filtered_preservations)
-  })
-
-  names(output) <- names(true_matrices)
-  return(output)
-}
-
-
-living_nodes <- lapply(sampled_fossil_anc$slow$living, get.living.nodes)
-
-
-
-
-slow <- sampled_fossil_anc$slow
-
-slow_filt <- lapply(sampled_fossil_anc$slow, function(preservation_level) {
-  lapply(seq_along(preservation_level), function(i) {
-    # Step 1: Filter the true matrix once for the current replicate (i)
-    true_filtered <- discrete_matrices$slow[[i]][living_nodes[[i]], ]
-
-    # Step 2: Filter all ACE matrices (j levels) for the current replicate (i)
-    ace_filtered_list <- lapply(seq_along(preservation_level[[i]]), function(j) {
-      ace_filtered <- preservation_level[[i]][[j]][living_nodes[[i]], ]
-      return(ace_filtered)
-    })
-
-    # Combine the true filtered matrix and the list of ACE filtered matrices
-    return(list(true = true_filtered, ace = ace_filtered_list))
+    names(level_out) <- levels
+    return(level_out)
   })
 })
+names(sample_living_nodes) <- names(discrete_matrices)
 
-med_filt <- lapply(sampled_fossil_anc$med, function(preservation_level) {
-  lapply(seq_along(preservation_level), function(i) {
-    # Step 1: Filter the true matrix once for the current replicate (i)
-    true_filtered <- discrete_matrices$med[[i]][living_nodes[[i]], ]
 
-    # Step 2: Filter all ACE matrices (j levels) for the current replicate (i)
-    ace_filtered_list <- lapply(seq_along(preservation_level[[i]]), function(j) {
-      ace_filtered <- preservation_level[[i]][[j]][living_nodes[[i]], ]
-      return(ace_filtered)
+point_living_nodes <- lapply(seq_along(point_fossil_anc), function(rate) {
+  lapply(seq_along(point_fossil_anc[[rate]]), function(i) {
+    node_v <- node_labels[[i]]
+    levels <- names(point_fossil_anc[[rate]][[i]])
+    
+    level_out <- lapply(seq_along(levels), function(level_idx) {
+      filter.nodes(
+        true = discrete_matrices[[rate]][[i]],
+        ace = point_fossil_anc[[rate]][[i]][[level_idx]],
+        node_v = node_v
+      )
     })
-
-    # Combine the true filtered matrix and the list of ACE filtered matrices
-    return(list(true = true_filtered, ace = ace_filtered_list))
-  })
-})
-
-fast_filt <- lapply(sampled_fossil_anc$fast, function(preservation_level) {
-  lapply(seq_along(preservation_level), function(i) {
-    # Step 1: Filter the true matrix once for the current replicate (i)
-    true_filtered <- discrete_matrices$fast[[i]][living_nodes[[i]], ]
-
-    # Step 2: Filter all ACE matrices (j levels) for the current replicate (i)
-    ace_filtered_list <- lapply(seq_along(preservation_level[[i]]), function(j) {
-      ace_filtered <- preservation_level[[i]][[j]][living_nodes[[i]], ]
-      return(ace_filtered)
-    })
-
-    # Combine the true filtered matrix and the list of ACE filtered matrices
-    return(list(true = true_filtered, ace = ace_filtered_list))
+    
+    names(level_out) <- levels
+    return(level_out)
   })
 })
 
 
-
-nodes_living_sample <- list(slow = slow_filt, med = med_filt, fast = fast_filt)
-
+names(point_living_nodes) <- names(discrete_matrices)
 
 
 
 
 
-slow_nodes <- nodes_living(discrete_matrices$slow, slow)
+
+
+
+# living_nodes <- lapply(point$slow, get.living.nodes)
+
+
+# nodes_living <- lapply(names(discrete_matrices), function(level) {
+#   lapply(seq_along(discrete_matrices[[level]]), function(i) {
+#     # Step 1: Get node names from "living" ACE
+#     living_node <- get.living.nodes(
+#       living = point_fossil_anc[[level]]$living[[i]]
+#     )
+
+#     # Step 2: For the current level, filter all preservation states
+#     filtered_preservations <- lapply(names(fossil_anc[[level]]), function(pres) {
+#       filter.nodes(
+#         true = discrete_matrices[[level]][[i]],
+#         ace = point_fossil_anc[[level]][[pres]][[i]],
+#         node_v = living_node
+#       )
+#     })
+#     names(filtered_preservations) <- names(point_fossil_anc[[level]])
+#     return(filtered_preservations)
+#   })
+# })
+# names(nodes_living) <- names(discrete_matrices)
+
+
+
+
+
+
+# slow <- sampled_fossil_anc$slow
+
+# med_filt <- lapply(sampled_fossil_anc$med, function(i) {
+#   lapply(seq_along(i), function(preservation) {
+#     # Step 1: Filter the true matrix once for the current replicate (i)
+#     true_filtered <- discrete_matrices$med[[i]][living_nodes[[i]], ]
+
+#     # Step 2: Filter all ACE matrices (j levels) for the current replicate (i)
+#     ace_filtered_list <- lapply(seq_along(i[[preservation]]), function(j) {
+#       ace_filtered <- i[[preservation]][[j]][living_nodes[[i]], ]
+#       return(ace_filtered)
+#     })
+
+#     # Combine the true filtered matrix and the list of ACE filtered matrices
+#     return(list(true = true_filtered, ace = ace_filtered_list))
+#   })
+# })
+
+# med_filt <- lapply(sampled_fossil_anc$med, function(preservation_level) {
+#   lapply(seq_along(preservation_level), function(i) {
+#     # Step 1: Filter the true matrix once for the current replicate (i)
+#     true_filtered <- discrete_matrices$med[[i]][living_nodes[[i]], ]
+
+#     # Step 2: Filter all ACE matrices (j levels) for the current replicate (i)
+#     ace_filtered_list <- lapply(seq_along(preservation_level[[i]]), function(j) {
+#       ace_filtered <- preservation_level[[i]][[j]][living_nodes[[i]], ]
+#       return(ace_filtered)
+#     })
+
+#     # Combine the true filtered matrix and the list of ACE filtered matrices
+#     return(list(true = true_filtered, ace = ace_filtered_list))
+#   })
+# })
+
+# fast_filt <- lapply(sampled_fossil_anc$fast, function(preservation_level) {
+#   lapply(seq_along(preservation_level), function(i) {
+#     # Step 1: Filter the true matrix once for the current replicate (i)
+#     true_filtered <- discrete_matrices$fast[[i]][living_nodes[[i]], ]
+
+#     # Step 2: Filter all ACE matrices (j levels) for the current replicate (i)
+#     ace_filtered_list <- lapply(seq_along(preservation_level[[i]]), function(j) {
+#       ace_filtered <- preservation_level[[i]][[j]][living_nodes[[i]], ]
+#       return(ace_filtered)
+#     })
+
+#     # Combine the true filtered matrix and the list of ACE filtered matrices
+#     return(list(true = true_filtered, ace = ace_filtered_list))
+#   })
+# })
+
+
+
+# nodes_living_sample <- list(slow = slow_filt, med = med_filt, fast = fast_filt)
+
 
 source("../Functions/node.dist.R")
 
@@ -409,7 +491,7 @@ lapply(preservation, function(level) {
 })
 })
 
-dist_strict <- lapply(nodes_living, function(preservation) {
+dist_strict <- lapply(point_living_nodes, function(preservation) {
 lapply(preservation, function(level) {
   lapply(level, function(matrices) {
     distances <- node.dist(matrices, distance = "strict")
@@ -418,20 +500,24 @@ lapply(preservation, function(level) {
 })
 
 
-dist_strict_sample <- lapply(nodes_living_sample, function(preservation) {
-lapply(preservation, function(level) {
-  lapply(level, function(matrices) {
-    distances <- node.dist(matrices, distance = "strict")
+dist_strict_sample <- lapply(sample_living_nodes, function(rate) {
+lapply(rate, function(matrix) {
+  lapply(matrix, function(pres) {
+    distances <- node.dist(pres, distance = "strict")
   })
 })
 })
 
 strict_means_sample <- lapply(dist_strict_sample, function(preservation) {
-lapply(preservation, function(level) {
-  lapply(level, function(matrices) {
-    lapply(matrices, function(replicate) {
-        means <- mean(replicate)
-      })
+  lapply(preservation, function(level) {
+    lapply(level, function(matrices) {
+      # Compute the mean of each replicate
+      replicate_means <- sapply(matrices, mean)
+      
+      # Compute the mean of the replicate means
+      overall_mean <- mean(replicate_means)
+      
+      return(overall_mean)
     })
   })
 })
@@ -457,6 +543,7 @@ lenient_means <- lapply(dist_lenient, function(preservation) {
 
 saveRDS(lenient_means, "../Data/matrices/lenientmeans.rds")
 saveRDS(strict_means, "../Data/matrices/strictmeans.rds")
+saveRDS(strict_means_sample, "../Data/matrices/samplestrictmeans.rds")
 
 
 ```
