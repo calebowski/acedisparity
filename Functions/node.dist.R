@@ -21,9 +21,15 @@ strict.distance <- function(true_state, ace_states) {
 }
 
 
-node.dist <- function(matrices, distance = c("strict", "uncertain")){
+node.dist <- function(matrices, distance = c("strict", "uncertain")) {
   true <- matrices$true
   ace <- matrices$ace
+
+  if (inherits(ace, "list")) {
+    return(lapply(ace, function(ace_matrix) {
+      node.dist(list(true = true, ace = ace_matrix), distance = distance)
+    }))
+  }
 
   n_rows <- nrow(ace)
   n_cols <- ncol(ace)

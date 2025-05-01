@@ -307,4 +307,35 @@ displacements <- lapply(projections, lapply, lapply, function(matrices){
 
 
 
+ace <- nodes_living$bm[[1]]$all$ace
+true <- nodes_living$bm[[1]]$all$true
+ace[50,] <- true[50,]
+
+ordinated_true <- prcomp(true, center = TRUE, scale. = TRUE)
+predicted <- predict(ordinated_true, newdata = ace)
+
+true_ord <- ordinated_true$x
+
+df_plot <- data.frame(
+  Taxon = rownames(true_ord),
+  X1 = true_ord[,1],
+  Y1 = true_ord[,2],
+  X2 = predicted[,1],
+  Y2 = predicted[,2]
+)
+
+# ---- 6. Plot with arrows ----
+ggplot(df_plot) +
+  geom_point(aes(x = X1, y = Y1), color = "blue", size = 3) +
+  geom_point(aes(x = X2, y = Y2), color = "red", size = 3) +
+  geom_segment(aes(x = X1, y = Y1, xend = X2, yend = Y2), 
+               arrow = arrow(length = unit(0.2, "cm")), 
+               color = "gray40") +
+  geom_text_repel(aes(x = X1, y = Y1, label = Taxon), color = "blue") +
+  geom_text_repel(aes(x = X2, y = Y2, label = Taxon), color = "red") +
+  labs(title = "PCoA + Procrustes Alignment of Two Distance Matrices",
+       x = "Axis 1", y = "Axis 2") +
+  theme_minimal()
+
+
 ```

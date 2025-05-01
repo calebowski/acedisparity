@@ -233,7 +233,7 @@ anc.states <- function(fossil_matrices) {
   # Run multi.ace for each tree
   anc_states <- multi.ace(data = x$matrix, 
                           tree = x$tree, 
-                          models = "ER", 
+                          models = "SYM", 
                           output = "multi.ace",
                           verbose = TRUE)
   return(anc_states)})})
@@ -256,10 +256,9 @@ sample.anc.states <- function(fossil_matrices) {
   lapply(fossil_matrices, function(level) {
     lapply(level, function(x) {
   # Run multi.ace for each tree
-  anc_states <- multi.ace(data = x$matrix, 
-                          tree = x$tree, 
-                          models = "ER",
-                          sample = 100,
+  anc_states <- multi.ace(data = x,
+                          models = "SYM",
+                          sample = 5,
                           sample.fun = normal_sampling,
                           output = "combined",
                           verbose = TRUE)
@@ -268,15 +267,22 @@ sample.anc.states <- function(fossil_matrices) {
 
 fossil_anc <- lapply(fossil_matrices, anc.states)
 
-sampled_fossil_anc <- lapply(fossil_anc, sample.anc.states)
+# sampled_fossil_anc <- lapply(fossil_anc, sample.anc.states)
+
+sampled_fossil_anc <- lapply(fossil_anc, lapply, lapply, multi.ace, sample = 10, sample.fun = normal_sampling,  verbose = TRUE)
+
+
+
 
 point_fossil_anc <- lapply(fossil_matrices, point.anc.states)
 
 fossil_anc <- point_fossil_anc
 saveRDS(fossil_anc, "../Data/matrices/discreteanc.Rds")
-fossil_anc <- readRDS("../Data/matrices/discreteanc.Rds")
+saveRDS(sampled_fossil_anc, "../Data/matrices/sampleddiscreteanc.Rds")
+fossil_anc <- readRDS("../Data/matrices/discreteanc.rds")
+sampled_fossil_anc <- readRDS("../Data/matrices/sampleddiscreteanc.Rds")
 
-
+slow <- sampled_fossil_anc$slow
 
 ```
 
@@ -287,43 +293,110 @@ fossil_anc <- readRDS("../Data/matrices/discreteanc.Rds")
 
 ```{r}
 ## this function returns matrices of ace and true node states
-get.living.nodes <- function(true, ace) {
-  node_v <- rownames(ace)[grepl("^n", rownames(ace))]
-  ace_filtered <- ace[node_v, ]
-  true_filtered <- true[node_v, ]
-  return(list(ace = ace_filtered, true = true_filtered))
+get.living.nodes <- function(living) {
+  matrix <- living[[1]]
+  node_v <- rownames(matrix)[grepl("^n", rownames(matrix))]
+  return(node_v)
 }
 
 filter.nodes <- function(true, ace, node_v) {
-  ace_filtered <- ace[node_v, ]
-  true_filtered <- true[node_v, ]
+  ace_filtered <- ace[node_v, , drop = FALSE]
+  true_filtered <- true[node_v, , drop = FALSE]
   return(list(ace = ace_filtered, true = true_filtered))
 }
 
+nodes_living <- function(true_matrices, aced_matrices) {
+  output <- lapply(names(true_matrices), function(i) {
 
-# Iterate over each level (slow, med, fast) and extract nodes for $living
-nodes_living <- lapply(names(discrete_matrices), function(level) {
-  lapply(seq_along(discrete_matrices[[level]]), function(i) {
     # Step 1: Get node names from "living" ACE
     living_node <- get.living.nodes(
-      true = discrete_matrices[[level]][[i]],
-      ace = fossil_anc[[level]]$living[[i]]
+      living = aced_matrices$living[[i]]
     )
-    node_v <- rownames(living_node$ace)
 
     # Step 2: For the current level, filter all preservation states
-    filtered_preservations <- lapply(names(fossil_anc[[level]]), function(pres) {
-      filter.nodes(
-        true = discrete_matrices[[level]][[i]],
-        ace = fossil_anc[[level]][[pres]][[i]],
-        node_v = node_v
-      )
+    filtered_preservations <- lapply(names(aced_matrices), function(pres) {
+      lapply(seq_along(aced_matrices[[pres]][[i]]), function(j) {
+        filter.nodes(
+          true = true_matrices[[i]],
+          ace = aced_matrices[[pres]][[i]][[j]],
+          node_v = living_node
+        )
+      })
     })
-    names(filtered_preservations) <- names(fossil_anc[[level]])
+    names(filtered_preservations) <- names(aced_matrices)
     return(filtered_preservations)
   })
+
+  names(output) <- names(true_matrices)
+  return(output)
+}
+
+
+living_nodes <- lapply(sampled_fossil_anc$slow$living, get.living.nodes)
+
+
+
+
+slow <- sampled_fossil_anc$slow
+
+slow_filt <- lapply(sampled_fossil_anc$slow, function(preservation_level) {
+  lapply(seq_along(preservation_level), function(i) {
+    # Step 1: Filter the true matrix once for the current replicate (i)
+    true_filtered <- discrete_matrices$slow[[i]][living_nodes[[i]], ]
+
+    # Step 2: Filter all ACE matrices (j levels) for the current replicate (i)
+    ace_filtered_list <- lapply(seq_along(preservation_level[[i]]), function(j) {
+      ace_filtered <- preservation_level[[i]][[j]][living_nodes[[i]], ]
+      return(ace_filtered)
+    })
+
+    # Combine the true filtered matrix and the list of ACE filtered matrices
+    return(list(true = true_filtered, ace = ace_filtered_list))
+  })
 })
-names(nodes_living) <- names(discrete_matrices)
+
+med_filt <- lapply(sampled_fossil_anc$med, function(preservation_level) {
+  lapply(seq_along(preservation_level), function(i) {
+    # Step 1: Filter the true matrix once for the current replicate (i)
+    true_filtered <- discrete_matrices$med[[i]][living_nodes[[i]], ]
+
+    # Step 2: Filter all ACE matrices (j levels) for the current replicate (i)
+    ace_filtered_list <- lapply(seq_along(preservation_level[[i]]), function(j) {
+      ace_filtered <- preservation_level[[i]][[j]][living_nodes[[i]], ]
+      return(ace_filtered)
+    })
+
+    # Combine the true filtered matrix and the list of ACE filtered matrices
+    return(list(true = true_filtered, ace = ace_filtered_list))
+  })
+})
+
+fast_filt <- lapply(sampled_fossil_anc$fast, function(preservation_level) {
+  lapply(seq_along(preservation_level), function(i) {
+    # Step 1: Filter the true matrix once for the current replicate (i)
+    true_filtered <- discrete_matrices$fast[[i]][living_nodes[[i]], ]
+
+    # Step 2: Filter all ACE matrices (j levels) for the current replicate (i)
+    ace_filtered_list <- lapply(seq_along(preservation_level[[i]]), function(j) {
+      ace_filtered <- preservation_level[[i]][[j]][living_nodes[[i]], ]
+      return(ace_filtered)
+    })
+
+    # Combine the true filtered matrix and the list of ACE filtered matrices
+    return(list(true = true_filtered, ace = ace_filtered_list))
+  })
+})
+
+
+
+nodes_living_sample <- list(slow = slow_filt, med = med_filt, fast = fast_filt)
+
+
+
+
+
+
+slow_nodes <- nodes_living(discrete_matrices$slow, slow)
 
 source("../Functions/node.dist.R")
 
@@ -342,6 +415,25 @@ lapply(preservation, function(level) {
     distances <- node.dist(matrices, distance = "strict")
   })
 })
+})
+
+
+dist_strict_sample <- lapply(nodes_living_sample, function(preservation) {
+lapply(preservation, function(level) {
+  lapply(level, function(matrices) {
+    distances <- node.dist(matrices, distance = "strict")
+  })
+})
+})
+
+strict_means_sample <- lapply(dist_strict_sample, function(preservation) {
+lapply(preservation, function(level) {
+  lapply(level, function(matrices) {
+    lapply(matrices, function(replicate) {
+        means <- mean(replicate)
+      })
+    })
+  })
 })
 
 
@@ -528,7 +620,7 @@ displ_diffs <- lapply(av_displ, lapply, lapply, function(matrices){
 
 
 variance_diffs <- lapply(sum_var, lapply, lapply, function(matrices){
-  diffs <- abs(matrices$ace[[1]]$elements[1] - matrices$true[[1]]$elements[1])
+  diffs <- abs(matrices$ace[[1]]$elements[1] - matrices$true[[1]]$elements[1]) / matrices$true[[1]]$elements[1]
 })
 saveRDS(variance_diffs, "../Data/matrices/vardiffs.rds")
 saveRDS(ranges_diffs, "../Data/matrices/rangediffs.rds")
@@ -588,213 +680,4 @@ mean(morpho_dists$fossil_high$low[[15]])
 ## using first 10 pc axes finds considerably more correct values.
 
 
-```
-
-## map the corresponding trees and ancestral states
-
-```{R}
-disp_obj_anc <- lapply(names(traitspaces_anc), function(level) {
-  Map(function(traitspace, fossil_level) {
-    make.dispRity(traitspace, fossil_level$tree)
-  }, traitspaces_anc[[level]], low_fossil_levels[[level]])
-})
-names(disp_obj_anc) <- names(traitspaces_anc)
-
-
-
-time_sliced_discrete_anc <- lapply(disp_obj_anc, lapply, do.time.slice, chrono_models = "gradual.split", time_interval = 10)
-
-bootstrapped_discrete_anc <- lapply(time_sliced_discrete_anc, lapply, lapply, boot.matrix, bootstraps = 100)
-
-disparity_discrete_anc <- lapply(bootstrapped_discrete_anc, lapply, lapply,  dispRity, metric = c(sum, variances), na.rm = TRUE, verbose = TRUE)
-
-plot(disparity_discrete_anc$fossil_low[[8]]$gradual.split)
-
-
-##but when running with beck tree, i find that ace recovers the correct disparity signal. this is likely because of the distribution of tips through time
-plot(disparity_discrete_anc$wide_random$gradual.split)
-
-saveRDS(disparity_discrete_anc, "../Data/processed/disparity/aceproject/beckdiscreteanc.Rds")
-
-saveRDS(disparity_discrete_anc, "../Data/processed/disparity/aceproject/simdiscreteanc.Rds")
-
-
-## this is super important, as this means we have likely been inflating disparity of earlier nodes due to ancestral state estimation. and because the fossil record of these earlier nodes is usually very incomplete anyway, it adds a smoothing effect.
-
-
-```
-
-## ace continuous
-
-```{r}
-
-
-
-cont_anc_states <- lapply(tip_matrices_cont, function(matrix) {
-  # Run multi.ace for each tree
-  anc_states <- multi.ace(data = matrix, 
-                          tree = tree, 
-                          models = "ML", 
-                          output = "combined")
-  
-  return(anc_states)  
-})
-
-traitspace_cont_anc <- pca.func(cont_anc_states)
-
-disp_obj_cont_anc <- lapply(traitspace_cont_anc, make.dispRity, tree = tree)
-
-
-time_sliced_cont_anc <- lapply(disp_obj_cont_anc, do.time.slice, chrono_models = chrono_models, time_interval = 10)
-
-bootstrapped_contanc <- lapply(time_sliced_cont_anc, lapply, boot.matrix, bootstraps = 100)
-
-disparity_cont_anc <- lapply(bootstrapped_contanc, lapply,  dispRity, metric = c(sum, variances), na.rm = TRUE, verbose = TRUE)
-
-saveRDS(disparity_cont_anc, "../Data/processed/disparity/aceproject/beckcontanc.Rds")
-saveRDS(disparity_cont_anc, "../Data/processed/disparity/aceproject/simcontanc.Rds")
-
-
-
-plot(disparity_cont_anc$ou$gradual.split)
-
-```
-
-## Discrete with ace (post-ord)
-
-```{r}
-
-tip_matrices <- lapply(discrete_matrices, function(matrix){
-    tip_matrix <- matrix[!grepl("^n", rownames(matrix)), ]
-    tip_matrix_characters <- apply(tip_matrix, c(1, 2), as.character)
-    return(tip_matrix_characters)
-})
-
-
-distances <- dist.func(tip_matrices)
-traitspaces <- ord.func(distances)
-
-post_ord_anc <- lapply(traitspaces, function(matrix) {
-  # Run multi.ace for each tree
-  anc_states <- multi.ace(data = matrix, 
-                          tree = tree, 
-                          models = "ML", 
-                          output = "combined")
-  
-  return(anc_states)  
-})
-
-
-disp_obj_post_anc <- lapply(post_ord_anc, make.dispRity, tree = tree)
-
-
-time_sliced_discrete_post_anc <- lapply(disp_obj_post_anc, do.time.slice, chrono_models = chrono_models, time_interval = 10)
-
-bootstrapped_discrete_post_anc <- lapply(time_sliced_discrete_post_anc, lapply, boot.matrix, bootstraps = 100)
-
-disparity_discrete_post_anc <- lapply(bootstrapped_discrete_post_anc, lapply,  dispRity, metric = c(sum, variances), na.rm = TRUE, verbose = TRUE)
-
-plot(disparity_discrete_post_anc$low$gradual.split)
-
-saveRDS(disparity_discrete_post_anc, "../Data/processed/disparity/aceproject/simpostancdiscrete.Rds")
-
-## this is super important, as this means we have likely been inflating disparity of earlier nodes due to ancestral state estimation. and because the fossil record of these earlier nodes is usually very incomplete anyway, it adds a smoothing effect.
-
-
-```
-
-
-## Discrete with ace (pre-ord & sample)
-
-```{r}
-
-tip_matrices <- lapply(discrete_matrices, function(matrix){
-    tip_matrix <- matrix[!grepl("^n", rownames(matrix)), ]
-    tip_matrix_characters <- apply(tip_matrix, c(1, 2), as.character)
-    return(tip_matrix_characters)
-})
-
-normal_sampling <- list(fun = rnorm, param = list(mean = mean, sd = function(x)return(diff(range(x))/4)))
-
-
-discrete_anc_states_sample <- lapply(tip_matrices, function(matrix) {
-  # Run multi.ace for each tree
-  anc_states <- multi.ace(data = matrix, 
-                          tree = tree, 
-                          models = "ER", 
-                          output = "combined",
-                          sample = 1000,
-                          sample.fun = normal_sampling)
-  
-  return(anc_states)  
-})
-
-distances_anc_sample <- lapply(discrete_anc_states_sample, dist.func)
-traitspaces_anc_sample <- lapply(distances_anc_sample, ord.func)
-
-disp_obj_anc_sample <- lapply(traitspaces_anc_sample, lapply, make.dispRity, tree = tree)
-
-
-time_sliced_discrete_anc_sample <- lapply(disp_obj_anc_sample, lapply, chrono.subsets, method = "continuous", model = "gradual.split", time = 10)
-
-# bootstrapped_discrete_anc_sample <- lapply(time_sliced_discrete_anc_sample, lapply, boot.matrix, bootstraps = 100)
-
-disparity_discrete_anc_sample <- lapply(time_sliced_discrete_anc_sample, lapply,  dispRity, metric = c(sum, variances), na.rm = TRUE, verbose = TRUE)
-
-saveRDS(disparity_discrete_anc_sample, "../Data/processed/disparity/aceproject/simancdiscretesample.Rds")
-
-plot(disparity_discrete_anc_sample$low[[234]])
-
-low <- lapply(disparity_discrete_anc_sample$low, get.disparity)
-low <- do.call(cbind, low)
-
-
-
-subset_names <- names(disparity_discrete_anc_sample$low[[1]]$disparity)
-
-# Group the 1000 values into 10 subsets
-grouped_subsets <- lapply(subset_names, function(subset_name) {
-  # Extract the values for the current subset across all 1000 lists
-  values <- sapply(low, function(x) x[[subset_name]])
-  
-  # Calculate the median of the values
-  median_value <- median(values, na.rm = TRUE)
-  
-  # Reshape the values into a single row with 1000 columns
-  values_matrix <- matrix(values, nrow = 1, byrow = TRUE)
-  
-  # Create the desired structure
-  list(
-    elements = matrix(median_value, nrow = 1),  # Median as a single-row matrix
-     values_matrix               # All values as a matrix
-  )
-})
-names(grouped_subsets) <- subset_names
-
-
-disparity_discrete_anc_sample$low[[1]]$disparity <- grouped_subsets
-disparity_discrete_anc_sample$low[[1]]$call$bootstrap <- list(1000, "full", NULL)
-
-plot(disparity_discrete_anc_sample$low[[1]])
-
-print.dispRity(disparity_discrete_anc_sample$low[[1]])
-
-
-    
-## this is super important, as this means we have likely been inflating disparity of earlier nodes due to ancestral state estimation. and because the fossil record of these earlier nodes is usually very incomplete anyway, it adds a smoothing effect.
-
-
-```
-
-
-## Testing against claddis
-
-```{r echo = FALSE}
-# write.nexus.data(discrete_matrices$low, file = "../Data/raw/matrices/random.nex") 
-
-# claddis_matrix <- read_nexus_matrix("../Data/raw/matrices/Brusatte2014.nex")
-# bru_tree <- read.nexus("../Data/raw/trees/Brusatte2014.nex")
-
-
-# ancestral_states <- estimate_ancestral_states(claddis_matrix,  bru_tree)
 ```

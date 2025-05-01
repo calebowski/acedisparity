@@ -689,3 +689,67 @@ ggplot(combined_data, aes(x = preservation_level, y = distance, color = level, f
 
 
 ```
+
+
+```{R}
+
+
+
+combined_data <- do.call(rbind, lapply(names(displacements), function(level) {
+  # Iterate over replicates within each level
+  do.call(rbind, lapply(seq_along(displacements[[level]]), function(replicate_index) {
+    # Extract the data for the current replicate
+    data <- displacements[[level]][[replicate_index]]
+    
+    # Create a data frame
+    df <- data.frame(
+      replicate = replicate_index,
+      all = data$all,
+      high = data$fossil_high,
+      mid  = data$fossil_med,
+      low  = data$fossil_low,
+      living = data$living,
+      level = level  # Add a column to indicate the level
+    )
+    
+    # Convert to long format
+    df_long <- pivot_longer(df, cols = c("living", "low", "mid", "high", "all"), 
+                            names_to = "preservation_level", values_to = "distance")
+    df_long$preservation_level <- factor(df_long$preservation_level, levels = c("living", "low", "mid", "high", "all"))
+    
+    return(df_long)
+  }))
+}))
+
+# Generate the combined plot
+# Generate the combined plot
+ggplot(combined_data, aes(x = preservation_level, y = distance, color = level, fill = level)) +
+  stat_summary(
+    aes(group = level),
+    fun.data = function(y) {
+      data.frame(
+        y = median(y),
+        ymin = quantile(y, 0.25),  # 25th percentile
+        ymax = quantile(y, 0.75)  # 75th percentile
+      )
+    },
+    geom = "ribbon",
+    alpha = 0.2,  # Transparency for the shaded area
+    color = NA    # No border for the ribbon
+  ) +
+  stat_summary(
+    aes(group = level),
+    fun = median,
+    geom = "line",
+    size = 1.2
+  ) +
+  labs(
+    x = "Fossil Preservation Level",
+    y = "Distance to True Value"
+  ) +
+  theme_minimal() +
+  scale_y_reverse()   # Match fill colors to line colors
+
+
+
+```
