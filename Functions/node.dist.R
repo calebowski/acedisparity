@@ -22,56 +22,50 @@ strict.distance <- function(true_state, ace_states) {
 
 
 node.dist <- function(matrices, distance = c("strict", "uncertain")) {
-
-
-if (inherits(matrices[[1]], "list")) {
-    return(lapply(matrices, function(delist) {
-      node.dist(delist, distance = distance)
-    }))
-  }
+  distance <- match.arg(distance)
 
   true <- matrices$true
   ace <- matrices$ace
 
-  n_rows <- nrow(ace)
-  n_cols <- ncol(ace)
+  if (is.list(ace[[1]]) && !is.matrix(ace[[1]])) {
+    return(setNames(lapply(seq_along(ace), function(i) {
+      node.dist(list(true = true, ace = ace[[i]]), distance = distance)
+    }), names(ace)))
+  }
+  
+  distances <- lapply(ace, function(preservation) {
+    n_rows <- nrow(preservation)
+    n_cols <- ncol(preservation)
 
-
-  parsed_ace <- vector("list", n_rows)
-  for (i in 1:n_rows) {
-    parsed_ace[[i]] <- vector("list", n_cols)
-    for (j in 1:n_cols) {
-      cell <- ace[i, j]
-      if (is.na(cell) || cell == "") {
-        parsed_ace[[i]][[j]] <- NA
-      } else {
-        parsed_ace[[i]][[j]] <- as.numeric(unlist(strsplit(cell, "/")))
+    parsed_ace <- vector("list", n_rows)
+    for (i in 1:n_rows) {
+      parsed_ace[[i]] <- vector("list", n_cols)
+      for (j in 1:n_cols) {
+        cell <- preservation[i, j]
+        if (is.na(cell) || cell == "") {
+          parsed_ace[[i]][[j]] <- NA
+        } else {
+          parsed_ace[[i]][[j]] <- as.numeric(unlist(strsplit(cell, "/")))
+        }
       }
     }
-  }
-  distance_matrix <- matrix(NA, nrow = n_rows, ncol = n_cols)
 
-  if (distance == "lenient"){
-  # Loop through nodes and characters
-  for (i in 1:n_rows) {
-    for (j in 1:n_cols) {
-      true_states <- as.numeric(true[i, j])
-      ace_states <- parsed_ace[[i]][[j]]
-      distance_matrix[i, j] <- lenient.distance(true_states, ace_states)
-    }
-  }
-  }
+    distance_matrix <- matrix(NA, nrow = n_rows, ncol = n_cols)
 
-  if (distance == "strict"){
     for (i in 1:n_rows) {
-    for (j in 1:n_cols) {
-      true_states <- as.numeric(true[i, j])
-      ace_states <- parsed_ace[[i]][[j]]
-      distance_matrix[i, j] <- strict.distance(true_states, ace_states)
+      for (j in 1:n_cols) {
+        true_states <- as.numeric(true[i, j])
+        ace_states <- parsed_ace[[i]][[j]]
+        if (distance == "strict") {
+          distance_matrix[i, j] <- strict.distance(true_states, ace_states)
+        } else {
+          distance_matrix[i, j] <- lenient.distance(true_states, ace_states)
+        }
+      }
     }
-  }
-  }
 
-  return(distance_matrix)
+    return(distance_matrix)
+  })
 
+  return(distances)
 }
