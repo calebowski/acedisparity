@@ -12,6 +12,11 @@ editor_options:
 
 # Aceing our understanding of ASE
 
+3 key aspects I wanted to explore relating to ASE.
+
+* UR med_multi
+* UR DAD
+
 Fossils are hypothesised to increase the accuracy of ASE by breaking long branches in phylogenetic trees. This project aims to investigate how fossil coverage affects the accuracy of ASE in discrete and continuous trait matrices. 
 
 To do this, I simulated a set of 100 trees with 50 extant tips and speciation at 1 and extinction at 0.7. This leaves trees with 50 - 200 fossil tips (i.e tips > time 0).

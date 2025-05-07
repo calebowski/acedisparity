@@ -1,0 +1,110 @@
+---
+title: "Discrete with extinction"
+author: "Caleb"
+date: "`r Sys.Date()`"
+output:
+  html_document: default
+  pdf_document: default
+editor_options: 
+  markdown: 
+    wrap: 72
+---
+
+## Load trees
+
+```{r}
+
+library(treats)
+
+bd_params <- make.bd.params(speciation = 1, extinction = 0.7)
+
+stop_rule <- list(max.living = 50)
+set.seed(123)
+
+mass_extinction <- make.events(
+                      target       = "taxa",
+                      condition    = age.condition(5),
+                      modification = random.extinction(0.30))
+
+
+
+selective_extinction <- make.events(
+      target = "taxa",
+      condition = age.condition(x = 8, condition = `==`),
+      condition = trait.extinction(x = 0, condition = `>`),
+      event.name = "Trait-based extinction"
+    )
+
+trait.extinction <- make.events(
+                      target = "taxa",
+                      condition = age.condition(6),
+                      modification = trait.extinction(x = 2,
+                                                      condition = `<`))
+
+bm <- make.traits(process = BM.process, n = 3)
+## simulate selective extinction
+trees <- treats(traits = bm, stop.rule = stop_rule, bd.params = bd_params, null.error = 100, replicates = 5, events = trait.extinction)
+
+
+
+```
+
+```{R}
+
+
+bm <- make.traits(process = BM.process, n = 100)
+ou <- make.traits(process = OU.process, n = 100)
+# random_cont <- make.traits(process = no.process, n = 100)
+
+bm_matrices <- lapply(trees, function(tree){
+    mapped <- map.traits(bm, tree)
+    matrix <- mapped$data
+    return(matrix)
+})
+ou_matrices <- lapply(trees, function(tree){
+    mapped <- map.traits(ou, tree)
+    matrix <- mapped$data
+    return(matrix)
+})
+# random_cont_matrices <- lapply(trees, function(tree){
+#     mapped <- map.traits(random_cont, tree)
+#     matrix <- mapped$data
+#     return(matrix)
+# })
+
+continuous_matrices <- list(bm = bm_matrices, ou = ou_matrices)
+
+
+```
+
+
+```{R}
+
+source("../Functions/fossil.pres.R")
+
+preservation <- list(all = 1.0, high = 0.5, med = 0.15, low = 0.05)
+
+
+fossil_matrices <- lapply(trees, function(rep){
+  lapply(preservation, function(pres){
+  matrix <- rep$data
+  tree <- rep$tree
+  pres <- fossil.pres(tree, matrix, preservation = pres, type = "continuous")
+  return(pres)
+  })
+})
+
+
+test <- multi.ace(living[[1]]$matrix, tree = living[[1]]$tree, models = "BM", output = "combined")
+
+
+
+
+
+
+aced <- lapply(fossil_matrices, lapply, lapply, function(level){
+  multi.ace(level$matrix, tree = level$tree, models = "BM", output = "combined")
+})
+
+
+```
