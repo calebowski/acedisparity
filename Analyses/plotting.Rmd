@@ -42,197 +42,30 @@ Put transition rates on a log scale: fast = 0.9, medium = 0.1, slow = 0.01.
 lenient_means <- readRDS("../Data/matrices/lenientmeans.rds")
 strict_means_point <- readRDS("../Data/matrices/pointstrictmeans.rds")
 strict_means_sample <- readRDS("../Data/matrices/samplestrictmeans.rds")
+strict_means_thresh <- readRDS("../Data/matrices/threshstrictmeans.rds")
+
+root_dist_sample <- readRDS( "../Data/matrices/rootdistsamp.rds")
+root_dist_point <- readRDS("../Data/matrices/rootdistpoint.rds")
 
 morpho_diffs <- readRDS("../Data/matrices/morphospacediffs.Rds")
 var_point_diffs <- readRDS("../Data/matrices/pointvardiffs.rds")
 var_sample_diffs <- readRDS("../Data/matrices/samplevardiffs.rds")
+var_thresh_diffs <- readRDS("../Data/matrices/threshvardiffs.rds")
+
 
 range_point_diffs <- readRDS("../Data/matrices/pointrangediffs.rds")
 range_sample_diffs <- readRDS("../Data/matrices/samplerangediffs.rds")
 # displ_diffs <-  readRDS("../Data/matrices/dispdiffs.rds")
 
 
+neighbours_point_diffs <- readRDS("../Data/matrices/pointneighboursdiffs.rds")
+neighbours_sample_diffs <-  readRDS("../Data/matrices/sampleneighoursdiffs.rds")
+
 cont_dists <- readRDS("../Data/matrices/contdists.Rds")
 cont_ord_dists <- readRDS("../Data/matrices/contorddisplacements.Rds")
-#
-# unlisted_strict <- lapply(strict_means, function(mean) {
-#     unlist(mean, recursive = TRUE)
-# })
-
-# unlisted_uncertain <- lapply(uncertain_means, function(mean) {
-#     unlist(mean, recursive = TRUE)
-# })
-
-# split_strict <- lapply(unlisted_strict, function(mean){
-#   split(mean, gsub("\\d+", "", names(mean)))
-# })
-
-# split_uncertain <- lapply(unlisted_uncertain, function(mean){
-#   split(mean, gsub("\\d+", "", names(mean)))
-# })#
-
-
-
-# combined_data <- do.call(rbind, lapply(names(strict_means), function(level) {
-#   # Iterate over replicates within each level
-#   do.call(rbind, lapply(seq_along(strict_means[[level]]), function(replicate_index) {
-#     # Extract the data for the current replicate
-#     data <- strict_means[[level]][[replicate_index]]
-    
-#     # Create a data frame for the current replicate
-#     df <- data.frame(
-#       replicate = replicate_index,
-#       all = data$all,
-#       high = data$fossil_high,
-#       mid  = data$fossil_med,
-#       low  = data$fossil_low,
-#       living = data$living,
-#       level = level  # Add a column to indicate the level
-#     )
-    
-#     # Convert to long format
-#     df_long <- pivot_longer(df, cols = c("all", "high", "mid", "low", "living"), 
-#                             names_to = "preservation_level", values_to = "distance")
-#     df_long$preservation_level <- factor(df_long$preservation_level, levels = c("all", "high", "mid", "low", "living"))
-    
-#     return(df_long)
-#   }))
-# }))
-
-# ggplot(combined_data, aes(x = preservation_level, y = distance, fill = preservation_level)) +
-#   geom_boxplot() +
-#   facet_wrap(~level, scales = "free_y") +  # Separate plots for each level (fast, med, slow)
-#   labs(x = "Fossil Preservation Level", y = "Distance to True Value", title = "Strict Means by Preservation Level") +
-#   theme_minimal() +
-#   theme(axis.text.x = element_text(angle = 45, hjust = 1))  # Rotate x-axis labels for readability
-
 
 ```
 
-
-```{r echo = FALSE}
-# boxplot(split_strict$slow, 
-#         main = "Slow strict", 
-#         ylab = "Distances", 
-#         xlab = "Preservation levels",
-#         las = 2)  # Rotate x-axis labels for better readability
-
-
-# boxplot(split_strict$med, 
-#         main = "Med strict",
-#         ylab = "Distances",
-#         xlab = "Preservation levels",
-#         las = 2)  # Rotate x-axis labels for better readability
-
-# boxplot(split_strict$fast, 
-#         main = "Fast strict",
-#         ylab = "Distances",
-#         xlab = "Preservation levels",
-#         las = 2)  # Rotate x-axis labels for better readability
-
-
-
-```
-
-
-```{r echo = FALSE}
-# boxplot(split_uncertain$slow, 
-#         main = "Slow uncertain", 
-#         ylab = "Distances", 
-#         xlab = "Preservation levels",
-#         las = 2)  # Rotate x-axis labels for better readability
-
-
-# boxplot(split_uncertain$med, 
-#         main = "Med uncertain",
-#         ylab = "Distances",
-#         xlab = "Preservation levels",
-#         las = 2)  # Rotate x-axis labels for better readability
-
-# boxplot(split_uncertain$fast, 
-#         main = "Fast uncertain",
-#         ylab = "Distances",
-#         xlab = "Preservation levels",
-#         las = 2)  # Rotate x-axis labels for better readability
-
-```
-
-
-```{R echo = FALSE}
-# ord_dist <- readRDS("../Data/matrices/orddists.Rds")
-# unlisted_morpho_dists <- lapply(ord_dist, function(rate) {
-#     unlist(rate, recursive = TRUE)
-# })
-
-# split_dists <- lapply(unlisted_morpho_dists, function(rate){
-#   split(rate, gsub("\\d+", "", names(rate)))
-# })
-
-```
-
-
-```{R echo = FALSE}
-# boxplot(split_dists$slow, 
-#         main = "Slow ", 
-#         ylab = "Distances", 
-#         xlab = "Preservation levels",
-#         las = 2)  # Rotate x-axis labels for better readability
-
-# boxplot(split_dists$med, 
-#         main = "Med ",
-#         ylab = "Distances",
-#         xlab = "Preservation levels",
-#         las = 2)  # Rotate x-axis labels for better readability
-
-# boxplot(split_dists$fast, 
-#         main = "Fast ",
-#         ylab = "Distances",
-#         xlab = "Preservation levels",
-#         las = 2)  # Rotate x-axis labels for better readability
-
-
-
-```
-
-
-```{R echo = FALSE}
-# library(tidyr)
-# library(ggplot2)
-
-# # List of levels to loop through
-# levels <- c("fast", "med", "slow")
-
-# # Loop through each level and generate a plot
-# for (level in levels) {
-#   # Extract the data for the current level
-#   data <- split_strict[[level]]
-#   n <- length(data$fossil_high)  # assuming all same length
-  
-#   # Create a data frame
-#   df <- data.frame(
-#     replicate = 1:n,
-#     high = data$fossil_high,
-#     mid  = data$fossil_med,
-#     low  = data$fossil_low,
-#     living = data$living
-#   )
-  
-#   # Convert to long format
-#   df_long <- pivot_longer(df, cols = c("high", "mid", "low", "living"), names_to = "preservation_level", values_to = "distance")
-#   df_long$preservation_level <- factor(df_long$preservation_level, levels = c("high", "mid", "low", "living"))
-  
-#   # Generate the plot
-#   p <- ggplot(df_long, aes(x = preservation_level, y = distance, group = replicate)) +
-#     geom_line(alpha = 0.3) +  # thin, semi-transparent lines
-#     geom_point(alpha = 0.3) +
-#     stat_summary(aes(group = 1), fun = median, geom = "line", color = "red", size = 1.2) + 
-#     labs(x = "Fossil Preservation Level", y = "Distance to True Value", title = paste("Transition rate:", level)) +
-#     theme_minimal()
-  
-#   # Print the plot
-#   print(p)
-# }
-```
 
 
 ## Strict distances
@@ -257,7 +90,7 @@ library(tidyr)
 library(ggplot2)
 
 # Combine strict_means and strict_means_sample into a single data frame
-combined_data <- do.call(rbind, lapply(c("strict_means_point", "strict_means_sample"), function(dataset_name) {
+combined_data <- do.call(rbind, lapply(c("strict_means_point", "strict_means_sample", "strict_means_thresh"), function(dataset_name) {
   dataset <- get(dataset_name)  # Dynamically get the dataset by name
   do.call(rbind, lapply(names(dataset), function(level) {
     do.call(rbind, lapply(seq_along(dataset[[level]]), function(replicate_index) {
@@ -315,45 +148,41 @@ ggplot(combined_data, aes(x = preservation_level, y = distance, color = level, f
 
 
 
-## Lenient distances
+## Root distance
 
-Lenient distances score 0 if the correct state is given, allowing uncertainty (i.e. 0/1 would be scored 0 if true state is 1). Penalties are given for wrong point estimates (i.e. ace recovers 1 when true state is 0).
 
 ```{R echo = FALSE}
 # library(tidyr)
 # library(ggplot2)
 
-combined_data <- do.call(rbind, lapply(names(lenient_means), function(level) {
-  # Iterate over replicates within each level
-  do.call(rbind, lapply(seq_along(lenient_means[[level]]), function(replicate_index) {
-    # Extract the data for the current replicate
-    data <- lenient_means[[level]][[replicate_index]]
-    
-    # Create a data frame
-    df <- data.frame(
-      replicate = replicate_index,
-      all = data$all,
-      high = data$fossil_high,
-      mid  = data$fossil_med,
-      low  = data$fossil_low,
-      living = data$living,
-      level = level  # Add a column to indicate the level
-    )
-    
-    # Convert to long format
-    df_long <- pivot_longer(df, cols = c("living", "low", "mid", "high", "all"), 
-                            names_to = "preservation_level", values_to = "distance")
-    df_long$preservation_level <- factor(df_long$preservation_level, levels = c("living", "low", "mid", "high", "all"))
-    
-    return(df_long)
+# Combine strict_means and strict_means_sample into a single data frame
+combined_data <- do.call(rbind, lapply(c("root_dist_point", "root_dist_sample"), function(dataset_name) {
+  dataset <- get(dataset_name)  # Dynamically get the dataset by name
+  do.call(rbind, lapply(names(dataset), function(level) {
+    do.call(rbind, lapply(seq_along(dataset[[level]]), function(replicate_index) {
+      data <- dataset[[level]][[replicate_index]]
+      df <- data.frame(
+        replicate = replicate_index,
+        all = data$all,
+        high = data$fossil_high,
+        mid = data$fossil_med,
+        low = data$fossil_low,
+        living = data$living,
+        level = level,
+        treatment = dataset_name  # Add a column for treatment
+      )
+      df_long <- pivot_longer(df, cols = c("living", "low", "mid", "high", "all"),
+                              names_to = "preservation_level", values_to = "distance")
+      df_long$preservation_level <- factor(df_long$preservation_level, levels = c("living", "low", "mid", "high", "all"))
+      return(df_long)
+    }))
   }))
 }))
 
 # Generate the combined plot
-# Generate the combined plot
-ggplot(combined_data, aes(x = preservation_level, y = distance, color = level, fill = level)) +
+ggplot(combined_data, aes(x = preservation_level, y = distance, color = level, fill = level, linetype = treatment)) +
   stat_summary(
-    aes(group = level),
+    aes(group = interaction(level, treatment)),
     fun.data = function(y) {
       data.frame(
         y = median(y),
@@ -362,21 +191,24 @@ ggplot(combined_data, aes(x = preservation_level, y = distance, color = level, f
       )
     },
     geom = "ribbon",
-    alpha = 0.2,  # Transparency for the shaded area
-    color = NA    # No border for the ribbon
+    alpha = 0.2,
+    color = NA
   ) +
   stat_summary(
-    aes(group = level),
+    aes(group = interaction(level, treatment)),
     fun = median,
     geom = "line",
     size = 1.2
   ) +
   labs(
     x = "Fossil Preservation Level",
-    y = "Distance to True Value"
+    y = "Distance to True Value",
+    color = "Transition Rate",
+    fill = "Transition Rate",
+    linetype = "Treatment"
   ) +
   theme_minimal() +
-  scale_y_reverse()   # Match fill colors to line colors
+  scale_y_reverse()  # Reverse the y-axis if needed
 
 ```
 
@@ -453,7 +285,7 @@ Fast and medium transition rates results in higher disparity than low transition
 Slow does not. Disparity in the true slow matrix is very low (less transitions, less differences between taxa).  With low fossil coverage, there is higher uncertainty in ace estimate which inflates disparity. With added fossils, this decreases, hence why slow estimates improve with increased fossil coverage.
 
 ```{R echo = FALSE}
-combined_data <- do.call(rbind, lapply(c("var_point_diffs", "var_sample_diffs"), function(dataset_name) {
+combined_data <- do.call(rbind, lapply(c("var_point_diffs", "var_sample_diffs", "var_thresh_diffs"), function(dataset_name) {
   dataset <- get(dataset_name)  # Dynamically get the dataset by name
   do.call(rbind, lapply(names(dataset), function(level) {
     do.call(rbind, lapply(seq_along(dataset[[level]]), function(replicate_index) {
@@ -633,7 +465,65 @@ ggplot(combined_data, aes(x = preservation_level, y = distance, color = level, f
 
 ```
 
+## Average neighbour distance
 
+```{R echo = FALSE}
+combined_data <- do.call(rbind, lapply(c("neighbours_point_diffs", "neighbours_sample_diffs"), function(dataset_name) {
+  dataset <- get(dataset_name)  # Dynamically get the dataset by name
+  do.call(rbind, lapply(names(dataset), function(level) {
+    do.call(rbind, lapply(seq_along(dataset[[level]]), function(replicate_index) {
+      data <- dataset[[level]][[replicate_index]]
+      df <- data.frame(
+        replicate = replicate_index,
+        all = data$all,
+        high = data$fossil_high,
+        mid = data$fossil_med,
+        low = data$fossil_low,
+        living = data$living,
+        level = level,
+        treatment = dataset_name  # Add a column for treatment
+      )
+      df_long <- pivot_longer(df, cols = c("living", "low", "mid", "high", "all"),
+                              names_to = "preservation_level", values_to = "distance")
+      df_long$preservation_level <- factor(df_long$preservation_level, levels = c("living", "low", "mid", "high", "all"))
+      return(df_long)
+    }))
+  }))
+}))
+
+# Generate the combined plot
+ggplot(combined_data, aes(x = preservation_level, y = distance, color = level, fill = level, linetype = treatment)) +
+  stat_summary(
+    aes(group = interaction(level, treatment)),
+    fun.data = function(y) {
+      data.frame(
+        y = median(y),
+        ymin = quantile(y, 0.25),  # 25th percentile
+        ymax = quantile(y, 0.75)  # 75th percentile
+      )
+    },
+    geom = "ribbon",
+    alpha = 0.2,
+    color = NA
+  ) +
+  stat_summary(
+    aes(group = interaction(level, treatment)),
+    fun = median,
+    geom = "line",
+    size = 1.2
+  ) +
+  labs(
+    x = "Fossil Preservation Level",
+    y = "Distance to True Value",
+    color = "Transition Rate",
+    fill = "Transition Rate",
+    linetype = "Treatment"
+  ) +
+  theme_minimal() +
+  scale_y_reverse()  # Reverse the y-axis if needed
+
+
+```
 
 ## Continuous traits (BM vs OU)
 

@@ -301,28 +301,12 @@ projections <- lapply(nodes_living, lapply, lapply, function(matrices){
 })
 displacements <- lapply(projections, lapply, lapply, function(matrices){
   distances <-   sqrt(rowSums((matrices$ace - matrices$true)^2))
+  median <- median(distances)
+  return(median)
 })
 
+saveRDS(displacements, "../Data/matrices/contorddisplacements.Rds")
 
-
-
-
-ace <- nodes_living$bm[[1]]$all$ace
-true <- nodes_living$bm[[1]]$all$true
-ace[50,] <- true[50,]
-
-ordinated_true <- prcomp(true, center = TRUE, scale. = TRUE)
-predicted <- predict(ordinated_true, newdata = ace)
-
-true_ord <- ordinated_true$x
-
-df_plot <- data.frame(
-  Taxon = rownames(true_ord),
-  X1 = true_ord[,1],
-  Y1 = true_ord[,2],
-  X2 = predicted[,1],
-  Y2 = predicted[,2]
-)
 
 # ---- 6. Plot with arrows ----
 ggplot(df_plot) +

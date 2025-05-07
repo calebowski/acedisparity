@@ -18,6 +18,9 @@ Things to note
 - explore with extinction.
 - use median rather than mean.
 - then look at disparity metrics
+- the threshold? how do we know what threshold to set? can we set this by looking at our fossil coverage? because not setting a threshold makes ace too permissive, which creates artifacts in downstream analyses.
+- Something to consider also - so these traits have been simulated directly proportional to the branch lengths... so this makes ace suitable. but when people perform ace on chronograms, is this comparable?
+- How can we look at threshold for multi-state characters, not just binary?
 
 
 ## Generate trees
@@ -274,7 +277,7 @@ fossil_anc <- lapply(fossil_matrices, anc.states)
 sampled_fossil_anc <- lapply(fossil_anc, lapply, lapply, multi.ace, sample = 10, sample.fun = normal_sampling,  verbose = TRUE)
 
 
-
+thresh_fossil_anc <- lapply(fossil_anc, lapply, lapply, multi.ace, threshold = 0.51, output = "combined.matrix", verbose = TRUE)
 
 point_fossil_anc <- lapply(fossil_anc, lapply, lapply, multi.ace, output = "combined.matrix", verbose = TRUE)
 
@@ -282,21 +285,74 @@ fossil_anc <- point_fossil_anc
 saveRDS(fossil_anc, "../Data/matrices/discreteanc.rds")
 saveRDS(sampled_fossil_anc, "../Data/matrices/sampleddiscreteanc.Rds")
 saveRDS(point_fossil_anc, "../Data/matrices/pointddiscreteanc.Rds")
+saveRDS(thresh_fossil_anc, "../Data/matrices/threshanc.Rds")
 
 point_fossil_anc <- readRDS("../Data/matrices/pointddiscreteanc.Rds")
-
-
 
 fossil_anc <- readRDS("../Data/matrices/discreteanc.rds")
 
 sampled_fossil_anc <- readRDS("../Data/matrices/sampleddiscreteanc.Rds")
 point_fossil_anc <- readRDS("../Data/matrices/pointddiscreteanc.Rds")
 
-slow <- sampled_fossil_anc$slow
 
 ```
 
+## Make simmap
 
+```{R}
+
+# Function to run SIMMAP on discrete matrices
+
+
+test_matrix <- fossil_matrices$slow[[1]]$living
+what <- test_matrix$matrix[,1]
+
+test_simmap <- lapply(1:ncol(test_matrix$matrix), function(y){
+  characters <- character_matrix[,y]
+  simmap_trees <- make.simmap(test_matrix$tree, characters, model = "ER", nsim = 1)
+})
+
+
+simmap_trees <- make.simmap(test_matrix$tree, what , model = "ER", nsim = 100)
+ace <- describe.simmap(simmap_trees)$ace
+
+
+test <- fossil_matrices$slow[[1]]$living[[1]]
+
+test_handle <- handle.missing.data(test)
+
+test_simmap <- make.simmap(tree = fossil_matrices$slow[[1]]$living$tree, test_handle[[1]], model = "SYM", nsim = 10)
+describe <- describe.simmap(test_simmap)
+describe$ace
+
+
+test <- SCM.matrix(tree = test_matrix$tree, matrix = test_matrix$matrix, model.set = "ER", n.sim = 2, threshold = 0.5, name.input = "test")
+
+# Apply SIMMAP to all discrete matrices
+simmap_results <- lapply(names(discrete_matrices), function(rate) {
+  lapply(seq_along(discrete_matrices[[rate]]), function(i) {
+    # Get the tree and character matrix for the current replicate
+    tree <- trees[[i]]
+    char_matrix <- discrete_matrices[[rate]][[i]]
+    
+    # Define the model (e.g., "SYM" for symmetric transitions)
+    model <- "SYM"
+    
+    # Run SIMMAP
+    run_simmap(tree = tree, char_matrix = char_matrix, model = model, n_sim = 100, threshold = 0.5)
+  })
+})
+
+
+# Assign names to the results
+names(simmap_results) <- names(discrete_matrices)
+
+
+
+
+
+
+```
 
 
 ## Compare true vs ace nodes by distance
@@ -404,13 +460,65 @@ point_living_nodes <- lapply(seq_along(point_fossil_anc), function(rate) {
 names(point_living_nodes) <- names(discrete_matrices)
 
 
+thresh_living_nodes <- lapply(seq_along(thresh_fossil_anc), function(rate) {
+  lapply(seq_along(thresh_fossil_anc[[rate]]), function(i) {
+    # Step 1: Get the node labels
+    node_v <- node_labels[[i]]
+
+    # Step 2: Get the true matrix for the current replicate
+    true <- discrete_matrices[[rate]][[i]][node_v, ]
+
+    # Step 3: Iterate over preservation levels
+    levels <- names(thresh_fossil_anc[[rate]][[i]])
+    ace_out <- lapply(levels, function(level_name) {
+      # Filter ACE matrix for the current preservation level
+      thresh_fossil_anc[[rate]][[i]][[level_name]][node_v, , drop = FALSE]
+    })
+
+    # Assign names to the ACE output
+    names(ace_out) <- levels
+
+    # Return the ACE matrices and the single true matrix
+    return(list(ace = ace_out, true = true))
+  })
+})
+
+# Assign names to the outer list
+names(thresh_living_nodes) <- names(discrete_matrices)
+
+
 
 
 source("../Functions/node.dist.R")
 
 point_dist_strict <- lapply(point_living_nodes, lapply, node.dist, distance = "strict")
 
+thresh_dist <- lapply(thresh_living_nodes, lapply, node.dist, distance = "strict")
+
+root_dist_point <- lapply(point_dist_strict, lapply, lapply, function(matrix) {
+  v <- matrix[1, ]
+  mean(v)})
+
+
 sample_dist_strict <- lapply(sample_living_nodes, lapply, node.dist, distance = "strict")
+
+root_dist_sample <- lapply(sample_dist_strict, function(rate){
+  lapply(rate, function(matrix){
+    roots <- lapply(matrix, function(level){
+      lapply(level, function(mat){
+        v <- mat[1, ]
+        mean <- mean(v)
+      })
+    })
+    y <- lapply(roots, function(level){
+      unlist(level)
+    })
+    return(y)
+  })
+})
+
+saveRDS(root_dist_sample, "../Data/matrices/rootdistsamp.rds")
+saveRDS(root_dist_point, "../Data/matrices/rootdistpoint.rds")
 
 
 
@@ -447,6 +555,14 @@ strict_means_point <- lapply(point_dist_strict, function(preservation) {
 })
 })
 
+strict_means_thresh <- lapply(thresh_dist, function(preservation) {
+  lapply(preservation, function(level) {
+  lapply(level, function(matrices) {
+    means <- mean(matrices)
+  })
+})
+})
+
 ## do i need to divide by number of rows?
 
 lenient_means <- lapply(dist_lenient, function(preservation) {
@@ -460,6 +576,8 @@ lenient_means <- lapply(dist_lenient, function(preservation) {
 saveRDS(lenient_means, "../Data/matrices/lenientmeans.rds")
 saveRDS(strict_means_point, "../Data/matrices/pointstrictmeans.rds")
 saveRDS(strict_means_sample, "../Data/matrices/samplestrictmeans.rds")
+saveRDS(strict_means_thresh, "../Data/matrices/threshstrictmeans.rds")
+
 
 
 ```
@@ -487,6 +605,15 @@ distances_point <- lapply(point_living_nodes, lapply, function(matrices) {
   return(list(true = true_dist, ace = ace_dist ))
 })
 
+distances_thresh <- lapply(thresh_living_nodes, lapply, function(matrices) {
+  true_dist <- char.diff(matrices$true, method = "mord", by.col = FALSE)
+  ace <- matrices$ace
+  ace_dist <- lapply(ace, function(pres) {
+    dist <- char.diff(pres, method = "mord", by.col = FALSE)
+  })
+  return(list(true = true_dist, ace = ace_dist ))
+})
+
 distances_sample <- lapply(sample_living_nodes, lapply, function(matrices) {
   true_dist <- char.diff(matrices$true, method = "mord", by.col = FALSE)
   ace <- matrices$ace
@@ -499,6 +626,15 @@ distances_sample <- lapply(sample_living_nodes, lapply, function(matrices) {
 })
 
 ord_point <- lapply(distances_point, lapply, function(matrices) {
+  true_ord <- (cmdscale(matrices$true, k = ncol(matrices$true) - 2, add = TRUE))$points
+  ace <- matrices$ace
+  ace_ord <- lapply(ace, function(pres) {
+    ord <- (cmdscale(pres, k = ncol(pres) - 2, add = TRUE))$points
+  })
+  return(list(true = true_ord, ace = ace_ord ))
+})
+
+ord_thresh <- lapply(distances_thresh, lapply, function(matrices) {
   true_ord <- (cmdscale(matrices$true, k = ncol(matrices$true) - 2, add = TRUE))$points
   ace <- matrices$ace
   ace_ord <- lapply(ace, function(pres) {
@@ -576,6 +712,16 @@ sum_var_point <- lapply(ord_point, lapply, function(matrices) {
   return(list(true = true_disp, ace = ace_disp ))
 })
 
+
+sum_var_thresh <- lapply(ord_thresh, lapply, function(matrices) {
+  true_disp <- (dispRity(matrices$true, metric = c(sum, variances)))$disparity
+  ace <- matrices$ace
+  ace_disp <- lapply(ace, function(pres) {
+    disp <- (dispRity(pres, metric = c(sum, variances)))$disparity
+  })
+  return(list(true = true_disp, ace = ace_disp ))
+})
+
 sum_var_sample <- lapply(ord_sample, lapply, function(matrices) {
   true_disp <- (dispRity(matrices$true, metric = c(sum, variances)))$disparity
   ace <- matrices$ace
@@ -589,6 +735,15 @@ sum_var_sample <- lapply(ord_sample, lapply, function(matrices) {
 
 
 var_point_diffs <- lapply(sum_var_point, lapply, function(disparity){
+  true <- disparity$true[[1]]$elements[1]
+  ace <- disparity$ace
+  diffs <- lapply(ace, function(pres){
+    diff <- abs(pres[[1]]$elements[1] - true) / true
+  })
+  return(diffs)
+})
+
+var_thresh_diffs <- lapply(sum_var_thresh, lapply, function(disparity){
   true <- disparity$true[[1]]$elements[1]
   ace <- disparity$ace
   diffs <- lapply(ace, function(pres){
@@ -670,16 +825,67 @@ range_sample_diffs <- lapply(sum_range_sample, lapply, function(disparity) {
 
 
 
-variance_diffs <- lapply(sum_var, lapply, lapply, function(matrices){
-  diffs <- abs(matrices$ace[[1]]$elements[1] - matrices$true[[1]]$elements[1]) / matrices$true[[1]]$elements[1]
+neighbours_point <- lapply(ord_point, lapply, function(matrices) {
+  true_disp <- (dispRity(matrices$true, metric = c(mean, neighbours)))$disparity
+  ace <- matrices$ace
+  ace_disp <- lapply(ace, function(pres) {
+    disp <- (dispRity(pres, metric = c(mean, neighbours)))$disparity
+  })
+  return(list(true = true_disp, ace = ace_disp ))
 })
+
+neighbours_sample <- lapply(ord_sample, lapply, function(matrices) {
+  true_disp <- (dispRity(matrices$true, metric = c(mean, neighbours)))$disparity
+  ace <- matrices$ace
+  ace_disp <- lapply(ace, function(pres) {
+    lapply(pres, function(reps) {
+      disp <- (dispRity(reps, metric = c(mean,neighbours)))$disparity
+    })
+  })
+  return(list(true = true_disp, ace = ace_disp ))
+})
+
+
+neighbours_point_diffs <- lapply(neighbours_point, lapply, function(disparity){
+  true <- disparity$true[[1]]$elements[1]
+  ace <- disparity$ace
+  diffs <- lapply(ace, function(pres){
+    diff <- abs(pres[[1]]$elements[1] - true) / true
+  })
+  return(diffs)
+})
+
+neighbours_sample_diffs <- lapply(neighbours_sample, lapply, function(disparity) {
+  true <- disparity$true[[1]]$elements[1]
+  ace <- disparity$ace
+  diffs <- lapply(ace, function(pres) {
+    lapply(pres, function(rep) {
+      # Compute the difference
+      diff <- abs(rep[[1]]$elements[1] - true) / true
+      return(diff)
+    })
+  })
+  
+  # Apply unlist to the lowest level
+  diffs <- lapply(diffs, function(pres) {
+    unlist(pres, recursive = TRUE)
+  })
+  
+  return(diffs)
+})
+
+
+
 saveRDS(var_point_diffs, "../Data/matrices/pointvardiffs.rds")
 saveRDS(var_sample_diffs, "../Data/matrices/samplevardiffs.rds")
+saveRDS(var_thresh_diffs, "../Data/matrices/threshvardiffs.rds")
 
 saveRDS(range_point_diffs, "../Data/matrices/pointrangediffs.rds")
 saveRDS(range_sample_diffs, "../Data/matrices/samplerangediffs.rds")
 ## Effect of removing fossils
 
+saveRDS(neighbours_point_diffs, "../Data/matrices/pointneighboursdiffs.rds")
+saveRDS(neighbours_sample_diffs, "../Data/matrices/sampleneighoursdiffs.rds")
 
 
 
