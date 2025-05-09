@@ -24,7 +24,7 @@ set.seed(123)
 mass_extinction <- make.events(
                       target       = "taxa",
                       condition    = age.condition(5),
-                      modification = random.extinction(0.30))
+                      modification = random.extinction(0.70))
 
 
 
@@ -43,8 +43,9 @@ trait.extinction <- make.events(
 
 bm <- make.traits(process = BM.process, n = 3)
 ## simulate selective extinction
-trees <- treats(traits = bm, stop.rule = stop_rule, bd.params = bd_params, null.error = 100, replicates = 5, events = trait.extinction)
+trees <- treats(traits = bm, stop.rule = stop_rule, bd.params = bd_params, null.error = 10000, replicates = 5, events = trait.extinction)
 
+trees <- lapply(trees, drop.singles)
 
 
 ```
@@ -89,6 +90,7 @@ fossil_matrices <- lapply(trees, function(rep){
   lapply(preservation, function(pres){
   matrix <- rep$data
   tree <- rep$tree
+  tree <- collapse.singles(tree)
   pres <- fossil.pres(tree, matrix, preservation = pres, type = "continuous")
   return(pres)
   })
@@ -98,12 +100,16 @@ fossil_matrices <- lapply(trees, function(rep){
 test <- multi.ace(living[[1]]$matrix, tree = living[[1]]$tree, models = "BM", output = "combined")
 
 
+rownames(fossil_matrices[[1]]$low$matrix) == fossil_matrices[[1]]$low$tree$tip.label
+
+test <- multi.ace(fossil_matrices[[5]]$all$matrix, tree = fossil_matrices[[5]]$all$tree, models = "BM")
 
 
-
-
-aced <- lapply(fossil_matrices, lapply, lapply, function(level){
-  multi.ace(level$matrix, tree = level$tree, models = "BM", output = "combined")
+aced <- lapply(fossil_matrices, lapply,  function(level){
+  matrix <- level$matrix
+  tree <- level$tree
+  output <- multi.ace(matrix, tree = tree, models = "ML", output = "combined")
+  return(output)
 })
 
 

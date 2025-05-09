@@ -12,62 +12,85 @@ editor_options:
 
 # Aceing our understanding of ASE
 
-3 key aspects I wanted to explore relating to ASE.
+## Background to idea for project
 
-* UR med_multi
-* UR DAD
 
-Fossils are hypothesised to increase the accuracy of ASE by breaking long branches in phylogenetic trees. This project aims to investigate how fossil coverage affects the accuracy of ASE in discrete and continuous trait matrices. 
 
-To do this, I simulated a set of 100 trees with 50 extant tips and speciation at 1 and extinction at 0.7. This leaves trees with 50 - 200 fossil tips (i.e tips > time 0).
+Three key aspects I wanted to explore relating to ASE (ancestral statee estimation).
 
-For discrete traits, i simulated trait data across each tree (100 characters, 85% binary, 15% 3-state) using Mk model with 3 different transition rates (low - medium - high). For continuous traits, I simulated both BM and OU model trait data (100 characters again). This outputs matrices where both tips and nodes have values (these are termed 'true values').
+* how does fossil sampling influence ASE estimates?
+* how does this influence change across different rates of discrete trait evolution/models of continuous trait evolution.
+* how does the 'threshold' value / 'fuzzy ace' for collapsing discrete states impact accuracy of ASE.
 
-I then pruned these matrices of the node values and tip values at 5 levels:
+
+## Fossils
+
+Fossils are thought to increase the accuracy of ASE by breaking long branches in phylogenetic trees (Slater, 2012; Keating, 2024). I'm interested in the interaction between the transition rate/model of trait evolution and fossil sampling level on the accuracy of ASE.
+
+## Threshold
+
+When estimating discrete ancestral states, a 'threshold' value is used to 'collapse' states as either a point estimate or an uncertainty, or sometimes missing. Often, this method will be too permissive in collapsing states (i.e `Claddis` sets its default threshold as 0.01, whereby if a state has a marginal likelihood higher than other states over this threshold it will be selected). Or alternatively, the threshold is too conservative and deeper node states are all recovered as uncertain (i.e 0/1), which I've found can lead to erroneous inferences in downstream analyses.
+
+
+## Method
+
+I simulated a set of 100 trees with 50 extant tips and speciation at 1 and extinction at 0.7. This leaves trees with 50 - 200 fossil tips.
+
+Using `map.traits`, I can simulate trait data across each tree whereby each node and tip is assigned a state, which is in effect the **true** evolutionary history.
+
+For discrete traits, I simulated trait data across each tree (100 characters, 85% binary, 15% 3-state) using Mk model with 3 different transition rates: fast = 0.9, medium = 0.1, slow = 0.01.
+ 
+For continuous traits, I simulated both BM and OU model trait data (50 characters). 
+
+
+I then pruned these matrices/trees of all node characters and tip characters at 5 levels, preserving the root so tree height is maintained.
 living - only extant tips
 fossil low - 5% fossil coverage and all extant tips
 fossil mid - 15% fossil coverage and all extant tips
 fossil high - 50% fossil coverage and all extant tips 
 all - all tips (extant and fossils)
 
-I then ran ancestral state estimation on the pruned discrete and continuous matrices.
+# ASE
 
-To allow for comparisons between different fossil coverages, only the nodes estimated in living were used in subsequent analyses. This leaves 49 nodes for each tree used.
+I then ran ase on these matrices with three different 'threshold' methods:
 
+* Default: the ancestral state estimated are all the ones that are have a scaled likelihood greater than the maximum observed scaled likelihood minus the inverse number of possible states (i.e. select_state >= (max(likelihood) - 1/n_states)). If more than one state is over this threshold, it is recovered as uncertain (0/1).
+* Threshold = 0.5: will select the ancestral states estimate with a scaled likelihood equal or greater than 0.5
+* Sample: `multi.ace` has a `sample = x` parameter, whereby you can return x matrices, which are scaled in terms of states recovered by the scaled likelihood of each state appearing at each node. In this case I used `sample = 10` for fast computation.
 
-
-### 05/05/25
-What have I changed since last meeting:
-Put transition rates on a log scale: fast = 0.9, medium = 0.1, slow = 0.01.
-
-
+To allow for comparisons between different fossil coverages, only the nodes estimated in living were used in subsequent analyses.
 
 
 ```{r echo = FALSE}
 lenient_means <- readRDS("../Data/matrices/lenientmeans.rds")
-strict_means_point <- readRDS("../Data/matrices/pointstrictmeans.rds")
-strict_means_sample <- readRDS("../Data/matrices/samplestrictmeans.rds")
-strict_means_thresh <- readRDS("../Data/matrices/threshstrictmeans.rds")
+strict_default <- readRDS("../Data/matrices/pointstrictmeans.rds")
+strict_sample <- readRDS("../Data/matrices/samplestrictmeans.rds")
+strict_thresh <- readRDS("../Data/matrices/threshstrictmeans.rds")
 
 root_dist_sample <- readRDS( "../Data/matrices/rootdistsamp.rds")
-root_dist_point <- readRDS("../Data/matrices/rootdistpoint.rds")
+root_dist_default <- readRDS("../Data/matrices/rootdistpoint.rds")
 
 morpho_diffs <- readRDS("../Data/matrices/morphospacediffs.Rds")
-var_point_diffs <- readRDS("../Data/matrices/pointvardiffs.rds")
+var_default_diffs <- readRDS("../Data/matrices/pointvardiffs.rds")
 var_sample_diffs <- readRDS("../Data/matrices/samplevardiffs.rds")
 var_thresh_diffs <- readRDS("../Data/matrices/threshvardiffs.rds")
 
 
-range_point_diffs <- readRDS("../Data/matrices/pointrangediffs.rds")
+range_default_diffs <- readRDS("../Data/matrices/pointrangediffs.rds")
 range_sample_diffs <- readRDS("../Data/matrices/samplerangediffs.rds")
 # displ_diffs <-  readRDS("../Data/matrices/dispdiffs.rds")
 
 
-neighbours_point_diffs <- readRDS("../Data/matrices/pointneighboursdiffs.rds")
+neighbours_default_diffs <- readRDS("../Data/matrices/pointneighboursdiffs.rds")
 neighbours_sample_diffs <-  readRDS("../Data/matrices/sampleneighoursdiffs.rds")
 
-cont_dists <- readRDS("../Data/matrices/contdists.Rds")
-cont_ord_dists <- readRDS("../Data/matrices/contorddisplacements.Rds")
+cont_default_dists <- readRDS("../Data/matrices/contpointdists.Rds")
+cont_sample_dists <- readRDS("../Data/matrices/contsampledists.Rds")
+
+
+default_ord_diff <- readRDS("../Data/matrices/pointorddiff.Rds")
+sample_ord_diff <-  readRDS("../Data/matrices/sampleorddiff.Rds")
+
 
 ```
 
@@ -75,10 +98,10 @@ cont_ord_dists <- readRDS("../Data/matrices/contorddisplacements.Rds")
 
 ## Strict distances
 
-Anything over than correct single point estimates are penalised, including uncertainty. I then calculated the mean score (somewhere between 0-1) for each matrix at each preservation level.
+To calculate the accuracy of the ase estimates of discrete traits, I measured the distance for each matching node between true vs ase matrices. Essentially hamming distance, but with no leniency for uncertainty (i.e. uncertainty is penalised). I then calculated the mean distance (somewhere between 0-1) for each matrix at each fossil sampling level.
 
 
-```{R echo = FALSE}
+```{R echo = FALSE, message=FALSE}
 library(tidyr)
 library(ggplot2)
 
@@ -95,7 +118,7 @@ library(tidyr)
 library(ggplot2)
 
 # Combine strict_means and strict_means_sample into a single data frame
-combined_data <- do.call(rbind, lapply(c("strict_means_point", "strict_means_sample", "strict_means_thresh"), function(dataset_name) {
+combined_data <- do.call(rbind, lapply(c("strict_default", "strict_sample", "strict_thresh"), function(dataset_name) {
   dataset <- get(dataset_name)  # Dynamically get the dataset by name
   do.call(rbind, lapply(names(dataset), function(level) {
     do.call(rbind, lapply(seq_along(dataset[[level]]), function(replicate_index) {
@@ -108,7 +131,7 @@ combined_data <- do.call(rbind, lapply(c("strict_means_point", "strict_means_sam
         low = data$fossil_low,
         living = data$living,
         level = level,
-        treatment = dataset_name  # Add a column for treatment
+        threshold_method = dataset_name  # Add a column for treatment
       )
       df_long <- pivot_longer(df, cols = c("living", "low", "mid", "high", "all"),
                               names_to = "preservation_level", values_to = "distance")
@@ -119,9 +142,9 @@ combined_data <- do.call(rbind, lapply(c("strict_means_point", "strict_means_sam
 }))
 
 # Generate the combined plot
-ggplot(combined_data, aes(x = preservation_level, y = distance, color = level, fill = level, linetype = treatment)) +
+ggplot(combined_data, aes(x = preservation_level, y = distance, color = level, fill = level, linetype = threshold_method)) +
   stat_summary(
-    aes(group = interaction(level, treatment)),
+    aes(group = interaction(level, threshold_method)),
     fun.data = function(y) {
       data.frame(
         y = median(y),
@@ -134,17 +157,17 @@ ggplot(combined_data, aes(x = preservation_level, y = distance, color = level, f
     color = NA
   ) +
   stat_summary(
-    aes(group = interaction(level, treatment)),
+    aes(group = interaction(level, threshold_method)),
     fun = median,
     geom = "line",
     size = 1.2
   ) +
   labs(
-    x = "Fossil Preservation Level",
+    x = "Fossil Sampling Level",
     y = "Distance to True Value",
     color = "Transition Rate",
     fill = "Transition Rate",
-    linetype = "Treatment"
+    linetype = "Threshold method"
   ) +
   theme_minimal() +
   scale_y_reverse()  # Reverse the y-axis if needed
@@ -155,13 +178,14 @@ ggplot(combined_data, aes(x = preservation_level, y = distance, color = level, f
 
 ## Root distance
 
+This is the same as strict distance but the only at the root node.
 
 ```{R echo = FALSE}
 # library(tidyr)
 # library(ggplot2)
 
 # Combine strict_means and strict_means_sample into a single data frame
-combined_data <- do.call(rbind, lapply(c("root_dist_point", "root_dist_sample"), function(dataset_name) {
+combined_data <- do.call(rbind, lapply(c("root_dist_default", "root_dist_sample"), function(dataset_name) {
   dataset <- get(dataset_name)  # Dynamically get the dataset by name
   do.call(rbind, lapply(names(dataset), function(level) {
     do.call(rbind, lapply(seq_along(dataset[[level]]), function(replicate_index) {
@@ -206,7 +230,7 @@ ggplot(combined_data, aes(x = preservation_level, y = distance, color = level, f
     size = 1.2
   ) +
   labs(
-    x = "Fossil Preservation Level",
+    x = "Fossil Sampling Level",
     y = "Distance to True Value",
     color = "Transition Rate",
     fill = "Transition Rate",
@@ -217,13 +241,9 @@ ggplot(combined_data, aes(x = preservation_level, y = distance, color = level, f
 
 ```
 
-## Relative Difference in traitspace 
 
-Here, I ordinated the true nodal morphospace vs the aced nodal morphospace. I then calcualted the pairwise distances between nodes and divided these by the maximum distance from the centre of the morphospace. I then took the median for each tree replicate for each preservation.
 
-I'm wondering if the clustering of points near the centre of traitspace in fast is artificially decreasing this distance?
-
-```{R echo = FALSE}
+```{R eval = FALSE, echo=FALSE}
 combined_data <- do.call(rbind, lapply(names(morpho_diffs), function(level) {
   # Iterate over replicates within each level
   do.call(rbind, lapply(seq_along(morpho_diffs[[level]]), function(replicate_index) {
@@ -273,7 +293,7 @@ ggplot(combined_data, aes(x = preservation_level, y = distance, color = level, f
     size = 1.2
   ) +
   labs(
-    x = "Fossil Preservation Level",
+    x = "Fossil Sampling Level",
     y = "Distance to True Value"
   ) +
   theme_minimal() +
@@ -285,12 +305,12 @@ ggplot(combined_data, aes(x = preservation_level, y = distance, color = level, f
 
 ## Sum of variances
 
-Fast and medium transition rates results in higher disparity than low transition rates (more character differences between taxa). Because there is high uncertainty in estimating fast/medium rates (resulting in 0/1/2 etc) this creates high aced disparity estimates, which are therefore more similar to the true value
-
-Slow does not. Disparity in the true slow matrix is very low (less transitions, less differences between taxa).  With low fossil coverage, there is higher uncertainty in ace estimate which inflates disparity. With added fossils, this decreases, hence why slow estimates improve with increased fossil coverage.
+I then constructed distance matrices and ordinated both the 'true' and 'aced' matrices, then calculated the difference between the sum of variances values between true and aced.
 
 ```{R echo = FALSE}
-combined_data <- do.call(rbind, lapply(c("var_point_diffs", "var_sample_diffs", "var_thresh_diffs"), function(dataset_name) {
+
+library(scales)
+combined_data <- do.call(rbind, lapply(c("var_default_diffs", "var_sample_diffs", "var_thresh_diffs"), function(dataset_name) {
   dataset <- get(dataset_name)  # Dynamically get the dataset by name
   do.call(rbind, lapply(names(dataset), function(level) {
     do.call(rbind, lapply(seq_along(dataset[[level]]), function(replicate_index) {
@@ -312,6 +332,12 @@ combined_data <- do.call(rbind, lapply(c("var_point_diffs", "var_sample_diffs", 
     }))
   }))
 }))
+
+# log10_reverse_trans <- trans_new(
+#   name = "log10_reverse",
+#   transform = function(x) -log10(x),  # Apply log10 and reverse
+#   inverse = function(x) 10^(-x)      # Inverse of the transformation
+# )
 
 # Generate the combined plot
 ggplot(combined_data, aes(x = preservation_level, y = distance, color = level, fill = level, linetype = treatment)) +
@@ -335,22 +361,20 @@ ggplot(combined_data, aes(x = preservation_level, y = distance, color = level, f
     size = 1.2
   ) +
   labs(
-    x = "Fossil Preservation Level",
+    x = "Fossil Sampling Level",
     y = "Distance to True Value",
     color = "Transition Rate",
     fill = "Transition Rate",
     linetype = "Treatment"
   ) +
   theme_minimal() +
-  scale_y_reverse()  # Reverse the y-axis if needed
+  scale_y_reverse() # Reverse the y-axis if needed
 
 ```
 
-## Sum of variances lower dim
 
-When use first 10 PC axes of morphospace you find that aced estimates becomes much stronger, particularly slow rates.
 
-```{R eval = FALSE}
+```{R eval = FALSE, echo = FALSE}
 combined_data <- do.call(rbind, lapply(names(sum_var_low_dim), function(level) {
   # Iterate over replicates within each level
   do.call(rbind, lapply(seq_along(sum_var_low_dim[[level]]), function(replicate_index) {
@@ -400,7 +424,7 @@ ggplot(combined_data, aes(x = preservation_level, y = distance, color = level, f
     size = 1.2
   ) +
   labs(
-    x = "Fossil Preservation Level",
+    x = "Fossil Sampling Level",
     y = "Distance to True Value"
   ) +
   theme_minimal() +
@@ -413,7 +437,7 @@ ggplot(combined_data, aes(x = preservation_level, y = distance, color = level, f
 ## Sum of ranges
 
 ```{R echo = FALSE}
-combined_data <- do.call(rbind, lapply(c("range_point_diffs", "range_sample_diffs"), function(dataset_name) {
+combined_data <- do.call(rbind, lapply(c("range_default_diffs", "range_sample_diffs"), function(dataset_name) {
   dataset <- get(dataset_name)  # Dynamically get the dataset by name
   do.call(rbind, lapply(names(dataset), function(level) {
     do.call(rbind, lapply(seq_along(dataset[[level]]), function(replicate_index) {
@@ -458,7 +482,7 @@ ggplot(combined_data, aes(x = preservation_level, y = distance, color = level, f
     size = 1.2
   ) +
   labs(
-    x = "Fossil Preservation Level",
+    x = "Fossil Sampling Level",
     y = "Distance to True Value",
     color = "Transition Rate",
     fill = "Transition Rate",
@@ -473,7 +497,7 @@ ggplot(combined_data, aes(x = preservation_level, y = distance, color = level, f
 ## Average neighbour distance
 
 ```{R echo = FALSE}
-combined_data <- do.call(rbind, lapply(c("neighbours_point_diffs", "neighbours_sample_diffs"), function(dataset_name) {
+combined_data <- do.call(rbind, lapply(c("neighbours_default_diffs", "neighbours_sample_diffs"), function(dataset_name) {
   dataset <- get(dataset_name)  # Dynamically get the dataset by name
   do.call(rbind, lapply(names(dataset), function(level) {
     do.call(rbind, lapply(seq_along(dataset[[level]]), function(replicate_index) {
@@ -518,7 +542,7 @@ ggplot(combined_data, aes(x = preservation_level, y = distance, color = level, f
     size = 1.2
   ) +
   labs(
-    x = "Fossil Preservation Level",
+    x = "Fossil Sampling Level",
     y = "Distance to True Value",
     color = "Transition Rate",
     fill = "Transition Rate",
@@ -532,40 +556,46 @@ ggplot(combined_data, aes(x = preservation_level, y = distance, color = level, f
 
 ## Continuous traits (BM vs OU)
 
-Here, i measured the euclidean distance between scaled BM and OU ace estimates and true values. BM is closer to true value than OU because there model misspecification with OU (ace estimates using BM model). Interestingly, fossil coverage appears to make no improvement to ace estimates.
+Here, i measured the euclidean distance between scaled BM and OU ace estimates and true values. BM is closer to true value than OU because there model misspecification with OU (ace estimates using BM model). 
 
 ```{R echo = FALSE}
-combined_data <- do.call(rbind, lapply(names(cont_dists), function(level) {
-  # Iterate over replicates within each level
-  do.call(rbind, lapply(seq_along(cont_dists[[level]]), function(replicate_index) {
-    # Extract the data for the current replicate
-    data <- cont_dists[[level]][[replicate_index]]
-    
-    # Create a data frame
-    df <- data.frame(
-      replicate = replicate_index,
-      all = data$all,
-      high = data$fossil_high,
-      mid  = data$fossil_med,
-      low  = data$fossil_low,
-      living = data$living,
-      level = level  # Add a column to indicate the level
-    )
-    
-    # Convert to long format
-    df_long <- pivot_longer(df, cols = c("living", "low", "mid", "high", "all"), 
-                            names_to = "preservation_level", values_to = "distance")
-    df_long$preservation_level <- factor(df_long$preservation_level, levels = c("living", "low", "mid", "high", "all"))
-    
-    return(df_long)
+# Loop through each level and generate a plot
+library(tidyr)
+library(ggplot2)
+
+
+# Combine data for all levels and replicates into a single data frame
+library(tidyr)
+library(ggplot2)
+
+# Combine strict_means and strict_means_sample into a single data frame
+combined_data <- do.call(rbind, lapply(c("cont_default_dists", "cont_sample_dists"), function(dataset_name) {
+  dataset <- get(dataset_name)  # Dynamically get the dataset by name
+  do.call(rbind, lapply(names(dataset), function(level) {
+    do.call(rbind, lapply(seq_along(dataset[[level]]), function(replicate_index) {
+      data <- dataset[[level]][[replicate_index]]
+      df <- data.frame(
+        replicate = replicate_index,
+        all = data$all,
+        high = data$fossil_high,
+        mid = data$fossil_med,
+        low = data$fossil_low,
+        living = data$living,
+        level = level,
+        treatment = dataset_name  # Add a column for treatment
+      )
+      df_long <- pivot_longer(df, cols = c("living", "low", "mid", "high", "all"),
+                              names_to = "preservation_level", values_to = "distance")
+      df_long$preservation_level <- factor(df_long$preservation_level, levels = c("living", "low", "mid", "high", "all"))
+      return(df_long)
+    }))
   }))
 }))
 
 # Generate the combined plot
-# Generate the combined plot
-ggplot(combined_data, aes(x = preservation_level, y = distance, color = level, fill = level)) +
+ggplot(combined_data, aes(x = preservation_level, y = distance, color = level, fill = level, linetype = treatment)) +
   stat_summary(
-    aes(group = level),
+    aes(group = interaction(level, treatment)),
     fun.data = function(y) {
       data.frame(
         y = median(y),
@@ -574,61 +604,61 @@ ggplot(combined_data, aes(x = preservation_level, y = distance, color = level, f
       )
     },
     geom = "ribbon",
-    alpha = 0.2,  # Transparency for the shaded area
-    color = NA    # No border for the ribbon
+    alpha = 0.2,
+    color = NA
   ) +
   stat_summary(
-    aes(group = level),
+    aes(group = interaction(level, treatment)),
     fun = median,
     geom = "line",
     size = 1.2
   ) +
   labs(
-    x = "Fossil Preservation Level",
-    y = "Distance to True Value"
+    x = "Fossil Sampling Level",
+    y = "Distance to True Value",
+    color = "Model",
+    fill = "Model",
+    linetype = "Treatment"
   ) +
   theme_minimal() +
-  scale_y_reverse()   # Match fill colors to line colors
-
+  scale_y_reverse()  # Reverse the y-axis if needed
 
 
 ```
 
 ## Ordinated continuous
 
+I calculated the 'true morphospace', then projected the aced values onto this morphospace and calculated the euclidean distance between corresponding nodes.
 
 ```{R echo = FALSE}
-combined_data <- do.call(rbind, lapply(names(cont_ord_dists), function(level) {
-  # Iterate over replicates within each level
-  do.call(rbind, lapply(seq_along(cont_ord_dists[[level]]), function(replicate_index) {
-    # Extract the data for the current replicate
-    data <- cont_ord_dists[[level]][[replicate_index]]
-    
-    # Create a data frame
-    df <- data.frame(
-      replicate = replicate_index,
-      all = data$all,
-      high = data$fossil_high,
-      mid  = data$fossil_med,
-      low  = data$fossil_low,
-      living = data$living,
-      level = level  # Add a column to indicate the level
-    )
-    
-    # Convert to long format
-    df_long <- pivot_longer(df, cols = c("living", "low", "mid", "high", "all"), 
-                            names_to = "preservation_level", values_to = "distance")
-    df_long$preservation_level <- factor(df_long$preservation_level, levels = c("living", "low", "mid", "high", "all"))
-    
-    return(df_long)
+
+combined_data <- do.call(rbind, lapply(c("default_ord_diff", "sample_ord_diff"), function(dataset_name) {
+  dataset <- get(dataset_name)  # Dynamically get the dataset by name
+  do.call(rbind, lapply(names(dataset), function(level) {
+    do.call(rbind, lapply(seq_along(dataset[[level]]), function(replicate_index) {
+      data <- dataset[[level]][[replicate_index]]
+      df <- data.frame(
+        replicate = replicate_index,
+        all = data$all,
+        high = data$fossil_high,
+        mid = data$fossil_med,
+        low = data$fossil_low,
+        living = data$living,
+        level = level,
+        treatment = dataset_name  # Add a column for treatment
+      )
+      df_long <- pivot_longer(df, cols = c("living", "low", "mid", "high", "all"),
+                              names_to = "preservation_level", values_to = "distance")
+      df_long$preservation_level <- factor(df_long$preservation_level, levels = c("living", "low", "mid", "high", "all"))
+      return(df_long)
+    }))
   }))
 }))
 
 # Generate the combined plot
-# Generate the combined plot
-ggplot(combined_data, aes(x = preservation_level, y = distance, color = level, fill = level)) +
+ggplot(combined_data, aes(x = preservation_level, y = distance, color = level, fill = level, linetype = treatment)) +
   stat_summary(
-    aes(group = level),
+    aes(group = interaction(level, treatment)),
     fun.data = function(y) {
       data.frame(
         y = median(y),
@@ -637,22 +667,29 @@ ggplot(combined_data, aes(x = preservation_level, y = distance, color = level, f
       )
     },
     geom = "ribbon",
-    alpha = 0.2,  # Transparency for the shaded area
-    color = NA    # No border for the ribbon
+    alpha = 0.2,
+    color = NA
   ) +
   stat_summary(
-    aes(group = level),
+    aes(group = interaction(level, treatment)),
     fun = median,
     geom = "line",
     size = 1.2
   ) +
   labs(
-    x = "Fossil Preservation Level",
-    y = "Distance to True Value"
+    x = "Fossil Sampling Level",
+    y = "Distance to True Value",
+    color = "Model",
+    fill = "Model",
+    linetype = "Treatment"
   ) +
   theme_minimal() +
-  scale_y_reverse()   # Match fill colors to line colors
-
+  scale_y_reverse()  # Reverse the y-axis if needed
 
 
 ```
+
+
+## Next steps
+
+Looking at incorporating a mass extinction event... how does survivorship bias in a selective extinction affect ase estimates? Does using sample function improve estimates compared to point estimates? 

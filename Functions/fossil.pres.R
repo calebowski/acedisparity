@@ -5,9 +5,10 @@ remove.fossil <- function(trees, matrices, type = c("discrete", "continuous")) {
     tips <- ages$element[ages$ages == 0]# find only living species
     # root <- tree$node.label[1] 
     living_matrix <- matrix[rownames(matrix) %in% c(tips, "t1"), ]
-    living_matrix["t1", ] <- "?"
+    # living_matrix["t1", ] <- "?"
     if (type == "discrete") {
     living_matrix <- apply(living_matrix, c(1, 2), as.character)
+    living_matrix["t1", ] <- "?"
     }
  # keep only living species in matrix
     living_tree <- keep.tip(tree, c(tips, "t1")) # keep only living species in tree
@@ -55,7 +56,7 @@ fossil.pres <- function(trees, matrices, preservation = c(0.05, 0.15, 0.5, 1.0),
     # }
 
     # Ensure type is respected
-    if (type == "discrete") {  
+    if (type == "discrete") {
       fossil_matrix <- apply(fossil_matrix, c(1, 2), as.character)
     } 
 
@@ -67,6 +68,10 @@ fossil.pres <- function(trees, matrices, preservation = c(0.05, 0.15, 0.5, 1.0),
     if (preservation %in% c(0.05, 0.15) && type == "discrete") {
       fossil_matrix["t1", ] <- "?"
     }
+
+    # if (preservation %in% c(0.05, 0.15) && type == "continuous") {
+    #   fossil_matrix["t1", ] <- NA
+    # }
 
     pruned <- keep.tip(tree, kept)  # Prune tree
     return(list(matrix = fossil_matrix, tree = pruned))
