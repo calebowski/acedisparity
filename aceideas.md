@@ -26,3 +26,7 @@ Remove node values, and then run ace, then compare ace values to "true" values t
 3. How does that affect disparity?
 
     - Compare the curves using a rank envelope for the disparity through time for results of 1.a.b and 2.a.b
+
+
+    COuld weight fossils pre-extinction during ace so that survivorship-bias is reduced?
+Or alternatively, switch to a bayesian method of ace whereby the pre-extinction traitspace is used as a prior for the post-extinction estimates.
