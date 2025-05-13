@@ -703,6 +703,8 @@ morpho_diffs <- lapply(ord, lapply, lapply, function(matrices){
 saveRDS(morpho_diffs, "../Data/matrices/morphospacediffs.Rds")
 
 ## can we make this relative disparity, so that we know what is good vs bad metrics for ancestral state estimation?
+
+## i think this should be the whole morphospace, rather than just identical nodes.
 sum_var_point <- lapply(ord_point, lapply, function(matrices) {
   true_disp <- (dispRity(matrices$true, metric = c(sum, variances)))$disparity
   ace <- matrices$ace

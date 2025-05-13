@@ -15,7 +15,8 @@
 \Huge How are mass extinctions shaping biodiversity? \\
 \LARGE Confirmation Review}
 \author{Caleb Scutt \and
-Supervisors: Thomas Guillerme (UoS), Gavin Thomas (UoS) \& Natalie Cooper (NHM)}
+Supervisors: Thomas Guillerme (UoS), Gavin Thomas (UoS) \& Natalie Cooper (NHM) \and
+Advisor: Karl Evans (UoS)}
 \date{July 2025}
 
 \begin{document}
@@ -51,11 +52,90 @@ Furthermore, the pipeline can be a useful tool for the wider community to be app
 
 \part{Literature Review}
 
+Lit review needs following structure:
+- What are big evolutionary questions we want to answer? For example, how do animals evolve across a mass extinction? 
+- Inferring evolutionary events with PCM's/morphology -> what are the main methods people use. Vast quantities of data have allowed phylogenies to be easily constructed. 
+- Disparity -> what can it be used to infer
+- However, disparity is not prone to major pitfalls.
+- Ancestral state estimation -> why we use it? lack of fossils etc. Challenges we face when using PCMs.
+
+
+\section{Introduction to mass extinctions}
+Extinction is a common process throughout Earth history; 99\% of species that have ever existed are now extinct \citep{overholt_biodiversity_crisis_2003}. 
+However, extinction rates are not constant and occur in pulses across background taxonomic turnover \citep{raup_mass_1982}. 
+Extinction events that wipe out over 75\% of species are termed `mass extinctions' and have occurred five times over the last 500 million years \citep{raup_mass_1982}. 
+Mass extinctions drive a reorganisation of biodiversity as episodes of mass species turnover \citep{jablonski_lessons_2001}. 
+On a macroevolutionary scale, mass extinctions can be considered both destructive and generative; derailing the evolutionary processes of selection and speciation that occur during periods of background extinction \citep{gould_structure_2002}, yet triggering adaptive radiations in the aftermath as unoccupied niches are filled by surviving clades \citep{losos_adaptive_2010, toljagic_triassicjurassic_2013}. 
+Therefore, mass extinction boundaries often mark the most profound species composition transitions in Earth history.
+Survivors filling the vacant niches left by extinct lineages allow this increase in ecological diversity.
+Alternatively, surviving clades may proliferate without undergoing substantial ecological or functional change by persisting within pre-existing roles \citep{brusatte2008first, bapst_graptoloid_2012}.
+
+% From a contemporary perspective, mass extinctions have received intense attention due to the current anthropogenic-induced elevated extinction rates \citep{barnosky_has_2011,ceballos_accelerated_2015,ceballos_biological_2017}. 
+% Global ecosystems are already exhibiting patterns of species composition turnover \citep{buckley_linking_2008,diniz-filho_partitioning_2009,hillebrand_warming_2010}, as well as a loss of functional diversity \citep{cadotte2011beyond,carmona2021erosion,matthews2024global}. 
+% Little is known about the impacts of the ongoing mass extinction on functional diversity, thus it is crucial to understand how these metrics of diversity have been affected during past mass extinctions in order to model the ongoing extinction crisis.
+
+\section{PCMs}
+With the advance in the number of phylogenies available and relative ease in their construction, inferring macroevolutionary models has become more advanced.
+Morphology allows a key insight into past evolutionary processes, particularly in deep time through fossils.
+Disparity, the term used to describe morphological variation, has been widely used to investigate patterns of evolution in extant and extinction clades \citep{wills_disparity_1994}.
+Disparity is often used as a proxy for ecological variation, particularly when the morphological traits are inferred to be correlated to ecological function.
+
+
+
+
+
+\section{Ancestral state estimation}
+Ancestral state estimation (ASE) is the broad method of estimating trait value(s) in a set of common ancestors given a set of observed data for operational taxa of a phylogenetic tree \citep{schluter1997likelihood,cunningham1998reconstructing, yang2006computational,revell_ancestral_2024}.
+Trait data may be continuous, such as body size, or discrete, such as diet type or presence/absence of a character.
+The application of ASE is rooted in phylogenetic comparative methods, but also has applications in linguistics.
+As put by \cite{swofford1992parsimony}, `character state reconstructions can provide a powerful mechanism for studying many facets of the evolutionary process. However, the zeal with which these techniques are sometimes advocated belies the complexity of the problem'.
+
+Intuitively, ASE is appealing for those studying deep-time patterns. 
+The fragmented nature of the fossil record can yield low sampling coverage at deeper points in a phylogeny and so estimation of node values can increase statistical power.
+
+
+An additional requirement of ASE is the model specified.
+This model specification varies between discrete and continuous characters.
+
+\citep{friedman_explosive_2010}. %fjafjaf
+
+
+
+The fragmented fossil record can make sample size at deeper points in the phylogeny low, which may necessitate ASE. 
+
+
+
+
+
+\section{Aims and objectives}
+\textbf{Knowledge gap} \\
+% Given the ongoing contention regarding both the lineage and morphological diversification eutherian mammals, my PhD aims to incorporate the myriad of parameters that are often selected in disparity pipelines to elucidate the causes of disagreement among previous studies. 
+% I aim to investigate how support for the varying ecological diversification hypotheses (\autoref{fig:radiations}) can vary depending on the morphological dataset, phylogenetic topology, and downstream metrics and models that are used.
+
+
+
+\noindent\textbf{Research questions}
+\begin{itemize}
+    \item How does the accuracy of ASE become filtered down the disparity pipeline?
+    \item How do mass extinction events impact our recovery of ancestral states?
+    \item From the output of the exhaustive permutation of methodological combinations, which of the ecological diversification hypotheses are most supported? 
+\end{itemize}
+
+\noindent{\textbf{Research objectives}}
+
+\begin{itemize}
+    \item Build pipeline that iterates over every parameter combination to output hundreds of disparity curves.
+    \item Make this pipeline adaptable so that different types of morphological data can be input, e.g.\ discrete and continuous characters, landmark data etc.
+    \item Develop pipeline so it uses probability distributions, rather than point estimates, to account for the uncertainty in the input/output.
+    \item Improved methods for ancestral state estimations across mass extinction events.
+    \item Develop new way of measuring change in disparity across a time interval, i.e. quantitative measure of the change in gradient, rather than simply against a null model.
+\end{itemize}
+
 \part{Thesis plan}
 
 \section{Chapter One: How is ancestral state estimation accuracy preserved down disparity pipeline?}
 
-\section{Chapter Two: Ancestral state estimation over mass extinctions}
+\section{Chapter Two: Ancestral state estimation over mass extinctions/any change in model type, do fossils help?}
 
 \section{Chapter Three: Building trees for eutherian mammals}
 
@@ -63,4 +143,7 @@ Furthermore, the pipeline can be a useful tool for the wider community to be app
 
 
 
+
+
+\bibliography{references.bib} 
 \end{document}

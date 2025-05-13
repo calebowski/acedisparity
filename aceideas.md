@@ -30,3 +30,5 @@ Remove node values, and then run ace, then compare ace values to "true" values t
 
     COuld weight fossils pre-extinction during ace so that survivorship-bias is reduced?
 Or alternatively, switch to a bayesian method of ace whereby the pre-extinction traitspace is used as a prior for the post-extinction estimates.
+Do fossils help when mass extinction occurs?
+
