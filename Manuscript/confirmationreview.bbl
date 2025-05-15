@@ -1,5 +1,8 @@
 \begin{thebibliography}{xx}
 
+\harvarditem[Ali et~al.]{Ali, Blonder, Pigot \harvardand\ Tobias}{2023}{ali2023bird}
+Ali, J.~R., Blonder, B.~W., Pigot, A.~L. \harvardand\ Tobias, J.~A.  \harvardyearleft 2023\harvardyearright , `Bird extinctions threaten to cause disproportionate reductions of functional diversity and uniqueness', {\em Functional Ecology} {\bf 37}(1),~162--175.
+
 \harvarditem[Bapst et~al.]{Bapst, Bullock, Melchin, Sheets \harvardand\ Mitchell}{2012}{bapst_graptoloid_2012}
 Bapst, D.~W., Bullock, P.~C., Melchin, M.~J., Sheets, H.~D. \harvardand\ Mitchell, C.~E.  \harvardyearleft 2012\harvardyearright , `Graptoloid diversity and disparity became decoupled during the {Ordovician} mass extinction', {\em Proceedings of the National Academy of Sciences} {\bf 109}(9),~3428--3433.
 \newblock Publisher: Proceedings of the National Academy of Sciences.
@@ -7,8 +10,26 @@ Bapst, D.~W., Bullock, P.~C., Melchin, M.~J., Sheets, H.~D. \harvardand\ Mitchel
 \harvarditem[Brusatte et~al.]{Brusatte, Benton, Ruta \harvardand\ Lloyd}{2008}{brusatte2008first}
 Brusatte, S.~L., Benton, M.~J., Ruta, M. \harvardand\ Lloyd, G.~T.  \harvardyearleft 2008\harvardyearright , `The first 50 myr of dinosaur evolution: macroevolutionary pattern and morphological disparity', {\em Biology letters} {\bf 4}(6),~733--736.
 
+\harvarditem{Cole \harvardand\ Hopkins}{2021}{cole_selectivity_2021}
+Cole, S.~R. \harvardand\ Hopkins, M.~J.  \harvardyearleft 2021\harvardyearright , `Selectivity and the effect of mass extinctions on disparity and functional ecology', {\em Science Advances} {\bf 7}(19),~eabf4072.
+\newblock Publisher: American Association for the Advancement of Science.
+
 \harvarditem[Cunningham et~al.]{Cunningham, Omland \harvardand\ Oakley}{1998}{cunningham1998reconstructing}
 Cunningham, C.~W., Omland, K.~E. \harvardand\ Oakley, T.~H.  \harvardyearleft 1998\harvardyearright , `Reconstructing ancestral character states: a critical reappraisal', {\em Trends in ecology \& evolution} {\bf 13}(9),~361--366.
+
+\harvarditem[Edie et~al.]{Edie, Jablonski \harvardand\ Valentine}{2018}{edie_contrasting_2018}
+Edie, S.~M., Jablonski, D. \harvardand\ Valentine, J.~W.  \harvardyearleft 2018\harvardyearright , `Contrasting responses of functional diversity to major losses in taxonomic diversity', {\em Proceedings of the National Academy of Sciences} {\bf 115}(4),~732--737.
+\newblock Publisher: Proceedings of the National Academy of Sciences.
+
+\harvarditem{Ezcurra \harvardand\ Butler}{2018}{ezcurra_rise_2018}
+Ezcurra, M.~D. \harvardand\ Butler, R.~J.  \harvardyearleft 2018\harvardyearright , `The rise of the ruling reptiles and ecosystem recovery from the {Permo}-{Triassic} mass extinction', {\em Proceedings of the Royal Society B: Biological Sciences} {\bf 285}(1880),~20180361.
+\newblock Publisher: Royal Society.
+
+\harvarditem{Foote}{1993}{foote_discordance_1993}
+Foote, M.  \harvardyearleft 1993\harvardyearright , `Discordance and concordance between morphological and taxonomic diversity', {\em Paleobiology} {\bf 19}(2),~185--204.
+
+\harvarditem{Foote}{1997}{foote1997evolution}
+Foote, M.  \harvardyearleft 1997\harvardyearright , `The evolution of morphological diversity', {\em Annual Review of Ecology and Systematics} {\bf 28}(1),~129--152.
 
 \harvarditem{Friedman}{2010}{friedman_explosive_2010}
 Friedman, M.  \harvardyearleft 2010\harvardyearright , `Explosive morphological diversification of spiny-finned teleost fishes in the aftermath of the end-{Cretaceous} extinction', {\em Proceedings of the Royal Society B: Biological Sciences} .
@@ -17,17 +38,39 @@ Friedman, M.  \harvardyearleft 2010\harvardyearright , `Explosive morphological 
 \harvarditem{Gould}{2002}{gould_structure_2002}
 Gould, S.~J.  \harvardyearleft 2002\harvardyearright , The {Structure} of {Evolutionary} {Theory}, {\em in} `The {Structure} of {Evolutionary} {Theory}', Harvard University Press.
 
+\harvarditem{Grossnickle \harvardand\ Newham}{2016}{grossnickle_therian_2016}
+Grossnickle, D.~M. \harvardand\ Newham, E.  \harvardyearleft 2016\harvardyearright , `Therian mammals experience an ecomorphological radiation during the {Late} {Cretaceous} and selective extinction at the {K}–{Pg} boundary', {\em Proceedings of the Royal Society B: Biological Sciences} {\bf 283}(1832),~20160256.
+
+\harvarditem[Guillerme et~al.]{Guillerme, Puttick, Marcy \harvardand\ Weisbecker}{2020}{guillerme_shifting_2020}
+Guillerme, T., Puttick, M.~N., Marcy, A.~E. \harvardand\ Weisbecker, V.  \harvardyearleft 2020\harvardyearright , `Shifting spaces: {Which} disparity or dissimilarity measurement best summarize occupancy in multidimensional spaces?', {\em Ecology and Evolution} {\bf 10}(14),~7261--7275.
+\newblock Publisher: John Wiley \& Sons, Ltd.
+
+\harvarditem{Hopkins}{2013}{hopkins2013decoupling}
+Hopkins, M.  \harvardyearleft 2013\harvardyearright , `Decoupling of taxonomic diversity and morphological disparity during decline of the cambrian trilobite family pterocephaliidae', {\em Journal of Evolutionary Biology} {\bf 26}(8),~1665--1676.
+
 \harvarditem{Jablonski}{2001}{jablonski_lessons_2001}
 Jablonski, D.  \harvardyearleft 2001\harvardyearright , `Lessons from the past: {Evolutionary} impacts of mass extinctions', {\em Proceedings of the National Academy of Sciences} {\bf 98}(10),~5393--5398.
 \newblock Publisher: Proceedings of the National Academy of Sciences.
+
+\harvarditem[Korn et~al.]{Korn, Hopkins \harvardand\ Walton}{2013}{korn_extinction_2013}
+Korn, D., Hopkins, M.~J. \harvardand\ Walton, S.~A.  \harvardyearleft 2013\harvardyearright , `{EXTINCTION} {SPACE}-{A} {METHOD} {FOR} {THE} {QUANTIFICATION} {AND} {CLASSIFICATION} {OF} {CHANGES} {IN} {MORPHOSPACE} {ACROSS} {EXTINCTION} {BOUNDARIES}: {EXTINCTION} {SPACE}', {\em Evolution} pp.~n/a--n/a.
 
 \harvarditem{Losos}{2010}{losos_adaptive_2010}
 Losos, J.~B.  \harvardyearleft 2010\harvardyearright , `Adaptive {Radiation}, {Ecological} {Opportunity}, and {Evolutionary} {Determinism}', {\em The American Naturalist} .
 \newblock Publisher: The University of Chicago Press.
 
+\harvarditem[Matthews et~al.]{Matthews, Triantis, Wayman, Martin, Hume, Cardoso, Faurby, Mendenhall, Dufour, Rigal et~al.}{2024}{matthews2024global}
+Matthews, T.~J., Triantis, K.~A., Wayman, J.~P., Martin, T.~E., Hume, J.~P., Cardoso, P., Faurby, S., Mendenhall, C.~D., Dufour, P., Rigal, F. et~al.  \harvardyearleft 2024\harvardyearright , `The global loss of avian functional and phylogenetic diversity from anthropogenic extinctions', {\em Science} {\bf 386}(6717),~55--60.
+
 \harvarditem{Overholt}{2003}{overholt_biodiversity_crisis_2003}
 Overholt, E.  \harvardyearleft 2003\harvardyearright , `The biodiversity crisis: Losing what counts', {\em The American Biology Teacher} {\bf 65}(3),~226--227.
 \newblock Copyright - Copyright National Association of Biology Teachers Mar 2003; People - Novacek, Michael J; Futter, Ellen V; Last updated - 2024-10-04; CODEN - ABITA4; SubjectsTermNotLitGenreText - Novacek, Michael J; Futter, Ellen V; Biodiversity; Case Studies; Careers; Land Use; Social.
+
+\harvarditem{Pagel}{1994}{pagel1994detecting}
+Pagel, M.  \harvardyearleft 1994\harvardyearright , `Detecting correlated evolution on phylogenies: a general method for the comparative analysis of discrete characters', {\em Proceedings of the Royal Society of London. Series B: Biological Sciences} {\bf 255}(1342),~37--45.
+
+\harvarditem[Puttick et~al.]{Puttick, Guillerme \harvardand\ Wills}{2020}{puttick_complex_2020}
+Puttick, M.~N., Guillerme, T. \harvardand\ Wills, M.~A.  \harvardyearleft 2020\harvardyearright , `The complex effects of mass extinctions on morphological disparity', {\em Evolution} {\bf 74}(10),~2207--2220.
 
 \harvarditem{Raup \harvardand\ Sepkoski}{1982}{raup_mass_1982}
 Raup, D.~M. \harvardand\ Sepkoski, J.~J.  \harvardyearleft 1982\harvardyearright , `Mass {Extinctions} in the {Marine} {Fossil} {Record}', {\em Science} {\bf 215}(4539),~1501--1503.
@@ -35,6 +78,12 @@ Raup, D.~M. \harvardand\ Sepkoski, J.~J.  \harvardyearleft 1982\harvardyearright
 
 \harvarditem{Revell}{2024}{revell_ancestral_2024}
 Revell, L.  \harvardyearleft 2024\harvardyearright , `Ancestral state reconstruction of phenotypic characters'.
+
+\harvarditem[Ruta et~al.]{Ruta, Angielczyk, Fr{\"o}bisch \harvardand\ Benton}{2013}{ruta2013decoupling}
+Ruta, M., Angielczyk, K.~D., Fr{\"o}bisch, J. \harvardand\ Benton, M.~J.  \harvardyearleft 2013\harvardyearright , `Decoupling of morphological disparity and taxic diversity during the adaptive radiation of anomodont therapsids', {\em Proceedings of the Royal Society B: Biological Sciences} {\bf 280}(1768),~20131071.
+
+\harvarditem{Schluter}{2000}{schluter2000ecology}
+Schluter, D.  \harvardyearleft 2000\harvardyearright , {\em The ecology of adaptive radiation}, OUP Oxford.
 
 \harvarditem[Schluter et~al.]{Schluter, Price, Mooers \harvardand\ Ludwig}{1997}{schluter1997likelihood}
 Schluter, D., Price, T., Mooers, A.~{\O}. \harvardand\ Ludwig, D.  \harvardyearleft 1997\harvardyearright , `Likelihood of ancestor states in adaptive radiation', {\em Evolution} {\bf 51}(6),~1699--1711.
@@ -45,6 +94,9 @@ Swofford, D.~L. \harvardand\ Maddison, W.~P.  \harvardyearleft 1992\harvardyearr
 \harvarditem{Toljagić \harvardand\ Butler}{2013}{toljagic_triassicjurassic_2013}
 Toljagić, O. \harvardand\ Butler, R.~J.  \harvardyearleft 2013\harvardyearright , `Triassic–{Jurassic} mass extinction as trigger for the {Mesozoic} radiation of crocodylomorphs', {\em Biology Letters} .
 \newblock Publisher: The Royal Society.
+
+\harvarditem[Wan et~al.]{Wan, Foster, Tian, Stubbs, Benton, Qiu \harvardand\ Yuan}{2021}{wan2021decoupling}
+Wan, J., Foster, W.~J., Tian, L., Stubbs, T.~L., Benton, M.~J., Qiu, X. \harvardand\ Yuan, A.  \harvardyearleft 2021\harvardyearright , `Decoupling of morphological disparity and taxonomic diversity during the end-permian mass extinction', {\em Paleobiology} {\bf 47}(3),~402--417.
 
 \harvarditem[Wills et~al.]{Wills, Briggs \harvardand\ Fortey}{1994}{wills_disparity_1994}
 Wills, M.~A., Briggs, D. E.~G. \harvardand\ Fortey, R.~A.  \harvardyearleft 1994\harvardyearright , `Disparity as an evolutionary index: a comparison of {Cambrian} and {Recent} arthropods', {\em Paleobiology} {\bf 20}(2),~93--130.

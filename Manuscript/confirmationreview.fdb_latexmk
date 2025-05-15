@@ -1,15 +1,15 @@
 # Fdb version 4
-["bibtex confirmationreview"] 1747136721.86084 "confirmationreview.aux" "confirmationreview.bbl" "confirmationreview" 1747145018.42552 0
-  "./references.bib" 1747133265.40007 230851 c9651b5f3284d976584f39de09534dcb ""
+["bibtex confirmationreview"] 1747306926.55821 "confirmationreview.aux" "confirmationreview.bbl" "confirmationreview" 1747306927.23274 0
+  "./references.bib" 1747305681.74648 229948 059de6903a24aff421890bad75756ba1 ""
   "/usr/share/texlive/texmf-dist/bibtex/bst/harvard/agsm.bst" 1136766823 25549 e3d0f1ab4ae55e777f7352db30e2c6f7 ""
-  "confirmationreview.aux" 1747145018.23831 3292 b21916a5d05f8d8e745ab1e1550a562f "pdflatex"
+  "confirmationreview.aux" 1747306927.07362 7742 937575077bbe2cfe40f9ed81362eb83b "pdflatex"
   (generated)
   "confirmationreview.bbl"
   "confirmationreview.blg"
   (rewritten before read)
-["pdflatex"] 1747145017.8103 "/home/caleb/Documents/PhD/acedisparity/Manuscript/confirmationreview.tex" "confirmationreview.pdf" "confirmationreview" 1747145018.42566 0
+["pdflatex"] 1747306926.64365 "/home/caleb/Documents/PhD/acedisparity/Manuscript/confirmationreview.tex" "confirmationreview.pdf" "confirmationreview" 1747306927.23288 0
   "/etc/texmf/web2c/texmf.cnf" 1730844760.28548 475 c0e671620eb5563b2130f56340a5fde8 ""
-  "/home/caleb/Documents/PhD/acedisparity/Manuscript/confirmationreview.tex" 1747145017.59027 9947 5264d8465ade2f932ab85439e7382d57 ""
+  "/home/caleb/Documents/PhD/acedisparity/Manuscript/confirmationreview.tex" 1747306925.75556 18241 c667287293b7e4e527defaa6a6c14b42 ""
   "/usr/share/texlive/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/jknappen/ec/tcrm1000.tfm" 1136768653 1536 e07581a4bb3136ece9eeb4c3ffab8233 ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/public/cm/cmbx10.tfm" 1136768653 1328 c834bbb027764024c09d3d2bf908b5f0 ""
@@ -25,12 +25,16 @@
   "/usr/share/texlive/texmf-dist/fonts/tfm/public/cm/cmsy6.tfm" 1136768653 1116 933a60c408fc0a863a92debe84b2d294 ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/public/cm/cmsy8.tfm" 1136768653 1120 8b7d695260f3cff42e636090a8002094 ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/public/cm/cmti10.tfm" 1136768653 1480 aa8e34af0eb6a2941b776984cf1dfdc4 ""
+  "/usr/share/texlive/texmf-dist/fonts/tfm/public/cm/cmtt10.tfm" 1136768653 768 1321e9409b4137d6fb428ac9dc956269 ""
   "/usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb" 1248133631 34811 78b52f49e893bcba91bd7581cdc144c0 ""
   "/usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb" 1248133631 32080 340ef9bf63678554ee606688e7b5339d ""
+  "/usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb" 1248133631 36299 5f9df58c2139e7edcf37c8fca4bd384d ""
   "/usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb" 1248133631 35752 024fb6c41858982481f6968b5fc26508 ""
   "/usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb" 1248133631 32722 d7379af29a190c3f453aba36302ff5a9 ""
   "/usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb" 1248133631 32362 179c33bbf43f19adbb3825bb4e36e57a ""
+  "/usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb" 1248133631 32569 5e5ddc8df908dea60932f3c484a54c0d ""
   "/usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb" 1248133631 37944 359e864bd06cde3b1cf57bb20757fb06 ""
+  "/usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb" 1248133631 31099 c85edf1dd5b9e826d67c9c7293b6786c ""
   "/usr/share/texlive/texmf-dist/tex/context/base/mkii/supp-pdf.mkii" 1461363279 71627 94eb9990bed73c364d7f53f960cc8c5b ""
   "/usr/share/texlive/texmf-dist/tex/generic/atbegshi/atbegshi.sty" 1575674566 24708 5584a51a7101caf7e6bbf1fc27d8f7b1 ""
   "/usr/share/texlive/texmf-dist/tex/generic/bigintcalc/bigintcalc.sty" 1576625341 40635 c40361e206be584d448876bba8a64a3b ""
@@ -82,12 +86,13 @@
   "/usr/share/texmf/web2c/texmf.cnf" 1707919699 40399 f2c302f7d2af602abb742093540a5834 ""
   "/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map" 1730844780.91279 5472669 54eaf61a88b6b7896ebd0dac973cb29c ""
   "/var/lib/texmf/web2c/pdftex/pdflatex.fmt" 1730844870 8215263 37da5ff08623ce8426d1176d844cce83 ""
-  "confirmationreview.aux" 1747145018.23831 3292 b21916a5d05f8d8e745ab1e1550a562f "pdflatex"
-  "confirmationreview.bbl" 1747136721.93355 4841 e83a83e5d20517ce87a6f52b42da6a39 "bibtex confirmationreview"
-  "confirmationreview.out" 1747145018.23831 2814 1ad312e324585c00c2828bce97a87c94 "pdflatex"
-  "confirmationreview.tex" 1747145017.59027 9947 5264d8465ade2f932ab85439e7382d57 ""
-  "confirmationreview.toc" 1747145018.23831 1019 2a19389d81a145c471463911ceee7cf7 "pdflatex"
-  "sheffieldlogo.png" 1740993460.32398 119360 9cb1721fc2d5cf820f94d4813a2a5782 ""
+  "confirmationreview.aux" 1747306927.07362 7742 937575077bbe2cfe40f9ed81362eb83b "pdflatex"
+  "confirmationreview.bbl" 1747306926.6396 10412 0a87205bbf8d14d31083f55344c528c4 "bibtex confirmationreview"
+  "confirmationreview.out" 1747306927.07362 5240 7375756ae8efb5a2f363560fe1734b23 "pdflatex"
+  "confirmationreview.tex" 1747306925.75556 18241 c667287293b7e4e527defaa6a6c14b42 ""
+  "confirmationreview.toc" 1747306927.07462 2280 d852d7b5327daaebc1418a9b4560c7a7 "pdflatex"
+  "images/extinctionscenarios.png" 1740993460.30798 58846 1f9a77e41df098f9c0db364816ec33a7 ""
+  "images/sheffieldlogo.png" 1740993460.32398 119360 9cb1721fc2d5cf820f94d4813a2a5782 ""
   (generated)
   "confirmationreview.aux"
   "confirmationreview.log"

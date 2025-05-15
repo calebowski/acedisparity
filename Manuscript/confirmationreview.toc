@@ -1,11 +1,26 @@
 \contentsline {part}{I\hspace {1em}Abstract}{1}{part.1}%
 \contentsline {part}{II\hspace {1em}Literature Review}{2}{part.2}%
-\contentsline {section}{\numberline {1}Introduction to mass extinctions}{2}{section.1}%
-\contentsline {section}{\numberline {2}PCMs}{3}{section.2}%
-\contentsline {section}{\numberline {3}Ancestral state estimation}{3}{section.3}%
-\contentsline {section}{\numberline {4}Aims and objectives}{3}{section.4}%
-\contentsline {part}{III\hspace {1em}Thesis plan}{4}{part.3}%
-\contentsline {section}{\numberline {5}Chapter One: How is ancestral state estimation accuracy preserved down disparity pipeline?}{4}{section.5}%
-\contentsline {section}{\numberline {6}Chapter Two: Ancestral state estimation over mass extinctions/any change in model type, do fossils help?}{4}{section.6}%
-\contentsline {section}{\numberline {7}Chapter Three: Building trees for eutherian mammals}{4}{section.7}%
-\contentsline {section}{\numberline {8}Chapter Four: Eutherian disparity over K-Pg mass extinction}{4}{section.8}%
+\contentsline {section}{\numberline {1}Mass extinctions}{3}{section.1}%
+\contentsline {subsection}{\numberline {1.1}What are they}{3}{subsection.1.1}%
+\contentsline {subsection}{\numberline {1.2}Recovery dynamics}{3}{subsection.1.2}%
+\contentsline {section}{\numberline {2}Morphology, Disparity and Extinction}{3}{section.2}%
+\contentsline {subsection}{\numberline {2.1}Extinction selectivity}{4}{subsection.2.1}%
+\contentsline {subsection}{\numberline {2.2}Examples of disparity shifting across mass extinction}{4}{subsection.2.2}%
+\contentsline {section}{\numberline {3}Measuring disparity}{5}{section.3}%
+\contentsline {subsection}{\numberline {3.1}Types of trait data}{5}{subsection.3.1}%
+\contentsline {subsection}{\numberline {3.2}Pipeline}{5}{subsection.3.2}%
+\contentsline {subsection}{\numberline {3.3}Whether or not to include phylogeny}{5}{subsection.3.3}%
+\contentsline {section}{\numberline {4}Ancestral state estimation}{5}{section.4}%
+\contentsline {subsection}{\numberline {4.1}Application of ASE}{5}{subsection.4.1}%
+\contentsline {subsection}{\numberline {4.2}Discrete characters}{6}{subsection.4.2}%
+\contentsline {subsection}{\numberline {4.3}Continuous characters}{6}{subsection.4.3}%
+\contentsline {section}{\numberline {5}Detecting shifts in disparity}{6}{section.5}%
+\contentsline {section}{\numberline {6}Aims and objectives}{6}{section.6}%
+\contentsline {part}{III\hspace {1em}Thesis plan}{7}{part.3}%
+\contentsline {section}{\numberline {7}Chapter One: How is ancestral state estimation accuracy preserved down disparity pipeline?}{7}{section.7}%
+\contentsline {subsection}{\numberline {7.1}Introduction}{7}{subsection.7.1}%
+\contentsline {subsection}{\numberline {7.2}Methods}{7}{subsection.7.2}%
+\contentsline {subsection}{\numberline {7.3}Why does this matter?}{8}{subsection.7.3}%
+\contentsline {section}{\numberline {8}Chapter Two: Detecting non-random shifts in disparity across major events (eg extinctions)}{9}{section.8}%
+\contentsline {section}{\numberline {9}Chapter Three: Eutherian disparity over K-Pg mass extinction}{9}{section.9}%
+\contentsline {part}{IV\hspace {1em}Summary of research achievements}{9}{part.4}%

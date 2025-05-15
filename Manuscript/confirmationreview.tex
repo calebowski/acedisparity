@@ -23,7 +23,7 @@ Advisor: Karl Evans (UoS)}
 
 \begin{figure}[t]
     \centering
-    \includegraphics[width=5cm]{sheffieldlogo.png}
+    \includegraphics[width=5cm]{images/sheffieldlogo.png}
 
 \end{figure}
 
@@ -60,31 +60,91 @@ Lit review needs following structure:
 - Ancestral state estimation -> why we use it? lack of fossils etc. Challenges we face when using PCMs.
 
 
-\section{Introduction to mass extinctions}
+\section{Mass extinctions}
+\subsection{What are they}
+
 Extinction is a common process throughout Earth history; 99\% of species that have ever existed are now extinct \citep{overholt_biodiversity_crisis_2003}. 
 However, extinction rates are not constant and occur in pulses across background taxonomic turnover \citep{raup_mass_1982}. 
 Extinction events that wipe out over 75\% of species are termed `mass extinctions' and have occurred five times over the last 500 million years \citep{raup_mass_1982}. 
 Mass extinctions drive a reorganisation of biodiversity as episodes of mass species turnover \citep{jablonski_lessons_2001}. 
 On a macroevolutionary scale, mass extinctions can be considered both destructive and generative; derailing the evolutionary processes of selection and speciation that occur during periods of background extinction \citep{gould_structure_2002}, yet triggering adaptive radiations in the aftermath as unoccupied niches are filled by surviving clades \citep{losos_adaptive_2010, toljagic_triassicjurassic_2013}. 
 Therefore, mass extinction boundaries often mark the most profound species composition transitions in Earth history.
+
+\subsection{Recovery dynamics}
+Classic adaptive radiation theory posits a linkage between taxonomic and phenotypic diversification, which are expected to follow a pattern of early high rates that decrease through time \citep{schluter2000ecology}.
+However, empirical evidence often finds a decoupling of taxonomic richness and morphological diversity (termed disparity).
+Peak taxonomic diversity and morphological disparity may be reached at different points in a clade's history, suggesting a discordance between these metrics of diversity \citep{foote_discordance_1993, hopkins2013decoupling, ruta2013decoupling,wan2021decoupling}.
+This discordance has been observed across mass extinction events \citep{bapst_graptoloid_2012,edie_contrasting_2018,ezcurra_rise_2018}. 
+Therefore, quantifying species composition turnover based solely on taxonomic diversity metrics such as species richness may not encapsulate the full complexity of recovery \citep{puttick_complex_2020}. 
 Survivors filling the vacant niches left by extinct lineages allow this increase in ecological diversity.
 Alternatively, surviving clades may proliferate without undergoing substantial ecological or functional change by persisting within pre-existing roles \citep{brusatte2008first, bapst_graptoloid_2012}.
+
 
 % From a contemporary perspective, mass extinctions have received intense attention due to the current anthropogenic-induced elevated extinction rates \citep{barnosky_has_2011,ceballos_accelerated_2015,ceballos_biological_2017}. 
 % Global ecosystems are already exhibiting patterns of species composition turnover \citep{buckley_linking_2008,diniz-filho_partitioning_2009,hillebrand_warming_2010}, as well as a loss of functional diversity \citep{cadotte2011beyond,carmona2021erosion,matthews2024global}. 
 % Little is known about the impacts of the ongoing mass extinction on functional diversity, thus it is crucial to understand how these metrics of diversity have been affected during past mass extinctions in order to model the ongoing extinction crisis.
 
-\section{PCMs}
-With the advance in the number of phylogenies available and relative ease in their construction, inferring macroevolutionary models has become more advanced.
-Morphology allows a key insight into past evolutionary processes, particularly in deep time through fossils.
-Disparity, the term used to describe morphological variation, has been widely used to investigate patterns of evolution in extant and extinction clades \citep{wills_disparity_1994}.
+\section{Morphology, Disparity and Extinction}
+Analyses of morphology provide a key insights into past evolutionary processes, especially across major evolutionary events such as a mass extinction.
+Disparity, the term used to describe morphological variation, has been widely used to investigate patterns of evolution in extant and extinct clades \citep{wills_disparity_1994}.
+Disparity is often used as a way of describing the multidimensional `trait spaces' that organisms occupy.
+\cite{guillerme_shifting_2020} outlines three ways these traitspaces can be described: size, density and position.
 Disparity is often used as a proxy for ecological variation, particularly when the morphological traits are inferred to be correlated to ecological function.
+Mass extinctions pose numerous scenarios of disparity (\autoref{fig:scenarios}); intuitively, mass extinctions may be expected to result in a decrease in disparity in tandem with selected removal of taxonomic diversity, as well as suppressed morphological evolution during recovery.
+Alternatively, when extinction is random, disparity may be maintained. 
+In adaptive scenarios, disparity may increase in opportunistic clades that diversify during the period of ecological opportunity following a mass extinction. 
+
+Idea of extinction selectivity: Devonian events are selective, Permian was non-selective \citep{korn_extinction_2013}.
+
+\subsection{Extinction selectivity}
+Mass extinction events can have varying effects on the morphospace of clades.
+By removing a subset of taxa, the distribution of taxa within the morphospace is transformed. 
+Random extinction will reduce the total number of taxa, but have little effect on variance-based disparity metrics, whereas selective extinction, whereby taxa are more susceptible to extinction due to particular trait combinations, will have a detectable effect on variance-based measures \citep{foote1997evolution,korn_extinction_2013}.
+\cite{korn_extinction_2013} proposed several patterns to describe different selection processes: lateral (asymmetric selection that trims one side of the morphospace), marginal (symmetric selection that removes peripheral taxa) and non-selective (random process independent of the variables defining the morphospace). 
+In contemporary extinctions, this idea of `extinction space' is also valid \citep{ali2023bird,matthews2024global}. 
+
+
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\linewidth]{images/extinctionscenarios.png}
+    \caption{Three scenarios that may occur within a clade across a mass extinction (denoted by dashed line). a) adaptive radiation. b) selective extinction. c) non-selective extinction. Adapted from \cite{grossnickle_therian_2016}.}
+    \label{fig:scenarios}
+\end{figure}
+
+What do we expect:
+- disparity to increase across mass extinction according to adaptive radiation theory
 
 
 
 
+\subsection{Examples of disparity shifting across mass extinction}
+Perhaps describe the eutherian mammal issue - no real clue on what really happened here?
+- mixed evidence of disparity changing across mass extinctions - why is that?
+- Methodological differences could be the answer?
+
+- One example where animals have radiated after a mass extinction (disparity goes up)
+- One example where disparity decreases \citep{cole_selectivity_2021}.
+
+Can link to \cite{cole_selectivity_2021}.
+
+
+\section{Measuring disparity}
+
+
+\subsection{Types of trait data}
+Morphological data used in disparity analyses usually fit into one of two categories: continuous or discrete.
+Discrete trait data 
+
+\subsection{Pipeline}
+Describe extra step involved in 
+
+\subsection{Whether or not to include phylogeny}
+
+Can link to ancestral state estimation ->
 
 \section{Ancestral state estimation}
+\subsection{Application of ASE}
 Ancestral state estimation (ASE) is the broad method of estimating trait value(s) in a set of common ancestors given a set of observed data for operational taxa of a phylogenetic tree \citep{schluter1997likelihood,cunningham1998reconstructing, yang2006computational,revell_ancestral_2024}.
 Trait data may be continuous, such as body size, or discrete, such as diet type or presence/absence of a character.
 The application of ASE is rooted in phylogenetic comparative methods, but also has applications in linguistics.
@@ -92,6 +152,14 @@ As put by \cite{swofford1992parsimony}, `character state reconstructions can pro
 
 Intuitively, ASE is appealing for those studying deep-time patterns. 
 The fragmented nature of the fossil record can yield low sampling coverage at deeper points in a phylogeny and so estimation of node values can increase statistical power.
+ASE deals with issue of ghost lineages, as brought up by Friedman 2009 and Brusatte 2011. 
+ASE is also needed for doing time-subsampling method of disparity through time.
+
+
+
+
+
+- Prob
 
 
 An additional requirement of ASE is the model specified.
@@ -103,7 +171,23 @@ This model specification varies between discrete and continuous characters.
 
 The fragmented fossil record can make sample size at deeper points in the phylogeny low, which may necessitate ASE. 
 
+\subsection{Discrete characters}
+Discrete characters are typically analysed using parsimony or likelihood approaches, although likelihood methods are generally preferred.
+Likelihood approaches, such as Bayesian inference or Maximum likelihood, optimise solutions based on the tree topology, branch lengths and the model of character evolution.
+Discrete characters are modelled using a continuous time Markov chain process, known as the M\textit{k} model \citep{pagel1994detecting, yang2006computational}. 
+This process is specified by a $\textit{k} \times \textit{k}$ matrix, \textbf{Q}, which gives the transition rates (\textit{q}) between states for each character. 
+There are a number of M\textit{k} models that can be fit to data. 
+The `equal-rates model' (ER) is the simplest and estimates just one parameter, since it assumes all transitions occur with equal probability, equivalent to the Jukes-Cantor model of molecular evolution.
+The assumptions of the ER model can be eased with the `symmetric' model (SYM): rate of change between any two character states is equal in the forwards and backwards direction, but may differ between different pairs of states.
+The `all-rates-different' (ARD) model allows for a different transition rate in each direction, includes a total of $\textit{k} \times (\textit{k} - 1)$ parameters to estimate.
 
+\subsection{Continuous characters}
+
+
+
+
+
+\section{Detecting shifts in disparity}
 
 
 
@@ -134,14 +218,54 @@ The fragmented fossil record can make sample size at deeper points in the phylog
 \part{Thesis plan}
 
 \section{Chapter One: How is ancestral state estimation accuracy preserved down disparity pipeline?}
+Empirical wise - can i use a dataset of a well preserved clade eg ammonoids etc.
+\subsection{Introduction}
+\begin{itemize}
+    \item Morphology can tell us interesting patterns about evolutionary process blah blah.
+    \item The combination of morphological datasets (using fossils) and phylogenies means we can infer these processes through deep time
+    \item This is particularly useful when studying major evolutionary events (such as a mass extinction)
+    \item However, the fossil record is incomplete and biased.
+    \item Many studies have made use of ancestral state estimation (ASE) in order to increase sample size, infer when certain trait combinations originated and how morphology has changed through time.
+    \item Particularly has been implemented in studies looking at disparity, which describes the multidimensional `morphospace' in which taxa occupy
+    \item These morphospaces can be constructed using discrete/continuous trait matrices, and ASE can infer the states nodes exhibit using a phylogenetic tree.
+\end{itemize}
 
-\section{Chapter Two: Ancestral state estimation over mass extinctions/any change in model type, do fossils help?}
+\subsection{Methods}
+\begin{itemize}
+    \item I simulated a set of 100 trees using \texttt{treats} \citep{guillerme_shifting_2020}. These trees were simulated with birth-death paramters as $\lambda = 1.0$, and $\mu = 0.7$. This leaves trees with a range of 50-200 fossil tips.
+    \item I simulated discrete and continuous trait data using \texttt{map.traits}. 
+    \item For discrete traits, I simulated trait data across each tree (100 characters, 85\% binary, 15\% 3-state) using M\textit{k} model with 3 different transition rates: fast = 0.9, medium = 0.1, slow = 0.01.
+    \item For continuous traits, I simulated both BM and OU model trait data (50 characters).
+    \item 
+\end{itemize}
 
-\section{Chapter Three: Building trees for eutherian mammals}
-
-\section{Chapter Four: Eutherian disparity over K-Pg mass extinction}
 
 
+
+\begin{itemize}
+    \item How does fossil sampling influence ASE accuracy and how does this vary by trait transition-rate/model?
+    \item How does sampling vs threshold improve accuracy of ASE
+    \item How does this accuracy become filtered/distorted down the disparity pipeline?
+    \item How *truly* accurate are certain disparity estimates?
+    \item BONUS\: how does (selective) extinction influence these estimates?
+\end{itemize}
+
+\subsection{Why does this matter?}
+\begin{itemize}
+    \item ASE is a commonly used method in PCMs
+    \item Used in disparity workflows as a way of increasing sample size in deeper time (where fossil sampling is low)
+    \item Pre-requisite in time-slicing disparity analyses
+    \item Often, studies will use default parameters for ASE functions, without thinking about what to set threshold parameter for example.
+    \item 
+ \end{itemize}
+
+
+\section{Chapter Two: Detecting non-random shifts in disparity across major events (eg extinctions)}
+
+\section{Chapter Three: Eutherian disparity over K-Pg mass extinction}
+
+
+\part{Summary of research achievements}
 
 
 
