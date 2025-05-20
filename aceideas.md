@@ -32,3 +32,7 @@ Remove node values, and then run ace, then compare ace values to "true" values t
 Or alternatively, switch to a bayesian method of ace whereby the pre-extinction traitspace is used as a prior for the post-extinction estimates.
 Do fossils help when mass extinction occurs?
 
+Another idea:
+- what is a better method: imputation of existing taxa sampling, or ancestral state estimation. 
+- the rationale of this is that, often with these studies, fossils are degraded already with lots of missing data. 
+- Is it better - do you recover true macroevolutionary patterns - if you use imputation methods of existing data, rather than ancestral state estimation.

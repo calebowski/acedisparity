@@ -10,6 +10,9 @@ Bapst, D.~W., Bullock, P.~C., Melchin, M.~J., Sheets, H.~D. \harvardand\ Mitchel
 \harvarditem[Brusatte et~al.]{Brusatte, Benton, Ruta \harvardand\ Lloyd}{2008}{brusatte2008first}
 Brusatte, S.~L., Benton, M.~J., Ruta, M. \harvardand\ Lloyd, G.~T.  \harvardyearleft 2008\harvardyearright , `The first 50 myr of dinosaur evolution: macroevolutionary pattern and morphological disparity', {\em Biology letters} {\bf 4}(6),~733--736.
 
+\harvarditem[Brusatte et~al.]{Brusatte, Montanari, Yi \harvardand\ Norell}{2011}{brusatte2011phylogenetic}
+Brusatte, S.~L., Montanari, S., Yi, H.-y. \harvardand\ Norell, M.~A.  \harvardyearleft 2011\harvardyearright , `Phylogenetic corrections for morphological disparity analysis: new methodology and case studies', {\em Paleobiology} {\bf 37}(1),~1--22.
+
 \harvarditem{Cole \harvardand\ Hopkins}{2021}{cole_selectivity_2021}
 Cole, S.~R. \harvardand\ Hopkins, M.~J.  \harvardyearleft 2021\harvardyearright , `Selectivity and the effect of mass extinctions on disparity and functional ecology', {\em Science Advances} {\bf 7}(19),~eabf4072.
 \newblock Publisher: American Association for the Advancement of Science.
@@ -25,11 +28,23 @@ Edie, S.~M., Jablonski, D. \harvardand\ Valentine, J.~W.  \harvardyearleft 2018\
 Ezcurra, M.~D. \harvardand\ Butler, R.~J.  \harvardyearleft 2018\harvardyearright , `The rise of the ruling reptiles and ecosystem recovery from the {Permo}-{Triassic} mass extinction', {\em Proceedings of the Royal Society B: Biological Sciences} {\bf 285}(1880),~20180361.
 \newblock Publisher: Royal Society.
 
+\harvarditem{Felsenstein}{1981}{felsenstein1981evolutionary}
+Felsenstein, J.  \harvardyearleft 1981\harvardyearright , `Evolutionary trees from gene frequencies and quantitative characters: finding maximum likelihood estimates', {\em Evolution} pp.~1229--1242.
+
+\harvarditem{Felsenstein}{1985}{felsenstein1985phylogenies}
+Felsenstein, J.  \harvardyearleft 1985\harvardyearright , `Phylogenies and the comparative method', {\em The American Naturalist} {\bf 125}(1),~1--15.
+
+\harvarditem[Fischer et~al.]{Fischer, Maisch, Naish, Kosma, Liston, Joger, Kr{\"u}ger, P{\'e}rez, Tainsh \harvardand\ Appleby}{2012}{fischer2012new}
+Fischer, V., Maisch, M.~W., Naish, D., Kosma, R., Liston, J., Joger, U., Kr{\"u}ger, F.~J., P{\'e}rez, J.~P., Tainsh, J. \harvardand\ Appleby, R.~M.  \harvardyearleft 2012\harvardyearright , `New ophthalmosaurid ichthyosaurs from the european lower cretaceous demonstrate extensive ichthyosaur survival across the jurassic--cretaceous boundary', {\em PLoS One} {\bf 7}(1),~e29234.
+
 \harvarditem{Foote}{1993}{foote_discordance_1993}
 Foote, M.  \harvardyearleft 1993\harvardyearright , `Discordance and concordance between morphological and taxonomic diversity', {\em Paleobiology} {\bf 19}(2),~185--204.
 
 \harvarditem{Foote}{1997}{foote1997evolution}
 Foote, M.  \harvardyearleft 1997\harvardyearright , `The evolution of morphological diversity', {\em Annual Review of Ecology and Systematics} {\bf 28}(1),~129--152.
+
+\harvarditem{Friedman}{2009}{friedman2009ecomorphological}
+Friedman, M.  \harvardyearleft 2009\harvardyearright , `Ecomorphological selectivity among marine teleost fishes during the end-cretaceous extinction', {\em Proceedings of the National Academy of Sciences} {\bf 106}(13),~5218--5223.
 
 \harvarditem{Friedman}{2010}{friedman_explosive_2010}
 Friedman, M.  \harvardyearleft 2010\harvardyearright , `Explosive morphological diversification of spiny-finned teleost fishes in the aftermath of the end-{Cretaceous} extinction', {\em Proceedings of the Royal Society B: Biological Sciences} .
@@ -40,6 +55,9 @@ Gould, S.~J.  \harvardyearleft 2002\harvardyearright , The {Structure} of {Evolu
 
 \harvarditem{Grossnickle \harvardand\ Newham}{2016}{grossnickle_therian_2016}
 Grossnickle, D.~M. \harvardand\ Newham, E.  \harvardyearleft 2016\harvardyearright , `Therian mammals experience an ecomorphological radiation during the {Late} {Cretaceous} and selective extinction at the {K}–{Pg} boundary', {\em Proceedings of the Royal Society B: Biological Sciences} {\bf 283}(1832),~20160256.
+
+\harvarditem{Guillerme}{2024}{guillerme2024treats}
+Guillerme, T.  \harvardyearleft 2024\harvardyearright , `treats: A modular r package for simulating trees and traits', {\em Methods in Ecology and Evolution} {\bf 15}(4),~647--656.
 
 \harvarditem[Guillerme et~al.]{Guillerme, Puttick, Marcy \harvardand\ Weisbecker}{2020}{guillerme_shifting_2020}
 Guillerme, T., Puttick, M.~N., Marcy, A.~E. \harvardand\ Weisbecker, V.  \harvardyearleft 2020\harvardyearright , `Shifting spaces: {Which} disparity or dissimilarity measurement best summarize occupancy in multidimensional spaces?', {\em Ecology and Evolution} {\bf 10}(14),~7261--7275.
@@ -62,6 +80,9 @@ Losos, J.~B.  \harvardyearleft 2010\harvardyearright , `Adaptive {Radiation}, {E
 \harvarditem[Matthews et~al.]{Matthews, Triantis, Wayman, Martin, Hume, Cardoso, Faurby, Mendenhall, Dufour, Rigal et~al.}{2024}{matthews2024global}
 Matthews, T.~J., Triantis, K.~A., Wayman, J.~P., Martin, T.~E., Hume, J.~P., Cardoso, P., Faurby, S., Mendenhall, C.~D., Dufour, P., Rigal, F. et~al.  \harvardyearleft 2024\harvardyearright , `The global loss of avian functional and phylogenetic diversity from anthropogenic extinctions', {\em Science} {\bf 386}(6717),~55--60.
 
+\harvarditem[O'Meara et~al.]{O'Meara, An{\'e}, Sanderson \harvardand\ Wainwright}{2006}{omeara2006testing}
+O'Meara, B.~C., An{\'e}, C., Sanderson, M.~J. \harvardand\ Wainwright, P.~C.  \harvardyearleft 2006\harvardyearright , `Testing for different rates of continuous trait evolution using likelihood', {\em Evolution} {\bf 60}(5),~922--933.
+
 \harvarditem{Overholt}{2003}{overholt_biodiversity_crisis_2003}
 Overholt, E.  \harvardyearleft 2003\harvardyearright , `The biodiversity crisis: Losing what counts', {\em The American Biology Teacher} {\bf 65}(3),~226--227.
 \newblock Copyright - Copyright National Association of Biology Teachers Mar 2003; People - Novacek, Michael J; Futter, Ellen V; Last updated - 2024-10-04; CODEN - ABITA4; SubjectsTermNotLitGenreText - Novacek, Michael J; Futter, Ellen V; Biodiversity; Case Studies; Careers; Land Use; Social.
@@ -71,6 +92,9 @@ Pagel, M.  \harvardyearleft 1994\harvardyearright , `Detecting correlated evolut
 
 \harvarditem[Puttick et~al.]{Puttick, Guillerme \harvardand\ Wills}{2020}{puttick_complex_2020}
 Puttick, M.~N., Guillerme, T. \harvardand\ Wills, M.~A.  \harvardyearleft 2020\harvardyearright , `The complex effects of mass extinctions on morphological disparity', {\em Evolution} {\bf 74}(10),~2207--2220.
+
+\harvarditem{Raup}{1966}{raup1966geometric}
+Raup, D.~M.  \harvardyearleft 1966\harvardyearright , `Geometric analysis of shell coiling: general problems', {\em Journal of paleontology} pp.~1178--1190.
 
 \harvarditem{Raup \harvardand\ Sepkoski}{1982}{raup_mass_1982}
 Raup, D.~M. \harvardand\ Sepkoski, J.~J.  \harvardyearleft 1982\harvardyearright , `Mass {Extinctions} in the {Marine} {Fossil} {Record}', {\em Science} {\bf 215}(4539),~1501--1503.

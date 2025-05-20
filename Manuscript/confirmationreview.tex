@@ -1,4 +1,5 @@
 \documentclass[titlepage]{article}
+\usepackage{amsmath}  % Required for \text
 \usepackage{graphicx}
 \usepackage[hidelinks]{hyperref}
 \usepackage[round]{natbib}
@@ -55,8 +56,14 @@ Furthermore, the pipeline can be a useful tool for the wider community to be app
 Lit review needs following structure:
 - What are big evolutionary questions we want to answer? For example, how do animals evolve across a mass extinction? 
 - Inferring evolutionary events with PCM's/morphology -> what are the main methods people use. Vast quantities of data have allowed phylogenies to be easily constructed. 
+    - Most famously, Raup 1966 coiling \citep{raup1966geometric}
+    - The vast quantities of datasets available.
+    - Phylogenies are growing larger
 - Disparity -> what can it be used to infer
-- However, disparity is not prone to major pitfalls.
+    - used to infer differences in clade morphospace (are some clades bigger in morphospace than others, more dispersed etc.)
+    - Used to look at patterns through time (DTT)
+
+- However, disparity is not prone to major pitfalls and many of the methodologies need to be made better.
 - Ancestral state estimation -> why we use it? lack of fossils etc. Challenges we face when using PCMs.
 
 
@@ -134,14 +141,14 @@ Can link to \cite{cole_selectivity_2021}.
 
 \subsection{Types of trait data}
 Morphological data used in disparity analyses usually fit into one of two categories: continuous or discrete.
-Discrete trait data 
+Discrete trait data often uses cladistic datasets originally purposed for phylogenetics.
+Continuous trait data blah blah.
 
 \subsection{Pipeline}
-Describe extra step involved in 
-
+Show the pipeline fiugure
 \subsection{Whether or not to include phylogeny}
 
-Can link to ancestral state estimation ->
+Can link to ancestral state estimation -> is ace confounding or not?
 
 \section{Ancestral state estimation}
 \subsection{Application of ASE}
@@ -150,16 +157,35 @@ Trait data may be continuous, such as body size, or discrete, such as diet type 
 The application of ASE is rooted in phylogenetic comparative methods, but also has applications in linguistics.
 As put by \cite{swofford1992parsimony}, `character state reconstructions can provide a powerful mechanism for studying many facets of the evolutionary process. However, the zeal with which these techniques are sometimes advocated belies the complexity of the problem'.
 
-Intuitively, ASE is appealing for those studying deep-time patterns. 
-The fragmented nature of the fossil record can yield low sampling coverage at deeper points in a phylogeny and so estimation of node values can increase statistical power.
-ASE deals with issue of ghost lineages, as brought up by Friedman 2009 and Brusatte 2011. 
-ASE is also needed for doing time-subsampling method of disparity through time.
+Intuitively, ASE is appealing for those studying deep-time patterns of disparity.
+% The fragmented nature of the fossil record can yield low sampling coverage at deeper points in a phylogeny and so estimation of node values can increase statistical power.
+The fragmented nature of the fossil record means that means much of the phylogeny is left unsampled when including only observed taxa.
+Incorporating a phylogeny into disparity analysis will unavoidably introduce unsampled `ghost lineages' \citep{brusatte2011phylogenetic}.
+A ghost lineage is the hypothetical ancestor that is not observed in the fossil record, but can be inferred to have existed due to the presence of other fossils/extant taxa. 
+This can be best explained as the branch on a phylogeny between two observed taxonomic units (see below)
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width = 10cm]{images/Ichthyosauria_phylogeny.jpg}
+    \caption{Phylogeny of ichthyosaurs showing observed stratigraphic range for each species (thick lines) and inferred ghost lineages (thin lines) \citep{fischer2012new}.}
+    \label{fig:ichthy_phylo}
+
+\end{figure}
+
+ASE has been employed as a way of inferring the traits of these hypothetical species based on the traits of their descendents.
+This fills in the gaps in the fossil record and alleviates the bias associated with uneven sampling across the phylogenetic tree \citep{friedman2009ecomorphological, brusatte2011phylogenetic}. 
+When using ASE, the estimated traits for nodes of a phylogeny are used as a way of sampling these ghost lineages.
+As detailed below, modern ASE methods make use of branch lengths to describe the temporal range over which morphological evolution has taken place.
+Thus, longer ghost lineages can increase uncertainty in ASE estimates, which highlights the need for fossil sampling.
+The importance of accounting for ghost lineages has been stressed, since it can impact our understand of the rate of morphological evolution.
+Ignoring ghost lineages may find abrupt shifts in disparity that may be misleading of a more gradual accumulation that has been missed due to incomplete fossil sampling.
+Therefore, using ASE tends to smooth the disparity curves through time.
+Look at Halliday. guillerme etc for how to incorporate these aced estimated into dtt - different binning methods, time slicing etc.
 
 
 
 
 
-- Prob
 
 
 An additional requirement of ASE is the model specified.
@@ -174,14 +200,70 @@ The fragmented fossil record can make sample size at deeper points in the phylog
 \subsection{Discrete characters}
 Discrete characters are typically analysed using parsimony or likelihood approaches, although likelihood methods are generally preferred.
 Likelihood approaches, such as Bayesian inference or Maximum likelihood, optimise solutions based on the tree topology, branch lengths and the model of character evolution.
-Discrete characters are modelled using a continuous time Markov chain process, known as the M\textit{k} model \citep{pagel1994detecting, yang2006computational}. 
-This process is specified by a $\textit{k} \times \textit{k}$ matrix, \textbf{Q}, which gives the transition rates (\textit{q}) between states for each character. 
-There are a number of M\textit{k} models that can be fit to data. 
+Discrete characters are modelled using a continuous time Markov chain process, known as the M\textit{k} model (where \textit{k} = number of possible states) \citep{pagel1994detecting, yang2006computational}. 
+This process is specified by a $\textit{k} \times \textit{k}$ matrix, \textbf{Q}, which gives the instantaneous transition rates (\textit{q}) between states for each character. 
+
+\[
+\textbf{Q} = \begin{bmatrix}
+    -q_{0,1} & q_{0,1} \\
+    q_{1,0} & -q_{1,0}
+\end{bmatrix}
+=
+\begin{bmatrix}
+    -0.5 & 0.5 \\
+    0.5 & -0.5
+\end{bmatrix}
+\]
+
+There are a number of M\textit{k} transition rate models that can be fit to data. 
 The `equal-rates model' (ER) is the simplest and estimates just one parameter, since it assumes all transitions occur with equal probability, equivalent to the Jukes-Cantor model of molecular evolution.
 The assumptions of the ER model can be eased with the `symmetric' model (SYM): rate of change between any two character states is equal in the forwards and backwards direction, but may differ between different pairs of states.
 The `all-rates-different' (ARD) model allows for a different transition rate in each direction, includes a total of $\textit{k} \times (\textit{k} - 1)$ parameters to estimate.
 
+
+This likelihood approach makes use of branch lengths, which is why it has become the preferred method of ASE compared to previous methods, such as parsimony. 
+The probability of each transition at any given interval of time (\textit{t}) can be calculated by 
+
+\[\textbf{P} = \exp(\textbf{Q}\textit{t})\]
+
+So if we want to calculate probability of each transition at node AB (ancestor of A and B) \textit{t} = 0.3.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width = 10cm]{images/phylo_tree.png}
+\end{figure}
+
+
+\[
+\textbf{P}_{t=0.4} = \exp(\textbf{Q} \times 0.4) = \begin{bmatrix}
+        0.835 & 0.164  \\
+        0.164 & 0.835
+\end{bmatrix}
+\]
+
+One further probability to consider is the `root prior', which is essentially whether the root node of the tree was in state 0 or 1.
+This is typically set with a flat root prior $\pi_{0} = \pi_{1} = 0.5$.
+
+The most popular method of ASE is \textit{marginal} estimation, which involves proceeding from node to node on the phylogeny, and, at each node, computing the probability of observing the tip data of our tree conditioned on fixing the node we've visited to each one of the set of distinct values of our trait.
+If we were to compute the probability that the root was in state 0, 
+
+For example, if we were to calculate the probability of the root node was in state 0: \[
+\begin{aligned}
+P(\text{root} = 0) &= \pi_{0} \times P(0 | 0, t_{AB}) \times P(1 | 0, t_{A}) \times P(0 | 0, t_{B}) \times P(0 | 0, t_{C}) \\
+&\quad + \pi_{0} \times P(1 | 0, t_{AB}) \times P(1 | 1, t_{A}) \times P(0 | 1, t_{B}) \times P(0 | 0, t_{C}) \\
+% &= 0.5 \times 0.0434 + 0.5 \times 0.0035 \\
+% &= 0.0234
+\end{aligned}
+\]
+
+This is repeated for \textit{P}(\text{root} = 1) and then the likelihoods are rescaled by their sum so they add up to 1.0. 
+In marginal estimation, this is calculated node by node.
+Since this can become extremely complicated as the phylogeny increases in size, in practice functions use algorithms such as Felsenstein's pruning algorithm \citep{felsenstein1981evolutionary}.
+
+
 \subsection{Continuous characters}
+Continuous trait evolution is typically modelled under Brownian motion, which describes a directionless random walk model \citep{felsenstein1985phylogenies, omeara2006testing}.
+Under Brownian motion, evolutionary changes come from a Gaussian distribution with a mean of 0 and variance proportional to the product of the rate of evolution and time elapsed ($\sigma^2\textit{t}$). 
 
 
 
@@ -198,69 +280,143 @@ The `all-rates-different' (ARD) model allows for a different transition rate in 
 
 
 
-\noindent\textbf{Research questions}
-\begin{itemize}
-    \item How does the accuracy of ASE become filtered down the disparity pipeline?
-    \item How do mass extinction events impact our recovery of ancestral states?
-    \item From the output of the exhaustive permutation of methodological combinations, which of the ecological diversification hypotheses are most supported? 
-\end{itemize}
+% \noindent\textbf{Research questions}
+% \begin{itemize}
+%     \item How does the accuracy of ASE become filtered down the disparity pipeline?
+%     \item How do mass extinction events impact our recovery of ancestral states?
+%     \item From the output of the exhaustive permutation of methodological combinations, which of the ecological diversification hypotheses are most supported? 
+% \end{itemize}
 
-\noindent{\textbf{Research objectives}}
+% \noindent{\textbf{Research objectives}}
 
-\begin{itemize}
-    \item Build pipeline that iterates over every parameter combination to output hundreds of disparity curves.
-    \item Make this pipeline adaptable so that different types of morphological data can be input, e.g.\ discrete and continuous characters, landmark data etc.
-    \item Develop pipeline so it uses probability distributions, rather than point estimates, to account for the uncertainty in the input/output.
-    \item Improved methods for ancestral state estimations across mass extinction events.
-    \item Develop new way of measuring change in disparity across a time interval, i.e. quantitative measure of the change in gradient, rather than simply against a null model.
-\end{itemize}
+% \begin{itemize}
+%     \item Build pipeline that iterates over every parameter combination to output hundreds of disparity curves.
+%     \item Make this pipeline adaptable so that different types of morphological data can be input, e.g.\ discrete and continuous characters, landmark data etc.
+%     \item Develop pipeline so it uses probability distributions, rather than point estimates, to account for the uncertainty in the input/output.
+%     \item Improved methods for ancestral state estimations across mass extinction events.
+%     \item Develop new way of measuring change in disparity across a time interval, i.e. quantitative measure of the change in gradient, rather than simply against a null model.
+% \end{itemize}
 
 \part{Thesis plan}
 
-\section{Chapter One: How is ancestral state estimation accuracy preserved down disparity pipeline?}
-Empirical wise - can i use a dataset of a well preserved clade eg ammonoids etc.
+\section{Chapter One: What is the effect of ancestral state estimations on disparity?}
+% Empirical wise - can I use a dataset of a well-preserved clade eg ammonoids etc.
 \subsection{Introduction}
 \begin{itemize}
-    \item Morphology can tell us interesting patterns about evolutionary process blah blah.
+    \item Morphology can tell us interesting patterns about evolutionary processes.
     \item The combination of morphological datasets (using fossils) and phylogenies means we can infer these processes through deep time
     \item This is particularly useful when studying major evolutionary events (such as a mass extinction)
-    \item However, the fossil record is incomplete and biased.
-    \item Many studies have made use of ancestral state estimation (ASE) in order to increase sample size, infer when certain trait combinations originated and how morphology has changed through time.
-    \item Particularly has been implemented in studies looking at disparity, which describes the multidimensional `morphospace' in which taxa occupy
-    \item These morphospaces can be constructed using discrete/continuous trait matrices, and ASE can infer the states nodes exhibit using a phylogenetic tree.
+    \item However, the fossil record is incomplete and this restricts our ability to look at deep time patterns of morphology.
+    \item Many studies have made use of ancestral state estimation (ASE) to fill in gaps left by `ghost lineages'. We know some species must have existed between root and tips but we don't know what they looked like.
+    \item Particularly has been implemented in studies looking at disparity, which describes the multidimensional `morphospace' in which taxa occupy.
+    \item ASE can be used to estimate the character state values (both continuous and discrete characters) at nodes on a phylogeny, using observed trait data (from living and fossil specimens).
 \end{itemize}
+
+\subsubsection{Why does this matter?}
+\begin{itemize}
+    \item ASE estimates are often shit and a `glorified average'. But, what can we do with them?
+    \item Erroneous estimates can mislead values of disparity and therefore macroevolutionary inferences.
+\end{itemize}
+
 
 \subsection{Methods}
+\subsubsection{Simulations}
 \begin{itemize}
-    \item I simulated a set of 100 trees using \texttt{treats} \citep{guillerme_shifting_2020}. These trees were simulated with birth-death paramters as $\lambda = 1.0$, and $\mu = 0.7$. This leaves trees with a range of 50-200 fossil tips.
-    \item I simulated discrete and continuous trait data using \texttt{map.traits}. 
+    \item I simulated a set of 100 trees using \texttt{treats} \citep{guillerme2024treats}. These trees were simulated with birth-death parameters as $\lambda = 1.0$, and $\mu = 0.7$. This leaves trees with a range of 50-200 fossil tips and 50 extant tips.
+    \item I simulated discrete and continuous trait data using \texttt{map.traits}. This effectively maps the 'true' evolutionary history across the phylogeny (tips and nodes have states mapped).
     \item For discrete traits, I simulated trait data across each tree (100 characters, 85\% binary, 15\% 3-state) using M\textit{k} model with 3 different transition rates: fast = 0.9, medium = 0.1, slow = 0.01.
-    \item For continuous traits, I simulated both BM and OU model trait data (50 characters).
-    \item 
+    \item For continuous traits, I simulated BM and OU model trait data (50 characters).
 \end{itemize}
 
-
-
-
+\subsubsection{Fossil sampling}
 \begin{itemize}
-    \item How does fossil sampling influence ASE accuracy and how does this vary by trait transition-rate/model?
-    \item How does sampling vs threshold improve accuracy of ASE
-    \item How does this accuracy become filtered/distorted down the disparity pipeline?
-    \item How *truly* accurate are certain disparity estimates?
-    \item BONUS\: how does (selective) extinction influence these estimates?
+    \item I then removed all node states from the matrices, leaving just tip states.
+    \item In order to understand how ASE accuracy is affected by fossil sampling level, I pruned the fossil tips at 5 levels, preserving the root to maintain tree height across each level:
+    \item \textbf{Living}: only extant tips are retained
+    \item \textbf{Low}: 5\% fossils retained
+    \item \textbf{Medium}: 15\% fossils retained
+    \item \textbf{High}: 50\% fossils retained
+    \item \textbf{All}: All fossils retained
 \end{itemize}
 
-\subsection{Why does this matter?}
+\subsubsection{ASE}
 \begin{itemize}
-    \item ASE is a commonly used method in PCMs
-    \item Used in disparity workflows as a way of increasing sample size in deeper time (where fossil sampling is low)
-    \item Pre-requisite in time-slicing disparity analyses
-    \item Often, studies will use default parameters for ASE functions, without thinking about what to set threshold parameter for example.
-    \item 
- \end{itemize}
+    \item I then ran ASE on these matrices using \texttt{multi.ace}, with three different parameters (for discrete states). 
+    \item \textbf{Relative majority rule}: the ancestral state estimated are all the ones that are have a scaled likelihood greater than the maximum observed scaled likelihood minus the inverse number of possible states: \[
+        \text{estimated~state} \geq \left( \max(\text{likelihood}) - \frac{1}{n_{\text{states}}} \right) %this formula is wrong.
+    \]  If more than one state is over this threshold, it is recovered as uncertain e.g., (0/1).    
+    \item \textbf{Strict majority rule}: Setting threshold parameter to a set value will select the ancestral states estimate with a scaled likelihood equal or greater than this designated value (in this case I did 0.5).
+    \item \textbf{No majority rule (sampling)}: \texttt{multi.ace} has a \texttt{sample = x} parameter, whereby you can return x matrices, in which states returned are by the scaled likelihood of each state appearing at each node. In this case I used sample = 10 for fast computation (in future I will do 100/1000).
+    \item Ran \texttt{multi.ace} on continuous characters using BM as model.
+    \item I will also do post-ordination ace to see how that compares to pre-ordination ace.
+\end{itemize}
+
+\subsubsection{Raw distance comparison between true vs ace}
+\begin{itemize}
+    \item I then used a Hamming distance metric to compare corresponding nodes between the `true' vs `aced' matrices.
+    \item Distances were calculated only for nodes that were present in all fossil sampling levels to allow for comparison.
+    \item The distance assigned a penalty of 1 for any wrong estimated state and also for uncertainty (i.e 0/1).
+    \item For continuous traits, I firstly scaled each matrix and then measured the euclidean distance between true vs ace for each corresponding node.
+    \item I also looked at the distance at just the root, to see how well ace recovers true value at deepest node.
+\end{itemize}
+
+\subsubsection{Distance comparison between ordinated true vs ace}
+\begin{itemize}
+    \item I then ordinated the true matrix (distance matrix then PCO for discrete, PCA for continuous), then projected the aced matrices onto this true matrix.
+    \item I measured the Euclidean distance between corresponding nodes again.
+\end{itemize}
+
+\subsubsection{Difference in disparity between true vs ace}
+\begin{itemize}
+    \item from the ordinated matrices, I calculated (will choose which metrics, at the moment sum variance and ranges and average nearest neighbour distance) disparity and calculated the difference between true vs aced.
+\end{itemize}
+
+\subsection{Results (or what I expect to find)}
+\subsubsection{Raw distances}
+\begin{itemize}
+    \item Slower transition rates = ASE accuracy improves
+    \item Increasing fossil sampling improves ASE accuracy (for discrete traits), particularly at deeper nodes.
+    \item Using sample method of ASE improved estimate accuracy
+    \item  Using sample method is relatively insensitive to low fossil sampling and finds high accuracy at all fossil sampling levels
+    \item At the root node, the impact of fossil sampling becomes more pertinent i.e., higher fossil sampling improves estimates
+    \item For continuous traits, ASE accuracy was much better for BM traits than OU
+    \item Estimates of continuous traits stay relatively constant across fossil preservation levels.
+    \item For continuous traits, using point estimates was more accurate than sample method.
+\end{itemize} 
+
+\subsubsection{Ordination}
+\begin{itemize}
+    \item I expect that patterns of distance to true value will correspond to the raw distance pattern (more fossil sampling = higher ASE accuracy, sample method = higher ASE accuracy)
+    \item I expect that fast transition rates will exhibit clustering at the centre of the morphospace, particularly with the default multi.ace parameter, due to the high amount of uncertainty recovered at deeper nodes. I think that the sample method of ASE will alleviate this artefact by removing this uncertainty.
+\end{itemize}
+
+\subsubsection{Disparity}
+\begin{itemize}
+    \item Preliminary results have found that using sample ASE method recovers high accuracy for all transition rates.
+    \item Using the default ASE method recovers much lower accuracy, particularly with low fossil sampling.
+    \item I expect to see different results for different disparity metrics. For example, metrics that focus on density will be able to identify these artifacts of clustering due to uncertainty in node estimates, which variance based metrics will miss.
+    \item This will highlight the need for multiple different disparity metrics to be used in disparity analyses
+\end{itemize}
+
+% \begin{itemize}
+%     \item How does fossil sampling influence ASE accuracy and how does this vary by trait transition-rate/model?
+%     \item How does sampling vs threshold improve accuracy of ASE
+%     \item How does this accuracy become filtered/distorted down the disparity pipeline?
+%     \item How *truly* accurate are certain disparity estimates?
+%     \item BONUS\: how does (selective) extinction influence these estimates?
+% \end{itemize}
+
+% \subsection{Why does this matter?}
+% \begin{itemize}
+%     \item ASE is a commonly used method in PCMs
+%     \item Used in disparity workflows as a way of increasing sample size in deeper time (where fossil sampling is low)
+%     \item Pre-requisite in time-slicing disparity analyses
+%     \item Often, studies will use default parameters for ASE functions, without thinking about what to set threshold parameter for example.
+%     \item 
+%  \end{itemize}
 
 
-\section{Chapter Two: Detecting non-random shifts in disparity across major events (eg extinctions)}
+\section{Chapter Two: Measuring changes in trends in disparity through time}
 
 \section{Chapter Three: Eutherian disparity over K-Pg mass extinction}
 
