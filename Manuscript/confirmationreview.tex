@@ -65,6 +65,23 @@ Lit review needs following structure:
 
 - However, disparity is not prone to major pitfalls and many of the methodologies need to be made better.
 - Ancestral state estimation -> why we use it? lack of fossils etc. Challenges we face when using PCMs.
+    - describe the methods 
+        - continuous -DONE
+        - discrete -DONE
+    - challenges of ace
+        - broad uncertainty, particularly at deeper nodes
+        - using point estimates (cite paper about incorporating uncertainty in macroevo studies)
+        - transition rates in discrete characters and the Darwinian uncertainty paradox
+        - phylogenetic signal 
+        - need for fossils (goswami phenomics paragraph, keating, hunt and slater), altho Ane (2008) argues that our confidence interval does not get much lower even with increased sample size.
+        - model misspecification
+        - basically they are shit and often create issues.
+        - they can only recover morphologies that are contained within the observed morphospace - silvestro paper.
+    - perhaps need examples of where ancestral states have proved wrong and how they are vulnerable to model misspecifaition
+    - then say about disparity? are ace estimates carried forward in disparity analyses sensitive?
+        - pre-OASE vs post-OASE.
+
+
 
 
 \section{Mass extinctions}
@@ -197,7 +214,7 @@ This model specification varies between discrete and continuous characters.
 
 The fragmented fossil record can make sample size at deeper points in the phylogeny low, which may necessitate ASE. 
 
-\subsection{Discrete characters}
+\subsubsection{Discrete characters}
 Discrete characters are typically analysed using parsimony or likelihood approaches, although likelihood methods are generally preferred.
 Likelihood approaches, such as Bayesian inference or Maximum likelihood, optimise solutions based on the tree topology, branch lengths and the model of character evolution.
 Discrete characters are modelled using a continuous time Markov chain process, known as the M\textit{k} model (where \textit{k} = number of possible states) \citep{pagel1994detecting, yang2006computational}. 
@@ -261,12 +278,90 @@ In marginal estimation, this is calculated node by node.
 Since this can become extremely complicated as the phylogeny increases in size, in practice functions use algorithms such as Felsenstein's pruning algorithm \citep{felsenstein1981evolutionary}.
 
 
-\subsection{Continuous characters}
-Continuous trait evolution is typically modelled under Brownian motion, which describes a directionless random walk model \citep{felsenstein1985phylogenies, omeara2006testing}.
-Under Brownian motion, evolutionary changes come from a Gaussian distribution with a mean of 0 and variance proportional to the product of the rate of evolution and time elapsed ($\sigma^2\textit{t}$). 
+\subsubsection{Continuous characters}
+Continuous trait evolution is typically modelled under a Brownian motion (BM) model of evolution \citep{felsenstein1985phylogenies, omeara2006testing}.
+Brownian motion models trait evolution as a directionless, stochastic process under which continuous characters undergo changes along the branches of a phylogeny.
+These evolutionary changes come from a Gaussian distribution with a mean of 0 and variance proportional to the product of the rate of evolution and time elapsed ($\sigma^2\textit{t}$). 
+Therefore, the expected amount of trait divergence between any two taxa is proportional to the amount of shared evolutionary history according to the phylogeny.
+
+Under BM, the vector (\textbf{x}) of observed tip trait values follows a multivariate normal (MVN) distribution and has an expected value that is equal to the root state $x_0$.
+\[
+\boldsymbol{x} \sim \mathrm{MVN}(x_{0},\, \sigma^2 \boldsymbol{C})
+\]
+\textbf{\textit{C}} is an variance-covariance matrix of N dimensions where the diagonal elements $\boldsymbol{C}_{ii}$ accelerated the tree height from root to tip \textit{i} and $\boldsymbol{C}_{ij}$ is the height above the root of the most recent common ancestor of \textit{i} and \textit{j}. 
+When estimating ancestral states under BM, the trait values of the internal nodes are also distributed within this MVN distribution.
+Therefore, the \textbf{\textit{C}} matrix can be expanded by one column and row for each node (except the root).
+During Maximum Likelihood, the $x_0$ and $\sigma^2$ parameters are estimated as the values that maximize the likelihood of observing the tip vector. 
+Internal node values can be estimated using the conditional expectations of this distribution, i.e. the trait value at an internal node is calculated as a weighted average of the observed tip values, determined by the amount of shared evolutionary history (given by \textbf{\textit{C}}) and the node's position in the tree.
+
+\subsection{Challenges of ASE}
+% - Ancestral state estimation -> why we use it? lack of fossils etc. Challenges we face when using PCMs.
+%     - describe the methods 
+%         - continuous -DONE
+%         - discrete -DONE
+%     - challenges of ace
+%         - broad uncertainty, particularly at deeper nodes
+%         - using point estimates (cite paper about incorporating uncertainty in macroevo studies)
+%         - transition rates in discrete characters and the Darwinian uncertainty paradox
+%         - phylogenetic signal 
+%         - need for fossils (goswami phenomics paragraph, keating, hunt and slater), altho Ane (2008) argues that our confidence interval does not get much lower even with increased sample size.
+%         - model misspecification
+%         - basically they are shit and often create issues.
+%         - they can only recover morphologies that are contained within the observed morphospace - silvestro paper.
+%     - perhaps need examples of where ancestral states have proved wrong and how they are vulnerable to model misspecifaition
+%     - then say about disparity? are ace estimates carried forward in disparity analyses sensitive?
+%         - pre-OASE vs post-OASE
+%         - artificial inflation/deflation of disparity
+%         - bias from tree shape
+%         - ASE goes over one model specification, but what happens if model changes halfway?
+
+\textit{`Character state reconstructions can provide a powerful mechanism for studying many facets of the evolutionary process. However, the zeal with which these techniques are sometimes advocated belies the complexity of the problem'} \citep{swofford1992parsimony}.
+
+\subsubsection{Overconfidence in estimates}
+A critical issue within ancestral state estimation is that estimates tend to have broad uncertainty.
+While reconstructions of singular states often are able to visualise this uncertainty (eg those simmap looking things), ASE of morphological matrices tend to opt for point estimates.
+Point estimates are misleading as they rely on the single `best guess'.
+Furthermore, in a situation where uncertainty is high, e.g how states are collapsed if the scaled likelihood for 0 is 0.55 and state 1 is 0.45, the method of collapsing needs to be chosen carefully.
 
 
 
+
+- Uncertainty at deeper nodes
+- Point estimates ignore uncertainty
+- However, being too conservative can cause more issues than solve.
+
+
+\subsubsection{Sensitivity to sampling}
+- fossils
+- altho Ane suggests that increased sample size does not make too much of a difference to root estimates.
+- Perhaps link this to continuous traits, because this relies a lot on root mean (expected value) and i found that 
+
+It is now consensus that the inclusion of fossils in macroevolutionary studies is necessary for recovering robust findings. 
+This is especially true for ASE.
+As previously detailed, uncertainty in ancestral state estimates increases at deeper nodes and so the inclusion of fossils, particularly closer to the root, improves the accuracy of estimates by breaking branch lengths \citep{finarelli2006ancestral,finarelli2013potential}.
+The importance of fossil inclusion is made even more pertinent when temporal heterogeneity or a mass extinction event means extant data is not representative of earlier ancestral states.
+For example, if a clade evolved under a BM trend model (a moving average), current implementations of ASE assume a fixed mean, which, if given only extant taxa, will find a mean skewed towards the tips rather than root. 
+Both \cite{webster2002testing} and \cite{finarelli2006ancestral} were unable to recover accurate ancestral estimates of body size in planktonic foraminifera and mammals, respectively, due to a trend of increase through time.
+Since ancestral states are limited to what is observed, and we know that trait distributions can change dramatically through time, fossils provide the most reliable evidence of the trait distribution at that point.
+
+The necessity of fossil inclusion extends to disparity analyses too.
+\cite{mitchell2015extant} found that analyses of bird disparity were underestimated when using extant-only datasets.
+
+
+
+Adding fossils will be able to level this mean out.
+A similar situation could occur with a mass extinction event.
+Increasing the number of extant taxa does not improve ase estimates \citep{ane2008analysis}.
+
+
+
+\subsubsection{Model dependency}
+- transition rates
+    - simple Mk models (ER, ARD, SYM etc)
+    - Hidden Rates models
+    - 
+- BM vs OU
+- 
 
 
 \section{Detecting shifts in disparity}

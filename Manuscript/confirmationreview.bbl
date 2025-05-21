@@ -3,6 +3,9 @@
 \harvarditem[Ali et~al.]{Ali, Blonder, Pigot \harvardand\ Tobias}{2023}{ali2023bird}
 Ali, J.~R., Blonder, B.~W., Pigot, A.~L. \harvardand\ Tobias, J.~A.  \harvardyearleft 2023\harvardyearright , `Bird extinctions threaten to cause disproportionate reductions of functional diversity and uniqueness', {\em Functional Ecology} {\bf 37}(1),~162--175.
 
+\harvarditem{An{\'e}}{2008}{ane2008analysis}
+An{\'e}, C.  \harvardyearleft 2008\harvardyearright , `Analysis of comparative data with hierarchical autocorrelation'.
+
 \harvarditem[Bapst et~al.]{Bapst, Bullock, Melchin, Sheets \harvardand\ Mitchell}{2012}{bapst_graptoloid_2012}
 Bapst, D.~W., Bullock, P.~C., Melchin, M.~J., Sheets, H.~D. \harvardand\ Mitchell, C.~E.  \harvardyearleft 2012\harvardyearright , `Graptoloid diversity and disparity became decoupled during the {Ordovician} mass extinction', {\em Proceedings of the National Academy of Sciences} {\bf 109}(9),~3428--3433.
 \newblock Publisher: Proceedings of the National Academy of Sciences.
@@ -33,6 +36,12 @@ Felsenstein, J.  \harvardyearleft 1981\harvardyearright , `Evolutionary trees fr
 
 \harvarditem{Felsenstein}{1985}{felsenstein1985phylogenies}
 Felsenstein, J.  \harvardyearleft 1985\harvardyearright , `Phylogenies and the comparative method', {\em The American Naturalist} {\bf 125}(1),~1--15.
+
+\harvarditem{Finarelli \harvardand\ Flynn}{2006}{finarelli2006ancestral}
+Finarelli, J.~A. \harvardand\ Flynn, J.~J.  \harvardyearleft 2006\harvardyearright , `Ancestral state reconstruction of body size in the caniformia (carnivora, mammalia): the effects of incorporating data from the fossil record', {\em Systematic Biology} {\bf 55}(2),~301--313.
+
+\harvarditem{Finarelli \harvardand\ Goswami}{2013}{finarelli2013potential}
+Finarelli, J.~A. \harvardand\ Goswami, A.  \harvardyearleft 2013\harvardyearright , `Potential pitfalls of reconstructing deep time evolutionary history with only extant data, a case study using the canidae (mammalia, carnivora)', {\em Evolution} {\bf 67}(12),~3678--3685.
 
 \harvarditem[Fischer et~al.]{Fischer, Maisch, Naish, Kosma, Liston, Joger, Kr{\"u}ger, P{\'e}rez, Tainsh \harvardand\ Appleby}{2012}{fischer2012new}
 Fischer, V., Maisch, M.~W., Naish, D., Kosma, R., Liston, J., Joger, U., Kr{\"u}ger, F.~J., P{\'e}rez, J.~P., Tainsh, J. \harvardand\ Appleby, R.~M.  \harvardyearleft 2012\harvardyearright , `New ophthalmosaurid ichthyosaurs from the european lower cretaceous demonstrate extensive ichthyosaur survival across the jurassic--cretaceous boundary', {\em PLoS One} {\bf 7}(1),~e29234.
@@ -80,6 +89,9 @@ Losos, J.~B.  \harvardyearleft 2010\harvardyearright , `Adaptive {Radiation}, {E
 \harvarditem[Matthews et~al.]{Matthews, Triantis, Wayman, Martin, Hume, Cardoso, Faurby, Mendenhall, Dufour, Rigal et~al.}{2024}{matthews2024global}
 Matthews, T.~J., Triantis, K.~A., Wayman, J.~P., Martin, T.~E., Hume, J.~P., Cardoso, P., Faurby, S., Mendenhall, C.~D., Dufour, P., Rigal, F. et~al.  \harvardyearleft 2024\harvardyearright , `The global loss of avian functional and phylogenetic diversity from anthropogenic extinctions', {\em Science} {\bf 386}(6717),~55--60.
 
+\harvarditem{Mitchell}{2015}{mitchell2015extant}
+Mitchell, J.~S.  \harvardyearleft 2015\harvardyearright , `Extant-only comparative methods fail to recover the disparity preserved in the bird fossil record', {\em Evolution} {\bf 69}(9),~2414--2424.
+
 \harvarditem[O'Meara et~al.]{O'Meara, An{\'e}, Sanderson \harvardand\ Wainwright}{2006}{omeara2006testing}
 O'Meara, B.~C., An{\'e}, C., Sanderson, M.~J. \harvardand\ Wainwright, P.~C.  \harvardyearleft 2006\harvardyearright , `Testing for different rates of continuous trait evolution using likelihood', {\em Evolution} {\bf 60}(5),~922--933.
 
@@ -121,6 +133,9 @@ Toljagić, O. \harvardand\ Butler, R.~J.  \harvardyearleft 2013\harvardyearright
 
 \harvarditem[Wan et~al.]{Wan, Foster, Tian, Stubbs, Benton, Qiu \harvardand\ Yuan}{2021}{wan2021decoupling}
 Wan, J., Foster, W.~J., Tian, L., Stubbs, T.~L., Benton, M.~J., Qiu, X. \harvardand\ Yuan, A.  \harvardyearleft 2021\harvardyearright , `Decoupling of morphological disparity and taxonomic diversity during the end-permian mass extinction', {\em Paleobiology} {\bf 47}(3),~402--417.
+
+\harvarditem{Webster \harvardand\ Purvis}{2002}{webster2002testing}
+Webster, A.~J. \harvardand\ Purvis, A.  \harvardyearleft 2002\harvardyearright , `Testing the accuracy of methods for reconstructing ancestral states of continuous characters', {\em Proceedings of the Royal Society of London. Series B: Biological Sciences} {\bf 269}(1487),~143--149.
 
 \harvarditem[Wills et~al.]{Wills, Briggs \harvardand\ Fortey}{1994}{wills_disparity_1994}
 Wills, M.~A., Briggs, D. E.~G. \harvardand\ Fortey, R.~A.  \harvardyearleft 1994\harvardyearright , `Disparity as an evolutionary index: a comparison of {Cambrian} and {Recent} arthropods', {\em Paleobiology} {\bf 20}(2),~93--130.
