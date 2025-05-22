@@ -10,11 +10,11 @@ An{\'e}, C.  \harvardyearleft 2008\harvardyearright , `Analysis of comparative d
 Bapst, D.~W., Bullock, P.~C., Melchin, M.~J., Sheets, H.~D. \harvardand\ Mitchell, C.~E.  \harvardyearleft 2012\harvardyearright , `Graptoloid diversity and disparity became decoupled during the {Ordovician} mass extinction', {\em Proceedings of the National Academy of Sciences} {\bf 109}(9),~3428--3433.
 \newblock Publisher: Proceedings of the National Academy of Sciences.
 
-\harvarditem[Brusatte et~al.]{Brusatte, Benton, Ruta \harvardand\ Lloyd}{2008}{brusatte2008first}
-Brusatte, S.~L., Benton, M.~J., Ruta, M. \harvardand\ Lloyd, G.~T.  \harvardyearleft 2008\harvardyearright , `The first 50 myr of dinosaur evolution: macroevolutionary pattern and morphological disparity', {\em Biology letters} {\bf 4}(6),~733--736.
-
 \harvarditem[Brusatte et~al.]{Brusatte, Montanari, Yi \harvardand\ Norell}{2011}{brusatte2011phylogenetic}
 Brusatte, S.~L., Montanari, S., Yi, H.-y. \harvardand\ Norell, M.~A.  \harvardyearleft 2011\harvardyearright , `Phylogenetic corrections for morphological disparity analysis: new methodology and case studies', {\em Paleobiology} {\bf 37}(1),~1--22.
+
+\harvarditem[Casali et~al.]{Casali, Boscaini, Gaudin \harvardand\ Perini}{2023}{casali2023morphological}
+Casali, D.~M., Boscaini, A., Gaudin, T.~J. \harvardand\ Perini, F.~A.  \harvardyearleft 2023\harvardyearright , `Morphological disparity and evolutionary rates of cranial and postcranial characters in sloths (mammalia, pilosa, folivora)', {\em Palaeontology} {\bf 66}(1),~e12639.
 
 \harvarditem{Cole \harvardand\ Hopkins}{2021}{cole_selectivity_2021}
 Cole, S.~R. \harvardand\ Hopkins, M.~J.  \harvardyearleft 2021\harvardyearright , `Selectivity and the effect of mass extinctions on disparity and functional ecology', {\em Science Advances} {\bf 7}(19),~eabf4072.
@@ -26,10 +26,6 @@ Cunningham, C.~W., Omland, K.~E. \harvardand\ Oakley, T.~H.  \harvardyearleft 19
 \harvarditem[Edie et~al.]{Edie, Jablonski \harvardand\ Valentine}{2018}{edie_contrasting_2018}
 Edie, S.~M., Jablonski, D. \harvardand\ Valentine, J.~W.  \harvardyearleft 2018\harvardyearright , `Contrasting responses of functional diversity to major losses in taxonomic diversity', {\em Proceedings of the National Academy of Sciences} {\bf 115}(4),~732--737.
 \newblock Publisher: Proceedings of the National Academy of Sciences.
-
-\harvarditem{Ezcurra \harvardand\ Butler}{2018}{ezcurra_rise_2018}
-Ezcurra, M.~D. \harvardand\ Butler, R.~J.  \harvardyearleft 2018\harvardyearright , `The rise of the ruling reptiles and ecosystem recovery from the {Permo}-{Triassic} mass extinction', {\em Proceedings of the Royal Society B: Biological Sciences} {\bf 285}(1880),~20180361.
-\newblock Publisher: Royal Society.
 
 \harvarditem{Felsenstein}{1981}{felsenstein1981evolutionary}
 Felsenstein, J.  \harvardyearleft 1981\harvardyearright , `Evolutionary trees from gene frequencies and quantitative characters: finding maximum likelihood estimates', {\em Evolution} pp.~1229--1242.
@@ -59,6 +55,9 @@ Friedman, M.  \harvardyearleft 2009\harvardyearright , `Ecomorphological selecti
 Friedman, M.  \harvardyearleft 2010\harvardyearright , `Explosive morphological diversification of spiny-finned teleost fishes in the aftermath of the end-{Cretaceous} extinction', {\em Proceedings of the Royal Society B: Biological Sciences} .
 \newblock Publisher: The Royal Society.
 
+\harvarditem{Gascuel \harvardand\ Steel}{2014}{gascuel2014predicting}
+Gascuel, O. \harvardand\ Steel, M.  \harvardyearleft 2014\harvardyearright , `Predicting the ancestral character changes in a tree is typically easier than predicting the root state', {\em Systematic biology} {\bf 63}(3),~421--435.
+
 \harvarditem{Gould}{2002}{gould_structure_2002}
 Gould, S.~J.  \harvardyearleft 2002\harvardyearright , The {Structure} of {Evolutionary} {Theory}, {\em in} `The {Structure} of {Evolutionary} {Theory}', Harvard University Press.
 
@@ -86,6 +85,9 @@ Korn, D., Hopkins, M.~J. \harvardand\ Walton, S.~A.  \harvardyearleft 2013\harva
 Losos, J.~B.  \harvardyearleft 2010\harvardyearright , `Adaptive {Radiation}, {Ecological} {Opportunity}, and {Evolutionary} {Determinism}', {\em The American Naturalist} .
 \newblock Publisher: The University of Chicago Press.
 
+\harvarditem{Martins}{2000}{martins2000adaptation}
+Martins, E.~P.  \harvardyearleft 2000\harvardyearright , `Adaptation and the comparative method', {\em Trends in Ecology \& Evolution} {\bf 15}(7),~296--299.
+
 \harvarditem[Matthews et~al.]{Matthews, Triantis, Wayman, Martin, Hume, Cardoso, Faurby, Mendenhall, Dufour, Rigal et~al.}{2024}{matthews2024global}
 Matthews, T.~J., Triantis, K.~A., Wayman, J.~P., Martin, T.~E., Hume, J.~P., Cardoso, P., Faurby, S., Mendenhall, C.~D., Dufour, P., Rigal, F. et~al.  \harvardyearleft 2024\harvardyearright , `The global loss of avian functional and phylogenetic diversity from anthropogenic extinctions', {\em Science} {\bf 386}(6717),~55--60.
 
@@ -101,6 +103,9 @@ Overholt, E.  \harvardyearleft 2003\harvardyearright , `The biodiversity crisis:
 
 \harvarditem{Pagel}{1994}{pagel1994detecting}
 Pagel, M.  \harvardyearleft 1994\harvardyearright , `Detecting correlated evolution on phylogenies: a general method for the comparative analysis of discrete characters', {\em Proceedings of the Royal Society of London. Series B: Biological Sciences} {\bf 255}(1342),~37--45.
+
+\harvarditem{Puttick}{2016}{puttick2016partially}
+Puttick, M.~N.  \harvardyearleft 2016\harvardyearright , `Partially incorrect fossil data augment analyses of discrete trait evolution in living species', {\em Biology Letters} {\bf 12}(8),~20160392.
 
 \harvarditem[Puttick et~al.]{Puttick, Guillerme \harvardand\ Wills}{2020}{puttick_complex_2020}
 Puttick, M.~N., Guillerme, T. \harvardand\ Wills, M.~A.  \harvardyearleft 2020\harvardyearright , `The complex effects of mass extinctions on morphological disparity', {\em Evolution} {\bf 74}(10),~2207--2220.
@@ -123,6 +128,12 @@ Schluter, D.  \harvardyearleft 2000\harvardyearright , {\em The ecology of adapt
 
 \harvarditem[Schluter et~al.]{Schluter, Price, Mooers \harvardand\ Ludwig}{1997}{schluter1997likelihood}
 Schluter, D., Price, T., Mooers, A.~{\O}. \harvardand\ Ludwig, D.  \harvardyearleft 1997\harvardyearright , `Likelihood of ancestor states in adaptive radiation', {\em Evolution} {\bf 51}(6),~1699--1711.
+
+\harvarditem[Silvestro et~al.]{Silvestro, Kostikova, Litsios, Pearman \harvardand\ Salamin}{2015}{silvestro2015measurement}
+Silvestro, D., Kostikova, A., Litsios, G., Pearman, P.~B. \harvardand\ Salamin, N.  \harvardyearleft 2015\harvardyearright , `Measurement errors should always be incorporated in phylogenetic comparative analysis', {\em Methods in Ecology and Evolution} {\bf 6}(3),~340--346.
+
+\harvarditem{Smith \harvardand\ Donoghue}{2022}{smith2022evolution}
+Smith, T.~J. \harvardand\ Donoghue, P.~C.  \harvardyearleft 2022\harvardyearright , `Evolution of fungal phenotypic disparity', {\em Nature Ecology \& Evolution} {\bf 6}(10),~1489--1500.
 
 \harvarditem{Swofford \harvardand\ Maddison}{1992}{swofford1992parsimony}
 Swofford, D.~L. \harvardand\ Maddison, W.~P.  \harvardyearleft 1992\harvardyearright , `Parsimony, character-state reconstructions, and evolutionary inferences', {\em Systematics, historical ecology, and North American freshwater fishes} {\bf 1}.

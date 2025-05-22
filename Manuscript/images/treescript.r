@@ -20,12 +20,12 @@ tree_newick <- "((A:0.2,B:0.2)internal:0.4,C:0.6);"
     tiplabels(pch=22, col="black", bg=ifelse(tip_states == 1, "black", "white"), cex=4)
 
     legend(
-  "topleft",                      # Position of the legend
-  legend = c("1", "0"),            # Labels
-  pch = 22,                        # Shape (square, same as tiplabels)
-  pt.bg = c("black", "white"),     # Fill colors
-  col = "black",                   # Border color
-  pt.cex = 4,                      # Size of the boxes
+  "topleft",                      
+  legend = c("1", "0"),           
+  pch = 22,                        
+  pt.bg = c("black", "white"),   
+  col = "black",                   
+  pt.cex = 4,                      
   title = "Tip state"
 )
 
@@ -36,6 +36,6 @@ dev.off()
 
 
 
-mat <- matrix(c(-0.5, 0.5, 0.5, -0.5), ncol = 2, nrow = 2, byrow = TRUE )
+# mat <- matrix(c(-0.5, 0.5, 0.5, -0.5), ncol = 2, nrow = 2, byrow = TRUE )
 
-exp <- expm(mat * 0.4)
+# exp <- expm(mat * 0.4)

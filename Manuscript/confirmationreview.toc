@@ -4,37 +4,37 @@
 \contentsline {subsection}{\numberline {1.1}What are they}{3}{subsection.1.1}%
 \contentsline {subsection}{\numberline {1.2}Recovery dynamics}{4}{subsection.1.2}%
 \contentsline {section}{\numberline {2}Morphology, Disparity and Extinction}{4}{section.2}%
-\contentsline {subsection}{\numberline {2.1}Extinction selectivity}{4}{subsection.2.1}%
+\contentsline {subsection}{\numberline {2.1}Extinction selectivity}{5}{subsection.2.1}%
 \contentsline {subsection}{\numberline {2.2}Examples of disparity shifting across mass extinction}{5}{subsection.2.2}%
-\contentsline {section}{\numberline {3}Measuring disparity}{5}{section.3}%
-\contentsline {subsection}{\numberline {3.1}Types of trait data}{5}{subsection.3.1}%
-\contentsline {subsection}{\numberline {3.2}Pipeline}{5}{subsection.3.2}%
-\contentsline {subsection}{\numberline {3.3}Whether or not to include phylogeny}{5}{subsection.3.3}%
+\contentsline {section}{\numberline {3}Measuring disparity}{6}{section.3}%
+\contentsline {subsection}{\numberline {3.1}Types of trait data}{6}{subsection.3.1}%
+\contentsline {subsection}{\numberline {3.2}Pipeline}{6}{subsection.3.2}%
+\contentsline {subsection}{\numberline {3.3}Whether or not to include phylogeny}{6}{subsection.3.3}%
 \contentsline {section}{\numberline {4}Ancestral state estimation}{6}{section.4}%
 \contentsline {subsection}{\numberline {4.1}Application of ASE}{6}{subsection.4.1}%
 \contentsline {subsubsection}{\numberline {4.1.1}Discrete characters}{7}{subsubsection.4.1.1}%
-\contentsline {subsubsection}{\numberline {4.1.2}Continuous characters}{8}{subsubsection.4.1.2}%
-\contentsline {subsection}{\numberline {4.2}Challenges of ASE}{9}{subsection.4.2}%
-\contentsline {subsubsection}{\numberline {4.2.1}Overconfidence in estimates}{9}{subsubsection.4.2.1}%
-\contentsline {subsubsection}{\numberline {4.2.2}Sensitivity to sampling}{9}{subsubsection.4.2.2}%
-\contentsline {subsubsection}{\numberline {4.2.3}Model dependency}{10}{subsubsection.4.2.3}%
-\contentsline {section}{\numberline {5}Detecting shifts in disparity}{10}{section.5}%
-\contentsline {section}{\numberline {6}Aims and objectives}{10}{section.6}%
-\contentsline {part}{III\hspace {1em}Thesis plan}{10}{part.3}%
+\contentsline {subsubsection}{\numberline {4.1.2}Continuous characters}{9}{subsubsection.4.1.2}%
+\contentsline {subsection}{\numberline {4.2}Challenges of ASE}{10}{subsection.4.2}%
+\contentsline {subsubsection}{\numberline {4.2.1}Uncertainty in estimates (and how to deal with it)}{10}{subsubsection.4.2.1}%
+\contentsline {subsubsection}{\numberline {4.2.2}Sensitivity to fossil sampling}{10}{subsubsection.4.2.2}%
+\contentsline {subsubsection}{\numberline {4.2.3}Model dependency}{11}{subsubsection.4.2.3}%
+\contentsline {section}{\numberline {5}Detecting shifts in disparity}{11}{section.5}%
+\contentsline {section}{\numberline {6}Aims and objectives}{11}{section.6}%
+\contentsline {part}{III\hspace {1em}Thesis plan}{11}{part.3}%
 \contentsline {section}{\numberline {7}Chapter One: What is the effect of ancestral state estimations on disparity?}{11}{section.7}%
 \contentsline {subsection}{\numberline {7.1}Introduction}{11}{subsection.7.1}%
-\contentsline {subsubsection}{\numberline {7.1.1}Why does this matter?}{11}{subsubsection.7.1.1}%
-\contentsline {subsection}{\numberline {7.2}Methods}{11}{subsection.7.2}%
-\contentsline {subsubsection}{\numberline {7.2.1}Simulations}{11}{subsubsection.7.2.1}%
+\contentsline {subsubsection}{\numberline {7.1.1}Why does this matter?}{12}{subsubsection.7.1.1}%
+\contentsline {subsection}{\numberline {7.2}Methods}{12}{subsection.7.2}%
+\contentsline {subsubsection}{\numberline {7.2.1}Simulations}{12}{subsubsection.7.2.1}%
 \contentsline {subsubsection}{\numberline {7.2.2}Fossil sampling}{12}{subsubsection.7.2.2}%
-\contentsline {subsubsection}{\numberline {7.2.3}ASE}{12}{subsubsection.7.2.3}%
+\contentsline {subsubsection}{\numberline {7.2.3}ASE}{13}{subsubsection.7.2.3}%
 \contentsline {subsubsection}{\numberline {7.2.4}Raw distance comparison between true vs ace}{13}{subsubsection.7.2.4}%
-\contentsline {subsubsection}{\numberline {7.2.5}Distance comparison between ordinated true vs ace}{13}{subsubsection.7.2.5}%
-\contentsline {subsubsection}{\numberline {7.2.6}Difference in disparity between true vs ace}{13}{subsubsection.7.2.6}%
-\contentsline {subsection}{\numberline {7.3}Results (or what I expect to find)}{13}{subsection.7.3}%
-\contentsline {subsubsection}{\numberline {7.3.1}Raw distances}{13}{subsubsection.7.3.1}%
+\contentsline {subsubsection}{\numberline {7.2.5}Distance comparison between ordinated true vs ace}{14}{subsubsection.7.2.5}%
+\contentsline {subsubsection}{\numberline {7.2.6}Difference in disparity between true vs ace}{14}{subsubsection.7.2.6}%
+\contentsline {subsection}{\numberline {7.3}Results (or what I expect to find)}{14}{subsection.7.3}%
+\contentsline {subsubsection}{\numberline {7.3.1}Raw distances}{14}{subsubsection.7.3.1}%
 \contentsline {subsubsection}{\numberline {7.3.2}Ordination}{14}{subsubsection.7.3.2}%
-\contentsline {subsubsection}{\numberline {7.3.3}Disparity}{14}{subsubsection.7.3.3}%
-\contentsline {section}{\numberline {8}Chapter Two: Measuring changes in trends in disparity through time}{14}{section.8}%
-\contentsline {section}{\numberline {9}Chapter Three: Eutherian disparity over K-Pg mass extinction}{14}{section.9}%
-\contentsline {part}{IV\hspace {1em}Summary of research achievements}{14}{part.4}%
+\contentsline {subsubsection}{\numberline {7.3.3}Disparity}{15}{subsubsection.7.3.3}%
+\contentsline {section}{\numberline {8}Chapter Two: Measuring changes in trends in disparity through time}{15}{section.8}%
+\contentsline {section}{\numberline {9}Chapter Three: Eutherian disparity over K-Pg mass extinction}{15}{section.9}%
+\contentsline {part}{IV\hspace {1em}Summary of research achievements}{15}{part.4}%

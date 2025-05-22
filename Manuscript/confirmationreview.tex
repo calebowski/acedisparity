@@ -95,13 +95,18 @@ On a macroevolutionary scale, mass extinctions can be considered both destructiv
 Therefore, mass extinction boundaries often mark the most profound species composition transitions in Earth history.
 
 \subsection{Recovery dynamics}
-Classic adaptive radiation theory posits a linkage between taxonomic and phenotypic diversification, which are expected to follow a pattern of early high rates that decrease through time \citep{schluter2000ecology}.
-However, empirical evidence often finds a decoupling of taxonomic richness and morphological diversity (termed disparity).
-Peak taxonomic diversity and morphological disparity may be reached at different points in a clade's history, suggesting a discordance between these metrics of diversity \citep{foote_discordance_1993, hopkins2013decoupling, ruta2013decoupling,wan2021decoupling}.
-This discordance has been observed across mass extinction events \citep{bapst_graptoloid_2012,edie_contrasting_2018,ezcurra_rise_2018}. 
-Therefore, quantifying species composition turnover based solely on taxonomic diversity metrics such as species richness may not encapsulate the full complexity of recovery \citep{puttick_complex_2020}. 
-Survivors filling the vacant niches left by extinct lineages allow this increase in ecological diversity.
-Alternatively, surviving clades may proliferate without undergoing substantial ecological or functional change by persisting within pre-existing roles \citep{brusatte2008first, bapst_graptoloid_2012}.
+The response from the survivors of a mass extinction event may take several forms.
+Intuitively, the aftermath of a mass extinction may offer surviving clades ecological opportunity, as they are able to fill the vacant niches left by extinct lineages.
+Classic adaptive radiation theory would suggest that this stimulates simultaneous taxonomic and phenotypic diversification, which are expected to follow a pattern of early high rates that decrease through time as niches become saturated \citep{schluter2000ecology}.
+However, empirical evidence often finds that peak taxonomic diversity and morphological diversity may be reached at different points in a clade's history, suggesting a discordance between these metrics of diversity \citep{foote_discordance_1993, hopkins2013decoupling, ruta2013decoupling,wan2021decoupling}.
+This discordance has been observed across mass extinction events, such as in graptaloids across the end-Ordovician mass extinction, \citep{bapst_graptoloid_2012} or therapsids across the Permian-Triassic mass extinction \citep{ruta2013decoupling}.
+It has been suggested, therefore, that functional diversity may be density-independent across mass extinction events \citep{edie_contrasting_2018}.
+Therefore, understanding the recovery dynamics of clades based solely on taxic diversity metrics may not encapsulate the full complexity of recovery \citep{puttick_complex_2020}. 
+% Alternatively, surviving clades may proliferate without undergoing substantial ecological or functional change by persisting within pre-existing roles \citep{brusatte2008first, bapst_graptoloid_2012}.
+
+% Therefore, quantifying species composition turnover based solely on taxonomic diversity metrics such as species richness may not encapsulate the full complexity of recovery \citep{puttick_complex_2020}. 
+% Survivors filling the vacant niches left by extinct lineages allow this increase in ecological diversity.
+% Alternatively, surviving clades may proliferate without undergoing substantial ecological or functional change by persisting within pre-existing roles \citep{brusatte2008first, bapst_graptoloid_2012}.
 
 
 % From a contemporary perspective, mass extinctions have received intense attention due to the current anthropogenic-induced elevated extinction rates \citep{barnosky_has_2011,ceballos_accelerated_2015,ceballos_biological_2017}. 
@@ -109,7 +114,6 @@ Alternatively, surviving clades may proliferate without undergoing substantial e
 % Little is known about the impacts of the ongoing mass extinction on functional diversity, thus it is crucial to understand how these metrics of diversity have been affected during past mass extinctions in order to model the ongoing extinction crisis.
 
 \section{Morphology, Disparity and Extinction}
-Analyses of morphology provide a key insights into past evolutionary processes, especially across major evolutionary events such as a mass extinction.
 Disparity, the term used to describe morphological variation, has been widely used to investigate patterns of evolution in extant and extinct clades \citep{wills_disparity_1994}.
 Disparity is often used as a way of describing the multidimensional `trait spaces' that organisms occupy.
 \cite{guillerme_shifting_2020} outlines three ways these traitspaces can be described: size, density and position.
@@ -117,6 +121,14 @@ Disparity is often used as a proxy for ecological variation, particularly when t
 Mass extinctions pose numerous scenarios of disparity (\autoref{fig:scenarios}); intuitively, mass extinctions may be expected to result in a decrease in disparity in tandem with selected removal of taxonomic diversity, as well as suppressed morphological evolution during recovery.
 Alternatively, when extinction is random, disparity may be maintained. 
 In adaptive scenarios, disparity may increase in opportunistic clades that diversify during the period of ecological opportunity following a mass extinction. 
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\linewidth]{images/extinctionscenarios.png}
+    \caption{Three scenarios that may occur within a clade across a mass extinction (denoted by dashed line). a) adaptive radiation. b) selective extinction. c) non-selective extinction. Adapted from \cite{grossnickle_therian_2016}.}
+    \label{fig:scenarios}
+\end{figure}
+
 
 Idea of extinction selectivity: Devonian events are selective, Permian was non-selective \citep{korn_extinction_2013}.
 
@@ -127,14 +139,6 @@ Random extinction will reduce the total number of taxa, but have little effect o
 \cite{korn_extinction_2013} proposed several patterns to describe different selection processes: lateral (asymmetric selection that trims one side of the morphospace), marginal (symmetric selection that removes peripheral taxa) and non-selective (random process independent of the variables defining the morphospace). 
 In contemporary extinctions, this idea of `extinction space' is also valid \citep{ali2023bird,matthews2024global}. 
 
-
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=\linewidth]{images/extinctionscenarios.png}
-    \caption{Three scenarios that may occur within a clade across a mass extinction (denoted by dashed line). a) adaptive radiation. b) selective extinction. c) non-selective extinction. Adapted from \cite{grossnickle_therian_2016}.}
-    \label{fig:scenarios}
-\end{figure}
 
 What do we expect:
 - disparity to increase across mass extinction according to adaptive radiation theory
@@ -216,7 +220,7 @@ The fragmented fossil record can make sample size at deeper points in the phylog
 
 \subsubsection{Discrete characters}
 Discrete characters are typically analysed using parsimony or likelihood approaches, although likelihood methods are generally preferred.
-Likelihood approaches, such as Bayesian inference or Maximum likelihood, optimise solutions based on the tree topology, branch lengths and the model of character evolution.
+Likelihood approaches, such as Bayesian inference or Maximum likelihood, optimize solutions based on the tree topology, branch lengths and the model of character evolution.
 Discrete characters are modelled using a continuous time Markov chain process, known as the M\textit{k} model (where \textit{k} = number of possible states) \citep{pagel1994detecting, yang2006computational}. 
 This process is specified by a $\textit{k} \times \textit{k}$ matrix, \textbf{Q}, which gives the instantaneous transition rates (\textit{q}) between states for each character. 
 
@@ -243,7 +247,7 @@ The probability of each transition at any given interval of time (\textit{t}) ca
 
 \[\textbf{P} = \exp(\textbf{Q}\textit{t})\]
 
-So if we want to calculate probability of each transition at node AB (ancestor of A and B) \textit{t} = 0.3.
+So if we want to calculate probability of each transition at node AB (ancestor of A and B) \textit{t} = 0.4.
 
 \begin{figure}[H]
     \centering
@@ -317,32 +321,56 @@ Internal node values can be estimated using the conditional expectations of this
 
 \textit{`Character state reconstructions can provide a powerful mechanism for studying many facets of the evolutionary process. However, the zeal with which these techniques are sometimes advocated belies the complexity of the problem'} \citep{swofford1992parsimony}.
 
-\subsubsection{Overconfidence in estimates}
-A critical issue within ancestral state estimation is that estimates tend to have broad uncertainty.
-While reconstructions of singular states often are able to visualise this uncertainty (eg those simmap looking things), ASE of morphological matrices tend to opt for point estimates.
-Point estimates are misleading as they rely on the single `best guess'.
-Furthermore, in a situation where uncertainty is high, e.g how states are collapsed if the scaled likelihood for 0 is 0.55 and state 1 is 0.45, the method of collapsing needs to be chosen carefully.
+\subsubsection{Uncertainty in estimates (and how to deal with it)}
+A critical issue within ancestral state estimation is that estimates tend to have broad uncertainty \citep{schluter1997likelihood}.
+% While reconstructions of singular states often are able to visualise this uncertainty (eg those simmap looking things), ASE of morphological matrices tend to opt for point estimates.
+This uncertainty is not uniform across the tree: it typically increases towards root of the tree, where direct information from observed tip data becomes increasingly diffuse \citep{gascuel2014predicting}.
+For discrete characters, this uncertainty manifests as inconclusive scaled likelihoods, i.e., state 0 = 0.51, state 1 = 0.49.
+For continuous characters, uncertainty is wide confidence intervals.
+Oftentimes, these confidence intervals are so wide that it may be counter-intuitive to even bother with ASE \citep{martins2000adaptation}.
+
+How this uncertainty in estimations should be dealt with is equivocal.
+Despite the encouragement for uncertainty to be carried forward in comparative analyses \citep{silvestro2015measurement}, most computational implementations of ASE return point estimates.
+For continuous characters, this will be the median value of the confidence interval and for discrete characters, it will be the most probable state according to a threshold (see later).
+By ignoring uncertainty, point estimates can lead to overconfidence in results and erroneous inferences in downstream analyses (such as down the disparity pipeline), all while obscuring potentially `accurate' uncertainty.
+
+For discrete characters, there is some level of subjectivity in how to collapse the states into the most probable based on their scaled likelihood.
+It is common to have a threshold implementation, whereby the user can set at what threshold of likelihood states are collapsed to a point estimate, or left as uncertain, which is usually denoted as `0/1' for example.
+However, these thresholds are often arbitarily set with no guidance of what is the `correct' value \citep{smith2022evolution,casali2023morphological}.
+Much of the subjectivity relates to the trade-off between permissiveness and conservativeness; higher thresholds are likely too conservative and so too many states are left uncertain, perhaps missing true signals.
+Whereas lower thresholds may be too permissive and can lead to erroneous inferences.
+
+% Employing a Bayesian approach
+
+
+% Point estimates are misleading, particularly for discrete traits whereby an incorrect estimate can have greater effect in downstream analyses (in a distance matrix construction for example).
+% Furthermore, in a situation where uncertainty is high, e.g how states are collapsed if the scaled likelihood for 0 is 0.55 and state 1 is 0.45, the method of collapsing needs to be chosen carefully.
 
 
 
 
-- Uncertainty at deeper nodes
-- Point estimates ignore uncertainty
-- However, being too conservative can cause more issues than solve.
+% - Uncertainty at deeper nodes
+% - Point estimates ignore uncertainty
+% - However, being too conservative can cause more issues than solve.
 
 
-\subsubsection{Sensitivity to sampling}
-- fossils
-- altho Ane suggests that increased sample size does not make too much of a difference to root estimates.
-- Perhaps link this to continuous traits, because this relies a lot on root mean (expected value) and i found that 
+\subsubsection{Sensitivity to fossil sampling}
+% - fossils
+% - altho Ane suggests that increased sample size does not make too much of a difference to root estimates.
+% - Perhaps link this to continuous traits, because this relies a lot on root mean (expected value) and i found that 
 
-It is now consensus that the inclusion of fossils in macroevolutionary studies is necessary for recovering robust findings. 
-This is especially true for ASE.
-As previously detailed, uncertainty in ancestral state estimates increases at deeper nodes and so the inclusion of fossils, particularly closer to the root, improves the accuracy of estimates by breaking branch lengths \citep{finarelli2006ancestral,finarelli2013potential}.
-The importance of fossil inclusion is made even more pertinent when temporal heterogeneity or a mass extinction event means extant data is not representative of earlier ancestral states.
-For example, if a clade evolved under a BM trend model (a moving average), current implementations of ASE assume a fixed mean, which, if given only extant taxa, will find a mean skewed towards the tips rather than root. 
-Both \cite{webster2002testing} and \cite{finarelli2006ancestral} were unable to recover accurate ancestral estimates of body size in planktonic foraminifera and mammals, respectively, due to a trend of increase through time.
-Since ancestral states are limited to what is observed, and we know that trait distributions can change dramatically through time, fossils provide the most reliable evidence of the trait distribution at that point.
+% So ancestral state estimation is statistically inconsistent, meaning even with infinite extant taxa, estiamtes are not improved. But Ann argues that fossils, particularly closer to the root, can improve estimates.
+
+
+Given that uncertainty is often high in ASE, how then can estimates be improved?
+\cite{ane2008analysis} demonstrates that ASE is \textit{statistically inconsistent}, meaning that even if the sample size of extant tips is infinite, estimates are not expected to converge on the true value.
+Instead, the inclusion of fossils can improve estimates, due to the shorter evolutionary path to the root of the tree \citep{finarelli2006ancestral,finarelli2013potential}.
+Fossils can be used as priors on nodes, or simply added to the tree as tips.
+Fossils become more important when model assumptions are violated \citep{puttick2016partially}.
+% These model violations can occur in several ways.
+% For example, if a clade evolved under a BM trend model (a moving average), current implementations of ASE assume a fixed mean, which, if given only extant taxa, will find a mean skewed towards the tips rather than root. 
+% Both \cite{webster2002testing} and \cite{finarelli2006ancestral} were unable to recover accurate ancestral estimates of body size in planktonic foraminifera and mammals, respectively, due to a trend of increase through time.
+% Since ancestral states are limited to what is observed, and we know that trait distributions can change dramatically through time, fossils provide the most reliable evidence of the trait distribution at that point.
 
 The necessity of fossil inclusion extends to disparity analyses too.
 \cite{mitchell2015extant} found that analyses of bird disparity were underestimated when using extant-only datasets.
@@ -356,12 +384,23 @@ Increasing the number of extant taxa does not improve ase estimates \citep{ane20
 
 
 \subsubsection{Model dependency}
-- transition rates
-    - simple Mk models (ER, ARD, SYM etc)
-    - Hidden Rates models
-    - 
-- BM vs OU
-- 
+% - transition rates
+%     - simple Mk models (ER, ARD, SYM etc)
+%     - Hidden Rates models
+%     - 
+% - BM vs OU
+% - moving BM model -> trend, or selective extinction etc.
+
+Another key challenge with ASE is its sensitivity to model misspecification.
+For continuous characters, this is particularly pertinent when traits have evolved under non-BM \citep{revell_ancestral_2024}.
+For example, 
+
+
+
+These model violations can occur in several ways.
+For example, if a clade evolved under a BM trend model (a moving average), current implementations of ASE assume a fixed mean, which, if given only extant taxa, will find a mean skewed towards the tips rather than root. 
+Both \cite{webster2002testing} and \cite{finarelli2006ancestral} were unable to recover accurate ancestral estimates of body size in planktonic foraminifera and mammals, respectively, due to a trend of increase through time.
+Since ancestral states are limited to what is observed, and we know that trait distributions can change dramatically through time, fossils provide the most reliable evidence of the trait distribution at that point.
 
 
 \section{Detecting shifts in disparity}
