@@ -160,6 +160,18 @@ INPUT ./images/extinctionscenarios.png
 INPUT ./images/extinctionscenarios.png
 INPUT ./images/extinctionscenarios.png
 INPUT ./images/extinctionscenarios.png
+INPUT ./images/grossnickleradiations.jpg
+INPUT ./images/grossnickleradiations.jpg
+INPUT ./images/grossnickleradiations.jpg
+INPUT ./images/grossnickleradiations.jpg
+INPUT ./images/grossnickleradiations.jpg
+INPUT /usr/share/texlive/texmf-dist/fonts/tfm/jknappen/ec/tcrm1000.tfm
+INPUT ./images/pipelineflowchart.png
+INPUT ./images/pipelineflowchart.png
+INPUT ./images/pipelineflowchart.png
+INPUT ./images/pipelineflowchart.png
+INPUT ./images/pipelineflowchart.png
+INPUT /usr/share/texmf/fonts/enc/dvips/cm-super/cm-super-ts1.enc
 INPUT ./images/Ichthyosauria_phylogeny.jpg
 INPUT ./images/Ichthyosauria_phylogeny.jpg
 INPUT ./images/Ichthyosauria_phylogeny.jpg
@@ -182,8 +194,6 @@ INPUT /usr/share/texlive/texmf-dist/fonts/tfm/public/cm/cmbsy10.tfm
 INPUT /usr/share/texlive/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmbsy7.tfm
 INPUT /usr/share/texlive/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmbsy5.tfm
 INPUT /usr/share/texlive/texmf-dist/fonts/tfm/public/cm/cmbxti10.tfm
-INPUT /usr/share/texlive/texmf-dist/fonts/tfm/jknappen/ec/tcrm1000.tfm
-INPUT /usr/share/texmf/fonts/enc/dvips/cm-super/cm-super-ts1.enc
 INPUT /usr/share/texlive/texmf-dist/fonts/tfm/public/cm/cmtt10.tfm
 INPUT ./confirmationreview.bbl
 INPUT ./confirmationreview.bbl
