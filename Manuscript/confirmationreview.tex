@@ -214,8 +214,10 @@ Characters used during phylogenetics are selected to establish branching orders 
 \subsubsection{Disparity metrics} 
 The contrasting findings may also be explained by different disparity metrics used between studies.
 For example, \cite{halliday_eutherian_2016} found contrasting patterns of eutherian disparity between outputs using the sum of ranges compared to mean pairwise distance and sum of variances.
-Several studies investigating eutherian disparity have opted to use only a single disparity metric, which is limited in its approach \citep{grossnickle_mammal_2013,wilson_mammals_2013, grossnickle_therian_2016}.
-When analysing a morphospace, it is best practice to use multiple disparity metrics to investigate different ways in which the morphospace changes through time \citep{guillerme_disparities_2020,puttick_complex_2020}. 
+\cite{puttick_complex_2020} highlighted the importance of employing several different disparity metrics to explore different ways in which the morphospace changes across a mass extinction.
+However, several studies investigating eutherian disparity have opted to use only a single disparity metric, often variance-based metrics such as sum of variances/ranges \citep{grossnickle_mammal_2013,wilson_mammals_2013, grossnickle_therian_2016}.
+\cite{puttick_complex_2020} highlighted the importance of employing several disparity metrics to explore different ways in which the morphospace changes across a mass extinction.
+T
 
 
 \subsubsection{Pipeline}
@@ -233,17 +235,16 @@ Show the pipeline figure
 % Given the widespread availability of phylogenies, many studies now opt to incorporate them into disparity analyses.
 
 \section{Ancestral state estimation}
-While disparity analyses offer valuable snapshots of morphological diversity, they are inherently limited by the poor resolution of the fossil record. 
-The incorporation of a phylogeny with trait data enables a switch from simply observing a pattern (points in morphospace) to inferring a process through time, through the use of ancestral state estimation (ASE) \citep{lloyd2018journeys}.
+The poor resolution of the fossil record is an inevitable limitation affecting disparity analyses, since only a small biased portion of a clade's evolutionary history is preserved.
+The incorporation of a phylogeny together with trait data enables a switch from simply observing a pattern (points in morphospace) to inferring a process through time, through the use of ancestral state estimation (ASE) \citep{lloyd2018journeys}.
 
 \subsection{Application of ASE}
-Ancestral state estimation (ASE) is the broad method of estimating trait value(s) in a set of common ancestors given a set of observed data for operational taxa of a phylogenetic tree \citep{schluter1997likelihood,cunningham1998reconstructing, yang2006computational,revell_ancestral_2024}.
+Ancestral state estimation (ASE) is the broad method of estimating trait value(s) in a set of common ancestors given a set of observed data for operational taxa of a phylogenetic tree \citep{schluter1997likelihood,cunningham1998reconstructing, yang2006computational,revell2025ancestral}.
 Trait data may be continuous, such as body size, or discrete, such as diet type or presence/absence of a character.
 The application of ASE has been widely utilised in phylogenetic comparative methods, including disparity.
 
 
 Intuitively, ASE is appealing for those studying deep-time patterns of disparity.
-The fragmented nature of the fossil record means that means much of the phylogeny is left unsampled when including only observed taxa.
 Incorporating a phylogeny into disparity analyses will unavoidably introduce unsampled `ghost lineages' \citep{brusatte2011phylogenetic}.
 A ghost lineage is the hypothetical ancestor that is not observed in the fossil record, but can be inferred to have existed due to the presence of other fossils/extant taxa. 
 This can be best explained as the branch on a phylogeny between two observed taxonomic units (\autoref{fig:ichthy_phylo}).
@@ -405,24 +406,26 @@ For continuous characters, this will be the median value of the confidence inter
 By ignoring uncertainty, point estimates can lead to overconfidence in results and erroneous inferences in downstream analyses (such as down the disparity pipeline), all while obscuring potentially `accurate' uncertainty.
 
 For discrete characters, there is a level of subjectivity in how to collapse the states into the most probable based on their scaled likelihood.
-It is common to have a threshold implementation, whereby the user can set at scaled likelihood states are collapsed to a point estimate, or left as uncertain, which is denoted as `0/1', for example.
-However, these thresholds are often arbitrarily  set with no guidance of what is the `correct' value \citep{smith2022evolution,casali2023morphological}.
+It is common to have a threshold implementation in ASE software, whereby the user can set a scaled likelihood at which point states are collapsed to a point estimate, or left as uncertain, which is denoted as `0/1', for example.
+However, these thresholds are often arbitrarily set with no guidance of what is the `correct' value \citep{smith2022evolution,casali2023morphological}.
 Much of the subjectivity relates to the trade-off between permissiveness and conservativeness; higher thresholds are likely too conservative and so too many states are left uncertain, perhaps missing true signals.
 Whereas lower thresholds may be too permissive and can lead to erroneous inferences.
-
+Interestingly, \cite{keating2023best} highlights that uncertainty returned by a specified model is a better predictor of accuracy than likelihood diagnostics, such as AIC.
 
 \subsubsection{Sensitivity to fossil sampling}
 Given that uncertainty is often high in ASE, how then can estimates be improved?
 \cite{ane2008analysis} demonstrates that ASE is \textit{statistically inconsistent}, meaning that even if the sample size of extant tips is infinite, estimates are not expected to converge on the true value.
 Instead, the inclusion of fossils can improve estimates, due to the shorter evolutionary path to the root of the tree \citep{finarelli2006ancestral,finarelli2013potential}.
 Fossils can be used as priors on nodes, or simply added to the tree as tips.
-Fossils become more important when model assumptions are violated \citep{puttick2016partially}.
+
+By extension, inclusion of fossils can greatly influence inferences into disparity.
+Extant-only datasets often miss early rapid morphological diversification signals \citep{harmon2010early}, whereas analyses incorporating fossil data often finds the reverse \citep{hughes2013clades}
+For example,~\cite{mitchell2015extant} found that analyses of bird disparity were underestimated when using ancestral state estimation of extant-only datasets.
+
 % These model violations can occur in several ways.
 % For example, if a clade evolved under a BM trend model (a moving average), current implementations of ASE assume a fixed mean, which, if given only extant taxa, will find a mean skewed towards the tips rather than root. 
 % Both \cite{webster2002testing} and \cite{finarelli2006ancestral} were unable to recover accurate ancestral estimates of body size in planktonic foraminifera and mammals, respectively, due to a trend of increase through time.
 % Since ancestral states are limited to what is observed, and we know that trait distributions can change dramatically through time, fossils provide the most reliable evidence of the trait distribution at that point.
-The necessity of fossil inclusion extends to disparity analyses too.
-\cite{mitchell2015extant} found that analyses of bird disparity were underestimated when using extant-only datasets.
 
 
 
@@ -430,21 +433,27 @@ The necessity of fossil inclusion extends to disparity analyses too.
 % A similar situation could occur with a mass extinction event.
 % Increasing the number of extant taxa does not improve ase estimates \citep{ane2008analysis}.
 
-
-
 \subsubsection{Model dependency}
 Another key challenge with ASE is its sensitivity to violations of its model assumptions.
-For continuous characters, this is particularly pertinent when traits have evolved under non-BM \citep{revell_ancestral_2024}.
+For continuous characters, this is particularly pertinent when traits have evolved under non-BM \citep{revell2025ancestral}.
 When trait evolution deviates from BM—due to directional trends, bounded evolution, or regime shifts—ASE can return biased estimations of ancestral states.
 
 Both \cite{webster2002testing} and \cite{finarelli2006ancestral} were unable to recover accurate ancestral estimates of body size in planktonic foraminifera and mammals, respectively, due to a trend of increase through time.
 This violates the assumption of zero-mean change under BM.
 Similar issues arise when the trait data evolved under an Ornstein Uhlenbeck model, whereby trait data evolves in a Brownian way but under a stabilizing selection \citep{royer2016comparison}.
 
-Model heterogeneity in trait data is likely to be particularly common across mass extinctions. 
-For example, \cite{slater_phylogenetic_2013} found that mammal body size was relatively constrained (OU) up until the K-Pg mass extinction, and then switched to Brownian. 
-This would have to be accounted for if doing ancestral state estimation.
-Much of this can be solved by incorporating fossils.
+It is common for regime shifts to occur at mass extinction boundaries \citep{jablonski1986background}.
+For example, \cite{slater_phylogenetic_2013} found that mammal body size was relatively constrained (OU) up until the K-Pg mass extinction which then allowed a release of constraint and Brownian motion evolution.
+
+
+
+As discussed previously, fossil sampling is crucial for accurate ASE, especially when model assumptions are violated \citep{puttick2016partially}.
+Fossils assist in estimating and constraining model parameters, as well as distinguishing different evolutionary processes \citep{goswami2025phenomics}. 
+For example, when estimating states under an OU model, fossils are necessary for estimating the primary optimum.
+Similarly, fossils would be necessary to detect a trend, such as Cope's rule.
+A similar logic applies to discrete characters.
+
+\cite{keating2023best} found that inclusion of fossils improved ASE estimates, irrespective of model misspecification.
 
 \subsubsection{Pre- or post-ordination}
 ASE can be performed at two points in the disparity analysis pipeline (\autoref{fig:pipeline}): either pre-ordination or post-ordination. 
@@ -454,7 +463,7 @@ For example, post-ordination ASE means ancestral values have to fall within the 
 While this is usually biologically realistic due to the zero-force evolutionary law \citep{mcshea2010biology}, in a scenario where taxon sampling is poor, true ancestral states may fall outside the morphological extremes designated by observed data.
 \cite{lloyd2018journeys} found that the post-ordination ASE method recovers an implausibly low amount of convergent evolution and patterns dictated more so by phylogenetic signal than morphological signal.
 Despite this, there are some practical benefits to performing post-ordination ASE.
-Firstly, it is far less computationally intense.
+Firstly, it is less computationally expensive.
 Secondly, it mitigates issues with trait correlations. 
 ASE methods assume trait independence, which is rare in morphological trait datasets (e.g., body size and limb length are positively correlated).  
 Pre-ordination ASE, by ignoring this correlation, may return biologically implausible estimations that violate allometry, for example.

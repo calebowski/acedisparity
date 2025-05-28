@@ -86,6 +86,9 @@ Gascuel, O. \harvardand\ Steel, M.  \harvardyearleft 2014\harvardyearright , `Pr
 \harvarditem{Gerber}{2019}{gerber_use_2019}
 Gerber, S.  \harvardyearleft 2019\harvardyearright , `Use and misuse of discrete character data for morphospace and disparity analyses', {\em Palaeontology} {\bf 62}(2),~305--319.
 
+\harvarditem{Goswami \harvardand\ Clavel}{2025}{goswami2025phenomics}
+Goswami, A. \harvardand\ Clavel, J.  \harvardyearleft 2025\harvardyearright , `Morphological evolution in a time of phenomics', {\em Paleobiology} {\bf 51}(1),~195--213.
+
 \harvarditem{Grossnickle}{2020}{grossnickle_feeding_2020}
 Grossnickle, D.~M.  \harvardyearleft 2020\harvardyearright , `Feeding ecology has a stronger evolutionary influence on functional morphology than on body mass in mammals', {\em Evolution} {\bf 74}(3),~610--628.
 
@@ -110,12 +113,21 @@ Halliday, T. J.~D. \harvardand\ Goswami, A.  \harvardyearleft 2016\harvardyearri
 \harvarditem[Hansen et~al.]{Hansen, Kelley, Melland \harvardand\ Graham}{1999}{hansen1999effect}
 Hansen, T.~A., Kelley, P.~H., Melland, V.~D. \harvardand\ Graham, S.~E.  \harvardyearleft 1999\harvardyearright , `Effect of climate-related mass extinctions on escalation in molluscs', {\em Geology} {\bf 27}(12),~1139--1142.
 
+\harvarditem[Harmon et~al.]{Harmon, Losos, Jonathan~Davies, Gillespie, Gittleman, Bryan~Jennings, Kozak, McPeek, Moreno-Roark, Near et~al.}{2010}{harmon2010early}
+Harmon, L.~J., Losos, J.~B., Jonathan~Davies, T., Gillespie, R.~G., Gittleman, J.~L., Bryan~Jennings, W., Kozak, K.~H., McPeek, M.~A., Moreno-Roark, F., Near, T.~J. et~al.  \harvardyearleft 2010\harvardyearright , `Early bursts of body size and shape evolution are rare in comparative data', {\em Evolution} {\bf 64}(8),~2385--2396.
+
 \harvarditem{Hopkins}{2013}{hopkins2013decoupling}
 Hopkins, M.  \harvardyearleft 2013\harvardyearright , `Decoupling of taxonomic diversity and morphological disparity during decline of the cambrian trilobite family pterocephaliidae', {\em Journal of Evolutionary Biology} {\bf 26}(8),~1665--1676.
+
+\harvarditem[Hughes et~al.]{Hughes, Gerber \harvardand\ Wills}{2013}{hughes2013clades}
+Hughes, M., Gerber, S. \harvardand\ Wills, M.~A.  \harvardyearleft 2013\harvardyearright , `Clades reach highest morphological disparity early in their evolution', {\em Proceedings of the National Academy of Sciences} {\bf 110}(34),~13875--13879.
 
 \harvarditem{Hull}{2015}{hull_life_2015}
 Hull, P.  \harvardyearleft 2015\harvardyearright , `Life in the {Aftermath} of {Mass} {Extinctions}', {\em Current Biology} {\bf 25}(19),~R941--R952.
 \newblock Publisher: Elsevier.
+
+\harvarditem{Jablonski}{1986}{jablonski1986background}
+Jablonski, D.  \harvardyearleft 1986\harvardyearright , `Background and mass extinctions: the alternation of macroevolutionary regimes', {\em Science} {\bf 231}(4734),~129--133.
 
 \harvarditem{Jablonski}{2001}{jablonski_lessons_2001}
 Jablonski, D.  \harvardyearleft 2001\harvardyearright , `Lessons from the past: {Evolutionary} impacts of mass extinctions', {\em Proceedings of the National Academy of Sciences} {\bf 98}(10),~5393--5398.
@@ -123,6 +135,9 @@ Jablonski, D.  \harvardyearleft 2001\harvardyearright , `Lessons from the past: 
 
 \harvarditem{Jablonski \harvardand\ Edie}{2025}{jablonski2025mass}
 Jablonski, D. \harvardand\ Edie, S.~M.  \harvardyearleft 2025\harvardyearright , `Mass extinctions and their rebounds: a macroevolutionary framework', {\em Paleobiology} pp.~1--14.
+
+\harvarditem{Keating}{2023}{keating2023best}
+Keating, J.~N.  \harvardyearleft 2023\harvardyearright , `What is the best method for estimating ancestral states from discrete characters?', {\em bioRxiv} pp.~2023--08.
 
 \harvarditem[Korn et~al.]{Korn, Hopkins \harvardand\ Walton}{2013}{korn_extinction_2013}
 Korn, D., Hopkins, M.~J. \harvardand\ Walton, S.~A.  \harvardyearleft 2013\harvardyearright , `{EXTINCTION} {SPACE}-{A} {METHOD} {FOR} {THE} {QUANTIFICATION} {AND} {CLASSIFICATION} {OF} {CHANGES} {IN} {MORPHOSPACE} {ACROSS} {EXTINCTION} {BOUNDARIES}: {EXTINCTION} {SPACE}', {\em Evolution} pp.~n/a--n/a.
@@ -174,8 +189,8 @@ Raup, D.~M.  \harvardyearleft 1981\harvardyearright , `Extintion: bad genes or b
 Raup, D.~M. \harvardand\ Sepkoski, J.~J.  \harvardyearleft 1982\harvardyearright , `Mass {Extinctions} in the {Marine} {Fossil} {Record}', {\em Science} {\bf 215}(4539),~1501--1503.
 \newblock Publisher: American Association for the Advancement of Science.
 
-\harvarditem{Revell}{2024}{revell_ancestral_2024}
-Revell, L.  \harvardyearleft 2024\harvardyearright , `Ancestral state reconstruction of phenotypic characters'.
+\harvarditem{Revell}{2025}{revell2025ancestral}
+Revell, L.~J.  \harvardyearleft 2025\harvardyearright , `Ancestral state reconstruction of phenotypic characters', {\em Evolutionary Biology} pp.~1--25.
 
 \harvarditem{Royer-Carenzi \harvardand\ Didier}{2016}{royer2016comparison}
 Royer-Carenzi, M. \harvardand\ Didier, G.  \harvardyearleft 2016\harvardyearright , `A comparison of ancestral state reconstruction methods for quantitative characters', {\em Journal of Theoretical Biology} {\bf 404},~126--142.

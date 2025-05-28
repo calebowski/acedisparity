@@ -37,4 +37,6 @@ Another idea:
 - the rationale of this is that, often with these studies, fossils are degraded already with lots of missing data. 
 - Is it better - do you recover true macroevolutionary patterns - if you use imputation methods of existing data, rather than ancestral state estimation.
 
-Something to think about: precision vs accuracy 
+Something to think about: precision vs accuracy
+
+Could we assume that using slow rates is equivalent to using more broad coding system, and fast rates is small changes? Or should I link that to the number of coding states.

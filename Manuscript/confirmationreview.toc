@@ -10,31 +10,31 @@
 \contentsline {subsubsection}{\numberline {2.3.2}Disparity metrics}{7}{subsubsection.2.3.2}%
 \contentsline {subsubsection}{\numberline {2.3.3}Pipeline}{8}{subsubsection.2.3.3}%
 \contentsline {section}{\numberline {3}Ancestral state estimation}{9}{section.3}%
-\contentsline {subsection}{\numberline {3.1}Application of ASE}{9}{subsection.3.1}%
+\contentsline {subsection}{\numberline {3.1}Application of ASE}{10}{subsection.3.1}%
 \contentsline {subsubsection}{\numberline {3.1.1}Discrete characters}{10}{subsubsection.3.1.1}%
-\contentsline {subsubsection}{\numberline {3.1.2}Continuous characters}{11}{subsubsection.3.1.2}%
-\contentsline {subsection}{\numberline {3.2}Challenges of ASE}{12}{subsection.3.2}%
-\contentsline {subsubsection}{\numberline {3.2.1}Uncertainty in estimates}{12}{subsubsection.3.2.1}%
+\contentsline {subsubsection}{\numberline {3.1.2}Continuous characters}{12}{subsubsection.3.1.2}%
+\contentsline {subsection}{\numberline {3.2}Challenges of ASE}{13}{subsection.3.2}%
+\contentsline {subsubsection}{\numberline {3.2.1}Uncertainty in estimates}{13}{subsubsection.3.2.1}%
 \contentsline {subsubsection}{\numberline {3.2.2}Sensitivity to fossil sampling}{13}{subsubsection.3.2.2}%
-\contentsline {subsubsection}{\numberline {3.2.3}Model dependency}{13}{subsubsection.3.2.3}%
-\contentsline {subsubsection}{\numberline {3.2.4}Pre- or post-ordination}{13}{subsubsection.3.2.4}%
-\contentsline {section}{\numberline {4}Detecting shifts in disparity}{14}{section.4}%
-\contentsline {section}{\numberline {5}Aims and objectives}{14}{section.5}%
-\contentsline {part}{III\hspace {1em}Thesis plan}{14}{part.3}%
-\contentsline {section}{\numberline {6}Chapter One: What is the effect of ancestral state estimations on disparity?}{14}{section.6}%
-\contentsline {subsection}{\numberline {6.1}Introduction}{14}{subsection.6.1}%
-\contentsline {subsubsection}{\numberline {6.1.1}Why does this matter?}{15}{subsubsection.6.1.1}%
-\contentsline {subsection}{\numberline {6.2}Methods}{15}{subsection.6.2}%
-\contentsline {subsubsection}{\numberline {6.2.1}Simulations}{15}{subsubsection.6.2.1}%
-\contentsline {subsubsection}{\numberline {6.2.2}Fossil sampling}{15}{subsubsection.6.2.2}%
-\contentsline {subsubsection}{\numberline {6.2.3}ASE}{16}{subsubsection.6.2.3}%
-\contentsline {subsubsection}{\numberline {6.2.4}Raw distance comparison between true vs ace}{16}{subsubsection.6.2.4}%
-\contentsline {subsubsection}{\numberline {6.2.5}Distance comparison between ordinated true vs ace}{16}{subsubsection.6.2.5}%
-\contentsline {subsubsection}{\numberline {6.2.6}Difference in disparity between true vs ace}{17}{subsubsection.6.2.6}%
-\contentsline {subsection}{\numberline {6.3}Results (or what I expect to find)}{17}{subsection.6.3}%
-\contentsline {subsubsection}{\numberline {6.3.1}Raw distances}{17}{subsubsection.6.3.1}%
-\contentsline {subsubsection}{\numberline {6.3.2}Ordination}{17}{subsubsection.6.3.2}%
-\contentsline {subsubsection}{\numberline {6.3.3}Disparity}{17}{subsubsection.6.3.3}%
-\contentsline {section}{\numberline {7}Chapter Two: Measuring changes in trends in disparity through time}{18}{section.7}%
-\contentsline {section}{\numberline {8}Chapter Three: Eutherian disparity over K-Pg mass extinction}{18}{section.8}%
-\contentsline {part}{IV\hspace {1em}Summary of research achievements}{18}{part.4}%
+\contentsline {subsubsection}{\numberline {3.2.3}Model dependency}{14}{subsubsection.3.2.3}%
+\contentsline {subsubsection}{\numberline {3.2.4}Pre- or post-ordination}{14}{subsubsection.3.2.4}%
+\contentsline {section}{\numberline {4}Detecting shifts in disparity}{15}{section.4}%
+\contentsline {section}{\numberline {5}Aims and objectives}{15}{section.5}%
+\contentsline {part}{III\hspace {1em}Thesis plan}{15}{part.3}%
+\contentsline {section}{\numberline {6}Chapter One: What is the effect of ancestral state estimations on disparity?}{15}{section.6}%
+\contentsline {subsection}{\numberline {6.1}Introduction}{15}{subsection.6.1}%
+\contentsline {subsubsection}{\numberline {6.1.1}Why does this matter?}{16}{subsubsection.6.1.1}%
+\contentsline {subsection}{\numberline {6.2}Methods}{16}{subsection.6.2}%
+\contentsline {subsubsection}{\numberline {6.2.1}Simulations}{16}{subsubsection.6.2.1}%
+\contentsline {subsubsection}{\numberline {6.2.2}Fossil sampling}{16}{subsubsection.6.2.2}%
+\contentsline {subsubsection}{\numberline {6.2.3}ASE}{17}{subsubsection.6.2.3}%
+\contentsline {subsubsection}{\numberline {6.2.4}Raw distance comparison between true vs ace}{17}{subsubsection.6.2.4}%
+\contentsline {subsubsection}{\numberline {6.2.5}Distance comparison between ordinated true vs ace}{17}{subsubsection.6.2.5}%
+\contentsline {subsubsection}{\numberline {6.2.6}Difference in disparity between true vs ace}{18}{subsubsection.6.2.6}%
+\contentsline {subsection}{\numberline {6.3}Results (or what I expect to find)}{18}{subsection.6.3}%
+\contentsline {subsubsection}{\numberline {6.3.1}Raw distances}{18}{subsubsection.6.3.1}%
+\contentsline {subsubsection}{\numberline {6.3.2}Ordination}{18}{subsubsection.6.3.2}%
+\contentsline {subsubsection}{\numberline {6.3.3}Disparity}{18}{subsubsection.6.3.3}%
+\contentsline {section}{\numberline {7}Chapter Two: Measuring changes in trends in disparity through time}{19}{section.7}%
+\contentsline {section}{\numberline {8}Chapter Three: Eutherian disparity over K-Pg mass extinction}{19}{section.8}%
+\contentsline {part}{IV\hspace {1em}Summary of research achievements}{19}{part.4}%
