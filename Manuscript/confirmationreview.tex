@@ -395,11 +395,9 @@ Internal node values can be estimated using the conditional expectations of this
 
 \subsubsection{Uncertainty in estimates}
 A critical issue within ancestral state estimation is that estimates tend to have broad uncertainty \citep{schluter1997likelihood}.
-% While reconstructions of singular states often are able to visualise this uncertainty (eg those simmap looking things), ASE of morphological matrices tend to opt for point estimates.
 This uncertainty is not uniform across the tree: it typically increases towards root of the tree, where direct information from observed tip data becomes increasingly diffuse \citep{gascuel2014predicting}.
 For discrete characters, this uncertainty manifests as inconclusive scaled likelihoods, i.e., state 0 = 0.51, state 1 = 0.49.
 For continuous characters, uncertainty is wide confidence intervals.
-Oftentimes, these confidence intervals are so wide that it may be counter-intuitive to even bother with ASE \citep{martins2000adaptation}.
 
 How this uncertainty in estimations should be dealt with is equivocal.
 Despite the encouragement for uncertainty to be carried forward in comparative analyses \citep{silvestro2015measurement}, most computational implementations of ASE return point estimates.
@@ -452,9 +450,9 @@ Much of this can be solved by incorporating fossils.
 ASE can be performed at two points in the disparity analysis pipeline (\autoref{fig:pipeline}): either pre-ordination or post-ordination. 
 Pre-ordination ASE involves estimating the ancestral states of the raw trait data, whereas post-ordination ASE estimates the PC scores of ancestral nodes.
 The pre-ordination has become favoured \citep{lloyd2018journeys} due to various statistical issues with post-ordination ASE.
-For example, post-ordination ASE means ancestral values have to fall within the morphospace range of the observed trait data \citep{stayton2015definition}.
-While this is usually biologically realistic due to the zero-force evolutionary law \citep{mcshea2010biology}, in a scenario where taxon sampling is poor, true ancestral states may fall outside of the morphological extremes designated by observed data.
-\cite{lloyd2018journeys} found that the post-ordination method recovers an implausibly low amount of convergent evolution and patterns dictated more so by phylogenetic signal than morphological signal.
+For example, post-ordination ASE means ancestral values have to fall within the convex hull of the observed trait data \citep{stayton2015definition}.
+While this is usually biologically realistic due to the zero-force evolutionary law \citep{mcshea2010biology}, in a scenario where taxon sampling is poor, true ancestral states may fall outside the morphological extremes designated by observed data.
+\cite{lloyd2018journeys} found that the post-ordination ASE method recovers an implausibly low amount of convergent evolution and patterns dictated more so by phylogenetic signal than morphological signal.
 Despite this, there are some practical benefits to performing post-ordination ASE.
 Firstly, it is far less computationally intense.
 Secondly, it mitigates issues with trait correlations. 
