@@ -139,7 +139,7 @@ Alternatively, a clade may move position within the morphospace, reflecting dire
 Mass extinctions pose numerous scenarios of disparity (\autoref{fig:scenarios}).
 In adaptive scenarios, disparity may increase in opportunistic %TG: not sure about that world here. Maybe put it in quotes?
  clades that diversify during the period of ecological opportunity following a mass extinction.
-Random extinction will reduce the total number of taxa, but have little effect on variance-based disparity metrics. %TG: not especially variance based. I think more size based no?
+Random extinction will reduce the total number of taxa, but have little effect on variance-based disparity metrics. %TG: not especially variance based. I think you mean more size based no?
 Selective extinction, whereby taxa are more susceptible to extinction due to particular trait combinations, will have a detectable effect on variance-based measures \citep{foote1997evolution,korn_extinction_2013}.
 % TG: I think there is a (common) confusion here between the statistic (disparity metric capturing the pattern) and the mechanism (what is actually happening). In practice we use them as equivalents: e.g. sum of variance increase = adaptive radiatyion. But in reality they're not. Maybe it's worth trying to rewrite these bits by separating them into: "Biological mechanism does X to trait diversity. We expect disparity to do Y when that happens.". In other words, it's important to distinguish the mechanism (the biological thingy) from disparity (our tool to measure it).
 \cite{korn_extinction_2013} proposed several patterns to describe different selection processes: lateral (asymmetric selection that trims one side of the morphospace), marginal (symmetric selection that removes peripheral taxa) and non-selective (random process independent of the variables defining the morphospace). 
@@ -155,27 +155,29 @@ Work on contemporary extinctions has also investigated extinction selectivity, w
 \end{figure}
 
 \subsection{Eutherian disparity across K-Pg Mass Extinction}
-The rebound dynamics of eutherian mammals (placentals and extinct relatives) across the K-Pg mass extinction is one of the most well-studied yet contentious inquiries of macroevolutionary biology.
+The rebound dynamics %TG: not sure about "rebound dynamics". Maybe something more neutral like "The effect of the K-Pg on mammals...". Also you need to briefly introduce the K-Pg extinction (what and when). Maybe the easiest is to introduce it on line 91 when you talk about mass extinctions in general: e.g. "there are 5 mass extinctions, one of the most studied is the last one, the Cretaceous Paleaogene on 66 million years ago that saw the extinction of amonites and non-avian dinosaurs (K-Pg)" (or something like that)
+ of eutherian mammals (placentals and extinct relatives) across the K-Pg mass extinction is one of the most well-studied yet contentious inquiries of macroevolutionary biology.
 Eutherian mammals prior to the K-Pg boundary have been traditionally considered depauperate, small sized and limited in ecological variation, which contrasts the diversity seen in extant placentals.
-The widely held view until recently, known as the suppression hypothesis, follows that the extinction of non-avian  dinosaurs released eutherian mammals from constraints of predation and competition, stimulating a radiation at the onset of the Cenozoic \citep{osborn_law_1902,alroy_fossil_1999,codron_ecological_2013,oleary_placental_2013}. 
-The most significant morphological evidence for the suppression hypothesis in the fossil record concerns a shift in  body size disparity \citep{alroy_fossil_1999}. 
+The widely held view until recently, known as \textit{the suppression hypothesis}, follows that the extinction of non-avian  dinosaurs released eutherian mammals from constraints of predation and competition, stimulating a radiation at the onset of the Cenozoic \citep{osborn_law_1902,alroy_fossil_1999,codron_ecological_2013,oleary_placental_2013}. 
+The most significant morphological evidence for the suppression hypothesis in the fossil record concerns a shift in body size disparity \citep{alroy_fossil_1999}. 
 Mesozoic mammals generally weighed less than 100 g and rarely over 5 kg \citep{benevento_early_2023}. 
 The maximum body mass of mammals increased exponentially and by roughly three orders of magnitude by the late Eocene, which is consistent across continents and taxonomic groups \citep{cooper_body_2010,smith_evolution_2010,raia_rapid_2013,slater_phylogenetic_2013}. 
 
-While the suppression hypothesis is strongly supported by studies that have investigated changes in body size \citep{alroy_fossil_1999,slater_phylogenetic_2013}, body size is limited as a metric for ecological variation since it can be influenced by several factors that may reflect stochastic rather than adaptive changes \citep{grossnickle_feeding_2020}. 
+While the suppression hypothesis is strongly supported by studies that have investigated changes in body size \citep{alroy_fossil_1999,slater_phylogenetic_2013}, body size is limited as a biodiversity metric for ecological variation since it can be influenced by several factors that may reflect stochastic rather than adaptive changes \citep{grossnickle_feeding_2020}. 
 Recent studies instead focusing on morpho-functional traits (intrinsically linked to ecological function), such as jaw and dentition morphology, have instead suggested that eutherian diversity was attained through successive waves of diversification, starting far earlier than the K-Pg mass extinction \citep{grossnickle_untangling_2019}.
 The early rise hypothesis suggests an ecological diversification that occurred concurrently with the diversification of angiosperms and insects during and after the Cretaceous Terrestrial Revolution (125–80 Ma) (\autoref{fig:radiations}) \citep{meredith_impacts_2011,benton_angiosperm_2022}. 
 Ecological variation within Mesozoic mammals is not limited to diet; diversity in locomotor styles was reached as far back as the Jurassic in early mammaliaform groups, including early eutherians \citep{chen_assembly_2019}. 
 Other studies have pointed towards the Paleocene-Eocene Thermal Maximum (PETM), an episode of elevated global temperatures 56 Ma that widened the latitudinal range of angiosperm-dominated forest, which in turn spurred the dispersal and radiation of eutherians (\autoref{fig:radiations}) \citep{bininda-emonds_delayed_2007}. 
 \cite{benevento_patterns_2019} found that eutherian mammals had the most significant expansion in jaw morphospace at the onset of the Eocene.
 While these alternative hypotheses do not necessarily refute the influence of the K-Pg mass extinction, they instead suggest the extinction accentuated evolutionary trajectories already underway. 
+% TG: very good stuff!
 
-, 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.7\linewidth]{images/grossnickleradiations.jpg}
     \caption{The contrasting ecological diversification triggers and placental origin hypotheses. Adapted from \cite{grossnickle_untangling_2019}.}
     \label{fig:radiations}
+    % TG: same comment as for figure 1: I think eventually you'll be able to use your own figure. Maybe once we get to the pixel phase of the project taking three contrasting ones?
 \end{figure}
 
 % Perhaps describe the eutherian mammal issue - no real clue on what really happened here?
@@ -195,7 +197,7 @@ The conflicting findings of eutherian disparity across the K-Pg boundary raise t
 Addressing this requires a critical look at the methodological underpinnings of disparity analyses.
 % Outcomes of disparity analyses are sensitive to the methodological decisions that precede.
 
-For the purposes of this review, I focus on three key methodological choices: (1) trait data, (2) disparity metric, (3) ancestral state estimation.
+For the purposes of this review, I focus on three key methodological choices: (1) trait data, (2) disparity metric, (3) ancestral state estimation. %TG: I see why you arrange them like that, guessing you want to finish on (3) to expand on it. It's fine for here but I guess for the future - not confirmation review - you can rearrange them more logically data > ace > disparity
 
 \subsubsection{Types of trait data}
 The morphological data used in disparity analyses may fall into one of the following categories:
@@ -207,11 +209,12 @@ The morphological data used in disparity analyses may fall into one of the follo
 \end{itemize}
 
 Given the varying scope of morphological variation that these contrasting approaches characterise, it is expected that they capture different aspects of disparity. 
-For example, molar geometric morphometric data will only reveal variation related to diet/feeding ecology, whereas discrete character matrices of cranial and postcranial features may reveal variation in whole-organism morphology. 
+For example, molar geometric morphometric data will mainly reveal variation related to diet/feeding ecology, whereas discrete character matrices of cranial and postcranial features may reveal variation in whole-organism morphology. 
 Correlation between the outputs of these two approaches cannot be assumed, highlighting the discrepancies between disparity analyses.
 For example, \cite{halliday_eutherian_2016}, using a cladistic data matrix of dental, cranial and postcranial characters, found contrasting patterns of disparity across K-Pg compared to studies that used geometric morphometric analysis of molars \citep{wilson_mammals_2013,grossnickle_therian_2016}.
 Furthermore, the overwhelming phylogenetic signal in cladistic discrete datasets, i.e. \cite{halliday_eutherian_2016}, may bury important functional variation contained within \citep{anderson2012using}. 
 Characters used during phylogenetics are selected to establish branching orders and differentiate taxa into distinct clades, which may artificially inflate disparity at nodes of cladogenesis \citep{gerber_use_2019}.
+% TG: could be also worth checking this paper: https://royalsocietypublishing.org/doi/full/10.1098/rstb.2022.0085
 
 
 \subsubsection{Disparity metrics} 
@@ -220,7 +223,7 @@ For example, \cite{halliday_eutherian_2016} found contrasting patterns of euther
 \cite{puttick_complex_2020} highlighted the importance of employing several different disparity metrics to explore different ways in which the morphospace changes across a mass extinction.
 However, several studies investigating eutherian disparity have opted to use only a single disparity metric, often variance-based metrics such as sum of variances/ranges \citep{grossnickle_mammal_2013,wilson_mammals_2013, grossnickle_therian_2016}.
 \cite{puttick_complex_2020} highlighted the importance of employing several disparity metrics to explore different ways in which the morphospace changes across a mass extinction.
-T
+
 
 
 \subsubsection{Pipeline}
@@ -234,16 +237,23 @@ Show the pipeline figure
     \label{fig:pipeline}
 \end{figure}
 
+
 % \subsubsection{Disparity and phylogeny}
 % Given the widespread availability of phylogenies, many studies now opt to incorporate them into disparity analyses.
 
 \section{Ancestral state estimation}
 The poor resolution of the fossil record is an inevitable limitation affecting disparity analyses, since only a small biased portion of a clade's evolutionary history is preserved.
 The incorporation of a phylogeny together with trait data enables a switch from simply observing a pattern (points in morphospace) to inferring a process through time, through the use of ancestral state estimation (ASE) \citep{lloyd2018journeys}.
+% TG: Is "ASE" a term used in Lloyd 2018? I'm not a big fan of acronyms in general so introducing a new one can be a big confusing. Maybe just type "ancestral states estimations" throughout? Or even "ancestral traits estimations" to make it even more general (i.e. including discrete and continuous). If you're lazy you can define a macro. I think you can do it using the following:
+% \newcommand{\ASE}{ancestral traits estimations}
+% and then type \ASE everywhere you need like you do and when compiling it'll change it to "ancestral traits estimations". more info here: https://www.overleaf.com/learn/latex/Commands
+
+
 
 \subsection{Application of ASE}
-Ancestral state estimation (ASE) is the broad method of estimating trait value(s) in a set of common ancestors given a set of observed data for operational taxa of a phylogenetic tree \citep{schluter1997likelihood,cunningham1998reconstructing, yang2006computational,revell2025ancestral}.
-Trait data may be continuous, such as body size, or discrete, such as diet type or presence/absence of a character.
+Ancestral state estimation (ASE) is the broad method of estimating trait value(s) in a set of common ancestors given a set of observed data for operational taxa %TG: Do you mean OTU (operational taxonomic units)? If yes, I think you can simplify it using "taxa". Never understood why people distinguish between an OTU and a taxon. Both are always tips.
+ of a phylogenetic tree \citep{schluter1997likelihood,cunningham1998reconstructing, yang2006computational,revell2025ancestral}.
+Trait data may be continuous, such as body size, or discrete, such as diet type or presence/absence of a character. %TG: note that you've already introduced continuous/discrete above. I think you can simpluify here.
 The application of ASE has been widely utilised in phylogenetic comparative methods, including disparity.
 
 
@@ -251,6 +261,7 @@ Intuitively, ASE is appealing for those studying deep-time patterns of disparity
 Incorporating a phylogeny into disparity analyses will unavoidably introduce unsampled `ghost lineages' \citep{brusatte2011phylogenetic}.
 A ghost lineage is the hypothetical ancestor that is not observed in the fossil record, but can be inferred to have existed due to the presence of other fossils/extant taxa. 
 This can be best explained as the branch on a phylogeny between two observed taxonomic units (\autoref{fig:ichthy_phylo}).
+
 
 \begin{figure}[H]
     \centering
@@ -272,9 +283,17 @@ This fills in the gaps in the fossil record and alleviates the bias associated w
 % Look at Halliday. guillerme etc for how to incorporate these aced estimated into dtt - different binning methods, time slicing etc.
 
 
+%TG: The structure of these three last parapgraphs needs some more polishing I think. It's kind of unclear currently where you're going with describing ACE. Maybe the best way is to stick to the narrative of ACE are shit but really need: 1) describing very briefly what ACE are (wheighted averages of observed traits); 2) why they can be bad (they only take into account observed data and thus missing anything special happening + they have large uncertainties); 3) but they are still irreplaceable for macro analyses through time (ghost lineages).
 
 
 
+% TG: For the whole ancestral traits estimations section, I suggest you simplify the writing by re-writing the whole thing from scratch step by step. I suggest you write it in a very didactic way like how you would go for teaching it to a colleague (e.g. imagine you have to teach it to Shriya or Rob).
+% TG: Basically here you need to explain the following concepts
+ % 1. How can you calculate the value at a node (regardless of discrete/continuous) and use likelihood to see how it fits the observed data
+ % 2. How can you then calculate the value at a node for continuous data (I think it's always a bit more intuitive). You can do that just for the mini tree with continuous values. You'll then just need to introduce transition rates and variance.
+ % 3. How then to do it for discrete values (with introducing the Q matrix first. transition rates are already introduced in 2.)
+% TG: I think then it's easier for both you and the reader to understand what is happening here. Basically for this work to be useful to readers (beyond the confirmation review) I tink it needs to be written in a very easy step by step fashion. Basically very much the opposite of Revell and other papers ;).
+% TG: Also this whole section needs a little intro on why it's important to care about that (we need them because ghost lineages and shit - see coment chunk just above) and can then finish with the caveats you have in place on uncertainty 
 
 
 % An additional requirement of ASE is the model specified.
@@ -288,6 +307,7 @@ This fills in the gaps in the fossil record and alleviates the bias associated w
 
 \subsubsection{Discrete characters}
 Discrete characters are typically analysed using parsimony or likelihood approaches, although likelihood methods are generally preferred.
+% TG: this sentence could be back up by references (e.g. look at the work from April Wright)
 Likelihood approaches, such as Bayesian inference or Maximum likelihood, optimize solutions based on the tree topology, branch lengths and the model of character evolution.
 Discrete characters are modelled using a continuous time Markov chain process, known as the M\textit{k} model (where \textit{k} = number of possible states) \citep{pagel1994detecting, yang2006computational}. 
 This process is specified by a $\textit{k} \times \textit{k}$ matrix, \textbf{Q}, which gives the instantaneous transition rates (\textit{q}) between states for each character. 
@@ -303,6 +323,8 @@ This process is specified by a $\textit{k} \times \textit{k}$ matrix, \textbf{Q}
     0.5 & -0.5
 \end{bmatrix}
 \]
+
+% TG: Why are the off-diagonal values negative? And why are they 0.5?
 
 There are a number of M\textit{k} transition rate models that can be fit to data. 
 The `equal-rates model' (ER) is the simplest and estimates just one parameter, since it assumes all transitions occur with equal probability, equivalent to the Jukes-Cantor model of molecular evolution.
@@ -330,6 +352,7 @@ One further probability to consider is the `root prior', which is essentially wh
 This is typically set with a flat root prior $\pi_{0} = \pi_{1} = 0.5$.
 
 The most popular method of ASE is \textit{marginal} estimation, which involves proceeding from node to node on the phylogeny, and, at each node, computing the probability of observing the tip data of our tree conditioned on fixing the node we've visited to each one of the set of distinct values of our trait.
+% TG: this needs to be clarified. I think what you mean is that you estimate the node state probability by diffusing it from tip to nodes where each internal node (that is only connected to other nodes) gets their state probability conditional on it's descendant nodes?
 If we were to compute the probability that the root was in state 0, 
 
 For example, if we were to calculate the probability of the root node was in state 0: \[
@@ -351,15 +374,17 @@ P(\textit{AB} = 1) &= \pi_{0} \times P(1 | 0, t_{AB}) \times P(1 | 1, t_{A}) \ti
 \end{aligned}
 \]
 
+% TG: where are the pis comming from? I think it's worth rewriting this whole equation in english first before doing it in math (e.g. "The probability of the root being in state 0 is equal to ..."). Also, I suggest you give each elements more verbose name (like for the root): for example AB can be node1 A can be tip 1, etc...
 
 
 These marginal likelihoods are then scaled by their sum, giving \textit{P}(0, 1) = [0.68, 0.32]. 
+% TG: I think you can just say they are re-scaled so that they sum up to one (and in brackets write the formula $$P_{scaled}(root = 0) = \frac{P(root = 0)}{P(root = 0) + P(root = 1)}$$)
 In marginal estimation, this is calculated node by node.
 Since this can become extremely complicated as the phylogeny increases in size, in practice functions use algorithms such as Felsenstein's pruning algorithm \citep{felsenstein1981evolutionary}.
-
+% TG: might be worth explaining what this algorithm does!
 
 \subsubsection{Continuous characters}
-Continuous trait evolution is typically modelled under a Brownian motion (BM) model of evolution \citep{felsenstein1985phylogenies, omeara2006testing}.
+Continuous trait evolution is typically modeled under a Brownian motion (BM) model of evolution \citep{felsenstein1985phylogenies, omeara2006testing}.
 Brownian motion models trait evolution as a directionless, stochastic process under which continuous characters undergo changes along the branches of a phylogeny.
 These evolutionary changes come from a Gaussian distribution with a mean of 0 and variance proportional to the product of the rate of evolution and time elapsed ($\sigma^2\textit{t}$). 
 Therefore, the expected amount of trait divergence between any two taxa is proportional to the amount of shared evolutionary history according to the phylogeny.
@@ -373,6 +398,8 @@ When estimating ancestral states under BM, the trait values of the internal node
 Therefore, the \textbf{\textit{C}} matrix can be expanded by one column and row for each node (except the root).
 During Maximum Likelihood, the $x_0$ and $\sigma^2$ parameters are estimated as the values that maximize the likelihood of observing the tip vector. 
 Internal node values can be estimated using the conditional expectations of this distribution, i.e. the trait value at an internal node is calculated as a weighted average of the observed tip values, determined by the amount of shared evolutionary history (given by \textbf{\textit{C}}) and the node's position in the tree.
+
+% TG: I think it'd be clearer if you do it in one dimension first and then introduce the multidimensions after as a generalisation.
 
 \subsection{Challenges of ASE}
 % - Ancestral state estimation -> why we use it? lack of fossils etc. Challenges we face when using PCMs.
@@ -464,7 +491,9 @@ Pre-ordination ASE involves estimating the ancestral states of the raw trait dat
 The pre-ordination has become favoured \citep{lloyd2018journeys} due to various statistical issues with post-ordination ASE.
 For example, post-ordination ASE means ancestral values have to fall within the convex hull of the observed trait data \citep{stayton2015definition}.
 While this is usually biologically realistic due to the zero-force evolutionary law \citep{mcshea2010biology}, in a scenario where taxon sampling is poor, true ancestral states may fall outside the morphological extremes designated by observed data.
+% TG: you need to explain what the zero-force law is (I don't know it)
 \cite{lloyd2018journeys} found that the post-ordination ASE method recovers an implausibly low amount of convergent evolution and patterns dictated more so by phylogenetic signal than morphological signal.
+% TG: worth chatting about that next meeting!
 Despite this, there are some practical benefits to performing post-ordination ASE.
 Firstly, it is less computationally expensive.
 Secondly, it mitigates issues with trait correlations. 
