@@ -40,3 +40,7 @@ Another idea:
 Something to think about: precision vs accuracy
 
 Could we assume that using slow rates is equivalent to using more broad coding system, and fast rates is small changes? Or should I link that to the number of coding states.
+
+In the first, we converted Mk2 and BiSSE probabilities for each node into 0, 1, or ambiguous with this rule: if the probability was greater than 0.7, then the node state was assigned as 1, if the probability was less than 0.3, the state was assigned as 0, probabilities between 0.3 and 0.7 were considered as ambiguous. We then only considered “outright” errors, i.e. if the estimated and true states did not match. We refer to this as the quantised score. The second approach directly employed the node probabilities for Mk and BiSSE, and error scores of 0 (estimated and true values matched), 0.5 (ambiguous estimate) and 1 (estimated and true values were different) for MP.
+
+GLM? to assess impact of parameters on probability of errors.

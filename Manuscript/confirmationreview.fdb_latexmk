@@ -1,15 +1,15 @@
 # Fdb version 4
-["bibtex confirmationreview"] 1748506013.83689 "confirmationreview.aux" "confirmationreview.bbl" "confirmationreview" 1748506889.279 0
-  "./references.bib" 1748461360.4084 237847 92ca2b34c6aff8641019272d4bf46ec8 ""
+["bibtex confirmationreview"] 1748877134.61161 "confirmationreview.aux" "confirmationreview.bbl" "confirmationreview" 1748877135.46476 0
+  "./references.bib" 1748531611.06636 239941 fbca8271b8ed826c7b2034cb1dfd3207 ""
   "/usr/share/texlive/texmf-dist/bibtex/bst/harvard/agsm.bst" 1136766823 25549 e3d0f1ab4ae55e777f7352db30e2c6f7 ""
-  "confirmationreview.aux" 1748506888.91189 17355 45995ac6a0a3f3438a2e731ae7d26257 "pdflatex"
+  "confirmationreview.aux" 1748877135.28855 20361 82a3bfbcf8d71ccffcf97b53f2a6c887 "pdflatex"
   (generated)
   "confirmationreview.bbl"
   "confirmationreview.blg"
   (rewritten before read)
-["pdflatex"] 1748506887.98897 "/home/caleb/Documents/PhD/acedisparity/Manuscript/confirmationreview.tex" "confirmationreview.pdf" "confirmationreview" 1748506889.27933 0
+["pdflatex"] 1748877134.72576 "/home/caleb/Documents/PhD/acedisparity/Manuscript/confirmationreview.tex" "confirmationreview.pdf" "confirmationreview" 1748877135.46497 0
   "/etc/texmf/web2c/texmf.cnf" 1730844760.28548 475 c0e671620eb5563b2130f56340a5fde8 ""
-  "/home/caleb/Documents/PhD/acedisparity/Manuscript/confirmationreview.tex" 1748506887.74988 50426 396a7f5fd596cea67116fba32ac17e22 ""
+  "/home/caleb/Documents/PhD/acedisparity/Manuscript/confirmationreview.tex" 1748877133.67752 63579 2cf3176016a0beb02360a2db568e63e6 ""
   "/usr/share/texlive/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/jknappen/ec/tcrm1000.tfm" 1136768653 1536 e07581a4bb3136ece9eeb4c3ffab8233 ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmbsy5.tfm" 1246382020 1120 1e8878807317373affa7f7bba4cf2f6a ""
@@ -109,11 +109,11 @@
   "/usr/share/texmf/web2c/texmf.cnf" 1707919699 40399 f2c302f7d2af602abb742093540a5834 ""
   "/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map" 1730844780.91279 5472669 54eaf61a88b6b7896ebd0dac973cb29c ""
   "/var/lib/texmf/web2c/pdftex/pdflatex.fmt" 1730844870 8215263 37da5ff08623ce8426d1176d844cce83 ""
-  "confirmationreview.aux" 1748506888.91189 17355 45995ac6a0a3f3438a2e731ae7d26257 "pdflatex"
-  "confirmationreview.bbl" 1748506014.06025 25606 3bd79811023769962655f4ef2cec2ceb "bibtex confirmationreview"
-  "confirmationreview.out" 1748506888.91389 7689 1b15d1e81dede19a0d999eb79f61ed94 "pdflatex"
-  "confirmationreview.tex" 1748506887.74988 50426 396a7f5fd596cea67116fba32ac17e22 ""
-  "confirmationreview.toc" 1748506888.91389 3703 ff9fc28886df56d1a81f89694071515e "pdflatex"
+  "confirmationreview.aux" 1748877135.28855 20361 82a3bfbcf8d71ccffcf97b53f2a6c887 "pdflatex"
+  "confirmationreview.bbl" 1748877134.72054 29873 a8516fb714a6a841c19dcb906da4246c "bibtex confirmationreview"
+  "confirmationreview.out" 1748877135.28855 9430 f580b354dc3fcf8364a8cd542aee3a7f "pdflatex"
+  "confirmationreview.tex" 1748877133.67752 63579 2cf3176016a0beb02360a2db568e63e6 ""
+  "confirmationreview.toc" 1748877135.28955 4608 76ee0a2495c97d491a88c8b2cd91da31 "pdflatex"
   "images/Ichthyosauria_phylogeny.jpg" 1747750029.21773 497936 dda80bd19919f0ff0da9a69157b5d9e7 ""
   "images/extinctionscenarios.png" 1740993460.30798 58846 1f9a77e41df098f9c0db364816ec33a7 ""
   "images/grossnickleradiations.jpg" 1740993460.31198 798614 18b149d417a4a2f35bc0800a75a15444 ""

@@ -13,6 +13,10 @@ Anderson, P.~S. \harvardand\ Friedman, M.  \harvardyearleft 2012\harvardyearrigh
 \harvarditem{An{\'e}}{2008}{ane2008analysis}
 An{\'e}, C.  \harvardyearleft 2008\harvardyearright , `Analysis of comparative data with hierarchical autocorrelation'.
 
+\harvarditem{Archibald \harvardand\ Deutschman}{2001}{archibald_quantitative_2001}
+Archibald, J.~D. \harvardand\ Deutschman, D.~H.  \harvardyearleft 2001\harvardyearright , `Quantitative {Analysis} of the {Timing} of the {Origin} and {Diversification} of {Extant} {Placental} {Orders}', {\em Journal of Mammalian Evolution} {\bf 8}(2),~107--124.
+\newblock Company: Springer Distributor: Springer Institution: Springer Label: Springer Number: 2 Publisher: Kluwer Academic Publishers-Plenum Publishers.
+
 \harvarditem[Bapst et~al.]{Bapst, Bullock, Melchin, Sheets \harvardand\ Mitchell}{2012}{bapst_graptoloid_2012}
 Bapst, D.~W., Bullock, P.~C., Melchin, M.~J., Sheets, H.~D. \harvardand\ Mitchell, C.~E.  \harvardyearleft 2012\harvardyearright , `Graptoloid diversity and disparity became decoupled during the {Ordovician} mass extinction', {\em Proceedings of the National Academy of Sciences} {\bf 109}(9),~3428--3433.
 \newblock Publisher: Proceedings of the National Academy of Sciences.
@@ -34,6 +38,13 @@ Bininda-Emonds, O. R.~P., Cardillo, M., Jones, K.~E., MacPhee, R. D.~E., Beck, R
 \harvarditem[Brusatte et~al.]{Brusatte, Montanari, Yi \harvardand\ Norell}{2011}{brusatte2011phylogenetic}
 Brusatte, S.~L., Montanari, S., Yi, H.-y. \harvardand\ Norell, M.~A.  \harvardyearleft 2011\harvardyearright , `Phylogenetic corrections for morphological disparity analysis: new methodology and case studies', {\em Paleobiology} {\bf 37}(1),~1--22.
 
+\harvarditem{Budd}{2021}{budd2021morphospace}
+Budd, G.~E.  \harvardyearleft 2021\harvardyearright , `Morphospace', {\em Current Biology} {\bf 31}(19),~R1181--R1185.
+
+\harvarditem[Carlisle et~al.]{Carlisle, Janis, Pisani, Donoghue \harvardand\ Silvestro}{2023}{carlisle_timescale_2023}
+Carlisle, E., Janis, C.~M., Pisani, D., Donoghue, P. C.~J. \harvardand\ Silvestro, D.  \harvardyearleft 2023\harvardyearright , `A timescale for placental mammal diversification based on {Bayesian} modeling of the fossil record', {\em Current Biology} {\bf 33}(15),~3073--3082.e3.
+\newblock Publisher: Elsevier.
+
 \harvarditem[Casali et~al.]{Casali, Boscaini, Gaudin \harvardand\ Perini}{2023}{casali2023morphological}
 Casali, D.~M., Boscaini, A., Gaudin, T.~J. \harvardand\ Perini, F.~A.  \harvardyearleft 2023\harvardyearright , `Morphological disparity and evolutionary rates of cranial and postcranial characters in sloths (mammalia, pilosa, folivora)', {\em Palaeontology} {\bf 66}(1),~e12639.
 
@@ -51,6 +62,13 @@ Cooper, N. \harvardand\ Purvis, A.  \harvardyearleft 2010\harvardyearright , `Bo
 
 \harvarditem[Cunningham et~al.]{Cunningham, Omland \harvardand\ Oakley}{1998}{cunningham1998reconstructing}
 Cunningham, C.~W., Omland, K.~E. \harvardand\ Oakley, T.~H.  \harvardyearleft 1998\harvardyearright , `Reconstructing ancestral character states: a critical reappraisal', {\em Trends in ecology \& evolution} {\bf 13}(9),~361--366.
+
+\harvarditem[Davies et~al.]{Davies, Bell, Goswami \harvardand\ Halliday}{2017}{davies2017completeness}
+Davies, T.~W., Bell, M.~A., Goswami, A. \harvardand\ Halliday, T.~J.  \harvardyearleft 2017\harvardyearright , `Completeness of the eutherian mammal fossil record and implications for reconstructing mammal evolution through the cretaceous/paleogene mass extinction', {\em Paleobiology} {\bf 43}(4),~521--536.
+
+\harvarditem[dos Reis et~al.]{dos Reis, Inoue, Hasegawa, Asher, Donoghue \harvardand\ Yang}{2012}{dos_reis_phylogenomic_2012}
+dos Reis, M., Inoue, J., Hasegawa, M., Asher, R.~J., Donoghue, P. C.~J. \harvardand\ Yang, Z.  \harvardyearleft 2012\harvardyearright , `Phylogenomic datasets provide both precision and accuracy in estimating the timescale of placental mammal phylogeny', {\em Proceedings of the Royal Society B: Biological Sciences} .
+\newblock Publisher: The Royal Society.
 
 \harvarditem[Edie et~al.]{Edie, Jablonski \harvardand\ Valentine}{2018}{edie_contrasting_2018}
 Edie, S.~M., Jablonski, D. \harvardand\ Valentine, J.~W.  \harvardyearleft 2018\harvardyearright , `Contrasting responses of functional diversity to major losses in taxonomic diversity', {\em Proceedings of the National Academy of Sciences} {\bf 115}(4),~732--737.
@@ -71,8 +89,15 @@ Finarelli, J.~A. \harvardand\ Goswami, A.  \harvardyearleft 2013\harvardyearrigh
 \harvarditem[Fischer et~al.]{Fischer, Maisch, Naish, Kosma, Liston, Joger, Kr{\"u}ger, P{\'e}rez, Tainsh \harvardand\ Appleby}{2012}{fischer2012new}
 Fischer, V., Maisch, M.~W., Naish, D., Kosma, R., Liston, J., Joger, U., Kr{\"u}ger, F.~J., P{\'e}rez, J.~P., Tainsh, J. \harvardand\ Appleby, R.~M.  \harvardyearleft 2012\harvardyearright , `New ophthalmosaurid ichthyosaurs from the european lower cretaceous demonstrate extensive ichthyosaur survival across the jurassic--cretaceous boundary', {\em PLoS One} {\bf 7}(1),~e29234.
 
+\harvarditem[Foley et~al.]{Foley, Springer \harvardand\ Teeling}{2016}{foley_mammal_2016}
+Foley, N.~M., Springer, M.~S. \harvardand\ Teeling, E.~C.  \harvardyearleft 2016\harvardyearright , `Mammal madness: is the mammal tree of life not yet resolved?', {\em Philosophical Transactions of the Royal Society B: Biological Sciences} .
+\newblock Publisher: The Royal Society.
+
 \harvarditem{Foote}{1993}{foote_discordance_1993}
 Foote, M.  \harvardyearleft 1993\harvardyearright , `Discordance and concordance between morphological and taxonomic diversity', {\em Paleobiology} {\bf 19}(2),~185--204.
+
+\harvarditem{Foote}{1994}{foote1994morphological}
+Foote, M.  \harvardyearleft 1994\harvardyearright , `Morphological disparity in ordovician-devonian crinoids and the early saturation of morphological space', {\em Paleobiology} {\bf 20}(3),~320--344.
 
 \harvarditem{Foote}{1997}{foote1997evolution}
 Foote, M.  \harvardyearleft 1997\harvardyearright , `The evolution of morphological diversity', {\em Annual Review of Ecology and Systematics} {\bf 28}(1),~129--152.
@@ -104,6 +129,9 @@ Grossnickle, D.~M., Smith, S.~M. \harvardand\ Wilson, G.~P.  \harvardyearleft 20
 \harvarditem{Guillerme}{2024}{guillerme2024treats}
 Guillerme, T.  \harvardyearleft 2024\harvardyearright , `treats: A modular r package for simulating trees and traits', {\em Methods in Ecology and Evolution} {\bf 15}(4),~647--656.
 
+\harvarditem{Guillerme \harvardand\ Cooper}{2018}{guillerme2018time}
+Guillerme, T. \harvardand\ Cooper, N.  \harvardyearleft 2018\harvardyearright , `Time for a rethink: time sub-sampling methods in disparity-through-time analyses', {\em Palaeontology} {\bf 61}(4),~481--493.
+
 \harvarditem[Guillerme et~al.]{Guillerme, Cooper, Brusatte, Davis, Jackson, Gerber, Goswami, Healy, Hopkins, Jones et~al.}{2020}{guillerme_disparities_2020}
 Guillerme, T., Cooper, N., Brusatte, S.~L., Davis, K.~E., Jackson, A.~L., Gerber, S., Goswami, A., Healy, K., Hopkins, M.~J., Jones, M.~E. et~al.  \harvardyearleft 2020\harvardyearright , `Disparities in the analysis of morphological disparity', {\em Biology letters} {\bf 16}(7),~20200199.
 
@@ -118,6 +146,9 @@ Harmon, L.~J., Losos, J.~B., Jonathan~Davies, T., Gillespie, R.~G., Gittleman, J
 
 \harvarditem{Hopkins}{2013}{hopkins2013decoupling}
 Hopkins, M.  \harvardyearleft 2013\harvardyearright , `Decoupling of taxonomic diversity and morphological disparity during decline of the cambrian trilobite family pterocephaliidae', {\em Journal of Evolutionary Biology} {\bf 26}(8),~1665--1676.
+
+\harvarditem{Hopkins}{2016}{hopkins2016magnitude}
+Hopkins, M.~J.  \harvardyearleft 2016\harvardyearright , `Magnitude versus direction of change and the contribution of macroevolutionary trends to morphological disparity', {\em Biological Journal of the Linnean Society} {\bf 118}(1),~116--130.
 
 \harvarditem[Hughes et~al.]{Hughes, Gerber \harvardand\ Wills}{2013}{hughes2013clades}
 Hughes, M., Gerber, S. \harvardand\ Wills, M.~A.  \harvardyearleft 2013\harvardyearright , `Clades reach highest morphological disparity early in their evolution', {\em Proceedings of the National Academy of Sciences} {\bf 110}(34),~13875--13879.
@@ -144,6 +175,9 @@ Korn, D., Hopkins, M.~J. \harvardand\ Walton, S.~A.  \harvardyearleft 2013\harva
 
 \harvarditem{Lloyd}{2018}{lloyd2018journeys}
 Lloyd, G.~T.  \harvardyearleft 2018\harvardyearright , `Journeys through discrete-character morphospace: synthesizing phylogeny, tempo, and disparity', {\em Palaeontology} {\bf 61}(5),~637--645.
+
+\harvarditem{Lowery \harvardand\ Fraass}{2019}{lowery2019morphospace}
+Lowery, C.~M. \harvardand\ Fraass, A.~J.  \harvardyearleft 2019\harvardyearright , `Morphospace expansion paces taxonomic diversification after end cretaceous mass extinction', {\em Nature ecology \& evolution} {\bf 3}(6),~900--904.
 
 \harvarditem[Matthews et~al.]{Matthews, Triantis, Wayman, Martin, Hume, Cardoso, Faurby, Mendenhall, Dufour, Rigal et~al.}{2024}{matthews2024global}
 Matthews, T.~J., Triantis, K.~A., Wayman, J.~P., Martin, T.~E., Hume, J.~P., Cardoso, P., Faurby, S., Mendenhall, C.~D., Dufour, P., Rigal, F. et~al.  \harvardyearleft 2024\harvardyearright , `The global loss of avian functional and phylogenetic diversity from anthropogenic extinctions', {\em Science} {\bf 386}(6717),~55--60.
@@ -172,6 +206,10 @@ Osborn, H.~F.  \harvardyearleft 1902\harvardyearright , `The {Law} of {Adaptive}
 \harvarditem{Pagel}{1994}{pagel1994detecting}
 Pagel, M.  \harvardyearleft 1994\harvardyearright , `Detecting correlated evolution on phylogenies: a general method for the comparative analysis of discrete characters', {\em Proceedings of the Royal Society of London. Series B: Biological Sciences} {\bf 255}(1342),~37--45.
 
+\harvarditem{Phillips}{2016}{phillips_geomolecular_2016}
+Phillips, M.~J.  \harvardyearleft 2016\harvardyearright , `Geomolecular {Dating} and the {Origin} of {Placental} {Mammals}', {\em Systematic Biology} {\bf 65}(3),~546--557.
+\newblock Publisher: Oxford Academic.
+
 \harvarditem{Puttick}{2016}{puttick2016partially}
 Puttick, M.~N.  \harvardyearleft 2016\harvardyearright , `Partially incorrect fossil data augment analyses of discrete trait evolution in living species', {\em Biology Letters} {\bf 12}(8),~20160392.
 
@@ -184,6 +222,9 @@ Raia, P., Carotenuto, F., Passaro, F., Piras, P., Fulgione, D., Werdelin, L., Sa
 
 \harvarditem{Raup}{1981}{raup1981extintion}
 Raup, D.~M.  \harvardyearleft 1981\harvardyearright , `Extintion: bad genes or bad luck?', {\em Acta geol{\'o}gica hisp{\'a}nica} pp.~25--33.
+
+\harvarditem{Raup}{1994}{raup1994role}
+Raup, D.~M.  \harvardyearleft 1994\harvardyearright , `The role of extinction in evolution.', {\em Proceedings of the National Academy of Sciences} {\bf 91}(15),~6758--6763.
 
 \harvarditem{Raup \harvardand\ Sepkoski}{1982}{raup_mass_1982}
 Raup, D.~M. \harvardand\ Sepkoski, J.~J.  \harvardyearleft 1982\harvardyearright , `Mass {Extinctions} in the {Marine} {Fossil} {Record}', {\em Science} {\bf 215}(4539),~1501--1503.
@@ -203,6 +244,9 @@ Schluter, D.  \harvardyearleft 2000\harvardyearright , {\em The ecology of adapt
 
 \harvarditem[Schluter et~al.]{Schluter, Price, Mooers \harvardand\ Ludwig}{1997}{schluter1997likelihood}
 Schluter, D., Price, T., Mooers, A.~{\O}. \harvardand\ Ludwig, D.  \harvardyearleft 1997\harvardyearright , `Likelihood of ancestor states in adaptive radiation', {\em Evolution} {\bf 51}(6),~1699--1711.
+
+\harvarditem{Sidlauskas}{2008}{sidlauskas2008continuous}
+Sidlauskas, B.  \harvardyearleft 2008\harvardyearright , `Continuous and arrested morphological diversification in sister clades of characiform fishes: a phylomorphospace approach', {\em Evolution} {\bf 62}(12),~3135--3156.
 
 \harvarditem[Silvestro et~al.]{Silvestro, Kostikova, Litsios, Pearman \harvardand\ Salamin}{2015}{silvestro2015measurement}
 Silvestro, D., Kostikova, A., Litsios, G., Pearman, P.~B. \harvardand\ Salamin, N.  \harvardyearleft 2015\harvardyearright , `Measurement errors should always be incorporated in phylogenetic comparative analysis', {\em Methods in Ecology and Evolution} {\bf 6}(3),~340--346.
