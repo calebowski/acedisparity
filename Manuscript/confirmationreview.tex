@@ -51,7 +51,7 @@ Advisor: Karl Evans (UoS)}
 % Once completed, this pipeline will offer a comprehensive reproducible framework for studying the effects of mass extinctions on disparity, which will elucidate how the discrepancies in adaptive signals during the K-Pg event in previous studies may have been a result of contrasting methodological choices.
 % Furthermore, the pipeline can be a useful tool for the wider community to be applied to other clades and extinction events. 
 
-\part{Literature Review}
+\part{Background Review}
 
 % Lit review needs following structure:
 % - What are big evolutionary questions we want to answer? For example, how do animals evolve across a mass extinction? 
@@ -189,7 +189,7 @@ While these alternative hypotheses do not necessarily refute the influence of th
 
 % Can link to \cite{cole_selectivity_2021}.
 
-\subsection{Phylogenetic hypotheses}
+\subsection{Phylogenetic hypotheses} \label{phylogenies}
 The origin and tempo of lineage diversification in placental mammals has been a point of contention for decades, meaning there is no undisputed phylogenetic topology for eutherian mammals.
 Therefore, several studies investigating eutherian disparity have opted to time-bin the disparity data points by stratigraphy when assessing disparity through time \citep{grossnickle_mammal_2013,wilson_mammals_2013, grossnickle_therian_2016,benevento_patterns_2019}.
 While this approach may be necessary in the absence of a well-resolved phylogeny, it inherently assumes a punctuated equilibrium model of morphological evolution. 
@@ -340,19 +340,11 @@ This fills in the gaps in the fossil record and alleviates the bias associated w
 % The fragmented fossil record can make sample size at deeper points in the phylogeny low, which may necessitate ASE. 
 
 \subsubsection{Likelihood methods}
-Likelihood-based ancestral state estimation is based on a unifying statistical framework that models the evolution of traits along a phylogeny and quantifies how likely the observed tip states are, given the assumed model of trait evolution and tree topology. 
-Likelihood methods begin by specifying an evolutionary model that describes how traits evolve over time.
-The central tenet of this method is the likelihood function.
-This function defines the probability of the observed trait data at the tips of the tree as a function of the unknown parameters (ancestral states and model parameters). 
-The goal of maximum likelihood estimation is to find the set of parameters that maximizes this likelihood function—i.e., the combination that makes the observed data most probable under the model.
-This is usually done using numerical optimisation methods.
-The model parameters to be estimated differ between continuous and discrete trait data.
-
-% This involves specifying a model of trait evolution prior to computation, and then the internal node states are unknown parameters whose values influence the probability of the observed data.
-
-% The likelihood function is built using the tree topology, branch lengths and model of character evolution given.
-% Maximum likelihood estimation works by finding the set of ancestral states (and model parameters) that maximise this likelihood function.
-
+Likelihood methods for ancestral state estimation are based on a unifying statistical framework that treats the internal node states as parameters to be estimated, seeking to maximize the probability of the observed tip states given a topology and a model of evolution \citep{joy2016ancestral}.
+The central tenet of the approach is the likelihood function, which integrates information from the topology, which reflects the evolutionary history among taxa, and the model of trait evolution (which specifies how traits evolve along the branches). 
+By systematically exploring the parameter space through numerical optimization, the method search for the ancestral states that maximize the likelihood function.
+Importantly, the same general likelihood framework underpins different types of ancestral state estimation, regardless of whether the traits are continuous or discrete.
+The core difference between continuous and discrete character estimation is the evolutionary model that is specified.
 
 \subsubsection{Continuous characters}
 Continuous trait evolution is typically modelled under a Brownian motion (BM) model of evolution \citep{felsenstein1985phylogenies, omeara2006testing}.
@@ -365,17 +357,16 @@ Under BM, the vector (\textbf{x}) of observed tip trait values follows a multiva
 \boldsymbol{x} \sim \mathrm{MVN}(x_{0},\, \sigma^2 \boldsymbol{C})
 \]
 
-\textbf{\textit{C}} is a variance-covariance matrix that captures the shared ancestry of the taxa, defined by the tree height from the root to each tip (diagonal elements $\boldsymbol{C}_{ii}$) and the tree height  above the root of the most recent common ancestor of  (off-diagonal elements \textit{i} and \textit{j}).
+\textbf{\textit{C}} is a variance-covariance matrix that captures the shared ancestry of the taxa, defined by the tree height from the root to each tip (diagonal elements $\boldsymbol{C}_{ii}$) and the tree height above the root of the most recent common ancestor shared by each pair of tips (off-diagonal elements $\boldsymbol{C}_{ij}$).
+
+When estimating ancestral states, the \textbf{\textit{C}} matrix is expanded to include the shared history of the internal nodes.
 The evolutionary rate, $\sigma^2$, and root state $x_0$, are unknown parameters that can be estimated using Maximum Likelihood to give the multivariate normal distribution.
-When estimating the values of internal nodes, the \textbf{\textit{C}} matrix is expanded to include these nodes.
-The trait values at internal nodes are then calculated as the conditional expectations within this expanded distribution—essentially, each node's estimated trait value is a weighted average of the tip values, determined by how much evolutionary history they share.
-
-
-% TG: I think it'd be clearer if you do it in one dimension first and then introduce the multidimensions after as a generalisation.
+The trait values at internal nodes are then calculated as the conditional expectations within this distribution.
+This means each node's estimated trait value is effectively a weighted average of the tip values, with the weights determined by the amount of shared evolutionary history (as captured by \textbf{\textit{C}}).
 
 
 \subsubsection{Discrete characters}
-Ancestral state estimation of discrete characters are modelled using a continuous time Markov chain process, known as the M\textit{k} model \citep{pagel1994detecting, yang2006computational}. 
+Ancestral state estimation of discrete characters are modelled using a continuous-time Markov chain process, known as the M\textit{k} model \citep{pagel1994detecting, yang2006computational}. 
 This process is specified by a $\textit{k} \times \textit{k}$ matrix, \textbf{Q}, which gives the instantaneous transition rates (\textit{q}) between states for each character. 
 
 \[
@@ -390,60 +381,37 @@ This process is specified by a $\textit{k} \times \textit{k}$ matrix, \textbf{Q}
 % \end{bmatrix}
 \]
 
-This matrix has the necessary properties that all off-diagonal entries are non-negative, all diagonal properties are non-positive and the sum of each row is zero.
+Markov chain transition matrices has the necessary properties that all off-diagonal entries are non-negative, all diagonal properties are non-positive and the sum of each row is zero.
 This is because in a continuous-time Markov process, probability flows out of a state (diagonal) and into other states (off-diagonal) and so the diagonal term represents the total rate of leaving a state.
 
 % TG: Why are the off-diagonal values negative? And why are they 0.5?
 
 It is this \textbf{Q} matrix that is estimated under Maximum Likelihood. 
-The `equal-rates model' (ER) is the simplest and estimates just one parameter, since it assumes all transitions occur with equal probability, equivalent to the Jukes-Cantor model of molecular evolution.
-The assumptions of the ER model can be eased with the `symmetric' model (SYM): rate of change between any two character states is equal in the forwards and backwards direction, but may differ between different pairs of states.
-The `all-rates-different' (ARD) model allows for a different transition rate in each direction, includes a total of $\textit{k} \times (\textit{k} - 1)$ parameters to estimate.
-% This likelihood approach makes use of branch lengths, which is why it has become the preferred method of ASE compared to previous methods, such as parsimony. 
-The probability of each transition at any given interval of time (\textit{t}) can be calculated by 
+Given a phylogeny, the probability of each transition at any given interval of time (\textit{t}) can be calculated by 
 \[\textbf{P} = \exp(\textbf{Q}\textit{t})\]
-So if we want to calculate probability of each transition along the tree branch from root to node AB, \textit{t} = 0.4.
+This gives the transition probability matrix, where each entry is the probability of transitioning from one state to another over time \textit{t}.
+The most popular method is \textit{marginal} estimation, which involves proceeding from node to node on the phylogeny, and, at each node, the probability of being in each state is estimated, given the observed data.
+These likelihoods are rescaled by their sum so that they add up to 1.0, and so represent an empirical Bayes posterior probability \citep{yang2006computational,revell2025ancestral}. 
+Since this can become extremely complicated as the phylogeny increases in size, in practice functions use algorithms such as Felsenstein's pruning algorithm \citep{felsenstein1981evolutionary}.
+
+
+% The `equal-rates model' (ER) is the simplest and estimates just one parameter, since it assumes all transitions occur with equal probability, equivalent to the Jukes-Cantor model of molecular evolution.
+% The assumptions of the ER model can be eased with the `symmetric' model (SYM): rate of change between any two character states is equal in the forwards and backwards direction, but may differ between different pairs of states.
+% The `all-rates-different' (ARD) model allows for a different transition rate in each direction, includes a total of $\textit{k} \times (\textit{k} - 1)$ parameters to estimate.
 
 \begin{figure}[H]
     \centering
     \includegraphics[width = 10cm]{images/phylo_tree.png}
 \end{figure}
 
+So if we want to calculate probability of each transition along the tree branch from root to node AB, \textit{t} = 0.4.
 
-\[
-\textbf{P}_{t=0.4} = \exp(\textbf{Q} \times 0.4) = \begin{bmatrix}
-        0.835 & 0.164  \\
-        0.164 & 0.835
-\end{bmatrix}
-\]
+
 
 One further probability to consider is the `root prior', which is essentially whether the root node of the tree was in state 0 or 1.
 This is typically set with a flat root prior $\pi_{0} = \pi_{1} = 0.5$.
 
-The most popular method of ASE is \textit{marginal} estimation, which involves proceeding from node to node on the phylogeny, and, at each node, computing the probability of observing the tip data of our tree conditioned on fixing the node we've visited to each one of the set of distinct values of our trait.
-% TG: this needs to be clarified. I think what you mean is that you estimate the node state probability by diffusing it from tip to nodes where each internal node (that is only connected to other nodes) gets their state probability conditional on it's descendant nodes?
-If we were to compute the probability that the root was in state 0, 
 
-For example, if we were to calculate the probability of the root node was in state 0: \[
-\begin{aligned}
-P(\textit{AB} = 0) &= \pi_{0} \times P(0 | 0, t_{AB}) \times P(1 | 0, t_{A}) \times P(0 | 0, t_{B}) \times P(0 | 0, t_{C}) \\
-&\quad + \pi_{1} \times P(0 | 1, t_{AB}) \times P(1 | 0, t_{A}) \times P(0 | 0, t_{B}) \times P(0 | 1, t_{C}) \\
-&= 0.5 \times 0.0532 + 0.5 \times 0.0034 \\
-&= 0.0266 + 0.0017 = 0.0283
-% &= 0.0234
-\end{aligned}
-\]
-\[
-\begin{aligned}
-P(\textit{AB} = 1) &= \pi_{0} \times P(1 | 0, t_{AB}) \times P(1 | 1, t_{A}) \times P(0 | 1, t_{B}) \times P(0 | 0, t_{C}) \\
-&\quad + \pi_{1} \times P(1 | 1, t_{AB}) \times P(1 | 1, t_{A}) \times P(0 | 1, t_{B}) \times P(0 | 1, t_{C}) \\
-&= 0.5 \times 0.0105 + 0.5 \times 0.0159 \\
-&= 0.0053 + 0.0080 = 0.0133
-% &= 0.0234
-\end{aligned}
-\]
-
-% TG: where are the pis comming from? I think it's worth rewriting this whole equation in english first before doing it in math (e.g. "The probability of the root being in state 0 is equal to ..."). Also, I suggest you give each elements more verbose name (like for the root): for example AB can be node1 A can be tip 1, etc...
 
 
 These marginal likelihoods are then scaled by their sum, giving \textit{P}(0, 1) = [0.68, 0.32]. 
@@ -557,6 +525,16 @@ The orthogonality of PC axes means zero co-variance between `traits' (which are 
 
 
 \section{Detecting shifts in disparity}
+By splitting the morphospace into time slices, either by biostratigraphic slices or equidistant time slices by time slicing method.
+Therefore, can see how disparity changes over temporal scale.
+Often used in studies across mass extinction.
+How then to find if there is a significant shift in disparity through time?
+Well, MANOVA seems appealing to several studies.
+However (cite time series paper), simple averages do not tell full story - could just be a reflection of an upwards/downwards trend
+Therefore, need new techniques 
+Smith (fungal paper) touched on this by simulating trait data as a way of showing the zero force evolutionary law (null model).
+
+
 
 
 \part{Thesis plan}
@@ -584,36 +562,117 @@ The overarching aim of this PhD project is to understand how current methods in 
 \end{itemize}
 
 \section{Chapter One: Eutherian phylogenies}
-The main aim of this chapter is to reconstruct the phylogeny of eutherian mammals, using various calibrations for the placental node in order to output 3 tree distributions: long fuse, soft explosive and explosive (see earlier section).
-The rationale of this chapter is so that these three trees can be used in chapter four.
+\textbf{Chapter aim}: To reconstruct the phylogeny of eutherian mammals, using various calibrations for the placental node in order to output 3 tree distributions: long fuse, soft explosive and hard explosive (\autoref{phylogenies}).
+The rationale of this chapter is so that these three tree distributions can be used in chapter four (\autoref{chapter four}).
 
-I will use both molecular (likely genomic) and morphological data for a total-evidence approach.
-The total evidence approach involves concatenating both molecular and morphological alignments into a single supermatrix.
-Partitioning schemes will be applied for the most appropriate evolutionary model (for transition rates etc).
-I will use RevBayes for phylogenetic inference.
+\noindent\textbf{Research questions}:
+\begin{itemize}
+    \item When did major lineages of eutherians diversify?
+    \item When did major shifts in evolutionary rates occur in eutherians?
+\end{itemize}
 
-
-
-
-
+\noindent\textbf{Research objectives}: 
+\begin{itemize}
+    \item I will use both molecular and morphological data for a total-evidence approach, which involves concatenating both molecular and morphological alignments into a single supermatrix
+    \item The molecular and morphological matrices have been previously collected by my supervisor in a previous project
+    \item Bayesian analysis will use RevBayes. 
+    \item I will implement different calibration strategies at the placental node to generate three alternative models: a long fuse model (placental node $\sim100$ Ma), a soft explosive scenario (placental node $\sim80$ Ma), and a hard explosive scenario (placental node 66 Ma).
+    \item I will specify a Fossilized Birth-Death model in RevBayes to incorporate fossil tip ages and estimate divergence times.
+    \item I will assess convergence and summarize the posterior distributions to obtain time-calibrated phylogenetic trees that reflect each calibration scenario.
+    \item I will use RevGadgets to summarise the trees and plot figures.
+\end{itemize}
+    
 
 \section{Chapter Two: What is the effect of ancestral state estimations on disparity?}
-Given that the availability and ease of phylogeny construction is advancing, the incorporation of phylogenies into disparity analyses has also become the standard procedure.
-This includes ancestral state estimation.
+\textbf{Chapter aim}: To investigate how different approaches for treating uncertainties in ancestral state estimations affect estimates of morphological disparity under varying levels of fossil sampling. 
+To expand this framework to understand how random and selective mass extinction events can confound ancestral state and disparity estimation accuracy.
+
+\noindent\textbf{Research questions}:
+\begin{itemize}
+    \item Which method of treating uncertainties recovers the most accurate ancestral state estimations?
+    \item How does estimation accuracy change across different fossil sampling levels?
+    \item How does estimation accuracy of disparity differ to accuracy of ancestral state estimation?
+    \item What are the effects of mass extinction events on ancestral state estimations? 
+    \item How do random vs selective extinction events differ in their effect on ancestral state estimations?
+\end{itemize}
 
 
+\noindent\textbf{Research objectives}: 
+\begin{itemize}
+    \item Develop a simulation procedure that generates a distribution of `true' evolutionary histories (i.e., phylogeny and trait data), with both discrete and continuous trait data.
+    \item Remove varying levels of fossil tips from these `true' phylogenies to simulate different fossil sampling levels.
+    \item Run ancestral state estimation on these pruned trees/matrices with three different ways of treating uncertainty in estimates.
+    \item Compare the raw distance between true vs estimated matrices.
+    \item Compare the difference in disparity values between true vs estimated matrices.
+    \item Run this procedure, but incorporating a mass extinction event into the simulations. These mass extinction events will have varying intensities and selectivities. 
+\end{itemize}
 
 
 \section{Chapter Three: Measuring changes in trends in disparity through time}
+% Quantifying impact, or an intervention, requires an understanding of what would have happened if the intervention had not occurred \citep{ferraro2009counterfactual}.
+% While this can be easily setup with experimental design in a lab, such an experiment in palaeontology is not feasible.
+% For example, studies previously assessing mass extinctions may have made use of a MANOVA between pre and post extinction groups.
 
-\section{Chapter Four: Eutherian disparity over K-Pg mass extinction}
+% However, such tests of change in average ignore trends.
+% The BACI approach of \cite{wauchope2021evaluating} highlights three ways an intervention may have an impact: 
+
+\textbf{Chapter aim}: To develop a framework that can distinguish between random and non-random shifts in disparity through time, accounting for trend and stochasticity. 
+
+\noindent\textbf{Research questions}:
+\begin{itemize}
+    \item How can traditional statistical tests, such as changes in average (MANOVA), be misleading in inferences of change in disparity?
+    \item How to implement a BACI (Before After Control Intervention) approach into disparity through time?
+    \item How to use simulated data as a valid Control?
+    \item How to deal with time lags?
+\end{itemize}
+
+
+\noindent\textbf{Research objectives}: 
+\begin{itemize}
+    \item Using the BACI framework laid out by \cite{wauchope2021evaluating} I will develop a method to quantify shifts in disparity across a time interval (say a mass extinction for example)
+    \item This framework uses a before and
+    \item Simulated data will be used as the null model (control). Simulated data will be fit using same parameters as the pre-intervention data.
+    \item I will implement this on both simulated and empirical data
+    \item I will  
+\end{itemize}
+
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width = 15cm]{images/baci.png}
+    \caption{BA and BACI approach compared. Figure from \cite{wauchope2021evaluating}.}
+    \label{fig:baci}
+\end{figure}
+
+
+
+\section{Chapter Four: Eutherian disparity over K-Pg mass extinction} \label{chapter four}
+\textbf{Chapter aim}: Incorporate the phylogenies from chapter one, the ancestral state method from chapter two and the test for non-random shifts in disparity from chapter two to develop a pipeline that can test whether the K-Pg mass extinction had an effect eutherian disparity.
+
+\noindent\textbf{Research questions}:
+\begin{itemize}
+    \item Is there a shift in trend of disparity at the K-Pg boundary?
+    \item Does this shift depend on the phylogenetic topology used?
+    \item Do patterns differ between different disparity metrics?
+
+\end{itemize}
+
+\noindent\textbf{Research objectives}: 
+\begin{itemize}
+    \item Use a dataset of discrete morphofunctional characters of jaw morphology and dentition, collected by \cite{emmerson_changes_2022}. 
+    \item Develop a pipeline that iterates through different models and metrics: tree topology (long fuse/soft explosive/hard explosive), distance metric, time slicing model and disparity metric. 
+    \item From 100s of disparity curves, use the function developed in chapter three to score a value of 'change in disparity' at 66 Ma.
+    \item Develop an interactive \texttt{shiny} app that presents the results in an `electoral map' style format, whereby each `pixel', representing a specific combination of topology, model and metric, is shaded on a scale of decrease to increase in disparity.
+\end{itemize}
+
+
 
 
 \part{Summary of research achievements}
 
 
 
-\subsection{Introduction}
+\section{Introduction}
 \begin{itemize}
     \item Morphology can tell us interesting patterns about evolutionary processes.
     \item The combination of morphological datasets (using fossils) and phylogenies means we can infer these processes through deep time

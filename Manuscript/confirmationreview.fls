@@ -194,6 +194,11 @@ INPUT ./images/phylo_tree.png
 INPUT ./images/phylo_tree.png
 INPUT ./images/phylo_tree.png
 INPUT ./images/phylo_tree.png
+INPUT ./images/baci.png
+INPUT ./images/baci.png
+INPUT ./images/baci.png
+INPUT ./images/baci.png
+INPUT ./images/baci.png
 INPUT /usr/share/texlive/texmf-dist/fonts/tfm/public/cm/cmtt10.tfm
 INPUT ./confirmationreview.bbl
 INPUT ./confirmationreview.bbl
