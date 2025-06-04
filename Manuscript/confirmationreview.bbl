@@ -1,5 +1,8 @@
 \begin{thebibliography}{xx}
 
+\harvarditem[Ackerly et~al.]{Ackerly, Schwilk \harvardand\ Webb}{2006}{ackerly2006niche}
+Ackerly, D., Schwilk, D. \harvardand\ Webb, C.  \harvardyearleft 2006\harvardyearright , `Niche evolution and adaptive radiation: testing the order of trait divergence', {\em Ecology} {\bf 87}(sp7),~S50--S61.
+
 \harvarditem[Ali et~al.]{Ali, Blonder, Pigot \harvardand\ Tobias}{2023}{ali2023bird}
 Ali, J.~R., Blonder, B.~W., Pigot, A.~L. \harvardand\ Tobias, J.~A.  \harvardyearleft 2023\harvardyearright , `Bird extinctions threaten to cause disproportionate reductions of functional diversity and uniqueness', {\em Functional Ecology} {\bf 37}(1),~162--175.
 
@@ -7,11 +10,15 @@ Ali, J.~R., Blonder, B.~W., Pigot, A.~L. \harvardand\ Tobias, J.~A.  \harvardyea
 Alroy, J.  \harvardyearleft 1999\harvardyearright , `The {Fossil} {Record} of {North} {American} {Mammals}: {Evidence} for a {Paleocene} {Evolutionary} {Radiation}', {\em Systematic Biology} {\bf 48}(1),~107--118.
 \newblock Publisher: Oxford Academic.
 
-\harvarditem{Anderson \harvardand\ Friedman}{2012}{anderson2012using}
-Anderson, P.~S. \harvardand\ Friedman, M.  \harvardyearleft 2012\harvardyearright , `Using cladistic characters to predict functional variety: experiments using early gnathostomes', {\em Journal of Vertebrate Paleontology} {\bf 32}(6),~1254--1270.
+\harvarditem[Alvarez et~al.]{Alvarez, Alvarez, Asaro \harvardand\ Michel}{1980}{alvarez_extraterrestrial_1980}
+Alvarez, L.~W., Alvarez, W., Asaro, F. \harvardand\ Michel, H.~V.  \harvardyearleft 1980\harvardyearright , `Extraterrestrial {Cause} for the {Cretaceous}-{Tertiary} {Extinction}', {\em Science} {\bf 208}(4448),~1095--1108.
+\newblock Publisher: American Association for the Advancement of Science.
 
 \harvarditem{An{\'e}}{2008}{ane2008analysis}
 An{\'e}, C.  \harvardyearleft 2008\harvardyearright , `Analysis of comparative data with hierarchical autocorrelation'.
+
+\harvarditem[Apaldetti et~al.]{Apaldetti, Pol, Ezcurra \harvardand\ Mart{\'\i}nez}{2021}{apaldetti2021sauropodomorph}
+Apaldetti, C., Pol, D., Ezcurra, M.~D. \harvardand\ Mart{\'\i}nez, R.~N.  \harvardyearleft 2021\harvardyearright , `Sauropodomorph evolution across the triassic--jurassic boundary: body size, locomotion, and their influence on morphological disparity', {\em Scientific Reports} {\bf 11}(1),~22534.
 
 \harvarditem{Archibald \harvardand\ Deutschman}{2001}{archibald_quantitative_2001}
 Archibald, J.~D. \harvardand\ Deutschman, D.~H.  \harvardyearleft 2001\harvardyearright , `Quantitative {Analysis} of the {Timing} of the {Origin} and {Diversification} of {Extant} {Placental} {Orders}', {\em Journal of Mammalian Evolution} {\bf 8}(2),~107--124.
@@ -31,9 +38,17 @@ Benevento, G.~L., Benson, R. B.~J. \harvardand\ Friedman, M.  \harvardyearleft 2
 Benton, M.~J., Wilf, P. \harvardand\ Sauquet, H.  \harvardyearleft 2022\harvardyearright , `The {Angiosperm} {Terrestrial} {Revolution} and the origins of modern biodiversity', {\em New Phytologist} {\bf 233}(5),~2017--2035.
 \newblock \_eprint: https://onlinelibrary.wiley.com/doi/pdf/10.1111/nph.17822.
 
+\harvarditem[Bertrand et~al.]{Bertrand, Shelley, Williamson, Wible, Chester, Flynn, Holbrook, Lyson, Meng, Miller, Püschel, Smith, Spaulding, Tseng \harvardand\ Brusatte}{2022}{bertrand_brawn_2022}
+Bertrand, O.~C., Shelley, S.~L., Williamson, T.~E., Wible, J.~R., Chester, S. G.~B., Flynn, J.~J., Holbrook, L.~T., Lyson, T.~R., Meng, J., Miller, I.~M., Püschel, H.~P., Smith, T., Spaulding, M., Tseng, Z.~J. \harvardand\ Brusatte, S.~L.  \harvardyearleft 2022\harvardyearright , `Brawn before brains in placental mammals after the end-{Cretaceous} extinction', {\em Science} {\bf 376}(6588),~80--85.
+\newblock Publisher: American Association for the Advancement of Science.
+
 \harvarditem[Bininda-Emonds et~al.]{Bininda-Emonds, Cardillo, Jones, MacPhee, Beck, Grenyer, Price, Vos, Gittleman \harvardand\ Purvis}{2007}{bininda-emonds_delayed_2007}
 Bininda-Emonds, O. R.~P., Cardillo, M., Jones, K.~E., MacPhee, R. D.~E., Beck, R. M.~D., Grenyer, R., Price, S.~A., Vos, R.~A., Gittleman, J.~L. \harvardand\ Purvis, A.  \harvardyearleft 2007\harvardyearright , `The delayed rise of present-day mammals', {\em Nature} {\bf 446}(7135),~507--512.
 \newblock Number: 7135 Publisher: Nature Publishing Group.
+
+\harvarditem[Brusatte et~al.]{Brusatte, Butler, Barrett, Carrano, Evans, Lloyd, Mannion, Norell, Peppe, Upchurch \harvardand\ Williamson}{2015}{brusatte_extinction_2015}
+Brusatte, S.~L., Butler, R.~J., Barrett, P.~M., Carrano, M.~T., Evans, D.~C., Lloyd, G.~T., Mannion, P.~D., Norell, M.~A., Peppe, D.~J., Upchurch, P. \harvardand\ Williamson, T.~E.  \harvardyearleft 2015\harvardyearright , `The extinction of the dinosaurs', {\em Biological Reviews} {\bf 90}(2),~628--642.
+\newblock Publisher: John Wiley \& Sons, Ltd.
 
 \harvarditem[Brusatte et~al.]{Brusatte, Montanari, Yi \harvardand\ Norell}{2011}{brusatte2011phylogenetic}
 Brusatte, S.~L., Montanari, S., Yi, H.-y. \harvardand\ Norell, M.~A.  \harvardyearleft 2011\harvardyearright , `Phylogenetic corrections for morphological disparity analysis: new methodology and case studies', {\em Paleobiology} {\bf 37}(1),~1--22.
@@ -56,6 +71,10 @@ Chen, M., Strömberg, C. A.~E. \harvardand\ Wilson, G.~P.  \harvardyearleft 2019
 Codron, D., Carbone, C. \harvardand\ Clauss, M.  \harvardyearleft 2013\harvardyearright , `Ecological {Interactions} in {Dinosaur} {Communities}: {Influences} of {Small} {Offspring} and {Complex} {Ontogenetic} {Life} {Histories}', {\em PLOS ONE} {\bf 8}(10),~e77110.
 \newblock Publisher: Public Library of Science.
 
+\harvarditem{Cole \harvardand\ Hopkins}{2021}{cole_selectivity_2021}
+Cole, S.~R. \harvardand\ Hopkins, M.~J.  \harvardyearleft 2021\harvardyearright , `Selectivity and the effect of mass extinctions on disparity and functional ecology', {\em Science Advances} {\bf 7}(19),~eabf4072.
+\newblock Publisher: American Association for the Advancement of Science.
+
 \harvarditem{Cooper \harvardand\ Purvis}{2010}{cooper_body_2010}
 Cooper, N. \harvardand\ Purvis, A.  \harvardyearleft 2010\harvardyearright , `Body {Size} {Evolution} in {Mammals}: {Complexity} in {Tempo} and {Mode}.', {\em The American Naturalist} {\bf 175}(6),~727--738.
 \newblock Publisher: The University of Chicago Press.
@@ -65,6 +84,9 @@ Cunningham, C.~W., Omland, K.~E. \harvardand\ Oakley, T.~H.  \harvardyearleft 19
 
 \harvarditem[Davies et~al.]{Davies, Bell, Goswami \harvardand\ Halliday}{2017}{davies2017completeness}
 Davies, T.~W., Bell, M.~A., Goswami, A. \harvardand\ Halliday, T.~J.  \harvardyearleft 2017\harvardyearright , `Completeness of the eutherian mammal fossil record and implications for reconstructing mammal evolution through the cretaceous/paleogene mass extinction', {\em Paleobiology} {\bf 43}(4),~521--536.
+
+\harvarditem[Donati et~al.]{Donati, Albouy, Claverie, Mouillot, Govinden, Hagen, Ibrahim, Pagu, Zareer, Leprieur et~al.}{2025}{donati2025continuity}
+Donati, G. F.~A., Albouy, C., Claverie, T., Mouillot, D., Govinden, R., Hagen, O., Ibrahim, S., Pagu, J., Zareer, I., Leprieur, F. et~al.  \harvardyearleft 2025\harvardyearright , `Continuity in morphological disparity in tropical reef fishes across evolutionary scales', {\em Communications Biology} {\bf 8}(1),~252.
 
 \harvarditem[dos Reis et~al.]{dos Reis, Inoue, Hasegawa, Asher, Donoghue \harvardand\ Yang}{2012}{dos_reis_phylogenomic_2012}
 dos Reis, M., Inoue, J., Hasegawa, M., Asher, R.~J., Donoghue, P. C.~J. \harvardand\ Yang, Z.  \harvardyearleft 2012\harvardyearright , `Phylogenomic datasets provide both precision and accuracy in estimating the timescale of placental mammal phylogeny', {\em Proceedings of the Royal Society B: Biological Sciences} .
@@ -105,14 +127,14 @@ Foote, M.  \harvardyearleft 1994\harvardyearright , `Morphological disparity in 
 \harvarditem{Foote}{1997}{foote1997evolution}
 Foote, M.  \harvardyearleft 1997\harvardyearright , `The evolution of morphological diversity', {\em Annual Review of Ecology and Systematics} {\bf 28}(1),~129--152.
 
+\harvarditem{Freckleton \harvardand\ Harvey}{2006}{freckleton2006detecting}
+Freckleton, R.~P. \harvardand\ Harvey, P.~H.  \harvardyearleft 2006\harvardyearright , `Detecting non-brownian trait evolution in adaptive radiations', {\em PLoS biology} {\bf 4}(11),~e373.
+
 \harvarditem{Friedman}{2009}{friedman2009ecomorphological}
 Friedman, M.  \harvardyearleft 2009\harvardyearright , `Ecomorphological selectivity among marine teleost fishes during the end-cretaceous extinction', {\em Proceedings of the National Academy of Sciences} {\bf 106}(13),~5218--5223.
 
 \harvarditem{Gascuel \harvardand\ Steel}{2014}{gascuel2014predicting}
 Gascuel, O. \harvardand\ Steel, M.  \harvardyearleft 2014\harvardyearright , `Predicting the ancestral character changes in a tree is typically easier than predicting the root state', {\em Systematic biology} {\bf 63}(3),~421--435.
-
-\harvarditem{Gerber}{2019}{gerber_use_2019}
-Gerber, S.  \harvardyearleft 2019\harvardyearright , `Use and misuse of discrete character data for morphospace and disparity analyses', {\em Palaeontology} {\bf 62}(2),~305--319.
 
 \harvarditem{Goswami \harvardand\ Clavel}{2025}{goswami2025phenomics}
 Goswami, A. \harvardand\ Clavel, J.  \harvardyearleft 2025\harvardyearright , `Morphological evolution in a time of phenomics', {\em Paleobiology} {\bf 51}(1),~195--213.
@@ -135,17 +157,28 @@ Guillerme, T.  \harvardyearleft 2024\harvardyearright , `treats: A modular r pac
 \harvarditem{Guillerme \harvardand\ Cooper}{2018}{guillerme2018time}
 Guillerme, T. \harvardand\ Cooper, N.  \harvardyearleft 2018\harvardyearright , `Time for a rethink: time sub-sampling methods in disparity-through-time analyses', {\em Palaeontology} {\bf 61}(4),~481--493.
 
-\harvarditem[Guillerme et~al.]{Guillerme, Cooper, Brusatte, Davis, Jackson, Gerber, Goswami, Healy, Hopkins, Jones et~al.}{2020}{guillerme_disparities_2020}
+\harvarditem{Guillerme, Cooper, Brusatte, Davis, Jackson, Gerber, Goswami, Healy, Hopkins, Jones et~al.}{2020}{guillerme_disparities_2020}
 Guillerme, T., Cooper, N., Brusatte, S.~L., Davis, K.~E., Jackson, A.~L., Gerber, S., Goswami, A., Healy, K., Hopkins, M.~J., Jones, M.~E. et~al.  \harvardyearleft 2020\harvardyearright , `Disparities in the analysis of morphological disparity', {\em Biology letters} {\bf 16}(7),~20200199.
 
-\harvarditem{Halliday \harvardand\ Goswami}{2016}{halliday_eutherian_2016}
-Halliday, T. J.~D. \harvardand\ Goswami, A.  \harvardyearleft 2016\harvardyearright , `Eutherian morphological disparity across the end-{Cretaceous} mass extinction', {\em Biological Journal of the Linnean Society} {\bf 118}(1),~152--168.
+\harvarditem{Guillerme, Puttick, Marcy \harvardand\ Weisbecker}{2020}{guillerme_shifting_2020}
+Guillerme, T., Puttick, M.~N., Marcy, A.~E. \harvardand\ Weisbecker, V.  \harvardyearleft 2020\harvardyearright , `Shifting spaces: {Which} disparity or dissimilarity measurement best summarize occupancy in multidimensional spaces?', {\em Ecology and Evolution} {\bf 10}(14),~7261--7275.
+\newblock Publisher: John Wiley \& Sons, Ltd.
+
+\harvarditem[Halliday et~al.]{Halliday, Upchurch \harvardand\ Goswami}{2017}{halliday_resolving_2017}
+Halliday, T. J.~D., Upchurch, P. \harvardand\ Goswami, A.  \harvardyearleft 2017\harvardyearright , `Resolving the relationships of {Paleocene} placental mammals', {\em Biological Reviews} {\bf 92}(1),~521--550.
+\newblock \_eprint: https://onlinelibrary.wiley.com/doi/pdf/10.1111/brv.12242.
 
 \harvarditem[Hansen et~al.]{Hansen, Kelley, Melland \harvardand\ Graham}{1999}{hansen1999effect}
 Hansen, T.~A., Kelley, P.~H., Melland, V.~D. \harvardand\ Graham, S.~E.  \harvardyearleft 1999\harvardyearright , `Effect of climate-related mass extinctions on escalation in molluscs', {\em Geology} {\bf 27}(12),~1139--1142.
 
 \harvarditem[Harmon et~al.]{Harmon, Losos, Jonathan~Davies, Gillespie, Gittleman, Bryan~Jennings, Kozak, McPeek, Moreno-Roark, Near et~al.}{2010}{harmon2010early}
 Harmon, L.~J., Losos, J.~B., Jonathan~Davies, T., Gillespie, R.~G., Gittleman, J.~L., Bryan~Jennings, W., Kozak, K.~H., McPeek, M.~A., Moreno-Roark, F., Near, T.~J. et~al.  \harvardyearleft 2010\harvardyearright , `Early bursts of body size and shape evolution are rare in comparative data', {\em Evolution} {\bf 64}(8),~2385--2396.
+
+\harvarditem[Harmon et~al.]{Harmon, Schulte, Larson \harvardand\ Losos}{2003}{harmon2003tempo}
+Harmon, L.~J., Schulte, J.~A., Larson, A. \harvardand\ Losos, J.~B.  \harvardyearleft 2003\harvardyearright , `Tempo and mode of evolutionary radiation in iguanian lizards', {\em Science} {\bf 301}(5635),~961--964.
+
+\harvarditem[Haug et~al.]{Haug, Braig \harvardand\ Haug}{2023}{haug2023quantitative}
+Haug, C., Braig, F. \harvardand\ Haug, J.~T.  \harvardyearleft 2023\harvardyearright , `Quantitative analysis of lacewing larvae over more than 100 million years reveals a complex pattern of loss of morphological diversity', {\em Scientific Reports} {\bf 13}(1),~6127.
 
 \harvarditem{Hopkins}{2013}{hopkins2013decoupling}
 Hopkins, M.  \harvardyearleft 2013\harvardyearright , `Decoupling of taxonomic diversity and morphological disparity during decline of the cambrian trilobite family pterocephaliidae', {\em Journal of Evolutionary Biology} {\bf 26}(8),~1665--1676.
@@ -159,6 +192,9 @@ Hughes, M., Gerber, S. \harvardand\ Wills, M.~A.  \harvardyearleft 2013\harvardy
 \harvarditem{Hull}{2015}{hull_life_2015}
 Hull, P.  \harvardyearleft 2015\harvardyearright , `Life in the {Aftermath} of {Mass} {Extinctions}', {\em Current Biology} {\bf 25}(19),~R941--R952.
 \newblock Publisher: Elsevier.
+
+\harvarditem[Hunt et~al.]{Hunt, Hopkins \harvardand\ Lidgard}{2015}{hunt2015simple}
+Hunt, G., Hopkins, M.~J. \harvardand\ Lidgard, S.  \harvardyearleft 2015\harvardyearright , `Simple versus complex models of trait evolution and stasis as a response to environmental change', {\em Proceedings of the National Academy of Sciences} {\bf 112}(16),~4885--4890.
 
 \harvarditem{Jablonski}{1986}{jablonski1986background}
 Jablonski, D.  \harvardyearleft 1986\harvardyearright , `Background and mass extinctions: the alternation of macroevolutionary regimes', {\em Science} {\bf 231}(4734),~129--133.
@@ -198,6 +234,12 @@ Meredith, R.~W., Janečka, J.~E., Gatesy, J., Ryder, O.~A., Fisher, C.~A., Teeli
 \harvarditem{Mitchell}{2015}{mitchell2015extant}
 Mitchell, J.~S.  \harvardyearleft 2015\harvardyearright , `Extant-only comparative methods fail to recover the disparity preserved in the bird fossil record', {\em Evolution} {\bf 69}(9),~2414--2424.
 
+\harvarditem{Moon \harvardand\ Stubbs}{2020}{moon2020early}
+Moon, B.~C. \harvardand\ Stubbs, T.~L.  \harvardyearleft 2020\harvardyearright , `Early high rates and disparity in the evolution of ichthyosaurs', {\em Communications Biology} {\bf 3}(1),~68.
+
+\harvarditem{Murrell}{2018}{murrell2018global}
+Murrell, D.~J.  \harvardyearleft 2018\harvardyearright , `A global envelope test to detect non-random bursts of trait evolution', {\em Methods in Ecology and Evolution} {\bf 9}(7),~1739--1748.
+
 \harvarditem[O'Leary et~al.]{O'Leary, Bloch, Flynn, Gaudin, Giallombardo, Giannini, Goldberg, Kraatz, Luo, Meng, Ni, Novacek, Perini, Randall, Rougier, Sargis, Silcox, Simmons, Spaulding, Velazco, Weksler, Wible \harvardand\ Cirranello}{2013}{oleary_placental_2013}
 O'Leary, M.~A., Bloch, J.~I., Flynn, J.~J., Gaudin, T.~J., Giallombardo, A., Giannini, N.~P., Goldberg, S.~L., Kraatz, B.~P., Luo, Z.-X., Meng, J., Ni, X., Novacek, M.~J., Perini, F.~A., Randall, Z.~S., Rougier, G.~W., Sargis, E.~J., Silcox, M.~T., Simmons, N.~B., Spaulding, M., Velazco, P.~M., Weksler, M., Wible, J.~R. \harvardand\ Cirranello, A.~L.  \harvardyearleft 2013\harvardyearright , `The {Placental} {Mammal} {Ancestor} and the {Post}–{K}-{Pg} {Radiation} of {Placentals}', {\em Science} {\bf 339}(6120),~662--667.
 \newblock Publisher: American Association for the Advancement of Science.
@@ -212,9 +254,18 @@ Osborn, H.~F.  \harvardyearleft 1902\harvardyearright , `The {Law} of {Adaptive}
 \harvarditem{Pagel}{1994}{pagel1994detecting}
 Pagel, M.  \harvardyearleft 1994\harvardyearright , `Detecting correlated evolution on phylogenies: a general method for the comparative analysis of discrete characters', {\em Proceedings of the Royal Society of London. Series B: Biological Sciences} {\bf 255}(1342),~37--45.
 
+\harvarditem[Pagel et~al.]{Pagel, O’Donovan \harvardand\ Meade}{2022}{pagel2022general}
+Pagel, M., O’Donovan, C. \harvardand\ Meade, A.  \harvardyearleft 2022\harvardyearright , `General statistical model shows that macroevolutionary patterns and processes are consistent with darwinian gradualism', {\em Nature communications} {\bf 13}(1),~1113.
+
+\harvarditem[Patton et~al.]{Patton, Harmon, del Rosario~Casta{\~n}eda, Frank, Donihue, Herrel \harvardand\ Losos}{2021}{patton2021adaptive}
+Patton, A.~H., Harmon, L.~J., del Rosario~Casta{\~n}eda, M., Frank, H.~K., Donihue, C.~M., Herrel, A. \harvardand\ Losos, J.~B.  \harvardyearleft 2021\harvardyearright , `When adaptive radiations collide: Different evolutionary trajectories between and within island and mainland lizard clades', {\em Proceedings of the National Academy of Sciences} {\bf 118}(42),~e2024451118.
+
 \harvarditem{Phillips}{2016}{phillips_geomolecular_2016}
 Phillips, M.~J.  \harvardyearleft 2016\harvardyearright , `Geomolecular {Dating} and the {Origin} of {Placental} {Mammals}', {\em Systematic Biology} {\bf 65}(3),~546--557.
 \newblock Publisher: Oxford Academic.
+
+\harvarditem{Phillips \harvardand\ Fruciano}{2018}{phillips_soft_2018}
+Phillips, M.~J. \harvardand\ Fruciano, C.  \harvardyearleft 2018\harvardyearright , `The soft explosive model of placental mammal evolution', {\em BMC Evolutionary Biology} {\bf 18}(1),~104.
 
 \harvarditem{Puttick}{2016}{puttick2016partially}
 Puttick, M.~N.  \harvardyearleft 2016\harvardyearright , `Partially incorrect fossil data augment analyses of discrete trait evolution in living species', {\em Biology Letters} {\bf 12}(8),~20160392.
@@ -251,6 +302,10 @@ Schluter, D.  \harvardyearleft 2000\harvardyearright , {\em The ecology of adapt
 \harvarditem[Schluter et~al.]{Schluter, Price, Mooers \harvardand\ Ludwig}{1997}{schluter1997likelihood}
 Schluter, D., Price, T., Mooers, A.~{\O}. \harvardand\ Ludwig, D.  \harvardyearleft 1997\harvardyearright , `Likelihood of ancestor states in adaptive radiation', {\em Evolution} {\bf 51}(6),~1699--1711.
 
+\harvarditem[Schulte et~al.]{Schulte, Alegret, Arenillas, Arz, Barton, Bown, Bralower, Christeson, Claeys, Cockell, Collins, Deutsch, Goldin, Goto, Grajales-Nishimura, Grieve, Gulick, Johnson, Kiessling, Koeberl, Kring, MacLeod, Matsui, Melosh, Montanari, Morgan, Neal, Nichols, Norris, Pierazzo, Ravizza, Rebolledo-Vieyra, Reimold, Robin, Salge, Speijer, Sweet, Urrutia-Fucugauchi, Vajda, Whalen \harvardand\ Willumsen}{2010}{schulte_chicxulub_2010}
+Schulte, P., Alegret, L., Arenillas, I., Arz, J.~A., Barton, P.~J., Bown, P.~R., Bralower, T.~J., Christeson, G.~L., Claeys, P., Cockell, C.~S., Collins, G.~S., Deutsch, A., Goldin, T.~J., Goto, K., Grajales-Nishimura, J.~M., Grieve, R. A.~F., Gulick, S. P.~S., Johnson, K.~R., Kiessling, W., Koeberl, C., Kring, D.~A., MacLeod, K.~G., Matsui, T., Melosh, J., Montanari, A., Morgan, J.~V., Neal, C.~R., Nichols, D.~J., Norris, R.~D., Pierazzo, E., Ravizza, G., Rebolledo-Vieyra, M., Reimold, W.~U., Robin, E., Salge, T., Speijer, R.~P., Sweet, A.~R., Urrutia-Fucugauchi, J., Vajda, V., Whalen, M.~T. \harvardand\ Willumsen, P.~S.  \harvardyearleft 2010\harvardyearright , `The {Chicxulub} {Asteroid} {Impact} and {Mass} {Extinction} at the {Cretaceous}-{Paleogene} {Boundary}', {\em Science} .
+\newblock Publisher: American Association for the Advancement of Science.
+
 \harvarditem{Sidlauskas}{2008}{sidlauskas2008continuous}
 Sidlauskas, B.  \harvardyearleft 2008\harvardyearright , `Continuous and arrested morphological diversification in sister clades of characiform fishes: a phylomorphospace approach', {\em Evolution} {\bf 62}(12),~3135--3156.
 
@@ -268,14 +323,17 @@ Smith, F.~A., Boyer, A.~G., Brown, J.~H., Costa, D.~P., Dayan, T., Ernest, S. K.
 \harvarditem{Smith \harvardand\ Donoghue}{2022}{smith2022evolution}
 Smith, T.~J. \harvardand\ Donoghue, P.~C.  \harvardyearleft 2022\harvardyearright , `Evolution of fungal phenotypic disparity', {\em Nature Ecology \& Evolution} {\bf 6}(10),~1489--1500.
 
-\harvarditem{Stayton}{2015}{stayton2015definition}
-Stayton, C.~T.  \harvardyearleft 2015\harvardyearright , `The definition, recognition, and interpretation of convergent evolution, and two new measures for quantifying and assessing the significance of convergence', {\em Evolution} {\bf 69}(8),~2140--2153.
-
 \harvarditem{Swofford \harvardand\ Maddison}{1992}{swofford1992parsimony}
 Swofford, D.~L. \harvardand\ Maddison, W.~P.  \harvardyearleft 1992\harvardyearright , `Parsimony, character-state reconstructions, and evolutionary inferences', {\em Systematics, historical ecology, and North American freshwater fishes} {\bf 1}.
 
+\harvarditem{Vanderpoorten \harvardand\ Goffinet}{2006}{vanderpoorten2006mapping}
+Vanderpoorten, A. \harvardand\ Goffinet, B.  \harvardyearleft 2006\harvardyearright , `Mapping uncertainty and phylogenetic uncertainty in ancestral character state reconstruction: an example in the moss genus brachytheciastrum', {\em Systematic Biology} {\bf 55}(6),~957--971.
+
 \harvarditem[Wan et~al.]{Wan, Foster, Tian, Stubbs, Benton, Qiu \harvardand\ Yuan}{2021}{wan2021decoupling}
 Wan, J., Foster, W.~J., Tian, L., Stubbs, T.~L., Benton, M.~J., Qiu, X. \harvardand\ Yuan, A.  \harvardyearleft 2021\harvardyearright , `Decoupling of morphological disparity and taxonomic diversity during the end-permian mass extinction', {\em Paleobiology} {\bf 47}(3),~402--417.
+
+\harvarditem{Wang \harvardand\ Zhou}{2023}{wang2023low}
+Wang, M. \harvardand\ Zhou, Z.  \harvardyearleft 2023\harvardyearright , `Low morphological disparity and decelerated rate of limb size evolution close to the origin of birds', {\em Nature Ecology \& Evolution} {\bf 7}(8),~1257--1266.
 
 \harvarditem[Wauchope et~al.]{Wauchope, Amano, Geldmann, Johnston, Simmons, Sutherland \harvardand\ Jones}{2021}{wauchope2021evaluating}
 Wauchope, H.~S., Amano, T., Geldmann, J., Johnston, A., Simmons, B.~I., Sutherland, W.~J. \harvardand\ Jones, J.~P.  \harvardyearleft 2021\harvardyearright , `Evaluating impact using time-series data', {\em Trends in Ecology \& Evolution} {\bf 36}(3),~196--205.

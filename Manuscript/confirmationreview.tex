@@ -6,6 +6,7 @@
 \usepackage{setspace}
 \usepackage{float}
 \usepackage{geometry}
+\usepackage{tabularx}
 
 \bibliographystyle{agsm}  
 \setstretch{1.25}
@@ -128,20 +129,38 @@ Disparity refers to the extent of morphological diversity among taxa, typically 
 % \cite{guillerme_shifting_2020} outlines three ways these traitspaces can be described: size, density and position.
 % Given that disparity describes the variation in 
 Changes in morphospace through time are often closely tied to shifts in ecological diversity \citep{lowery2019morphospace,budd2021morphospace}. 
-For example, expansion in morphospace, measured by variance-based metrics, may indicate a clade expanding its niche breadth during an adaptive radiation \citep{foote1994morphological,raup1994role,sidlauskas2008continuous}.
+For example, expansion in morphospace may indicate a clade expanding its niche breadth during an adaptive radiation \citep{foote1994morphological,raup1994role,sidlauskas2008continuous}.
 Alternatively, a clade may move position within the morphospace, reflecting shifts in ecological niche \citep{hopkins2016magnitude}. 
+
+% The morphological data used in disparity analyses may be:
+% \begin{itemize}
+%     \item \textbf{Discrete characters}, i.e.~coding presence/absence or characteristic of traits. Discrete character matrices allow the inclusion of morphological features that are only present in a subset of the taxa. 
+%     These datasets are often originally collected for phylogenetics and repurposed for disparity.
+%     \item \textbf{Continuous characters}, i.e.~lengths of limbs, body mass, etc. More suited to investigations on a specific trait, rather than whole organism disparity.
+% %     \item \textbf{Geometric morphometric}, i.e.~homologous landmark data (e.g. Procrustes coordinates). More common for analyses at lower taxonomic levels, since need for homologous features in all specimens.
+% \end{itemize}
+
+% Given the varying scope of morphological variation that these contrasting approaches characterise, it is expected that they capture different aspects of disparity. 
+% For example, molar geometric morphometric data will mainly reveal variation related to diet/feeding ecology, whereas discrete character matrices of cranial and postcranial features may reveal variation in whole-organism morphology. 
+% Correlation between the outputs of these two approaches cannot be assumed, highlighting the discrepancies between disparity analyses.
+% For example, \cite{halliday_eutherian_2016}, using a cladistic data matrix of dental, cranial and postcranial characters, found contrasting patterns of eutherian disparity across K-Pg compared to studies that used geometric morphometric analysis of molars \citep{wilson_mammals_2013,grossnickle_therian_2016}.
+
+% There is no superior datatype, as each has approach has its own limitations. 
+% For example, the overwhelming phylogenetic signal in cladistic discrete datasets, i.e. \cite{halliday_eutherian_2016}, may bury important functional variation contained within \citep{anderson2012using}. 
+% Characters used during phylogenetics are selected to establish branching orders and differentiate taxa into distinct clades, which may artificially inflate disparity at nodes of cladogenesis \citep{gerber_use_2019}.
+% However, discrete character matrices allow the inclusion of morphological features that are only present in a subset of the taxa.
+% Continuous characters can only be measured and analysed when all members of the study group possess the same structure in a comparable state.
+% This limits the taxonomic scope of the study system, since the trait may not be present across all taxa, or has not been preserved in the fossil record.
 
 % Idea of extinction selectivity: Devonian events are selective, Permian was non-selective \citep{korn_extinction_2013}. %TG: this could be a good example to add here.
 
 \subsection{Extinction selectivity}
 Mass extinctions pose numerous scenarios of disparity (\autoref{fig:scenarios}).
-In adaptive scenarios, disparity may increase in clades that diversify during the period of ecological opportunity following a mass extinction.
-Random extinction will reduce the total number of taxa, but have little effect on sized-based disparity metrics. 
-Selective extinction, whereby taxa are more susceptible to extinction due to particular trait combinations, will have a detectable effect on variance-based measures \citep{foote1997evolution,korn_extinction_2013}.
+In adaptive scenarios, disparity may increase in clades that diversify during the period of ecological opportunity following a mass extinction due to morphospace expansion.
+Extinction can also be random or selective based on specific traits, or regions of the morphospace, that go extinct.
 % TG: I think there is a (common) confusion here between the statistic (disparity metric capturing the pattern) and the mechanism (what is actually happening). In practice we use them as equivalents: e.g. sum of variance increase = adaptive radiatyion. But in reality they're not. Maybe it's worth trying to rewrite these bits by separating them into: "Biological mechanism does X to trait diversity. We expect disparity to do Y when that happens.". In other words, it's important to distinguish the mechanism (the biological thingy) from disparity (our tool to measure it).
-\cite{korn_extinction_2013} proposed several patterns to describe different selection processes: lateral (asymmetric selection that trims one side of the morphospace), marginal (symmetric selection that removes peripheral taxa) and non-selective (random process independent of the variables defining the morphospace). 
+\cite{korn_extinction_2013} proposed several patterns to describe different selection processes: lateral (asymmetric selection that trims one side of the morphospace), marginal (symmetric selection that removes peripheral taxa) and non-selective ('field of bullets' random process or independent of the variables defining the morphospace). 
 Work on contemporary extinctions has also investigated extinction selectivity, with certain trait combinations making extant taxa more susceptible to extinction \citep{ali2023bird,matthews2024global}. 
-
 
 \begin{figure}[H]
     \centering
@@ -151,24 +170,43 @@ Work on contemporary extinctions has also investigated extinction selectivity, w
     % TG: not urgent here but I think for your final thesis you could redo this figure in treats rather than just using the drawing (top notch reproducibility!)
 \end{figure}
 
+\subsection{Disparity metric}
+These different types of extinction events can be distinguished from each other by comparing changes in different disparity metrics.
+For example, a variance-based metric such as sum of variances may remain relatively unchanged during a random extinction, since no systematic reduction in trait variance has occurred \citep{foote1997evolution,korn_extinction_2013}.
+In contrast, a reduction in sum of variances will likely be apparent in a marginal selective extinction, where the pruning of peripheral taxa has led to a contraction in variance.
+\cite{puttick_complex_2020} highlight the flaws in using a single disparity metric for assessing morphospace changes, since changes can occur in size, position and density \citep{guillerme_shifting_2020}.
+Studies that have implemented multiple metrics have been able to identify nuanced changes in morphospace \citep{cole_selectivity_2021}.
+
+% For example, \cite{halliday_eutherian_2016} found contrasting patterns of eutherian disparity between outputs using the sum of ranges compared to mean pairwise distance and sum of variances.
+% % \cite{puttick_complex_2020} highlighted the importance of employing several different disparity metrics to explore different ways in which the morphospace changes across a mass extinction.
+% % However, several studies investigating eutherian disparity have opted to use only a single disparity metric, often variance-based metrics such as sum of variances/ranges \citep{grossnickle_mammal_2013,wilson_mammals_2013, grossnickle_therian_2016}.
+% \cite{puttick_complex_2020} highlighted the importance of employing several disparity metrics to explore different ways in which the morphospace changes across a mass extinction.
+
+
+
+
 \section{Eutherian disparity across K-Pg Mass Extinction}
 \subsection{Suppression hypothesis}
-The rebound dynamics %TG: not sure about "rebound dynamics". Maybe something more neutral like "The effect of the K-Pg on mammals...". Also you need to briefly introduce the K-Pg extinction (what and when). Maybe the easiest is to introduce it on line 91 when you talk about mass extinctions in general: e.g. "there are 5 mass extinctions, one of the most studied is the last one, the Cretaceous Paleaogene on 66 million years ago that saw the extinction of amonites and non-avian dinosaurs (K-Pg)" (or something like that)
- of eutherian mammals (placentals and extinct relatives) across the K-Pg mass extinction is one of the most well-studied yet contentious inquiries of macroevolutionary biology.
-Eutherian mammals prior to the K-Pg boundary have been traditionally considered depauperate, small sized and limited in ecological variation, which contrasts the diversity seen in extant placentals.
-The widely held view until recently, known as \textit{the suppression hypothesis}, follows that the extinction of non-avian  dinosaurs released eutherian mammals from constraints of predation and competition, stimulating a radiation at the onset of the Cenozoic \citep{osborn_law_1902,alroy_fossil_1999,codron_ecological_2013,oleary_placental_2013}. 
+The most recent of the `Big Five' mass extinctions occurred 66 million years ago (Ma) at the Cretaceous-Palaeogene (K-Pg) boundary, primarily known for the demise of the non-avian dinosaurs and ammonites \citep{alvarez_extraterrestrial_1980,schulte_chicxulub_2010,brusatte_extinction_2015}. 
+The effect of the K-Pg mass extinction on eutherian mammals (placentals and extinct relatives) is one of the most well-studied yet contentious inquiries of macroevolutionary biology.
+Eutherian mammals prior to the K-Pg boundary have been widely considered depauperate, small sized and limited in ecological variation, which contrasts the diversity seen in extant placentals.
+This traditional view, known as the \textit{suppression hypothesis}, follows that the extinction of non-avian  dinosaurs released eutherian mammals from constraints of predation and competition, stimulating a radiation at the onset of the Cenozoic \citep{osborn_law_1902,alroy_fossil_1999,codron_ecological_2013,oleary_placental_2013}. 
 The most significant morphological evidence for the suppression hypothesis in the fossil record concerns a shift in body size disparity \citep{alroy_fossil_1999}. 
 Mesozoic mammals generally weighed less than 100 g and rarely over 5 kg \citep{benevento_early_2023}. 
-The maximum body mass of mammals increased exponentially and by roughly three orders of magnitude by the late Eocene, which is consistent across continents and taxonomic groups \citep{cooper_body_2010,smith_evolution_2010,raia_rapid_2013,slater_phylogenetic_2013}. 
+The maximum body mass of mammals increased exponentially and by roughly three orders of magnitude by the late Eocene \citep{cooper_body_2010,smith_evolution_2010,raia_rapid_2013,slater_phylogenetic_2013}. 
+It is thought that this increase is indicative of a wider expansion of niche breadth as mammals filled the vacant niches left by large dinosaurs.
 
 \subsection{Early rise hypothesis}
 While the suppression hypothesis is strongly supported by studies that have investigated changes in body size \citep{alroy_fossil_1999,slater_phylogenetic_2013}, body size is limited as a biodiversity metric for ecological variation since it can be influenced by several factors that may reflect stochastic rather than adaptive changes \citep{grossnickle_feeding_2020}. 
 Recent studies instead focusing on morpho-functional traits (intrinsically linked to ecological function), such as jaw and dentition morphology, have instead suggested that eutherian diversity was attained through successive waves of diversification, starting far earlier than the K-Pg mass extinction \citep{grossnickle_untangling_2019}.
-The early rise hypothesis suggests an ecological diversification that occurred concurrently with the diversification of angiosperms and insects during and after the Cretaceous Terrestrial Revolution (125--80 Ma) (\autoref{fig:radiations}) \citep{meredith_impacts_2011,benton_angiosperm_2022}. 
-Ecological variation within Mesozoic mammals is not limited to diet; diversity in locomotor styles was reached as far back as the Jurassic in early mammaliaform groups, including early eutherians \citep{chen_assembly_2019}. 
+The \textit{early rise hypothesis} suggests an ecological diversification that occurred concurrently with the diversification of angiosperms and insects during and after the Cretaceous Terrestrial Revolution (125--80 Ma) (\autoref{fig:radiations}) \citep{meredith_impacts_2011,benton_angiosperm_2022}. 
+For example, using morphometric analyses of molar shape \cite{grossnickle_therian_2016} found that eutherian disparity began increasing during the Late Cretaceous.
+\cite{wilson_mammals_2013} also found a similar pattern, as well as a decrease in molar disparity across K-Pg suggesting selective extinction.
+Ecological variation within Mesozoic mammals is not limited to diet; diversity in locomotor styles was reached as far back as the Jurassic in early eutherians \citep{chen_assembly_2019}. 
 \subsection{Delayed rise hypothesis}
 Other studies have pointed towards the Paleocene-Eocene Thermal Maximum (PETM), an episode of elevated global temperatures 56 Ma that widened the latitudinal range of angiosperm-dominated forest, which in turn spurred the dispersal and radiation of eutherians (\autoref{fig:radiations}) \citep{bininda-emonds_delayed_2007}. 
 \cite{benevento_patterns_2019} found that eutherian mammals had the most significant expansion in jaw morphospace at the onset of the Eocene.
+\cite{bertrand_brawn_2022} investigated endocranial volume in Cenozoic placentals and also found a delayed radiation in diversity, highlighting increases in body size during the Paleocene preceded an expansion in brain size in the Eocene, which became necessary as competition intensified in an increasingly mammal-dominated biota. 
 While these alternative hypotheses do not necessarily refute the influence of the K-Pg mass extinction, they instead suggest the extinction accentuated evolutionary trajectories already underway. 
 % TG: very good stuff!
 
@@ -189,80 +227,9 @@ While these alternative hypotheses do not necessarily refute the influence of th
 
 % Can link to \cite{cole_selectivity_2021}.
 
-\subsection{Phylogenetic hypotheses} \label{phylogenies}
-The origin and tempo of lineage diversification in placental mammals has been a point of contention for decades, meaning there is no undisputed phylogenetic topology for eutherian mammals.
-Therefore, several studies investigating eutherian disparity have opted to time-bin the disparity data points by stratigraphy when assessing disparity through time \citep{grossnickle_mammal_2013,wilson_mammals_2013, grossnickle_therian_2016,benevento_patterns_2019}.
-While this approach may be necessary in the absence of a well-resolved phylogeny, it inherently assumes a punctuated equilibrium model of morphological evolution. 
-This assumption can be particularly problematic when assessing disparity across mass extinction events \citep{guillerme2018time}. 
-The instantaneous nature of the K-Pg extinction requires a framework capable of capturing morphological changes at fine temporal scales. 
-Stratigraphic time binning, which aggregates data over broad intervals, risks obscuring critical, transient shifts in disparity that may occur within shorter durations, e.g. 1 Myr following the extinction. 
-Incorporating a phylogeny means a time-slicing method can be used \citep{guillerme2018time}, which removes the punctuated assumption and can reveal more temporally refined patterns.
-There are currently four phylogenetic hypotheses for placental mammals (\autoref{fig:radiations}):
-
-\subsubsection{Hard explosive model}
-To date, there are no unequivocal crown placental fossils prior to the K-Pg boundary \citep{alroy_fossil_1999,davies2017completeness}. 
-% Several Late Cretaceous fossils have been proposed as crown Placentalia, notably \textit{Protungulatum} \citep{archibald_protungulatum_2011}, \textit{Purgatorius} \citep{chester_oldest_2015}, and \textit{Deccanolestes} \citep{wilson_mantilla_new_2022}, although all three have also been placed as stem placentals in other studies \citep{wible_cretaceous_2007,goswami2011radiation,halliday_resolving_2017}. 
-This palaeontological evidence has given rise to the hard explosive model, which posits that the origin and diversification of placental lineages took place at/after the K-Pg boundary (\autoref{fig:radiations}). 
-The stark contrast in taxonomic richness (11 Late Cretaceous eutherians compared to 139 in the Paleocene) has been shown to not be an artefact of poor Cretaceous sampling \citep{davies2017completeness}. 
-Therefore, until a definitive Late Cretaceous placental mammal has been found, the hard explosive model cannot be ruled out.
-% ~\cite{oleary_placental_2013} found a placental origin after the K-Pg boundary, but has since been refuted due to their fossil calibration technique \citep{dos_reis_neither_2014}. 
-
-
-\subsubsection{Long fuse model}
-In contrast, divergence estimates using molecular data suggest a Late Cretaceous origin for placental mammals. 
-Two further models have been developed from molecular analyses, namely the long fuse and short fuse models (\autoref{fig:radiations}). 
-The long fuse model implies a placental origin coinciding with the Cretaceous Terrestrial Revolution approximately 120-100 Ma \citep{foley_mammal_2016}. 
-This model also posits that most interordinal cladogenesis occurred prior to the K-Pg, followed by intraordinal diversification during the Paleocene \citep{archibald_quantitative_2001}. 
-This model has garnered support from the majority of molecular-based estimates, notably recent genomic studies \citep{meredith_impacts_2011,dos_reis_phylogenomic_2012,foley_mammal_2016,carlisle_timescale_2023}. 
-
-\subsubsection{Short fuse model}
-The short fuse model has been recovered relatively little compared to the long fuse model. 
-Like the long fuse model, the model finds a Late Cretaceous origin of Placentalia, but differs with intraordinal diversification taking place prior to K-Pg. 
-The most notable study to have recovered the short fuse model is that of~\cite{bininda-emonds_delayed_2007}, which also found the K-Pg extinction had little impact on placental diversification rates. 
-However, this study employed local molecular clocks and a pure birth model for divergence times; more recent relaxed clock studies have refuted this finding and supported the long-fuse model.
-
-\subsubsection{Soft explosive model}
-Recent attempts to close the gap between fossil and molecular estimates have culminated in the soft explosive model.
-\cite{phillips_geomolecular_2016} argues that divergence times are overestimated when calibrating nodes for large and/or long-lived taxa with slow molecular rates, which contrasts the small early placental taxa that likely had faster molecular rates. 
-By removing these calibrations,~\cite{phillips_geomolecular_2016} recovers superordinal cladogenesis in the Late Cretaceous, but the remainder of diversification near or after the K-Pg boundary (\autoref{fig:radiations}).
-
-
-
-
-
 \section{Disparity Analysis Methods}
 The conflicting findings of eutherian disparity across the K-Pg boundary raise the question: why do disparity analyses aiming to answer the same question arrive at different conclusions? 
 Addressing this requires a critical look at the methodological underpinnings of disparity analyses.
-% Outcomes of disparity analyses are sensitive to the methodological decisions that precede.
-
-For the purposes of this review, I focus on three key methodological choices: (1) trait data, (2) disparity metric, (3) ancestral state estimation. %TG: I see why you arrange them like that, guessing you want to finish on (3) to expand on it. It's fine for here but I guess for the future - not confirmation review - you can rearrange them more logically data > ace > disparity
-
-\subsection{Types of trait data}
-The morphological data used in disparity analyses may fall into one of the following categories:
-\begin{itemize}
-    \item \textbf{Discrete characters}, i.e.~coding presence/absence or characteristic of traits. Discrete character matrices allow the inclusion of morphological features that are only present in a subset of the taxa. 
-    These datasets are often originally collected for phylogenetics and repurposed for disparity.
-    \item \textbf{Continuous characters}, i.e.~lengths of limbs, body mass, etc. More suited to investigations on a specific trait, rather than whole organism disparity.
-    \item \textbf{Geometric morphometric}, i.e.~homologous landmark data (e.g. Procrustes coordinates). More common for analyses at lower taxonomic levels, since need for homologous features in all specimens.
-\end{itemize}
-
-Given the varying scope of morphological variation that these contrasting approaches characterise, it is expected that they capture different aspects of disparity. 
-For example, molar geometric morphometric data will mainly reveal variation related to diet/feeding ecology, whereas discrete character matrices of cranial and postcranial features may reveal variation in whole-organism morphology. 
-Correlation between the outputs of these two approaches cannot be assumed, highlighting the discrepancies between disparity analyses.
-For example, \cite{halliday_eutherian_2016}, using a cladistic data matrix of dental, cranial and postcranial characters, found contrasting patterns of disparity across K-Pg compared to studies that used geometric morphometric analysis of molars \citep{wilson_mammals_2013,grossnickle_therian_2016}.
-Furthermore, the overwhelming phylogenetic signal in cladistic discrete datasets, i.e. \cite{halliday_eutherian_2016}, may bury important functional variation contained within \citep{anderson2012using}. 
-Characters used during phylogenetics are selected to establish branching orders and differentiate taxa into distinct clades, which may artificially inflate disparity at nodes of cladogenesis \citep{gerber_use_2019}.
-% TG: could be also worth checking this paper: https://royalsocietypublishing.org/doi/full/10.1098/rstb.2022.0085
-
-
-\subsection{Disparity metrics} 
-The contrasting findings may also be explained by different disparity metrics used between studies.
-For example, \cite{halliday_eutherian_2016} found contrasting patterns of eutherian disparity between outputs using the sum of ranges compared to mean pairwise distance and sum of variances.
-\cite{puttick_complex_2020} highlighted the importance of employing several different disparity metrics to explore different ways in which the morphospace changes across a mass extinction.
-However, several studies investigating eutherian disparity have opted to use only a single disparity metric, often variance-based metrics such as sum of variances/ranges \citep{grossnickle_mammal_2013,wilson_mammals_2013, grossnickle_therian_2016}.
-\cite{puttick_complex_2020} highlighted the importance of employing several disparity metrics to explore different ways in which the morphospace changes across a mass extinction.
-
-
 
 \begin{figure}[H]
     \centering
@@ -272,26 +239,84 @@ However, several studies investigating eutherian disparity have opted to use onl
 \end{figure}
 
 
+For the purposes of this review, I focus on three key methodological choices: (1) phylogeny, (2) ancestral state estimation, (3) detecting shifts in disparity. 
+
+\section{Phylogenetic hypotheses} \label{phylogenies}
+The origin and tempo of lineage diversification in placental mammals has been a point of contention for decades, meaning there is no undisputed phylogenetic topology for eutherian mammals.
+Therefore, several studies investigating eutherian disparity have opted to time-bin the disparity data points by stratigraphy when assessing disparity through time \citep{grossnickle_mammal_2013,wilson_mammals_2013, grossnickle_therian_2016,benevento_patterns_2019}.
+While this approach may be necessary in the absence of a well-resolved phylogeny, it inherently assumes a punctuated equilibrium model of morphological evolution. 
+This assumption can be particularly problematic when assessing disparity across mass extinction events \citep{guillerme2018time}. 
+The instantaneous nature of the K-Pg extinction requires a framework capable of capturing morphological changes at fine temporal scales. 
+Stratigraphic time binning, which aggregates data over broad intervals, risks obscuring critical, transient shifts in disparity that may occur within shorter durations following the extinction. 
+Incorporating a phylogeny means a time-slicing method can be used \citep{guillerme2018time}, which removes the punctuated assumption and can reveal more temporally refined patterns.
+There are currently three main phylogenetic hypotheses for placental mammals (\autoref{tab:placental_models}):
+
+% \subsection{Hard explosive model}
+% To date, there are no unequivocal crown placental fossils prior to the K-Pg boundary \citep{alroy_fossil_1999,davies2017completeness}. 
+% % Several Late Cretaceous fossils have been proposed as crown Placentalia, notably \textit{Protungulatum} \citep{archibald_protungulatum_2011}, \textit{Purgatorius} \citep{chester_oldest_2015}, and \textit{Deccanolestes} \citep{wilson_mantilla_new_2022}, although all three have also been placed as stem placentals in other studies \citep{wible_cretaceous_2007,goswami2011radiation,halliday_resolving_2017}. 
+% This palaeontological evidence has given rise to the hard explosive model, which posits that the origin and diversification of placental lineages took place at/after the K-Pg boundary (\autoref{fig:radiations}). 
+% The stark contrast in taxonomic richness (11 Late Cretaceous eutherians compared to 139 in the Paleocene) has been shown to not be an artefact of poor Cretaceous sampling \citep{davies2017completeness}. 
+% Therefore, until a definitive Late Cretaceous placental mammal has been found, the hard explosive model cannot be ruled out.
+% % ~\cite{oleary_placental_2013} found a placental origin after the K-Pg boundary, but has since been refuted due to their fossil calibration technique \citep{dos_reis_neither_2014}. 
+
+
+% \subsection{Long fuse model}
+% In contrast, divergence estimates using molecular data suggest a Late Cretaceous origin for placental mammals. 
+% Two further models have been developed from molecular analyses, namely the long fuse and short fuse models (\autoref{fig:radiations}). 
+% The long fuse model suggests a placental origin coinciding with the Cretaceous Terrestrial Revolution approximately 120-100 Ma \citep{foley_mammal_2016}. 
+% This model also suggests that most interordinal cladogenesis occurred prior to the K-Pg, followed by intraordinal diversification during the Paleocene \citep{archibald_quantitative_2001}. 
+% This model has garnered support from the majority of molecular-based estimates, notably recent genomic studies \citep{meredith_impacts_2011,dos_reis_phylogenomic_2012,foley_mammal_2016,carlisle_timescale_2023}. 
+
+% \subsection{Short fuse model}
+% The short fuse model has been recovered relatively little compared to the long fuse model. 
+% Like the long fuse model, the model finds a Late Cretaceous origin of Placentalia, but differs with intraordinal diversification taking place prior to K-Pg. 
+% The most notable study to have recovered the short fuse model is that of~\cite{bininda-emonds_delayed_2007}, which also found the K-Pg extinction had little impact on placental diversification rates. 
+% However, this study employed local molecular clocks and a pure birth model for divergence times; more recent relaxed clock studies have refuted this finding and supported the long-fuse model.
+
+% \subsection{Soft explosive model}
+% Recent attempts to close the gap between fossil and molecular estimates have culminated in the soft explosive model.
+% \cite{phillips_geomolecular_2016} argues that divergence times are overestimated when calibrating nodes for large and/or long-lived taxa with slow molecular rates, which contrasts the small early placental taxa that likely had faster molecular rates. 
+% By removing these calibrations,~\cite{phillips_geomolecular_2016} recovers superordinal cladogenesis in the Late Cretaceous, but the remainder of diversification near or after the K-Pg boundary (\autoref{fig:radiations}).
+
+% \newpage
+    % \begin{landscape}
+\begin{table}[htbp]
+    \centering
+    \caption{Summary of major models for the origin and diversification of placental mammals.}
+    % \large
+    \begin{tabularx}{\textwidth}{|p{3cm}|p{3.5cm}|X|p{4cm}|}
+        \hline
+        \textbf{Model} & \textbf{Placental origin} & \textbf{} \textbf{Evidence} & \textbf{References} \\
+        \hline
+        Hard explosive & 66 Ma (K-Pg boundary)  & Palaeontological: no crown placental fossils before K-Pg & \cite{alroy_fossil_1999,oleary_placental_2013,davies2017completeness,halliday_resolving_2017} \\
+         \hline
+        Soft explosive & $\sim{80}$ Ma & Molecular: removed fossil calibrations for large (slow evolving) taxa & \cite{phillips_geomolecular_2016,phillips_soft_2018} \\
+        \hline
+        Long fuse & $\sim{120-80}$ Ma & Molecular: genome wide data & \cite{archibald_quantitative_2001,meredith_impacts_2011,dos_reis_phylogenomic_2012,foley_mammal_2016,carlisle_timescale_2023} \\
+        \hline
+    \end{tabularx}
+    \label{tab:placental_models}
+\end{table}
+% \end{landscape}
 % \subsubsection{Disparity and phylogeny}
 % Given the widespread availability of phylogenies, many studies now opt to incorporate them into disparity analyses.
 
 
 \section{Ancestral state estimation}
 The poor resolution of the fossil record is an inevitable limitation affecting disparity analyses, since only a small biased portion of a clade's evolutionary history is preserved.
-The incorporation of a phylogeny together with trait data enables a switch from simply observing a pattern (points in morphospace) to inferring a process through time, through the use of ancestral state estimation (ASE) \citep{lloyd2018journeys}.
+The incorporation of a phylogeny together with trait data enables a switch from simply observing a pattern (points in morphospace) to inferring a process through time, through the use of ancestral state estimation \citep{lloyd2018journeys}.
 % TG: Is "ASE" a term used in Lloyd 2018? I'm not a big fan of acronyms in general so introducing a new one can be a big confusing. Maybe just type "ancestral states estimations" throughout? Or even "ancestral traits estimations" to make it even more general (i.e. including discrete and continuous). If you're lazy you can define a macro. I think you can do it using the following:
 % \newcommand{\ASE}{ancestral traits estimations}
 % and then type \ASE everywhere you need like you do and when compiling it'll change it to "ancestral traits estimations". more info here: https://www.overleaf.com/learn/latex/Commands
 
 
-\subsection{Application of ASE}
-Ancestral state estimation (ASE) is the broad method of estimating trait value(s) in a set of common ancestors given a set of observed data for tips %TG: Do you mean OTU (operational taxonomic units)? If yes, I think you can simplify it using "taxa". Never understood why people distinguish between an OTU and a taxon. Both are always tips.
- on a phylogenetic tree \citep{schluter1997likelihood,cunningham1998reconstructing, yang2006computational,revell2025ancestral}.
-Trait data may be continuous, such as body size, or discrete, such as diet type or presence/absence of a character. %TG: note that you've already introduced continuous/discrete above. I think you can simpluify here.
+\subsection{Application of ancestral state estimation}
+Ancestral state estimation is the broad method of estimating trait value(s) in a set of common ancestors given a set of observed data for tips on a phylogenetic tree \citep{schluter1997likelihood,cunningham1998reconstructing, yang2006computational,revell2025ancestral}.
+Trait data may be continuous, such as body size, or discrete, such as diet type or presence/absence of a character. 
 The application of ASE has been widely utilised in phylogenetic comparative methods, including disparity.
 
 
-Intuitively, ASE is appealing for those studying deep-time patterns of disparity.
+Intuitively, ancestral state estimation is appealing for those studying deep-time patterns of disparity.
 Incorporating a phylogeny into disparity analyses will unavoidably introduce unsampled `ghost lineages' \citep{brusatte2011phylogenetic}.
 A ghost lineage is the hypothetical ancestor that is not observed in the fossil record, but can be inferred to have existed due to the presence of other fossils/extant taxa. 
 This can be best explained as the branch on a phylogeny between two observed taxonomic units (\autoref{fig:ichthy_phylo}).
@@ -305,8 +330,8 @@ This can be best explained as the branch on a phylogeny between two observed tax
 
 \end{figure}
 
-ASE has been employed as a way of inferring the traits of these hypothetical species based on the traits of their descendents.
-During ASE, the estimated traits for nodes of a phylogeny are used as a way of sampling these ghost lineages.
+Ancestral state estimation has been employed as a way of inferring the traits of these hypothetical species based on the traits of their descendents.
+During ancestral state estimation, the estimated traits for nodes of a phylogeny are used as a way of sampling these ghost lineages.
 This fills in the gaps in the fossil record and alleviates the bias associated with uneven sampling across the phylogenetic tree \citep{friedman2009ecomorphological, brusatte2011phylogenetic}. 
 % When using ASE, the estimated traits for nodes of a phylogeny are used as a way of sampling these ghost lineages.
 % Modern ASE methods make use of branch lengths to describe the temporal range over which morphological evolution has taken place.
@@ -343,12 +368,11 @@ This fills in the gaps in the fossil record and alleviates the bias associated w
 Likelihood methods for ancestral state estimation are based on a unifying statistical framework that treats the internal node states as parameters to be estimated, seeking to maximize the probability of the observed tip states given a topology and a model of evolution \citep{joy2016ancestral}.
 The central tenet of the approach is the likelihood function, which integrates information from the topology, which reflects the evolutionary history among taxa, and the model of trait evolution (which specifies how traits evolve along the branches). 
 By systematically exploring the parameter space through numerical optimization, the method search for the ancestral states that maximize the likelihood function.
-Importantly, the same general likelihood framework underpins different types of ancestral state estimation, regardless of whether the traits are continuous or discrete.
-The core difference between continuous and discrete character estimation is the evolutionary model that is specified.
+The same general likelihood framework underpins estimation of continuous and discrete characters; the core difference in estimation is the evolutionary model that is specified.
 
 \subsubsection{Continuous characters}
 Continuous trait evolution is typically modelled under a Brownian motion (BM) model of evolution \citep{felsenstein1985phylogenies, omeara2006testing}.
-Brownian motion models trait evolution as a directionless, stochastic process under which continuous characters undergo changes along the branches of a phylogeny.
+BM models trait evolution as a directionless, stochastic process under which continuous characters undergo changes along the branches of a phylogeny.
 These evolutionary changes come from a Gaussian distribution with a mean of 0 and variance proportional to the product of the rate of evolution and time elapsed ($\sigma^2\textit{t}$). 
 Therefore, the expected amount of trait divergence between any two taxa is proportional to the amount of shared evolutionary history according to the phylogeny.
 
@@ -357,17 +381,17 @@ Under BM, the vector (\textbf{x}) of observed tip trait values follows a multiva
 \boldsymbol{x} \sim \mathrm{MVN}(x_{0},\, \sigma^2 \boldsymbol{C})
 \]
 
-\textbf{\textit{C}} is a variance-covariance matrix that captures the shared ancestry of the taxa, defined by the tree height from the root to each tip (diagonal elements $\boldsymbol{C}_{ii}$) and the tree height above the root of the most recent common ancestor shared by each pair of tips (off-diagonal elements $\boldsymbol{C}_{ij}$).
+\textbf{\textit{C}} is a variance-covariance matrix for the shared ancestry of the taxa, defined by the tree height from the root to each tip (diagonal elements $\boldsymbol{C}_{ii}$) and the tree height above the root of the most recent common ancestor shared by each pair of tips (off-diagonal elements $\boldsymbol{C}_{ij}$).
 
 When estimating ancestral states, the \textbf{\textit{C}} matrix is expanded to include the shared history of the internal nodes.
 The evolutionary rate, $\sigma^2$, and root state $x_0$, are unknown parameters that can be estimated using Maximum Likelihood to give the multivariate normal distribution.
 The trait values at internal nodes are then calculated as the conditional expectations within this distribution.
-This means each node's estimated trait value is effectively a weighted average of the tip values, with the weights determined by the amount of shared evolutionary history (as captured by \textbf{\textit{C}}).
+This means each node's estimated trait value is effectively a weighted average of the tip values, with the weights determined by the amount of shared evolutionary history (as defined by \textbf{\textit{C}}).
 
 
 \subsubsection{Discrete characters}
 Ancestral state estimation of discrete characters are modelled using a continuous-time Markov chain process, known as the M\textit{k} model \citep{pagel1994detecting, yang2006computational}. 
-This process is specified by a $\textit{k} \times \textit{k}$ matrix, \textbf{Q}, which gives the instantaneous transition rates (\textit{q}) between states for each character. 
+This process is specified by a $\textit{k} \times \textit{k}$ matrix (\textit{k} being the number of possible states), \textbf{Q}, which gives the instantaneous transition rates (\textit{q}) between states for each character. 
 
 \[
 \textbf{Q} = \begin{bmatrix}
@@ -381,47 +405,47 @@ This process is specified by a $\textit{k} \times \textit{k}$ matrix, \textbf{Q}
 % \end{bmatrix}
 \]
 
-Markov chain transition matrices has the necessary properties that all off-diagonal entries are non-negative, all diagonal properties are non-positive and the sum of each row is zero.
+Markov chain transition matrices have the necessary properties that all off-diagonal entries are non-negative, all diagonal properties are non-positive and the sum of each row is zero.
 This is because in a continuous-time Markov process, probability flows out of a state (diagonal) and into other states (off-diagonal) and so the diagonal term represents the total rate of leaving a state.
 
 % TG: Why are the off-diagonal values negative? And why are they 0.5?
-
-It is this \textbf{Q} matrix that is estimated under Maximum Likelihood. 
-Given a phylogeny, the probability of each transition at any given interval of time (\textit{t}) can be calculated by 
+The \textbf{Q} matrix is estimated using Maximum Likelihood; the value of \textbf{Q} that maximises the probability of the observed data given the tree topology. 
+The matrix exponentiation of \textbf{Q} converts the instantaneous rates into probabilities of transitioning between states over a given time \textit{t}:
 \[\textbf{P} = \exp(\textbf{Q}\textit{t})\]
-This gives the transition probability matrix, where each entry is the probability of transitioning from one state to another over time \textit{t}.
-The most popular method is \textit{marginal} estimation, which involves proceeding from node to node on the phylogeny, and, at each node, the probability of being in each state is estimated, given the observed data.
+
+Global marginal estimation, which is most commonly implemented in software, fixes the value of \textbf{Q} and calculates the probability of each state at each node, given the observed data at the tips.
 These likelihoods are rescaled by their sum so that they add up to 1.0, and so represent an empirical Bayes posterior probability \citep{yang2006computational,revell2025ancestral}. 
-Since this can become extremely complicated as the phylogeny increases in size, in practice functions use algorithms such as Felsenstein's pruning algorithm \citep{felsenstein1981evolutionary}.
+Since this can become computationally intensive as the phylogeny increases in size, in practice functions use algorithms such as Felsenstein's pruning algorithm \citep{felsenstein1981evolutionary}.
 
 
 % The `equal-rates model' (ER) is the simplest and estimates just one parameter, since it assumes all transitions occur with equal probability, equivalent to the Jukes-Cantor model of molecular evolution.
 % The assumptions of the ER model can be eased with the `symmetric' model (SYM): rate of change between any two character states is equal in the forwards and backwards direction, but may differ between different pairs of states.
 % The `all-rates-different' (ARD) model allows for a different transition rate in each direction, includes a total of $\textit{k} \times (\textit{k} - 1)$ parameters to estimate.
 
-\begin{figure}[H]
-    \centering
-    \includegraphics[width = 10cm]{images/phylo_tree.png}
-\end{figure}
+% \begin{figure}[H]
+%     \centering
+%     \includegraphics[width = 10cm]{images/phylo_tree.png}
+% \end{figure}
 
-So if we want to calculate probability of each transition along the tree branch from root to node AB, \textit{t} = 0.4.
-
-
-
-One further probability to consider is the `root prior', which is essentially whether the root node of the tree was in state 0 or 1.
-This is typically set with a flat root prior $\pi_{0} = \pi_{1} = 0.5$.
+% Lets suppose the Q matrix was an ER model (assumes all transitions occur with equal probability) at a rate of 0.5. This would 
+% So if we want to calculate probability of each transition along the tree branch from root to node AB, \textit{t} = 0.4.
 
 
 
+% One further probability to consider is the `root prior', which is essentially whether the root node of the tree was in state 0 or 1.
+% This is typically set with a flat root prior $\pi_{0} = \pi_{1} = 0.5$.
 
-These marginal likelihoods are then scaled by their sum, giving \textit{P}(0, 1) = [0.68, 0.32]. 
-% TG: I think you can just say they are re-scaled so that they sum up to one (and in brackets write the formula $$P_{scaled}(root = 0) = \frac{P(root = 0)}{P(root = 0) + P(root = 1)}$$)
-In marginal estimation, this is calculated node by node.
-Since this can become extremely complicated as the phylogeny increases in size, in practice functions use algorithms such as Felsenstein's pruning algorithm \citep{felsenstein1981evolutionary}.
+
+
+
+% These marginal likelihoods are then scaled by their sum, giving \textit{P}(0, 1) = [0.68, 0.32]. 
+% % TG: I think you can just say they are re-scaled so that they sum up to one (and in brackets write the formula $$P_{scaled}(root = 0) = \frac{P(root = 0)}{P(root = 0) + P(root = 1)}$$)
+% In marginal estimation, this is calculated node by node.
+% Since this can become extremely complicated as the phylogeny increases in size, in practice functions use algorithms such as Felsenstein's pruning algorithm \citep{felsenstein1981evolutionary}.
 % TG: might be worth explaining what this algorithm does!
 
 
-\subsection{Challenges of ASE}
+\subsection{Challenges in ancestral state estimation}
 % - Ancestral state estimation -> why we use it? lack of fossils etc. Challenges we face when using PCMs.
 %     - describe the methods 
 %         - continuous -DONE
@@ -442,7 +466,7 @@ Since this can become extremely complicated as the phylogeny increases in size, 
 %         - bias from tree shape
 %         - ASE goes over one model specification, but what happens if model changes halfway?
 
-\textit{`Character state reconstructions can provide a powerful mechanism for studying many facets of the evolutionary process. However, the zeal with which these techniques are sometimes advocated belies the complexity of the problem'} \citep{swofford1992parsimony}.
+\textit{``Character state reconstructions can provide a powerful mechanism for studying many facets of the evolutionary process. However, the zeal with which these techniques are sometimes advocated belies the complexity of the problem"} \citep{swofford1992parsimony}.
 
 \subsubsection{Uncertainty in estimates}
 A critical issue within ancestral state estimation is that estimates tend to have broad uncertainty \citep{schluter1997likelihood}.
@@ -452,19 +476,19 @@ For continuous characters, uncertainty is wide confidence intervals.
 
 How this uncertainty in estimations should be dealt with is equivocal.
 Despite the encouragement for uncertainty to be carried forward in comparative analyses \citep{silvestro2015measurement}, most computational implementations of ASE return point estimates.
-For continuous characters, this will be the median value of the confidence interval and for discrete characters, it will be the most probable state according to a threshold (see later).
-By ignoring uncertainty, point estimates can lead to overconfidence in results and erroneous inferences in downstream analyses (such as down the disparity pipeline), all while obscuring potentially `accurate' uncertainty.
+For continuous characters, this will be the median value of the confidence interval and for discrete characters, it will be the most probable state according to a scaled likelihood threshold.
+By ignoring uncertainty, point estimates can lead to overconfidence in results and erroneous inferences in downstream analyses (such as down the disparity pipeline), all while obscuring potentially `accurate' uncertainty \citep{ackerly2006niche,vanderpoorten2006mapping}.
 
 For discrete characters, there is a level of subjectivity in how to collapse the states into the most probable based on their scaled likelihood.
-It is common to have a threshold implementation in ASE software, whereby the user can set a scaled likelihood at which point states are collapsed to a point estimate, or left as uncertain, which is denoted as `0/1', for example.
+It is common to have a threshold implementation in ancestral state estimation software, whereby the user can set a scaled likelihood at which point states are collapsed to a point estimate, or left as uncertain, which is denoted as `0/1', for example.
 However, these thresholds are often arbitrarily set with no guidance of what is the `correct' value \citep{smith2022evolution,casali2023morphological}.
 Much of the subjectivity relates to the trade-off between permissiveness and conservativeness; higher thresholds are likely too conservative and so too many states are left uncertain, perhaps missing true signals.
 Whereas lower thresholds may be too permissive and can lead to erroneous inferences.
 Interestingly, \cite{keating2023best} highlights that uncertainty returned by a specified model is a better predictor of accuracy than likelihood diagnostics, such as AIC.
 
 \subsubsection{Sensitivity to fossil sampling}
-Given that uncertainty is often high in ASE, how then can estimates be improved?
-\cite{ane2008analysis} demonstrates that ASE is \textit{statistically inconsistent}, meaning that even if the sample size of extant tips is infinite, estimates are not expected to converge on the true value.
+Given that uncertainty is often high in ancestral state estimation, how then can estimates be improved?
+\cite{ane2008analysis} demonstrates that ancestral state estimation is \textit{statistically inconsistent}, meaning that even if the sample size of extant tips is infinite, estimates are not expected to converge on the true value.
 Instead, the inclusion of fossils can improve estimates, due to the shorter evolutionary path to the root of the tree \citep{finarelli2006ancestral,finarelli2013potential}.
 Fossils can be used as priors on nodes, or simply added to the tree as tips.
 
@@ -484,55 +508,63 @@ For example,~\cite{mitchell2015extant} found that analyses of bird disparity wer
 % Increasing the number of extant taxa does not improve ase estimates \citep{ane2008analysis}.
 
 \subsubsection{Model dependency}
-Another key challenge with ASE is its sensitivity to violations of its model assumptions.
+Another key challenge is the sensitivity to violations of model assumptions.
 For continuous characters, this is particularly pertinent when traits have evolved under non-BM \citep{revell2025ancestral}.
-When trait evolution deviates from BM—due to directional trends, bounded evolution, or regime shifts—ASE can return biased estimations of ancestral states.
+When trait evolution deviates from BM -- due to directional trends, bounded evolution, or regime shifts -- ancestral state estimation can return biased estimations of ancestral states.
 
 Both \cite{webster2002testing} and \cite{finarelli2006ancestral} were unable to recover accurate ancestral estimates of body size in planktonic foraminifera and mammals, respectively, due to a trend of increase through time.
-This violates the assumption of zero-mean change under BM.
-Similar issues arise when the trait data evolved under an Ornstein Uhlenbeck model, whereby trait data evolves in a Brownian way but under a stabilizing selection \citep{royer2016comparison}.
-
+Trends mean a moving average through time, which violates the assumption of zero-mean change under BM.
+Similarly, issues estimating the evolutionary rate may arise when the trait data evolved under an Ornstein-Uhlenbeck (OU) model, whereby trait data evolves under a stabilizing selection \citep{royer2016comparison}.
 It is common for regime shifts to occur at mass extinction boundaries \citep{jablonski1986background}.
-For example, \cite{slater_phylogenetic_2013} found that mammal body size was relatively constrained (OU) up until the K-Pg mass extinction which then allowed a release of constraint and Brownian motion evolution.
+For example,~\cite{slater_phylogenetic_2013} found that mammal body size was relatively constrained (OU) up until the K-Pg mass extinction which then allowed a release of constraint and BM evolution.
+Such shifts in regime could affect accurate estimation of evolutionary rate and thus state estimates.
 
-
-
-As discussed previously, fossil sampling is crucial for accurate ASE, especially when model assumptions are violated \citep{puttick2016partially}.
+As discussed previously, fossil sampling is crucial for accurate estimation, especially when model assumptions are violated \citep{puttick2016partially}.
 Fossils assist in estimating and constraining model parameters, as well as distinguishing different evolutionary processes \citep{goswami2025phenomics}. 
 For example, when estimating states under an OU model, fossils are necessary for estimating the primary optimum.
 Similarly, fossils would be necessary to detect a trend, such as Cope's rule.
-A similar logic applies to discrete characters.
+A similar logic applies to discrete characters; \cite{keating2023best} found that inclusion of fossils improved estimate accuracy, irrespective of model misspecification.
 
-\cite{keating2023best} found that inclusion of fossils improved ASE estimates, irrespective of model misspecification.
-
-\subsubsection{Pre- or post-ordination}
-ASE can be performed at two points in the disparity analysis pipeline (\autoref{fig:pipeline}): either pre-ordination or post-ordination. 
-Pre-ordination ASE involves estimating the ancestral states of the raw trait data, whereas post-ordination ASE estimates the PC scores of ancestral nodes.
-The pre-ordination has become favoured \citep{lloyd2018journeys} due to various statistical issues with post-ordination ASE.
-For example, post-ordination ASE means ancestral values have to fall within the convex hull of the observed trait data \citep{stayton2015definition}.
-While this is usually biologically realistic due to the zero-force evolutionary law \citep{mcshea2010biology}, in a scenario where taxon sampling is poor, true ancestral states may fall outside the morphological extremes designated by observed data.
-% TG: you need to explain what the zero-force law is (I don't know it)
-\cite{lloyd2018journeys} found that the post-ordination ASE method recovers an implausibly low amount of convergent evolution and patterns dictated more so by phylogenetic signal than morphological signal.
-% TG: worth chatting about that next meeting!
-Despite this, there are some practical benefits to performing post-ordination ASE.
-Firstly, it is less computationally expensive.
-Secondly, it mitigates issues with trait correlations. 
-ASE methods assume trait independence, which is rare in morphological trait datasets (e.g., body size and limb length are positively correlated).  
-Pre-ordination ASE, by ignoring this correlation, may return biologically implausible estimations that violate allometry, for example.
-Through ordination, the dominant sources of trait correlation are captured within the first few PC axes.
-The orthogonality of PC axes means zero co-variance between `traits' (which are now PC axes) thus reducing the violation of the assumption of independence.
+% \subsubsection{Pre- or post-ordination}
+% ASE can be performed at two points in the disparity analysis pipeline (\autoref{fig:pipeline}): either pre-ordination or post-ordination. 
+% Pre-ordination ASE involves estimating the ancestral states of the raw trait data, whereas post-ordination ASE estimates the PC scores of ancestral nodes.
+% The pre-ordination has become favoured \citep{lloyd2018journeys} due to various statistical issues with post-ordination ASE.
+% For example, post-ordination ASE means ancestral values have to fall within the convex hull of the observed trait data \citep{stayton2015definition}.
+% While this is usually biologically realistic due to the zero-force evolutionary law \citep{mcshea2010biology}, in a scenario where taxon sampling is poor, true ancestral states may fall outside the morphological extremes designated by observed data.
+% % TG: you need to explain what the zero-force law is (I don't know it)
+% \cite{lloyd2018journeys} found that the post-ordination ASE method recovers an implausibly low amount of convergent evolution and patterns dictated more so by phylogenetic signal than morphological signal.
+% % TG: worth chatting about that next meeting!
+% Despite this, there are some practical benefits to performing post-ordination ASE.
+% Firstly, it is less computationally expensive.
+% Secondly, it mitigates issues with trait correlations. 
+% ASE methods assume trait independence, which is rare in morphological trait datasets (e.g., body size and limb length are positively correlated).  
+% Pre-ordination ASE, by ignoring this correlation, may return biologically implausible estimations that violate allometry, for example.
+% Through ordination, the dominant sources of trait correlation are captured within the first few PC axes.
+% The orthogonality of PC axes means zero co-variance between `traits' (which are now PC axes) thus reducing the violation of the assumption of independence.
 
 
 
-\section{Detecting shifts in disparity}
-By splitting the morphospace into time slices, either by biostratigraphic slices or equidistant time slices by time slicing method.
-Therefore, can see how disparity changes over temporal scale.
-Often used in studies across mass extinction.
-How then to find if there is a significant shift in disparity through time?
-Well, MANOVA seems appealing to several studies.
-However (cite time series paper), simple averages do not tell full story - could just be a reflection of an upwards/downwards trend
-Therefore, need new techniques 
-Smith (fungal paper) touched on this by simulating trait data as a way of showing the zero force evolutionary law (null model).
+\section{Statistical tests in disparity}
+Given a calculation of disparity, it is necessary for this value to be statistically tested in the context of the research question.
+A popular choice is to carry out a PERMANOVA, which can be used to assess whether two groups share the same centroid and dispersion in the morphospace \citep{moon2020early,apaldetti2021sauropodomorph,donati2025continuity}.
+Alternatively, studies may opt to investigate change in disparity, for example through the use of a t test \citep{patton2021adaptive,haug2023quantitative,wang2023low}.
+Therefore, a t-test may be preferred if investigating a nuanced change in morphospace that PERMANOVA cannot capture, such as change in variance.
+
+
+The way these tests are implemented depends on the research question, but questions tend to relate to differences between groups (between clades for example) or through time (across time bins).
+However, using a single `average change' statistic to compare disparity through time has limitations, notably that it ignores directional trends.
+Discounting trends in evolution may implicitly assume a punctuated model of evolution, where abrupt phenotypic shifts are interpreted as adaptive but are actually a reflection of stochastic processes \citep{hunt2015simple,pagel2022general}.
+This punctuated bias is amplified when time binning disparity across stratigraphic bins.
+Despite its popularity, this method is flawed in that it only allows interpretation of changes in disparity between bins, rather than within.
+By aggregating data over broad intervals, the lack of resolution risks obscuring critical, transient shifts in disparity that may occur within shorter durations (following an extinction for example). 
+This issue can be alleviated through time-slicing, whereby intervals are not punctuated by time bins but sub-sampling at equidistant points across a phylogeny \citep{guillerme2018time}.
+
+There have been several methods already developed for identifying non-random shifts in disparity.
+A common approach is to implement a null model to see if the empirical data deviates \citep{freckleton2006detecting, murrell2018global}. 
+For example, the global rank envelope test implemented by \cite{murrell2018global} identifies non-random shifts as when the empirical Disparity-Through-Time curve (see \cite{harmon2003tempo}) falls within the most extreme 5\% ranked curves of a null Brownian model.
+Similarly, \cite{smith2022evolution} made use of simulations of discrete trait data as a null model based on the zero-force evolutionary law (the tendency for diversity to increase through time) \citep{mcshea2010biology}, to identify points at which disparity is greater/less than expected.
+However, a framework is needed that allows a statistical test to be applied over large numbers of time series, when inspecting individual time series becomes impractical.
+
 
 
 
@@ -543,22 +575,23 @@ Smith (fungal paper) touched on this by simulating trait data as a way of showin
 
 \section{Aims and objectives}
 \textbf{Knowledge gap} \\
-The overarching aim of this PhD project is to understand how current methods in the disparity pipeline can be improved, with a focus on disparity analyses focusing on mass extinction events.
+The overarching aim of this PhD project is to better understand whether the K-Pg mass extinction had an effect on eutherian disparity, with a focus on investigating (and improving) the methodological choices in the disparity workflow.
 
 \noindent\textbf{Research questions}
 \begin{itemize}
     \item How robust are disparity analyses to uncertainty in ancestral state estimations?
     \item How do both selective and non-selective extinction events differ in the ability to recover accurate ancestral state estimations?
-    \item Which of the three ecological hypotheses for the diversification of eutherian mammals is most strongly supported by disparity analyses?
+    \item How can trend be accounted for when identifying non-random shifts in disparity?
+    \item Which of the three ecological hypotheses (\autoref{fig:radiations}) for the diversification of eutherian mammals is most strongly supported by disparity analyses?
 \end{itemize}
 
 \noindent{\textbf{Research objectives}}
 \begin{itemize}
     \item Develop a simulation procedure for assessing the accuracy of ancestral state estimation across a range of models of trait evolution, fossil sampling levels and disparity metrics.
     \item This simulation procedure can then be expanded to incorporate mass extinction events, with varying levels of  intensity and selectivity.
-    \item Construct several dated phylogenies for eutherian mammals, using both fossil and molecular data, each with different calibrations to essentially return long fuse, soft explosive and hard explosive trees.
-    \item These trees can then be used in a disparity pipeline, using a dataset
-    \item 
+    \item Using a total-evidence approach, reconstruct long fuse, soft explosive and hard explosive tree distributions.
+    \item Develop a statistical framework, built on the BACI approach in ecology, that can identify immediate and long term trend changes in disparity at a specified time point.
+    \item Consolidate these methodological advances to build a pipeline capable of handling multiple tree distributions and disparity parameters that outputs a distribution of `effect values' relating to K-Pg and eutherian disparity.
 \end{itemize}
 
 \section{Chapter One: Eutherian phylogenies}
@@ -616,11 +649,11 @@ To expand this framework to understand how random and selective mass extinction 
 % However, such tests of change in average ignore trends.
 % The BACI approach of \cite{wauchope2021evaluating} highlights three ways an intervention may have an impact: 
 
-\textbf{Chapter aim}: To develop a framework that can distinguish between random and non-random shifts in disparity through time, accounting for trend and stochasticity. 
+\textbf{Chapter aim}: To develop a framework that can distinguish between random and non-random shifts in disparity through time, accounting for trend.
 
 \noindent\textbf{Research questions}:
 \begin{itemize}
-    \item How can traditional statistical tests, such as changes in average (MANOVA), be misleading in inferences of change in disparity?
+    \item How can traditional statistical tests, such as changes in average (t tests), be misleading in inferences into temporal change in disparity?
     \item How to implement a BACI (Before After Control Intervention) approach into disparity through time?
     \item How to use simulated data as a valid Control?
     \item How to deal with time lags?
@@ -629,11 +662,12 @@ To expand this framework to understand how random and selective mass extinction 
 
 \noindent\textbf{Research objectives}: 
 \begin{itemize}
-    \item Using the BACI framework laid out by \cite{wauchope2021evaluating} I will develop a method to quantify shifts in disparity across a time interval (say a mass extinction for example)
-    \item This framework uses a before and
-    \item Simulated data will be used as the null model (control). Simulated data will be fit using same parameters as the pre-intervention data.
-    \item I will implement this on both simulated and empirical data
-    \item I will  
+    \item Building on the BACI framework laid out by \cite{wauchope2021evaluating} I will develop a method to quantify shifts in disparity across a mass extinction (or any other fixed point in time that is suspected of having an effect on disparity).
+    \item This framework will consider the mass extinction event to be an Intervention.
+    \item Piecewise regression will be fit to data pre-extinction (Before) and post-extinction (After) 
+    \item Simulated data will be used as the null model (Control). The model parameters for replicating the pre-extinction trajectory will be estimated and simulations built on those parameters.
+    \item BACI contrasts, i.e., $(\mathrm{A_{I}} - \mathrm{B_{I}}) - (\mathrm{A_{C}} - \mathrm{B_{C}})$ can be used as a quantitative measure of the effect of the Intervention (mass extinction).
+    \item Implement a modular approach to the function that allows for time lags to be accounted for. This would require the function to be able to detect breakpoints within a certain timeframe of the Intervention.
 \end{itemize}
 
 
@@ -661,8 +695,8 @@ To expand this framework to understand how random and selective mass extinction 
 \begin{itemize}
     \item Use a dataset of discrete morphofunctional characters of jaw morphology and dentition, collected by \cite{emmerson_changes_2022}. 
     \item Develop a pipeline that iterates through different models and metrics: tree topology (long fuse/soft explosive/hard explosive), distance metric, time slicing model and disparity metric. 
-    \item From 100s of disparity curves, use the function developed in chapter three to score a value of 'change in disparity' at 66 Ma.
-    \item Develop an interactive \texttt{shiny} app that presents the results in an `electoral map' style format, whereby each `pixel', representing a specific combination of topology, model and metric, is shaded on a scale of decrease to increase in disparity.
+    \item From 100s of disparity curves, use the BACI contrast function developed in chapter three to score a value of `change in disparity' at 66 Ma.
+    \item Develop an interactive \texttt{shiny} app that presents the results in an `electoral map' style format, whereby each `pixel', representing a specific combination of topology, model and metric, is shaded based on the size of effect returned by the BACI contrast.
 \end{itemize}
 
 
