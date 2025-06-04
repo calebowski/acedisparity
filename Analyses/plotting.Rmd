@@ -208,36 +208,38 @@ combined_data <- do.call(rbind, lapply(c("root_dist_default", "root_dist_sample"
   }))
 }))
 
-# Generate the combined plot
-ggplot(combined_data, aes(x = preservation_level, y = distance, color = level, fill = level, linetype = treatment)) +
-  stat_summary(
-    aes(group = interaction(level, treatment)),
-    fun.data = function(y) {
-      data.frame(
-        y = median(y),
-        ymin = quantile(y, 0.25),  # 25th percentile
-        ymax = quantile(y, 0.75)  # 75th percentile
-      )
-    },
-    geom = "ribbon",
-    alpha = 0.2,
-    color = NA
-  ) +
-  stat_summary(
-    aes(group = interaction(level, treatment)),
-    fun = median,
-    geom = "line",
-    size = 1.2
-  ) +
-  labs(
-    x = "Fossil Sampling Level",
-    y = "Distance to True Value",
-    color = "Transition Rate",
-    fill = "Transition Rate",
-    linetype = "Treatment"
-  ) +
-  theme_minimal() +
-  scale_y_reverse()  # Reverse the y-axis if needed
+
+# Get unique values for grouping
+pres_levels <- levels(combined_data$preservation_level)
+levels_list <- unique(combined_data$level)
+treatments <- unique(combined_data$treatment)
+
+# Set up colors and linetypes
+cols <- rainbow(length(levels_list))
+ltys <- 1:length(treatments)
+
+# Prepare plot
+plot(1, type = "n", xlim = c(1, length(pres_levels)), ylim = range(combined_data$distance, na.rm = TRUE),
+     xaxt = "n", xlab = "Fossil Sampling Level", ylab = "Distance to True Value", main = "Median and IQR by Group")
+axis(1, at = 1:length(pres_levels), labels = pres_levels)
+
+# Loop through each combination of level and treatment
+for (i in seq_along(levels_list)) {
+  for (j in seq_along(treatments)) {
+    group_data <- subset(combined_data, level == levels_list[i] & treatment == treatments[j])
+    medians <- tapply(group_data$distance, group_data$preservation_level, median, na.rm = TRUE)
+    q25 <- tapply(group_data$distance, group_data$preservation_level, quantile, probs = 0.25, na.rm = TRUE)
+    q75 <- tapply(group_data$distance, group_data$preservation_level, quantile, probs = 0.75, na.rm = TRUE)
+    x <- 1:length(pres_levels)
+    # Draw IQR ribbon
+    polygon(c(x, rev(x)), c(q25, rev(q75)), col = adjustcolor(cols[i], alpha.f = 0.2), border = NA)
+    # Draw median line
+    lines(x, medians, col = cols[i], lty = ltys[j], lwd = 2)
+  }
+}
+
+legend("topright", legend = paste(rep(levels_list, each = length(treatments)), treatments, sep = " - "),
+       col = rep(cols, each = length(treatments)), lty = rep(ltys, times = length(levels_list)), lwd = 2, bty = "n")
 
 ```
 

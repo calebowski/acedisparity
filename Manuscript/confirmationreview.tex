@@ -703,105 +703,131 @@ To expand this framework to understand how random and selective mass extinction 
 
 
 \part{Summary of research achievements}
+Note this is chapter 2 of my thesis presented.
 
+\section{Methods}
+\subsection{Simulations}
+Using the R package \texttt{treats} \citep{guillerme2024treats}, 100 trees were simulated with birth-death parameters as $\lambda = 1.0$, and $\mu = 0.7$.
+Trees were fixed to have 50 extant tips and a range of 50 - 200 fossil tips.
+Across each tree I simulated continuous and discrete trait data.
+Discrete trait data were simulated using three different Markov chain matrices, representing fast (0.9), medium (0.1) and slow (0.01) transition rates, for 100 characters (85\% binary and 15\% three-state).
+Continuous trait data were simulated under Brownian motion (BM) and Ornstein-Uhlenbeck (OU) models, with default parameters and for 50 characters.
+Trait data were simulated using the function \texttt{map.traits}, which assigns both nodes and tips trait values, essentially constructing the full `true' evolutionary history across each phylogeny.
 
-
-\section{Introduction}
+In order to simulate different levels of fossil sampling, fossil tips were pruned from corresponding trees and trait matrices at five levels.
 \begin{itemize}
-    \item Morphology can tell us interesting patterns about evolutionary processes.
-    \item The combination of morphological datasets (using fossils) and phylogenies means we can infer these processes through deep time
-    \item This is particularly useful when studying major evolutionary events (such as a mass extinction)
-    \item However, the fossil record is incomplete and this restricts our ability to look at deep time patterns of morphology.
-    \item Many studies have made use of ancestral state estimation (ASE) to fill in gaps left by `ghost lineages'. We know some species must have existed between root and tips but we don't know what they looked like.
-    \item Particularly has been implemented in studies looking at disparity, which describes the multidimensional `morphospace' in which taxa occupy.
-    \item ASE can be used to estimate the character state values (both continuous and discrete characters) at nodes on a phylogeny, using observed trait data (from living and fossil specimens).
+    \item Living: only extant tips are retained
+    \item Low: 5\% fossils retained
+    \item Medium: 15\% fossils retained
+    \item High: 50\% fossils retained
+    \item All: All fossils retained
 \end{itemize}
 
-\subsubsection{Why does this matter?}
-\begin{itemize}
-    \item ASE estimates are often shit and a `glorified average'. But, what can we do with them?
-    \item Erroneous estimates can mislead values of disparity and therefore macroevolutionary inferences.
-\end{itemize}
+\subsection{Ancestral state estimation}
+Node states were then removed from the trait matrices, leaving just tip states.
+Discrete ancestral states were estimated using three different threshold methods for treating uncertainty.
+The \textit{strict majority rule} uses a threshold that selects the ancestral states estimate with a scaled likelihood equal or greater than a designated value (0.5)
 
 
-\subsection{Methods}
-\subsubsection{Simulations}
-\begin{itemize}
-    \item I simulated a set of 100 trees using \texttt{treats} \citep{guillerme2024treats}. These trees were simulated with birth-death parameters as $\lambda = 1.0$, and $\mu = 0.7$. This leaves trees with a range of 50-200 fossil tips and 50 extant tips.
-    \item I simulated discrete and continuous trait data using \texttt{map.traits}. This effectively maps the 'true' evolutionary history across the phylogeny (tips and nodes have states mapped).
-    \item For discrete traits, I simulated trait data across each tree (100 characters, 85\% binary, 15\% 3-state) using M\textit{k} model with 3 different transition rates: fast = 0.9, medium = 0.1, slow = 0.01.
-    \item For continuous traits, I simulated BM and OU model trait data (50 characters).
-\end{itemize}
 
-\subsubsection{Fossil sampling}
-\begin{itemize}
-    \item I then removed all node states from the matrices, leaving just tip states.
-    \item In order to understand how ASE accuracy is affected by fossil sampling level, I pruned the fossil tips at 5 levels, preserving the root to maintain tree height across each level:
-    \item \textbf{Living}: only extant tips are retained
-    \item \textbf{Low}: 5\% fossils retained
-    \item \textbf{Medium}: 15\% fossils retained
-    \item \textbf{High}: 50\% fossils retained
-    \item \textbf{All}: All fossils retained
-\end{itemize}
 
-\subsubsection{ASE}
-\begin{itemize}
-    \item I then ran ASE on these matrices using \texttt{multi.ace}, with three different parameters (for discrete states). 
-    \item \textbf{Relative majority rule}: the ancestral state estimated are all the ones that are have a scaled likelihood greater than the maximum observed scaled likelihood minus the inverse number of possible states: \[
-        \text{estimated~state} \geq \left( \max(\text{likelihood}) - \frac{1}{n_{\text{states}}} \right) %this formula is wrong.
-    \]  If more than one state is over this threshold, it is recovered as uncertain e.g., (0/1).    
-    \item \textbf{Strict majority rule}: Setting threshold parameter to a set value will select the ancestral states estimate with a scaled likelihood equal or greater than this designated value (in this case I did 0.5).
-    \item \textbf{No majority rule (sampling)}: \texttt{multi.ace} has a \texttt{sample = x} parameter, whereby you can return x matrices, in which states returned are by the scaled likelihood of each state appearing at each node. In this case I used sample = 10 for fast computation (in future I will do 100/1000).
-    \item Ran \texttt{multi.ace} on continuous characters using BM as model.
-    \item I will also do post-ordination ace to see how that compares to pre-ordination ace.
-\end{itemize}
 
-\subsubsection{Raw distance comparison between true vs ace}
-\begin{itemize}
-    \item I then used a Hamming distance metric to compare corresponding nodes between the `true' vs `aced' matrices.
-    \item Distances were calculated only for nodes that were present in all fossil sampling levels to allow for comparison.
-    \item The distance assigned a penalty of 1 for any wrong estimated state and also for uncertainty (i.e 0/1).
-    \item For continuous traits, I firstly scaled each matrix and then measured the euclidean distance between true vs ace for each corresponding node.
-    \item I also looked at the distance at just the root, to see how well ace recovers true value at deepest node.
-\end{itemize}
+% \section{Introduction}
+% \begin{itemize}
+%     \item Morphology can tell us interesting patterns about evolutionary processes.
+%     \item The combination of morphological datasets (using fossils) and phylogenies means we can infer these processes through deep time
+%     \item This is particularly useful when studying major evolutionary events (such as a mass extinction)
+%     \item However, the fossil record is incomplete and this restricts our ability to look at deep time patterns of morphology.
+%     \item Many studies have made use of ancestral state estimation (ASE) to fill in gaps left by `ghost lineages'. We know some species must have existed between root and tips but we don't know what they looked like.
+%     \item Particularly has been implemented in studies looking at disparity, which describes the multidimensional `morphospace' in which taxa occupy.
+%     \item ASE can be used to estimate the character state values (both continuous and discrete characters) at nodes on a phylogeny, using observed trait data (from living and fossil specimens).
+% \end{itemize}
 
-\subsubsection{Distance comparison between ordinated true vs ace}
-\begin{itemize}
-    \item I then ordinated the true matrix (distance matrix then PCO for discrete, PCA for continuous), then projected the aced matrices onto this true matrix.
-    \item I measured the Euclidean distance between corresponding nodes again.
-\end{itemize}
+% \subsubsection{Why does this matter?}
+% \begin{itemize}
+%     \item ASE estimates are often shit and a `glorified average'. But, what can we do with them?
+%     \item Erroneous estimates can mislead values of disparity and therefore macroevolutionary inferences.
+% \end{itemize}
 
-\subsubsection{Difference in disparity between true vs ace}
-\begin{itemize}
-    \item from the ordinated matrices, I calculated (will choose which metrics, at the moment sum variance and ranges and average nearest neighbour distance) disparity and calculated the difference between true vs aced.
-\end{itemize}
 
-\subsection{Results (or what I expect to find)}
-\subsubsection{Raw distances}
-\begin{itemize}
-    \item Slower transition rates = ASE accuracy improves
-    \item Increasing fossil sampling improves ASE accuracy (for discrete traits), particularly at deeper nodes.
-    \item Using sample method of ASE improved estimate accuracy
-    \item  Using sample method is relatively insensitive to low fossil sampling and finds high accuracy at all fossil sampling levels
-    \item At the root node, the impact of fossil sampling becomes more pertinent i.e., higher fossil sampling improves estimates
-    \item For continuous traits, ASE accuracy was much better for BM traits than OU
-    \item Estimates of continuous traits stay relatively constant across fossil preservation levels.
-    \item For continuous traits, using point estimates was more accurate than sample method.
-\end{itemize} 
+% \subsection{Methods}
+% \subsubsection{Simulations}
+% \begin{itemize}
+%     \item I simulated a set of 100 trees using \texttt{treats} \citep{guillerme2024treats}. These trees were simulated with birth-death parameters as $\lambda = 1.0$, and $\mu = 0.7$. This leaves trees with a range of 50-200 fossil tips and 50 extant tips.
+%     \item I simulated discrete and continuous trait data using \texttt{map.traits}. This effectively maps the 'true' evolutionary history across the phylogeny (tips and nodes have states mapped).
+%     \item For discrete traits, I simulated trait data across each tree (100 characters, 85\% binary, 15\% 3-state) using M\textit{k} model with 3 different transition rates: fast = 0.9, medium = 0.1, slow = 0.01.
+%     \item For continuous traits, I simulated BM and OU model trait data (50 characters).
+% \end{itemize}
 
-\subsubsection{Ordination}
-\begin{itemize}
-    \item I expect that patterns of distance to true value will correspond to the raw distance pattern (more fossil sampling = higher ASE accuracy, sample method = higher ASE accuracy)
-    \item I expect that fast transition rates will exhibit clustering at the centre of the morphospace, particularly with the default multi.ace parameter, due to the high amount of uncertainty recovered at deeper nodes. I think that the sample method of ASE will alleviate this artefact by removing this uncertainty.
-\end{itemize}
+% \subsubsection{Fossil sampling}
+% \begin{itemize}
+%     \item I then removed all node states from the matrices, leaving just tip states.
+%     \item In order to understand how ASE accuracy is affected by fossil sampling level, I pruned the fossil tips at 5 levels, preserving the root to maintain tree height across each level:
+%     \item \textbf{Living}: only extant tips are retained
+%     \item \textbf{Low}: 5\% fossils retained
+%     \item \textbf{Medium}: 15\% fossils retained
+%     \item \textbf{High}: 50\% fossils retained
+%     \item \textbf{All}: All fossils retained
+% \end{itemize}
 
-\subsubsection{Disparity}
-\begin{itemize}
-    \item Preliminary results have found that using sample ASE method recovers high accuracy for all transition rates.
-    \item Using the default ASE method recovers much lower accuracy, particularly with low fossil sampling.
-    \item I expect to see different results for different disparity metrics. For example, metrics that focus on density will be able to identify these artifacts of clustering due to uncertainty in node estimates, which variance based metrics will miss.
-    \item This will highlight the need for multiple different disparity metrics to be used in disparity analyses
-\end{itemize}
+% \subsubsection{ASE}
+% \begin{itemize}
+%     \item I then ran ASE on these matrices using \texttt{multi.ace}, with three different parameters (for discrete states). 
+%     \item \textbf{Relative majority rule}: the ancestral state estimated are all the ones that are have a scaled likelihood greater than the maximum observed scaled likelihood minus the inverse number of possible states: \[
+%         \text{estimated~state} \geq \left( \max(\text{likelihood}) - \frac{1}{n_{\text{states}}} \right) %this formula is wrong.
+%     \]  If more than one state is over this threshold, it is recovered as uncertain e.g., (0/1).    
+%     \item \textbf{Strict majority rule}: Setting threshold parameter to a set value will select the ancestral states estimate with a scaled likelihood equal or greater than this designated value (in this case I did 0.5).
+%     \item \textbf{No majority rule (sampling)}: \texttt{multi.ace} has a \texttt{sample = x} parameter, whereby you can return x matrices, in which states returned are by the scaled likelihood of each state appearing at each node. In this case I used sample = 10 for fast computation (in future I will do 100/1000).
+%     \item Ran \texttt{multi.ace} on continuous characters using BM as model.
+%     \item I will also do post-ordination ace to see how that compares to pre-ordination ace.
+% \end{itemize}
+
+% \subsubsection{Raw distance comparison between true vs ace}
+% \begin{itemize}
+%     \item I then used a Hamming distance metric to compare corresponding nodes between the `true' vs `aced' matrices.
+%     \item Distances were calculated only for nodes that were present in all fossil sampling levels to allow for comparison.
+%     \item The distance assigned a penalty of 1 for any wrong estimated state and also for uncertainty (i.e 0/1).
+%     \item For continuous traits, I firstly scaled each matrix and then measured the euclidean distance between true vs ace for each corresponding node.
+%     \item I also looked at the distance at just the root, to see how well ace recovers true value at deepest node.
+% \end{itemize}
+
+% \subsubsection{Distance comparison between ordinated true vs ace}
+% \begin{itemize}
+%     \item I then ordinated the true matrix (distance matrix then PCO for discrete, PCA for continuous), then projected the aced matrices onto this true matrix.
+%     \item I measured the Euclidean distance between corresponding nodes again.
+% \end{itemize}
+
+% \subsubsection{Difference in disparity between true vs ace}
+% \begin{itemize}
+%     \item from the ordinated matrices, I calculated (will choose which metrics, at the moment sum variance and ranges and average nearest neighbour distance) disparity and calculated the difference between true vs aced.
+% \end{itemize}
+
+% \subsection{Results (or what I expect to find)}
+% \subsubsection{Raw distances}
+% \begin{itemize}
+%     \item Slower transition rates = ASE accuracy improves
+%     \item Increasing fossil sampling improves ASE accuracy (for discrete traits), particularly at deeper nodes.
+%     \item Using sample method of ASE improved estimate accuracy
+%     \item  Using sample method is relatively insensitive to low fossil sampling and finds high accuracy at all fossil sampling levels
+%     \item At the root node, the impact of fossil sampling becomes more pertinent i.e., higher fossil sampling improves estimates
+%     \item For continuous traits, ASE accuracy was much better for BM traits than OU
+%     \item Estimates of continuous traits stay relatively constant across fossil preservation levels.
+%     \item For continuous traits, using point estimates was more accurate than sample method.
+% \end{itemize} 
+
+% \subsubsection{Ordination}
+% \begin{itemize}
+%     \item I expect that patterns of distance to true value will correspond to the raw distance pattern (more fossil sampling = higher ASE accuracy, sample method = higher ASE accuracy)
+%     \item I expect that fast transition rates will exhibit clustering at the centre of the morphospace, particularly with the default multi.ace parameter, due to the high amount of uncertainty recovered at deeper nodes. I think that the sample method of ASE will alleviate this artefact by removing this uncertainty.
+% \end{itemize}
+
+% \subsubsection{Disparity}
+% \begin{itemize}
+%     \item Preliminary results have found that using sample ASE method recovers high accuracy for all transition rates.
+%     \item Using the default ASE method recovers much lower accuracy, particularly with low fossil sampling.
+%     \item I expect to see different results for different disparity metrics. For example, metrics that focus on density will be able to identify these artifacts of clustering due to uncertainty in node estimates, which variance based metrics will miss.
+%     \item This will highlight the need for multiple different disparity metrics to be used in disparity analyses
+% \end{itemize}
 
 % \begin{itemize}
 %     \item How does fossil sampling influence ASE accuracy and how does this vary by trait transition-rate/model?
