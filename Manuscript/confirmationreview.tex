@@ -576,33 +576,36 @@ However, a framework is needed that allows a statistical test to be applied over
 \section{Aims and objectives}
 \textbf{Knowledge gap} \\
 The overarching aim of this PhD project is to better understand whether the K-Pg mass extinction had an effect on eutherian disparity, with a focus on investigating (and improving) the methodological choices in the disparity workflow.
+% TG: This is totally fine but it can be hyped up (basically classic grant excersice stuff that will become important later one): The overarching aim of this PhD project is to understand the long term effect of mass extinctions by developping new state-of-the-art disparity methods. To achieve this I will be revisiting the question of whether the K-PG mass extinction had an effect on eutherian disparity while focusing on improving the methology of disparity pipelines/workflow. %TG: note for the last one I've been using pipeline, workflow is totally fine too. Just make sure you choose one and stick to it.
 
 \noindent\textbf{Research questions}
 \begin{itemize}
     \item How robust are disparity analyses to uncertainty in ancestral state estimations?
-    \item How do both selective and non-selective extinction events differ in the ability to recover accurate ancestral state estimations?
     \item How can trend be accounted for when identifying non-random shifts in disparity?
+    \item How do both selective and non-selective extinction events differ in the ability to recover accurate ancestral state estimations?
     \item Which of the three ecological hypotheses (\autoref{fig:radiations}) for the diversification of eutherian mammals is most strongly supported by disparity analyses?
 \end{itemize}
 
 \noindent{\textbf{Research objectives}}
 \begin{itemize}
-    \item Develop a simulation procedure for assessing the accuracy of ancestral state estimation across a range of models of trait evolution, fossil sampling levels and disparity metrics.
-    \item This simulation procedure can then be expanded to incorporate mass extinction events, with varying levels of  intensity and selectivity.
-    \item Using a total-evidence approach, reconstruct long fuse, soft explosive and hard explosive tree distributions.
-    \item Develop a statistical framework, built on the BACI approach in ecology, that can identify immediate and long term trend changes in disparity at a specified time point.
-    \item Consolidate these methodological advances to build a pipeline capable of handling multiple tree distributions and disparity parameters that outputs a distribution of `effect values' relating to K-Pg and eutherian disparity.
+    \item Using a total-evidence fossilised birth-death phylogenetic inference approach to estimate long fuse, soft explosive and hard explosive tree distributions.
+    \item Assess the accuracy of ancestral states estimations accuracy on disparity analyses across: 1) a range of models of trait evolution, 2) fossil sampling levels, 3) mass extinctions with different intensities and selectivities, 4) and disparity metrics.
+    \item Develop a statistical framework, built on the BACI approach in ecology, that can identify immediate and long term trend changes in disparity at a specified time point. %TG: you need to introduce what BACI is
+    \item Use these methodological advances to build a pipeline capable of handling multiple tree distributions and disparity parameters that outputs a distribution of `effect values' relating to K-Pg and eutherian disparity. %TG: I think this can be rephrased and simplified: you're going to use the three points above to re-investigate mammalian disparity at K-Pg. The fact that you will use a range of distributions of potential effects is not really crucial here. (i.e. it's methodological details)
 \end{itemize}
 
 \section{Chapter One: Eutherian phylogenies}
-\textbf{Chapter aim}: To reconstruct the phylogeny of eutherian mammals, using various calibrations for the placental node in order to output 3 tree distributions: long fuse, soft explosive and hard explosive (\autoref{phylogenies}).
+\textbf{Chapter aim}: To estimate %TG: basically just ban the word "reconstruct" ;)
+ the phylogeny of eutherian mammals, using various calibrations for the placental node in order to enforce 3 common diversification hypotheses: long fuse, soft explosive and hard explosive (\autoref{phylogenies}). %TG: the name diversification hypotheses I used here is a bit shit here. Maybe you can come up with something better?
 The rationale of this chapter is so that these three tree distributions can be used in chapter four (\autoref{chapter four}).
+% TG: I guess not only no? It can also be used to better understand mammalian phylognetics?
 
 \noindent\textbf{Research questions}:
 \begin{itemize}
     \item When did major lineages of eutherians diversify?
     \item When did major shifts in evolutionary rates occur in eutherians?
 \end{itemize}
+% TG: Maybe missing some question about the three diversification hypotheses? Or maybe rephrase the research questions as "When did the major lineages of eutherians diversify depending on diversification hypotheses."
 
 \noindent\textbf{Research objectives}: 
 \begin{itemize}
@@ -613,7 +616,7 @@ The rationale of this chapter is so that these three tree distributions can be u
     \item I will specify a Fossilized Birth-Death model in RevBayes to incorporate fossil tip ages and estimate divergence times.
     \item I will assess convergence and summarize the posterior distributions to obtain time-calibrated phylogenetic trees that reflect each calibration scenario.
     \item I will use RevGadgets to summarise the trees and plot figures.
-\end{itemize}
+\end{itemize} %TG: sounds super cool!
     
 
 \section{Chapter Two: What is the effect of ancestral state estimations on disparity?}
