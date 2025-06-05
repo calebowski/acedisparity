@@ -641,7 +641,7 @@ To expand this framework to understand how random and selective mass extinction 
     \item Compare the raw distance between true vs estimated matrices.
     \item Compare the difference in disparity values between true vs estimated matrices.
     \item Run this procedure, but incorporating a mass extinction event into the simulations. These mass extinction events will have varying intensities and selectivities. 
-\end{itemize}
+\end{itemize} %TG: very nice too! I guess more details will come later on in the confirmation review.
 
 
 \section{Chapter Three: Measuring changes in trends in disparity through time}
@@ -657,10 +657,12 @@ To expand this framework to understand how random and selective mass extinction 
 \noindent\textbf{Research questions}:
 \begin{itemize}
     \item How can traditional statistical tests, such as changes in average (t tests), be misleading in inferences into temporal change in disparity?
-    \item How to implement a BACI (Before After Control Intervention) approach into disparity through time?
-    \item How to use simulated data as a valid Control?
+    \item How to implement a BACI (Before After Control Intervention) approach into disparity through time? %TG: maybe you can introduce a bit more of what this approach does?
+    \item How to use simulated data as a valid Control? %TG: or maybe "How to create some useful simulated valid control data (i.e. null models) for different specific questions?"
     \item How to deal with time lags?
 \end{itemize}
+
+% TG: actually for the BACI stuff, I suggest completely removing the acronyam and just call it Before After Control Intervention throughout. Or something better null modelled before and after differences or something else... I feel acronymising methods is always a tad pretentious. We already have PCA and DNA ;)
 
 
 \noindent\textbf{Research objectives}: 
@@ -680,6 +682,7 @@ To expand this framework to understand how random and selective mass extinction 
     \caption{BA and BACI approach compared. Figure from \cite{wauchope2021evaluating}.}
     \label{fig:baci}
 \end{figure}
+% TG: maybe develop a bit more in the caption here to show your understanding of the method: i.e. briefly explain it in easy terms.
 
 
 
@@ -696,10 +699,10 @@ To expand this framework to understand how random and selective mass extinction 
 
 \noindent\textbf{Research objectives}: 
 \begin{itemize}
-    \item Use a dataset of discrete morphofunctional characters of jaw morphology and dentition, collected by \cite{emmerson_changes_2022}. 
-    \item Develop a pipeline that iterates through different models and metrics: tree topology (long fuse/soft explosive/hard explosive), distance metric, time slicing model and disparity metric. 
-    \item From 100s of disparity curves, use the BACI contrast function developed in chapter three to score a value of `change in disparity' at 66 Ma.
-    \item Develop an interactive \texttt{shiny} app that presents the results in an `electoral map' style format, whereby each `pixel', representing a specific combination of topology, model and metric, is shaded based on the size of effect returned by the BACI contrast.
+    \item Use a dataset of discrete morphofunctional characters of jaw morphology and dentition, collected by \cite{emmerson_changes_2022}. %TG: and also other datasets?
+    \item Develop a pipeline that iterates through different models and metrics: tree topology (long fuse/soft explosive/hard explosive), distance metric, time slicing model and disparity metric. %TG: are we still doing distance metric? Also
+    \item Use the BACI contrast function developed in chapter three to score a value of `change in disparity' at 66 Ma to obtain a distribution of effects depending on the choice of topology, time-slicing model and disparity metric.
+    % \item Develop an interactive \texttt{shiny} app that presents the results in an `electoral map' style format, whereby each `pixel', representing a specific combination of topology, model and metric, is shaded based on the size of effect returned by the BACI contrast. %TG: This last bit is more how you will represent the results, not really an objective. It's fine to talk about it in here if you want but if you do "electoral map" and "pixel" needs much more explanation here! They're good terms to use among us because we understand what they mean but I can guarantee that it'll be confusing to many other people!
 \end{itemize}
 
 
