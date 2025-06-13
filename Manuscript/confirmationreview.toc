@@ -24,7 +24,7 @@
 \contentsline {section}{\numberline {6}Statistical tests in disparity}{13}{section.6}%
 \contentsline {part}{III\hspace {1em}Thesis plan}{14}{part.3}%
 \contentsline {section}{\numberline {7}Aims and objectives}{14}{section.7}%
-\contentsline {section}{\numberline {8}Chapter One: Eutherian phylogenies}{15}{section.8}%
+\contentsline {section}{\numberline {8}Chapter One: Eutherian phylogenies}{14}{section.8}%
 \contentsline {section}{\numberline {9}Chapter Two: What is the effect of ancestral state estimations on disparity?}{15}{section.9}%
 \contentsline {section}{\numberline {10}Chapter Three: Measuring changes in trends in disparity through time}{16}{section.10}%
 \contentsline {section}{\numberline {11}Chapter Four: Eutherian disparity over K-Pg mass extinction}{17}{section.11}%
@@ -32,3 +32,9 @@
 \contentsline {section}{\numberline {12}Methods}{18}{section.12}%
 \contentsline {subsection}{\numberline {12.1}Simulations}{18}{subsection.12.1}%
 \contentsline {subsection}{\numberline {12.2}Ancestral state estimation}{19}{subsection.12.2}%
+\contentsline {subsubsection}{\numberline {12.2.1}Discrete characters}{19}{subsubsection.12.2.1}%
+\contentsline {subsubsection}{\numberline {12.2.2}Continuous characters}{19}{subsubsection.12.2.2}%
+\contentsline {subsection}{\numberline {12.3}Measuring raw distance}{19}{subsection.12.3}%
+\contentsline {subsection}{\numberline {12.4}Measuring raw distance}{20}{subsection.12.4}%
+\contentsline {section}{\numberline {13}Results and Discussion}{20}{section.13}%
+\contentsline {subsection}{\numberline {13.1}Raw distance}{20}{subsection.13.1}%

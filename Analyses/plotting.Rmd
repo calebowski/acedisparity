@@ -62,10 +62,12 @@ To allow for comparisons between different fossil coverages, only the nodes esti
 
 
 ```{r echo = FALSE}
+library(tidyr)
+library(ggplot2)
 lenient_means <- readRDS("../Data/matrices/lenientmeans.rds")
-strict_default <- readRDS("../Data/matrices/pointstrictmeans.rds")
-strict_sample <- readRDS("../Data/matrices/samplestrictmeans.rds")
-strict_thresh <- readRDS("../Data/matrices/threshstrictmeans.rds")
+relative_majority_rule <- readRDS("../Data/matrices/pointstrictmeans.rds")
+no_majority_rule <- readRDS("../Data/matrices/samplestrictmeans.rds")
+strict_majority_rule <- readRDS("../Data/matrices/threshstrictmeans.rds")
 
 root_dist_sample <- readRDS( "../Data/matrices/rootdistsamp.rds")
 root_dist_default <- readRDS("../Data/matrices/rootdistpoint.rds")
@@ -102,8 +104,6 @@ To calculate the accuracy of the ase estimates of discrete traits, I measured th
 
 
 ```{R echo = FALSE, message=FALSE}
-library(tidyr)
-library(ggplot2)
 
 # List of levels to loop through
 levels <- c("fast", "med", "slow")
@@ -118,7 +118,7 @@ library(tidyr)
 library(ggplot2)
 
 # Combine strict_means and strict_means_sample into a single data frame
-combined_data <- do.call(rbind, lapply(c("strict_default", "strict_sample", "strict_thresh"), function(dataset_name) {
+combined_data <- do.call(rbind, lapply(c("strict_majority_rule", "relative_majority_rule", "no_majority_rule"), function(dataset_name) {
   dataset <- get(dataset_name)  # Dynamically get the dataset by name
   do.call(rbind, lapply(names(dataset), function(level) {
     do.call(rbind, lapply(seq_along(dataset[[level]]), function(replicate_index) {
@@ -140,11 +140,14 @@ combined_data <- do.call(rbind, lapply(c("strict_default", "strict_sample", "str
     }))
   }))
 }))
+combined_data$threshold_method <- factor(combined_data$threshold_method, levels = c("strict_majority_rule", "relative_majority_rule", "no_majority_rule"))
 
-# Generate the combined plot
-ggplot(combined_data, aes(x = preservation_level, y = distance, color = level, fill = level, linetype = threshold_method)) +
+
+pdf("../Manuscript/figures/strictdistance.pdf", width = 8, height = 4)
+# Generate the combined plot with faceting by threshold_method
+ggplot(combined_data, aes(x = preservation_level, y = distance, color = level, fill = level)) +
   stat_summary(
-    aes(group = interaction(level, threshold_method)),
+    aes(group = level),
     fun.data = function(y) {
       data.frame(
         y = median(y),
@@ -157,20 +160,26 @@ ggplot(combined_data, aes(x = preservation_level, y = distance, color = level, f
     color = NA
   ) +
   stat_summary(
-    aes(group = interaction(level, threshold_method)),
+    aes(group = level),
     fun = median,
     geom = "line",
     size = 1.2
   ) +
+  facet_wrap(~ threshold_method, ncol = 3) +  # Create 3 panels side by side
   labs(
     x = "Fossil Sampling Level",
     y = "Distance to True Value",
     color = "Transition Rate",
-    fill = "Transition Rate",
-    linetype = "Threshold method"
+    fill = "Transition Rate"
   ) +
   theme_minimal() +
-  scale_y_reverse()  # Reverse the y-axis if needed
+  theme(
+    strip.background = element_rect(color = "black", fill = "white", linewidth = 0.5),
+    panel.border = element_rect(color = "black", fill = NA, linewidth = 0.5)
+  ) +
+  scale_y_reverse() # Reverse the y-axis if needed
+
+dev.off()
 
 ```
 

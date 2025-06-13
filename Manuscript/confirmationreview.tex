@@ -25,7 +25,7 @@ Advisor: Karl Evans (UoS)}
 
 \begin{figure}[t]
     \centering
-    \includegraphics[width=5cm]{images/sheffieldlogo.png}
+    \includegraphics[width=5cm]{figures/sheffieldlogo.png}
 
 \end{figure}
 
@@ -164,7 +164,7 @@ Work on contemporary extinctions has also investigated extinction selectivity, w
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=\linewidth]{images/extinctionscenarios.png}
+    \includegraphics[width=\linewidth]{figures/extinctionscenarios.png}
     \caption{Three scenarios that may occur within a clade across a mass extinction (denoted by dashed line). a) adaptive radiation. b) selective extinction. c) non-selective extinction. Adapted from \cite{grossnickle_therian_2016}.}
     \label{fig:scenarios}
     % TG: not urgent here but I think for your final thesis you could redo this figure in treats rather than just using the drawing (top notch reproducibility!)
@@ -212,7 +212,7 @@ While these alternative hypotheses do not necessarily refute the influence of th
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.7\linewidth]{images/grossnickleradiations.jpg}
+    \includegraphics[width=0.7\linewidth]{figures/grossnickleradiations.jpg}
     \caption{The contrasting ecological diversification triggers and placental origin hypotheses. Adapted from \cite{grossnickle_untangling_2019}.}
     \label{fig:radiations}
     % TG: same comment as for figure 1: I think eventually you'll be able to use your own figure. Maybe once we get to the pixel phase of the project taking three contrasting ones?
@@ -233,7 +233,7 @@ Addressing this requires a critical look at the methodological underpinnings of 
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.8\linewidth]{images/simplepipeline.png}
+    \includegraphics[width=0.8\linewidth]{figures/simplepipeline.png}
     \caption{Disparity pipeline (N.B. this is specifically for discrete characters. Continuous characters would bypass the distance matrix after ASE or without ASE). As shown there are several routes to disparity, including bypassing ancestral state estimation (ASE), pre-ordination ASE, post-ordination ASE}
     \label{fig:pipeline}
 \end{figure}
@@ -324,7 +324,7 @@ This can be best explained as the branch on a phylogeny between two observed tax
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width = 10cm]{images/Ichthyosauria_phylogeny.jpg}
+    \includegraphics[width = 10cm]{figures/Ichthyosauria_phylogeny.jpg}
     \caption{Phylogeny of ichthyosaurs showing observed stratigraphic range for each species (thick lines) and inferred ghost lineages (thin lines) \citep{fischer2012new}.}
     \label{fig:ichthy_phylo}
 
@@ -424,7 +424,7 @@ Since this can become computationally intensive as the phylogeny increases in si
 
 % \begin{figure}[H]
 %     \centering
-%     \includegraphics[width = 10cm]{images/phylo_tree.png}
+%     \includegraphics[width = 10cm]{figures/phylo_tree.png}
 % \end{figure}
 
 % Lets suppose the Q matrix was an ER model (assumes all transitions occur with equal probability) at a rate of 0.5. This would 
@@ -678,7 +678,7 @@ To expand this framework to understand how random and selective mass extinction 
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width = 15cm]{images/baci.png}
+    \includegraphics[width = 15cm]{figures/baci.png}
     \caption{BA and BACI approach compared. Figure from \cite{wauchope2021evaluating}.}
     \label{fig:baci}
 \end{figure}
@@ -731,12 +731,55 @@ In order to simulate different levels of fossil sampling, fossil tips were prune
 
 \subsection{Ancestral state estimation}
 Node states were then removed from the trait matrices, leaving just tip states.
-Discrete ancestral states were estimated using three different threshold methods for treating uncertainty.
-The \textit{strict majority rule} uses a threshold that selects the ancestral states estimate with a scaled likelihood equal or greater than a designated value (0.5)
+Ancestral states were estimated using the \texttt{multi.ace} function.
+\subsubsection{Discrete characters}
+Ancestral states were estimated using marginal likelihood estimation, whereby each state is assigned a scaled likelihood.
+Three different threshold methods were used for collapsing these states based on their scaled likelihoods.
+The \textit{strict majority rule} uses a threshold that selects the ancestral states estimate with a scaled likelihood equal or greater than a designated value (0.5).
+The \textit{relative majority rule} sets a threshold at a scaled likelihood greater than the maximum observed scaled likelihood minus the inverse number of possible states, \textit{k}
+\[
+\text{Relative majority threshold} = \max(L_{\text{scaled}}) - \frac{1}{k}
+\]
+The \textit{no majority rule} (sampling approach) returns multiple matrices (\textit{x} matrices) where ancestral states are probabilistically sampled based on their scaled likelihoods. 
+For each node, the state assigned in each matrix is randomly drawn according to the probability distribution of the scaled likelihoods, meaning states with higher likelihoods are more likely to be selected across the sample of matrices. 
+For example, a node with uncertain estimates (e.g., state 0 = 0.6, state 1 = 0.4) will be assigned state 0 in approximately 60\% of the matrices and state 1 in 40\% of the matrices.
+In this case, 100 matrices were returned using the no majority rule.
+
+\subsubsection{Continuous characters}
+Continuous ancestral states were estimated using BM.
+Two approaches of dealing with uncertainty were implemented for continuous characters.
+Firstly, \textit{point estimates} simply return the median of the 95\% confidence interval.
+Alternatively, a \textit{sampling} approach, akin to discrete approach, samples across a normal distribution of the 95\% confidence interval.
+
+\subsection{Measuring raw distance}
+% Look at https://www.nature.com/articles/s41598-020-64647-4 for inspo on how to get this raw score and penalise for uncertainty vs precise.
+A Hamming distance metric was used to compare the raw error between the estimated ancestral states and the `true' matrix
+I used  Hamming distance metric to measure the raw accuracy at each node and state between the true and estimated discrete matrices.
+To achieve fair comparison between each fossil sampling level, only the nodes present across all fossil sampling levels were included in these analyses (leaving 50 nodes).
+
+For continuous characters, the euclidean distance between points was calculated.
+
+\subsection{Measuring raw distance}
+% Look at https://www.nature.com/articles/s41598-020-64647-4 for inspo on how to get this raw score and penalise for uncertainty vs precise.
+A Hamming distance metric was used to compare the raw error between the estimated ancestral states and the `true' matrix
+I used  Hamming distance metric to measure the raw accuracy at each node and state between the true and estimated discrete matrices.
+To achieve fair comparison between each fossil sampling level, only the nodes present across all fossil sampling levels were included in these analyses (leaving 50 nodes).
 
 
 
+\section{Results and Discussion}
+\subsection{Raw distance}
+Raw ancestral state estimation error varies with the threshold method, transition rate and fossil sampling level (\autoref{fig:rawdistance}).
+Regardless of threshold method, increase in transition rate of discrete characters led to a decrease in estimation accuracy.
+The effect of fossil sampling was greatest on fast transition rates; absent/poor fossil sampling generally did not affect estimation accuracy at slow and medium rates.
 
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width = 15cm]{figures/strictdistance.pdf}
+    \caption{Relative, no majority blah.}
+    \label{fig:rawdistance}
+\end{figure}
 
 % \section{Introduction}
 % \begin{itemize}
