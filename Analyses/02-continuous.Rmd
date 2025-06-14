@@ -53,8 +53,8 @@ ou_matrices <- lapply(trees, function(tree){
 continuous_matrices <- list(bm = bm_matrices, ou = ou_matrices)
 
 
-saveRDS(continuous_matrices, "../Data/matrices/contmatrices.Rds")
-continuous_matrices <- readRDS("~/Documents/PhD/largefiles/acedisparity/contmatrices.Rds")
+saveRDS(continuous_matrices, "../Data/matrices/continuous/contmatrices.Rds")
+continuous_matrices <- readRDS("../Data/matrices/continuous/contmatrices.Rds")
 
 living_cont <- lapply(continuous_matrices, remove.fossil, trees = trees, type = "continuous")
 fossilised_high_cont <- lapply(continuous_matrices, fossil.pres, trees = trees, preservation = 0.5, type = "continuous")
@@ -137,7 +137,7 @@ saveRDS(anc_post_ord, "~/Documents/PhD/largefiles/acedisparity/postordcontanc.Rd
 ```{r}
 
 # test <- multi.ace(fossil_matrices_cont$bm$fossil_med[[1]]$matrix, fossil_matrices_cont$bm$fossil_med[[1]]$tree, models = 
-
+n_cores <- min(detectCores() - 1, 6)
 anc.states <- function(fossil_matrices_cont){
   lapply(fossil_matrices_cont, function(level){
     lapply(level, function(x) {
@@ -146,14 +146,15 @@ anc.states <- function(fossil_matrices_cont){
                           tree = x$tree, 
                           models = "BM", 
                           output = "multi.ace",
+                          parallel = n_cores,
                           verbose = TRUE)
   return(anc_states)})})}
 
 
 fossil_anc <- lapply(fossil_matrices_cont, anc.states)
 # test_anc <- lapply(fossil_matrices_cont, anc.states)
-saveRDS(fossil_anc, "~/Documents/PhD/largefiles/acedisparity/contanc.Rds")
-fossil_anc <- readRDS("~/Documents/PhD/largefiles/acedisparity/contanc.Rds")
+saveRDS(fossil_anc, "../Data/matrices/continuous/contanc.Rds")
+fossil_anc <- readRDS("~/Documents/PhD/acedisparity/Data/matrices/contanc.Rds")
 
 normal_sampling <- list(fun = rnorm, param = list(mean = mean, sd = function(x)return(diff(range(x))/4)))
 
@@ -162,12 +163,6 @@ sample_fossil_anc <- lapply(fossil_anc, lapply, lapply,  multi.ace, sample = 10,
 point_fossil_anc <- lapply(fossil_anc, lapply, lapply,  multi.ace,  output = "combined.matrix")
 
 
-# str(fossil_anc$bm$all[[1]])
-# fossil_anc$ou$living[[2]][,1]
-
-
-# fossil_anc$bm$living[[5]][,1]
-# fossil_anc$ou$living[[2]][,1]
 
 
 str(test_anc)
@@ -321,7 +316,7 @@ scaled_sample <- lapply(sample_living_nodes, lapply, function(x){
 
 # nodes_living$bm[[5]]$all$ace[,1]
 
-point_dists <- lapply(scaled_point, lapply,  function(preservation){
+point_dists <- lapply(point_living_nodes, lapply,  function(preservation){
   ace <- preservation$ace
   true <- preservation$true
   dists <- lapply(ace, function(pres){
@@ -333,7 +328,7 @@ point_dists <- lapply(scaled_point, lapply,  function(preservation){
 })
 
 
-sample_dists <- lapply(scaled_sample, lapply,  function(preservation){
+sample_dists <- lapply(sample_living_nodes, lapply,  function(preservation){
   ace <- preservation$ace
   true <- preservation$true
   dists <- lapply(ace, function(pres){

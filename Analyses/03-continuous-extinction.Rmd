@@ -1,5 +1,5 @@
 ---
-title: "Discrete with extinction"
+title: "Continuous with extinction"
 author: "Caleb"
 date: "`r Sys.Date()`"
 output:
@@ -37,7 +37,7 @@ mass_extinction <- make.events(
 
 trait.extinction <- make.events(
                       target = "taxa",
-                      condition = age.condition(6),
+                      condition = age.condition(5),
                       modification = trait.extinction(x = 2,
                                                       condition = `<`))
 
@@ -46,6 +46,8 @@ ou <- make.traits(process = OU.process, n = 3)
 
 ## simulate selective extinction
 bm_traits <- treats(traits = bm, stop.rule = stop_rule, bd.params = bd_params, null.error = 10000, replicates = 5, events = trait.extinction)
+
+bm_no <- treats(traits = bm, stop.rule = stop_rule, bd.params = bd_params, null.error = 10000, replicates = 5)
 
 ou_traits <- treats(traits = ou, stop.rule = stop_rule, bd.params = bd_params, null.error = 10000, replicates = 5, events = trait.extinction)
 

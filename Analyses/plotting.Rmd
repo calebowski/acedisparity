@@ -71,6 +71,7 @@ strict_majority_rule <- readRDS("../Data/matrices/threshstrictmeans.rds")
 
 root_dist_sample <- readRDS( "../Data/matrices/rootdistsamp.rds")
 root_dist_default <- readRDS("../Data/matrices/rootdistpoint.rds")
+root_dist_thresh <- readRDS( "../Data/matrices/rootdistthresh.rds")
 
 morpho_diffs <- readRDS("../Data/matrices/morphospacediffs.Rds")
 var_default_diffs <- readRDS("../Data/matrices/pointvardiffs.rds")
@@ -140,7 +141,7 @@ combined_data <- do.call(rbind, lapply(c("strict_majority_rule", "relative_major
     }))
   }))
 }))
-combined_data$threshold_method <- factor(combined_data$threshold_method, levels = c("strict_majority_rule", "relative_majority_rule", "no_majority_rule"))
+combined_data$threshold_method <- factor(combined_data$threshold_method, levels = c("strict_majority_rule", "relative_majority_rule", "no_majority_rule"),labels = c("Strict majority rule", "Relative majority rule", "No majority rule (sample)"))
 
 
 pdf("../Manuscript/figures/strictdistance.pdf", width = 8, height = 4)
@@ -192,9 +193,11 @@ This is the same as strict distance but the only at the root node.
 ```{R echo = FALSE}
 # library(tidyr)
 # library(ggplot2)
-
+root_dist_sample <- readRDS( "../Data/matrices/rootdistsamp.rds")
+root_dist_default <- readRDS("../Data/matrices/rootdistpoint.rds")
+root_dist_thresh <- readRDS( "../Data/matrices/rootdistthresh.rds")
 # Combine strict_means and strict_means_sample into a single data frame
-combined_data <- do.call(rbind, lapply(c("root_dist_default", "root_dist_sample"), function(dataset_name) {
+combined_data <- do.call(rbind, lapply(c("root_dist_thresh", "root_dist_default", "root_dist_sample"), function(dataset_name) {
   dataset <- get(dataset_name)  # Dynamically get the dataset by name
   do.call(rbind, lapply(names(dataset), function(level) {
     do.call(rbind, lapply(seq_along(dataset[[level]]), function(replicate_index) {
@@ -207,7 +210,7 @@ combined_data <- do.call(rbind, lapply(c("root_dist_default", "root_dist_sample"
         low = data$fossil_low,
         living = data$living,
         level = level,
-        treatment = dataset_name  # Add a column for treatment
+        threshold_method = dataset_name  # Add a column for treatment
       )
       df_long <- pivot_longer(df, cols = c("living", "low", "mid", "high", "all"),
                               names_to = "preservation_level", values_to = "distance")
@@ -216,40 +219,45 @@ combined_data <- do.call(rbind, lapply(c("root_dist_default", "root_dist_sample"
     }))
   }))
 }))
+combined_data$threshold_method <- factor(combined_data$threshold_method, levels = c("root_dist_thresh", "root_dist_default", "root_dist_sample"), labels = c("Strict majority rule", "Relative majority rule", "No majority rule (sample)"))
 
+pdf("../Manuscript/figures/rootdistance.pdf", width = 8, height = 4)
 
-# Get unique values for grouping
-pres_levels <- levels(combined_data$preservation_level)
-levels_list <- unique(combined_data$level)
-treatments <- unique(combined_data$treatment)
+ggplot(combined_data, aes(x = preservation_level, y = distance, color = level, fill = level)) +
+  stat_summary(
+    aes(group = level),
+    fun.data = function(y) {
+      data.frame(
+        y = median(y),
+        ymin = quantile(y, 0.25),  # 25th percentile
+        ymax = quantile(y, 0.75)  # 75th percentile
+      )
+    },
+    geom = "ribbon",
+    alpha = 0.2,
+    color = NA
+  ) +
+  stat_summary(
+    aes(group = level),
+    fun = median,
+    geom = "line",
+    size = 1.2
+  ) +
+  facet_wrap(~ threshold_method, ncol = 3) +  # Create 3 panels side by side
+  labs(
+    x = "Fossil Sampling Level",
+    y = "Distance to True Value",
+    color = "Transition Rate",
+    fill = "Transition Rate"
+  ) +
+  theme_minimal() +
+  theme(
+    strip.background = element_rect(color = "black", fill = "white", linewidth = 0.5),
+    panel.border = element_rect(color = "black", fill = NA, linewidth = 0.5)
+  ) +
+  scale_y_reverse() # Reverse the y-axis if needed
 
-# Set up colors and linetypes
-cols <- rainbow(length(levels_list))
-ltys <- 1:length(treatments)
-
-# Prepare plot
-plot(1, type = "n", xlim = c(1, length(pres_levels)), ylim = range(combined_data$distance, na.rm = TRUE),
-     xaxt = "n", xlab = "Fossil Sampling Level", ylab = "Distance to True Value", main = "Median and IQR by Group")
-axis(1, at = 1:length(pres_levels), labels = pres_levels)
-
-# Loop through each combination of level and treatment
-for (i in seq_along(levels_list)) {
-  for (j in seq_along(treatments)) {
-    group_data <- subset(combined_data, level == levels_list[i] & treatment == treatments[j])
-    medians <- tapply(group_data$distance, group_data$preservation_level, median, na.rm = TRUE)
-    q25 <- tapply(group_data$distance, group_data$preservation_level, quantile, probs = 0.25, na.rm = TRUE)
-    q75 <- tapply(group_data$distance, group_data$preservation_level, quantile, probs = 0.75, na.rm = TRUE)
-    x <- 1:length(pres_levels)
-    # Draw IQR ribbon
-    polygon(c(x, rev(x)), c(q25, rev(q75)), col = adjustcolor(cols[i], alpha.f = 0.2), border = NA)
-    # Draw median line
-    lines(x, medians, col = cols[i], lty = ltys[j], lwd = 2)
-  }
-}
-
-legend("topright", legend = paste(rep(levels_list, each = length(treatments)), treatments, sep = " - "),
-       col = rep(cols, each = length(treatments)), lty = rep(ltys, times = length(levels_list)), lwd = 2, bty = "n")
-
+dev.off()
 ```
 
 
@@ -281,6 +289,7 @@ combined_data <- do.call(rbind, lapply(names(morpho_diffs), function(level) {
   }))
 }))
 
+combined_data$threshold_method <- factor(combined_data$threshold_method, levels = c("root_dist_thresh", "root_dist_default", "root_dist_sample"), labels = c("Strict majority rule", "Relative majority rule", "No majority rule (sample)"))
 # Generate the combined plot
 # Generate the combined plot
 ggplot(combined_data, aes(x = preservation_level, y = distance, color = level, fill = level)) +
@@ -321,7 +330,7 @@ I then constructed distance matrices and ordinated both the 'true' and 'aced' ma
 ```{R echo = FALSE}
 
 library(scales)
-combined_data <- do.call(rbind, lapply(c("var_default_diffs", "var_sample_diffs", "var_thresh_diffs"), function(dataset_name) {
+combined_data <- do.call(rbind, lapply(c("var_thresh_diffs", "var_default_diffs", "var_sample_diffs"), function(dataset_name) {
   dataset <- get(dataset_name)  # Dynamically get the dataset by name
   do.call(rbind, lapply(names(dataset), function(level) {
     do.call(rbind, lapply(seq_along(dataset[[level]]), function(replicate_index) {
@@ -334,7 +343,7 @@ combined_data <- do.call(rbind, lapply(c("var_default_diffs", "var_sample_diffs"
         low = data$fossil_low,
         living = data$living,
         level = level,
-        treatment = dataset_name  # Add a column for treatment
+        threshold_method = dataset_name  # Add a column for treatment
       )
       df_long <- pivot_longer(df, cols = c("living", "low", "mid", "high", "all"),
                               names_to = "preservation_level", values_to = "distance")
@@ -344,16 +353,20 @@ combined_data <- do.call(rbind, lapply(c("var_default_diffs", "var_sample_diffs"
   }))
 }))
 
+combined_data$threshold_method <- factor(combined_data$threshold_method, levels = c("var_thresh_diffs", "var_default_diffs", "var_sample_diffs"), labels = c("Strict majority rule", "Relative majority rule", "No majority rule (sample)"))
+
 # log10_reverse_trans <- trans_new(
 #   name = "log10_reverse",
 #   transform = function(x) -log10(x),  # Apply log10 and reverse
 #   inverse = function(x) 10^(-x)      # Inverse of the transformation
 # )
 
+pdf("../Manuscript/figures/sumvardistance.pdf", width = 8, height = 4)
+
 # Generate the combined plot
-ggplot(combined_data, aes(x = preservation_level, y = distance, color = level, fill = level, linetype = treatment)) +
+ggplot(combined_data, aes(x = preservation_level, y = distance, color = level, fill = level)) +
   stat_summary(
-    aes(group = interaction(level, treatment)),
+    aes(group = level),
     fun.data = function(y) {
       data.frame(
         y = median(y),
@@ -366,20 +379,26 @@ ggplot(combined_data, aes(x = preservation_level, y = distance, color = level, f
     color = NA
   ) +
   stat_summary(
-    aes(group = interaction(level, treatment)),
+    aes(group = level),
     fun = median,
     geom = "line",
     size = 1.2
   ) +
+  facet_wrap(~ threshold_method, ncol = 3) +  # Create 3 panels side by side
   labs(
     x = "Fossil Sampling Level",
     y = "Distance to True Value",
     color = "Transition Rate",
-    fill = "Transition Rate",
-    linetype = "Treatment"
+    fill = "Transition Rate"
   ) +
   theme_minimal() +
+  theme(
+    strip.background = element_rect(color = "black", fill = "white", linewidth = 0.5),
+    panel.border = element_rect(color = "black", fill = NA, linewidth = 0.5)
+  ) +
   scale_y_reverse() # Reverse the y-axis if needed
+
+dev.off()
 
 ```
 

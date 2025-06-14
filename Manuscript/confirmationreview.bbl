@@ -151,6 +151,9 @@ Grossnickle, D.~M. \harvardand\ Polly, P.~D.  \harvardyearleft 2013\harvardyearr
 \harvarditem[Grossnickle et~al.]{Grossnickle, Smith \harvardand\ Wilson}{2019}{grossnickle_untangling_2019}
 Grossnickle, D.~M., Smith, S.~M. \harvardand\ Wilson, G.~P.  \harvardyearleft 2019\harvardyearright , `Untangling the {Multiple} {Ecological} {Radiations} of {Early} {Mammals}', {\em Trends in Ecology \& Evolution} {\bf 34}(10),~936--949.
 
+\harvarditem{Guillerme}{2018}{guillerme2018disprity}
+Guillerme, T.  \harvardyearleft 2018\harvardyearright , `disprity: a modular r package for measuring disparity', {\em Methods in Ecology and Evolution} {\bf 9}(7),~1755--1763.
+
 \harvarditem{Guillerme}{2024}{guillerme2024treats}
 Guillerme, T.  \harvardyearleft 2024\harvardyearright , `treats: A modular r package for simulating trees and traits', {\em Methods in Ecology and Evolution} {\bf 15}(4),~647--656.
 
@@ -214,6 +217,9 @@ Keating, J.~N.  \harvardyearleft 2023\harvardyearright , `What is the best metho
 
 \harvarditem[Korn et~al.]{Korn, Hopkins \harvardand\ Walton}{2013}{korn_extinction_2013}
 Korn, D., Hopkins, M.~J. \harvardand\ Walton, S.~A.  \harvardyearleft 2013\harvardyearright , `{EXTINCTION} {SPACE}-{A} {METHOD} {FOR} {THE} {QUANTIFICATION} {AND} {CLASSIFICATION} {OF} {CHANGES} {IN} {MORPHOSPACE} {ACROSS} {EXTINCTION} {BOUNDARIES}: {EXTINCTION} {SPACE}', {\em Evolution} pp.~n/a--n/a.
+
+\harvarditem{Lloyd}{2016}{lloyd_estimating_2016}
+Lloyd, G.~T.  \harvardyearleft 2016\harvardyearright , `Estimating morphological diversity and tempo with discrete character-taxon matrices: implementation, challenges, progress, and future directions', {\em Biological Journal of the Linnean Society} {\bf 118}(1),~131--151.
 
 \harvarditem{Lloyd}{2018}{lloyd2018journeys}
 Lloyd, G.~T.  \harvardyearleft 2018\harvardyearright , `Journeys through discrete-character morphospace: synthesizing phylogeny, tempo, and disparity', {\em Palaeontology} {\bf 61}(5),~637--645.

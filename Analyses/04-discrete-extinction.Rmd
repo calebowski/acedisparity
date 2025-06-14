@@ -1,0 +1,72 @@
+---
+title: "Discrete with extinction"
+author: "Caleb"
+date: "`r Sys.Date()`"
+output:
+  html_document: default
+  pdf_document: default
+editor_options: 
+  markdown: 
+    wrap: 72
+---
+
+## Load trees
+
+
+```{r}
+
+library(treats)
+
+bd_params <- make.bd.params(speciation = 1, extinction = 0.7)
+
+stop_rule <- list(max.living = 50)
+set.seed(11)
+
+mass_extinction <- make.events(
+                      target       = "taxa",
+                      condition    = age.condition(5),
+                      modification = random.extinction(0.70))
+
+
+
+# selective_extinction <- make.events(
+#       target = "taxa",
+#       condition = age.condition(x = 8, condition = `==`),
+#       condition = trait.extinction(x = 0, condition = `>`),
+#       event.name = "Trait-based extinction"
+#     )
+
+trait.extinction <- make.events(
+                      target = "taxa",
+                      condition = age.condition(6),
+                      modification = trait.extinction(x = 1, trait = 1:50))
+
+
+slow_binary_transitions <- matrix(c(
+    0.99, 0.01,
+    0.01, 0.99
+), nrow = 2, byrow = TRUE)
+
+slow_multi_transitions <- matrix(c(
+    0.99, 0.025, 0.025,
+    0.025, 0.99, 0.025,
+    0.025, 0.025, 0.99
+), nrow = 3, byrow = TRUE)
+
+slow_binary <- treats::make.traits(process = discrete.process, n = 85, process.args = list(transitions = slow_binary_transitions))
+slow_multi <- treats::make.traits(process = discrete.process, n = 15, process.args = list(transitions = slow_multi_transitions))
+
+## simulate selective extinction
+bm_traits <- treats(traits = slow_binary, stop.rule = stop_rule, bd.params = bd_params, null.error = 10000, replicates = 5, events = trait.extinction)
+
+ou_traits <- treats(traits = ou, stop.rule = stop_rule, bd.params = bd_params, null.error = 10000, replicates = 5, events = trait.extinction)
+
+
+bm_traits <- lapply(bm_traits, drop.singles)
+ou_traits <- lapply(ou_traits, drop.singles)
+
+cont_traits <- list(bm = bm_traits, ou = ou_traits)
+
+
+
+```

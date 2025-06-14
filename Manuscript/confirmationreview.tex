@@ -389,7 +389,7 @@ The trait values at internal nodes are then calculated as the conditional expect
 This means each node's estimated trait value is effectively a weighted average of the tip values, with the weights determined by the amount of shared evolutionary history (as defined by \textbf{\textit{C}}).
 
 
-\subsubsection{Discrete characters}
+\subsubsection{Discrete characters} \label{ace discrete}
 Ancestral state estimation of discrete characters are modelled using a continuous-time Markov chain process, known as the M\textit{k} model \citep{pagel1994detecting, yang2006computational}. 
 This process is specified by a $\textit{k} \times \textit{k}$ matrix (\textit{k} being the number of possible states), \textbf{Q}, which gives the instantaneous transition rates (\textit{q}) between states for each character. 
 
@@ -705,7 +705,12 @@ To expand this framework to understand how random and selective mass extinction 
     % \item Develop an interactive \texttt{shiny} app that presents the results in an `electoral map' style format, whereby each `pixel', representing a specific combination of topology, model and metric, is shaded based on the size of effect returned by the BACI contrast. %TG: This last bit is more how you will represent the results, not really an objective. It's fine to talk about it in here if you want but if you do "electoral map" and "pixel" needs much more explanation here! They're good terms to use among us because we understand what they mean but I can guarantee that it'll be confusing to many other people!
 \end{itemize}
 
-
+\begin{figure}[H]
+    \centering
+    \includegraphics[width = 16cm]{figures/gantt.png}
+    \caption{Gantt Chart for PhD timeline}
+    \label{fig:gantt}
+\end{figure}
 
 
 \part{Summary of research achievements}
@@ -713,14 +718,21 @@ Note this is chapter 2 of my thesis presented.
 
 \section{Methods}
 \subsection{Simulations}
-Using the R package \texttt{treats} \citep{guillerme2024treats}, 100 trees were simulated with birth-death parameters as $\lambda = 1.0$, and $\mu = 0.7$.
+Simulations were carried out using \texttt{treats} \citep{guillerme2024treats}.
+Trees are simulated using a modified version of the birth-death process algorithm.
+The process begins with a single lineage and iteratively selects active lineages to grow the tree forward in time. 
+At each step, all living branches are extended by a branch length increment, drawn from an exponential distribution based on the total number of lineages and the combined speciation and extinction rates. 
+Selected lineages then undergo either speciation or extinction based on a probabilistic decision determined by the specified rates.
+100 trees were simulated with birth-death parameters as speciation, $\lambda = 1.0$, and extinction, $\mu = 0.7$.
 Trees were fixed to have 50 extant tips and a range of 50 - 200 fossil tips.
-Across each tree I simulated continuous and discrete trait data.
+
+Across each tree continuous and discrete trait data were simulated.
 Discrete trait data were simulated using three different Markov chain matrices, representing fast (0.9), medium (0.1) and slow (0.01) transition rates, for 100 characters (85\% binary and 15\% three-state).
 Continuous trait data were simulated under Brownian motion (BM) and Ornstein-Uhlenbeck (OU) models, with default parameters and for 50 characters.
-Trait data were simulated using the function \texttt{map.traits}, which assigns both nodes and tips trait values, essentially constructing the full `true' evolutionary history across each phylogeny.
+Trait data were simulated using the function \texttt{map.traits}, which assigns both nodes and tips trait values, essentially constructing full hypothetical evolutionary histories across each phylogeny for each trait type.
 
-In order to simulate different levels of fossil sampling, fossil tips were pruned from corresponding trees and trait matrices at five levels.
+In order to simulate different levels of fossil sampling, each tree was split into four chronological `stages' to replicate the stratigraphic nature of the fossil record.
+From each `stage', fossil tips were randomly pruned from the tree and corresponding trait matrix at five levels:
 \begin{itemize}
     \item Living: only extant tips are retained
     \item Low: 5\% fossils retained
@@ -728,13 +740,14 @@ In order to simulate different levels of fossil sampling, fossil tips were prune
     \item High: 50\% fossils retained
     \item All: All fossils retained
 \end{itemize}
+I aim to modify this method in the future so that earlier stages have lower fossil sampling than more recent stages, to replicate the temporal gradient in completeness seen in the empirical fossil record \citep{davies2017completeness}.
 
 \subsection{Ancestral state estimation}
 Node states were then removed from the trait matrices, leaving just tip states.
 Ancestral states were estimated using the \texttt{multi.ace} function.
 \subsubsection{Discrete characters}
-Ancestral states were estimated using marginal likelihood estimation, whereby each state is assigned a scaled likelihood.
-Three different threshold methods were used for collapsing these states based on their scaled likelihoods.
+Ancestral states were estimated using marginal likelihood estimation, whereby each state is assigned a scaled likelihood (\autoref{ace discrete}).
+Three different majority-rule approaches were used for collapsing these probabilities into ancestral states.
 The \textit{strict majority rule} uses a threshold that selects the ancestral states estimate with a scaled likelihood equal or greater than a designated value (0.5).
 The \textit{relative majority rule} sets a threshold at a scaled likelihood greater than the maximum observed scaled likelihood minus the inverse number of possible states, \textit{k}
 \[
@@ -747,9 +760,9 @@ In this case, 100 matrices were returned using the no majority rule.
 
 \subsubsection{Continuous characters}
 Continuous ancestral states were estimated using BM.
-Two approaches of dealing with uncertainty were implemented for continuous characters.
-Firstly, \textit{point estimates} simply return the median of the 95\% confidence interval.
-Alternatively, a \textit{sampling} approach, akin to discrete approach, samples across a normal distribution of the 95\% confidence interval.
+Two approaches were applied to account for uncertainty.
+Using \textit{point estimates} simply return the median of the 95\% confidence interval.
+Alternatively, a \textit{sampling} approach, whereby trait values are sampled across a normal distribution defined by the 95\% confidence interval at each node, over a specified number of matrices (in this case 100).
 
 \subsection{Measuring raw distance}
 % Look at https://www.nature.com/articles/s41598-020-64647-4 for inspo on how to get this raw score and penalise for uncertainty vs precise.
@@ -757,29 +770,64 @@ A Hamming distance metric was used to compare the raw error between the estimate
 I used  Hamming distance metric to measure the raw accuracy at each node and state between the true and estimated discrete matrices.
 To achieve fair comparison between each fossil sampling level, only the nodes present across all fossil sampling levels were included in these analyses (leaving 50 nodes).
 
-For continuous characters, the euclidean distance between points was calculated.
+For continuous characters, estimation error was quantified by calculating the Euclidean distance between the estimated and true trait values at each node. Trait values were standardised prior to analysis to ensure comparability across characters.
 
-\subsection{Measuring raw distance}
-% Look at https://www.nature.com/articles/s41598-020-64647-4 for inspo on how to get this raw score and penalise for uncertainty vs precise.
-A Hamming distance metric was used to compare the raw error between the estimated ancestral states and the `true' matrix
-I used  Hamming distance metric to measure the raw accuracy at each node and state between the true and estimated discrete matrices.
-To achieve fair comparison between each fossil sampling level, only the nodes present across all fossil sampling levels were included in these analyses (leaving 50 nodes).
+
+\subsection{Measuring error in disparity}
+To evaluate how ancestral state estimation influences disparity estimates, both the true and estimated trait matrices were analysed using a standard disparity pipeline (\autoref{fig:pipeline}).
+For discrete characters, the raw trait matrices were converted into distance matrices using the MORD metric \citep{lloyd_estimating_2016}, the most widely used distance metric in disparity analyses.
+These distance matrices were ordinated using principal coordinates analysis (PCO) to generate the multidimensional traitspaces.
+Disparity was quantified as the sum of variances across all PCO axes for each combination of tree, transition rate, fossil sampling level, and majority-rule method.
+These analyses were performed using the \texttt{dispRity} package \citep{guillerme2018disprity}.
+% \[
+% d_H(s_{\text{true}}, s_{\text{est}}) = 
+% \begin{cases}
+% 0 & \text{if } s_{\text{true}} = s_{\text{est}} \text{ and } s_{\text{est}} \text{ is a point estimate} \\
+% 1 & \text{otherwise}
+% \end{cases}
+% \]
+
+\subsection{Extinction selectivity}
+These analyses will then be repeated, but incorporating mass extinction events into the trait and tree simulation process.
+A random mass extinction event can be applied to this
 
 
 
 \section{Results and Discussion}
 \subsection{Raw distance}
-Raw ancestral state estimation error varies with the threshold method, transition rate and fossil sampling level (\autoref{fig:rawdistance}).
-Regardless of threshold method, increase in transition rate of discrete characters led to a decrease in estimation accuracy.
-The effect of fossil sampling was greatest on fast transition rates; absent/poor fossil sampling generally did not affect estimation accuracy at slow and medium rates.
+Raw ancestral state estimation error across all nodes varies with the majority-rule method, transition rate and fossil sampling level (\autoref{fig:rawdistance}).
+Across each majority-rule method, increase in transition rate of discrete characters led to a decrease in estimation accuracy.
+In general, estimation accuracy increased as fossil sampling increased, particularly at higher transition rates.
+However, the extent of this increase in accuracy was not as great as observed in other studies \citep{finarelli2006ancestral,keating2023best}.
 
 
 \begin{figure}[H]
     \centering
     \includegraphics[width = 15cm]{figures/strictdistance.pdf}
-    \caption{Relative, no majority blah.}
+    \caption{Mean estimation accuracy across all nodes}
     \label{fig:rawdistance}
 \end{figure}
+
+Estimation accuracy at deeper nodes of the tree decreases much more significantly as fossil sampling decreases, as exemplified at the root node (\autoref{fig:rootdistance}).
+However, the no majority rule (sampling) threshold method appears to be robust against low fossil sampling and high accuracy is maintained.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width = 15cm]{figures/rootdistance.pdf}
+    \caption{Mean estimation accuracy across at the root node for each tree.}
+    \label{fig:rootdistance}
+\end{figure}
+
+\subsection{Disparity}
+Interestingly, the pattern observed in the raw distances is not preserved when looking at disparity.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width = 15cm]{figures/sumvardistance.pdf}
+    \caption{Mean estimation accuracy across at the root node for each tree.}
+    \label{fig:rootdistance}
+\end{figure}
+
 
 % \section{Introduction}
 % \begin{itemize}
@@ -896,7 +944,37 @@ The effect of fossil sampling was greatest on fast transition rates; absent/poor
 %  \end{itemize}
 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% NATALIE's comments
+% Just looking at this now and will make some comments as I think of them here.
+% Background section is great, and like you said you can just keep recycling this
+% Mammals stuff - maybe this could be a short review paper if it doesn't become empirical? Current Biology have this Quick Guide papers - I could see this being a lovely "Quick Guide to mammals at the K-Pg". wouldn't then need any analysis or new trees, just a few summary figures. Might be a way to not waste this work but without doing loads of extra stuff while trying to avoid the sunk costs...
 
+
+
+
+
+
+
+% Natalie
+%   2:54 PM
+% Thesis plan - might be worth mentioning you intend to test these methods on other datasets too - just to give the committee a head up for if you do end up switching away from mammals
+% 2:55
+% Define BACI in the research objectives
+% 2:56
+% Chapter wise, I don't think inferring the phylogenies is a stand alone chapter. It's just part of the empirical mammal chapter, though yes I know it'll be a lot of work it's not actually really developing anything new until you use them for the empirical question
+% 2:57
+% So I think Chapter 1 should be combined with Chapter 4 (new Chapter 3), then you could add a new Chapter 4 which is the broader empirical study of what happens across mass extinctions to a range of taxa (using the methods you have developed in C1 and C2) (edited) 
+% 3:00
+% I can't recall if I already shared this with you but here's a folder of some work a previous MPhil student did: https://drive.google.com/drive/folders/1UBd0fwJYK3IAyReJwTei09vLxfeBBXP7?usp=sharing
+% 3:00
+% (save a copy as it'll vanish off slack in 90 days)
+% 3:02
+% The table in supp mat 1 has a list of lots of datasets he found in his lit review that crossed mass extinctions, which might be possible to test your methods on. I think the data are all in supp mat 2 and 3 so you might not even need to collect the data again.
+% 3:02
+% Hope this helps! I think the document itself is fine for the confirmation review :slightly_smiling_face:. Nice work! Well done!
+% 3:06
+% I've mentioned some of this to Thomas too. Obviously feel free to do whatever makes most sense to you and Thomas
 
 
 \bibliography{references.bib} 

@@ -188,6 +188,7 @@ fossil_matrices <- lapply(names(discrete_matrices), function(level) {
 names(fossil_matrices) <- names(discrete_matrices)
 
 
+
 ```
 
 
@@ -293,7 +294,7 @@ fossil_anc <- readRDS("../Data/matrices/discreteanc.rds")
 
 sampled_fossil_anc <- readRDS("../Data/matrices/sampleddiscreteanc.Rds")
 point_fossil_anc <- readRDS("../Data/matrices/pointddiscreteanc.Rds")
-
+thresh_fossil_anc <- readRDS("../Data/matrices/threshanc.Rds")
 
 ```
 
@@ -499,26 +500,42 @@ root_dist_point <- lapply(point_dist_strict, lapply, lapply, function(matrix) {
   v <- matrix[1, ]
   mean(v)})
 
+root_dist_thresh <- lapply(thresh_dist, lapply, lapply, function(matrix) {
+  v <- matrix[1, ]
+  mean(v)})
+
 
 sample_dist_strict <- lapply(sample_living_nodes, lapply, node.dist, distance = "strict")
+
+# root_dist_sample <- lapply(sample_dist_strict, function(rate){
+#   lapply(rate, function(matrix){
+#     roots <- lapply(matrix, function(level){
+#       # Calculate the mean of all values in the level
+#       all_values <- unlist(level, recursive = TRUE)
+#       mean(all_values)
+#     })
+#     return(roots)
+#   })
+# })
 
 root_dist_sample <- lapply(sample_dist_strict, function(rate){
   lapply(rate, function(matrix){
     roots <- lapply(matrix, function(level){
-      lapply(level, function(mat){
-        v <- mat[1, ]
-        mean <- mean(v)
+      # For each replicate in the level, get the first row and calculate mean
+      root_values <- sapply(level, function(mat) {
+        v <- mat[1, ]  # Get the first row (root)
+        mean(v)        # Calculate mean of that row
       })
+      # Return the mean of all root means for this level
+      mean(root_values)
     })
-    y <- lapply(roots, function(level){
-      unlist(level)
-    })
-    return(y)
+    return(roots)
   })
 })
 
 saveRDS(root_dist_sample, "../Data/matrices/rootdistsamp.rds")
 saveRDS(root_dist_point, "../Data/matrices/rootdistpoint.rds")
+saveRDS(root_dist_thresh, "../Data/matrices/rootdistthresh.rds")
 
 
 

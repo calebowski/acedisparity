@@ -1,15 +1,15 @@
 # Fdb version 4
-["bibtex confirmationreview"] 1749815499.82892 "confirmationreview.aux" "confirmationreview.bbl" "confirmationreview" 1749815500.74392 0
-  "./references.bib" 1749038671.05638 246781 d6e85ab374197c822f3fc72297245018 ""
+["bibtex confirmationreview"] 1749908485.17886 "confirmationreview.aux" "confirmationreview.bbl" "confirmationreview" 1749908486.32158 0
+  "./references.bib" 1749828915.92499 247057 b60329936782c00af2bc019b88a3330e ""
   "/usr/share/texlive/texmf-dist/bibtex/bst/harvard/agsm.bst" 1136766823 25549 e3d0f1ab4ae55e777f7352db30e2c6f7 ""
-  "confirmationreview.aux" 1749815500.56496 22744 af07192022aad8c2b445692b9656aadc "pdflatex"
+  "confirmationreview.aux" 1749908486.10334 24173 6bba3385180e39f5a2e8f4e0aeca5111 "pdflatex"
   (generated)
   "confirmationreview.bbl"
   "confirmationreview.blg"
   (rewritten before read)
-["pdflatex"] 1749815499.97681 "/home/caleb/Documents/PhD/acedisparity/Manuscript/confirmationreview.tex" "confirmationreview.pdf" "confirmationreview" 1749815500.74408 0
+["pdflatex"] 1749908485.40242 "/home/caleb/Documents/PhD/acedisparity/Manuscript/confirmationreview.tex" "confirmationreview.pdf" "confirmationreview" 1749908486.32178 0
   "/etc/texmf/web2c/texmf.cnf" 1730844760.28548 475 c0e671620eb5563b2130f56340a5fde8 ""
-  "/home/caleb/Documents/PhD/acedisparity/Manuscript/confirmationreview.tex" 1749815498.82193 81963 4e91917692b184a8d011a140bbcabf98 ""
+  "/home/caleb/Documents/PhD/acedisparity/Manuscript/confirmationreview.tex" 1749908483.77229 87304 8655b94ee199cc58ca276f04730eb65e ""
   "/usr/share/texlive/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/jknappen/ec/tcrm1000.tfm" 1136768653 1536 e07581a4bb3136ece9eeb4c3ffab8233 ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmbsy5.tfm" 1246382020 1120 1e8878807317373affa7f7bba4cf2f6a ""
@@ -111,18 +111,21 @@
   "/usr/share/texmf/web2c/texmf.cnf" 1707919699 40399 f2c302f7d2af602abb742093540a5834 ""
   "/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map" 1730844780.91279 5472669 54eaf61a88b6b7896ebd0dac973cb29c ""
   "/var/lib/texmf/web2c/pdftex/pdflatex.fmt" 1730844870 8215263 37da5ff08623ce8426d1176d844cce83 ""
-  "confirmationreview.aux" 1749815500.56496 22744 af07192022aad8c2b445692b9656aadc "pdflatex"
-  "confirmationreview.bbl" 1749815499.97195 38588 6c8cb81ebb7899bfcf9ba31f718b08d4 "bibtex confirmationreview"
-  "confirmationreview.out" 1749815500.56596 7719 66d2d2987b0e6b9265765c25f2002f35 "pdflatex"
-  "confirmationreview.tex" 1749815498.82193 81963 4e91917692b184a8d011a140bbcabf98 ""
-  "confirmationreview.toc" 1749815500.56596 3599 2cbaa4bfa366754d939e89e12e2ce059 "pdflatex"
+  "confirmationreview.aux" 1749908486.10334 24173 6bba3385180e39f5a2e8f4e0aeca5111 "pdflatex"
+  "confirmationreview.bbl" 1749908485.39832 39143 551bf16baf8cf0d1a885f069fb14a5ba "bibtex confirmationreview"
+  "confirmationreview.out" 1749908486.10434 8030 f92370ab3287ee54f12ae7259a0e4358 "pdflatex"
+  "confirmationreview.tex" 1749908483.77229 87304 8655b94ee199cc58ca276f04730eb65e ""
+  "confirmationreview.toc" 1749908486.10434 3776 aa6d21846fb9a99f40d730a3f9d2d1ff "pdflatex"
   "figures/Ichthyosauria_phylogeny.jpg" 1747750029.21773 497936 dda80bd19919f0ff0da9a69157b5d9e7 ""
   "figures/baci.png" 1749045199.0344 285659 e1a2475230b4a5a0b1deeaef96a136c1 ""
   "figures/extinctionscenarios.png" 1740993460.30798 58846 1f9a77e41df098f9c0db364816ec33a7 ""
+  "figures/gantt.png" 1749907814.56069 42729 abb4f8e101a709ec0ade8371a4e0de06 ""
   "figures/grossnickleradiations.jpg" 1740993460.31198 798614 18b149d417a4a2f35bc0800a75a15444 ""
+  "figures/rootdistance.pdf" 1749819513.07071 6133 d35a3c866469e2a92396bffff6ca8252 ""
   "figures/sheffieldlogo.png" 1740993460.32398 119360 9cb1721fc2d5cf820f94d4813a2a5782 ""
   "figures/simplepipeline.png" 1748363663.44658 80686 a77c002cc2f1d8500c7988081d060bfa ""
-  "figures/strictdistance.pdf" 1749814942.59859 6136 e37f99483a128d4ca3883106d0446acb ""
+  "figures/strictdistance.pdf" 1749818822.79792 6148 ff4ae7bce407116c306e91378188a4e0 ""
+  "figures/sumvardistance.pdf" 1749821064.40228 6117 9a7200f731ff45564a36d420059b2340 ""
   (generated)
   "confirmationreview.aux"
   "confirmationreview.log"
