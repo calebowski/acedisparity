@@ -16,57 +16,99 @@ editor_options:
 ```{r}
 
 library(treats)
-
-bd_params <- make.bd.params(speciation = 1, extinction = 0.7)
+bd_params <- make.bd.params(speciation = 0.1, extinction = 0.07)
 
 stop_rule <- list(max.living = 50)
-set.seed(11)
+set.seed(123)
 
 mass_extinction <- make.events(
                       target       = "taxa",
-                      condition    = age.condition(5),
-                      modification = random.extinction(0.70))
+                      condition    = age.condition(6),
+                      modification = random.extinction(0.9))
 
+trees <- treats(stop.rule = stop_rule, bd.params = bd_params, null.error = 100, replicates = 20, events = mass_extinction)
+trees <- lapply(trees, drop.singles)
+write.tree(trees, "../Data/trees/randomextinction.tre")
 
+# trees <- read.tree("../Data/trees/simulated.tre")
 
-# selective_extinction <- make.events(
-#       target = "taxa",
-#       condition = age.condition(x = 8, condition = `==`),
-#       condition = trait.extinction(x = 0, condition = `>`),
-#       event.name = "Trait-based extinction"
-#     )
-
-trait.extinction <- make.events(
-                      target = "taxa",
-                      condition = age.condition(6),
-                      modification = trait.extinction(x = 1, trait = 1:50))
-
-
-slow_binary_transitions <- matrix(c(
-    0.99, 0.01,
-    0.01, 0.99
-), nrow = 2, byrow = TRUE)
-
-slow_multi_transitions <- matrix(c(
-    0.99, 0.025, 0.025,
-    0.025, 0.99, 0.025,
-    0.025, 0.025, 0.99
+slow_pre_transitions <- matrix(c(
+    0.99, 0.0099, 0.0001,    # From state 0: 99% stay, 0.99% to state 1, 0.01% to state 2
+    0.0099, 0.99, 0.0001,    # From state 1: 0.99% to state 0, 99% stay, 0.01% to state 2
+    0.025, 0.025, 0.95       # From state 2: can exit back to 0 or 1, or stay
 ), nrow = 3, byrow = TRUE)
 
-slow_binary <- treats::make.traits(process = discrete.process, n = 85, process.args = list(transitions = slow_binary_transitions))
-slow_multi <- treats::make.traits(process = discrete.process, n = 15, process.args = list(transitions = slow_multi_transitions))
+slow_post_transitions <- matrix(c(
+    0.97, 0.01, 0.02,      # From state 0: prefer staying, but some transition to 1 and 2
+    0.005, 0.985, 0.01,   # From state 1: very rarely go to 0, mostly stay, some to 2
+    0.005, 0.02, 0.975    # From state 2: very rarely go to 0, some to 1, mostly stay
+), nrow = 3, byrow = TRUE)
 
-## simulate selective extinction
-bm_traits <- treats(traits = slow_binary, stop.rule = stop_rule, bd.params = bd_params, null.error = 10000, replicates = 5, events = trait.extinction)
-
-ou_traits <- treats(traits = ou, stop.rule = stop_rule, bd.params = bd_params, null.error = 10000, replicates = 5, events = trait.extinction)
+slow_pre <- treats::make.traits(process = discrete.process, n = 100, process.args = list(transitions = slow_pre_transitions))
+slow_post <- treats::make.traits(process = discrete.process, n = 100, process.args = list(transitions = slow_post_transitions))
 
 
-bm_traits <- lapply(bm_traits, drop.singles)
-ou_traits <- lapply(ou_traits, drop.singles)
 
-cont_traits <- list(bm = bm_traits, ou = ou_traits)
+med_binary_transitions <- matrix(c(
+  0.90, 0.1,
+  0.1, 0.9
+), nrow = 2, byrow = TRUE)
 
+
+med_multi_transitions <- matrix(c(
+  0.9, 0.05, 0.05,
+  0.05, 0.9, 0.05,
+  0.05, 0.05, 0.9
+), nrow = 3, byrow = TRUE)
+
+med_binary <- treats::make.traits(process = discrete.process, n = 85, process.args = list(transitions = med_binary_transitions))
+med_multi <- treats::make.traits(process = discrete.process, n = 15, process.args = list(transitions = med_multi_transitions))
+
+fast_binary_transitions <- matrix(c(
+    0.1, 0.9,
+    0.9, 0.1
+), nrow = 2, byrow = TRUE)
+
+fast_multi_transitions <- matrix(c(
+    0.1, 0.45, 0.45, 
+    0.45, 0.1, 0.45,
+    0.45, 0.45, 0.1 
+), nrow = 3, byrow = TRUE)
+
+fast_binary <- treats::make.traits(process = discrete.process, n = 85, process.args = list(transitions = fast_binary_transitions))
+fast_multi <- treats::make.traits(process = discrete.process, n = 15, process.args = list(transitions = fast_multi_transitions))
+
+selective_extinction <- make.events(target = "traits", condition = age.condition(4), modification = traits.update(process = discrete.process, process.args = list(transitions = slow_post_transitions)))
+
+## map the traits
+
+
+
+slow_matrices <- lapply(trees, function(tree) {
+    mapped_binary <- (map.traits(slow_binary, tree, events = ))$data
+    mapped_multi <- (map.traits(slow_multi, tree))$data
+    matrix <- cbind(mapped_binary, mapped_multi)
+    return(matrix)
+})
+
+med_matrices <- lapply(trees, function(tree) {
+    mapped_binary <- (map.traits(med_binary, tree))$data
+    mapped_multi <- (map.traits(med_multi, tree))$data
+    matrix <- cbind(mapped_binary, mapped_multi)
+    return(matrix)
+})
+
+fast_matrices <- lapply(trees, function(tree) {
+    mapped_binary <- (map.traits(fast_binary, tree))$data
+    mapped_multi <- (map.traits(fast_multi, tree))$data
+    matrix <- cbind(mapped_binary, mapped_multi)
+    return(matrix)
+})
+
+
+discrete_matrices <- list(slow = slow_matrices, med = med_matrices, fast = fast_matrices)
+saveRDS(discrete_matrices, "../Data/matrices/discretematrices.rds")
+discrete_matrices <- readRDS("../Data/matrices/discretematrices.rds")
 
 
 ```

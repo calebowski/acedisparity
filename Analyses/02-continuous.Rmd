@@ -164,7 +164,6 @@ point_fossil_anc <- lapply(fossil_anc, lapply, lapply,  multi.ace,  output = "co
 
 
 
-
 str(test_anc)
 
 ```
@@ -285,25 +284,37 @@ names(point_living_nodes) <- names(continuous_matrices)
 #   })
 # })
 
-scaled_point <- lapply(point_living_nodes, lapply, function(x){
-  ace <- x$ace
-  true <- scale(x$true)
-  ace <- lapply(ace, function(level){
-    scale(level)
+scaled_point <- lapply(point_living_nodes, lapply, function(x) {
+  true_scaled <- scale(x$true)  # Scale 'true' values
+  
+  # Extract mean and SD used for scaling
+  true_center <- attr(true_scaled, "scaled:center")
+  true_scale  <- attr(true_scaled, "scaled:scale")
+  
+  # Scale ACE levels using the same center and scale
+  ace_scaled <- lapply(x$ace, function(level) {
+    scale(level, center = true_center, scale = true_scale)
   })
-  return(list(ace = ace, true = true))
+  
+  return(list(ace = ace_scaled, true = true_scaled))
 })
 
 
-scaled_sample <- lapply(sample_living_nodes, lapply, function(x){
-  ace <- x$ace
-  true <- scale(x$true)
-  ace <- lapply(ace, function(level){
-    lapply(level, function(rep){
-    scale(rep)
+scaled_sample <- lapply(sample_living_nodes, lapply, function(x) {
+  true_scaled <- scale(x$true)
+  
+  # Extract the scaling parameters from true
+  center <- attr(true_scaled, "scaled:center")
+  scale_ <- attr(true_scaled, "scaled:scale")
+  
+  # Now scale each ACE replicate using the same parameters
+  ace_scaled <- lapply(x$ace, function(level) {
+    lapply(level, function(rep) {
+      scale(rep, center = center, scale = scale_)
     })
   })
-  return(list(ace = ace, true = true))
+  
+  return(list(ace = ace_scaled, true = true_scaled))
 })
 # scaled_sample <- lapply(sample_living_nodes, lapply, lapply, lapply, lapply, scale)
 
@@ -316,36 +327,50 @@ scaled_sample <- lapply(sample_living_nodes, lapply, function(x){
 
 # nodes_living$bm[[5]]$all$ace[,1]
 
-point_dists <- lapply(point_living_nodes, lapply,  function(preservation){
+point_dists <- lapply(scaled_point, lapply,  function(preservation){
   ace <- preservation$ace
   true <- preservation$true
   dists <- lapply(ace, function(pres){
     distances <- sqrt(rowSums((pres - true)^2))
     median <- median(distances)
-    return(median)
+    return(distances)
   })
   return(dists)
 })
 
+# point_dists <- lapply(point_living_nodes, lapply, function(preservation) {
+#   ace <- preservation$ace
+#   true <- preservation$true
+#   dists <- lapply(ace, function(pres) {
+#     mse <- rowMeans((pres - true)^2)  # mean squared error per row
+#     rmse <- sqrt(mse)                 # root mean
+#     median_rmse <- median(rmse)       # median RMSE across nodes
+#     return(median_rmse)
+#   })
+#   return(dists)
+# })
 
-sample_dists <- lapply(sample_living_nodes, lapply,  function(preservation){
+
+sample_dists <- lapply(scaled_sample, lapply,  function(preservation){
   ace <- preservation$ace
   true <- preservation$true
   dists <- lapply(ace, function(pres){
     what <-  lapply(pres, function(rep){
       distances <- sqrt(rowSums((rep - true)^2))
       median <- median(distances)
-      return(median)
+      return(distances)
     })
-  median <- median(unlist(what))
+  # median <- median(unlist(what))
+  unlist(what)
+
   })
   return(dists)
 })
 
 
 
-saveRDS(point_dists, "../Data/matrices/contpointdists.Rds")
-saveRDS(sample_dists, "../Data/matrices/contsampledists.Rds")
+saveRDS(point_dists, "../Data/matrices/continuous/contpointdists.Rds")
+saveRDS(sample_dists, "../Data/matrices/continuous/contsampledists.Rds")
 
 
 # # binded_matrices <- lapply(true_vs_ace, function(preservation) {
@@ -394,18 +419,21 @@ saveRDS(sample_dists, "../Data/matrices/contsampledists.Rds")
 proj_point <- lapply(point_living_nodes, lapply, function(x){
     true <- x$true
     ace <- x$ace
-    ord_true <- prcomp(true, center = TRUE, scale. = TRUE)
+    ord_true <- prcomp(true, center = TRUE, scale. = FALSE)
     predicted <- lapply(ace, function(pres) {
       y <- predict(ord_true, newdata = pres)
     })
     return(list(true = ord_true$x, ace = predicted))
 })
 
+dispRity(proj_point$ou[[1]]$ace$living, metric = c(sum, variances))$disparity
+dispRity(proj_point$ou[[2]]$true, metric = c(sum, variances))$disparity
+
 
 proj_sample <- lapply(sample_living_nodes, lapply, function(x) {
     true <- x$true
     ace <- x$ace
-    ord_true <- prcomp(true, center = TRUE, scale. = TRUE)
+    ord_true <- prcomp(true, center = TRUE, scale. = FALSE)
     predicted <- lapply(ace, function(pres) {
       lapply(pres, function(rep) {
         y <- predict(ord_true, newdata = rep)
@@ -461,6 +489,89 @@ ggplot(df_plot) +
   labs(title = "PCoA + Procrustes Alignment of Two Distance Matrices",
        x = "Axis 1", y = "Axis 2") +
   theme_minimal()
+
+
+```
+
+
+## Disparity
+```{r}
+
+
+# pca_point <- lapply(point_living_nodes, lapply, function(x){
+#     true <- x$true
+#     ace <- x$ace
+#     ord_true <- prcomp(true)
+#     ord_est <- lapply(ace, function(pres) {
+#       y <- prcomp(pres)$x
+#     })
+#     return(list(true = ord_true$x, ace = ord_est))
+# })
+
+# pca_sample <- lapply(sample_living_nodes, lapply, function(x){
+#     true <- x$true
+#     ace <- x$ace
+#     ord_true <- prcomp(true)
+#     ord_est <- lapply(ace, function(pres) {
+#       lapply(pres, function(rep){
+#       y <- prcomp(rep)$x
+#       })
+#     })
+#     return(list(true = ord_true$x, ace = ord_est))
+# })
+
+sum_var_point <- lapply(proj_point, lapply, function(matrices) {
+  true_disp <- (dispRity(matrices$true, metric = c(sum, variances)))$disparity
+  ace <- matrices$ace
+  ace_disp <- lapply(ace, function(pres) {
+    disp <- (dispRity(pres, metric = c(sum, variances)))$disparity
+  })
+  return(list(true = true_disp, ace = ace_disp ))
+})
+
+sum_var_sample <- lapply(proj_sample, lapply, function(matrices) {
+  true_disp <- (dispRity(matrices$true, metric = c(sum, variances)))$disparity
+  ace <- matrices$ace
+  ace_disp <- lapply(ace, function(pres) {
+    lapply(pres, function(reps) {
+      disp <- (dispRity(reps, metric = c(sum, variances)))$disparity
+    })
+  })
+  return(list(true = true_disp, ace = ace_disp ))
+})
+
+
+
+var_point_diffs <- lapply(sum_var_point, lapply, function(disparity){
+  true <- disparity$true[[1]]$elements[1]
+  ace <- disparity$ace
+  diffs <- lapply(ace, function(pres){
+    diff <- abs(pres[[1]]$elements[1] - true) /true
+  })
+  return(diffs)
+})
+
+var_sample_diffs <- lapply(sum_var_sample, lapply, function(disparity) {
+  true <- disparity$true[[1]]$elements[1]
+  ace <- disparity$ace
+  diffs <- lapply(ace, function(pres) {
+    lapply(pres, function(rep) {
+      # Compute the difference
+      diff <- abs(rep[[1]]$elements[1] - true) / true
+      return(diff)
+    })
+  })
+  
+  # Apply unlist to the lowest level
+  diffs <- lapply(diffs, function(pres) {
+    unlist(pres, recursive = TRUE)
+  })
+  
+  return(diffs)
+})
+
+saveRDS(var_point_diffs, "../Data/matrices/continuous/sumvarpoint.Rds")
+saveRDS(var_sample_diffs, "../Data/matrices/continuous/sumvarsample.Rds")
 
 
 ```

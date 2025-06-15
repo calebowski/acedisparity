@@ -36,7 +36,8 @@
 \contentsline {subsubsection}{\numberline {12.2.2}Continuous characters}{21}{subsubsection.12.2.2}%
 \contentsline {subsection}{\numberline {12.3}Measuring raw distance}{21}{subsection.12.3}%
 \contentsline {subsection}{\numberline {12.4}Measuring error in disparity}{21}{subsection.12.4}%
-\contentsline {subsection}{\numberline {12.5}Extinction selectivity}{21}{subsection.12.5}%
+\contentsline {subsection}{\numberline {12.5}Extinction selectivity}{22}{subsection.12.5}%
 \contentsline {section}{\numberline {13}Results and Discussion}{22}{section.13}%
-\contentsline {subsection}{\numberline {13.1}Raw distance}{22}{subsection.13.1}%
-\contentsline {subsection}{\numberline {13.2}Disparity}{23}{subsection.13.2}%
+\contentsline {subsection}{\numberline {13.1}Discrete characters}{22}{subsection.13.1}%
+\contentsline {subsection}{\numberline {13.2}Continuous characters}{25}{subsection.13.2}%
+\contentsline {subsubsection}{\numberline {13.2.1}Continuous}{26}{subsubsection.13.2.1}%

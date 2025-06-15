@@ -95,6 +95,10 @@ default_ord_diff <- readRDS("../Data/matrices/pointorddiff.Rds")
 sample_ord_diff <-  readRDS("../Data/matrices/sampleorddiff.Rds")
 
 
+var_point_diffs <- readRDS("../Data/matrices/continuous/sumvarpoint.Rds")
+var_sample_diffs <- readRDS("../Data/matrices/continuous/sumvarsample.Rds")
+
+
 ```
 
 
@@ -169,7 +173,7 @@ ggplot(combined_data, aes(x = preservation_level, y = distance, color = level, f
   facet_wrap(~ threshold_method, ncol = 3) +  # Create 3 panels side by side
   labs(
     x = "Fossil Sampling Level",
-    y = "Distance to True Value",
+    y = "Mean Distance",
     color = "Transition Rate",
     fill = "Transition Rate"
   ) +
@@ -387,7 +391,7 @@ ggplot(combined_data, aes(x = preservation_level, y = distance, color = level, f
   facet_wrap(~ threshold_method, ncol = 3) +  # Create 3 panels side by side
   labs(
     x = "Fossil Sampling Level",
-    y = "Distance to True Value",
+    y = "Relative Distance to True Disparity Value",
     color = "Transition Rate",
     fill = "Transition Rate"
   ) +
@@ -599,7 +603,7 @@ library(tidyr)
 library(ggplot2)
 
 # Combine strict_means and strict_means_sample into a single data frame
-combined_data <- do.call(rbind, lapply(c("cont_default_dists", "cont_sample_dists"), function(dataset_name) {
+combined_data <- do.call(rbind, lapply(c("point_dists", "sample_dists"), function(dataset_name) {
   dataset <- get(dataset_name)  # Dynamically get the dataset by name
   do.call(rbind, lapply(names(dataset), function(level) {
     do.call(rbind, lapply(seq_along(dataset[[level]]), function(replicate_index) {
@@ -612,7 +616,7 @@ combined_data <- do.call(rbind, lapply(c("cont_default_dists", "cont_sample_dist
         low = data$fossil_low,
         living = data$living,
         level = level,
-        treatment = dataset_name  # Add a column for treatment
+        threshold_method = dataset_name  # Add a column for treatment
       )
       df_long <- pivot_longer(df, cols = c("living", "low", "mid", "high", "all"),
                               names_to = "preservation_level", values_to = "distance")
@@ -622,10 +626,16 @@ combined_data <- do.call(rbind, lapply(c("cont_default_dists", "cont_sample_dist
   }))
 }))
 
-# Generate the combined plot
-ggplot(combined_data, aes(x = preservation_level, y = distance, color = level, fill = level, linetype = treatment)) +
+combined_data$threshold_method <- factor(combined_data$threshold_method, levels = c("point_dists",  "sample_dists"), labels = c("Point", "Sample"))
+
+pdf("../Manuscript/figures/contdist.pdf", width = 8, height = 4)
+
+# Generate the combined plotcolors <- c("BM" = "purple", "OU" = "darkorange")
+colors <- c("bm" = "purple", "ou" = "darkorange")
+
+ggplot(combined_data, aes(x = preservation_level, y = distance, color = level, fill = level)) +
   stat_summary(
-    aes(group = interaction(level, treatment)),
+    aes(group = level),
     fun.data = function(y) {
       data.frame(
         y = median(y),
@@ -638,21 +648,27 @@ ggplot(combined_data, aes(x = preservation_level, y = distance, color = level, f
     color = NA
   ) +
   stat_summary(
-    aes(group = interaction(level, treatment)),
+    aes(group = level),
     fun = median,
     geom = "line",
     size = 1.2
   ) +
+  facet_wrap(~ threshold_method, ncol = 3) +  # Create 3 panels side by side
+  scale_color_manual(values = colors) +  # Apply custom colors to lines
+  scale_fill_manual(values = colors) +   # Apply custom colors to ribbons
   labs(
     x = "Fossil Sampling Level",
     y = "Distance to True Value",
-    color = "Model",
-    fill = "Model",
-    linetype = "Treatment"
+    color = "Model",  # Updated label to reflect BM/OU
+    fill = "Model"    # Updated label to reflect BM/OU
   ) +
   theme_minimal() +
-  scale_y_reverse()  # Reverse the y-axis if needed
-
+  theme(
+    strip.background = element_rect(color = "black", fill = "white", linewidth = 0.5),
+    panel.border = element_rect(color = "black", fill = NA, linewidth = 0.5)
+  ) +
+  scale_y_reverse() # Reverse the y-axis if needed
+dev.off()
 
 ```
 
@@ -723,3 +739,88 @@ ggplot(combined_data, aes(x = preservation_level, y = distance, color = level, f
 ## Next steps
 
 Looking at incorporating a mass extinction event... how does survivorship bias in a selective extinction affect ase estimates? Does using sample function improve estimates compared to point estimates? 
+
+
+## Sum of variances continuous
+
+I then constructed distance matrices and ordinated both the 'true' and 'aced' matrices, then calculated the difference between the sum of variances values between true and aced.
+
+```{R echo = FALSE}
+
+
+library(scales)
+combined_data <- do.call(rbind, lapply(c("var_point_diffs", "var_sample_diffs"), function(dataset_name) {
+  dataset <- get(dataset_name)  # Dynamically get the dataset by name
+  do.call(rbind, lapply(names(dataset), function(level) {
+    do.call(rbind, lapply(seq_along(dataset[[level]]), function(replicate_index) {
+      data <- dataset[[level]][[replicate_index]]
+      df <- data.frame(
+        replicate = replicate_index,
+        all = data$all,
+        high = data$fossil_high,
+        mid = data$fossil_med,
+        low = data$fossil_low,
+        living = data$living,
+        level = level,
+        threshold_method = dataset_name  # Add a column for treatment
+      )
+      df_long <- pivot_longer(df, cols = c("living", "low", "mid", "high", "all"),
+                              names_to = "preservation_level", values_to = "distance")
+      df_long$preservation_level <- factor(df_long$preservation_level, levels = c("living", "low", "mid", "high", "all"))
+      return(df_long)
+    }))
+  }))
+}))
+
+
+combined_data$threshold_method <- factor(combined_data$threshold_method, levels = c("var_point_diffs",  "var_sample_diffs"), labels = c("Point", "Sample"))
+
+# log10_reverse_trans <- trans_new(
+#   name = "log10_reverse",
+#   transform = function(x) -log10(x),  # Apply log10 and reverse
+#   inverse = function(x) 10^(-x)      # Inverse of the transformation
+# )
+
+pdf("../Manuscript/figures/sumvarcontinuous.pdf", width = 8, height = 4)
+colors <- c("bm" = "purple", "ou" = "darkorange")
+
+# Generate the combined plot
+ggplot(combined_data, aes(x = preservation_level, y = distance, color = level, fill = level)) +
+  stat_summary(
+    aes(group = level),
+    fun.data = function(y) {
+      data.frame(
+        y = median(y),
+        ymin = quantile(y, 0.25),  # 25th percentile
+        ymax = quantile(y, 0.75)  # 75th percentile
+      )
+    },
+    geom = "ribbon",
+    alpha = 0.2,
+    color = NA
+  ) +
+  stat_summary(
+    aes(group = level),
+    fun = median,
+    geom = "line",
+    size = 1.2
+  ) +
+  facet_wrap(~ threshold_method, ncol = 3) +  # Create 3 panels side by side
+  scale_color_manual(values = colors) +  # Apply custom colors to lines
+  scale_fill_manual(values = colors) +   # Apply custom colors to ribbons
+  labs(
+    x = "Fossil Sampling Level",
+    y = "Relative distance to True Disparity",
+    color = "Transition Rate",
+    fill = "Transition Rate"
+  ) +
+  theme_minimal() +
+  theme(
+    strip.background = element_rect(color = "black", fill = "white", linewidth = 0.5),
+    panel.border = element_rect(color = "black", fill = NA, linewidth = 0.5)
+  ) +
+  scale_y_reverse() # Reverse the y-axis if needed
+
+dev.off()
+
+```

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2024.11.5)  14 JUN 2025 14:41
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2024.11.5)  15 JUN 2025 18:45
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -268,11 +268,7 @@ Package: array 2023/10/16 v2.5g Tabular extension package (FMi)
 File: l3backend-pdftex.def 2024-01-04 L3 backend support: PDF output (pdfTeX)
 \l__color_backend_stack_int=\count291
 \l__pdf_internal_box=\box57
-) (./confirmationreview.aux
-
-LaTeX Warning: Label `fig:rootdistance' multiply defined.
-
-)
+) (./confirmationreview.aux)
 \openout1 = `confirmationreview.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 24.
@@ -352,7 +348,7 @@ Package hyperref Info: Link coloring OFF on input line 24.
 * \@reversemarginfalse
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
-<figures/sheffieldlogo.png, id=172, 1505.625pt x 456.70625pt>
+<figures/sheffieldlogo.png, id=176, 1505.625pt x 456.70625pt>
 File: figures/sheffieldlogo.png Graphic file (type png)
 <use figures/sheffieldlogo.png>
 Package pdftex.def Info: figures/sheffieldlogo.png  used on input line 28.
@@ -369,7 +365,7 @@ l.32 ...}{\numberline {12}Methods}{19}{section.12}
 \openout4 = `confirmationreview.toc'.
 
  [2] [3]
-<figures/extinctionscenarios.png, id=323, 896.59969pt x 213.79875pt>
+<figures/extinctionscenarios.png, id=329, 896.59969pt x 213.79875pt>
 File: figures/extinctionscenarios.png Graphic file (type png)
 <use figures/extinctionscenarios.png>
 Package pdftex.def Info: figures/extinctionscenarios.png  used on input line 167.
@@ -380,7 +376,7 @@ pdfTeX warning (ext4): destination with the same identifier (name{figure.1}) has
                                                   \__shipout_drop_firstpage_...
 l.198 
        <./figures/extinctionscenarios.png>] [5]
-<figures/grossnickleradiations.jpg, id=429, 300.20958pt x 538.98965pt>
+<figures/grossnickleradiations.jpg, id=434, 300.20958pt x 538.98965pt>
 File: figures/grossnickleradiations.jpg Graphic file (type jpg)
 <use figures/grossnickleradiations.jpg>
 Package pdftex.def Info: figures/grossnickleradiations.jpg  used on input line 215.
@@ -391,7 +387,7 @@ pdfTeX warning (ext4): destination with the same identifier (name{figure.2}) has
                                                   \__shipout_drop_firstpage_...
 l.233 
        <./figures/grossnickleradiations.jpg>]
-<figures/simplepipeline.png, id=446, 1281.78876pt x 1505.625pt>
+<figures/simplepipeline.png, id=451, 1281.78876pt x 1505.625pt>
 File: figures/simplepipeline.png Graphic file (type png)
 <use figures/simplepipeline.png>
 Package pdftex.def Info: figures/simplepipeline.png  used on input line 236.
@@ -447,7 +443,7 @@ pdfTeX warning (ext4): destination with the same identifier (name{table.1}) has 
                                                   \__shipout_drop_firstpage_...
 l.317 
       ]
-<figures/Ichthyosauria_phylogeny.jpg, id=568, 2063.71pt x 1417.295pt>
+<figures/Ichthyosauria_phylogeny.jpg, id=573, 2063.71pt x 1417.295pt>
 File: figures/Ichthyosauria_phylogeny.jpg Graphic file (type jpg)
 <use figures/Ichthyosauria_phylogeny.jpg>
 Package pdftex.def Info: figures/Ichthyosauria_phylogeny.jpg  used on input line 327.
@@ -463,7 +459,7 @@ Overfull \hbox (14.76158pt too wide) in paragraph at lines 647--647
  []
 
 [17]
-<figures/baci.png, id=769, 2495.3225pt x 1647.15375pt>
+<figures/baci.png, id=774, 2495.3225pt x 1647.15375pt>
 File: figures/baci.png Graphic file (type png)
 <use figures/baci.png>
 Package pdftex.def Info: figures/baci.png  used on input line 681.
@@ -474,7 +470,7 @@ pdfTeX warning (ext4): destination with the same identifier (name{figure.5}) has
                                                   \__shipout_drop_firstpage_...
 l.698 \end{itemize}
                     <./figures/baci.png>]
-<figures/gantt.png, id=780, 1040.88875pt x 306.14375pt>
+<figures/gantt.png, id=785, 1040.88875pt x 306.14375pt>
 File: figures/gantt.png Graphic file (type png)
 <use figures/gantt.png>
 Package pdftex.def Info: figures/gantt.png  used on input line 710.
@@ -485,38 +481,60 @@ pdfTeX warning (ext4): destination with the same identifier (name{figure.6}) has
                                                   \__shipout_drop_firstpage_...
 l.728 
        <./figures/gantt.png>] [20] [21]
-<figures/strictdistance.pdf, id=814, 578.16pt x 289.08pt>
+<figures/strictdistance.pdf, id=824, 578.16pt x 289.08pt>
 File: figures/strictdistance.pdf Graphic file (type pdf)
 <use figures/strictdistance.pdf>
-Package pdftex.def Info: figures/strictdistance.pdf  used on input line 806.
+Package pdftex.def Info: figures/strictdistance.pdf  used on input line 821.
 (pdftex.def)             Requested size: 426.79134pt x 213.39534pt.
-<figures/rootdistance.pdf, id=816, 578.16pt x 289.08pt>
+ [22]
+<figures/rootdistance.pdf, id=831, 578.16pt x 289.08pt>
 File: figures/rootdistance.pdf Graphic file (type pdf)
 <use figures/rootdistance.pdf>
-Package pdftex.def Info: figures/rootdistance.pdf  used on input line 816.
+Package pdftex.def Info: figures/rootdistance.pdf  used on input line 833.
 (pdftex.def)             Requested size: 426.79134pt x 213.39534pt.
- [22
+ [23
 pdfTeX warning (ext4): destination with the same identifier (name{figure.7}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.820 
+l.837 
        <./figures/strictdistance.pdf>]
-<figures/sumvardistance.pdf, id=831, 578.16pt x 289.08pt>
+<figures/sumvardistance.pdf, id=846, 578.16pt x 289.08pt>
 File: figures/sumvardistance.pdf Graphic file (type pdf)
 <use figures/sumvardistance.pdf>
-Package pdftex.def Info: figures/sumvardistance.pdf  used on input line 826.
+Package pdftex.def Info: figures/sumvardistance.pdf  used on input line 847.
 (pdftex.def)             Requested size: 426.79134pt x 213.39534pt.
- (./confirmationreview.bbl [23
+ [24
 pdfTeX warning (ext4): destination with the same identifier (name{figure.8}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.8 
-    
+l.859 
+      
 pdfTeX warning (ext4): destination with the same identifier (name{figure.9}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.8 
-     <./figures/rootdistance.pdf> <./figures/sumvardistance.pdf>]
+l.859 
+       <./figures/rootdistance.pdf> <./figures/sumvardistance.pdf>]
+<figures/contdist.pdf, id=872, 578.16pt x 289.08pt>
+File: figures/contdist.pdf Graphic file (type pdf)
+<use figures/contdist.pdf>
+Package pdftex.def Info: figures/contdist.pdf  used on input line 864.
+(pdftex.def)             Requested size: 426.79134pt x 213.39534pt.
+<figures/sumvarcontinuous.pdf, id=873, 578.16pt x 289.08pt>
+File: figures/sumvarcontinuous.pdf Graphic file (type pdf)
+<use figures/sumvarcontinuous.pdf>
+Package pdftex.def Info: figures/sumvarcontinuous.pdf  used on input line 877.
+(pdftex.def)             Requested size: 426.79134pt x 213.39534pt.
+ [25
+pdfTeX warning (ext4): destination with the same identifier (name{figure.10}) has been already used, duplicate ignored
+<argument> ...shipout:D \box_use:N \l_shipout_box 
+                                                  \__shipout_drop_firstpage_...
+l.881 
+       <./figures/contdist.pdf>] (./confirmationreview.bbl [26
+pdfTeX warning (ext4): destination with the same identifier (name{figure.11}) has been already used, duplicate ignored
+<argument> ...shipout:D \box_use:N \l_shipout_box 
+                                                  \__shipout_drop_firstpage_...
+l.27 ...nd\ Mitchell}{2012}{bapst_graptoloid_2012}
+                                                   <./figures/sumvarcontinuous.pdf>]
 Underfull \hbox (badness 10000) in paragraph at lines 38--40
 []\OT1/cmr/m/n/10 Benton, M. J., Wilf, P. and Sauquet, H. (2022), `The An-giosperm Ter-res-trial Rev-o-lu-
  []
@@ -526,7 +544,7 @@ Underfull \hbox (badness 3439) in paragraph at lines 38--40
 \OT1/cmr/m/n/10 tion and the ori-gins of mod-ern bio-di-ver-sity', \OT1/cmr/m/it/10 New Phy-tol-o-gist \OT1/cmr/bx/n/10 233\OT1/cmr/m/n/10 (5), 2017--2035.  []eprint:
  []
 
-[24] [25] [26]
+[27] [28] [29]
 Underfull \hbox (badness 10000) in paragraph at lines 171--173
 []\OT1/cmr/m/n/10 Halliday, T. J. D., Up-church, P. and Goswami, A. (2017), `Re-solv-ing the re-la-tion-
  []
@@ -536,31 +554,27 @@ Underfull \hbox (badness 10000) in paragraph at lines 171--173
 \OT1/cmr/m/n/10 ships of Pa-le-ocene pla-cen-tal mam-mals', \OT1/cmr/m/it/10 Bi-o-log-i-cal Re-views \OT1/cmr/bx/n/10 92\OT1/cmr/m/n/10 (1), 521--550.  []eprint:
  []
 
-[27] [28] [29] [30] [31]) [32] (./confirmationreview.aux)
+[30] [31] [32] [33] [34]) [35] (./confirmationreview.aux)
  ***********
 LaTeX2e <2023-11-01> patch level 1
 L3 programming layer <2024-01-22>
  ***********
-
-
-LaTeX Warning: There were multiply-defined labels.
-
 Package rerunfilecheck Info: File `confirmationreview.out' has not changed.
-(rerunfilecheck)             Checksum: F92370AB3287EE54F12AE7259A0E4358;8030.
+(rerunfilecheck)             Checksum: E535861B54BFF2B6C005DA4D7C1BC5B1;8248.
  ) 
 Here is how much of TeX's memory you used:
- 10771 strings out of 474222
- 170491 string characters out of 5748733
+ 10796 strings out of 474222
+ 171124 string characters out of 5748733
  1934975 words of memory out of 5000000
- 32700 multiletter control sequences out of 15000+600000
+ 32719 multiletter control sequences out of 15000+600000
  568413 words of font info for 71 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 75i,12n,79p,917b,753s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 75i,12n,79p,917b,762s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbxti10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmib10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfrm1000.pfb>
-Output written on confirmationreview.pdf (33 pages, 2098940 bytes).
+Output written on confirmationreview.pdf (36 pages, 2114007 bytes).
 PDF statistics:
- 1001 PDF objects out of 1200 (max. 8388607)
- 861 compressed objects within 9 object streams
- 196 named destinations out of 1000 (max. 500000)
- 387 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 1049 PDF objects out of 1200 (max. 8388607)
+ 901 compressed objects within 10 object streams
+ 202 named destinations out of 1000 (max. 500000)
+ 405 words of extra memory for PDF output out of 10000 (max. 10000000)
 

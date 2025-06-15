@@ -370,7 +370,7 @@ The central tenet of the approach is the likelihood function, which integrates i
 By systematically exploring the parameter space through numerical optimization, the method search for the ancestral states that maximize the likelihood function.
 The same general likelihood framework underpins estimation of continuous and discrete characters; the core difference in estimation is the evolutionary model that is specified.
 
-\subsubsection{Continuous characters}
+\subsubsection{Continuous characters} \label{continuous ace}
 Continuous trait evolution is typically modelled under a Brownian motion (BM) model of evolution \citep{felsenstein1985phylogenies, omeara2006testing}.
 BM models trait evolution as a directionless, stochastic process under which continuous characters undergo changes along the branches of a phylogeny.
 These evolutionary changes come from a Gaussian distribution with a mean of 0 and variance proportional to the product of the rate of evolution and time elapsed ($\sigma^2\textit{t}$). 
@@ -719,14 +719,14 @@ Note this is chapter 2 of my thesis presented.
 \section{Methods}
 \subsection{Simulations}
 Simulations were carried out using \texttt{treats} \citep{guillerme2024treats}.
-Trees are simulated using a modified version of the birth-death process algorithm.
-The process begins with a single lineage and iteratively selects active lineages to grow the tree forward in time. 
+Trees were simulated using a modified version of the birth-death process algorithm.
+The process begins with a single lineage and iteratively selects lineages to grow the tree forward in time. 
 At each step, all living branches are extended by a branch length increment, drawn from an exponential distribution based on the total number of lineages and the combined speciation and extinction rates. 
 Selected lineages then undergo either speciation or extinction based on a probabilistic decision determined by the specified rates.
 100 trees were simulated with birth-death parameters as speciation, $\lambda = 1.0$, and extinction, $\mu = 0.7$.
 Trees were fixed to have 50 extant tips and a range of 50 - 200 fossil tips.
 
-Across each tree continuous and discrete trait data were simulated.
+Across each tree, discrete and continuous trait data were simulated.
 Discrete trait data were simulated using three different Markov chain matrices, representing fast (0.9), medium (0.1) and slow (0.01) transition rates, for 100 characters (85\% binary and 15\% three-state).
 Continuous trait data were simulated under Brownian motion (BM) and Ornstein-Uhlenbeck (OU) models, with default parameters and for 50 characters.
 Trait data were simulated using the function \texttt{map.traits}, which assigns both nodes and tips trait values, essentially constructing full hypothetical evolutionary histories across each phylogeny for each trait type.
@@ -743,15 +743,17 @@ From each `stage', fossil tips were randomly pruned from the tree and correspond
 I aim to modify this method in the future so that earlier stages have lower fossil sampling than more recent stages, to replicate the temporal gradient in completeness seen in the empirical fossil record \citep{davies2017completeness}.
 
 \subsection{Ancestral state estimation}
-Node states were then removed from the trait matrices, leaving just tip states.
-Ancestral states were estimated using the \texttt{multi.ace} function.
+Node states were then removed from the trait matrices leaving just tip states.
+Ancestral states were estimated using the \texttt{multi.ace} function in the \texttt{dispRity} package \citep{guillerme2018disprity}.
 \subsubsection{Discrete characters}
-Ancestral states were estimated using marginal likelihood estimation, whereby each state is assigned a scaled likelihood (\autoref{ace discrete}).
-Three different majority-rule approaches were used for collapsing these probabilities into ancestral states.
-The \textit{strict majority rule} uses a threshold that selects the ancestral states estimate with a scaled likelihood equal or greater than a designated value (0.5).
+For discrete state estimation, \texttt{multi.ace} is a wrapper for \texttt{castor::asr\_mk\_model}.  
+Ancestral states were estimated using marginal likelihood estimation, whereby each state at each node is assigned a scaled likelihood (\autoref{ace discrete}).
+Symmetrical transition rates were set \textit{a priori} during simulations and so the SYM model was used to avoid model misspecification as a confounding factor on estimation accuracy \citep{keating2023best}.
+Three different majority-rule approaches were implemented for collapsing the state probabilities into ancestral states.
+The \textit{strict majority rule} uses a threshold that selects the state with a scaled likelihood equal or greater than a designated value (in this case 0.5).
 The \textit{relative majority rule} sets a threshold at a scaled likelihood greater than the maximum observed scaled likelihood minus the inverse number of possible states, \textit{k}
 \[
-\text{Relative majority threshold} = \max(L_{\text{scaled}}) - \frac{1}{k}
+\textit{Relative majority threshold} = \max(L_{\text{scaled}}) - \frac{1}{k}
 \]
 The \textit{no majority rule} (sampling approach) returns multiple matrices (\textit{x} matrices) where ancestral states are probabilistically sampled based on their scaled likelihoods. 
 For each node, the state assigned in each matrix is randomly drawn according to the probability distribution of the scaled likelihoods, meaning states with higher likelihoods are more likely to be selected across the sample of matrices. 
@@ -759,18 +761,21 @@ For example, a node with uncertain estimates (e.g., state 0 = 0.6, state 1 = 0.4
 In this case, 100 matrices were returned using the no majority rule.
 
 \subsubsection{Continuous characters}
-Continuous ancestral states were estimated using BM.
-Two approaches were applied to account for uncertainty.
-Using \textit{point estimates} simply return the median of the 95\% confidence interval.
-Alternatively, a \textit{sampling} approach, whereby trait values are sampled across a normal distribution defined by the 95\% confidence interval at each node, over a specified number of matrices (in this case 100).
+Continuous ancestral states were estimated using the BM likelihood method described in \autoref{continuous ace}.
+Two approaches were applied to account for uncertainty in estimates.
+The \textit{point estimate} approach simply returns the median of the 95\% confidence interval.
+Alternatively, the \textit{sampling} approach, whereby trait values are sampled across a normal distribution defined by the 95\% confidence interval at each node, over a specified number of matrices (in this case 100).
 
 \subsection{Measuring raw distance}
 % Look at https://www.nature.com/articles/s41598-020-64647-4 for inspo on how to get this raw score and penalise for uncertainty vs precise.
-A Hamming distance metric was used to compare the raw error between the estimated ancestral states and the `true' matrix
-I used  Hamming distance metric to measure the raw accuracy at each node and state between the true and estimated discrete matrices.
+A Hamming distance metric to measure the raw accuracy at each node and state between the true and estimated discrete matrices.
+Both uncertain (where no state surpasses the threshold set by the majority rules) and inaccurate estimates were penalised with a score of 1, thus only correct estimates were not penalised (score of 0).
 To achieve fair comparison between each fossil sampling level, only the nodes present across all fossil sampling levels were included in these analyses (leaving 50 nodes).
+This outputted a distance matrix of dimensions \textit{N} by \textit{C}, whereby \textit{N} is the number of nodes and \textit{C} is the number of characters.
+The mean was taken from each matrix to output a distance score between 0--1.
 
-For continuous characters, estimation error was quantified by calculating the Euclidean distance between the estimated and true trait values at each node. Trait values were standardised prior to analysis to ensure comparability across characters.
+For continuous characters, estimation error was quantified by calculating the Euclidean distance between the estimated and true trait values at each node. 
+Trait values were Z-score standardised prior to analysis to ensure fair comparison between BM and OU models.
 
 
 \subsection{Measuring error in disparity}
@@ -778,7 +783,11 @@ To evaluate how ancestral state estimation influences disparity estimates, both 
 For discrete characters, the raw trait matrices were converted into distance matrices using the MORD metric \citep{lloyd_estimating_2016}, the most widely used distance metric in disparity analyses.
 These distance matrices were ordinated using principal coordinates analysis (PCO) to generate the multidimensional traitspaces.
 Disparity was quantified as the sum of variances across all PCO axes for each combination of tree, transition rate, fossil sampling level, and majority-rule method.
+To measure the estimation accuracy in disparity, the estimated disparity value was subtracted by the true disparity value and then divided by the true disparity value, to give a relative difference in disparity (this is necessary since true disparity values can vary greatly between different parameter combinations).
+
+For continuous characters, the trait matrices were ordinated using principal component analysis (PCA) and then also disparity measured using the sum of variances across all PC axes.
 These analyses were performed using the \texttt{dispRity} package \citep{guillerme2018disprity}.
+
 % \[
 % d_H(s_{\text{true}}, s_{\text{est}}) = 
 % \begin{cases}
@@ -794,21 +803,29 @@ A random mass extinction event can be applied to this
 
 
 \section{Results and Discussion}
-\subsection{Raw distance}
+\subsection{Discrete characters}
+% \subsubsection{Raw distance}
+
 Raw ancestral state estimation error across all nodes varies with the majority-rule method, transition rate and fossil sampling level (\autoref{fig:rawdistance}).
-Across each majority-rule method, increase in transition rate of discrete characters led to a decrease in estimation accuracy.
-In general, estimation accuracy increased as fossil sampling increased, particularly at higher transition rates.
-However, the extent of this increase in accuracy was not as great as observed in other studies \citep{finarelli2006ancestral,keating2023best}.
+Across all majority rules, transition rates strongly influenced estimation accuracy.
+Estimation accuracy was consistently highest when transition rates were slow.
+Medium and fast rates resulted in substantially higher error, particularly under strict and relative majority rules.
+The threshold-based strict and relative majority rule methods were less accurate in estimation compared to the sample-based approach, particularly with medium and fast transition rates.
+Notably, fossil sampling level had a relatively negligible effect on accuracy, which contrasts previous findings \citep{finarelli2006ancestral,keating2023best}.
+Higher sampling slightly improved estimates under strict and relative majority rules at fast and medium rates.
+In contrast, the sample-based approach remained stable across all sampling levels, highlighting its robustness.
 
 
 \begin{figure}[H]
     \centering
     \includegraphics[width = 15cm]{figures/strictdistance.pdf}
-    \caption{Mean estimation accuracy across all nodes}
+    \caption{Mean distance of ancestral state estimations to true value across all nodes, plotted against fossil sampling level, for each majority rule and transition rate (fast = 0.9, medium = 0.1, slow = 0.01). The shaded area represents the upper and lower quartile range across the 100 tree replicates.}
     \label{fig:rawdistance}
 \end{figure}
 
-Estimation accuracy at deeper nodes of the tree decreases much more significantly as fossil sampling decreases, as exemplified at the root node (\autoref{fig:rootdistance}).
+When assessing accuracy at the root node solely, similar patterns are observed, with the sample-based approach outperforming majority-rule methods (\autoref{fig:rootdistance}).
+At the root node, fossil sampling has a greater impact, as increases in sampling increase estimation accuracy for medium and slow transition rates, but has little effect on fast rates.
+The importance of fossil inclusion is highlighted here, particularly at deeper nodes, when uncertainty decreases due to the diffusion of informative observed data.
 However, the no majority rule (sampling) threshold method appears to be robust against low fossil sampling and high accuracy is maintained.
 
 \begin{figure}[H]
@@ -818,14 +835,48 @@ However, the no majority rule (sampling) threshold method appears to be robust a
     \label{fig:rootdistance}
 \end{figure}
 
-\subsection{Disparity}
-Interestingly, the pattern observed in the raw distances is not preserved when looking at disparity.
+Interestingly, the pattern observed when assessing the estimation of disparity differs to that of raw estimates (\autoref{fig: discrete sum var distance}).
+The sample-based approach again outperformed the majority-rule approaches, was robust against low fossil sampling and the true disparity value was recovered with high accuracy across all three transition rates.
+In contrast, the majority-rule approaches were more substantially affected by low fossil sampling, particularly at medium rates, which returned considerable variation in the disparity values returned.
+Somewhat counter-intuitively, the disparity value returned from fast transition rates were generally most accurate, despite having the lowest raw accuracy.
+
+
 
 \begin{figure}[H]
     \centering
     \includegraphics[width = 15cm]{figures/sumvardistance.pdf}
     \caption{Mean estimation accuracy across at the root node for each tree.}
-    \label{fig:rootdistance}
+    \label{fig: discrete sum var distance}
+\end{figure}
+
+\subsection{Continuous characters}
+Raw estimation accuracy for continuous characters was found to vary substantially between models of trait evolution and method of handling uncertainty, but not across fossil sampling levels (\autoref{fig:contdist}).
+Estimation accuracy of OU traits were more accurate than accuracy of BM trait estimation.
+This is intuitive, since estimation accuracy is expected to decrease as the trait variance, $\sigma$, increases \citep{royer2016comparison}.
+BM represents unbounded trait evolution and the variance
+In an OU model, trait variance is restricted due to the stabilising selection, denoted by the $\alpha$ parameter. 
+Therefore, it can be inferred that the greater the strength of $\alpha$, the more accurate the estimations (something that will be tested in future analyses).
+
+Interestingly, fossil sampling appears to make no difference on the estimation accuracy, nor the precision.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width = 15cm]{figures/contdist.pdf}
+    \caption{Mean estimation accuracy across at the root node for each tree.}
+    \label{fig:contdist}
+\end{figure}
+
+
+% \subsubsection{Disparity}
+
+
+
+\subsubsection{Continuous}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width = 15cm]{figures/sumvarcontinuous.pdf}
+    \caption{Mean estimation accuracy across at the root node for each tree.}
+    \label{fig:blah}
 \end{figure}
 
 
