@@ -313,7 +313,7 @@ The incorporation of a phylogeny together with trait data enables a switch from 
 \subsection{Application of ancestral state estimation}
 Ancestral state estimation is the broad method of estimating trait value(s) in a set of common ancestors given a set of observed data for tips on a phylogenetic tree \citep{schluter1997likelihood,cunningham1998reconstructing, yang2006computational,revell2025ancestral}.
 Trait data may be continuous, such as body size, or discrete, such as diet type or presence/absence of a character. 
-The application of ASE has been widely utilised in phylogenetic comparative methods, including disparity.
+The application of ancestral state estimation has been widely utilised in phylogenetic comparative methods, including disparity.
 
 
 Intuitively, ancestral state estimation is appealing for those studying deep-time patterns of disparity.
@@ -346,14 +346,6 @@ This fills in the gaps in the fossil record and alleviates the bias associated w
 
 
 
-% TG: For the whole ancestral traits estimations section, I suggest you simplify the writing by re-writing the whole thing from scratch step by step. I suggest you write it in a very didactic way like how you would go for teaching it to a colleague (e.g. imagine you have to teach it to Shriya or Rob).
-% TG: Basically here you need to explain the following concepts
- % 1. How can you calculate the value at a node (regardless of discrete/continuous) and use likelihood to see how it fits the observed data
- % 2. How can you then calculate the value at a node for continuous data (I think it's always a bit more intuitive). You can do that just for the mini tree with continuous values. You'll then just need to introduce transition rates and variance.
- % 3. How then to do it for discrete values (with introducing the Q matrix first. transition rates are already introduced in 2.)
-% TG: I think then it's easier for both you and the reader to understand what is happening here. Basically for this work to be useful to readers (beyond the confirmation review) I tink it needs to be written in a very easy step by step fashion. Basically very much the opposite of Revell and other papers ;).
-% TG: Also this whole section needs a little intro on why it's important to care about that (we need them because ghost lineages and shit - see coment chunk just above) and can then finish with the caveats you have in place on uncertainty 
-
 
 % An additional requirement of ASE is the model specified.
 % This model specification varies between discrete and continuous characters.
@@ -365,9 +357,9 @@ This fills in the gaps in the fossil record and alleviates the bias associated w
 % The fragmented fossil record can make sample size at deeper points in the phylogeny low, which may necessitate ASE. 
 
 \subsubsection{Likelihood methods}
-Likelihood methods for ancestral state estimation are based on a unifying statistical framework that treats the internal node states as parameters to be estimated, seeking to maximize the probability of the observed tip states given a topology and a model of evolution \citep{joy2016ancestral}.
+Likelihood methods for ancestral state estimation are based on a unifying statistical framework that treats the internal node states as parameters to be estimated, seeking to maximise the probability of the observed tip states given a topology and a model of evolution \citep{joy2016ancestral}.
 The central tenet of the approach is the likelihood function, which integrates information from the topology, which reflects the evolutionary history among taxa, and the model of trait evolution (which specifies how traits evolve along the branches). 
-By systematically exploring the parameter space through numerical optimization, the method search for the ancestral states that maximize the likelihood function.
+By systematically exploring the parameter space through numerical optimisation, the method search for the ancestral states that maximise the likelihood function.
 The same general likelihood framework underpins estimation of continuous and discrete characters; the core difference in estimation is the evolutionary model that is specified.
 
 \subsubsection{Continuous characters} \label{continuous ace}
@@ -475,7 +467,7 @@ For discrete characters, this uncertainty manifests as inconclusive scaled likel
 For continuous characters, uncertainty is wide confidence intervals.
 
 How this uncertainty in estimations should be dealt with is equivocal.
-Despite the encouragement for uncertainty to be carried forward in comparative analyses \citep{silvestro2015measurement}, most computational implementations of ASE return point estimates.
+Despite the encouragement for uncertainty to be carried forward in comparative analyses \citep{silvestro2015measurement}, most computational implementations of ancestral state estimation return point estimates.
 For continuous characters, this will be the median value of the confidence interval and for discrete characters, it will be the most probable state according to a scaled likelihood threshold.
 By ignoring uncertainty, point estimates can lead to overconfidence in results and erroneous inferences in downstream analyses (such as down the disparity pipeline), all while obscuring potentially `accurate' uncertainty \citep{ackerly2006niche,vanderpoorten2006mapping}.
 
@@ -514,7 +506,7 @@ When trait evolution deviates from BM -- due to directional trends, bounded evol
 
 Both \cite{webster2002testing} and \cite{finarelli2006ancestral} were unable to recover accurate ancestral estimates of body size in planktonic foraminifera and mammals, respectively, due to a trend of increase through time.
 Trends mean a moving average through time, which violates the assumption of zero-mean change under BM.
-Similarly, issues estimating the evolutionary rate may arise when the trait data evolved under an Ornstein-Uhlenbeck (OU) model, whereby trait data evolves under a stabilizing selection \citep{royer2016comparison}.
+Similarly, issues estimating the evolutionary rate may arise when the trait data evolved under an Ornstein-Uhlenbeck (OU) model, whereby trait data evolves under a stabilising selection \citep{royer2016comparison}.
 It is common for regime shifts to occur at mass extinction boundaries \citep{jablonski1986background}.
 For example,~\cite{slater_phylogenetic_2013} found that mammal body size was relatively constrained (OU) up until the K-Pg mass extinction which then allowed a release of constraint and BM evolution.
 Such shifts in regime could affect accurate estimation of evolutionary rate and thus state estimates.
@@ -522,7 +514,7 @@ Such shifts in regime could affect accurate estimation of evolutionary rate and 
 As discussed previously, fossil sampling is crucial for accurate estimation, especially when model assumptions are violated \citep{puttick2016partially}.
 Fossils assist in estimating and constraining model parameters, as well as distinguishing different evolutionary processes \citep{goswami2025phenomics}. 
 For example, when estimating states under an OU model, fossils are necessary for estimating the primary optimum.
-Similarly, fossils would be necessary to detect a trend, such as Cope's rule.
+Similarly, fossils would be necessary to detect a trend, such as Cope's rule that body size increases through time \citep{alroy1998cope}.
 A similar logic applies to discrete characters; \cite{keating2023best} found that inclusion of fossils improved estimate accuracy, irrespective of model misspecification.
 
 % \subsubsection{Pre- or post-ordination}
@@ -575,7 +567,8 @@ However, a framework is needed that allows a statistical test to be applied over
 
 \section{Aims and objectives}
 \textbf{Knowledge gap} \\
-The overarching aim of this PhD project is to better understand whether the K-Pg mass extinction had an effect on eutherian disparity, with a focus on investigating (and improving) the methodological choices in the disparity workflow.
+The overarching aim of this PhD project is to understand the long term effect of mass extinctions by developping new state-of-the-art disparity methods. 
+To achieve this I will be revisiting the critical question whether the K-PG mass extinction had an effect on eutherian disparity while focusing on improving the methodology of the disparity pipeline.
 % TG: This is totally fine but it can be hyped up (basically classic grant excersice stuff that will become important later one): The overarching aim of this PhD project is to understand the long term effect of mass extinctions by developping new state-of-the-art disparity methods. To achieve this I will be revisiting the question of whether the K-PG mass extinction had an effect on eutherian disparity while focusing on improving the methology of disparity pipelines/workflow. %TG: note for the last one I've been using pipeline, workflow is totally fine too. Just make sure you choose one and stick to it.
 
 \noindent\textbf{Research questions}
@@ -596,7 +589,7 @@ The overarching aim of this PhD project is to better understand whether the K-Pg
 
 \section{Chapter One: Eutherian phylogenies}
 \textbf{Chapter aim}: To estimate %TG: basically just ban the word "reconstruct" ;)
- the phylogeny of eutherian mammals, using various calibrations for the placental node in order to enforce 3 common diversification hypotheses: long fuse, soft explosive and hard explosive (\autoref{phylogenies}). %TG: the name diversification hypotheses I used here is a bit shit here. Maybe you can come up with something better?
+ the phylogeny of eutherian mammals, using various calibrations for the placental node in order to recover the three common placental origin hypotheses: long fuse, soft explosive and hard explosive (\autoref{phylogenies}). %TG: the name diversification hypotheses I used here is a bit shit here. Maybe you can come up with something better?
 The rationale of this chapter is so that these three tree distributions can be used in chapter four (\autoref{chapter four}).
 % TG: I guess not only no? It can also be used to better understand mammalian phylognetics?
 
@@ -657,12 +650,10 @@ To expand this framework to understand how random and selective mass extinction 
 \noindent\textbf{Research questions}:
 \begin{itemize}
     \item How can traditional statistical tests, such as changes in average (t tests), be misleading in inferences into temporal change in disparity?
-    \item How to implement a BACI (Before After Control Intervention) approach into disparity through time? %TG: maybe you can introduce a bit more of what this approach does?
-    \item How to use simulated data as a valid Control? %TG: or maybe "How to create some useful simulated valid control data (i.e. null models) for different specific questions?"
+    \item How to implement a BACI (Before After Control Intervention) approach into disparity through time? The BACI framework, as laid out from an ecological perspective in \cite{wauchope2021evaluating}, aims to assess how interventions (which can be loosely defined as major climatic or geological events in this context) have an effect on a variable across a time series, given an estimate of the counterfactual. 
+    \item How to generate valid simulated control data, i.e., null models, for different specific questions? %TG: or maybe "How to create some useful simulated valid control data (i.e. null models) for different specific questions?"
     \item How to deal with time lags?
 \end{itemize}
-
-% TG: actually for the BACI stuff, I suggest completely removing the acronyam and just call it Before After Control Intervention throughout. Or something better null modelled before and after differences or something else... I feel acronymising methods is always a tad pretentious. We already have PCA and DNA ;)
 
 
 \noindent\textbf{Research objectives}: 
@@ -679,10 +670,9 @@ To expand this framework to understand how random and selective mass extinction 
 \begin{figure}[H]
     \centering
     \includegraphics[width = 15cm]{figures/baci.png}
-    \caption{BA and BACI approach compared. Figure from \cite{wauchope2021evaluating}.}
+    \caption{Blue arrows indicate positive change and red indicate negative change. The intervention effect can be interpreted either by change in average (A, B), change in trend (C, D) and/or an immediate change (E, F). BACI comparisons show the BACI contrast. For example, in panel D, there is a positive change in trend. Figure from \cite{wauchope2021evaluating}.}
     \label{fig:baci}
 \end{figure}
-% TG: maybe develop a bit more in the caption here to show your understanding of the method: i.e. briefly explain it in easy terms.
 
 
 
@@ -700,9 +690,8 @@ To expand this framework to understand how random and selective mass extinction 
 \noindent\textbf{Research objectives}: 
 \begin{itemize}
     \item Use a dataset of discrete morphofunctional characters of jaw morphology and dentition, collected by \cite{emmerson_changes_2022}. %TG: and also other datasets?
-    \item Develop a pipeline that iterates through different models and metrics: tree topology (long fuse/soft explosive/hard explosive), distance metric, time slicing model and disparity metric. %TG: are we still doing distance metric? Also
+    \item Develop a pipeline that iterates through different models and metrics: tree topology (long fuse/soft explosive/hard explosive), time slicing model and disparity metric. 
     \item Use the BACI contrast function developed in chapter three to score a value of `change in disparity' at 66 Ma to obtain a distribution of effects depending on the choice of topology, time-slicing model and disparity metric.
-    % \item Develop an interactive \texttt{shiny} app that presents the results in an `electoral map' style format, whereby each `pixel', representing a specific combination of topology, model and metric, is shaded based on the size of effect returned by the BACI contrast. %TG: This last bit is more how you will represent the results, not really an objective. It's fine to talk about it in here if you want but if you do "electoral map" and "pixel" needs much more explanation here! They're good terms to use among us because we understand what they mean but I can guarantee that it'll be confusing to many other people!
 \end{itemize}
 
 \begin{figure}[H]
@@ -714,8 +703,8 @@ To expand this framework to understand how random and selective mass extinction 
 
 
 \part{Summary of research achievements}
-Note this is chapter 2 of my thesis presented.
 
+\textbf{Note} that this is chapter two findings so far presented here.
 \section{Methods}
 \subsection{Simulations}
 Simulations were carried out using \texttt{treats} \citep{guillerme2024treats}.
@@ -808,9 +797,8 @@ A random mass extinction event can be applied to this
 
 Raw ancestral state estimation error across all nodes varies with the majority-rule method, transition rate and fossil sampling level (\autoref{fig:rawdistance}).
 Across all majority rules, transition rates strongly influenced estimation accuracy.
-Estimation accuracy was consistently highest when transition rates were slow.
-Medium and fast rates resulted in substantially higher error, particularly under strict and relative majority rules.
-The threshold-based strict and relative majority rule methods were less accurate in estimation compared to the sample-based approach, particularly with medium and fast transition rates.
+Estimation accuracy was consistently highest when transition rates were slow, with estimation accuracy decreasing as rates increased.
+The threshold-based strict and relative majority rule methods were less accurate in estimation compared to the sample-based approach for fast and medium transition rates, but attained equivalent accuracy for slow rates.
 Notably, fossil sampling level had a relatively negligible effect on accuracy, which contrasts previous findings \citep{finarelli2006ancestral,keating2023best}.
 Higher sampling slightly improved estimates under strict and relative majority rules at fast and medium rates.
 In contrast, the sample-based approach remained stable across all sampling levels, highlighting its robustness.
@@ -825,7 +813,7 @@ In contrast, the sample-based approach remained stable across all sampling level
 
 When assessing accuracy at the root node solely, similar patterns are observed, with the sample-based approach outperforming majority-rule methods (\autoref{fig:rootdistance}).
 At the root node, fossil sampling has a greater impact, as increases in sampling increase estimation accuracy for medium and slow transition rates, but has little effect on fast rates.
-The importance of fossil inclusion is highlighted here, particularly at deeper nodes, when uncertainty decreases due to the diffusion of informative observed data.
+The importance of fossil inclusion is highlighted here, particularly at deeper nodes, when uncertainty increases due to the diffusion of informative observed data.
 However, the no majority rule (sampling) threshold method appears to be robust against low fossil sampling and high accuracy is maintained.
 
 \begin{figure}[H]
@@ -839,8 +827,7 @@ Interestingly, the pattern observed when assessing the estimation of disparity d
 The sample-based approach again outperformed the majority-rule approaches, was robust against low fossil sampling and the true disparity value was recovered with high accuracy across all three transition rates.
 In contrast, the majority-rule approaches were more substantially affected by low fossil sampling, particularly at medium rates, which returned considerable variation in the disparity values returned.
 Somewhat counter-intuitively, the disparity value returned from fast transition rates were generally most accurate, despite having the lowest raw accuracy.
-
-
+This suggests that even when individual ancestral states are estimated poorly, the overall disparity signal can still be reliably captured
 
 \begin{figure}[H]
     \centering
@@ -849,15 +836,29 @@ Somewhat counter-intuitively, the disparity value returned from fast transition 
     \label{fig: discrete sum var distance}
 \end{figure}
 
-\subsection{Continuous characters}
-Raw estimation accuracy for continuous characters was found to vary substantially between models of trait evolution and method of handling uncertainty, but not across fossil sampling levels (\autoref{fig:contdist}).
-Estimation accuracy of OU traits were more accurate than accuracy of BM trait estimation.
-This is intuitive, since estimation accuracy is expected to decrease as the trait variance, $\sigma$, increases \citep{royer2016comparison}.
-BM represents unbounded trait evolution and the variance
-In an OU model, trait variance is restricted due to the stabilising selection, denoted by the $\alpha$ parameter. 
-Therefore, it can be inferred that the greater the strength of $\alpha$, the more accurate the estimations (something that will be tested in future analyses).
+From these preliminary findings I can suggest that, even when ancestral state estimation accuracy is poor at a `raw state' level, accurate disparity signals are often still recovered.
+In addition, these findings highlight that accuracy should not be sacrificed for the sake of precision with ancestral state estimation. 
+By incorporating uncertainty down the disparity pipeline using the sample-approach, as opposed to deterministic approaches such as the majority-rule, higher accuracy is recovered \citep{joy2016ancestral}.
+For instance, when a true ancestral state has a posterior probability of 0.4, threshold-based approaches may discard it entirely, whereas the sample-based approach retains that state in 40\% of reconstructions. 
+This probabilistic representation enables more accurate recovery of trait variance and disparity, especially in cases where no single state dominates the posterior.
 
-Interestingly, fossil sampling appears to make no difference on the estimation accuracy, nor the precision.
+The incorporation of uncertainty in macroevolutionary workflows has been shown numerous times previously to yield more robust inferences \citep{slater2014robust, caetano2019estimating}, yet ancestral state and disparity workflows often default to point estimates.
+These results highlight the utility of posterior sampling in ancestral state estimation and the robustness of disparity analyses to recovering true signals and thus should be the standard workflow for researchers employing these methods for discrete traits.
+
+
+\subsection{Continuous characters}
+Raw estimation accuracy for continuous characters was found to vary between models of trait evolution and method of handling uncertainty, but not across fossil sampling levels (\autoref{fig:contdist}).
+Estimation accuracy of OU traits were more accurate than accuracy of BM trait estimation.
+This may seem intuitive, since estimation accuracy is expected to decrease as trait variance, $\sigma$, increases \citep{royer2016comparison}, although other studies have suggested that model misspecification (in this case OU when estimating traits under BM) can lead to erroneous estimates \citep{ho2014intrinsic}.
+In an OU model, trait variance is restricted due to the stabilising selection, denoted by the $\alpha$ parameter. 
+Therefore, it can be hypothesised from these results that the greater the strength of $\alpha$, the more accurate the estimations (something that will be tested in future analyses).
+Furthermore, the fact that estimation accuracy does not improve across higher fossil sampling levels is surprising, particularly given that accurate estimation of the primary optimum/root state is thought to be only possible with fossils \citep{goswami2025phenomics}.
+
+Interestingly, the sample-based approach returned less accurate estimates than using point estimates, contrasting the findings in discrete characters.
+This discrepancy may reflect the broader confidence intervals typically associated with continuous trait estimations.
+For discrete traits, estimations are constrained to finite number of possible states, so precision is inherently limited.
+In contrast, continuous traits exist on an infinite scale, making them more sensitive to imprecision, especially under models like BM where trait variance increases with time.
+
 
 \begin{figure}[H]
     \centering
@@ -866,18 +867,23 @@ Interestingly, fossil sampling appears to make no difference on the estimation a
     \label{fig:contdist}
 \end{figure}
 
+Disparity estimation accuracy from continuous traits varied markedly between models and methods (\autoref{fig:cont disparity}).
+Across all fossil sampling levels, estimates of BM traits derived from point estimates (left panel) were more accurate than those derived from a sample-approach.
+Estimates derived from sampling resulted in wide variation in estimates, which is likely due to the high uncertainty in the confidence intervals of estimated states.
+A contrasting pattern was observed for OU traits, with the sample-based approach recovering higher estimation accuracy than the point estimate approach, although both estimates had very low variance.
+Akin to the raw estimates of continuous characters, fossil sampling had little effect on estimation accuracy across both models.
 
-% \subsubsection{Disparity}
 
-
-
-\subsubsection{Continuous}
 \begin{figure}[H]
     \centering
     \includegraphics[width = 15cm]{figures/sumvarcontinuous.pdf}
     \caption{Mean estimation accuracy across at the root node for each tree.}
-    \label{fig:blah}
+    \label{fig:cont disparity}
 \end{figure}
+
+
+
+\section{Future directions}
 
 
 % \section{Introduction}

@@ -6,6 +6,9 @@ Ackerly, D., Schwilk, D. \harvardand\ Webb, C.  \harvardyearleft 2006\harvardyea
 \harvarditem[Ali et~al.]{Ali, Blonder, Pigot \harvardand\ Tobias}{2023}{ali2023bird}
 Ali, J.~R., Blonder, B.~W., Pigot, A.~L. \harvardand\ Tobias, J.~A.  \harvardyearleft 2023\harvardyearright , `Bird extinctions threaten to cause disproportionate reductions of functional diversity and uniqueness', {\em Functional Ecology} {\bf 37}(1),~162--175.
 
+\harvarditem{Alroy}{1998}{alroy1998cope}
+Alroy, J.  \harvardyearleft 1998\harvardyearright , `Cope's rule and the dynamics of body mass evolution in north american fossil mammals', {\em Science} {\bf 280}(5364),~731--734.
+
 \harvarditem{Alroy}{1999}{alroy_fossil_1999}
 Alroy, J.  \harvardyearleft 1999\harvardyearright , `The {Fossil} {Record} of {North} {American} {Mammals}: {Evidence} for a {Paleocene} {Evolutionary} {Radiation}', {\em Systematic Biology} {\bf 48}(1),~107--118.
 \newblock Publisher: Oxford Academic.
@@ -55,6 +58,9 @@ Brusatte, S.~L., Montanari, S., Yi, H.-y. \harvardand\ Norell, M.~A.  \harvardye
 
 \harvarditem{Budd}{2021}{budd2021morphospace}
 Budd, G.~E.  \harvardyearleft 2021\harvardyearright , `Morphospace', {\em Current Biology} {\bf 31}(19),~R1181--R1185.
+
+\harvarditem{Caetano \harvardand\ Harmon}{2019}{caetano2019estimating}
+Caetano, D.~S. \harvardand\ Harmon, L.~J.  \harvardyearleft 2019\harvardyearright , `Estimating correlated rates of trait evolution with uncertainty', {\em Systematic Biology} {\bf 68}(3),~412--429.
 
 \harvarditem[Carlisle et~al.]{Carlisle, Janis, Pisani, Donoghue \harvardand\ Silvestro}{2023}{carlisle_timescale_2023}
 Carlisle, E., Janis, C.~M., Pisani, D., Donoghue, P. C.~J. \harvardand\ Silvestro, D.  \harvardyearleft 2023\harvardyearright , `A timescale for placental mammal diversification based on {Bayesian} modeling of the fossil record', {\em Current Biology} {\bf 33}(15),~3073--3082.e3.
@@ -182,6 +188,9 @@ Harmon, L.~J., Schulte, J.~A., Larson, A. \harvardand\ Losos, J.~B.  \harvardyea
 
 \harvarditem[Haug et~al.]{Haug, Braig \harvardand\ Haug}{2023}{haug2023quantitative}
 Haug, C., Braig, F. \harvardand\ Haug, J.~T.  \harvardyearleft 2023\harvardyearright , `Quantitative analysis of lacewing larvae over more than 100 million years reveals a complex pattern of loss of morphological diversity', {\em Scientific Reports} {\bf 13}(1),~6127.
+
+\harvarditem{Ho \harvardand\ An{\'e}}{2014}{ho2014intrinsic}
+Ho, L. S.~T. \harvardand\ An{\'e}, C.  \harvardyearleft 2014\harvardyearright , `Intrinsic inference difficulties for trait evolution with ornstein-uhlenbeck models', {\em Methods in Ecology and Evolution} {\bf 5}(11),~1133--1146.
 
 \harvarditem{Hopkins}{2013}{hopkins2013decoupling}
 Hopkins, M.  \harvardyearleft 2013\harvardyearright , `Decoupling of taxonomic diversity and morphological disparity during decline of the cambrian trilobite family pterocephaliidae', {\em Journal of Evolutionary Biology} {\bf 26}(8),~1665--1676.
@@ -321,6 +330,9 @@ Silvestro, D., Kostikova, A., Litsios, G., Pearman, P.~B. \harvardand\ Salamin, 
 \harvarditem{Slater}{2013}{slater_phylogenetic_2013}
 Slater, G.~J.  \harvardyearleft 2013\harvardyearright , `Phylogenetic evidence for a shift in the mode of mammalian body size evolution at the {Cretaceous}-{Palaeogene} boundary', {\em Methods in Ecology and Evolution} {\bf 4}(8),~734--744.
 \newblock Publisher: John Wiley \& Sons, Ltd.
+
+\harvarditem{Slater \harvardand\ Pennell}{2014}{slater2014robust}
+Slater, G.~J. \harvardand\ Pennell, M.~W.  \harvardyearleft 2014\harvardyearright , `Robust regression and posterior predictive simulation increase power to detect early bursts of trait evolution', {\em Systematic Biology} {\bf 63}(3),~293--308.
 
 \harvarditem[Smith et~al.]{Smith, Boyer, Brown, Costa, Dayan, Ernest, Evans, Fortelius, Gittleman, Hamilton, Harding, Lintulaakso, Lyons, McCain, Okie, Saarinen, Sibly, Stephens, Theodor \harvardand\ Uhen}{2010}{smith_evolution_2010}
 Smith, F.~A., Boyer, A.~G., Brown, J.~H., Costa, D.~P., Dayan, T., Ernest, S. K.~M., Evans, A.~R., Fortelius, M., Gittleman, J.~L., Hamilton, M.~J., Harding, L.~E., Lintulaakso, K., Lyons, S.~K., McCain, C., Okie, J.~G., Saarinen, J.~J., Sibly, R.~M., Stephens, P.~R., Theodor, J. \harvardand\ Uhen, M.~D.  \harvardyearleft 2010\harvardyearright , `The {Evolution} of {Maximum} {Body} {Size} of {Terrestrial} {Mammals}', {\em Science} {\bf 330}(6008),~1216--1219.

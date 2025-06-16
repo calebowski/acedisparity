@@ -24,20 +24,20 @@
 \contentsline {section}{\numberline {6}Statistical tests in disparity}{14}{section.6}%
 \contentsline {part}{III\hspace {1em}Thesis plan}{15}{part.3}%
 \contentsline {section}{\numberline {7}Aims and objectives}{15}{section.7}%
-\contentsline {section}{\numberline {8}Chapter One: Eutherian phylogenies}{15}{section.8}%
+\contentsline {section}{\numberline {8}Chapter One: Eutherian phylogenies}{16}{section.8}%
 \contentsline {section}{\numberline {9}Chapter Two: What is the effect of ancestral state estimations on disparity?}{16}{section.9}%
 \contentsline {section}{\numberline {10}Chapter Three: Measuring changes in trends in disparity through time}{17}{section.10}%
-\contentsline {section}{\numberline {11}Chapter Four: Eutherian disparity over K-Pg mass extinction}{18}{section.11}%
+\contentsline {section}{\numberline {11}Chapter Four: Eutherian disparity over K-Pg mass extinction}{19}{section.11}%
 \contentsline {part}{IV\hspace {1em}Summary of research achievements}{19}{part.4}%
-\contentsline {section}{\numberline {12}Methods}{19}{section.12}%
-\contentsline {subsection}{\numberline {12.1}Simulations}{19}{subsection.12.1}%
+\contentsline {section}{\numberline {12}Methods}{20}{section.12}%
+\contentsline {subsection}{\numberline {12.1}Simulations}{20}{subsection.12.1}%
 \contentsline {subsection}{\numberline {12.2}Ancestral state estimation}{20}{subsection.12.2}%
-\contentsline {subsubsection}{\numberline {12.2.1}Discrete characters}{20}{subsubsection.12.2.1}%
+\contentsline {subsubsection}{\numberline {12.2.1}Discrete characters}{21}{subsubsection.12.2.1}%
 \contentsline {subsubsection}{\numberline {12.2.2}Continuous characters}{21}{subsubsection.12.2.2}%
 \contentsline {subsection}{\numberline {12.3}Measuring raw distance}{21}{subsection.12.3}%
-\contentsline {subsection}{\numberline {12.4}Measuring error in disparity}{21}{subsection.12.4}%
+\contentsline {subsection}{\numberline {12.4}Measuring error in disparity}{22}{subsection.12.4}%
 \contentsline {subsection}{\numberline {12.5}Extinction selectivity}{22}{subsection.12.5}%
 \contentsline {section}{\numberline {13}Results and Discussion}{22}{section.13}%
 \contentsline {subsection}{\numberline {13.1}Discrete characters}{22}{subsection.13.1}%
 \contentsline {subsection}{\numberline {13.2}Continuous characters}{25}{subsection.13.2}%
-\contentsline {subsubsection}{\numberline {13.2.1}Continuous}{26}{subsubsection.13.2.1}%
+\contentsline {section}{\numberline {14}Future directions}{27}{section.14}%

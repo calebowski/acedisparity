@@ -74,9 +74,9 @@ root_dist_default <- readRDS("../Data/matrices/rootdistpoint.rds")
 root_dist_thresh <- readRDS( "../Data/matrices/rootdistthresh.rds")
 
 morpho_diffs <- readRDS("../Data/matrices/morphospacediffs.Rds")
-var_default_diffs <- readRDS("../Data/matrices/pointvardiffs.rds")
-var_sample_diffs <- readRDS("../Data/matrices/samplevardiffs.rds")
-var_thresh_diffs <- readRDS("../Data/matrices/threshvardiffs.rds")
+discrete_var_default_diffs <- readRDS("../Data/matrices/pointvardiffs.rds")
+discrete_var_sample_diffs <- readRDS("../Data/matrices/samplevardiffs.rds")
+discrete_var_thresh_diffs <- readRDS("../Data/matrices/threshvardiffs.rds")
 
 
 range_default_diffs <- readRDS("../Data/matrices/pointrangediffs.rds")
@@ -88,7 +88,8 @@ neighbours_default_diffs <- readRDS("../Data/matrices/pointneighboursdiffs.rds")
 neighbours_sample_diffs <-  readRDS("../Data/matrices/sampleneighoursdiffs.rds")
 
 cont_default_dists <- readRDS("../Data/matrices/contpointdists.Rds")
-cont_sample_dists <- readRDS("../Data/matrices/contsampledists.Rds")
+point_dists <- lapply(cont_default_dists, lapply, lapply, median)
+sample_dists <- readRDS("../Data/matrices/contsampledists.Rds")
 
 
 default_ord_diff <- readRDS("../Data/matrices/pointorddiff.Rds")
@@ -173,7 +174,7 @@ ggplot(combined_data, aes(x = preservation_level, y = distance, color = level, f
   facet_wrap(~ threshold_method, ncol = 3) +  # Create 3 panels side by side
   labs(
     x = "Fossil Sampling Level",
-    y = "Mean Distance",
+    y = "Mean Distance Score",
     color = "Transition Rate",
     fill = "Transition Rate"
   ) +
@@ -250,7 +251,7 @@ ggplot(combined_data, aes(x = preservation_level, y = distance, color = level, f
   facet_wrap(~ threshold_method, ncol = 3) +  # Create 3 panels side by side
   labs(
     x = "Fossil Sampling Level",
-    y = "Distance to True Value",
+    y = "Mean Distance Score",
     color = "Transition Rate",
     fill = "Transition Rate"
   ) +
@@ -333,8 +334,13 @@ I then constructed distance matrices and ordinated both the 'true' and 'aced' ma
 
 ```{R echo = FALSE}
 
+discrete_var_default_diffs <- readRDS("../Data/matrices/pointvardiffs.rds")
+discrete_var_sample_diffs <- readRDS("../Data/matrices/samplevardiffs.rds")
+discrete_var_thresh_diffs <- readRDS("../Data/matrices/threshvardiffs.rds")
+
+
 library(scales)
-combined_data <- do.call(rbind, lapply(c("var_thresh_diffs", "var_default_diffs", "var_sample_diffs"), function(dataset_name) {
+combined_data <- do.call(rbind, lapply(c("discrete_var_thresh_diffs", "discrete_var_default_diffs", "discrete_var_sample_diffs"), function(dataset_name) {
   dataset <- get(dataset_name)  # Dynamically get the dataset by name
   do.call(rbind, lapply(names(dataset), function(level) {
     do.call(rbind, lapply(seq_along(dataset[[level]]), function(replicate_index) {
@@ -357,7 +363,7 @@ combined_data <- do.call(rbind, lapply(c("var_thresh_diffs", "var_default_diffs"
   }))
 }))
 
-combined_data$threshold_method <- factor(combined_data$threshold_method, levels = c("var_thresh_diffs", "var_default_diffs", "var_sample_diffs"), labels = c("Strict majority rule", "Relative majority rule", "No majority rule (sample)"))
+combined_data$threshold_method <- factor(combined_data$threshold_method, levels = c("discrete_var_thresh_diffs", "discrete_var_default_diffs", "discrete_var_sample_diffs"), labels = c("Strict majority rule", "Relative majority rule", "No majority rule (sample)"))
 
 # log10_reverse_trans <- trans_new(
 #   name = "log10_reverse",
