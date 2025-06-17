@@ -154,11 +154,11 @@ anc.states <- function(fossil_matrices_cont){
 fossil_anc <- lapply(fossil_matrices_cont, anc.states)
 # test_anc <- lapply(fossil_matrices_cont, anc.states)
 saveRDS(fossil_anc, "../Data/matrices/continuous/contanc.Rds")
-fossil_anc <- readRDS("~/Documents/PhD/acedisparity/Data/matrices/contanc.Rds")
+fossil_anc <- readRDS("../Data/matrices/continuous/contanc.Rds")
 
 normal_sampling <- list(fun = rnorm, param = list(mean = mean, sd = function(x)return(diff(range(x))/4)))
 
-sample_fossil_anc <- lapply(fossil_anc, lapply, lapply,  multi.ace, sample = 10, sample.fun = normal_sampling, output = "combined.matrix")
+sample_fossil_anc <- lapply(fossil_anc, lapply, lapply,  multi.ace, sample = 100, sample.fun = normal_sampling, output = "combined.matrix")
 
 point_fossil_anc <- lapply(fossil_anc, lapply, lapply,  multi.ace,  output = "combined.matrix")
 

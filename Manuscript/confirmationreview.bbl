@@ -3,9 +3,6 @@
 \harvarditem[Ackerly et~al.]{Ackerly, Schwilk \harvardand\ Webb}{2006}{ackerly2006niche}
 Ackerly, D., Schwilk, D. \harvardand\ Webb, C.  \harvardyearleft 2006\harvardyearright , `Niche evolution and adaptive radiation: testing the order of trait divergence', {\em Ecology} {\bf 87}(sp7),~S50--S61.
 
-\harvarditem[Ali et~al.]{Ali, Blonder, Pigot \harvardand\ Tobias}{2023}{ali2023bird}
-Ali, J.~R., Blonder, B.~W., Pigot, A.~L. \harvardand\ Tobias, J.~A.  \harvardyearleft 2023\harvardyearright , `Bird extinctions threaten to cause disproportionate reductions of functional diversity and uniqueness', {\em Functional Ecology} {\bf 37}(1),~162--175.
-
 \harvarditem{Alroy}{1998}{alroy1998cope}
 Alroy, J.  \harvardyearleft 1998\harvardyearright , `Cope's rule and the dynamics of body mass evolution in north american fossil mammals', {\em Science} {\bf 280}(5364),~731--734.
 
@@ -105,8 +102,9 @@ Edie, S.~M., Jablonski, D. \harvardand\ Valentine, J.~W.  \harvardyearleft 2018\
 \harvarditem{Emmerson}{2022}{emmerson_changes_2022}
 Emmerson, R.~M.  \harvardyearleft 2022\harvardyearright , Changes in morphological disparity in eutherian mammals across the {K}-{Pg} boundary and {Palaeocene}- {Eocene} {Thermal} {Maximum} using discrete morphofunctional characters, Master's thesis, University of Salford.
 
-\harvarditem{Felsenstein}{1981}{felsenstein1981evolutionary}
-Felsenstein, J.  \harvardyearleft 1981\harvardyearright , `Evolutionary trees from gene frequencies and quantitative characters: finding maximum likelihood estimates', {\em Evolution} pp.~1229--1242.
+\harvarditem{Erwin}{2007}{erwin_disparity_2007}
+Erwin, D.~H.  \harvardyearleft 2007\harvardyearright , `{DISPARITY}: {MORPHOLOGICAL} {PATTERN} {AND} {DEVELOPMENTAL} {CONTEXT}', {\em Palaeontology} {\bf 50}(1),~57--73.
+\newblock Publisher: John Wiley \& Sons, Ltd.
 
 \harvarditem{Felsenstein}{1985}{felsenstein1985phylogenies}
 Felsenstein, J.  \harvardyearleft 1985\harvardyearright , `Phylogenies and the comparative method', {\em The American Naturalist} {\bf 125}(1),~1--15.
@@ -166,10 +164,7 @@ Guillerme, T.  \harvardyearleft 2024\harvardyearright , `treats: A modular r pac
 \harvarditem{Guillerme \harvardand\ Cooper}{2018}{guillerme2018time}
 Guillerme, T. \harvardand\ Cooper, N.  \harvardyearleft 2018\harvardyearright , `Time for a rethink: time sub-sampling methods in disparity-through-time analyses', {\em Palaeontology} {\bf 61}(4),~481--493.
 
-\harvarditem{Guillerme, Cooper, Brusatte, Davis, Jackson, Gerber, Goswami, Healy, Hopkins, Jones et~al.}{2020}{guillerme_disparities_2020}
-Guillerme, T., Cooper, N., Brusatte, S.~L., Davis, K.~E., Jackson, A.~L., Gerber, S., Goswami, A., Healy, K., Hopkins, M.~J., Jones, M.~E. et~al.  \harvardyearleft 2020\harvardyearright , `Disparities in the analysis of morphological disparity', {\em Biology letters} {\bf 16}(7),~20200199.
-
-\harvarditem{Guillerme, Puttick, Marcy \harvardand\ Weisbecker}{2020}{guillerme_shifting_2020}
+\harvarditem[Guillerme et~al.]{Guillerme, Puttick, Marcy \harvardand\ Weisbecker}{2020}{guillerme_shifting_2020}
 Guillerme, T., Puttick, M.~N., Marcy, A.~E. \harvardand\ Weisbecker, V.  \harvardyearleft 2020\harvardyearright , `Shifting spaces: {Which} disparity or dissimilarity measurement best summarize occupancy in multidimensional spaces?', {\em Ecology and Evolution} {\bf 10}(14),~7261--7275.
 \newblock Publisher: John Wiley \& Sons, Ltd.
 
@@ -235,9 +230,6 @@ Lloyd, G.~T.  \harvardyearleft 2018\harvardyearright , `Journeys through discret
 
 \harvarditem{Lowery \harvardand\ Fraass}{2019}{lowery2019morphospace}
 Lowery, C.~M. \harvardand\ Fraass, A.~J.  \harvardyearleft 2019\harvardyearright , `Morphospace expansion paces taxonomic diversification after end cretaceous mass extinction', {\em Nature ecology \& evolution} {\bf 3}(6),~900--904.
-
-\harvarditem[Matthews et~al.]{Matthews, Triantis, Wayman, Martin, Hume, Cardoso, Faurby, Mendenhall, Dufour, Rigal et~al.}{2024}{matthews2024global}
-Matthews, T.~J., Triantis, K.~A., Wayman, J.~P., Martin, T.~E., Hume, J.~P., Cardoso, P., Faurby, S., Mendenhall, C.~D., Dufour, P., Rigal, F. et~al.  \harvardyearleft 2024\harvardyearright , `The global loss of avian functional and phylogenetic diversity from anthropogenic extinctions', {\em Science} {\bf 386}(6717),~55--60.
 
 \harvarditem{McShea \harvardand\ Brandon}{2010}{mcshea2010biology}
 McShea, D.~W. \harvardand\ Brandon, R.~N.  \harvardyearleft 2010\harvardyearright , {\em Biology's first law: the tendency for diversity and complexity to increase in evolutionary systems}, University of Chicago Press.
