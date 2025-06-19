@@ -9,17 +9,25 @@ stop_rule <- list(max.living = 20)
 trees <- treats(traits = trait, stop.rule = stop_rule, bd.params = bd_params, null.error = 100, replicates = 5)
 
 ## First plot is just tips and fossils, no edges or 
-png(filename = "../besMacro/BMnoedge.png", width = 780, height = 650)
-plot.treats(trees[[3]], legend = TRUE, cex = 2, cex.axis = 1.2, legend.cex = 1.5, cex.lab = 1.4, col = c("nodes" = "NA"), edges = NULL)
+png(filename = "../besMacro/BMnoedge.png", width = 10, height = 10, units = "in", res = 300)
+plot.treats(trees[[5]], cex = 3, cex.axis = 1.2, edge.width = 3, 
+           legend.cex = 1.5, cex.lab = 1.4, col = c("nodes" = "NA"), 
+           edges = NULL, legend = FALSE)
+
+# Define colors for legend
+# legend_colors <- c("red", "blue")  # or whatever colors you want
+legend("topleft", col = c("nodes" = "orange", "fossils" = "lightblue", "livings" = "blue"), 
+       legend = c("nodes", "fossils", "living"), 
+       pch = 19, bg = "white", cex = 4, bty = "n")
 dev.off()
 
-png(filename = "../besMacro/BMnonode.png", width = 780, height = 650)
-plot.treats(trees[[2]], legend = TRUE, cex = 2, cex.axis = 1.2, legend.cex = 1.5, cex.lab = 1.4, col = c("nodes" = "NA"), edges = "black")
+png(filename = "../besMacro/BMnonode.png", width = 10, height = 10, units = "in", res = 300)
+plot.treats(trees[[5]], legend = FALSE, cex = 3, cex.axis = 1.2, legend.cex = 1.5,edge.width = 15, cex.lab = 1.4, col = c("nodes" = "NA"), edges = "black", xlab = "", ylab = "")
 dev.off()
 
 
-png(filename = "../besMacro/BMfull.png", width = 780, height = 650)
-plot.treats(trees[[5]], legend = TRUE, cex = 2, cex.axis = 1.2, legend.cex = 1.5, cex.lab = 1.4, edges = "black")
+png(filename = "../besMacro/BMfull.png", width = 10, height = 10, units = "in", res = 300)
+plot.treats(trees[[5]], legend = FALSE, cex = 3, cex.axis = 1.2, legend.cex = 1.5,edge.width = 15, cex.lab = 1.4, edges = "black", plot.treats(trees[[5]], legend = FALSE, cex = 3, cex.axis = 1.2, legend.cex = 1.5,edge.width = 15, cex.lab = 1.4, col = c("nodes" = "NA"), edges = "black", xlab = "", ylab = ""))
 dev.off()
 
 
@@ -38,13 +46,234 @@ bd_params <- make.bd.params(speciation = 1, extinction = 0.7)
 stop_rule <- list(max.living = 8)
 set.seed(123)
 trees <- treats(stop.rule = stop_rule, bd.params = bd_params, null.error = 100, replicates = 3)
-full_fossil_tree <- trees[[3]]
-ages <- tree.age(tree)
+full_fossil_tree <- trees[[1]]
+ages <- tree.age(full_fossil_tree)
 living <- ages$element[ages$ages == 0]
-living_tree <- keep.tip(full_fossil_tree, c(living, "t1"))
+living_tree <- keep.tip(full_fossil_tree, c(living))
+
+original_root_height <- max(nodeHeights(full_fossil_tree))
+# full_fossil_tree <- set.root.time(full_fossil_tree)
+new_root_height <- max(nodeHeights(living_tree))
+
+# Shift the pruned tree to match original height
+height_diff <- original_root_height - new_root_height
+living_tree$edge.length[living_tree$edge[,1] == Ntip(living_tree) + 1] <- 
+living_tree$edge.length[living_tree$edge[,1] == Ntip(living_tree) + 1] + height_diff
 
 
+png(filename = "../besMacro/fulltree.png", width = 10, height = 10, units = "in", res = 300, bg = "transparent")
+plot.phylo(full_fossil_tree, edge.color = "darkorange", edge.width = 14, show.tip.label = FALSE)
+dev.off()
 
+
+png(filename = "../besMacro/livingtree.png", width = 10, height = 10, units = "in", res = 300, bg = "transparent")
+plot.phylo(living_tree, edge.color = "darkorange", edge.width = 14, show.tip.label = FALSE)
+dev.off()
 
 ## What if use a similar logic, but try and project the estimated values onto the real treats plot to compare how far they are.
 
+living <- ages$element[ages$ages == 0]
+# Or provide a manual vector of living taxa:
+# living_tips <- c("tip1", "tip3", "tip7")
+
+# Prune the tree
+pruned_tree <- drop.tip(full_fossil_tree, setdiff(full_fossil_tree$tip.label, living))
+
+# Now, to preserve the original root height:
+# Shift the root node height back to match the full tree
+
+# Compare root heights
+original_root_height <- max(nodeHeights(full_fossil_tree))
+# full_fossil_tree <- set.root.time(full_fossil_tree)
+new_root_height <- max(nodeHeights(pruned_tree))
+
+# Shift the pruned tree to match original height
+height_diff <- original_root_height - new_root_height
+pruned_tree$edge.length[pruned_tree$edge[,1] == Ntip(pruned_tree) + 1] <- 
+pruned_tree$edge.length[pruned_tree$edge[,1] == Ntip(pruned_tree) + 1] + height_diff
+
+
+library(ggplot2)
+library(reshape2)
+
+## Make discrete table
+
+discrete_data <- data.frame(
+  row.names = c("Taxon 1", "Taxon 2", "Taxon 3", "Taxon 4"),
+  Trait1 = c(0, 1, 0, 1),
+  Trait2 = c(1, 1, 0, 0),
+  Trait3 = c(0, 0, 1, 1)
+)
+
+library(grid)
+
+library(ggplot2)
+library(gridExtra)
+
+blue_orange_theme <- ttheme_default(
+  core = list(
+    fg_params = list(cex = 1.2, col = "navy"),                    
+    bg_params = list(fill = c("lightblue", "peachpuff"),          
+                     col = "white", lwd = 1)
+  ),
+  colhead = list(
+    fg_params = list(cex = 1.4, fontface = "bold", col = "white"),
+    bg_params = list(fill = "steelblue", col = "white", lwd = 2)  
+  ),
+  rowhead = list(
+    fg_params = list(cex = 1.2, fontface = "bold", col = "white"),
+    bg_params = list(fill = "darkorange", col = "white", lwd = 2) 
+  )
+)
+
+# Create the plot
+p <- ggplot() + 
+  annotation_custom(tableGrob(discrete_data, theme = blue_orange_theme)) + 
+  theme_void()
+
+ggsave("../besMacro/discrete_matrix.png", p, width = 8, height = 8, dpi = 100)
+
+
+## Make continuous table
+
+continuous_data <- data.frame(
+  row.names = c("Taxon 1", "Taxon 2", "Taxon 3", "Taxon 4"),
+  Trait1 = c(1.46, 2.31, 0.87, 1.23),
+  Trait2 = c(3.12, 1.95, 2.67, 4.08),
+  Trait3 = c(0.74, 1.89, 1.34, 0.52)
+)
+
+library(grid)
+
+library(ggplot2)
+library(gridExtra)
+
+blue_orange_theme <- ttheme_default(
+  core = list(
+    fg_params = list(cex = 1.2, col = "#000080"),                    
+    bg_params = list(fill = c("#ADD8E6", "#FFDAB9"),          
+                     col = "white", lwd = 1)
+  ),
+  colhead = list(
+    fg_params = list(cex = 1.4, fontface = "bold", col = "white"),
+    bg_params = list(fill = "#4682B4", col = "white", lwd = 2)  
+  ),
+  rowhead = list(
+    fg_params = list(cex = 1.2, fontface = "bold", col = "white"),
+    bg_params = list(fill = "#FF8C00", col = "white", lwd = 2) 
+  )
+)
+
+# Create the plot
+p <- ggplot() + 
+  annotation_custom(tableGrob(continuous_data, theme = blue_orange_theme)) + 
+  theme_void()
+
+ggsave("../besMacro/continuous_matrix.png", p, width = 8, height = 8, dpi = 100)
+
+## Simulate BM process
+
+png(filename = "../besMacro/bmprocess.png", width = 12, height = 9, units = "in", res = 600)
+BM.process(x0 = 0)
+plot(make.traits(process = BM.process), cex.axis = 1.4,cex.lab = 1.7)
+dev.off()
+
+
+## Simulate OU process
+
+png(filename = "../besMacro/ouprocess.png", width = 12, height = 9, units = "in", res = 600)
+OU.process(x0 = 0)
+plot(make.traits(process = OU.process), cex.axis = 1.4,cex.lab = 1.7)
+dev.off()
+
+
+
+library(gridExtra)
+library(ggplot2)
+
+# Create your three matrices
+high_transition <- matrix(c(0.1, 0.9, 0.9, 0.1), nrow = 2, byrow = TRUE)
+medium_transition <- matrix(c(0.9, 0.1, 0.1, 0.9), nrow = 2, byrow = TRUE)
+low_transition <- matrix(c(0.99, 0.01, 0.01, 0.99), nrow = 2, byrow = TRUE)
+
+# Set names
+colnames(high_transition) <- rownames(high_transition) <- c("0", "1")
+colnames(medium_transition) <- rownames(medium_transition) <- c("0", "1")
+colnames(low_transition) <- rownames(low_transition) <- c("0", "1")
+
+# Create ggplot objects
+p1 <- ggplot() + 
+  annotation_custom(tableGrob(high_transition, theme = blue_orange_theme)) + 
+  theme_void() 
+
+p2 <- ggplot() + 
+  annotation_custom(tableGrob(medium_transition, theme = blue_orange_theme)) + 
+  theme_void() 
+
+p3 <- ggplot() + 
+  annotation_custom(tableGrob(low_transition, theme = blue_orange_theme)) + 
+  theme_void() 
+
+# Arrange vertically
+combined_plot <- arrangeGrob(p1, p2, p3, ncol = 1)
+ggsave("../besMacro/transitions.png", combined_plot, width = 8, height = 15, dpi = 100)
+
+medium_transition <- matrix(c(
+  0.9, 0.1,
+  0.1, 0.9
+), nrow = 2, byrow = TRUE)
+
+low_transition <- matrix(c(
+  0.99, 0.01,
+  0.01, 0.99
+), nrow = 2, byrow = TRUE)
+
+
+library(xtable)
+
+# Your matrix
+library(xtable)
+
+# Your matrix
+high_rate <- matrix(c(0.1, 0.9, 0.9, 0.1), nrow = 2, byrow = TRUE)
+rownames(high_rate) <- colnames(high_rate) <- c("0", "1")
+medium_rate <- matrix(c(0.9, 0.1, 0.1, 0.9), nrow = 2, byrow = TRUE)
+rownames(medium_rate) <- colnames(medium_rate) <- c("0", "1")
+low_rate <- matrix(c(0.99, 0.01, 0.01, 0.99), nrow = 2, byrow = TRUE)
+
+
+plot_matrix_brackets <- function(mat) {
+  # Format matrix values with consistent spacing
+  row1 <- paste(sprintf("%6.2f", mat[1,]), collapse = "   ")
+  row2 <- paste(sprintf("%6.2f", mat[2,]), collapse = "   ")
+  
+  # Create bracket matrix string - exactly 2 lines
+  bracket_text <- paste0("⎡ ", row1, " ⎤\n⎣ ", row2, " ⎦")
+  
+  ggplot() + 
+    annotate("text", x = 0.5, y = 0.5, 
+             label = bracket_text, 
+             size = 8, family = "mono", hjust = 0.5, vjust = 0.5,
+             color = "white") +  # White text
+    theme_void() +
+    theme(plot.margin = margin(30, 30, 30, 30),
+          plot.background = element_rect(fill = "transparent", color = NA),  # Transparent background
+          panel.background = element_rect(fill = "transparent", color = NA)) # Transparent panel
+}
+
+# Create plots for each
+p1 <- plot_matrix_brackets(high_rate)
+p2 <- plot_matrix_brackets(medium_rate)
+p3 <- plot_matrix_brackets(low_rate)
+
+
+# Arrange and save
+
+ggsave("../besMacro/high_rate_matrix.png", p1, 
+       width = 6, height = 4, dpi = 300, bg = "transparent")
+
+ggsave("../besMacro/medium_rate_matrix.png", p2, 
+       width = 6, height = 4, dpi = 300, bg = "transparent")
+
+ggsave("../besMacro/low_rate_matrix.png", p3, 
+       width = 6, height = 4, dpi = 300, bg = "transparent")

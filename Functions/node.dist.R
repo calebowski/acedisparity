@@ -69,3 +69,56 @@ node.dist <- function(matrices, distance = c("strict", "uncertain")) {
 
   return(distances)
 }
+
+
+all.node.dist <- function(matrices, distance = c("strict", "uncertain")) {
+  distance <- match.arg(distance)
+
+  true <- matrices$true
+  ace <- matrices$ace
+
+  # Handle case where ace is a list of matrices (multiple replicates)
+  if (is.list(ace) && !is.matrix(ace)) {
+    return(setNames(lapply(seq_along(ace), function(i) {
+      all.node.dist(list(true = true, ace = ace[[i]]), distance = distance)
+    }), names(ace)))
+  }
+  
+  # Now ace should be a single matrix
+  n_rows <- nrow(ace)
+  n_cols <- ncol(ace)
+
+  # Parse ACE matrix (assuming it contains character strings like "0/1")
+  parsed_ace <- vector("list", n_rows)
+  for (i in 1:n_rows) {
+    parsed_ace[[i]] <- vector("list", n_cols)
+    for (j in 1:n_cols) {
+      cell <- ace[i, j]
+      if (is.na(cell) || cell == "") {
+        parsed_ace[[i]][[j]] <- NA
+      } else {
+        parsed_ace[[i]][[j]] <- as.numeric(unlist(strsplit(cell, "/")))
+      }
+    }
+  }
+
+  # Calculate distances
+  distance_matrix <- matrix(NA, nrow = n_rows, ncol = n_cols)
+  rownames(distance_matrix) <- rownames(ace)
+  colnames(distance_matrix) <- colnames(ace)
+
+  for (i in 1:n_rows) {
+    for (j in 1:n_cols) {
+      true_states <- as.numeric(true[i, j])
+      ace_states <- parsed_ace[[i]][[j]]
+      
+      if (distance == "strict") {
+        distance_matrix[i, j] <- strict.distance(true_states, ace_states)
+      } else {
+        distance_matrix[i, j] <- lenient.distance(true_states, ace_states)
+      }
+    }
+  }
+
+  return(distance_matrix)
+}

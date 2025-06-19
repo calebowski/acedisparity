@@ -956,3 +956,154 @@ mean(morpho_dists$fossil_high$low[[15]])
 
 
 ```
+
+
+## Tips and nodes disparity
+
+```{r}
+
+rel_all_nodes <- lapply(seq_along(point_fossil_anc), function(rate) {
+  lapply(seq_along(point_fossil_anc[[rate]]), function(i) {
+    # Step 1: Get the node labels
+    # node_v <- node_labels[[i]]
+
+    # Step 2: Get the true matrix for the current replicate
+    # true <- discrete_matrices[[rate]][[i]][rownames(i), ]
+
+    # Step 3: Iterate over preservation levels
+    levels <- names(point_fossil_anc[[rate]][[i]])
+    ace_out <- lapply(levels, function(level_name) {
+      # Filter ACE matrix for the current preservation level
+      ace <- point_fossil_anc[[rate]][[i]][[level_name]]
+      ace_filtered <- ace[grepl("^n", rownames(ace)), ]
+      true <- discrete_matrices[[rate]][[i]][rownames(ace_filtered), ]
+      return(list(true = true, ace = ace_filtered))
+    })
+
+    # Assign names to the ACE output
+    names(ace_out) <- levels
+
+    # Return the ACE matrices and the single true matrix
+    return(ace_out)
+  })
+})
+
+# Assign names to the outer list
+names(rel_all_nodes) <- names(discrete_matrices)
+
+thresh_all_nodes <- lapply(seq_along(thresh_fossil_anc), function(rate) {
+  lapply(seq_along(thresh_fossil_anc[[rate]]), function(i) {
+    # Step 1: Get the node labels
+    # node_v <- node_labels[[i]]
+
+    # Step 2: Get the true matrix for the current replicate
+    # true <- discrete_matrices[[rate]][[i]][rownames(i), ]
+
+    # Step 3: Iterate over preservation levels
+    levels <- names(thresh_fossil_anc[[rate]][[i]])
+    ace_out <- lapply(levels, function(level_name) {
+      # Filter ACE matrix for the current preservation level
+      ace <- thresh_fossil_anc[[rate]][[i]][[level_name]]
+      ace_filtered <- ace[grepl("^n", rownames(ace)), ]
+      true <- discrete_matrices[[rate]][[i]][rownames(ace_filtered), ]
+      return(list(true = true, ace = ace_filtered))
+    })
+
+    # Assign names to the ACE output
+    names(ace_out) <- levels
+
+    # Return the ACE matrices and the single true matrix
+    return(ace_out)
+  })
+})
+
+# Assign names to the outer list
+names(thresh_all_nodes) <- names(discrete_matrices)
+
+
+
+sample_all_nodes <- lapply(seq_along(sampled_fossil_anc), function(rate) {
+  lapply(seq_along(sampled_fossil_anc[[rate]]), function(i) {
+    
+    # Step 1: Iterate over preservation levels
+    levels <- names(sampled_fossil_anc[[rate]][[i]]) # e.g., c("fossil", "living")
+    
+    ace_out <- lapply(levels, function(level_name) {
+      # Get all replicates for this level
+      replicates <- sampled_fossil_anc[[rate]][[i]][[level_name]]
+      
+      # Step 2: Filter each replicate to keep only rows starting with "n"
+      filtered <- lapply(seq_along(replicates), function(rep_idx) {
+        ace <- replicates[[rep_idx]]
+        ace_filtered <- ace[grepl("^n", rownames(ace)), ]
+        return(ace_filtered)
+      })
+      
+      # Step 3: Get the true matrix using the same rows as the first filtered replicate
+      if (length(filtered) > 0 && nrow(filtered[[1]]) > 0) {
+        true <- discrete_matrices[[rate]][[i]][rownames(filtered[[1]]), ]
+      } else {
+        true <- NULL
+      }
+      
+      return(list(true = true, ace = filtered))
+    })
+    
+    # Assign names to the ACE output
+    names(ace_out) <- levels
+    
+    # Return the ACE matrices and true matrix for each level
+    return(ace_out)
+  })
+})
+
+# Assign names to the outer list
+names(sample_all_nodes) <- names(discrete_matrices)
+
+
+
+
+
+
+
+rel_dist <- lapply(rel_all_nodes, lapply, lapply, all.node.dist, distance = "strict")
+
+thresh_dist <- lapply(thresh_all_nodes, lapply, lapply, all.node.dist, distance = "strict")
+
+sample_dist <- lapply(sample_all_nodes, lapply, lapply, all.node.dist, distance = "strict")
+
+allnode_means_rel <- lapply(rel_dist, function(preservation) {
+  lapply(preservation, function(level) {
+  lapply(level, function(matrices) {
+    means <- mean(matrices)
+  })
+})
+})
+
+allnode_means_thresh <- lapply(thresh_dist, function(preservation) {
+  lapply(preservation, function(level) {
+  lapply(level, function(matrices) {
+    means <- mean(matrices)
+  })
+})
+})
+
+allnode_means_sample <- lapply(sample_dist, function(rate_level) {
+  lapply(rate_level, function(replicate) {
+    lapply(replicate, function(level) {
+     q <-  lapply(level, function(x) {
+        m <- mean(x)
+      })
+      unlist <- unlist(q)
+      return(unlist)
+    })
+  })
+})
+
+
+saveRDS(allnode_means_rel, "../Data/matrices/discrete/rel_raw_dist.Rds")
+saveRDS(allnode_means_thresh, "../Data/matrices/discrete/thresh_raw_dist.Rds")
+saveRDS(allnode_means_sample, "../Data/matrices/discrete/sample_raw_dist.Rds")
+
+
+```

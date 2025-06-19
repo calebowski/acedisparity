@@ -64,6 +64,33 @@ all_fossil <- lapply(continuous_matrices, fossil.pres, trees = trees, preservati
 
 fossil_levels_cont <- list(all = all_fossil, fossil_high = fossilised_high_cont, fossil_med = fossilised_med_cont, fossil_low = fossilised_low_cont, living = living_cont)
 
+# testing <- function(matrices) {
+#   lapply(matrices, function(rate_level) {
+#       lapply(rate_level, function(x) {
+#         matrix <- x$matrix
+#         tree <- x$tree
+#         cleaned <- dispRity::clean.data(matrix, tree)
+        
+#         # Check for NAs
+#         has_na_tips <- any(is.na(cleaned$dropped_tips))
+#         has_na_rows <- any(is.na(cleaned$dropped_rows))
+        
+#         if (has_na_tips || has_na_rows) {
+#           return(paste("NA found in:", 
+#                       if(has_na_tips) "dropped_tips",
+#                       if(has_na_rows) "dropped_rows"))
+#         } else {
+#           return("OK")
+#         }
+#       })
+#     })
+
+# }
+
+# testing(living_cont)
+
+# clean.data(living_cont$bm[[1]]$matrix, living_cont$bm[[1]]$tree)
+
 fossil_matrices_cont <- lapply(names(continuous_matrices), function(level) {
   lapply(seq_along(continuous_matrices[[level]]), function(i) {
     list(
@@ -138,8 +165,9 @@ saveRDS(anc_post_ord, "~/Documents/PhD/largefiles/acedisparity/postordcontanc.Rd
 
 # test <- multi.ace(fossil_matrices_cont$bm$fossil_med[[1]]$matrix, fossil_matrices_cont$bm$fossil_med[[1]]$tree, models = 
 n_cores <- min(detectCores() - 1, 6)
-anc.states <- function(fossil_matrices_cont){
-  lapply(fossil_matrices_cont, function(level){
+n_cores <- 8
+anc.states <- function(fossil_matrices_cont) {
+  lapply(fossil_matrices_cont, function(level) {
     lapply(level, function(x) {
   # Run multi.ace for each tree
   anc_states <- multi.ace(data = x$matrix, 
@@ -338,6 +366,18 @@ point_dists <- lapply(scaled_point, lapply,  function(preservation){
   return(dists)
 })
 
+rel_point_dists <- lapply(scaled_point, lapply,  function(preservation){
+  ace <- preservation$ace
+  true <- preservation$true
+  dists <- lapply(ace, function(pres){
+    rel_error <- abs(pres - true) / abs(true)
+    distances <- rowSums(rel_error)
+    median <- median(rel_error)
+    return(median)
+  })
+  return(dists)
+})
+
 # point_dists <- lapply(point_living_nodes, lapply, function(preservation) {
 #   ace <- preservation$ace
 #   true <- preservation$true
@@ -360,7 +400,7 @@ sample_dists <- lapply(scaled_sample, lapply,  function(preservation){
       median <- median(distances)
       return(distances)
     })
-  # median <- median(unlist(what))
+  median <- median(unlist(what))
   unlist(what)
 
   })

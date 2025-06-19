@@ -99,6 +99,10 @@ sample_ord_diff <-  readRDS("../Data/matrices/sampleorddiff.Rds")
 var_point_diffs <- readRDS("../Data/matrices/continuous/sumvarpoint.Rds")
 var_sample_diffs <- readRDS("../Data/matrices/continuous/sumvarsample.Rds")
 
+saveRDS(allnode_means_rel, "../Data/matrices/discrete/rel_raw_dist.Rds")
+saveRDS(allnode_means_thresh, "../Data/matrices/discrete/thresh_raw_dist.Rds")
+saveRDS(allnode_means_sample, "../Data/matrices/discrete/sample_raw_dist.Rds")
+
 
 ```
 
@@ -124,7 +128,7 @@ library(tidyr)
 library(ggplot2)
 
 # Combine strict_means and strict_means_sample into a single data frame
-combined_data <- do.call(rbind, lapply(c("strict_majority_rule", "relative_majority_rule", "no_majority_rule"), function(dataset_name) {
+combined_data <- do.call(rbind, lapply(c("allnode_means_thresh", "allnode_means_rel", "allnode_means_sample"), function(dataset_name) {
   dataset <- get(dataset_name)  # Dynamically get the dataset by name
   do.call(rbind, lapply(names(dataset), function(level) {
     do.call(rbind, lapply(seq_along(dataset[[level]]), function(replicate_index) {
@@ -146,7 +150,7 @@ combined_data <- do.call(rbind, lapply(c("strict_majority_rule", "relative_major
     }))
   }))
 }))
-combined_data$threshold_method <- factor(combined_data$threshold_method, levels = c("strict_majority_rule", "relative_majority_rule", "no_majority_rule"),labels = c("Strict majority rule", "Relative majority rule", "No majority rule (sample)"))
+combined_data$threshold_method <- factor(combined_data$threshold_method, levels = c("allnode_means_thresh", "allnode_means_rel", "allnode_means_sample"),labels = c("Strict majority rule", "Relative majority rule", "No majority rule (sample)"))
 
 
 pdf("../Manuscript/figures/strictdistance.pdf", width = 8, height = 4)

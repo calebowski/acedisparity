@@ -44,3 +44,11 @@ Could we assume that using slow rates is equivalent to using more broad coding s
 In the first, we converted Mk2 and BiSSE probabilities for each node into 0, 1, or ambiguous with this rule: if the probability was greater than 0.7, then the node state was assigned as 1, if the probability was less than 0.3, the state was assigned as 0, probabilities between 0.3 and 0.7 were considered as ambiguous. We then only considered “outright” errors, i.e. if the estimated and true states did not match. We refer to this as the quantised score. The second approach directly employed the node probabilities for Mk and BiSSE, and error scores of 0 (estimated and true values matched), 0.5 (ambiguous estimate) and 1 (estimated and true values were different) for MP.
 
 GLM? to assess impact of parameters on probability of errors.
+
+How can i ensure no negative values in ace - put a prior on the BM distribution??s
+
+
+Do all nodes rather than just 49.
+Clade extinct - simulates selective correlated extinction due to traits 
+
+tom ezard for forams paper
