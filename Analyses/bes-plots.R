@@ -9,9 +9,9 @@ stop_rule <- list(max.living = 20)
 trees <- treats(traits = trait, stop.rule = stop_rule, bd.params = bd_params, null.error = 100, replicates = 5)
 
 ## First plot is just tips and fossils, no edges or 
-png(filename = "../besMacro/BMnoedge.png", width = 10, height = 10, units = "in", res = 300)
-plot.treats(trees[[5]], cex = 3, cex.axis = 1.2, edge.width = 3, 
-           legend.cex = 1.5, cex.lab = 1.4, col = c("nodes" = "NA"), 
+png(filename = "../besMacro/BMnoedge.png", width = 12, height = 10, units = "in", res = 300)
+plot.treats(trees[[5]], cex = 3, cex.axis = 2.0, edge.width = 3, 
+           legend.cex = 1.5, cex.lab = 3, col = c("nodes" = "NA"), 
            edges = NULL, legend = FALSE)
 
 # Define colors for legend
@@ -21,13 +21,13 @@ legend("topleft", col = c("nodes" = "orange", "fossils" = "lightblue", "livings"
        pch = 19, bg = "white", cex = 4, bty = "n")
 dev.off()
 
-png(filename = "../besMacro/BMnonode.png", width = 10, height = 10, units = "in", res = 300)
-plot.treats(trees[[5]], legend = FALSE, cex = 3, cex.axis = 1.2, legend.cex = 1.5,edge.width = 15, cex.lab = 1.4, col = c("nodes" = "NA"), edges = "black", xlab = "", ylab = "")
+png(filename = "../besMacro/BMnonode.png", width = 12, height = 10, units = "in", res = 300)
+plot.treats(trees[[5]], legend = FALSE, cex = 3, cex.axis = 2.0, legend.cex = 1.5,edge.width = 15, cex.lab = 1.4, col = c("nodes" = "NA"), edges = "black", xlab = "", ylab = "")
 dev.off()
 
 
-png(filename = "../besMacro/BMfull.png", width = 10, height = 10, units = "in", res = 300)
-plot.treats(trees[[5]], legend = FALSE, cex = 3, cex.axis = 1.2, legend.cex = 1.5,edge.width = 15, cex.lab = 1.4, edges = "black", plot.treats(trees[[5]], legend = FALSE, cex = 3, cex.axis = 1.2, legend.cex = 1.5,edge.width = 15, cex.lab = 1.4, col = c("nodes" = "NA"), edges = "black", xlab = "", ylab = ""))
+png(filename = "../besMacro/BMfull.png", width = 12, height = 10, units = "in", res = 300)
+plot.treats(trees[[5]], legend = FALSE, cex = 3, cex.axis = 2.0, legend.cex = 1.5,edge.width = 15, cex.lab = 1.4, edges = "black",xlab = "", ylab = "")
 dev.off()
 
 
@@ -118,11 +118,11 @@ blue_orange_theme <- ttheme_default(
   ),
   colhead = list(
     fg_params = list(cex = 1.4, fontface = "bold", col = "white"),
-    bg_params = list(fill = "steelblue", col = "white", lwd = 2)  
+    bg_params = list(fill = "#4682B4", col = "white", lwd = 2)  
   ),
   rowhead = list(
     fg_params = list(cex = 1.2, fontface = "bold", col = "white"),
-    bg_params = list(fill = "darkorange", col = "white", lwd = 2) 
+    bg_params = list(fill = "#FF8C00", col = "white", lwd = 2) 
   )
 )
 
@@ -277,3 +277,127 @@ ggsave("../besMacro/medium_rate_matrix.png", p2,
 
 ggsave("../besMacro/low_rate_matrix.png", p3, 
        width = 6, height = 4, dpi = 300, bg = "transparent")
+
+
+###################################################
+## PIE Chart creation
+
+library(ggplot2)
+library(dplyr)
+
+# Data
+# data <- data.frame(
+#   state = c(0, 1),
+#   probability = c(0.4, 0.6)
+# )
+
+# data <- data %>%
+#   arrange(desc(state)) %>%
+#   mutate(
+#     highlight = probability >= 0.5,
+#     label = paste0("state ", state, " (", round(probability, 1), ")")
+#   )
+# ggplot(data, aes(x = factor(state), y = probability, fill = factor(state))) +
+#   geom_col(width = 0.6) +
+#   geom_hline(yintercept = relative_threshold, color = "black", size = 6, linetype = "dashed") +
+#   scale_fill_manual(values = c("0" = "#FF8C00", "1" = "#FF8C00")) +
+#   scale_y_continuous(limits = c(0, 0.8)) +
+#   labs(x = "State", y = "") +
+#   theme_void() +
+#   theme(axis.text.x = element_text(size = 25, color = "white"),          # White x-axis text
+#         axis.title.x = element_text(size = 25, color = "white", margin = margin(t = 10)), # White x-axis title
+#         plot.background = element_rect(fill = "transparent", color = NA),
+#         panel.background = element_rect(fill = "transparent", color = NA),
+#         legend.position = "none") +
+#   # annotate("text", x = 2.3, y = relative_threshold + 0.03, 
+#   #          label = paste0("Threshold = ", round(relative_threshold, 2)), 
+#   #          color = "red", size = 5, fontface = "bold") +
+#   geom_text(aes(label = probability), 
+#             vjust = -0.3, size = 12, fontface = "bold", color = "white") 
+# ggsave("../besMacro/strictmajoritypie.png", width = 6, height = 6, dpi = 300, bg = "transparent")
+
+
+# # Your data
+# # Your data
+# # Your data
+# data <- data.frame(
+#   state = c(0, 1),
+#   probability = c(0.4, 0.6)
+# )
+
+# Calculate relative majority threshold
+k <- 2  
+relative_threshold <- max(data$probability) - (1/k)
+
+# Create super clean bar chart with no bar outlines
+ggplot(data, aes(x = factor(state), y = probability, fill = factor(state))) +
+  geom_col(width = 0.6) +
+  geom_hline(yintercept = relative_threshold, color = "black", size = 3, linetype = "dashed") +
+  scale_fill_manual(values = c("0" = "#ADD8E6", "1" = "#FF8C00")) +
+  scale_y_continuous(limits = c(0, 0.8)) +
+  labs(x = "State", y = "") +
+  theme_void() +
+  theme(axis.text.x = element_text(size = 30, color = "white"),          # White x-axis text
+        axis.title.x = element_text(size = 30, color = "white", margin = margin(t = 10)), # White x-axis title
+        plot.background = element_rect(fill = "transparent", color = NA),
+        panel.background = element_rect(fill = "transparent", color = NA),
+        legend.position = "none") +
+  # annotate("text", x = 2.3, y = relative_threshold + 0.03, 
+  #          label = paste0("Threshold = ", round(relative_threshold, 2)), 
+  #          color = "red", size = 5, fontface = "bold") +
+  geom_text(aes(label = probability), 
+            vjust = -0.3, size = 18, fontface = "bold", color = "white") 
+# Save
+ggsave("../besMacro/relativebarchart.png", width = 6, height = 6, bg = "transparent", dpi = 300)
+
+# Save with transparent background
+
+### strict threshold
+strict_threshold <- 0.5
+
+
+ggplot(data, aes(x = factor(state), y = probability, fill = factor(state))) +
+  geom_col(width = 0.6) +
+  geom_hline(yintercept = strict_threshold, color = "black", size = 3, linetype = "dashed") +
+  scale_fill_manual(values = c("0" = "ADD8E6", "1" = "#FF8C00")) +
+  scale_y_continuous(limits = c(0, 0.8)) +
+  labs(x = "State", y = "") +
+  theme_void() +
+  theme(axis.text.x = element_text(size = 30, color = "white"),          # White x-axis text
+        axis.title.x = element_text(size = 30, color = "white", margin = margin(t = 10)), # White x-axis title
+        plot.background = element_rect(fill = "transparent", color = NA),
+        panel.background = element_rect(fill = "transparent", color = NA),
+        legend.position = "none") +
+  # annotate("text", x = 2.3, y = relative_threshold + 0.03, 
+  #          label = paste0("Threshold = ", round(relative_threshold, 2)), 
+  #          color = "red", size = 5, fontface = "bold") +
+  geom_text(aes(label = probability), 
+            vjust = -0.3, size = 18, fontface = "bold", color = "white") 
+# Save
+ggsave("../besMacro/strictbarchart.png", width = 6, height = 6, bg = "transparent", dpi = 300)
+
+
+
+
+prob_state_0 <- 0.4
+prob_state_1 <- 0.6
+
+# Create 10x10 grid data
+grid_data <- expand.grid(x = 1:10, y = 1:10) %>%
+  mutate(
+    # Randomly assign states based on probabilities
+    state = sample(c(0, 1), 100, replace = TRUE, prob = c(prob_state_0, prob_state_1)),
+    # Or create exact proportions (40 state 0, 60 state 1)
+    # state = c(rep(0, 40), rep(1, 60))
+  )
+
+# Create the grid plot
+ggplot(grid_data, aes(x = x, y = y, fill = factor(state))) +
+  geom_tile(color = "white", size = 0.5) +  # White gridlines
+  scale_fill_manual(values = c("0" = "#ADD8E6", "1" = "#FF8C00")) +
+  scale_x_continuous(expand = c(0, 0)) +
+  scale_y_continuous(expand = c(0, 0)) +
+  theme_void() +
+  theme(legend.position = "none",
+        plot.background = element_rect(fill = "transparent", color = NA),
+        panel.background = element_rect(fill = "transparent", color = NA))
