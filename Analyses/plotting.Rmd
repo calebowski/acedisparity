@@ -99,9 +99,9 @@ sample_ord_diff <-  readRDS("../Data/matrices/sampleorddiff.Rds")
 var_point_diffs <- readRDS("../Data/matrices/continuous/sumvarpoint.Rds")
 var_sample_diffs <- readRDS("../Data/matrices/continuous/sumvarsample.Rds")
 
-saveRDS(allnode_means_rel, "../Data/matrices/discrete/rel_raw_dist.Rds")
-saveRDS(allnode_means_thresh, "../Data/matrices/discrete/thresh_raw_dist.Rds")
-saveRDS(allnode_means_sample, "../Data/matrices/discrete/sample_raw_dist.Rds")
+allnode_means_rel <-  readRDS("../Data/matrices/discrete/rel_raw_dist.Rds")
+allnode_means_thresh <-  readRDS("../Data/matrices/discrete/thresh_raw_dist.Rds")
+allnode_means_sample <- readRDS("../Data/matrices/discrete/sample_raw_dist.Rds")
 
 
 ```
@@ -153,7 +153,7 @@ combined_data <- do.call(rbind, lapply(c("allnode_means_thresh", "allnode_means_
 combined_data$threshold_method <- factor(combined_data$threshold_method, levels = c("allnode_means_thresh", "allnode_means_rel", "allnode_means_sample"),labels = c("Strict majority rule", "Relative majority rule", "No majority rule (sample)"))
 
 
-pdf("../Manuscript/figures/strictdistance.pdf", width = 8, height = 4)
+png("../Manuscript/figures/strictdistance.png", width = 12, height = 8, units = "in", res = 600)
 # Generate the combined plot with faceting by threshold_method
 ggplot(combined_data, aes(x = preservation_level, y = distance, color = level, fill = level)) +
   stat_summary(
@@ -173,9 +173,9 @@ ggplot(combined_data, aes(x = preservation_level, y = distance, color = level, f
     aes(group = level),
     fun = median,
     geom = "line",
-    size = 1.2
+    size = 2.5  # Much thicker lines
   ) +
-  facet_wrap(~ threshold_method, ncol = 3) +  # Create 3 panels side by side
+  facet_wrap(~ threshold_method, ncol = 3) +
   labs(
     x = "Fossil Sampling Level",
     y = "Mean Distance Score",
@@ -184,12 +184,24 @@ ggplot(combined_data, aes(x = preservation_level, y = distance, color = level, f
   ) +
   theme_minimal() +
   theme(
+    # Thicker axis labels and ticks
+    axis.text = element_text(size = 14, face = "bold"),      # Larger, bold axis labels
+    axis.title = element_text(size = 16, face = "bold"),     # Larger, bold axis titles
+    axis.ticks = element_line(size = 1.2),                   # Thicker axis ticks
+    # axis.line = element_line(size = 1.2),                    # Thicker axis lines
+    
+    # Larger legend
+    legend.text = element_text(size = 20),                   # Larger legend text
+    legend.title = element_text(size = 20, face = "bold"),   # Larger legend title
+    legend.key.size = unit(1.5, "cm"),                       # Larger legend keys
+    
+    # Facet labels
+    strip.text = element_text(size = 16.7, face = "bold"),     # Larger facet labels
     strip.background = element_rect(color = "black", fill = "white", linewidth = 0.5),
     panel.border = element_rect(color = "black", fill = NA, linewidth = 0.5)
   ) +
-  scale_y_reverse() # Reverse the y-axis if needed
-
-dev.off()
+    scale_y_reverse(limits = c(1.0, 0.0), expand = c(0,0))  # Ensure 0 is included
+  dev.off()
 
 ```
 
@@ -344,7 +356,7 @@ discrete_var_thresh_diffs <- readRDS("../Data/matrices/threshvardiffs.rds")
 
 
 library(scales)
-combined_data <- do.call(rbind, lapply(c("discrete_var_thresh_diffs", "discrete_var_default_diffs", "discrete_var_sample_diffs"), function(dataset_name) {
+combined_data <- do.call(rbind, lapply(c("var_strict_diffs", "var_rel_diffs", "var_sample_diffs"), function(dataset_name) {
   dataset <- get(dataset_name)  # Dynamically get the dataset by name
   do.call(rbind, lapply(names(dataset), function(level) {
     do.call(rbind, lapply(seq_along(dataset[[level]]), function(replicate_index) {
@@ -367,7 +379,7 @@ combined_data <- do.call(rbind, lapply(c("discrete_var_thresh_diffs", "discrete_
   }))
 }))
 
-combined_data$threshold_method <- factor(combined_data$threshold_method, levels = c("discrete_var_thresh_diffs", "discrete_var_default_diffs", "discrete_var_sample_diffs"), labels = c("Strict majority rule", "Relative majority rule", "No majority rule (sample)"))
+combined_data$threshold_method <- factor(combined_data$threshold_method, levels = c("var_strict_diffs", "var_rel_diffs", "var_sample_diffs"), labels = c("Strict majority rule", "Relative majority rule", "No majority rule (sample)"))
 
 # log10_reverse_trans <- trans_new(
 #   name = "log10_reverse",
@@ -375,7 +387,7 @@ combined_data$threshold_method <- factor(combined_data$threshold_method, levels 
 #   inverse = function(x) 10^(-x)      # Inverse of the transformation
 # )
 
-pdf("../Manuscript/figures/sumvardistance.pdf", width = 8, height = 4)
+png("../Manuscript/figures/allnodessumvardistance.png", width = 12, height = 8, units = "in", res = 600)
 
 # Generate the combined plot
 ggplot(combined_data, aes(x = preservation_level, y = distance, color = level, fill = level)) +
@@ -396,9 +408,9 @@ ggplot(combined_data, aes(x = preservation_level, y = distance, color = level, f
     aes(group = level),
     fun = median,
     geom = "line",
-    size = 1.2
+    size = 2.5  # Thicker lines
   ) +
-  facet_wrap(~ threshold_method, ncol = 3) +  # Create 3 panels side by side
+  facet_wrap(~ threshold_method, ncol = 3) +
   labs(
     x = "Fossil Sampling Level",
     y = "Relative Distance to True Disparity Value",
@@ -407,76 +419,29 @@ ggplot(combined_data, aes(x = preservation_level, y = distance, color = level, f
   ) +
   theme_minimal() +
   theme(
+    # Thicker axis labels and ticks
+    axis.text = element_text(size = 14, face = "bold"),
+    axis.title = element_text(size = 16, face = "bold"),
+    axis.ticks = element_line(size = 1.2),
+    # axis.line = element_line(size = 1.2),
+    
+    # Larger legend
+    legend.text = element_text(size = 14),
+    legend.title = element_text(size = 16, face = "bold"),
+    legend.key.size = unit(1.5, "cm"),
+    
+    # Larger facet labels
+    strip.text = element_text(size = 18, face = "bold"),  # Bigger facet titles
     strip.background = element_rect(color = "black", fill = "white", linewidth = 0.5),
     panel.border = element_rect(color = "black", fill = NA, linewidth = 0.5)
   ) +
-  scale_y_reverse() # Reverse the y-axis if needed
+  scale_y_reverse()   # Match fill colors to line colors
 
 dev.off()
 
 ```
 
 
-
-```{R eval = FALSE, echo = FALSE}
-combined_data <- do.call(rbind, lapply(names(sum_var_low_dim), function(level) {
-  # Iterate over replicates within each level
-  do.call(rbind, lapply(seq_along(sum_var_low_dim[[level]]), function(replicate_index) {
-    # Extract the data for the current replicate
-    data <- sum_var_low_dim[[level]][[replicate_index]]
-    
-    # Create a data frame
-    df <- data.frame(
-      replicate = replicate_index,
-      all = data$all,
-      high = data$fossil_high,
-      mid  = data$fossil_med,
-      low  = data$fossil_low,
-      living = data$living,
-      level = level  # Add a column to indicate the level
-    )
-    
-    # Convert to long format
-    df_long <- pivot_longer(df, cols = c("living", "low", "mid", "high", "all"), 
-                            names_to = "preservation_level", values_to = "distance")
-    df_long$preservation_level <- factor(df_long$preservation_level, levels = c("living", "low", "mid", "high", "all"))
-    
-    return(df_long)
-  }))
-}))
-
-# Generate the combined plot
-# Generate the combined plot
-ggplot(combined_data, aes(x = preservation_level, y = distance, color = level, fill = level)) +
-  stat_summary(
-    aes(group = level),
-    fun.data = function(y) {
-      data.frame(
-        y = median(y),
-        ymin = quantile(y, 0.25),  # 25th percentile
-        ymax = quantile(y, 0.75)  # 75th percentile
-      )
-    },
-    geom = "ribbon",
-    alpha = 0.2,  # Transparency for the shaded area
-    color = NA    # No border for the ribbon
-  ) +
-  stat_summary(
-    aes(group = level),
-    fun = median,
-    geom = "line",
-    size = 1.2
-  ) +
-  labs(
-    x = "Fossil Sampling Level",
-    y = "Distance to True Value"
-  ) +
-  theme_minimal() +
-  scale_y_reverse()   # Match fill colors to line colors
-
-
-
-```
 
 ## Sum of ranges
 

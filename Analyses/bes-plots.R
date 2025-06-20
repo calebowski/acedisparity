@@ -359,7 +359,7 @@ strict_threshold <- 0.5
 ggplot(data, aes(x = factor(state), y = probability, fill = factor(state))) +
   geom_col(width = 0.6) +
   geom_hline(yintercept = strict_threshold, color = "black", size = 3, linetype = "dashed") +
-  scale_fill_manual(values = c("0" = "ADD8E6", "1" = "#FF8C00")) +
+  scale_fill_manual(values = c("0" = "#ADD8E6", "1" = "#FF8C00")) +
   scale_y_continuous(limits = c(0, 0.8)) +
   labs(x = "State", y = "") +
   theme_void() +
@@ -401,3 +401,5 @@ ggplot(grid_data, aes(x = x, y = y, fill = factor(state))) +
   theme(legend.position = "none",
         plot.background = element_rect(fill = "transparent", color = NA),
         panel.background = element_rect(fill = "transparent", color = NA))
+
+ggsave("../besMacro/samplechart.png", width = 6, height = 6, bg = "transparent", dpi = 300)

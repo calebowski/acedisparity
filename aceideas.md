@@ -52,3 +52,8 @@ Do all nodes rather than just 49.
 Clade extinct - simulates selective correlated extinction due to traits 
 
 tom ezard for forams paper
+
+So latest plots:
+- disparity accuracy decreases as fossil sampling increases -> due to higher amount of nodes being estimated -> increases uncertainty. Wildly overestimates disparity, as uncertainty increases at these deeper nodes.
+
+Not necessarily keeps uncertainty, but shows that when no state has likelihood above threshold, there is a lot of nodes that are left as 0/1, which makes differences between nodes more pronounced -> higher disparity.
