@@ -275,7 +275,7 @@ fossil_anc <- lapply(fossil_matrices, anc.states)
 
 # sampled_fossil_anc <- lapply(fossil_anc, sample.anc.states)
 
-sampled_fossil_anc <- lapply(fossil_anc, lapply, lapply, multi.ace, sample = 10, sample.fun = normal_sampling,  verbose = TRUE)
+sampled_fossil_anc <- lapply(fossil_anc, lapply, lapply, multi.ace, sample = 100, sample.fun = normal_sampling,  verbose = TRUE)
 
 
 thresh_fossil_anc <- lapply(fossil_anc, lapply, lapply, multi.ace, threshold = 0.51, output = "combined.matrix", verbose = TRUE)
@@ -290,7 +290,7 @@ saveRDS(thresh_fossil_anc, "../Data/matrices/threshanc.Rds")
 
 point_fossil_anc <- readRDS("../Data/matrices/pointddiscreteanc.Rds")
 
-fossil_anc <- readRDS("../Data/matrices/discreteanc.rds")
+fossil_anc <- readRDS("../Data/matrices/discrete/discreteanc.rds")
 
 sampled_fossil_anc <- readRDS("../Data/matrices/sampleddiscreteanc.Rds")
 point_fossil_anc <- readRDS("../Data/matrices/pointddiscreteanc.Rds")

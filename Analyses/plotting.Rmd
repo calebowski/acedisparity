@@ -418,20 +418,20 @@ ggplot(combined_data, aes(x = preservation_level, y = distance, color = level, f
     fill = "Transition Rate"
   ) +
   theme_minimal() +
-  theme(
+ theme(
     # Thicker axis labels and ticks
-    axis.text = element_text(size = 14, face = "bold"),
-    axis.title = element_text(size = 16, face = "bold"),
-    axis.ticks = element_line(size = 1.2),
-    # axis.line = element_line(size = 1.2),
+    axis.text = element_text(size = 14, face = "bold"),      # Larger, bold axis labels
+    axis.title = element_text(size = 16, face = "bold"),     # Larger, bold axis titles
+    axis.ticks = element_line(size = 1.2),                   # Thicker axis ticks
+    # axis.line = element_line(size = 1.2),                    # Thicker axis lines
     
     # Larger legend
-    legend.text = element_text(size = 14),
-    legend.title = element_text(size = 16, face = "bold"),
-    legend.key.size = unit(1.5, "cm"),
+    legend.text = element_text(size = 20),                   # Larger legend text
+    legend.title = element_text(size = 20, face = "bold"),   # Larger legend title
+    legend.key.size = unit(1.5, "cm"),                       # Larger legend keys
     
-    # Larger facet labels
-    strip.text = element_text(size = 18, face = "bold"),  # Bigger facet titles
+    # Facet labels
+    strip.text = element_text(size = 16.7, face = "bold"),     # Larger facet labels
     strip.background = element_rect(color = "black", fill = "white", linewidth = 0.5),
     panel.border = element_rect(color = "black", fill = NA, linewidth = 0.5)
   ) +
