@@ -275,7 +275,7 @@ fossil_anc <- lapply(fossil_matrices, anc.states)
 
 # sampled_fossil_anc <- lapply(fossil_anc, sample.anc.states)
 
-sampled_fossil_anc <- lapply(fossil_anc, lapply, lapply, multi.ace, sample = 100, sample.fun = normal_sampling,  verbose = TRUE)
+sampled_fossil_anc <- lapply(fossil_anc, lapply, lapply, multi.ace, sample = 30, sample.fun = normal_sampling,  verbose = TRUE)
 
 
 thresh_fossil_anc <- lapply(fossil_anc, lapply, lapply, multi.ace, threshold = 0.51, output = "combined.matrix", verbose = TRUE)
@@ -305,48 +305,48 @@ thresh_fossil_anc <- readRDS("../Data/matrices/threshanc.Rds")
 # Function to run SIMMAP on discrete matrices
 
 
-test_matrix <- fossil_matrices$slow[[1]]$living
-what <- test_matrix$matrix[,1]
+# test_matrix <- fossil_matrices$slow[[1]]$living
+# what <- test_matrix$matrix[,1]
 
-test_simmap <- lapply(1:ncol(test_matrix$matrix), function(y){
-  characters <- character_matrix[,y]
-  simmap_trees <- make.simmap(test_matrix$tree, characters, model = "ER", nsim = 1)
-})
-
-
-simmap_trees <- make.simmap(test_matrix$tree, what , model = "ER", nsim = 100)
-ace <- describe.simmap(simmap_trees)$ace
+# test_simmap <- lapply(1:ncol(test_matrix$matrix), function(y){
+#   characters <- character_matrix[,y]
+#   simmap_trees <- make.simmap(test_matrix$tree, characters, model = "ER", nsim = 1)
+# })
 
 
-test <- fossil_matrices$slow[[1]]$living[[1]]
-
-test_handle <- handle.missing.data(test)
-
-test_simmap <- make.simmap(tree = fossil_matrices$slow[[1]]$living$tree, test_handle[[1]], model = "SYM", nsim = 10)
-describe <- describe.simmap(test_simmap)
-describe$ace
+# simmap_trees <- make.simmap(test_matrix$tree, what , model = "ER", nsim = 100)
+# ace <- describe.simmap(simmap_trees)$ace
 
 
-test <- SCM.matrix(tree = test_matrix$tree, matrix = test_matrix$matrix, model.set = "ER", n.sim = 2, threshold = 0.5, name.input = "test")
+# test <- fossil_matrices$slow[[1]]$living[[1]]
 
-# Apply SIMMAP to all discrete matrices
-simmap_results <- lapply(names(discrete_matrices), function(rate) {
-  lapply(seq_along(discrete_matrices[[rate]]), function(i) {
-    # Get the tree and character matrix for the current replicate
-    tree <- trees[[i]]
-    char_matrix <- discrete_matrices[[rate]][[i]]
+# test_handle <- handle.missing.data(test)
+
+# test_simmap <- make.simmap(tree = fossil_matrices$slow[[1]]$living$tree, test_handle[[1]], model = "SYM", nsim = 10)
+# describe <- describe.simmap(test_simmap)
+# describe$ace
+
+
+# test <- SCM.matrix(tree = test_matrix$tree, matrix = test_matrix$matrix, model.set = "ER", n.sim = 2, threshold = 0.5, name.input = "test")
+
+# # Apply SIMMAP to all discrete matrices
+# simmap_results <- lapply(names(discrete_matrices), function(rate) {
+#   lapply(seq_along(discrete_matrices[[rate]]), function(i) {
+#     # Get the tree and character matrix for the current replicate
+#     tree <- trees[[i]]
+#     char_matrix <- discrete_matrices[[rate]][[i]]
     
-    # Define the model (e.g., "SYM" for symmetric transitions)
-    model <- "SYM"
+#     # Define the model (e.g., "SYM" for symmetric transitions)
+#     model <- "SYM"
     
-    # Run SIMMAP
-    run_simmap(tree = tree, char_matrix = char_matrix, model = model, n_sim = 100, threshold = 0.5)
-  })
-})
+#     # Run SIMMAP
+#     run_simmap(tree = tree, char_matrix = char_matrix, model = model, n_sim = 100, threshold = 0.5)
+#   })
+# })
 
 
 # Assign names to the results
-names(simmap_results) <- names(discrete_matrices)
+# names(simmap_results) <- names(discrete_matrices)
 
 
 
@@ -1119,6 +1119,7 @@ sample_nodes <- lapply(seq_along(sampled_fossil_anc), function(rate) {
     # Step 1: Compute the true matrix once for the current replicate (i)
     # node_v <- node_labels[[i]]
     true <- discrete_matrices[[rate]][[i]][grepl("^n", rownames(discrete_matrices[[rate]][[i]])), ]
+    true <- apply(true, c(1,2), as.character)
 
     # Step 2: Iterate over preservation levels
     levels <- names(sampled_fossil_anc[[rate]][[i]])
@@ -1151,6 +1152,7 @@ rel_nodes <- lapply(seq_along(point_fossil_anc), function(rate) {
 
     # Step 2: Get the true matrix for the current replicate
     true <- discrete_matrices[[rate]][[i]][grepl("^n", rownames(discrete_matrices[[rate]][[i]])), ]
+    true <- apply(true, c(1,2), as.character)
 
     # Step 3: Iterate over preservation levels
     levels <- names(point_fossil_anc[[rate]][[i]])
@@ -1180,6 +1182,7 @@ strict_nodes <- lapply(seq_along(thresh_fossil_anc), function(rate) {
 
     # Step 2: Get the true matrix for the current replicate
     true <- discrete_matrices[[rate]][[i]][grepl("^n", rownames(discrete_matrices[[rate]][[i]])), ]
+    true <- apply(true, c(1,2), as.character)
 
     # Step 3: Iterate over preservation levels
     levels <- names(thresh_fossil_anc[[rate]][[i]])

@@ -403,3 +403,117 @@ ggplot(grid_data, aes(x = x, y = y, fill = factor(state))) +
         panel.background = element_rect(fill = "transparent", color = NA))
 
 ggsave("../besMacro/samplechart.png", width = 6, height = 6, bg = "transparent", dpi = 300)
+
+
+png("../besMacro/ace_tree.png", width = 10, height = 10, units = "in", res = 300, bg = "transparent")
+# par(mar = c(5, 6, 4, 2))
+## discrete ancestral state plot
+# Simpler 5-taxa tree
+tree_newick <- "(((Taxon1:0.1,Taxon2:0.1)AB:0.2,(Taxon3:0.15,Taxon4:0.15)CD:0.15)ABCD:0.2,Taxon5:0.45)root;"
+
+# Tip states showing interesting evolutionary patterns
+tip_states <- c(Taxon1=1, Taxon2=1, Taxon3=0, Taxon4=1, Taxon5=0)
+
+# Read tree
+tree <- read.tree(text = tree_newick)
+par(mar = c(5, 10, 4, 2))
+
+# Plot the tree
+plot(tree, show.tip.label = TRUE, show.node.label = FALSE, edge.width = 6, cex = 2.5, label.offset = 0.06)
+
+# Add colored circles for tip states
+tiplabels(pch=19, col=ifelse(tip_states == 1, "#FF8C00", "navy"), cex=8)
+
+# Run ancestral character estimation
+ace_results <- ape::ace(tip_states, tree, type="discrete", model="ER")
+
+# Add pie charts for ancestral nodes
+# Internal nodes start at Ntip(tree) + 1
+n_tips <- length(tip_states)
+
+# Add pie charts for each internal node
+for(i in 1:tree$Nnode) {
+  node_num <- n_tips + i
+  probs <- ace_results$lik.anc[i, ]
+  
+  nodelabels(pie = probs, 
+             node = node_num,
+             piecol = c("navy", "#FF8C00"),  # colors for states 0 and 1
+             cex = 1.948)
+}
+
+# Enhanced legend
+# legend(
+#   "bottomleft",                      
+#   legend = c("State 1", "State 0"),           
+#   pch = c(19, 19),                        
+#   col = c("#FF8C00", "navy"),
+#   pt.cex = c(4, 4, 2),  
+#   cex = 2,                   
+#   title = "Character States",
+#   bty = "n"
+# )
+
+dev.off()
+
+png("../besMacro/pre_acetree.png", width = 10, height = 10, units = "in", res = 300, bg = "transparent")
+
+
+plot(tree, show.tip.label = TRUE, show.node.label = FALSE, edge.width = 6, cex = 2.5, label.offset = 0.02)
+
+
+
+# Add colored circles for tip states
+tiplabels(pch=19, col=ifelse(tip_states == 1, "#FF8C00", "navy"), cex=8)
+
+
+legend(
+  "bottomleft",                      
+  legend = c("1", "0"),           
+  pch = c(19, 19),                        
+  col = c("#FF8C00", "navy"),
+  pt.cex = c(4, 4, 2),  
+  cex = 4,                   
+  # title = "Character States",
+  bty = "n",
+  yjust = 7
+)
+
+
+dev.off()
+
+discrete_data <- data.frame(
+  row.names = c("Taxon 1", "Taxon 2", "Taxon 3", "Taxon 4", "Taxon 5"),
+  Trait1 = c(1, 1, 0, 1, 0),
+  Trait2 = c(1, 1, 0, 0, 0),
+  Trait3 = c(0, 0, 1, 1, 1)
+)
+
+library(grid)
+
+library(ggplot2)
+library(gridExtra)
+
+blue_orange_theme <- ttheme_default(
+  core = list(
+    fg_params = list(cex = 1.2, col = "navy"),                    
+    bg_params = list(fill = c("lightblue", "peachpuff"),          
+                     col = "white", lwd = 1)
+  ),
+  colhead = list(
+    fg_params = list(cex = 1.4, fontface = "bold", col = "white"),
+    bg_params = list(fill = "#4682B4", col = "white", lwd = 2)  
+  ),
+  rowhead = list(
+    fg_params = list(cex = 1.2, fontface = "bold", col = "white"),
+    bg_params = list(fill = "#FF8C00", col = "white", lwd = 2) 
+  )
+)
+
+# Create the plot
+p <- ggplot() + 
+  annotation_custom(tableGrob(discrete_data, theme = blue_orange_theme)) + 
+  theme_void()
+
+ggsave("../besMacro/discrete_matrix.png", p, width = 8, height = 8, dpi = 100)
+

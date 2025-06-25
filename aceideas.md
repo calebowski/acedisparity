@@ -57,3 +57,17 @@ So latest plots:
 - disparity accuracy decreases as fossil sampling increases -> due to higher amount of nodes being estimated -> increases uncertainty. Wildly overestimates disparity, as uncertainty increases at these deeper nodes.
 
 Not necessarily keeps uncertainty, but shows that when no state has likelihood above threshold, there is a lot of nodes that are left as 0/1, which makes differences between nodes more pronounced -> higher disparity.
+
+
+Treats - do by max taxa. EXTINCTION hits at certain number of taxa
+
+icons on poster.
+
+old disparity figure for poster
+
+Colours need to match
+Use icons e.g. fossil sampling icon on x axis
+
+For threshold method plot, show one scenario at 0.51, one at 0.9
+
+For ace plot, do it with real animals -> wings and hands?
