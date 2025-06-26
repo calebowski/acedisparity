@@ -361,6 +361,33 @@ ggplot(data, aes(x = factor(state), y = probability, fill = factor(state))) +
 # Save
 ggsave("../besMacro/relativebarchart_uncetain.png", width = 6, height = 6, bg = "transparent", dpi = 300)
 
+ggplot(data, aes(x = factor(state), y = probability, fill = factor(state))) +
+  geom_col(width = 0.6) +
+  geom_hline(yintercept = relative_threshold, color = "black", size = 3, linetype = "dashed") +
+    geom_hline(yintercept = max(data$probability), color = "peachpuff", size = 2, linetype = "dotted") +
+  scale_fill_manual(values = c("0" = "#ADD8E6", "1" = "#FF8C00")) +
+  scale_y_continuous(limits = c(0, 0.8)) +
+  # labs(x = "State", y = "") +
+  theme_void() +
+  theme( # axis.text.x = element_text(size = 30, color = "white"),          # White x-axis text
+       # axis.title.x = element_text(size = 30, color = "white", margin = margin(t = 10)), # White x-axis title
+        plot.background = element_rect(fill = "transparent", color = NA),
+        panel.background = element_rect(fill = "transparent", color = NA),
+        legend.position = "none") +
+  # annotate("text", x = 2.3, y = relative_threshold + 0.03, 
+  #          label = paste0("Threshold = ", round(relative_threshold, 2)), 
+  #          color = "red", size = 5, fontface = "bold") +
+  # geom_text(aes(label = probability), 
+  #           vjust = -0.3, size = 18, fontface = "bold", color = "white") +
+  annotate("segment", x = 0.7, y = max(data$probability), 
+           xend = 0.7, yend = relative_threshold,
+           color = "black", size = 3.0,
+          arrow = arrow(length = unit(0.5, "cm"), type = "closed")) 
+  # annotate("text", x = 1.1, y = 0.3, 
+  #          label = "1/n states", color = "black", size = 7.5, fontface = "bold", angle = 0) 
+
+ggsave("../besMacro/relativebarchart_symbol.png", width = 6, height = 6, bg = "transparent", dpi = 300)
+
 # Save with transparent background
 
 ### strict threshold
@@ -386,6 +413,27 @@ ggplot(data, aes(x = factor(state), y = probability, fill = factor(state))) +
             vjust = -0.3, size = 18, fontface = "bold", color = "white") 
 # Save
 ggsave("../besMacro/strictbarchart_uncertain.png", width = 6, height = 6, bg = "transparent", dpi = 300)
+
+
+ggplot(data, aes(x = factor(state), y = probability, fill = factor(state))) +
+  geom_col(width = 0.6) +
+  geom_hline(yintercept = strict_threshold, color = "black", size = 3, linetype = "dashed") +
+  scale_fill_manual(values = c("0" = "#ADD8E6", "1" = "#FF8C00")) +
+  scale_y_continuous(limits = c(0, 0.8)) +
+  # labs(x = "State", y = "") +
+  theme_void() +
+  theme(# axis.text.x = element_text(size = 30, color = "white"),          # White x-axis text
+        # axis.title.x = element_text(size = 30, color = "white", margin = margin(t = 10)), # White x-axis title
+        plot.background = element_rect(fill = "transparent", color = NA),
+        panel.background = element_rect(fill = "transparent", color = NA),
+        legend.position = "none") 
+  # annotate("text", x = 2.3, y = relative_threshold + 0.03, 
+  #          label = paste0("Threshold = ", round(relative_threshold, 2)), 
+  #          color = "red", size = 5, fontface = "bold") +
+  # geom_text(aes(label = probability), 
+  #           vjust = -0.3, size = 18, fontface = "bold", color = "white") 
+# Save
+ggsave("../besMacro/strictbarchart_symbol.png", width = 6, height = 6, bg = "transparent", dpi = 300)
 
 
 
@@ -414,6 +462,17 @@ ggplot(grid_data, aes(x = x, y = y, fill = factor(state))) +
         panel.background = element_rect(fill = "transparent", color = NA))
 
 ggsave("../besMacro/samplechart_uncertain.png", width = 6, height = 6, bg = "transparent", dpi = 300)
+
+
+
+
+
+
+
+
+
+
+
 
 #### now for high probability
 data <- data.frame(
@@ -597,12 +656,10 @@ legend(
 
 dev.off()
 
-discrete_data <- data.frame(
-  row.names = c("Taxon 1", "Taxon 2", "Taxon 3", "Taxon 4", "Taxon 5"),
-  Trait1 = c(1, 1, 0, 1, 0),
-  Trait2 = c(1, 1, 0, 0, 0),
-  Trait3 = c(0, 0, 1, 1, 1)
-)
+# discrete_data <- data.frame(
+#   row.names = c("Taxon 1", "Taxon 2", "Taxon 3", "Taxon 4", "Taxon 5"),
+#   Trait1 = c(1, 1, 0, 1, 0),
+# )
 
 library(grid)
 
@@ -647,61 +704,20 @@ library(ggtree)
 library(ggplot2)
 
 # Your tree and data
-tree_newick <- "((Taxon1:0.1,Taxon2:0.1):0.1,Taxon3:0.2);"
+tree_newick <- "((Taxon1:0.01,Taxon2:0.01):0.01,Taxon3:0.02);"
 tree <- read.tree(text = tree_newick)
 tip_states <- c(Taxon1 = 1, Taxon2 = 0, Taxon3 = 1)
 
-# Get UUIDs
-lizard <- get_uuid(name = "Ardeosaurus brevipes", n = 1)[1]
-snake <- get_uuid(name = "Python", n = 1)[1]
-
-png("../besMacro/pre_acetree.png", width = 10, height = 10, units = "in", res = 300, bg = "transparent")
-
-# Create base plot with tip labels and colored points
-p <- ggtree(tree) + 
-  # geom_tiplab(offset = 0.02, size = 5) +  # Add tip labels
-  geom_tippoint(aes(color = factor(tip_states[label])), size = 12) +  # Add colored tip points
-  scale_color_manual(values = c("0" = "navy", "1" = "#FF8C00")) +
-  theme(legend.position = "none")
-
-# Get tree layout data to position phylopics correctly
-tree_data <- p$data
-
-# Add phylopics using actual coordinates
-for (i in 1:length(tree$tip.label)) {
-  tip_name <- tree$tip.label[i]
-  state <- tip_states[tip_name]
-  uuid <- ifelse(state == 1, lizard, snake)
-  
-  # Get the actual coordinates for this tip
-  tip_data <- tree_data[tree_data$label == tip_name & tree_data$isTip, ]
-  
-  p <- p + add_phylopic(uuid = uuid,
-                        x = tip_data$x + 0.03,  # Further offset for phylopics
-                        y = tip_data$y,
-                        alpha = 1,
-                        height = 0.15)  # Smaller size to avoid overlap
-}
-
-print(p)
-
-dev.off()
-
-
-
-# Run ACE analysis
 ace_results <- ape::ace(tip_states, tree, type="discrete", model="ER")
 
-png("../besMacro/complete_tree_base.png", width = 12, height = 10, units = "in", res = 300, bg = "transparent")
-
+svg("../besMacro/tree_plot.svg", width = 8, height = 6)
 # Set larger margins
-par(mar = c(5, 10, 4, 4))
-
+par(mar = c(0.1, 0.1, 0.1, 0.1))
 # Plot tree
-plot(tree, show.tip.label = FALSE, show.node.label = FALSE, edge.width = 6, cex = 2.5, label.offset = 0.08)
+plot(tree, show.tip.label = FALSE, show.node.label = FALSE, edge.width = 18, cex = 4, label.offset = 0.08)
 
 # Add colored circles for tip states
-tiplabels(pch=19, col=ifelse(tip_states == 1, "#FF8C00", "navy"), cex=8)
+tiplabels(pch=19, col=ifelse(tip_states == 1, "#FF8C00", "navy"), cex=9.8)
 
 # Add pie charts for internal nodes
 n_tips <- length(tip_states)
@@ -711,24 +727,120 @@ for(i in 1:tree$Nnode) {
   
   nodelabels(pie = probs, 
              node = node_num,
-             piecol = c("navy", "#FF8C00"),
-             cex = 2)
+             piecol = c("#000080", "#FF8C00"),
+             cex = 1.9)
 }
 
-# Add phylopics manually (this is the tricky part in base R)
-# You need to get the tip coordinates and add images
-tip_coords <- list(
-  x = c(0.3, 0.3, 0.5),  # Approximate x coordinates for tips
-  y = c(1, 2, 1.5)       # Approximate y coordinates for tips
-)
+# # Add phylopics manually (this is the tricky part in base R)
+# # You need to get the tip coordinates and add images
+# tip_coords <- list(
+#   x = c(0.3, 0.3, 0.5),  # Approximate x coordinates for tips
+#   y = c(1, 2, 1.5)       # Approximate y coordinates for tips
+# )
 
-# For base R, you'd typically need to use rasterImage() or similar
-# This is complex, so let's use a simpler approach with just labels
+# # For base R, you'd typically need to use rasterImage() or similar
+# # This is complex, so let's use a simpler approach with just labels
 
-# Add custom tip labels instead of phylopics for now
-tip_labels <- c("🦎", "🐍", "🦎")  # Unicode symbols as placeholders
-text(tip_coords$x + 0.05, tip_coords$y, tip_labels, cex = 3)
+# # Add custom tip labels instead of phylopics for now
+# tip_labels <- c("🦎", "🐍", "🦎")  # Unicode symbols as placeholders
+# text(tip_coords$x + 0.05, tip_coords$y, tip_labels, cex = 3)
 
 dev.off()
+
+
+discrete_data <- data.frame(
+  row.names = c("Frog", "Python", "Gecko"),
+  Trait1 = c(1, 0, 1)
+)
+
+# Change the column name
+colnames(discrete_data) <- "Limbs presence/absence"
+
+
+blue_orange_theme <- ttheme_default(
+  core = list(
+    fg_params = list(cex = 1.2, col = "navy"),                    
+    bg_params = list(fill = c("peachpuff", "lightblue"),          
+                     col = "white", lwd = 1)
+  ),
+  colhead = list(
+    fg_params = list(cex = 1.4, fontface = "bold", col = "white"),
+    bg_params = list(fill = "#4682B4", col = "white", lwd = 2)  
+  ),
+  rowhead = list(
+    fg_params = list(cex = 1.2, fontface = "bold", col = "white"),
+    bg_params = list(fill = "#FF8C00", col = "white", lwd = 2) 
+  )
+)
+
+# Create the plot
+p <- ggplot() + 
+  annotation_custom(tableGrob(discrete_data, theme = blue_orange_theme)) + 
+  theme_void()
+
+ggsave("../besMacro/discrete_matrix.png", p, width = 8, height = 12, dpi = 700)
+
+
+
+limb_data <- matrix(
+  c(1, 0, 1, 1, 1),
+  nrow = 5,
+  ncol = 1,
+  dimnames = list(c("Frog", "Python", "Gecko", "node1", "node2"), "Trait1")
+)
+
+limbless_data <- matrix(
+  c(1, 0, 1, 0, 0),
+  nrow = 5,
+  ncol = 1,
+  dimnames = list(c("Frog", "Python", "Gecko", "node1", "node2"), "Trait1")
+)
+
+mixed_data_one <- matrix(
+  c(1, 0, 1, 1, 0),
+  nrow = 5,
+  ncol = 1,
+  dimnames = list(c("Frog", "Python", "Gecko", "node1", "node2"), "Trait1")
+)
+
+
+limb_dist <- char.diff(limb_data, method = "mord", by.col = FALSE)
+
+limbless_dist <- char.diff(limbless_data, method = "mord", by.col = FALSE)
+
+mixed_data_dist <- char.diff(mixed_data_one, method = "mord", by.col = FALSE)
+
+
+limb_ord <- cmdscale(limb_dist, k = 4, add = TRUE)$points
+
+limbless_ord <- cmdscale(limbless_dist, k = 4, add = TRUE)$points
+
+mixed_data_ord <- cmdscale(mixed_data_dist, k = 4, add = TRUE)$points
+
+
+
+limb_disp <- dispRity(limb_ord, metric = c(sum, variances))$disparity
+limbless_disp <- dispRity(limbless_ord, metric = c(sum, variances))$disparity
+mixed_disp <- dispRity(mixed_data_ord, metric = c(sum, variances))$disparity
+
+disparity_vals <- data.frame(
+  Assumption = c("Assume Limbs", "Assume Limbless"),
+  Disparity = c(0.2, 0.3)
+)
+
+
+
+
+library(ggplot2)
+
+png("../besMacro/limb_less.png", width = 10, height = 10, units = "in", res = 300, bg = "transparent")
+par(mar = c(4, 8, 4, 4))
+plot(c(1,2), c(0.2, 0.3), ylim = c(0, 0.4), xlim = c(0.5, 2.5), pch = 21,
+     bg = c("#FF8C00", "navy"), xaxt = "n", ylab = "Disparity", xlab = "",
+     cex = 7, bty = "n", cex.lab = 3)  # Enlarges y-axis label
+
+axis(1, at = c(1,2), labels = c("Assume Limbs", "Assume Limbless"), cex.axis = 2.5)
+
+text(x = c(1,2), y = c(0.21, 0.31), labels = c("0.2", "0.3"), pos = 3, cex = 3)
 
 dev.off()
