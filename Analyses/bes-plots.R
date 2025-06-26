@@ -325,6 +325,10 @@ library(dplyr)
 #   probability = c(0.4, 0.6)
 # )
 
+data <- data.frame(
+  state = c(0, 1),
+  probability = c(0.45, 0.55)
+)
 # Calculate relative majority threshold
 k <- 2  
 relative_threshold <- max(data$probability) - (1/k)
@@ -333,6 +337,7 @@ relative_threshold <- max(data$probability) - (1/k)
 ggplot(data, aes(x = factor(state), y = probability, fill = factor(state))) +
   geom_col(width = 0.6) +
   geom_hline(yintercept = relative_threshold, color = "black", size = 3, linetype = "dashed") +
+    geom_hline(yintercept = max(data$probability), color = "peachpuff", size = 2, linetype = "dotted") +
   scale_fill_manual(values = c("0" = "#ADD8E6", "1" = "#FF8C00")) +
   scale_y_continuous(limits = c(0, 0.8)) +
   labs(x = "State", y = "") +
@@ -346,9 +351,15 @@ ggplot(data, aes(x = factor(state), y = probability, fill = factor(state))) +
   #          label = paste0("Threshold = ", round(relative_threshold, 2)), 
   #          color = "red", size = 5, fontface = "bold") +
   geom_text(aes(label = probability), 
-            vjust = -0.3, size = 18, fontface = "bold", color = "white") 
+            vjust = -0.3, size = 18, fontface = "bold", color = "white") +
+  annotate("segment", x = 0.7, y = max(data$probability), 
+           xend = 0.7, yend = relative_threshold,
+           color = "black", size = 3.0,
+          arrow = arrow(length = unit(0.5, "cm"), type = "closed")) +
+  annotate("text", x = 1.1, y = 0.3, 
+           label = "1/n states", color = "black", size = 7.5, fontface = "bold", angle = 0) 
 # Save
-ggsave("../besMacro/relativebarchart.png", width = 6, height = 6, bg = "transparent", dpi = 300)
+ggsave("../besMacro/relativebarchart_uncetain.png", width = 6, height = 6, bg = "transparent", dpi = 300)
 
 # Save with transparent background
 
@@ -374,13 +385,13 @@ ggplot(data, aes(x = factor(state), y = probability, fill = factor(state))) +
   geom_text(aes(label = probability), 
             vjust = -0.3, size = 18, fontface = "bold", color = "white") 
 # Save
-ggsave("../besMacro/strictbarchart.png", width = 6, height = 6, bg = "transparent", dpi = 300)
+ggsave("../besMacro/strictbarchart_uncertain.png", width = 6, height = 6, bg = "transparent", dpi = 300)
 
 
 
 
-prob_state_0 <- 0.4
-prob_state_1 <- 0.6
+prob_state_0 <- 0.45
+prob_state_1 <- 0.55
 
 # Create 10x10 grid data
 grid_data <- expand.grid(x = 1:10, y = 1:10) %>%
@@ -402,7 +413,111 @@ ggplot(grid_data, aes(x = x, y = y, fill = factor(state))) +
         plot.background = element_rect(fill = "transparent", color = NA),
         panel.background = element_rect(fill = "transparent", color = NA))
 
-ggsave("../besMacro/samplechart.png", width = 6, height = 6, bg = "transparent", dpi = 300)
+ggsave("../besMacro/samplechart_uncertain.png", width = 6, height = 6, bg = "transparent", dpi = 300)
+
+#### now for high probability
+data <- data.frame(
+  state = c(0, 1),
+  probability = c(0.1, 0.9)
+)
+
+k <- 2  
+relative_threshold <- max(data$probability) - (1/k)
+
+# Create super clean bar chart with no bar outlines
+# Create a second plot showing what gets subtracted
+k_value <- 1/2
+
+p1 <- ggplot(data, aes(x = factor(state), y = probability, fill = factor(state))) +
+  geom_col(width = 0.6) +
+  geom_hline(yintercept = max(data$probability), color = "peachpuff", size = 2, linetype = "dotted") +
+  geom_hline(yintercept = relative_threshold, color = "black", size = 3, linetype = "dashed") +
+  scale_fill_manual(values = c("0" = "#ADD8E6", "1" = "#FF8C00")) +
+  scale_y_continuous(limits = c(0, 1.0)) +
+  labs(x = "State", y = "") +
+  theme_void() +
+  theme(axis.text.x = element_text(size = 30, color = "white"),          # White x-axis text
+        axis.title.x = element_text(size = 30, color = "white", margin = margin(t = 10)), # White x-axis title
+        plot.background = element_rect(fill = "transparent", color = NA),
+        panel.background = element_rect(fill = "transparent", color = NA),
+        legend.position = "none") +
+  geom_text(aes(label = probability), 
+            vjust = -0.3, size = 18, fontface = "bold", color = "white") +
+  # Show the subtraction visually with arrow
+  annotate("segment", x = 0.7, y = max(data$probability), 
+           xend = 0.7, yend = relative_threshold,
+           color = "black", size = 3.0,
+          arrow = arrow(length = unit(0.5, "cm"), type = "closed")) +
+  annotate("text", x = 1.1, y = (max(data$probability) + relative_threshold)/2, 
+           label = "1/n states", color = "black", size = 7.5, fontface = "bold", angle = 0)  # Changed angle from 90 to 0
+# Save
+print(p1)
+ggsave("../besMacro/relativebarchart_high.png", width = 6, height = 6, bg = "transparent", dpi = 300)
+
+# Save with transparent background
+
+### strict threshold
+strict_threshold <- 0.5
+
+
+ggplot(data, aes(x = factor(state), y = probability, fill = factor(state))) +
+  geom_col(width = 0.6) +
+  geom_hline(yintercept = strict_threshold, color = "black", size = 3, linetype = "dashed") +
+  scale_fill_manual(values = c("0" = "#ADD8E6", "1" = "#FF8C00")) +
+  scale_y_continuous(limits = c(0, 1.0)) +
+  labs(x = "State", y = "") +
+  theme_void() +
+  theme(axis.text.x = element_text(size = 30, color = "white"),          # White x-axis text
+        axis.title.x = element_text(size = 30, color = "white", margin = margin(t = 10)), # White x-axis title
+        plot.background = element_rect(fill = "transparent", color = NA),
+        panel.background = element_rect(fill = "transparent", color = NA),
+        legend.position = "none") +
+  # annotate("text", x = 2.3, y = relative_threshold + 0.03, 
+  #          label = paste0("Threshold = ", round(relative_threshold, 2)), 
+  #          color = "red", size = 5, fontface = "bold") +
+  geom_text(aes(label = probability), 
+            vjust = -0.3, size = 18, fontface = "bold", color = "white") 
+# Save
+ggsave("../besMacro/strictbarchart_high.png", width = 6, height = 6, bg = "transparent", dpi = 300)
+
+
+
+
+prob_state_0 <- 0.1
+prob_state_1 <- 0.9
+
+# Create 10x10 grid data
+grid_data <- expand.grid(x = 1:10, y = 1:10) %>%
+  mutate(
+    # Randomly assign states based on probabilities
+    state = sample(c(0, 1), 100, replace = TRUE, prob = c(prob_state_0, prob_state_1)),
+    # Or create exact proportions (40 state 0, 60 state 1)
+    # state = c(rep(0, 40), rep(1, 60))
+  )
+
+# Create the grid plot
+ggplot(grid_data, aes(x = x, y = y, fill = factor(state))) +
+  geom_tile(color = "white", size = 0.5) +  # White gridlines
+  scale_fill_manual(values = c("0" = "#ADD8E6", "1" = "#FF8C00")) +
+  scale_x_continuous(expand = c(0, 0)) +
+  scale_y_continuous(expand = c(0, 0)) +
+  theme_void() +
+  theme(legend.position = "none",
+        plot.background = element_rect(fill = "transparent", color = NA),
+        panel.background = element_rect(fill = "transparent", color = NA))
+
+ggsave("../besMacro/samplechart_high.png", width = 6, height = 6, bg = "transparent", dpi = 300)
+
+
+
+
+
+
+
+
+
+
+
 
 
 png("../besMacro/ace_tree.png", width = 10, height = 10, units = "in", res = 300, bg = "transparent")
@@ -517,3 +632,103 @@ p <- ggplot() +
 
 ggsave("../besMacro/discrete_matrix.png", p, width = 8, height = 8, dpi = 100)
 
+
+########################################################################################################
+
+# Load necessary packages
+library(ape)
+library(rphylopic)
+library(ggtree)
+
+# Example tree with 3 taxa
+library(ape)
+library(rphylopic)
+library(ggtree)
+library(ggplot2)
+
+# Your tree and data
+tree_newick <- "((Taxon1:0.1,Taxon2:0.1):0.1,Taxon3:0.2);"
+tree <- read.tree(text = tree_newick)
+tip_states <- c(Taxon1 = 1, Taxon2 = 0, Taxon3 = 1)
+
+# Get UUIDs
+lizard <- get_uuid(name = "Ardeosaurus brevipes", n = 1)[1]
+snake <- get_uuid(name = "Python", n = 1)[1]
+
+png("../besMacro/pre_acetree.png", width = 10, height = 10, units = "in", res = 300, bg = "transparent")
+
+# Create base plot with tip labels and colored points
+p <- ggtree(tree) + 
+  # geom_tiplab(offset = 0.02, size = 5) +  # Add tip labels
+  geom_tippoint(aes(color = factor(tip_states[label])), size = 12) +  # Add colored tip points
+  scale_color_manual(values = c("0" = "navy", "1" = "#FF8C00")) +
+  theme(legend.position = "none")
+
+# Get tree layout data to position phylopics correctly
+tree_data <- p$data
+
+# Add phylopics using actual coordinates
+for (i in 1:length(tree$tip.label)) {
+  tip_name <- tree$tip.label[i]
+  state <- tip_states[tip_name]
+  uuid <- ifelse(state == 1, lizard, snake)
+  
+  # Get the actual coordinates for this tip
+  tip_data <- tree_data[tree_data$label == tip_name & tree_data$isTip, ]
+  
+  p <- p + add_phylopic(uuid = uuid,
+                        x = tip_data$x + 0.03,  # Further offset for phylopics
+                        y = tip_data$y,
+                        alpha = 1,
+                        height = 0.15)  # Smaller size to avoid overlap
+}
+
+print(p)
+
+dev.off()
+
+
+
+# Run ACE analysis
+ace_results <- ape::ace(tip_states, tree, type="discrete", model="ER")
+
+png("../besMacro/complete_tree_base.png", width = 12, height = 10, units = "in", res = 300, bg = "transparent")
+
+# Set larger margins
+par(mar = c(5, 10, 4, 4))
+
+# Plot tree
+plot(tree, show.tip.label = FALSE, show.node.label = FALSE, edge.width = 6, cex = 2.5, label.offset = 0.08)
+
+# Add colored circles for tip states
+tiplabels(pch=19, col=ifelse(tip_states == 1, "#FF8C00", "navy"), cex=8)
+
+# Add pie charts for internal nodes
+n_tips <- length(tip_states)
+for(i in 1:tree$Nnode) {
+  node_num <- n_tips + i
+  probs <- ace_results$lik.anc[i, ]
+  
+  nodelabels(pie = probs, 
+             node = node_num,
+             piecol = c("navy", "#FF8C00"),
+             cex = 2)
+}
+
+# Add phylopics manually (this is the tricky part in base R)
+# You need to get the tip coordinates and add images
+tip_coords <- list(
+  x = c(0.3, 0.3, 0.5),  # Approximate x coordinates for tips
+  y = c(1, 2, 1.5)       # Approximate y coordinates for tips
+)
+
+# For base R, you'd typically need to use rasterImage() or similar
+# This is complex, so let's use a simpler approach with just labels
+
+# Add custom tip labels instead of phylopics for now
+tip_labels <- c("🦎", "🐍", "🦎")  # Unicode symbols as placeholders
+text(tip_coords$x + 0.05, tip_coords$y, tip_labels, cex = 3)
+
+dev.off()
+
+dev.off()

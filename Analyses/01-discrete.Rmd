@@ -757,7 +757,7 @@ var_point_diffs <- lapply(sum_var_point, lapply, function(disparity){
   true <- disparity$true[[1]]$elements[1]
   ace <- disparity$ace
   diffs <- lapply(ace, function(pres){
-    diff <- abs(pres[[1]]$elements[1] - true) / true
+    diff <- (pres[[1]]$elements[1] - true) / true
   })
   return(diffs)
 })
@@ -766,7 +766,7 @@ var_thresh_diffs <- lapply(sum_var_thresh, lapply, function(disparity){
   true <- disparity$true[[1]]$elements[1]
   ace <- disparity$ace
   diffs <- lapply(ace, function(pres){
-    diff <- abs(pres[[1]]$elements[1] - true) / true
+    diff <- (pres[[1]]$elements[1] - true) / true
   })
   return(diffs)
 })
@@ -777,7 +777,7 @@ var_sample_diffs <- lapply(sum_var_sample, lapply, function(disparity) {
   diffs <- lapply(ace, function(pres) {
     lapply(pres, function(rep) {
       # Compute the difference
-      diff <- abs(rep[[1]]$elements[1] - true) / true
+      diff <- (rep[[1]]$elements[1] - true) / true
       return(diff)
     })
   })
