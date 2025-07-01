@@ -128,7 +128,7 @@ library(tidyr)
 library(ggplot2)
 
 # Combine strict_means and strict_means_sample into a single data frame
-combined_data <- do.call(rbind, lapply(c("allnode_means_thresh", "allnode_means_rel", "allnode_means_sample"), function(dataset_name) {
+combined_data <- do.call(rbind, lapply(c("strict_majority_rule", "relative_majority_rule", "no_majority_rule"), function(dataset_name) {
   dataset <- get(dataset_name)  # Dynamically get the dataset by name
   do.call(rbind, lapply(names(dataset), function(level) {
     do.call(rbind, lapply(seq_along(dataset[[level]]), function(replicate_index) {
@@ -150,10 +150,10 @@ combined_data <- do.call(rbind, lapply(c("allnode_means_thresh", "allnode_means_
     }))
   }))
 }))
-combined_data$threshold_method <- factor(combined_data$threshold_method, levels = c("allnode_means_thresh", "allnode_means_rel", "allnode_means_sample"),labels = c("Strict majority rule", "Relative majority rule", "No majority rule (sample)"))
+combined_data$threshold_method <- factor(combined_data$threshold_method, levels = c("strict_majority_rule", "relative_majority_rule", "no_majority_rule"),labels = c("Strict majority rule", "Relative majority rule", "No majority rule (sample)"))
 
 
-png("../Manuscript/figures/strictdistance.png", width = 12, height = 8, units = "in", res = 600)
+png("../Manuscript/figures/strictdistance.png", width = 400, height = 250, units = "mm", res = 600)
 colors <- c("slow" = "#8805A8", "med" = "#00B945", "fast" = "#FFB600")
 
 # Generate the combined plot with faceting by threshold_method
@@ -179,7 +179,7 @@ ggplot(combined_data, aes(x = preservation_level, y = distance, color = level, f
   ) +
   facet_wrap(~ threshold_method, ncol = 3) +
   labs(
-    x = "Fossil Sampling Level",
+    x = "",
     y = "Mean Distance Score",
     color = "Transition Rate",
     fill = "Transition Rate"
@@ -189,18 +189,20 @@ ggplot(combined_data, aes(x = preservation_level, y = distance, color = level, f
   scale_fill_manual(values = colors) +   # Apply custom colors to ribbons
   theme(
     # Thicker axis labels and ticks
-    axis.text = element_text(size = 14, face = "bold"),      # Larger, bold axis labels
-    axis.title = element_text(size = 16, face = "bold"),     # Larger, bold axis titles
-    axis.ticks = element_line(size = 1.2),                   # Thicker axis ticks
+    axis.text = element_text(size = 20, face = "bold"),      # Larger, bold axis labels
+    axis.title = element_text(size = 20, face = "bold"),     # Larger, bold axis titles
+    axis.ticks = element_line(size = 1.5),                   # Thicker axis ticks
     # axis.line = element_line(size = 1.2),                    # Thicker axis lines
     
     # Larger legend
-    legend.text = element_text(size = 20),                   # Larger legend text
-    legend.title = element_text(size = 20, face = "bold"),   # Larger legend title
-    legend.key.size = unit(1.5, "cm"),                       # Larger legend keys
+    legend.position = "none",                 # Larger legend text
+ 
+    
+    panel.grid = element_blank(),             # Larger legend keys
     
     # Facet labels
-    strip.text = element_text(size = 16.7, face = "bold"),     # Larger facet labels
+    strip.text = element_text(size = 23, face = "bold", hjust = 0.5, vjust = 1, 
+                          margin = margin(t = 10, b = 90, l = 10, r = 10)),
     strip.background = element_rect(color = "black", fill = "white", linewidth = 0.5),
     panel.border = element_rect(color = "black", fill = NA, linewidth = 0.5)
   ) +
@@ -420,8 +422,6 @@ ggplot(combined_data, aes(x = preservation_level, y = distance, color = level, f
   labs(
     x = "",
     y = "Relative Distance to True Disparity Value",
-    color = "Transition Rate",
-    fill = "Transition Rate"
   ) +
   theme_minimal() +
   scale_color_manual(values = colors) +  # Apply custom colors to lines
@@ -434,9 +434,10 @@ ggplot(combined_data, aes(x = preservation_level, y = distance, color = level, f
     # axis.line = element_line(size = 1.2),                    # Thicker axis lines
     
     # Larger legend
-    legend.text = element_text(size = 20),                   # Larger legend text
-    legend.title = element_text(size = 20, face = "bold"),   # Larger legend title
-    legend.key.size = unit(1.5, "cm"),                       # Larger legend keys
+    legend.position = "none",                 # Larger legend text
+    # legend.title = element_text(size = 20, face = "bold"),   # Larger legend title
+    # legend.key.size = unit(1.5, "cm"),    
+    panel.grid = element_blank(),             # Larger legend keys
     
     # Facet labels
     strip.text = element_text(size = 23, face = "bold", hjust = 0.5, vjust = 1, 

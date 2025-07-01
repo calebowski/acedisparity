@@ -71,3 +71,8 @@ Use icons e.g. fossil sampling icon on x axis
 For threshold method plot, show one scenario at 0.51, one at 0.9
 
 For ace plot, do it with real animals -> wings and hands?
+
+
+Change logo of relative threshold_method 
+ 
+PLot all 4 of the fossil sampling levels, with 1 headed arrow going back to show degradation - be explicit and show removal

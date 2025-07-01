@@ -337,7 +337,7 @@ relative_threshold <- max(data$probability) - (1/k)
 ggplot(data, aes(x = factor(state), y = probability, fill = factor(state))) +
   geom_col(width = 0.6) +
   geom_hline(yintercept = relative_threshold, color = "black", size = 3, linetype = "dashed") +
-    geom_hline(yintercept = max(data$probability), color = "peachpuff", size = 2, linetype = "dotted") +
+  geom_hline(yintercept = max(data$probability), color = "#FF8C00", size = 2, linetype = "dotted") +
   scale_fill_manual(values = c("0" = "#ADD8E6", "1" = "#FF8C00")) +
   scale_y_continuous(limits = c(0, 0.8)) +
   labs(x = "State", y = "") +
@@ -353,18 +353,16 @@ ggplot(data, aes(x = factor(state), y = probability, fill = factor(state))) +
   geom_text(aes(label = probability), 
             vjust = -0.3, size = 18, fontface = "bold", color = "white") +
   annotate("segment", x = 0.7, y = max(data$probability), 
-           xend = 0.7, yend = relative_threshold,
+           xend = 0.7, yend = 0.45,
            color = "black", size = 3.0,
-          arrow = arrow(length = unit(0.5, "cm"), type = "closed")) +
-  annotate("text", x = 1.1, y = 0.3, 
-           label = "1/n states", color = "black", size = 7.5, fontface = "bold", angle = 0) 
+          arrow = arrow(length = unit(0.5, "cm"), type = "closed")) 
 # Save
 ggsave("../besMacro/relativebarchart_uncetain.png", width = 6, height = 6, bg = "transparent", dpi = 300)
 
 ggplot(data, aes(x = factor(state), y = probability, fill = factor(state))) +
   geom_col(width = 0.6) +
   geom_hline(yintercept = relative_threshold, color = "black", size = 3, linetype = "dashed") +
-    geom_hline(yintercept = max(data$probability), color = "peachpuff", size = 2, linetype = "dotted") +
+    geom_hline(yintercept = max(data$probability), color = "#FF8C00", size = 2, linetype = "dotted") +
   scale_fill_manual(values = c("0" = "#ADD8E6", "1" = "#FF8C00")) +
   scale_y_continuous(limits = c(0, 0.8)) +
   # labs(x = "State", y = "") +
@@ -380,7 +378,7 @@ ggplot(data, aes(x = factor(state), y = probability, fill = factor(state))) +
   # geom_text(aes(label = probability), 
   #           vjust = -0.3, size = 18, fontface = "bold", color = "white") +
   annotate("segment", x = 0.7, y = max(data$probability), 
-           xend = 0.7, yend = relative_threshold,
+           xend = 0.7, yend = 0.45,
            color = "black", size = 3.0,
           arrow = arrow(length = unit(0.5, "cm"), type = "closed")) 
   # annotate("text", x = 1.1, y = 0.3, 
@@ -396,7 +394,7 @@ strict_threshold <- 0.5
 
 ggplot(data, aes(x = factor(state), y = probability, fill = factor(state))) +
   geom_col(width = 0.6) +
-  geom_hline(yintercept = strict_threshold, color = "black", size = 3, linetype = "dashed") +
+  # geom_hline(yintercept = strict_threshold, color = "black", size = 3, linetype = "dashed") +
   scale_fill_manual(values = c("0" = "#ADD8E6", "1" = "#FF8C00")) +
   scale_y_continuous(limits = c(0, 0.8)) +
   labs(x = "State", y = "") +
@@ -417,7 +415,7 @@ ggsave("../besMacro/strictbarchart_uncertain.png", width = 6, height = 6, bg = "
 
 ggplot(data, aes(x = factor(state), y = probability, fill = factor(state))) +
   geom_col(width = 0.6) +
-  geom_hline(yintercept = strict_threshold, color = "black", size = 3, linetype = "dashed") +
+  # geom_hline(yintercept = strict_threshold, color = "black", size = 3, linetype = "dashed") +
   scale_fill_manual(values = c("0" = "#ADD8E6", "1" = "#FF8C00")) +
   scale_y_continuous(limits = c(0, 0.8)) +
   # labs(x = "State", y = "") +
@@ -489,7 +487,7 @@ k_value <- 1/2
 
 p1 <- ggplot(data, aes(x = factor(state), y = probability, fill = factor(state))) +
   geom_col(width = 0.6) +
-  geom_hline(yintercept = max(data$probability), color = "peachpuff", size = 2, linetype = "dotted") +
+  geom_hline(yintercept = max(data$probability), color = "#FF8C00", size = 2, linetype = "dotted") +
   geom_hline(yintercept = relative_threshold, color = "black", size = 3, linetype = "dashed") +
   scale_fill_manual(values = c("0" = "#ADD8E6", "1" = "#FF8C00")) +
   scale_y_continuous(limits = c(0, 1.0)) +
@@ -504,11 +502,11 @@ p1 <- ggplot(data, aes(x = factor(state), y = probability, fill = factor(state))
             vjust = -0.3, size = 18, fontface = "bold", color = "white") +
   # Show the subtraction visually with arrow
   annotate("segment", x = 0.7, y = max(data$probability), 
-           xend = 0.7, yend = relative_threshold,
+           xend = 0.7, yend = 0.1,
            color = "black", size = 3.0,
-          arrow = arrow(length = unit(0.5, "cm"), type = "closed")) +
-  annotate("text", x = 1.1, y = (max(data$probability) + relative_threshold)/2, 
-           label = "1/n states", color = "black", size = 7.5, fontface = "bold", angle = 0)  # Changed angle from 90 to 0
+          arrow = arrow(length = unit(0.5, "cm"), type = "closed")) 
+  # annotate("text", x = 1.1, y = (max(data$probability) + relative_threshold)/2, 
+  #          label = "1/n states", color = "black", size = 7.5, fontface = "bold", angle = 0)  # Changed angle from 90 to 0
 # Save
 print(p1)
 ggsave("../besMacro/relativebarchart_high.png", width = 6, height = 6, bg = "transparent", dpi = 300)
@@ -521,7 +519,7 @@ strict_threshold <- 0.5
 
 ggplot(data, aes(x = factor(state), y = probability, fill = factor(state))) +
   geom_col(width = 0.6) +
-  geom_hline(yintercept = strict_threshold, color = "black", size = 3, linetype = "dashed") +
+  # geom_hline(yintercept = strict_threshold, color = "black", size = 3, linetype = "dashed") +
   scale_fill_manual(values = c("0" = "#ADD8E6", "1" = "#FF8C00")) +
   scale_y_continuous(limits = c(0, 1.0)) +
   labs(x = "State", y = "") +
@@ -570,7 +568,24 @@ ggsave("../besMacro/samplechart_high.png", width = 6, height = 6, bg = "transpar
 
 
 
-
+ggplot(data, aes(x = factor(state), y = probability, fill = factor(state))) +
+  geom_col(width = 0.6) +
+  # geom_hline(yintercept = strict_threshold, color = "black", size = 3, linetype = "dashed") +
+  scale_fill_manual(values = c("0" = "#ADD8E6", "1" = "#FF8C00")) +
+  scale_y_continuous(limits = c(0, 1.0)) +
+  labs(x = "State", y = "Scaled Likelihood") +
+  theme_void() +
+  theme(axis.text.x = element_text(size = 30, color = "white"),          # White x-axis text
+        axis.text.y = element_text(size = 30, color = "white"),          # White y-axis text
+        axis.title.x = element_text(size = 30, color = "white", margin = margin(t = 10)), # White x-axis title
+        axis.title.y = element_text(size = 30, color = "white", margin = margin(r = 10)), # White y-axis title
+        plot.background = element_rect(fill = "transparent", color = NA),
+        panel.background = element_rect(fill = "transparent", color = NA),
+        legend.position = "none") 
+  # geom_text(aes(label = probability), 
+  #           vjust = -0.3, size = 18, fontface = "bold", color = "white") 
+# Save
+ggsave("../besMacro/acechart.png", width = 6, height = 6, bg = "transparent", dpi = 300)
 
 
 
@@ -717,7 +732,7 @@ par(mar = c(0.1, 0.1, 0.1, 0.1))
 plot(tree, show.tip.label = FALSE, show.node.label = FALSE, edge.width = 18, cex = 4, label.offset = 0.08)
 
 # Add colored circles for tip states
-tiplabels(pch=19, col=ifelse(tip_states == 1, "#FF8C00", "navy"), cex=9.8)
+tiplabels(pch=19, col=ifelse(tip_states == 1, "#FF8C00", "navy"), cex=4.8)
 
 # Add pie charts for internal nodes
 n_tips <- length(tip_states)
@@ -760,7 +775,7 @@ colnames(discrete_data) <- "Limbs presence/absence"
 blue_orange_theme <- ttheme_default(
   core = list(
     fg_params = list(cex = 1.2, col = "navy"),                    
-    bg_params = list(fill = c("peachpuff", "lightblue"),          
+    bg_params = list(fill = c("#FFDAB9", "#ADD8E6"),          
                      col = "white", lwd = 1)
   ),
   colhead = list(
@@ -833,14 +848,14 @@ disparity_vals <- data.frame(
 
 library(ggplot2)
 
-png("../besMacro/limb_less.png", width = 10, height = 10, units = "in", res = 300, bg = "transparent")
+png("../besMacro/limb_less.png", width = 10, height = 6, units = "in", res = 300, bg = "transparent")
 par(mar = c(4, 8, 4, 4))
 plot(c(1,2), c(0.2, 0.3), ylim = c(0, 0.4), xlim = c(0.5, 2.5), pch = 21,
      bg = c("#FF8C00", "navy"), xaxt = "n", ylab = "Disparity", xlab = "",
-     cex = 7, bty = "n", cex.lab = 3)  # Enlarges y-axis label
+     cex = 1, bty = "n", cex.lab = 6)  # Enlarges y-axis label
 
-axis(1, at = c(1,2), labels = c("Assume Limbs", "Assume Limbless"), cex.axis = 2.5)
+axis(1, at = c(1,2), labels = c("Assume Limbs", "Assume Limbless"), cex.axis = 6)
 
-text(x = c(1,2), y = c(0.21, 0.31), labels = c("0.2", "0.3"), pos = 3, cex = 3)
+text(x = c(1,2), y = c(0.22, 0.32), labels = c("0.2", "0.3"), pos = 3, cex = 3)
 
 dev.off()

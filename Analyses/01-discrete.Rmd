@@ -278,7 +278,7 @@ fossil_anc <- lapply(fossil_matrices, anc.states)
 sampled_fossil_anc <- lapply(fossil_anc, lapply, lapply, multi.ace, sample = 30, sample.fun = normal_sampling,  verbose = TRUE)
 
 
-thresh_fossil_anc <- lapply(fossil_anc, lapply, lapply, multi.ace, threshold = 0.51, output = "combined.matrix", verbose = TRUE)
+thresh_fossil_anc <- lapply(fossil_anc, lapply, lapply, multi.ace, threshold = FALSE, output = "combined.matrix", verbose = TRUE)
 
 point_fossil_anc <- lapply(fossil_anc, lapply, lapply, multi.ace, output = "combined.matrix", verbose = TRUE)
 
@@ -556,9 +556,9 @@ strict_means_sample <- lapply(sample_dist_strict, function(preservation) {
       replicate_means <- sapply(matrices, mean)
       
       # Compute the mean of the replicate means
-      overall_mean <- mean(replicate_means)
+      # overall_mean <- mean(replicate_means)
       
-      return(overall_mean)
+      return(replicate_means)
     })
   })
 })
@@ -895,9 +895,9 @@ neighbours_sample_diffs <- lapply(neighbours_sample, lapply, function(disparity)
 
 
 
-saveRDS(var_point_diffs, "../Data/matrices/pointvardiffs.rds")
-saveRDS(var_sample_diffs, "../Data/matrices/samplevardiffs.rds")
-saveRDS(var_thresh_diffs, "../Data/matrices/threshvardiffs.rds")
+saveRDS(var_point_diffs, "../Data/matrices/discrete/relvardiffs.rds")
+saveRDS(var_sample_diffs, "../Data/matrices/discrete/samplevardiffs.rds")
+saveRDS(var_thresh_diffs, "../Data/matrices/discrete/strictvardiffs.rds")
 
 saveRDS(range_point_diffs, "../Data/matrices/pointrangediffs.rds")
 saveRDS(range_sample_diffs, "../Data/matrices/samplerangediffs.rds")
