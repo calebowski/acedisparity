@@ -41,9 +41,9 @@ plot.treats(discrete_trees[[1]], legend = TRUE, cex = 2, cex.axis = 1.2, legend.
 
 ###########################################################################################
 # Make figures for different fossil sampling levels
-bd_params <- make.bd.params(speciation = 1, extinction = 0.7)
+bd_params <- make.bd.params(speciation = 2, extinction = 1.7)
 
-stop_rule <- list(max.living = 8)
+stop_rule <- list(max.living = 10)
 set.seed(123)
 trees <- treats(stop.rule = stop_rule, bd.params = bd_params, null.error = 100, replicates = 3)
 full_fossil_tree <- trees[[1]]
@@ -69,6 +69,68 @@ dev.off()
 png(filename = "../besMacro/livingtree.png", width = 10, height = 10, units = "in", res = 300, bg = "transparent")
 plot.phylo(living_tree, edge.color = "darkorange", edge.width = 14, show.tip.label = FALSE)
 dev.off()
+
+
+
+
+    # print(paste("Processing with type:", type))
+    
+ages <- tree.age(full_fossil_tree)
+tips <- ages$element[ages$ages == 0 & grepl("^t", ages$element)]  # Keep living species
+
+    ## Create time bins
+# range <- range(ages$ages) 
+# bins <- seq(range[1], range[2], length.out = 4)
+# bin_ids <- cut(ages$ages, breaks = bins, labels = FALSE, include.lowest = TRUE)
+# ages$bin <- bin_ids
+
+fossils <- ages$element[ages$ages > 0 & grepl("^t", ages$element)]
+
+preservation <- list(1, 0.5, 0.15, 0.05)
+samples <- lapply(preservation, function(prop) {
+  sample(fossils, size = (length(fossils) * prop))
+})
+
+
+full_fossil_tree <- set.root.time(full_fossil_tree)
+old_root <- full_fossil_tree$root.time
+
+
+high_fossil <- keep.tip(full_fossil_tree, c(tips, samples[[2]]))
+high_fossil$root.time <- old_root
+med_fossil <- keep.tip(full_fossil_tree, c(tips, samples[[3]]))
+med_fossil$root.time <- old_root
+low_fossil <- keep.tip(full_fossil_tree, c(tips, samples[[4]]))
+low_fossil$root.time <- old_root
+living_tree <- keep.tip(full_fossil_tree, tips)
+living_tree$root.time <- old_root
+
+
+
+
+png(filename = "../besMacro/fulltree.png", width = 10, height = 10, units = "in", res = 300, bg = "transparent")
+plot.phylo(full_fossil_tree, edge.color = "darkorange", edge.width = 14, show.tip.label = FALSE)
+dev.off()
+
+png(filename = "../besMacro/highfossil.png", width = 10, height = 10, units = "in", res = 300, bg = "transparent")
+plot.phylo(high_fossil, edge.color = "darkorange", edge.width = 14, show.tip.label = FALSE)
+dev.off()
+
+png(filename = "../besMacro/medfossil.png", width = 10, height = 10, units = "in", res = 300, bg = "transparent")
+plot.phylo(med_fossil, edge.color = "darkorange", edge.width = 14, show.tip.label = FALSE)
+dev.off()
+
+png(filename = "../besMacro/low_fossil.png", width = 10, height = 10, units = "in", res = 300, bg = "transparent")
+plot.phylo(low_fossil, edge.color = "darkorange", edge.width = 14, show.tip.label = FALSE)
+dev.off()
+
+
+png(filename = "../besMacro/livingtree.png", width = 10, height = 10, units = "in", res = 300, bg = "transparent")
+plot.phylo(living_tree, edge.color = "darkorange", edge.width = 14, show.tip.label = FALSE)
+dev.off()
+
+
+
 
 ## What if use a similar logic, but try and project the estimated values onto the real treats plot to compare how far they are.
 
@@ -852,9 +914,9 @@ png("../besMacro/limb_less.png", width = 10, height = 6, units = "in", res = 300
 par(mar = c(4, 8, 4, 4))
 plot(c(1,2), c(0.2, 0.3), ylim = c(0, 0.4), xlim = c(0.5, 2.5), pch = 21,
      bg = c("#FF8C00", "navy"), xaxt = "n", ylab = "Disparity", xlab = "",
-     cex = 1, bty = "n", cex.lab = 6)  # Enlarges y-axis label
+     cex = 6, bty = "n", cex.lab = 2.6, cex.axis = 2)  # Enlarges y-axis label
 
-axis(1, at = c(1,2), labels = c("Assume Limbs", "Assume Limbless"), cex.axis = 6)
+axis(1, at = c(1,2), labels = c("Assume Limbs", "Assume Limbless"), cex.axis = 2.4)
 
 text(x = c(1,2), y = c(0.22, 0.32), labels = c("0.2", "0.3"), pos = 3, cex = 3)
 

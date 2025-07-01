@@ -73,6 +73,17 @@ For threshold method plot, show one scenario at 0.51, one at 0.9
 For ace plot, do it with real animals -> wings and hands?
 
 
-Change logo of relative threshold_method 
+Change logo of relative threshold_method - needs just arrow pointing down to next in line - so that makes it 
  
 PLot all 4 of the fossil sampling levels, with 1 headed arrow going back to show degradation - be explicit and show removal
+
+
+BITS TO DO:
+- make top panel slightly narrower to give more space to ace
+- make it clear ace leads to disparity issues
+- fast slow med needs to be highlighted in plots
+- rewrite ace bit, make it clear that relative majority rule is more conservative, strict majority rule is permissive, write 100x matrices for sample
+- perhaps takeaway the scaled likelihood bit
+- write hamming as ancestral state error
+- make it clear that y axis is good vs bad
+- perhaps draw a line across 0 
