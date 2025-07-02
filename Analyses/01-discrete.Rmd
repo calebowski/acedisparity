@@ -1340,3 +1340,74 @@ var_sample_diffs <- lapply(sum_var_sample, lapply, function(disparity) {
   return(diffs)
 })
 ```
+
+## Post-ord ace
+
+```{r}
+# load the discrete matrices
+discrete_matrices <- readRDS("../Data/matrices/discretematrices.rds")
+
+source("../Functions/fossil.pres.R")
+
+living <- lapply(discrete_matrices, remove.fossil, trees = trees, type = "discrete")
+fossilised_high <- lapply(discrete_matrices, fossil.pres, trees = trees, preservation = 0.5, type = "discrete")
+all_fossil <- lapply(discrete_matrices, fossil.pres, trees = trees, preservation = 1.0, type = "discrete")
+fossilised_med <- lapply(discrete_matrices, fossil.pres, trees = trees, preservation = 0.15, type = "discrete")
+fossilised_low <- lapply(discrete_matrices, fossil.pres, trees = trees, preservation = 0.05, type = "discrete")
+
+
+
+
+
+# plot(fossilised_low$slow[[13]]$tree)
+
+fossil_matrices <- lapply(names(discrete_matrices), function(level) {
+  lapply(seq_along(discrete_matrices[[level]]), function(i) {
+    list(
+      all = all_fossil[[level]][[i]],
+      fossil_high = fossilised_high[[level]][[i]],
+      fossil_med = fossilised_med[[level]][[i]],
+      fossil_low = fossilised_low[[level]][[i]],
+      living = living[[level]][[i]]
+    )
+  })
+})
+
+# Assign names to the outer list
+names(fossil_matrices) <- names(discrete_matrices)
+## Firstly, find the overall disparity
+
+
+
+
+distances <- lapply(fossil_matrices, lapply, lapply, function(x) {
+  matrix <- x$matrix
+  tree <- x$tree
+  distance_matrix <- char.diff(matrix, method = "mord", by.col = FALSE)
+  return(list(tree = tree, matrix = distance_matrix))
+})
+
+
+ordinations <- lapply(distances, lapply, lapply, function(x) {
+  matrix <- x$matrix
+  tree <- x$tree
+  ord_matrix <- (cmdscale(matrix, k = ncol(matrix) - 2, add = TRUE))$points
+  return(list(tree = tree, matrix = ord_matrix))
+})
+
+n_cores <- 11
+anc.states <- function(x){ 
+  anc_states <- multi.ace(data = x$matrix[,1:48], 
+                          tree = x$tree, 
+                          models = "BM", 
+                          output = "multi.ace",
+                          parallel = n_cores,
+                          verbose = TRUE)
+  return(anc_states)
+}
+
+
+
+post_ord_ace <- lapply(ordinations, lapply, lapply, anc.states)
+
+```

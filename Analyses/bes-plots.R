@@ -109,28 +109,46 @@ living_tree$root.time <- old_root
 
 
 png(filename = "../besMacro/fulltree.png", width = 10, height = 10, units = "in", res = 300, bg = "transparent")
-plot.phylo(full_fossil_tree, edge.color = "darkorange", edge.width = 14, show.tip.label = FALSE)
+plot.phylo(full_fossil_tree, edge.color = "darkorange", edge.width = 13, show.tip.label = FALSE)
 dev.off()
 
 png(filename = "../besMacro/highfossil.png", width = 10, height = 10, units = "in", res = 300, bg = "transparent")
-plot.phylo(high_fossil, edge.color = "darkorange", edge.width = 14, show.tip.label = FALSE)
+plot.phylo(high_fossil, edge.color = "darkorange", edge.width = 13, show.tip.label = FALSE)
 dev.off()
 
 png(filename = "../besMacro/medfossil.png", width = 10, height = 10, units = "in", res = 300, bg = "transparent")
-plot.phylo(med_fossil, edge.color = "darkorange", edge.width = 14, show.tip.label = FALSE)
+plot.phylo(med_fossil, edge.color = "darkorange", edge.width = 13, show.tip.label = FALSE)
 dev.off()
 
 png(filename = "../besMacro/low_fossil.png", width = 10, height = 10, units = "in", res = 300, bg = "transparent")
-plot.phylo(low_fossil, edge.color = "darkorange", edge.width = 14, show.tip.label = FALSE)
+plot.phylo(low_fossil, edge.color = "darkorange", edge.width = 13, show.tip.label = FALSE)
 dev.off()
 
 
 png(filename = "../besMacro/livingtree.png", width = 10, height = 10, units = "in", res = 300, bg = "transparent")
-plot.phylo(living_tree, edge.color = "darkorange", edge.width = 14, show.tip.label = FALSE)
+plot.phylo(living_tree, edge.color = "darkorange", edge.width = 13, show.tip.label = FALSE)
 dev.off()
 
 
+svg(filename = "../besMacro/fulltree.svg", width = 10, height = 10, bg = "transparent")
+plot.phylo(full_fossil_tree, edge.color = "darkorange", edge.width = 13, show.tip.label = FALSE)
+dev.off()
 
+svg(filename = "../besMacro/highfossil.svg", width = 10, height = 10, bg = "transparent")
+plot.phylo(high_fossil, edge.color = "darkorange", edge.width = 13, show.tip.label = FALSE)
+dev.off()
+
+svg(filename = "../besMacro/medfossil.svg", width = 10, height = 10, bg = "transparent")
+plot.phylo(med_fossil, edge.color = "darkorange", edge.width = 13, show.tip.label = FALSE)
+dev.off()
+
+svg(filename = "../besMacro/low_fossil.svg", width = 10, height = 10, bg = "transparent")
+plot.phylo(low_fossil, edge.color = "darkorange", edge.width = 13, show.tip.label = FALSE)
+dev.off()
+
+svg(filename = "../besMacro/livingtree.svg", width = 10, height = 10, bg = "transparent")
+plot.phylo(living_tree, edge.color = "darkorange", edge.width = 13, show.tip.label = FALSE)
+dev.off()
 
 ## What if use a similar logic, but try and project the estimated values onto the real treats plot to compare how far they are.
 
@@ -404,8 +422,8 @@ ggplot(data, aes(x = factor(state), y = probability, fill = factor(state))) +
   scale_y_continuous(limits = c(0, 0.8)) +
   labs(x = "State", y = "") +
   theme_void() +
-  theme(axis.text.x = element_text(size = 30, color = "white"),          # White x-axis text
-        axis.title.x = element_text(size = 30, color = "white", margin = margin(t = 10)), # White x-axis title
+  theme(axis.text.x = element_text(size = 40, color = "white"),          # White x-axis text
+        axis.title.x = element_text(size = 40, color = "white", margin = margin(t = 10)), # White x-axis title
         plot.background = element_rect(fill = "transparent", color = NA),
         panel.background = element_rect(fill = "transparent", color = NA),
         legend.position = "none") +
@@ -461,8 +479,8 @@ ggplot(data, aes(x = factor(state), y = probability, fill = factor(state))) +
   scale_y_continuous(limits = c(0, 0.8)) +
   labs(x = "State", y = "") +
   theme_void() +
-  theme(axis.text.x = element_text(size = 30, color = "white"),          # White x-axis text
-        axis.title.x = element_text(size = 30, color = "white", margin = margin(t = 10)), # White x-axis title
+  theme(axis.text.x = element_text(size = 40, color = "white"),          # White x-axis text
+        axis.title.x = element_text(size = 40, color = "white", margin = margin(t = 10)), # White x-axis title
         plot.background = element_rect(fill = "transparent", color = NA),
         panel.background = element_rect(fill = "transparent", color = NA),
         legend.position = "none") +
@@ -493,7 +511,7 @@ ggplot(data, aes(x = factor(state), y = probability, fill = factor(state))) +
   # geom_text(aes(label = probability), 
   #           vjust = -0.3, size = 18, fontface = "bold", color = "white") 
 # Save
-ggsave("../besMacro/strictbarchart_symbol.png", width = 6, height = 6, bg = "transparent", dpi = 300)
+ggsave("../besMacro/strictbarchart_symbol.svg", width = 6, height = 6, bg = "transparent", dpi = 300)
 
 
 
@@ -521,7 +539,7 @@ ggplot(grid_data, aes(x = x, y = y, fill = factor(state))) +
         plot.background = element_rect(fill = "transparent", color = NA),
         panel.background = element_rect(fill = "transparent", color = NA))
 
-ggsave("../besMacro/samplechart_uncertain.png", width = 6, height = 6, bg = "transparent", dpi = 300)
+ggsave("../besMacro/samplechart_uncertain.svg", width = 6, height = 6, bg = "transparent", dpi = 300)
 
 
 
@@ -555,8 +573,8 @@ p1 <- ggplot(data, aes(x = factor(state), y = probability, fill = factor(state))
   scale_y_continuous(limits = c(0, 1.0)) +
   labs(x = "State", y = "") +
   theme_void() +
-  theme(axis.text.x = element_text(size = 30, color = "white"),          # White x-axis text
-        axis.title.x = element_text(size = 30, color = "white", margin = margin(t = 10)), # White x-axis title
+  theme(axis.text.x = element_text(size = 40, color = "white"),          # White x-axis text
+        axis.title.x = element_text(size = 40, color = "white", margin = margin(t = 10)), # White x-axis title
         plot.background = element_rect(fill = "transparent", color = NA),
         panel.background = element_rect(fill = "transparent", color = NA),
         legend.position = "none") +
@@ -586,8 +604,8 @@ ggplot(data, aes(x = factor(state), y = probability, fill = factor(state))) +
   scale_y_continuous(limits = c(0, 1.0)) +
   labs(x = "State", y = "") +
   theme_void() +
-  theme(axis.text.x = element_text(size = 30, color = "white"),          # White x-axis text
-        axis.title.x = element_text(size = 30, color = "white", margin = margin(t = 10)), # White x-axis title
+  theme(axis.text.x = element_text(size = 40, color = "white"),          # White x-axis text
+        axis.title.x = element_text(size = 40, color = "white", margin = margin(t = 10)), # White x-axis title
         plot.background = element_rect(fill = "transparent", color = NA),
         panel.background = element_rect(fill = "transparent", color = NA),
         legend.position = "none") +
@@ -625,7 +643,7 @@ ggplot(grid_data, aes(x = x, y = y, fill = factor(state))) +
         plot.background = element_rect(fill = "transparent", color = NA),
         panel.background = element_rect(fill = "transparent", color = NA))
 
-ggsave("../besMacro/samplechart_high.png", width = 6, height = 6, bg = "transparent", dpi = 300)
+ggsave("../besMacro/samplechart_high.svg", width = 6, height = 6, bg = "transparent", dpi = 300)
 
 
 

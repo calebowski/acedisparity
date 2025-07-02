@@ -153,7 +153,7 @@ combined_data <- do.call(rbind, lapply(c("strict_majority_rule", "relative_major
 combined_data$threshold_method <- factor(combined_data$threshold_method, levels = c("strict_majority_rule", "relative_majority_rule", "no_majority_rule"),labels = c("Strict majority rule", "Relative majority rule", "No majority rule (sample)"))
 
 
-png("../Manuscript/figures/strictdistance.png", width = 400, height = 250, units = "mm", res = 600)
+png("../Manuscript/figures/strictdistance.png", width = 350, height = 250, units = "mm", res = 600)
 colors <- c("slow" = "#8805A8", "med" = "#00B945", "fast" = "#FFB600")
 
 # Generate the combined plot with faceting by threshold_method
@@ -180,7 +180,7 @@ ggplot(combined_data, aes(x = preservation_level, y = distance, color = level, f
   facet_wrap(~ threshold_method, ncol = 3) +
   labs(
     x = "",
-    y = "Mean Distance Score",
+    y = "",
     color = "Transition Rate",
     fill = "Transition Rate"
   ) +
@@ -387,7 +387,7 @@ combined_data <- do.call(rbind, lapply(c("strictvardiffs", "relvardiffs", "sampl
   }))
 }))
 
-combined_data$threshold_method <- factor(combined_data$threshold_method, levels = c("strictvardiffs", "relvardiffs", "samplevardiffs"), labels = c("Strict majority rule", "Relative majority rule", "No majority rule"))
+combined_data$threshold_method <- factor(combined_data$threshold_method, levels = c("strictvardiffs", "relvardiffs", "samplevardiffs"), labels = c("Strict majority rule", "Relative majority rule", "No majority rule (sample)"))
 
 # log10_reverse_trans <- trans_new(
 #   name = "log10_reverse",
@@ -395,7 +395,7 @@ combined_data$threshold_method <- factor(combined_data$threshold_method, levels 
 #   inverse = function(x) 10^(-x)      # Inverse of the transformation
 # )
 
-png("../Manuscript/figures/sumvardiscrete.png", width = 400, height = 250, units = "mm", res = 600)
+png("../Manuscript/figures/sumvardiscrete.png", width = 350, height = 250, units = "mm", res = 600)
 colors <- c("slow" = "#8805A8", "med" = "#00B945", "fast" = "#FFB600")
 # Generate the combined plot
 ggplot(combined_data, aes(x = preservation_level, y = distance, color = level, fill = level)) +
@@ -418,10 +418,12 @@ ggplot(combined_data, aes(x = preservation_level, y = distance, color = level, f
     geom = "line",
     size = 2.5  # Thicker lines
   ) +
+  geom_hline(yintercept = 0, color = "black", linewidth = 0.6, linetype = "dashed") +  # Add horizontal line at y = 0
+
   facet_wrap(~ threshold_method, ncol = 3) +
   labs(
     x = "",
-    y = "Relative Distance to True Disparity Value",
+    y = "",
   ) +
   theme_minimal() +
   scale_color_manual(values = colors) +  # Apply custom colors to lines

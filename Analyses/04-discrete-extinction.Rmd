@@ -23,30 +23,41 @@ set.seed(123)
 
 mass_extinction <- make.events(
                       target       = "taxa",
-                      condition    = age.condition(6),
-                      modification = random.extinction(0.9))
+                      condition    = taxa.condition(30),
+                      modification = random.extinction(0.75))
 
 trees <- treats(stop.rule = stop_rule, bd.params = bd_params, null.error = 100, replicates = 20, events = mass_extinction)
+
+
+
+sims <- lapply()
+
+
+
+
+
+
+
+
 trees <- lapply(trees, drop.singles)
 write.tree(trees, "../Data/trees/randomextinction.tre")
 
 # trees <- read.tree("../Data/trees/simulated.tre")
 
-slow_pre_transitions <- matrix(c(
-    0.99, 0.0099, 0.0001,    # From state 0: 99% stay, 0.99% to state 1, 0.01% to state 2
-    0.0099, 0.99, 0.0001,    # From state 1: 0.99% to state 0, 99% stay, 0.01% to state 2
-    0.025, 0.025, 0.95       # From state 2: can exit back to 0 or 1, or stay
+
+slow_binary_transitions <- matrix(c(
+    0.99, 0.01,
+    0.01, 0.99
+), nrow = 2, byrow = TRUE)
+
+slow_multi_transitions <- matrix(c(
+    0.99, 0.025, 0.025,
+    0.025, 0.99, 0.025,
+    0.025, 0.025, 0.99
 ), nrow = 3, byrow = TRUE)
 
-slow_post_transitions <- matrix(c(
-    0.97, 0.01, 0.02,      # From state 0: prefer staying, but some transition to 1 and 2
-    0.005, 0.985, 0.01,   # From state 1: very rarely go to 0, mostly stay, some to 2
-    0.005, 0.02, 0.975    # From state 2: very rarely go to 0, some to 1, mostly stay
-), nrow = 3, byrow = TRUE)
-
-slow_pre <- treats::make.traits(process = discrete.process, n = 100, process.args = list(transitions = slow_pre_transitions))
-slow_post <- treats::make.traits(process = discrete.process, n = 100, process.args = list(transitions = slow_post_transitions))
-
+slow_binary <- treats::make.traits(process = discrete.process, n = 85, process.args = list(transitions = slow_binary_transitions))
+slow_multi <- treats::make.traits(process = discrete.process, n = 15, process.args = list(transitions = slow_multi_transitions))
 
 
 med_binary_transitions <- matrix(c(
@@ -78,14 +89,17 @@ fast_multi_transitions <- matrix(c(
 fast_binary <- treats::make.traits(process = discrete.process, n = 85, process.args = list(transitions = fast_binary_transitions))
 fast_multi <- treats::make.traits(process = discrete.process, n = 15, process.args = list(transitions = fast_multi_transitions))
 
-selective_extinction <- make.events(target = "traits", condition = age.condition(4), modification = traits.update(process = discrete.process, process.args = list(transitions = slow_post_transitions)))
+traits <- list(fast = fast_binary, med = med_binary, slow = slow_binary)
+
+sims <- lapply(traits, function(rate){
+  output <- treats(traits = rate, stop.rule = stop_rule, bd.params = bd_params, null.error = 100, replicates = 20, events = mass_extinction)
+})
+
 
 ## map the traits
 
-
-
 slow_matrices <- lapply(trees, function(tree) {
-    mapped_binary <- (map.traits(slow_binary, tree, events = ))$data
+    mapped_binary <- (map.traits(slow_binary, tree))$data
     mapped_multi <- (map.traits(slow_multi, tree))$data
     matrix <- cbind(mapped_binary, mapped_multi)
     return(matrix)
@@ -107,8 +121,8 @@ fast_matrices <- lapply(trees, function(tree) {
 
 
 discrete_matrices <- list(slow = slow_matrices, med = med_matrices, fast = fast_matrices)
-saveRDS(discrete_matrices, "../Data/matrices/discretematrices.rds")
-discrete_matrices <- readRDS("../Data/matrices/discretematrices.rds")
+saveRDS(discrete_matrices, "../Data/matrices/randomExtinction/discretematrices.rds")
+
 
 
 ```
