@@ -164,7 +164,7 @@ saveRDS(anc_post_ord, "~/Documents/PhD/largefiles/acedisparity/postordcontanc.Rd
 ```{r}
 
 # test <- multi.ace(fossil_matrices_cont$bm$fossil_med[[1]]$matrix, fossil_matrices_cont$bm$fossil_med[[1]]$tree, models = 
-n_cores <- min(detectCores() - 1, 6)
+# n_cores <- min(detectCores() - 1, 6)
 n_cores <- 8
 anc.states <- function(fossil_matrices_cont) {
   lapply(fossil_matrices_cont, function(level) {

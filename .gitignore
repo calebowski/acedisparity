@@ -5,7 +5,8 @@
 .vscode/
 *.html
 sampleddiscreteanc.Rds
-discreteanc.rds
+discreteanc.Rds
 contanc.Rds
 contmatrices.Rds
 samplecontanc.Rds
+discreteanc.rds
