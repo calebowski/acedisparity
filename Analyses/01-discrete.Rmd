@@ -149,8 +149,8 @@ fast_matrices <- lapply(trees, function(tree) {
 
 
 discrete_matrices <- list(slow = slow_matrices, med = med_matrices, fast = fast_matrices)
-saveRDS(discrete_matrices, "../Data/matrices/discretematrices.rds")
-discrete_matrices <- readRDS("../Data/matrices/discretematrices.rds")
+saveRDS(discrete_matrices, "../Data/matrices/discrete/discretematrices.rds")
+discrete_matrices <- readRDS("../Data/matrices/discrete/discretematrices.rds")
 
 ```
 
@@ -278,7 +278,7 @@ fossil_anc <- lapply(fossil_matrices, anc.states)
 
 # sampled_fossil_anc <- lapply(fossil_anc, sample.anc.states)
 
-sample_fossil_anc <- lapply(fossil_anc, lapply, lapply, multi.ace, sample = 30, sample.fun = normal_sampling,  verbose = TRUE)
+sample_fossil_anc <- lapply(fossil_anc, lapply, lapply, multi.ace, sample = 10, sample.fun = normal_sampling,  verbose = TRUE)
 
 
 strict_fossil_anc <- lapply(fossil_anc, lapply, lapply, multi.ace, threshold = FALSE, output = "combined.matrix", verbose = TRUE)
@@ -289,65 +289,71 @@ fossil_anc <- point_fossil_anc
 saveRDS(fossil_anc, "../Data/matrices/discrete/discreteanc.Rds")
 saveRDS(sample_fossil_anc, "../Data/matrices/discrete/sampleddiscreteanc.Rds")
 saveRDS(relative_fossil_anc, "../Data/matrices/discrete/relanc.Rds")
-saveRDS(strict_fossil_anc, "../Data/matrices/discrete/threshanc.Rds")
+saveRDS(strict_fossil_anc, "../Data/matrices/discrete/strictanc.Rds")
 
+fossil_anc <- readRDS("../Data/matrices/discrete/discreteanc.Rds")
 
-
+relative_fossil_anc <- readRDS("../Data/matrices/discrete/relanc.Rds")
+strict_fossil_anc <- readRDS("../Data/matrices/discrete/strictanc.Rds")
+sample_fossil_anc <- readRDS("../Data/matrices/discrete/sampleddiscreteanc.Rds")
 
 ```
 
-## Make simmap
+## Uncertainty in estimates
 
 ```{R}
+str(fossil_anc$slow[[1]]$living$discrete$estimates[[1]], max.level = 1)
 
-# Function to run SIMMAP on discrete matrices
+test <- lapply(fossil_anc$slow[[1]]$living$discrete$estimates[[1]], function(characters){
+  characters$results
+})
 
+uncerties <- uncertainty(test)
 
-# test_matrix <- fossil_matrices$slow[[1]]$living
-# what <- test_matrix$matrix[,1]
+##### check the number of traits - must be an issue with naming
+uncertainty <- function(likelihoods){
+  unlist(lapply(likelihoods, function(character){
+  sums <- matrix()
+  for(row in 1:nrow(character)) {
+    sums[[row]] <- 1- max(character[row,]) 
+  }
+  return(sum(sums) / nrow(character))
+}))
+}
 
-# test_simmap <- lapply(1:ncol(test_matrix$matrix), function(y){
-#   characters <- character_matrix[,y]
-#   simmap_trees <- make.simmap(test_matrix$tree, characters, model = "ER", nsim = 1)
-# })
-
-
-# simmap_trees <- make.simmap(test_matrix$tree, what , model = "ER", nsim = 100)
-# ace <- describe.simmap(simmap_trees)$ace
-
-
-# test <- fossil_matrices$slow[[1]]$living[[1]]
-
-# test_handle <- handle.missing.data(test)
-
-# test_simmap <- make.simmap(tree = fossil_matrices$slow[[1]]$living$tree, test_handle[[1]], model = "SYM", nsim = 10)
-# describe <- describe.simmap(test_simmap)
-# describe$ace
-
-
-# test <- SCM.matrix(tree = test_matrix$tree, matrix = test_matrix$matrix, model.set = "ER", n.sim = 2, threshold = 0.5, name.input = "test")
-
-# # Apply SIMMAP to all discrete matrices
-# simmap_results <- lapply(names(discrete_matrices), function(rate) {
-#   lapply(seq_along(discrete_matrices[[rate]]), function(i) {
-#     # Get the tree and character matrix for the current replicate
-#     tree <- trees[[i]]
-#     char_matrix <- discrete_matrices[[rate]][[i]]
-    
-#     # Define the model (e.g., "SYM" for symmetric transitions)
-#     model <- "SYM"
-    
-#     # Run SIMMAP
-#     run_simmap(tree = tree, char_matrix = char_matrix, model = model, n_sim = 100, threshold = 0.5)
-#   })
-# })
+uncertainties <- lapply(fossil_anc, lapply, lapply,  function(ace){
+  x <- ace$discrete$estimates[[1]]
+  likelihoods <- lapply(x, function(characters){
+    characters$results
+  })
+  output <- uncertainty(likelihoods)
+  return(output)
+})
 
 
-# Assign names to the results
-# names(simmap_results) <- names(discrete_matrices)
+test <- lapply(fossil_anc$slow[[1]]$living$discrete$estimates[[1]], function(characters){
+  characters$results
+})
+
+discrete_matrices$slow[[1]]
+
+
+error <- function(likelihoods, true_matrix){
+  unlist(lapply(likelihoods, function(character){
+  sums <- matrix()
+  for(row in 1:nrow(character)) {
+  }
+  return(sum(sums) / nrow(character))
+}))
+}
 
 
 
+
+
+
+
+saveRDS(uncertainties, "../Data/matrices/discrete/uncertainties.Rds")
 
 
 
@@ -1114,7 +1120,11 @@ saveRDS(allnode_means_sample, "../Data/matrices/discrete/sample_raw_dist.Rds")
 
 
 ```{r}
-
+discrete_matrices <- readRDS("../Data/matrices/discrete/discretematrices.rds")
+relative_fossil_anc <- readRDS("../Data/matrices/discrete/relanc.Rds")
+strict_fossil_anc <- readRDS("../Data/matrices/discrete/strictanc.Rds")
+sample_fossil_anc <- readRDS("../Data/matrices/discrete/sampleddiscreteanc.Rds")
+fossil_matrices <- readRDS("../Data/matrices/discrete/fossilmatrices.Rds")
 
 ## add to this - > just tips disparity? so it is true (tips + nodes all) , aced (tips + estimated node states) and just tips (varies by fossil sampling like aced).
 
@@ -1144,20 +1154,12 @@ sample_all <- lapply(seq_along(sample_fossil_anc), function(rate) {
     return(list(ace = ace_out, true = true))
   })
 })
-
 # Assign names to the outer list
 names(sample_all) <- names(discrete_matrices)
 
 
 rel_all <- lapply(seq_along(relative_fossil_anc), function(rate) {
   lapply(seq_along(relative_fossil_anc[[rate]]), function(i) {
-    # Step 1: Get the node labels
-    # node_v <- node_labels[[i]]
-
-    # Step 2: Get the true matrix for the current replicate
-    true <- discrete_matrices[[rate]][[i]]
-    true <- apply(true, c(1,2), as.character)
-
     # Step 3: Iterate over preservation levels
     levels <- names(relative_fossil_anc[[rate]][[i]])
     ace_out <- lapply(levels, function(level_name) {
@@ -1207,37 +1209,65 @@ strict_all <- lapply(seq_along(strict_fossil_anc), function(rate) {
 names(strict_all) <- names(discrete_matrices)
 
 
-source("../Functions/apply.dist.R")
-source("../Functions/apply.ordination.R")
+# source("../Functions/apply.dist.R")
+# source("../Functions/apply.ordination.R")
 
-distances_strict <- lapply(strict_all, lapply, function(matrices) {
-  true_dist <- char.diff(matrices$true, method = "mord", by.col = FALSE)
-  ace <- matrices$ace
-  ace_dist <- lapply(ace, function(pres) {
-    dist <- char.diff(pres, method = "mord", by.col = FALSE)
-  })
-  return(list(true = true_dist, ace = ace_dist ))
+distances_true <- lapply(discrete_matrices, lapply, function(x){
+  matrix <-  apply(x, c(1,2), as.character)
+  dist <- char.diff(matrix, method = "mord", by.col = FALSE)
+  return(dist)
 })
 
-distances_rel <- lapply(rel_all, lapply, function(matrices) {
-  true_dist <- char.diff(matrices$true, method = "mord", by.col = FALSE)
-  ace <- matrices$ace
-  ace_dist <- lapply(ace, function(pres) {
-    dist <- char.diff(pres, method = "mord", by.col = FALSE)
-  })
-  return(list(true = true_dist, ace = ace_dist ))
+distances_no_ace <- lapply(fossil_matrices, lapply, lapply, function(x){
+  matrix <- x$matrix
+    dist <- char.diff(matrix, method = "mord", by.col = FALSE)
+    return(dist)
 })
 
-distances_sample <- lapply(sample_all, lapply, function(matrices) {
-  true_dist <- char.diff(matrices$true, method = "mord", by.col = FALSE)
-  ace <- matrices$ace
-  ace_dist <- lapply(ace, function(pres) {
-    lapply(pres, function(reps) {
-      dist <- char.diff(reps, method = "mord", by.col = FALSE)
+distances_strict <- lapply(strict_fossil_anc, lapply, lapply, function(matrices) {
+  dist <- char.diff(matrices, method = "mord", by.col = FALSE)
+  return(dist)
+})
+
+distances_rel <- lapply(relative_fossil_anc, lapply, lapply, function(matrices) {
+  dist <- char.diff(matrices, method = "mord", by.col = FALSE)
+  return(dist)
+})
+
+
+distances_sample <- lapply(sample_fossil_anc, function(rate_data) {
+  mclapply(rate_data, function(matrices) {
+    ace_dist <- lapply(ace, function(pres) {
+      lapply(pres, function(reps) {
+        dist <- char.diff(reps, method = "mord", by.col = FALSE)
+      })
     })
-  })
-  return(list(true = true_dist, ace = ace_dist ))
+    return(ace_dist)
+  }, mc.cores = 10)  # Use more cores for the 100 replicates
 })
+
+
+distances_sample <- lapply(sample_fossil_anc, function(rate) {
+  mclapply(rate, function(matrix) {sum_var_no_ace
+    lapply(matrix, function(fossil){
+      lapply(fossil, function(sample) {
+        dist <- char.diff(sample, method = "mord", by.col = FALSE)
+      })
+    })
+  }, mc.cores = 10)
+})
+
+
+ord_no_ace <- lapply(distances_no_ace, lapply, lapply, function(matrix){
+    ord <-  (cmdscale(matrix, k = ncol(matrix) - 2, add = TRUE))$points
+    return(ord)
+})
+
+ord_true <- lapply(distances_true, lapply, function(matrix){
+    ord <-  (cmdscale(matrix, k = ncol(matrix) - 2, add = TRUE))$points
+    return(ord)
+})
+
 
 ord_rel <- lapply(distances_rel, lapply, function(matrices) {
   true_ord <- (cmdscale(matrices$true, k = ncol(matrices$true) - 2, add = TRUE))$points
@@ -1245,7 +1275,7 @@ ord_rel <- lapply(distances_rel, lapply, function(matrices) {
   ace_ord <- lapply(ace, function(pres) {
     ord <- (cmdscale(pres, k = ncol(pres) - 2, add = TRUE))$points
   })
-  return(list(true = true_ord, ace = ace_ord ))
+  return(list(true = true_ord, ace = ace_ord))
 })
 
 ord_strict <- lapply(distances_strict, lapply, function(matrices) {
@@ -1254,20 +1284,60 @@ ord_strict <- lapply(distances_strict, lapply, function(matrices) {
   ace_ord <- lapply(ace, function(pres) {
     ord <- (cmdscale(pres, k = ncol(pres) - 2, add = TRUE))$points
   })
-  return(list(true = true_ord, ace = ace_ord ))
+  return(list(true = true_ord, ace = ace_ord))
 })
 
-ord_sample <- lapply(distances_sample, lapply, function(matrices) {
-  true_ord <- (cmdscale(matrices$true, k = ncol(matrices$true) - 2, add = TRUE))$points
-  ace <- matrices$ace
-  ace_ord <- lapply(ace, function(pres) {
-    lapply(pres, function(reps) {
-      ord <- (cmdscale(reps, k = ncol(reps) - 2, add = TRUE))$points
+# ord_sample <- lapply(distances_sample, function(rate_data) {
+#   mclapply(rate_data, function(matrices) {
+#     true_ord <- (cmdscale(matrices$true, k = ncol(matrices$true) - 2, add = TRUE))$points
+#     ace <- matrices$ace
+#     ace_ord <- lapply(ace, function(pres) {
+#       lapply(pres, function(reps) {
+#         ord <- (cmdscale(reps, k = ncol(reps) - 2, add = TRUE))$points
+#       })
+#     })
+#   return(list(true = true_ord, ace = ace_ord ))
+#   }, mc.cores = 10)
+# })
+
+
+# Limit to first 20 dimensions to reduce memory usage
+# Process and save each rate separately to prevent memory buildup
+for(rate_name in names(distances_sample)) {
+  cat("Processing rate:", rate_name, "\n")
+  
+  rate_ord <- list()
+  
+  for(i in seq_along(distances_sample[[rate_name]])) {
+    cat("  Replicate", i, "of", length(distances_sample[[rate_name]]), "\n")
+    
+    matrices <- distances_sample[[rate_name]][[i]]
+    
+    # Process this single replicate
+    ord_result <- lapply(matrices, function(fossil) {
+      lapply(fossil, function(sample) {
+        ord <- (cmdscale(sample, k = ncol(sample) - 2, add = TRUE))$points
+      })
     })
-  })
-  return(list(true = true_ord, ace = ace_ord ))
-})
+    
+    rate_ord[[i]] <- ord_result
+    
+    # Cleanup every 10 replicates
+    if(i %% 10 == 0) {
+      gc()
+      cat("    Memory cleanup at replicate", i, "\n")
+    }
+  }
+  
+  # Save this rate immediately
+  saveRDS(rate_ord, paste0("../Data/matrices/discrete/ord_sample_", rate_name, ".rds"))
+  
+  # Clean up
+  rm(rate_ord)
+  gc()
+}
 
+ord_sample <- list(fast = readRDS("../Data/matrices/discrete/ord_sample_fast.rds"), med = readRDS("../Data/matrices/discrete/ord_sample_med.rds"), slow = readRDS("../Data/matrices/discrete/ord_sample_slow.rds"))
 ### is it to do with the fact that they are ordinated at different dimensions??? should they all be ordinated at a set number of dimensions
 
 ## i've decided to keep the first 50?
@@ -1275,6 +1345,17 @@ ord_sample <- lapply(distances_sample, lapply, function(matrices) {
 
 ## Why then 
 
+
+sum_var_no_ace <- lapply(ord_no_ace, lapply, lapply, function(matrix){
+    var <-  (dispRity(matrix[ ,1:48], metric = c(sum, variances)))$disparity
+    return(var)
+})
+
+
+sum_var_true <- lapply(ord_true, lapply, function(matrix){
+    var <-  (dispRity(matrix[ ,1:48], metric = c(sum, variances)))$disparity
+    return(var)
+})
 
 sum_var_rel <- lapply(ord_rel, lapply, function(matrices) {
   true_disp <- (dispRity(matrices$true[, 1:48], metric = c(sum, variances)))$disparity
@@ -1295,17 +1376,17 @@ sum_var_strict <- lapply(ord_strict, lapply, function(matrices) {
   return(list(true = true_disp, ace = ace_disp ))
 })
 
-sum_var_sample <- lapply(ord_sample, lapply, function(matrices) {
-  true_disp <- (dispRity(matrices$true[ ,1:48], metric = c(sum, variances)))$disparity
-  ace <- matrices$ace
-  ace_disp <- lapply(ace, function(pres) {
+sum_var_sample <- lapply(ord_sample, function(matrices) {
+  lapply(matrices, function(pres) {
     lapply(pres, function(reps) {
-      disp <- (dispRity(reps[ ,1:48], metric = c(sum, variances)))$disparity
+        # lapply(reps, function(matrix){
+        (dispRity(reps, metric = c(sum, variances)))$disparity
+      })
     })
-  })
-  return(list(true = true_disp, ace = ace_disp ))
 })
 
+
+sum_var_sample <- lapply(ord_sample, lapply, lapply, dispRity, metric = c(sum, variances))
 
 var_rel_diffs <- lapply(sum_var_rel, lapply, function(disparity){
   true <- disparity$true[[1]]$elements[1]
@@ -1343,6 +1424,10 @@ var_sample_diffs <- lapply(sum_var_sample, lapply, function(disparity) {
   
   return(diffs)
 })
+
+
+
+
 ```
 
 ## Post-ord ace
@@ -1415,3 +1500,4 @@ anc.states <- function(x){
 post_ord_ace <- lapply(ordinations, lapply, lapply, anc.states)
 
 ```
+

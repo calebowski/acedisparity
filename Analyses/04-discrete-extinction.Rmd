@@ -18,29 +18,26 @@ editor_options:
 library(treats)
 bd_params <- make.bd.params(speciation = 0.1, extinction = 0.07)
 
-stop_rule <- list(max.living = 50)
+stop_rule <- list(max.living = 30)
 set.seed(123)
 
 mass_extinction <- make.events(
                       target       = "taxa",
-                      condition    = taxa.condition(30),
+                      condition    = taxa.condition(29),
                       modification = random.extinction(0.75))
 
-trees <- treats(stop.rule = stop_rule, bd.params = bd_params, null.error = 100, replicates = 20, events = mass_extinction)
-
-
-
-sims <- lapply()
-
-
-
-
-
-
-
-
+trees <- treats(stop.rule = stop_rule, bd.params = bd_params, null.error = 100, replicates = 10, events = mass_extinction)
 trees <- lapply(trees, drop.singles)
+
+fix.zero.branches <- function(tree, min_length = 1e-8) {
+  tree$edge.length[tree$edge.length <= 0] <- min_length
+  return(tree)
+}
+
+trees <- lapply(trees, fix.zero.branches)
+
 write.tree(trees, "../Data/trees/randomextinction.tre")
+trees <- read.tree("../Data/trees/randomextinction.tre")
 
 # trees <- read.tree("../Data/trees/simulated.tre")
 
@@ -91,12 +88,11 @@ fast_multi <- treats::make.traits(process = discrete.process, n = 15, process.ar
 
 traits <- list(fast = fast_binary, med = med_binary, slow = slow_binary)
 
-sims <- lapply(traits, function(rate){
-  output <- treats(traits = rate, stop.rule = stop_rule, bd.params = bd_params, null.error = 100, replicates = 20, events = mass_extinction)
-})
 
 
 ## map the traits
+
+
 
 slow_matrices <- lapply(trees, function(tree) {
     mapped_binary <- (map.traits(slow_binary, tree))$data
@@ -123,6 +119,97 @@ fast_matrices <- lapply(trees, function(tree) {
 discrete_matrices <- list(slow = slow_matrices, med = med_matrices, fast = fast_matrices)
 saveRDS(discrete_matrices, "../Data/matrices/randomExtinction/discretematrices.rds")
 
+discrete_matrices <- readRDS("../Data/matrices/randomExtinction/discretematrices.rds")
 
+
+```
+
+
+
+
+
+## Different tree coverages
+
+```{r}
+
+## fossil degredation as well
+
+source("../Functions/fossil.pres.R")
+
+living <- lapply(discrete_matrices, remove.fossil, trees = trees, type = "discrete")
+fossilised_high <- lapply(discrete_matrices, fossil.pres, trees = trees, preservation = 0.5, type = "discrete")
+all_fossil <- lapply(discrete_matrices, fossil.pres, trees = trees, preservation = 1.0, type = "discrete")
+fossilised_med <- lapply(discrete_matrices, fossil.pres, trees = trees, preservation = 0.15, type = "discrete")
+fossilised_low <- lapply(discrete_matrices, fossil.pres, trees = trees, preservation = 0.05, type = "discrete")
+
+
+
+# plot(fossilised_low$slow[[13]]$tree)
+
+fossil_matrices <- lapply(names(discrete_matrices), function(level) {
+  lapply(seq_along(discrete_matrices[[level]]), function(i) {
+    list(
+      all = all_fossil[[level]][[i]],
+      fossil_high = fossilised_high[[level]][[i]],
+      fossil_med = fossilised_med[[level]][[i]],
+      fossil_low = fossilised_low[[level]][[i]],
+      living = living[[level]][[i]]
+    )
+  })
+})
+
+# Assign names to the outer list
+names(fossil_matrices) <- names(discrete_matrices)
+
+saveRDS(fossil_matrices, "../Data/matrices/randomExtinction/fossilmatrices.Rds")
+
+
+
+```
+
+
+## ACE
+```{r}
+
+n_cores  <- 11
+anc.states <- function(fossil_matrices) {
+  lapply(fossil_matrices, function(level) {
+    lapply(level, function(x) {
+  # Run multi.ace for each tree
+  anc_states <- multi.ace(data = x$matrix, 
+                          tree = x$tree, 
+                          models = "SYM", 
+                          output = "combined.matrix",
+                          verbose = TRUE)
+  return(anc_states)})})
+}
+
+
+fossil_anc <- lapply(fossil_matrices, anc.states)
+
+
+
+```
+
+
+## selective extinction
+```{r}
+
+
+
+library(treats)
+bd_params <- make.bd.params(speciation = 0.1, extinction = 0.07)
+
+stop_rule <- list(max.living = 30)
+set.seed(123)
+## so can simulate say 40 characters that are correlated by extinction -> in this way. then on resulting tree, simulate non selective traits with map.traits. can decide what level of traits need to be selected by extinction.
+selective_extinction <- make.events(
+                      target       = "taxa",
+                      condition    = taxa.condition(29),
+                      modification = trait.extinction(x = 1,
+                                                      condition = `<`))
+
+selective <- treats(traits = med_binary, stop.rule = stop_rule, bd.params = bd_params, null.error = 100, replicates = 10, events = selective_extinction)
+trees <- lapply(trees, drop.singles)
 
 ```

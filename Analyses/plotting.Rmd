@@ -288,37 +288,70 @@ dev.off()
 ```
 
 
+## Uncertainty
 
-```{R eval = FALSE, echo=FALSE}
-combined_data <- do.call(rbind, lapply(names(morpho_diffs), function(level) {
-  # Iterate over replicates within each level
-  do.call(rbind, lapply(seq_along(morpho_diffs[[level]]), function(replicate_index) {
-    # Extract the data for the current replicate
-    data <- morpho_diffs[[level]][[replicate_index]]
+To calculate the accuracy of the ase estimates of discrete traits, I measured the distance for each matching node between true vs ase matrices. Essentially hamming distance, but with no leniency for uncertainty (i.e. uncertainty is penalised). I then calculated the mean distance (somewhere between 0-1) for each matrix at each fossil sampling level.
+
+
+```{R echo = FALSE, message=FALSE}
+
+# List of levels to loop through
+levels <- c("fast", "med", "slow")
+
+# Loop through each level and generate a plot
+library(tidyr)
+library(ggplot2)
+
+
+# Combine data for all levels and replicates into a single data frame
+library(tidyr)
+library(ggplot2)
+
+# Combine strict_means and strict_means_sample into a single data frame
+# Use only uncertainties dataset
+combined_data <- do.call(rbind, lapply(names(uncertainties), function(level) {
+  do.call(rbind, lapply(seq_along(uncertainties[[level]]), function(replicate_index) {
+    data <- uncertainties[[level]][[replicate_index]]
     
-    # Create a data frame
-    df <- data.frame(
-      replicate = replicate_index,
-      all = data$all,
-      high = data$fossil_high,
-      mid  = data$fossil_med,
-      low  = data$fossil_low,
-      living = data$living,
-      level = level  # Add a column to indicate the level
-    )
+    # Check if data is a single value or vector for each preservation level
+    # If single values, convert to data frame
+    if(is.numeric(data$all) && length(data$all) == 1) {
+      df <- data.frame(
+        replicate = replicate_index,
+        all = data$all,
+        high = data$fossil_high,
+        mid = data$fossil_med,
+        low = data$fossil_low,
+        living = data$living,
+        level = level
+      )
+    } else {
+      # If vectors, take the mean or first value
+      df <- data.frame(
+        replicate = replicate_index,
+        all = mean(data$all, na.rm = TRUE),
+        high = mean(data$fossil_high, na.rm = TRUE),
+        mid = mean(data$fossil_med, na.rm = TRUE),
+        low = mean(data$fossil_low, na.rm = TRUE),
+        living = mean(data$living, na.rm = TRUE),
+        level = level
+      )
+    }
     
-    # Convert to long format
-    df_long <- pivot_longer(df, cols = c("living", "low", "mid", "high", "all"), 
+    df_long <- pivot_longer(df, cols = c("living", "low", "mid", "high", "all"),
                             names_to = "preservation_level", values_to = "distance")
     df_long$preservation_level <- factor(df_long$preservation_level, levels = c("living", "low", "mid", "high", "all"))
-    
     return(df_long)
   }))
 }))
+# combined_data$threshold_method <- factor(combined_data$threshold_method, levels = c("strict_majority_rule", "relative_majority_rule", "no_majority_rule"),labels = c("Strict majority rule", "Relative majority rule", "No majority rule (sample)"))
 
-combined_data$threshold_method <- factor(combined_data$threshold_method, levels = c("root_dist_thresh", "root_dist_default", "root_dist_sample"), labels = c("Strict majority rule", "Relative majority rule", "No majority rule (sample)"))
-# Generate the combined plot
-# Generate the combined plot
+
+png("../Manuscript/figures/uncertainty.png", width = 250, height = 250, units = "mm", res = 600)
+colors <- c("slow" = "#8805A8", "med" = "#00B945", "fast" = "#FFB600")
+
+# Generate the combined plot with faceting by threshold_method
+# Generate the combined plot without faceting
 ggplot(combined_data, aes(x = preservation_level, y = distance, color = level, fill = level)) +
   stat_summary(
     aes(group = level),
@@ -330,25 +363,45 @@ ggplot(combined_data, aes(x = preservation_level, y = distance, color = level, f
       )
     },
     geom = "ribbon",
-    alpha = 0.2,  # Transparency for the shaded area
-    color = NA    # No border for the ribbon
+    alpha = 0.2,
+    color = NA
   ) +
   stat_summary(
     aes(group = level),
     fun = median,
     geom = "line",
-    size = 1.2
+    size = 2.5  # Much thicker lines
   ) +
   labs(
-    x = "Fossil Sampling Level",
-    y = "Distance to True Value"
+    x = "",
+    y = "",
+    color = "Transition Rate",
+    fill = "Transition Rate"
   ) +
   theme_minimal() +
-  scale_y_reverse()   # Match fill colors to line colors
+  scale_color_manual(values = colors) +  # Apply custom colors to lines
+  scale_fill_manual(values = colors) +   # Apply custom colors to ribbons
+  theme(
+    # Thicker axis labels and ticks
+    axis.text = element_text(size = 20, face = "bold"),      # Larger, bold axis labels
+    axis.title = element_text(size = 20, face = "bold"),     # Larger, bold axis titles
+    axis.ticks = element_line(size = 1.5),                   # Thicker axis ticks
+    
+    # Remove legend
+    legend.position = "none",
+    
+    # Remove grid
+    panel.grid = element_blank(),
+    
+    # Remove facet-related styling since no facets
+    panel.border = element_rect(color = "black", fill = NA, linewidth = 0.5)
+  ) +
+  scale_y_reverse(limits = c(0.5, 0.0), expand = c(0,0))  # Ensure 0 is included
 
-
+  dev.off()
 
 ```
+
 
 ## Sum of variances
 

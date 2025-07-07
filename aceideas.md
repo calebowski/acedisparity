@@ -90,3 +90,20 @@ BITS TO DO:
 - make it clear that no majority rule propagates uncertainty.
 
 on the bar charts, the state 0/1 needs to be larger.
+
+
+
+
+- The actual ace plots - do they show accuracy change?? The `accuracy' of ace is the same across all 3, it just depends on how the likelihoods are interpreted. So I should perhaps look at doing a different way of interpreting that plot - how uncertainty increases with fossil sampling level -> this can be interpreted as average likelihood 
+
+So I think follow Keating's error and uncertainty ideas -> see how error is affected and how uncertainty is propelled down pipeline.
+
+SO even tho disparity estimates may appear wrong - they recover true pattern across time.
+
+
+Done uncertainty - so with fossil sampling, uncertainty does not necessarily decrease (see high rates) because increased data increases uncertainty but does not necessarily lead to higher accuracy.
+Can see this with the strict majority rule - the increase in fossil sampling increases accuracy but decreases uncertainty - lower uncertainty does not necessarily mean higher accuracy.
+
+
+Should I change these plots to actual matrix preservation -> i.e fossil degredation, might be a more interesting parameter than fossil sampling.
+Because obviously they will use the max fossils they can, but i think it would be useful to see where ancestral state estimation becomes more useful than just using tip data at what level of matrix preservation.
