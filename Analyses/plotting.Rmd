@@ -864,3 +864,106 @@ ggplot(combined_data, aes(x = preservation_level, y = distance, color = level, f
 dev.off()
 
 ```
+
+# Extinction stuff
+
+## Random extinction raw dist
+
+
+
+```{R echo = FALSE, message=FALSE}
+
+
+
+allnode_means_rel <- readRDS("../Data/matrices/randomExtinction/rel_raw_dist.Rds")
+allnode_means_strict <- readRDS("../Data/matrices/randomExtinction/strict_raw_dist.Rds")
+allnode_means_sample <- readRDS("../Data/matrices/randomExtinction/sample_raw_dist.Rds")
+
+
+# Combine data for all levels and replicates into a single data frame
+library(tidyr)
+library(ggplot2)
+
+# Combine strict_means and strict_means_sample into a single data frame
+combined_data <- do.call(rbind, lapply(c("allnode_means_strict", "allnode_means_rel", "allnode_means_sample"), function(dataset_name) {
+  dataset <- get(dataset_name)  # Dynamically get the dataset by name
+  do.call(rbind, lapply(names(dataset), function(level) {
+    do.call(rbind, lapply(seq_along(dataset[[level]]), function(replicate_index) {
+      data <- dataset[[level]][[replicate_index]]
+      df <- data.frame(
+        replicate = replicate_index,
+        all = data$all,
+        high = data$fossil_high,
+        mid = data$fossil_med,
+        low = data$fossil_low,
+        living = data$living,
+        level = level,
+        threshold_method = dataset_name  # Add a column for treatment
+      )
+      df_long <- pivot_longer(df, cols = c("living", "low", "mid", "high", "all"),
+                              names_to = "preservation_level", values_to = "distance")
+      df_long$preservation_level <- factor(df_long$preservation_level, levels = c("living", "low", "mid", "high", "all"))
+      return(df_long)
+    }))
+  }))
+}))
+combined_data$threshold_method <- factor(combined_data$threshold_method, levels = c("allnode_means_strict", "allnode_means_rel", "allnode_means_sample"),labels = c("Strict majority rule", "Relative majority rule", "No majority rule (sample)"))
+
+
+png("../Manuscript/figures/strictdistance.png", width = 350, height = 250, units = "mm", res = 600)
+colors <- c("slow" = "#8805A8", "med" = "#00B945", "fast" = "#FFB600")
+
+# Generate the combined plot with faceting by threshold_method
+ggplot(combined_data, aes(x = preservation_level, y = distance, color = level, fill = level)) +
+  stat_summary(
+    aes(group = level),
+    fun.data = function(y) {
+      data.frame(
+        y = median(y),
+        ymin = quantile(y, 0.25),  # 25th percentile
+        ymax = quantile(y, 0.75)  # 75th percentile
+      )
+    },
+    geom = "ribbon",
+    alpha = 0.2,
+    color = NA
+  ) +
+  stat_summary(
+    aes(group = level),
+    fun = median,
+    geom = "line",
+    size = 2.5  # Much thicker lines
+  ) +
+  facet_wrap(~ threshold_method, ncol = 3) +
+  labs(
+    x = "",
+    y = "",
+    color = "Transition Rate",
+    fill = "Transition Rate"
+  ) +
+  theme_minimal() +
+  scale_color_manual(values = colors) +  # Apply custom colors to lines
+  scale_fill_manual(values = colors) +   # Apply custom colors to ribbons
+  theme(
+    # Thicker axis labels and ticks
+    axis.text = element_text(size = 20, face = "bold"),      # Larger, bold axis labels
+    axis.title = element_text(size = 20, face = "bold"),     # Larger, bold axis titles
+    axis.ticks = element_line(size = 1.5),                   # Thicker axis ticks
+    # axis.line = element_line(size = 1.2),                    # Thicker axis lines
+    
+    # Larger legend
+    legend.position = "none",                 # Larger legend text
+ 
+    
+    panel.grid = element_blank(),             # Larger legend keys
+    
+    # Facet labels
+    strip.text = element_text(size = 23, face = "bold", hjust = 0.5, vjust = 1, 
+                          margin = margin(t = 10, b = 90, l = 10, r = 10)),
+    strip.background = element_rect(color = "black", fill = "white", linewidth = 0.5),
+    panel.border = element_rect(color = "black", fill = NA, linewidth = 0.5)
+  ) +
+    scale_y_reverse(limits = c(1.0, 0.0), expand = c(0,0))  # Ensure 0 is included
+  dev.off()
+
+```

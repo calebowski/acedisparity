@@ -24,9 +24,9 @@ set.seed(123)
 mass_extinction <- make.events(
                       target       = "taxa",
                       condition    = taxa.condition(29),
-                      modification = random.extinction(0.75))
+                      modification = random.extinction(0.80))
 
-trees <- treats(stop.rule = stop_rule, bd.params = bd_params, null.error = 100, replicates = 10, events = mass_extinction)
+trees <- treats(stop.rule = stop_rule, bd.params = bd_params, null.error = 100, replicates = 100, events = mass_extinction)
 trees <- lapply(trees, drop.singles)
 
 fix.zero.branches <- function(tree, min_length = 1e-8) {
@@ -38,6 +38,47 @@ trees <- lapply(trees, fix.zero.branches)
 
 write.tree(trees, "../Data/trees/randomextinction.tre")
 trees <- read.tree("../Data/trees/randomextinction.tre")
+
+extinction_ages <- lapply(trees, function(tree){
+  ages <- tree.age(tree)
+  tips <- grepl("^t", ages$elements)  # Logical vector for rows with tip names
+  tip_ages <- ages[tips, ]  # Subset ROWS where elements start with "t"
+  return(tip_ages)
+})
+
+
+
+
+find_extinction_time <- function(extinction_ages, exclude_zero = TRUE, tolerance = 0.1) {
+  ages <- extinction_ages$ages
+  
+  # Remove ages at or very close to 0 (terminal tips)
+  if(exclude_zero) {
+    ages <- ages[ages > tolerance]
+  }
+  
+  # Round ages to handle slight numerical differences
+  rounded_ages <- round(ages, 1)
+  
+  # Count frequency of each age
+  age_counts <- table(rounded_ages)
+  
+  # Find the age with highest frequency
+  if(length(age_counts) > 0) {
+    extinction_time <- as.numeric(names(age_counts)[which.max(age_counts)])
+    extinction_count <- max(age_counts)
+    
+
+    
+    return(extinction_time)
+  } else {
+    cat("No mass extinction found\n")
+    return(list(time = NA, count = 0))
+  }
+}
+
+times <- lapply(extinction_ages, find_extinction_time)
+
 
 # trees <- read.tree("../Data/trees/simulated.tre")
 
@@ -162,6 +203,7 @@ fossil_matrices <- lapply(names(discrete_matrices), function(level) {
 names(fossil_matrices) <- names(discrete_matrices)
 
 saveRDS(fossil_matrices, "../Data/matrices/randomExtinction/fossilmatrices.Rds")
+fossil_matrices <-  readRDS("../Data/matrices/randomExtinction/fossilmatrices.Rds")
 
 
 
@@ -179,37 +221,573 @@ anc.states <- function(fossil_matrices) {
   anc_states <- multi.ace(data = x$matrix, 
                           tree = x$tree, 
                           models = "SYM", 
-                          output = "combined.matrix",
-                          verbose = TRUE)
+                          output = "multi.ace",
+                          verbose = TRUE, 
+                          parallel = n_cores)
   return(anc_states)})})
 }
 
 
 fossil_anc <- lapply(fossil_matrices, anc.states)
 
+saveRDS(fossil_anc, "../Data/matrices/randomExtinction/fossilanc.Rds")
+fossil_anc <- readRDS("../Data/matrices/randomExtinction/fossilanc.Rds")
+
+
+sample_fossil_anc <- lapply(fossil_anc, lapply, lapply, multi.ace, sample = 10, sample.fun = normal_sampling,  verbose = TRUE)
+
+
+strict_fossil_anc <- lapply(fossil_anc, lapply, lapply, multi.ace, threshold = FALSE, output = "combined.matrix", verbose = TRUE)
+
+relative_fossil_anc <- lapply(fossil_anc, lapply, lapply, multi.ace, output = "combined.matrix", verbose = TRUE)
+
+
+saveRDS(sample_fossil_anc, "../Data/matrices/randomExtinction/sampleddiscreteanc.Rds")
+saveRDS(relative_fossil_anc, "../Data/matrices/randomExtinction/relanc.Rds")
+saveRDS(strict_fossil_anc, "../Data/matrices/randomExtinction/strictanc.Rds")
+
+sample_fossil_anc <- readRDS("../Data/matrices/randomExtinction/sampleddiscreteanc.Rds")
+relative_fossil_anc <- readRDS("../Data/matrices/randomExtinction/relanc.Rds")
+strict_fossil_anc  <- readRDS("../Data/matrices/randomExtinction/strictanc.Rds")
+
 
 
 ```
 
 
-## selective extinction
+## All nodes and raw distance
+
+This is going to be run including tips
+
+```{r}
+
+rel_all_nodes <- lapply(seq_along(relative_fossil_anc), function(rate) {
+  lapply(seq_along(relative_fossil_anc[[rate]]), function(i) {
+    # Step 1: Get the node labels
+    # node_v <- node_labels[[i]]
+
+    # Step 2: Get the true matrix for the current replicate
+    # true <- discrete_matrices[[rate]][[i]][rownames(i), ]
+
+    # Step 3: Iterate over preservation levels
+    levels <- names(relative_fossil_anc[[rate]][[i]])
+    ace_out <- lapply(levels, function(level_name) {
+      # Filter ACE matrix for the current preservation level
+      ace <- relative_fossil_anc[[rate]][[i]][[level_name]]
+      ace_filtered <- ace[grepl("^n", rownames(ace)), ]
+      true <- discrete_matrices[[rate]][[i]][rownames(ace_filtered), ]
+      return(list(true = true, ace = ace_filtered))
+    })
+
+    # Assign names to the ACE output
+    names(ace_out) <- levels
+
+    # Return the ACE matrices and the single true matrix
+    return(ace_out)
+  })
+})
+
+# Assign names to the outer list
+names(rel_all_nodes) <- names(discrete_matrices)
+
+strict_all_nodes <- lapply(seq_along(strict_fossil_anc), function(rate) {
+  lapply(seq_along(strict_fossil_anc[[rate]]), function(i) {
+    # Step 1: Get the node labels
+    # node_v <- node_labels[[i]]
+
+    # Step 2: Get the true matrix for the current replicate
+    # true <- discrete_matrices[[rate]][[i]][rownames(i), ]
+
+    # Step 3: Iterate over preservation levels
+    levels <- names(strict_fossil_anc[[rate]][[i]])
+    ace_out <- lapply(levels, function(level_name) {
+      # Filter ACE matrix for the current preservation level
+      ace <- strict_fossil_anc[[rate]][[i]][[level_name]]
+      ace_filtered <- ace[grepl("^n", rownames(ace)), ]
+      true <- discrete_matrices[[rate]][[i]][rownames(ace_filtered), ]
+      return(list(true = true, ace = ace_filtered))
+    })
+
+    # Assign names to the ACE output
+    names(ace_out) <- levels
+
+    # Return the ACE matrices and the single true matrix
+    return(ace_out)
+  })
+})
+
+# Assign names to the outer list
+names(strict_all_nodes) <- names(discrete_matrices)
+
+
+
+sample_all_nodes <- lapply(seq_along(sample_fossil_anc), function(rate) {
+  lapply(seq_along(sample_fossil_anc[[rate]]), function(i) {
+    
+    # Step 1: Iterate over preservation levels
+    levels <- names(sample_fossil_anc[[rate]][[i]]) # e.g., c("fossil", "living")
+    
+    ace_out <- lapply(levels, function(level_name) {
+      # Get all replicates for this level
+      replicates <- sample_fossil_anc[[rate]][[i]][[level_name]]
+      
+      # Step 2: Filter each replicate to keep only rows starting with "n"
+      filtered <- lapply(seq_along(replicates), function(rep_idx) {
+        ace <- replicates[[rep_idx]]
+        ace_filtered <- ace[grepl("^n", rownames(ace)), ]
+        return(ace_filtered)
+      })
+      
+      # Step 3: Get the true matrix using the same rows as the first filtered replicate
+      if (length(filtered) > 0 && nrow(filtered[[1]]) > 0) {
+        true <- discrete_matrices[[rate]][[i]][rownames(filtered[[1]]), ]
+      } else {
+        true <- NULL
+      }
+      
+      return(list(true = true, ace = filtered))
+    })
+    
+    # Assign names to the ACE output
+    names(ace_out) <- levels
+    
+    # Return the ACE matrices and true matrix for each level
+    return(ace_out)
+  })
+})
+
+# Assign names to the outer list
+names(sample_all_nodes) <- names(discrete_matrices)
+
+
+source("../Functions/node.dist.R")
+
+
+rel_dist <- lapply(rel_all_nodes, lapply, lapply, all.node.dist, distance = "strict")
+
+strict_dist <- lapply(strict_all_nodes, lapply, lapply, all.node.dist, distance = "strict")
+
+sample_dist <- lapply(sample_all_nodes, lapply, lapply, all.node.dist, distance = "strict")
+
+allnode_means_rel <- lapply(rel_dist, function(preservation) {
+  lapply(preservation, function(level) {
+  lapply(level, function(matrices) {
+    means <- mean(matrices)
+  })
+})
+})
+
+allnode_means_strict <- lapply(strict_dist, function(preservation) {
+  lapply(preservation, function(level) {
+  lapply(level, function(matrices) {
+    means <- mean(matrices)
+  })
+})
+})
+
+allnode_means_sample <- lapply(sample_dist, function(rate_level) {
+  lapply(rate_level, function(replicate) {
+    lapply(replicate, function(level) {
+     q <-  lapply(level, function(x) {
+        m <- mean(x)
+      })
+      unlist <- unlist(q)
+      return(unlist)
+    })
+  })
+})
+
+
+saveRDS(allnode_means_rel, "../Data/matrices/randomExtinction/rel_raw_dist.Rds")
+saveRDS(allnode_means_strict, "../Data/matrices/randomExtinction/strict_raw_dist.Rds")
+saveRDS(allnode_means_sample, "../Data/matrices/randomExtinction/sample_raw_dist.Rds")
+
+
+```
+
+
+## Disparity random extinction
+
+
 ```{r}
 
 
 
+
+
+
+# source("../Functions/apply.dist.R")
+# source("../Functions/apply.ordination.R")
+
+distances_true <- lapply(discrete_matrices, lapply, function(x){
+  matrix <-  apply(x, c(1,2), as.character)
+  dist <- char.diff(matrix, method = "mord", by.col = FALSE)
+  return(dist)
+})
+
+distances_no_ace <- lapply(fossil_matrices, lapply, lapply, function(x){
+  matrix <- x$matrix
+    dist <- char.diff(matrix, method = "mord", by.col = FALSE)
+    return(dist)
+})
+
+distances_strict <- lapply(strict_fossil_anc, lapply, lapply, function(matrices) {
+  dist <- char.diff(matrices, method = "mord", by.col = FALSE)
+  return(dist)
+})
+
+distances_rel <- lapply(relative_fossil_anc, lapply, lapply, function(matrices) {
+  dist <- char.diff(matrices, method = "mord", by.col = FALSE)
+  return(dist)
+})
+
+
+distances_sample <- lapply(sample_fossil_anc, function(rate) {
+  mclapply(rate, function(matrix) {
+    lapply(matrix, function(fossil){
+      lapply(fossil, function(sample) {
+        dist <- char.diff(sample, method = "mord", by.col = FALSE)
+      })
+    })
+  }, mc.cores = 10)
+})
+
+
+ord_no_ace <- lapply(distances_no_ace, lapply, lapply, function(matrix){
+    ord <-  (cmdscale(matrix, k = ncol(matrix) - 2, add = TRUE))$points
+    return(ord)
+})
+
+ord_true <- lapply(distances_true, lapply, function(matrix){
+    ord <-  (cmdscale(matrix, k = ncol(matrix) - 2, add = TRUE))$points
+    return(ord)
+})
+
+
+ord_rel <- lapply(distances_rel, lapply, lapply, function(matrix) {
+ cmdscale(matrix, k = ncol(matrix) - 2, add = TRUE)$points
+})
+
+
+ord_strict <- lapply(distances_strict, lapply, lapply, function(matrix) {
+ cmdscale(matrix, k = ncol(matrix) - 2, add = TRUE)$points
+})
+
+# ord_sample <- lapply(distances_sample, function(rate_data) {
+#   mclapply(rate_data, function(matrices) {
+#     true_ord <- (cmdscale(matrices$true, k = ncol(matrices$true) - 2, add = TRUE))$points
+#     ace <- matrices$ace
+#     ace_ord <- lapply(ace, function(pres) {
+#       lapply(pres, function(reps) {
+#         ord <- (cmdscale(reps, k = ncol(reps) - 2, add = TRUE))$points
+#       })
+#     })
+#   return(list(true = true_ord, ace = ace_ord ))
+#   }, mc.cores = 10)
+# })
+
+
+# Limit to first 20 dimensions to reduce memory usage
+# Process and save each rate separately to prevent memory buildup
+for(rate_name in names(distances_sample)) {
+  cat("Processing rate:", rate_name, "\n")
+  
+  rate_ord <- list()
+  
+  for(i in seq_along(distances_sample[[rate_name]])) {
+    cat("  Replicate", i, "of", length(distances_sample[[rate_name]]), "\n")
+    
+    matrices <- distances_sample[[rate_name]][[i]]
+    
+    # Process this single replicate
+    ord_result <- lapply(matrices, function(fossil) {
+      lapply(fossil, function(sample) {
+        ord <- (cmdscale(sample, k = ncol(sample) - 2, add = TRUE))$points
+      })
+    })
+    
+    rate_ord[[i]] <- ord_result
+    
+    # Cleanup every 10 replicates
+    if(i %% 10 == 0) {
+      gc()
+      cat("    Memory cleanup at replicate", i, "\n")
+    }
+  }
+  
+  # Save this rate immediately
+  saveRDS(rate_ord, paste0("../Data/matrices/randomExtinction/ord_sample_", rate_name, ".rds"))
+  
+  # Clean up
+  rm(rate_ord)
+  gc()
+}
+
+ord_sample <- list(fast = readRDS("../Data/matrices/randomExtinction/ord_sample_fast.rds"), med = readRDS("../Data/matrices/randomExtinction/ord_sample_med.rds"), slow = readRDS("../Data/matrices/randomExtinction/ord_sample_slow.rds"))
+### is it to do with the fact that they are ordinated at different dimensions??? should they all be ordinated at a set number of dimensions
+
+## i've decided to keep the first 50?
+
+
+## Why then 
+
+
+sum_var_no_ace <- lapply(ord_no_ace, lapply, lapply, function(matrix){
+    var <-  (dispRity(matrix[ ,1:48], metric = c(sum, variances)))$disparity
+    return(var)
+})
+
+
+sum_var_true <- lapply(ord_true, lapply, function(matrix){
+    var <-  (dispRity(matrix[ ,1:48], metric = c(sum, variances)))$disparity
+    return(var)
+})
+
+sum_var_rel <- lapply(ord_rel, lapply, lapply, function(matrix){
+  dispRity(matrix[,1:48], metric = c(sum,variances))$disparity
+})
+
+
+sum_var_strict <- lapply(ord_strict, lapply, lapply, function(matrix){
+  dispRity(matrix[,1:48], metric = c(sum,variances))$disparity
+})
+
+sum_var_sample <- lapply(ord_sample, lapply, lapply, function(rep){
+  output <- lapply(rep, function(matrix){
+    disp <- dispRity(matrix[,1:48], metric = c(sum,variances))$disparity
+  })
+  return(unlist(output, use.names = FALSE))
+})
+
+var_diffs_sample <- lapply(names(sum_var_sample), function(rate_name){  
+  rate_result <- lapply(seq_along(sum_var_sample[[rate_name]]), function(i){           
+    true <- sum_var_true[[rate_name]][[i]][[1]]$elements
+    fossil_result <- lapply(names(sum_var_sample[[rate_name]][[i]]), function(fossil_name){
+      rep_result <- lapply(sum_var_sample[[rate_name]][[i]][[fossil_name]], function(rep){
+        diff <- (rep - true)/true
+      })
+      return(unlist(rep_result))
+    })
+    # Preserve fossil names
+    names(fossil_result) <- names(sum_var_sample[[rate_name]][[i]])
+    return(fossil_result)
+  })
+  return(rate_result)
+}) 
+
+# Preserve rate names
+names(var_diffs_sample) <- names(sum_var_sample)
+
+
+
+var_diffs_rel <- lapply(names(sum_var_rel), function(rate_name){  
+  rate_result <- lapply(seq_along(sum_var_rel[[rate_name]]), function(i){           
+    true <- sum_var_true[[rate_name]][[i]][[1]]$elements
+    fossil_result <- lapply(names(sum_var_rel[[rate_name]][[i]]), function(fossil_name){
+      estimated <- sum_var_rel[[rate_name]][[i]][[fossil_name]][[1]]$elements  # Access the actual data
+      diff <- (estimated - true)/true
+    })
+    # Preserve fossil names
+    names(fossil_result) <- names(sum_var_rel[[rate_name]][[i]])
+    return(fossil_result)
+  })
+  return(rate_result)
+}) 
+
+# Preserve rate names
+names(var_diffs_rel) <- names(sum_var_rel)
+
+
+
+var_diffs_strict <- lapply(names(sum_var_strict), function(rate_name){  
+  rate_result <- lapply(seq_along(sum_var_strict[[rate_name]]), function(i){           
+    true <- sum_var_true[[rate_name]][[i]][[1]]$elements
+    fossil_result <- lapply(names(sum_var_strict[[rate_name]][[i]]), function(fossil_name){
+      estimated <- sum_var_strict[[rate_name]][[i]][[fossil_name]][[1]]$elements  # Access the actual data
+      diff <- (estimated - true)/true
+    })
+    # Preserve fossil names
+    names(fossil_result) <- names(sum_var_strict[[rate_name]][[i]])
+    return(fossil_result)
+  })
+  return(rate_result)
+}) 
+
+# Preserve rate names
+names(var_diffs_strict) <- names(sum_var_strict)
+
+
+# sum_var_strict <- lapply(ord_strict, lapply, function(matrices) {
+#   true_disp <- (dispRity(matrices$true[ ,1:48], metric = c(sum, variances)))$disparity
+#   ace <- matrices$ace
+#   ace_disp <- lapply(ace, function(pres) {
+#     disp <- (dispRity(pres[ ,1:48], metric = c(sum, variances)))$disparity
+#   })
+#   return(list(true = true_disp, ace = ace_disp ))
+# })
+
+# sum_var_sample <- lapply(ord_sample, function(matrices) {
+#   lapply(matrices, function(pres) {
+#     lapply(pres, function(reps) {
+#         # lapply(reps, function(matrix){
+#         (dispRity(reps, metric = c(sum, variances)))$disparity
+#       })
+#     })
+# })
+
+
+
+## partition the morphospace into pre and post extinction
+subsets <- lapply(ord_strict, function(rate) {
+  lapply(rate, function(i) {
+    lapply(i, function(fossil){
+      subset <- chrono.subsets(fossil, tree = fossil_matrices[[rate]][[i]][[fossil]]$tree, method = "d", time = c(0, times[[i]], fossil_matrices[[rate]][[i]][[fossil]]$tree$root.time))
+    })
+  })
+})
+
+times[[1]]
+
+subset <- chrono.subsets(ord_strict$slow[[5]]$all, tree = fossil_matrices$slow[[5]]$all$tree, method = "d", time = c(0, times[[5]], fossil_matrices$slow[[5]]$all$tree$root.time))
+
+test <- dispRity(subset, metric = c(sum,variances))
+
+
+true_subset <- chrono.subsets(ord_true$slow[[5]], tree = fossil_matrices$slow[[5]]$all$tree, method = "d", time = c(0, times[[5]], fossil_matrices$slow[[5]]$all$tree$root.time))
+
+test_two <- dispRity(true_subset, metric = c(sum,variances))
+
+
+plot(test)
+
+```
+
+## selective extinction
+```{r}
+setwd("/home/caleb/Documents/PhD/treats/treats")  # or wherever you cloned it
+devtools::load_all()
+
+
+install_github("TGuillerme/treats", ref = "map.traits.events")
+
+
 library(treats)
+
+
+
+slow_binary_transitions <- matrix(c(
+    0.99, 0.01,
+    0.01, 0.99
+), nrow = 2, byrow = TRUE)
+
+med_binary_transitions <- matrix(c(
+  0.90, 0.1,
+  0.1, 0.9
+), nrow = 2, byrow = TRUE)
+
+
+fast_binary_transitions <- matrix(c(
+    0.1, 0.9,
+    0.9, 0.1
+), nrow = 2, byrow = TRUE)
+
+slow_binary <- treats::make.traits(process = discrete.process, n = 30, process.args = list(transitions = slow_binary_transitions))
+
+med_binary <- treats::make.traits(process = discrete.process, n = 30, process.args = list(transitions = med_binary_transitions))
+
+
+
+fast_binary <- treats::make.traits(process = discrete.process, n = 30, process.args = list(transitions = fast_binary_transitions))
+
+
+
+slow_multi_transitions <- matrix(c(
+    0.99, 0.025, 0.025,
+    0.025, 0.99, 0.025,
+    0.025, 0.025, 0.99
+), nrow = 3, byrow = TRUE)
+
+slow_multi <- treats::make.traits(process = discrete.process, n = 20, process.args = list(transitions = slow_multi_transitions))
+
+
+med_multi_transitions <- matrix(c(
+  0.9, 0.05, 0.05,
+  0.05, 0.9, 0.05,
+  0.05, 0.05, 0.9
+), nrow = 3, byrow = TRUE)
+
+med_multi <- treats::make.traits(process = discrete.process, n = 20, process.args = list(transitions = med_multi_transitions))
+
+
+fast_multi_transitions <- matrix(c(
+    0.1, 0.45, 0.45, 
+    0.45, 0.1, 0.45,
+    0.45, 0.45, 0.1 
+), nrow = 3, byrow = TRUE)
+
+fast_multi <- treats::make.traits(process = discrete.process, n = 20, process.args = list(transitions = fast_multi_transitions))
+
+traits = list(slow = slow_binary, med = med_binary, fast = fast_binary)
+
+multi_traits = list(slow = slow_multi, med = med_multi, fast = fast_multi)
+
+
+
+
+
 bd_params <- make.bd.params(speciation = 0.1, extinction = 0.07)
 
-stop_rule <- list(max.living = 30)
+stop_rule <- list(max.living = 100)
 set.seed(123)
 ## so can simulate say 40 characters that are correlated by extinction -> in this way. then on resulting tree, simulate non selective traits with map.traits. can decide what level of traits need to be selected by extinction.
 selective_extinction <- make.events(
                       target       = "taxa",
-                      condition    = taxa.condition(29),
-                      modification = trait.extinction(x = 1,
-                                                      condition = `<`))
+                      condition    = taxa.condition(60),
+                      modification = trait.extinction(x = 1, trait = c(seq(from = 1, to = 15, by = 1)),
+                                                      condition = `<`, intensity = 1, threshold = 0.4))
 
-selective <- treats(traits = med_binary, stop.rule = stop_rule, bd.params = bd_params, null.error = 100, replicates = 10, events = selective_extinction)
-trees <- lapply(trees, drop.singles)
+
+selective <- lapply(multi_traits, function(rate) {
+  treats(traits = rate, stop.rule = stop_rule, bd.params = bd_params, null.error = 100, replicates = 10, events = selective_extinction)
+})
+
+
+
+trees <- lapply(selective, lapply, drop.singles)
+
+
+test_distance <- char.diff(trees$slow[[2]]$data, method = "mord", by.col = FALSE)
+
+test_ord <- cmdscale(test_distance,  k = ncol(test_distance) - 2, add = TRUE)$points
+
+test_chrono <- chrono.subsets(test_ord, tree = trees$slow[[2]]$tree, method = "d", time = 5)
+
+test_disparity <- dispRity(test_chrono, metric = c(sum, variances))
+## what do i need
+## so i need a way of the selective extinction only choosing a sample of taxa to go extinct
+## but also certain trait combinations
+
+```
+
+
+
+```{R}
+extinction.probability <- function()
+
+intercept <- 0
+linear_predictor <- intercept + as.matrix(parent_traits[, seq_along(betas)]) %*% betas
+    
+    ## Logistic: extinction probability
+extinction_prob <- 1 / (1 + exp(-linear_predictor))
+    
+    ## Draw random 0/1 for each parent node
+extinct_flag <- rbinom(length(extinction_prob), size = 1, prob = extinction_prob)
+    
+
+
+
+
+
+
 
 ```

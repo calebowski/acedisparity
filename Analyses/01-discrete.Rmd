@@ -189,47 +189,24 @@ names(fossil_matrices) <- names(discrete_matrices)
 
 saveRDS(fossil_matrices, "../Data/matrices/discrete/fossilmatrices.Rds")
 
+fossil_matrices <- readRDS("../Data/matrices/discrete/fossilmatrices.Rds")
 
 
 ```
 
 
-## discrete pipeline
-
-```{R}
-# source("../Functions/apply.dist.R")
-# source("../Functions/apply.ordination.R")
-
-# distances <- lapply(discrete_matrices, dist.func)
-# traitspaces <- ord.func(distances)
-
-# disp_obj <- lapply(traitspaces, make.dispRity, tree = tree)
-
-# do.time.slice <- function(matrices, chrono_models, FADLAD = NULL, time_interval) {
-#   time_slices <- lapply(chrono_models, function(model) {
-#     chrono.subsets(matrices, method = "continuous", FADLAD = FADLAD, model = model, time = time_interval)
-#   })
-#   names(time_slices) <- chrono_models
-#   return(time_slices)
-# }
-
-# chrono_models <- c("acctran", "deltran", "random", "proximity", "equal.split", "gradual.split")
+```{r}
 
 
-# time_sliced_discrete <- lapply(disp_obj, do.time.slice, chrono_models = chrono_models, time_interval = 10)
+mat$matrix
 
-# bootstrapped_discrete <- lapply(time_sliced_discrete, lapply, boot.matrix, bootstraps = 100)
+mat_pruned <- mat$matrix[,1]
+hmm_one <- corHMM(phy = mat$tree, data = dat_A1, node.states = "marginal", model = "SYM", rate.cat = 1, fixed.nodes = FALSE)
+hmm_two <- corHMM(phy = mat$tree, data = dat_A1, node.states = "marginal", model = "SYM", rate.cat = 2)
+hmm_three <- corHMM::corHMM(phy = mat$tree, data = dat_A1, node.states = "marginal", model = "SYM", rate.cat = 3)
 
-# disparity_discrete <- lapply(bootstrapped_discrete, lapply,  dispRity, metric = c(sum, variances), na.rm = TRUE, verbose = TRUE)
-
-# saveRDS(disparity_discrete, "../Data/processed/disparity/aceproject/beckdiscrete.Rds")
-# saveRDS(disparity_discrete, "../Data/processed/disparity/aceproject/simdiscrete.Rds")
-
-
-# plot(disparity_discrete$low$gradual.split)
 
 ```
-
 
 ## Ace discrete
 
@@ -1128,87 +1105,6 @@ fossil_matrices <- readRDS("../Data/matrices/discrete/fossilmatrices.Rds")
 
 ## add to this - > just tips disparity? so it is true (tips + nodes all) , aced (tips + estimated node states) and just tips (varies by fossil sampling like aced).
 
-sample_all <- lapply(seq_along(sample_fossil_anc), function(rate) {
-  lapply(seq_along(sample_fossil_anc[[rate]]), function(i) {
-    # Step 1: Compute the true matrix once for the current replicate (i)
-    # node_v <- node_labels[[i]]
-    true <- discrete_matrices[[rate]][[i]]
-    true <- apply(true, c(1,2), as.character)
-
-    # Step 2: Iterate over preservation levels
-    levels <- names(sample_fossil_anc[[rate]][[i]])
-    ace_out <- lapply(seq_along(levels), function(level_idx) {
-      level_name <- levels[[level_idx]]
-      reps <- sample_fossil_anc[[rate]][[i]][[level_name]]
-
-      # Filter ACE matrices for each replicate
-      lapply(seq_along(reps), function(rep) {
-        reps[[rep]]
-      })
-    })
-
-    # Assign names to the ACE output
-    names(ace_out) <- levels
-
-    # Return the ACE matrices and the single true matrix
-    return(list(ace = ace_out, true = true))
-  })
-})
-# Assign names to the outer list
-names(sample_all) <- names(discrete_matrices)
-
-
-rel_all <- lapply(seq_along(relative_fossil_anc), function(rate) {
-  lapply(seq_along(relative_fossil_anc[[rate]]), function(i) {
-    # Step 3: Iterate over preservation levels
-    levels <- names(relative_fossil_anc[[rate]][[i]])
-    ace_out <- lapply(levels, function(level_name) {
-      # Filter ACE matrix for the current preservation level
-      relative_fossil_anc[[rate]][[i]][[level_name]]
-    })
-
-    # Assign names to the ACE output
-    names(ace_out) <- levels
-
-    # Return the ACE matrices and the single true matrix
-    return(list(ace = ace_out, true = true))
-  })
-})
-
-# Assign names to the outer list
-names(rel_all) <- names(discrete_matrices)
-
-
-
-
-strict_all <- lapply(seq_along(strict_fossil_anc), function(rate) {
-  lapply(seq_along(strict_fossil_anc[[rate]]), function(i) {
-    # Step 1: Get the node labels
-    # node_v <- node_labels[[i]]
-
-    # Step 2: Get the true matrix for the current replicate
-    true <- discrete_matrices[[rate]][[i]]
-    true <- apply(true, c(1,2), as.character)
-
-    # Step 3: Iterate over preservation levels
-    levels <- names(strict_fossil_anc[[rate]][[i]])
-    ace_out <- lapply(levels, function(level_name) {
-      # Filter ACE matrix for the current preservation level
-      strict_fossil_anc[[rate]][[i]][[level_name]]
-    })
-
-    # Assign names to the ACE output
-    names(ace_out) <- levels
-
-    # Return the ACE matrices and the single true matrix
-    return(list(ace = ace_out, true = true))
-  })
-})
-
-# Assign names to the outer list
-names(strict_all) <- names(discrete_matrices)
-
-
 # source("../Functions/apply.dist.R")
 # source("../Functions/apply.ordination.R")
 
@@ -1434,7 +1330,7 @@ var_sample_diffs <- lapply(sum_var_sample, lapply, function(disparity) {
 
 ```{r}
 # load the discrete matrices
-discrete_matrices <- readRDS("../Data/matrices/discretematrices.rds")
+discrete_matrices <- readRDS("../Data/matrices/discrete/discretematrices.rds")
 
 source("../Functions/fossil.pres.R")
 
@@ -1498,6 +1394,20 @@ anc.states <- function(x){
 
 
 post_ord_ace <- lapply(ordinations, lapply, lapply, anc.states)
+
+saveRDS(post_ord_ace, "../Data/matrices/discrete/postordace.Rds")
+post_ord_ace <-  readRDS("../Data/matrices/discrete/postordace.Rds")
+
+point_post_ord <- lapply(post_ord_ace, lapply, lapply, multi.ace, output = "combined.matrix" )
+
+
+sum_var_post_ord <- lapply(point_post_ord, lapply, lapply, function(matrix){
+ dispRity(matrix, metric = c(sum, variances))$disparity})
+
+
+
+
+
 
 ```
 
