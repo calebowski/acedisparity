@@ -1131,20 +1131,10 @@ distances_rel <- lapply(relative_fossil_anc, lapply, lapply, function(matrices) 
 })
 
 
-distances_sample <- lapply(sample_fossil_anc, function(rate_data) {
-  mclapply(rate_data, function(matrices) {
-    ace_dist <- lapply(ace, function(pres) {
-      lapply(pres, function(reps) {
-        dist <- char.diff(reps, method = "mord", by.col = FALSE)
-      })
-    })
-    return(ace_dist)
-  }, mc.cores = 10)  # Use more cores for the 100 replicates
-})
 
 
 distances_sample <- lapply(sample_fossil_anc, function(rate) {
-  mclapply(rate, function(matrix) {sum_var_no_ace
+  mclapply(rate, function(matrix) {
     lapply(matrix, function(fossil){
       lapply(fossil, function(sample) {
         dist <- char.diff(sample, method = "mord", by.col = FALSE)
@@ -1164,24 +1154,6 @@ ord_true <- lapply(distances_true, lapply, function(matrix){
     return(ord)
 })
 
-
-ord_rel <- lapply(distances_rel, lapply, function(matrices) {
-  true_ord <- (cmdscale(matrices$true, k = ncol(matrices$true) - 2, add = TRUE))$points
-  ace <- matrices$ace
-  ace_ord <- lapply(ace, function(pres) {
-    ord <- (cmdscale(pres, k = ncol(pres) - 2, add = TRUE))$points
-  })
-  return(list(true = true_ord, ace = ace_ord))
-})
-
-ord_strict <- lapply(distances_strict, lapply, function(matrices) {
-  true_ord <- (cmdscale(matrices$true, k = ncol(matrices$true) - 2, add = TRUE))$points
-  ace <- matrices$ace
-  ace_ord <- lapply(ace, function(pres) {
-    ord <- (cmdscale(pres, k = ncol(pres) - 2, add = TRUE))$points
-  })
-  return(list(true = true_ord, ace = ace_ord))
-})
 
 # ord_sample <- lapply(distances_sample, function(rate_data) {
 #   mclapply(rate_data, function(matrices) {
