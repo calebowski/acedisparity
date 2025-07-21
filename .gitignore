@@ -11,8 +11,12 @@ contmatrices.Rds
 samplecontanc.Rds
 discreteanc.rds
 ord_sample_*.rds
+ord_sample_*.Rds
 fossilanc.Rds
 sampleddiscreteanc.Rds
 relanc.Rds
 strictanc.Rds
 postordace.Rds
+sampleanc.Rds
+ord.rel.Rds
+ord.strict.Rds

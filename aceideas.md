@@ -107,3 +107,6 @@ Can see this with the strict majority rule - the increase in fossil sampling inc
 
 Should I change these plots to actual matrix preservation -> i.e fossil degredation, might be a more interesting parameter than fossil sampling.
 Because obviously they will use the max fossils they can, but i think it would be useful to see where ancestral state estimation becomes more useful than just using tip data at what level of matrix preservation.
+
+
+

@@ -28,9 +28,9 @@ find.extinction.time <- function(extinction_ages, exclude_zero = TRUE, tolerance
 
 
 
-extinction_ages <- lapply(trees, function(tree){
+tip.ages <- function(tree) {
   ages <- tree.age(tree)
   tips <- grepl("^t", ages$elements)  # Logical vector for rows with tip names
   tip_ages <- ages[tips, ]  # Subset ROWS where elements start with "t"
   return(tip_ages)
-})
+}
