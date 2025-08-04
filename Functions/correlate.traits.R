@@ -45,7 +45,6 @@ correlate.traits.multi <- function(correlation = 0.9, transition.matrix, n.trait
   trait1 <- make.traits( # create first parent trait
     process = discrete.process,
     process.args = list(transitions = transition.matrix),
-    trait.names = "trait1",
     n = n.traits
   )
   
@@ -56,7 +55,6 @@ correlate.traits.multi <- function(correlation = 0.9, transition.matrix, n.trait
       probs <- c(correlation, (1-correlation)/2, (1-correlation)/2)  # Favor state 0
       sample(0:2, 1, prob = probs)
     }, 
-    trait.names = "trait2", 
     n = n.traits
   )
   
@@ -66,7 +64,6 @@ correlate.traits.multi <- function(correlation = 0.9, transition.matrix, n.trait
       probs <- c((1-correlation)/2, correlation, (1-correlation)/2)  # Favor state 1
       sample(0:2, 1, prob = probs)
     }, 
-    trait.names = "trait2", 
     n = n.traits
   )
   
@@ -76,7 +73,6 @@ correlate.traits.multi <- function(correlation = 0.9, transition.matrix, n.trait
       probs <- c((1-correlation)/2, (1-correlation)/2, correlation)  # Favor state 2
       sample(0:2, 1, prob = probs)
     }, 
-    trait.names = "trait2", 
     n = n.traits
   )
   
@@ -94,4 +90,44 @@ correlate.traits.multi <- function(correlation = 0.9, transition.matrix, n.trait
   )
   
   return(linked_traits)
+}
+
+correlate.traits.realistic <- function(correlation = 0.9, transition.matrix, n.traits = 6) {
+  
+  # Create a custom process that applies correlation more realistically
+  correlated_realistic_process <- function(x0 = rep(0, n.traits), edge.length = 1, 
+                                          correlation = correlation, 
+                                          transitions = transition.matrix) {
+    
+    # If x0 is a single value, expand it to vector
+    if(length(x0) == 1) {
+      x0 <- rep(x0, n.traits)
+    }
+    
+    # Generate all traits independently first
+    independent_traits <- sapply(1:n.traits, function(i) {
+      discrete.process(x0 = x0[i], edge.length = edge.length, transitions = transitions)
+    })
+    
+    # Apply correlation by modifying some traits to match the first one
+    trait_values <- independent_traits
+    
+    for(i in 2:n.traits) {
+      # Decide if this trait should be correlated
+      if(runif(1) < correlation) {
+        # Make it the same as trait 1
+        trait_values[i] <- trait_values[1]
+      }
+      # Otherwise keep the independent evolution
+    }
+    
+    return(trait_values)
+  }
+  
+  # Create traits object
+  make.traits(
+    process = correlated_realistic_process,
+    process.args = list(correlation = correlation, transitions = transition.matrix),
+    n = n.traits
+  )
 }

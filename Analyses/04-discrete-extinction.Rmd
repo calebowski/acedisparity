@@ -432,15 +432,10 @@ source("../Functions/correlate.traits.R")
 # Step 1: Create the first discrete trait (e.g., 2 states)
 # Create correlated traits with adjustable correlation strength
 
-
-# Create traits with different correlation levels
-high_corr_traits <- correlate.traits(correlation = 0.85, n.traits = 6, transition.matrix = slow_multi_transitions)  
+test_correlation <- correlate.traits.realistic(correlation = 0.5, n.traits = 6, transition.matrix = slow_multi_transitions)  
 
 
-# Run simulations
-res_high <- treats(stop.rule = list(max.taxa = 100), traits = high_corr_traits)
-res_med <- treats(stop.rule = list(max.taxa = 100), traits = med_corr_traits)
-res_low <- treats(stop.rule = list(max.taxa = 100), traits = low_corr_traits)
+multi_traits <- list(fast = fast_cor_traits, med = med_cor_traits, slow = slow_cor_traits)
 
 ```
 
@@ -456,13 +451,12 @@ set.seed(123)
 selective_extinction <- make.events(
                       target       = "taxa",
                       condition    = taxa.condition(79),
-                      modification = trait.extinction(x = 2, trait = c(seq(from = 1, to = 20, by = 1)),
+                      modification = trait.extinction(x = 2, trait = 1,
                                                       condition = `<`, severity = 0.8, threshold = 0.5))
 
 ## different selectivities: directional ()
 
-
-
+test <- treats(traits = test_correlation, stop.rule = stop_rule, bd.params = bd_params, null.error = 100, events = selective_extinction)
 
 selective <- lapply(multi_traits, function(rate) {
   treats(traits = rate, stop.rule = stop_rule, bd.params = bd_params, null.error = 100, replicates = 10, events = selective_extinction)
