@@ -18,5 +18,5 @@ relanc.Rds
 strictanc.Rds
 postordace.Rds
 sampleanc.Rds
-ord.rel.Rds
-ord.strict.Rds
+ord.*.Rds
+
