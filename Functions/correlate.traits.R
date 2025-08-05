@@ -92,7 +92,7 @@ correlate.traits.multi <- function(correlation = 0.9, transition.matrix, n.trait
   return(linked_traits)
 }
 
-correlate.traits.realistic <- function(correlation = 0.9, transition.matrix, n.traits = 6) {
+correlate.traits.realistic <- function(correlation = 0.9, transition.matrix, n.traits = 6, n.correlated.traits = 3) {
   
   # Create a custom process that applies correlation more realistically
   correlated_realistic_process <- function(x0 = rep(0, n.traits), edge.length = 1, 
@@ -112,7 +112,7 @@ correlate.traits.realistic <- function(correlation = 0.9, transition.matrix, n.t
     # Apply correlation by modifying some traits to match the first one
     trait_values <- independent_traits
     
-    for(i in 2:n.traits) {
+    for(i in 2:n.correlated.traits) {
       # Decide if this trait should be correlated
       if(runif(1) < correlation) {
         # Make it the same as trait 1

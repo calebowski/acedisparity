@@ -432,10 +432,16 @@ source("../Functions/correlate.traits.R")
 # Step 1: Create the first discrete trait (e.g., 2 states)
 # Create correlated traits with adjustable correlation strength
 
-test_correlation <- correlate.traits.realistic(correlation = 0.5, n.traits = 6, transition.matrix = slow_multi_transitions)  
+slow_cor <- correlate.traits.realistic(correlation = 0.3, n.traits = 50, transition.matrix = slow_multi_transitions, n.correlated.traits = 20) 
+
+med_cor <- correlate.traits.realistic(correlation = 0.3, n.traits = 50, transition.matrix = med_multi_transitions, n.correlated.traits = 20) 
+
+fast_cor <- correlate.traits.realistic(correlation = 0.3, n.traits = 50, transition.matrix = fast_multi_transitions, n.correlated.traits = 20) 
 
 
-multi_traits <- list(fast = fast_cor_traits, med = med_cor_traits, slow = slow_cor_traits)
+
+
+multi_traits <- list(fast = fast_cor, med = med_cor, slow = slow_cor)
 
 ```
 
@@ -445,18 +451,17 @@ multi_traits <- list(fast = fast_cor_traits, med = med_cor_traits, slow = slow_c
 
 bd_params <- make.bd.params(speciation = 0.1, extinction = 0.07)
 
-stop_rule <- list(max.living = 80)
+stop_rule <- list(max.living = 60)
 set.seed(123)
 ## so can simulate say 40 characters that are correlated by extinction -> in this way. then on resulting tree, simulate non selective traits with map.traits. can decide what level of traits need to be selected by extinction.
 selective_extinction <- make.events(
                       target       = "taxa",
-                      condition    = taxa.condition(79),
-                      modification = trait.extinction(x = 2, trait = 1,
-                                                      condition = `<`, severity = 0.8, threshold = 0.5))
+                      condition    = taxa.condition(59),
+                      modification = trait.extinction(x = 2, trait = c(seq(from =  1, to = 10, by = 1)),
+                                                      condition = `<`, severity = 1.0, threshold = 0.5))
 
 ## different selectivities: directional ()
 
-test <- treats(traits = test_correlation, stop.rule = stop_rule, bd.params = bd_params, null.error = 100, events = selective_extinction)
 
 selective <- lapply(multi_traits, function(rate) {
   treats(traits = rate, stop.rule = stop_rule, bd.params = bd_params, null.error = 100, replicates = 10, events = selective_extinction)
@@ -541,6 +546,13 @@ trees <- lapply(selective, lapply, function(x){
   x$tree
 })
 
+fix.zero.branches <- function(tree, min_length = 1e-8) {
+  tree$edge.length[tree$edge.length <= 0] <- min_length
+  return(tree)
+}
+
+trees <- lapply(trees, lapply, fix.zero.branches)
+
 saveRDS(trees, "../Data/trees/selectiveExtinction.tre")
 trees <- readRDS("../Data/trees/selectiveExtinction.tre")
 
@@ -614,10 +626,7 @@ fossil_anc <- lapply(fossil_matrices, anc.states)
 
 saveRDS(fossil_anc, "../Data/matrices/selectiveExtinction/discreteanc.Rds")
 
-
-
-sample_fossil_anc <- lapply(fossil_anc, lapply, lapply, multi.ace, sample = 10, sample.fun = normal_sampling,  verbose = TRUE)
-
+sample_fossil_anc <- lapply(fossil_anc, lapply, lapply, multi.ace, sample = 15, sample.fun = normal_sampling,  verbose = TRUE)
 
 strict_fossil_anc <- lapply(fossil_anc, lapply, lapply, multi.ace, threshold = FALSE, output = "combined.matrix", verbose = TRUE)
 
@@ -807,6 +816,11 @@ distances_sample <- lapply(sample_fossil_anc, function(rate) {
   }, mc.cores = 10)
 })
 
+distances_no_ace <- lapply(fossil_matrices, lapply, lapply, function(x){
+  matrix <- x$matrix
+    dist <- char.diff(matrix, method = "mord", by.col = FALSE)
+    return(dist)
+})
 
 ord_strict <- lapply(distances_strict, lapply, lapply, function(matrix) {
   ord <- cmdscale(matrix, k = ncol(matrix) - 2, add = TRUE)$points
@@ -871,6 +885,10 @@ ord_true <- lapply(distances_true, lapply, function(matrix){
 
 saveRDS(ord_true, "../Data/matrices/selectiveExtinction/ord.true.Rds")
 
+ord_no_ace <- lapply(distances_no_ace, lapply, lapply, function(matrix){
+    ord <-  (cmdscale(matrix, k = ncol(matrix) - 2, add = TRUE))$points
+    return(ord)
+})
 
 
 ########################################################################################################################
@@ -887,7 +905,7 @@ extinction_times <- lapply(tip_ages, lapply, find.extinction.time)
 
 
 time_slices <- lapply(extinction_times, lapply, function(time){
-  intervals <- c(time + 20, time,  time - 20)
+  intervals <- c(time + 10, time,  time - 10)
   return(intervals)
 })
 
@@ -983,19 +1001,43 @@ chrono_subsets_true <- lapply(names(ord_true), function(rate_name){
 # Preserve rate names (outermost layer)
 names(chrono_subsets_true) <- names(ord_true)
 
+
+chrono_subsets_no_ace <- lapply(names(ord_no_ace), function(rate_name){
+  rate_result <- lapply(seq_along(ord_no_ace[[rate_name]]), function(i){
+    fossil_result <- lapply(names(ord_no_ace[[rate_name]][[i]]), function(fossil_name){
+      tryCatch({
+        chrono <- chrono.subsets(ord_no_ace[[rate_name]][[i]][[fossil_name]], 
+                                tree = fossil_trees[[rate_name]][[i]][[fossil_name]], 
+                                method = "d",
+                                time = time_slices[[rate_name]][[i]])
+        return(chrono)
+      }, warning = function(w) {
+        rm(w)
+        })
+    })
+    # Preserve fossil names (innermost layer)
+    names(fossil_result) <- names(ord_no_ace[[rate_name]][[i]])
+    return(fossil_result)
+  })
+  return(rate_result)
+})
+
+# Preserve rate names (outermost layer)
+names(chrono_subsets_no_ace) <- names(ord_no_ace)
+
 ```
 
 
 ## Disparity across mass extinction
 
 ```{R}
-disp_true <- lapply(chrono_subsets_true, lapply, dispRity, metric = c(mean, displacements))
+disp_true <- lapply(chrono_subsets_true, lapply, dispRity, metric = c(sum, variances))
 disp_strict <- lapply(chrono_subsets_strict, lapply, lapply, function(chrono) {
   if(is.null(chrono)) {
     return(NULL)
   }
   tryCatch({
-    dispRity(chrono, metric = c(mean, displacements))}, warning = function(w) {
+    dispRity(chrono, metric = c(sum, variances))}, warning = function(w) {
       NULL
     })
 })
@@ -1006,7 +1048,7 @@ disp_rel <- lapply(chrono_subsets_rel, lapply, lapply, function(chrono) {
     return(NULL)
   }
   tryCatch({
-    dispRity(chrono, metric = c(mean, displacements))}, warning = function(w) {
+    dispRity(chrono, metric = c(sum, variances))}, warning = function(w) {
       NULL
     })
 })
@@ -1016,7 +1058,17 @@ disp_sample <- lapply(chrono_subsets_sample, lapply, lapply, function(chrono) {
     return(NULL)
   }
   tryCatch({
-    dispRity(chrono, metric = c(mean, displacements))}, warning = function(w) {
+    dispRity(chrono, metric = c(sum, variances))}, warning = function(w) {
+      NULL
+    })
+})
+
+disp_no_ace <- lapply(chrono_subsets_no_ace, lapply, lapply, function(chrono) {
+  if(is.null(chrono)) {
+    return(NULL)
+  }
+  tryCatch({
+    dispRity(chrono, metric = c(sum, variances))}, warning = function(w) {
       NULL
     })
 })
@@ -1030,7 +1082,7 @@ disp_sample <- list(
 
 
 
-ace_disp <- list(strict = disp_strict, rel = disp_rel, sample = disp_sample)
+ace_disp <- list(strict = disp_strict, rel = disp_rel, sample = disp_sample, no_ace = disp_no_ace)
 ### get disparity
 
 ace_disp_change <- lapply(ace_disp, lapply, lapply, lapply, function (disp){
@@ -1061,6 +1113,7 @@ source("../Functions/utility.R")
 matched_strict <- create.matched.data(true_change, ace_disp_change_clean["strict"])
 matched_rel <- create.matched.data(true_change, ace_disp_change_clean["rel"])
 matched_sample <- create.matched.data(true_change, ace_disp_change_clean["sample"])
+matched_no_ace <- create.matched.data(true_change, ace_disp_change_clean["no_ace"])
 
 
 # Extract relative changes for plotting
@@ -1075,9 +1128,16 @@ names(fossil_colors) <- c("all", "fossil_high", "fossil_med", "fossil_low", "liv
 # fossil_colors <- terrain.colors(5)
 # names(fossil_colors) <- c("all", "fossil_high", "fossil_med", "fossil_low", "living")
 
+all_true <- c(matched_rel$true, matched_strict$true, matched_sample$true, matched_no_ace$true)
+all_ace <- c(matched_rel$ace, matched_strict$ace, matched_sample$ace, matched_no_ace$ace)
+range(matched_rel$true)
+# Set common axis limits with some padding
+x_range <- range(all_true, na.rm = TRUE)
+y_range <- range(all_ace, na.rm = TRUE)
+x_range_padded <- x_range + (diff(x_range) * 0.05)
+y_range_padded <- y_range + (diff(y_range) * 0.05)
 
-
-png("../Manuscript/figures/selectiveExtinction/rel_disp_change_av_disp.png", width = 350, height = 250, units = "mm", res = 600)
+png("../Manuscript/figures/selectiveExtinction/correlation/rel_disp_change.png", width = 350, height = 250, units = "mm", res = 600)
 
 # Create correlation plot
 # Create the plot
@@ -1087,7 +1147,9 @@ plot(matched_rel$true, matched_rel$ace,
      main = "Disparity Change: Relative ACE vs True",
      pch = 16, 
      col = fossil_colors[matched_rel$fossil_level],
-     cex = 1.7)
+     cex = 1.7,
+     xlim = range(matched_rel$true),
+     ylim = range(all_ace))
 
 # Add 1:1 line
 abline(0, 1, col = "red", lty = 2, lwd = 2)
@@ -1100,7 +1162,7 @@ legend("topleft",
 
 dev.off()
 
-png("../Manuscript/figures/selectiveExtinction/strict_disp_change_av_disp.png", width = 350, height = 250, units = "mm", res = 600)
+png("../Manuscript/figures/selectiveExtinction/correlation/strict_disp_change.png", width = 350, height = 250, units = "mm", res = 600)
 
 # Create correlation plot
 # Create the plot
@@ -1110,7 +1172,9 @@ plot(matched_strict$true, matched_strict$ace,
      main = "Disparity Change: Strict ACE vs True",
      pch = 16, 
      col = fossil_colors[matched_strict$fossil_level],
-     cex = 1.7)
+     cex = 1.7,
+     xlim = range(matched_rel$true),
+     ylim = range(all_ace))
 
 # Add 1:1 line
 abline(0, 1, col = "red", lty = 2, lwd = 2)
@@ -1123,7 +1187,7 @@ legend("topleft",
 
 dev.off()
 
-png("../Manuscript/figures/selectiveExtinction/sample_disp_change_av_disp.png", width = 350, height = 250, units = "mm", res = 600)
+png("../Manuscript/figures/selectiveExtinction/correlation/sample_disp_change.png", width = 350, height = 250, units = "mm", res = 600)
 
 # Create correlation plot
 # Create the plot
@@ -1133,7 +1197,32 @@ plot(matched_sample$true, matched_sample$ace,
      main = "Disparity Change: Sample ACE vs True",
      pch = 16, 
      col = fossil_colors[matched_sample$fossil_level],
-     cex = 1.7)
+     cex = 1.7,
+     xlim = range(matched_rel$true),
+     ylim = range(all_ace))
+
+# Add 1:1 line
+abline(0, 1, col = "red", lty = 2, lwd = 2)
+legend("topleft", 
+       legend = names(fossil_colors),
+       col = fossil_colors,
+       pch = 16,
+       cex = 1.2,
+       title = "Fossil Level")
+
+dev.off()
+
+png("../Manuscript/figures/selectiveExtinction/correlation/no_ace_disp_change.png", width = 350, height = 250, units = "mm", res = 600)
+# Create the plot
+plot(matched_no_ace$true, matched_no_ace$ace,
+     xlab = "True Disparity Change",
+     ylab = "ACED Disparity Change",  # Fixed label
+     main = "Disparity Change: Sample ACE vs True",
+     pch = 16, 
+     col = fossil_colors[matched_no_ace$fossil_level],
+     cex = 1.7,
+     xlim = range(matched_rel$true),
+     ylim = range(all_ace))
 
 # Add 1:1 line
 abline(0, 1, col = "red", lty = 2, lwd = 2)
@@ -1147,11 +1236,12 @@ legend("topleft",
 dev.off()
 
 
-strict_fit <- lm( matched_strict$ace ~ matched_strict$true)
+strict_fit <- lm(matched_strict$ace ~ matched_strict$true)
 rel_fit <- lm( matched_rel$ace ~ matched_rel$true)
-sample_fit <- lm( matched_sample$ace ~ matched_sample$true)
+sample_fit <- lm(matched_sample$ace ~ matched_sample$true)
+no_ace_fit <- lm(matched_no_ace$ace ~ matched_no_ace$true)
 
-summary(sample_fit)
+summary(no_ace_fit)
 # Add correlation coefficient
 cor_coef <- cor(matched_strict$true, matched_strict$ace, use = "complete.obs")
 # text(x = min(true_changes, na.rm = TRUE), 
@@ -1167,21 +1257,25 @@ cor_coef <- cor(matched_strict$true, matched_strict$ace, use = "complete.obs")
 
     Plot: |True Disparity Change| vs |Error (True - ACE)|
 
+
+## MIxed effects model that gives different r^2 models
 ```{R}
 
+library(lme4)
 
-# var_strict_diffs <- lapply(sum_var_strict, lapply, function(disparity){
-#   true <- disparity$true[[1]]$elements[1]
-#   ace <- disparity$ace
-#   diffs <- lapply(ace, function(pres){
-#     diff <- (pres[[1]]$elements[1] - true) / true
-#   })
-#   return(diffs)
-# })
+# Create dataframes with fossil level as factor
+strict_df <- data.frame(
+  ace = matched_strict$ace,
+  true = matched_strict$true,
+  fossil_level = as.factor(matched_strict$fossil_level)
+)
+
+# Mixed effects model with random intercepts and slopes
+strict_mixed <- lmer(ace ~ true + (true | fossil_level), data = strict_df)
 
 
-
-
+library(MuMIn)
+r.squaredGLMM(strict_mixed) 
 
 
 
