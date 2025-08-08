@@ -7,10 +7,10 @@ find.extinction.time <- function(extinction_ages, exclude_zero = TRUE, tolerance
   }
   
   # Round ages to handle slight numerical differences
-  rounded_ages <- round(ages, 1)
+  # rounded_ages <- round(ages, 1)
   
   # Count frequency of each age
-  age_counts <- table(rounded_ages)
+  age_counts <- table(ages)
   
   # Find the age with highest frequency
   if(length(age_counts) > 0) {

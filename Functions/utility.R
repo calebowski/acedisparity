@@ -24,3 +24,7 @@ create.matched.data <- function(true_vals, ace_vals_clean) {
   return(list(true = true_matched, ace = ace_matched, fossil_level = fossil_levels))
 }
 
+fix.zero.branches <- function(tree, min_length = 1e-8) {
+  tree$edge.length[tree$edge.length <= 0] <- min_length
+  return(tree)
+}

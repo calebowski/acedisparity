@@ -19,4 +19,5 @@ strictanc.Rds
 postordace.Rds
 sampleanc.Rds
 ord.*.Rds
-
+distances_sample_*.rds
+ord_*.Rds
