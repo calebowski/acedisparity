@@ -262,7 +262,6 @@ strict_fossil_anc <- lapply(fossil_anc, lapply, lapply, multi.ace, threshold = F
 
 relative_fossil_anc <- lapply(fossil_anc, lapply, lapply, multi.ace, output = "combined.matrix", verbose = TRUE)
 
-fossil_anc <- point_fossil_anc
 saveRDS(fossil_anc, "../Data/matrices/discrete/discreteanc.Rds")
 saveRDS(sample_fossil_anc, "../Data/matrices/discrete/sampleddiscreteanc.Rds")
 saveRDS(relative_fossil_anc, "../Data/matrices/discrete/relanc.Rds")
@@ -349,125 +348,78 @@ get.living.nodes <- function(living) {
   node_v <- rownames(matrix)[grepl("^n", rownames(matrix))]
   return(node_v)
 }
+## what i need this function to do is get the mrca of the living tree, then keep all the taxa in the other fossil preservation levels that descend from that tip. so that it keeps the fossil sampling of tips descending from the most basal node of the living tree. thus keeps a fair comparison of tips. so n of nodes stays the same.
+get.living <- function(living) {
+  if (inherits(living$living, "list")) {
+  matrix <- living$living[[1]]
+  } else {
+  matrix <- living$living}
+  node_v <- rownames(matrix)
+  return(node_v)
+}
 
 
-node_labels <- lapply(sampled_fossil_anc$slow, get.living.nodes)
 
-# filter.nodes <- function(true, ace, node_v) {
-#   ace_filtered <- ace[node_v, , drop = FALSE]
-#   return(list(ace = ace_filtered))
-# }
-
-# nodes_living <- function(true_matrices, aced_matrices) {
-#   output <- lapply(names(true_matrices), function(i) {
-
-#     # Step 1: Get node names from "living" ACE
-#     living_node <- get.living.nodes(
-#       living = aced_matrices$living[[i]]
-#     )
-
-#     # Step 2: For the current level, filter all preservation states
-#     filtered_preservations <- lapply(names(aced_matrices), function(pres) {
-#       lapply(seq_along(aced_matrices[[pres]][[i]]), function(j) {
-#         filter.nodes(
-#           true = true_matrices[[i]],
-#           ace = aced_matrices[[pres]][[i]][[j]],
-#           node_v = living_node
-#         )
-#       })
-#     })
-#     names(filtered_preservations) <- names(aced_matrices)
-#     return(filtered_preservations)
-#   })
-
-#   names(output) <- names(true_matrices)
-#   return(output)
-# }
+test_living <- fossil_matrices$slow[[1]]$living$tree
+test_living_node <- test_living$node.label[2]
+descendents <- lapply(fossil_matrices$slow[[1]], function(x){
+  tree <- x$tree
+  descendents <- extract.clade(tree, node = test_living_node)
+  # tip_labels <-  tree$tip.label[descendents[[1]]]
+})
 
 
-sample_living_nodes <- lapply(seq_along(sampled_fossil_anc), function(rate) {
-  lapply(seq_along(sampled_fossil_anc[[rate]]), function(i) {
-    # Step 1: Compute the true matrix once for the current replicate (i)
-    node_v <- node_labels[[i]]
-    true <- discrete_matrices[[rate]][[i]][node_v, ]
+get.living <- function(fossil_matrices) {
+  basal_node <- tree$node.label[2]
+  trees <- allDescendants
+}
 
-    # Step 2: Iterate over preservation levels
-    levels <- names(sampled_fossil_anc[[rate]][[i]])
-    ace_out <- lapply(seq_along(levels), function(level_idx) {
-      level_name <- levels[[level_idx]]
-      reps <- sampled_fossil_anc[[rate]][[i]][[level_name]]
+living_labels <- lapply(relative_fossil_anc$slow, get.living)
 
-      # Filter ACE matrices for each replicate
-      lapply(seq_along(reps), function(rep) {
-        reps[[rep]][node_v, , drop = FALSE]
-      })
+
+sample_living <- lapply(seq_along(sample_fossil_anc), function(rate) {
+  lapply(seq_along(sample_fossil_anc[[rate]]), function(i) {
+    labs <- living_labels[[i]]
+    lapply(sample_fossil_anc[[rate]][[i]], function(fossil) {
+      lapply(fossil, function(rep) rep[labs, , drop = FALSE])
     })
-
-    # Assign names to the ACE output
-    names(ace_out) <- levels
-
-    # Return the ACE matrices and the single true matrix
-    return(list(ace = ace_out, true = true))
   })
 })
 
 # Assign names to the outer list
-names(sample_living_nodes) <- names(discrete_matrices)
+names(sample_living) <- names(discrete_matrices)
 
 
-point_living_nodes <- lapply(seq_along(point_fossil_anc), function(rate) {
-  lapply(seq_along(point_fossil_anc[[rate]]), function(i) {
-    # Step 1: Get the node labels
-    node_v <- node_labels[[i]]
-
-    # Step 2: Get the true matrix for the current replicate
-    true <- discrete_matrices[[rate]][[i]][node_v, ]
-
-    # Step 3: Iterate over preservation levels
-    levels <- names(point_fossil_anc[[rate]][[i]])
-    ace_out <- lapply(levels, function(level_name) {
-      # Filter ACE matrix for the current preservation level
-      point_fossil_anc[[rate]][[i]][[level_name]][node_v, , drop = FALSE]
+rel_living <- lapply(seq_along(relative_fossil_anc), function(rate) {
+  lapply(seq_along(relative_fossil_anc[[rate]]), function(i) {
+    labs <- living_labels[[i]]
+    lapply(relative_fossil_anc[[rate]][[i]], function(fossil) {
+      fossil[labs, , drop = FALSE]
     })
+  })
+})
+names(rel_living) <- names(discrete_matrices)
 
-    # Assign names to the ACE output
-    names(ace_out) <- levels
 
-    # Return the ACE matrices and the single true matrix
-    return(list(ace = ace_out, true = true))
+strict_living <- lapply(seq_along(strict_fossil_anc), function(rate) {
+  lapply(seq_along(strict_fossil_anc[[rate]]), function(i) {
+    labs <- living_labels[[i]]
+    lapply(strict_fossil_anc[[rate]][[i]], function(fossil) {
+      fossil[labs, , drop = FALSE]
+    })
   })
 })
 
-# Assign names to the outer list
-names(point_living_nodes) <- names(discrete_matrices)
+names(strict_living) <- names(discrete_matrices)
 
 
-thresh_living_nodes <- lapply(seq_along(thresh_fossil_anc), function(rate) {
-  lapply(seq_along(thresh_fossil_anc[[rate]]), function(i) {
-    # Step 1: Get the node labels
-    node_v <- node_labels[[i]]
-
-    # Step 2: Get the true matrix for the current replicate
-    true <- discrete_matrices[[rate]][[i]][node_v, ]
-
-    # Step 3: Iterate over preservation levels
-    levels <- names(thresh_fossil_anc[[rate]][[i]])
-    ace_out <- lapply(levels, function(level_name) {
-      # Filter ACE matrix for the current preservation level
-      thresh_fossil_anc[[rate]][[i]][[level_name]][node_v, , drop = FALSE]
+true_living <-  lapply(seq_along(discrete_matrices), function(rate) {
+  lapply(seq_along(discrete_matrices[[rate]]), function(i) {
+    labs <- living_labels[[i]]
+    true_living <- discrete_matrices[[rate]][[i]][labs, , drop = FALSE]
     })
-
-    # Assign names to the ACE output
-    names(ace_out) <- levels
-
-    # Return the ACE matrices and the single true matrix
-    return(list(ace = ace_out, true = true))
-  })
 })
-
-# Assign names to the outer list
-names(thresh_living_nodes) <- names(discrete_matrices)
-
+names(true_living) <- names(discrete_matrices)
 
 
 
@@ -582,121 +534,151 @@ saveRDS(strict_means_thresh, "../Data/matrices/threshstrictmeans.rds")
 
 
 
-## Comparison of morphospace
+## Disparity diffs of just living tips/nodes
 
 ```{R}
 
 
 ## these are anc estimated matrices with relevant tips but only with relevant nodes.
 # anc_matrices_living
-
-
-source("../Functions/apply.dist.R")
-source("../Functions/apply.ordination.R")
-
-distances_point <- lapply(point_living_nodes, lapply, function(matrices) {
-  true_dist <- char.diff(matrices$true, method = "mord", by.col = FALSE)
-  ace <- matrices$ace
-  ace_dist <- lapply(ace, function(pres) {
-    dist <- char.diff(pres, method = "mord", by.col = FALSE)
-  })
-  return(list(true = true_dist, ace = ace_dist ))
+## sum of variances
+disp_sample <- lapply(sample_living, lapply, lapply, lapply, function(rep){
+  dist <- char.diff(rep, method = "mord", by.col = FALSE)
+  ord <- (cmdscale(dist, k = ncol(dist) - 2, add = TRUE))$points
+  disp <- dispRity(ord, metric = c(sum, variances))$disparity
 })
 
-distances_thresh <- lapply(thresh_living_nodes, lapply, function(matrices) {
-  true_dist <- char.diff(matrices$true, method = "mord", by.col = FALSE)
-  ace <- matrices$ace
-  ace_dist <- lapply(ace, function(pres) {
-    dist <- char.diff(pres, method = "mord", by.col = FALSE)
-  })
-  return(list(true = true_dist, ace = ace_dist ))
+disp_rel <- lapply(rel_living, lapply, lapply, function(rep){
+  dist <- char.diff(rep, method = "mord", by.col = FALSE)
+  ord <- (cmdscale(dist, k = ncol(dist) - 2, add = TRUE))$points
+  disp <- dispRity(ord, metric = c(sum, variances))$disparity
 })
 
-distances_sample <- lapply(sample_living_nodes, lapply, function(matrices) {
-  true_dist <- char.diff(matrices$true, method = "mord", by.col = FALSE)
-  ace <- matrices$ace
-  ace_dist <- lapply(ace, function(pres) {
-    lapply(pres, function(reps) {
-      dist <- char.diff(reps, method = "mord", by.col = FALSE)
-    })
-  })
-  return(list(true = true_dist, ace = ace_dist ))
+disp_strict <- lapply(strict_living, lapply, lapply, function(rep){
+  dist <- char.diff(rep, method = "mord", by.col = FALSE)
+  ord <- (cmdscale(dist, k = ncol(dist) - 2, add = TRUE))$points
+  disp <- dispRity(ord, metric = c(sum, variances))$disparity
 })
 
-ord_point <- lapply(distances_point, lapply, function(matrices) {
-  true_ord <- (cmdscale(matrices$true, k = ncol(matrices$true) - 2, add = TRUE))$points
-  ace <- matrices$ace
-  ace_ord <- lapply(ace, function(pres) {
-    ord <- (cmdscale(pres, k = ncol(pres) - 2, add = TRUE))$points
-  })
-  return(list(true = true_ord, ace = ace_ord ))
+disp_true <- lapply(true_living, lapply, function(rep){
+  dist <- char.diff(rep, method = "mord", by.col = FALSE)
+  ord <- (cmdscale(dist, k = ncol(dist) - 2, add = TRUE))$points
+  disp <- dispRity(ord, metric = c(sum, variances))$disparity
 })
 
-ord_thresh <- lapply(distances_thresh, lapply, function(matrices) {
-  true_ord <- (cmdscale(matrices$true, k = ncol(matrices$true) - 2, add = TRUE))$points
-  ace <- matrices$ace
-  ace_ord <- lapply(ace, function(pres) {
-    ord <- (cmdscale(pres, k = ncol(pres) - 2, add = TRUE))$points
-  })
-  return(list(true = true_ord, ace = ace_ord ))
+########################################################################################################################
+
+disp_sample <- lapply(sample_living, lapply, lapply, lapply, function(rep){
+  dist <- char.diff(rep, method = "mord", by.col = FALSE)
+  ord <- (cmdscale(dist, k = ncol(dist) - 2, add = TRUE))$points
+  disp <- dispRity(ord, metric = c(mean, neighbours))$disparity
 })
 
-ord_sample <- lapply(distances_sample, lapply, function(matrices) {
-  true_ord <- (cmdscale(matrices$true, k = ncol(matrices$true) - 2, add = TRUE))$points
-  ace <- matrices$ace
-  ace_ord <- lapply(ace, function(pres) {
-    lapply(pres, function(reps) {
-      ord <- (cmdscale(reps, k = ncol(reps) - 2, add = TRUE))$points
-    })
-  })
-  return(list(true = true_ord, ace = ace_ord ))
+disp_rel <- lapply(rel_living, lapply, lapply, function(rep){
+  dist <- char.diff(rep, method = "mord", by.col = FALSE)
+  ord <- (cmdscale(dist, k = ncol(dist) - 2, add = TRUE))$points
+  disp <- dispRity(ord, metric = c(mean, neighbours))$disparity
+})
+
+disp_strict <- lapply(strict_living, lapply, lapply, function(rep){
+  dist <- char.diff(rep, method = "mord", by.col = FALSE)
+  ord <- (cmdscale(dist, k = ncol(dist) - 2, add = TRUE))$points
+  disp <- dispRity(ord, metric = c(mean, neighbours))$disparity
+})
+
+disp_true <- lapply(true_living, lapply, function(rep){
+  dist <- char.diff(rep, method = "mord", by.col = FALSE)
+  ord <- (cmdscale(dist, k = ncol(dist) - 2, add = TRUE))$points
+  disp <- dispRity(ord, metric = c(mean, neighbours))$disparity
 })
 
 
 
 
-# perform principal components analysis
 
-# project new data onto the PCA space
-scale(newdata, v$center, true$scale) %*% true$rotation 
 
-## To project things on a already estimated PCA (fixed eigenvector)
-## 1- get your pca
-my_pca <- prcomp(...)
-## 2- get your new data centered
-new_data <- scale(my_new_data, centre = TRUE, scale = FALSE) # not sure about scale FALSE
-## 3- project it
-new_pca <- stats::predict(my_pca, newdata = new_data)
+disp_rel_diff <- Map(function(rate_data, true_data) {
+  Map(function(rep_data, true_rep) {
+    Map(function(fossil_data) {
+      disp.diff(fossil_data, true_rep)
+    }, rep_data)
+  }, rate_data, true_data)
+}, disp_rel, disp_true)
 
-# scaled_ord <- lapply(ord, function(preservation){
-#   lapply(preservation, function(rate){
-#     lapply(rate, function(treatment){
-#       lapply(treatment, function(matrix){
-#         scaled_pc <- scale(matrix)
-#         return(scaled_pc)
-#       })
-#     })
-#   })
+
+disp_rel_diff <- Map(function(rate_data, true_data) {
+  Map(function(rep_data, true_rep) {
+    Map(function(fossil_data) {
+      disp.diff(fossil_data, true_rep)
+    }, rep_data)
+  }, rate_data, true_data)
+}, disp_rel, disp_true)
+
+
+
+disp_post_ord_ace <- lapply(post_ord_ace_living_nodes, lapply, function(x){
+  true <- x$true
+  aced <- x$ace
+  dist <- char.diff(true, method = "mord", by.col = FALSE)
+  ord_true <- (cmdscale(dist, k = ncol(dist) - 2, add = TRUE))$points
+  disp_true <- dispRity(ord_true, metric = c(sum, variances))$disparity
+  disp_diff <- lapply(aced, function(fossil){
+  disp <- dispRity(fossil, metric = c(sum, variances))$disparity
+  diff <- (disp[[1]]$elements[1] - disp_true[[1]]$elements[1]) / disp_true[[1]]$elements[1]
+  })
+  return(disp_diff)
+})
+
+saveRDS(disp_post_ord_ace, "../Data/matrices/discrete/post_ord_ace.Rds")
+
+
+
+
+
+
+
+# # perform principal components analysis
+
+# # project new data onto the PCA space
+# scale(newdata, v$center, true$scale) %*% true$rotation 
+
+# ## To project things on a already estimated PCA (fixed eigenvector)
+# ## 1- get your pca
+# my_pca <- prcomp(...)
+# ## 2- get your new data centered
+# new_data <- scale(my_new_data, centre = TRUE, scale = FALSE) # not sure about scale FALSE
+# ## 3- project it
+# new_pca <- stats::predict(my_pca, newdata = new_data)
+
+# # scaled_ord <- lapply(ord, function(preservation){
+# #   lapply(preservation, function(rate){
+# #     lapply(rate, function(treatment){
+# #       lapply(treatment, function(matrix){
+# #         scaled_pc <- scale(matrix)
+# #         return(scaled_pc)
+# #       })
+# #     })
+# #   })
+# # })
+
+
+# ## Relative distance in trait space
+
+# morphospace.dist <- function(matrix, ...) {
+#     ## Get the pairwise distances between all points
+#     distances <- pairwise.dist(matrix)
+#     ## Calculate the longest distance from the center
+#     longest_distance_from_center <- max(as.numeric(centroids(matrix, centroid = 0)), na.rm = TRUE)
+#     ## Make all these distances relative to the longest distance from the center of the traitspace
+#     return(distances/longest_distance_from_center)
+# }
+
+
+
+# morpho_diffs <- lapply(ord, lapply, lapply, function(matrices){
+#   diffs <- abs((morphospace.dist(matrices$ace)) - (morphospace.dist(matrices$true)))
+#   averages <- median(diffs)
 # })
-
-
-## Relative distance in trait space
-
-morphospace.dist <- function(matrix, ...) {
-    ## Get the pairwise distances between all points
-    distances <- pairwise.dist(matrix)
-    ## Calculate the longest distance from the center
-    longest_distance_from_center <- max(as.numeric(centroids(matrix, centroid = 0)), na.rm = TRUE)
-    ## Make all these distances relative to the longest distance from the center of the traitspace
-    return(distances/longest_distance_from_center)
-}
-
-
-
-morpho_diffs <- lapply(ord, lapply, lapply, function(matrices){
-  diffs <- abs((morphospace.dist(matrices$ace)) - (morphospace.dist(matrices$true)))
-  averages <- median(diffs)
-})
 
 saveRDS(morpho_diffs, "../Data/matrices/morphospacediffs.Rds")
 
@@ -1371,15 +1353,131 @@ saveRDS(post_ord_ace, "../Data/matrices/discrete/postordace.Rds")
 post_ord_ace <-  readRDS("../Data/matrices/discrete/postordace.Rds")
 
 point_post_ord <- lapply(post_ord_ace, lapply, lapply, multi.ace, output = "combined.matrix" )
+sample_post_ord <- lapply(post_ord_ace, lapply, lapply, multi.ace, output = "combined.matrix", sample = 10, sample.fun =  trait_normal)
+
+
+trait_normal = list(fun = rnorm, param = list(mean = mean, sd = function(x)return(diff(range(x))/4)))
+
+sum_var_post_ord <- lapply(point_post_ord, lapply, lapply, function(matrix){
+ dispRity(matrix, metric = c(sum, variances))$disparity})
+
+
+post_ord_ace_living_nodes <- lapply(seq_along(point_post_ord), function(rate) {
+  lapply(seq_along(point_post_ord[[rate]]), function(i) {
+    # Step 1: Get the node labels
+    node_v <- node_labels[[i]]
+
+    # Step 2: Get the true matrix for the current replicate
+    true <- discrete_matrices[[rate]][[i]][node_v, ]
+
+    # Step 3: Iterate over preservation levels
+    levels <- names(point_post_ord[[rate]][[i]])
+    ace_out <- lapply(levels, function(level_name) {
+      # Filter ACE matrix for the current preservation level
+      point_post_ord[[rate]][[i]][[level_name]][node_v, , drop = FALSE]
+    })
+
+    # Assign names to the ACE output
+    names(ace_out) <- levels
+
+    # Return the ACE matrices and the single true matrix
+    return(list(ace = ace_out, true = true))
+  })
+})
+
+# Assign names to the outer list
+names(post_ord_ace_living_nodes) <- names(discrete_matrices)
+
+
+disp_post_ord_ace <- lapply(post_ord_ace_living_nodes, lapply, function(x){
+  true <- x$true
+  aced <- x$ace
+  dist <- char.diff(true, method = "mord", by.col = FALSE)
+  ord_true <- (cmdscale(dist, k = ncol(dist) - 2, add = TRUE))$points
+  disp_true <- dispRity(ord_true, metric = c(sum, variances))$disparity
+  disp_diff <- lapply(aced, function(fossil){
+  disp <- dispRity(fossil, metric = c(sum, variances))$disparity
+  diff <- (disp[[1]]$elements[1] - disp_true[[1]]$elements[1]) / disp_true[[1]]$elements[1]
+  })
+  return(disp_diff)
+})
+
+saveRDS(disp_post_ord_ace, "../Data/matrices/discrete/post_ord_ace.Rds")
 
 
 sum_var_post_ord <- lapply(point_post_ord, lapply, lapply, function(matrix){
  dispRity(matrix, metric = c(sum, variances))$disparity})
 
 
+```
 
+
+
+## No ACE
+
+```{R}
+
+
+source("../Functions/fossil.pres.R")
+
+living <- lapply(discrete_matrices, remove.fossil, trees = trees, type = "discrete")
+fossilised_high <- lapply(discrete_matrices, fossil.pres, trees = trees, preservation = 0.5, type = "discrete")
+all_fossil <- lapply(discrete_matrices, fossil.pres, trees = trees, preservation = 1.0, type = "discrete")
+fossilised_med <- lapply(discrete_matrices, fossil.pres, trees = trees, preservation = 0.15, type = "discrete")
+fossilised_low <- lapply(discrete_matrices, fossil.pres, trees = trees, preservation = 0.05, type = "discrete")
+
+
+
+
+
+# plot(fossilised_low$slow[[13]]$tree)
+
+fossil_matrices <- lapply(names(discrete_matrices), function(level) {
+  lapply(seq_along(discrete_matrices[[level]]), function(i) {
+    list(
+      all = all_fossil[[level]][[i]],
+      fossil_high = fossilised_high[[level]][[i]],
+      fossil_med = fossilised_med[[level]][[i]],
+      fossil_low = fossilised_low[[level]][[i]],
+      living = living[[level]][[i]]
+    )
+  })
+})
+
+# Assign names to the outer list
+names(fossil_matrices) <- names(discrete_matrices)
+
+
+## Firstly, find the overall disparity
+
+no_ace_matrices <- lapply(fossil_matrices, lapply, lapply, function(x){
+  x$matrix
+})
+
+
+no_ace_living_nodes <- lapply(seq_along(no_ace_matrices), function(rate) {
+  lapply(seq_along(no_ace_matrices[[rate]]), function(i) {
+    # Step 1: Get the node labels
+    node_v <- node_labels[[i]]
+
+    # Step 2: Get the true matrix for the current replicate
+    true <- discrete_matrices[[rate]][[i]][node_v, ]
+
+    # Step 3: Iterate over preservation levels
+    levels <- names(no_ace_matrices[[rate]][[i]])
+    ace_out <- lapply(levels, function(level_name) {
+      # Filter ACE matrix for the current preservation level
+      no_ace_matrices[[rate]][[i]][[level_name]][node_v, , drop = FALSE]
+    })
+
+    # Assign names to the ACE output
+    names(ace_out) <- levels
+
+    # Return the ACE matrices and the single true matrix
+    return(list(ace = ace_out, true = true))
+  })
+})
 
 
 
 ```
-

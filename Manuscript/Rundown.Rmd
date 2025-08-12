@@ -1,0 +1,427 @@
+---
+title: "ACE Disparity Brief rundown"
+author: "Caleb"
+date: "`r Sys.Date()`"
+output:
+  html_document: default
+  pdf_document: default
+editor_options: 
+  markdown: 
+    wrap: 90
+---
+
+# Background to idea for project
+
+Three key aspects I wanted to explore relating to ancestral state estimation:
+
+* how does fossil sampling influence estimate accuracy?
+* how does this influence change across different rates of discrete trait evolution/models of continuous trait evolution.
+* how does the 'threshold' value / 'fuzzy ace' for collapsing discrete states impact accuracy of ASE.
+
+
+## First key enquiry: how accurate is ancestral state estimation?
+
+There are three different parameters here:
+
+* transition rate
+* fossil sampling level
+* method of collapsing ancestral states.
+
+I measured the Hamming distance between true and 'aced' estimations. 
+
+
+```{R echo = FALSE}
+library(knitr)
+## load the hamming data
+relative_majority_rule <- readRDS("../Data/matrices/pointstrictmeans.rds")
+no_majority_rule <- readRDS("../Data/matrices/samplestrictmeans.rds")
+strict_majority_rule <- readRDS("../Data/matrices/threshstrictmeans.rds")
+
+########################################################################################################################
+
+## Load the disparity data
+relvardiffs <- readRDS("../Data/matrices/discrete/relvardiffs.rds")
+samplevardiffs <- readRDS("../Data/matrices/discrete/samplevardiffs.rds")
+strictvardiffs <- readRDS("../Data/matrices/discrete/strictvardiffs.rds")
+
+########################################################################################################################
+
+
+```
+
+```{R echo = FALSE, , warning = FALSE}
+
+levels <- c("fast", "med", "slow")
+
+# Loop through each level and generate a plot
+library(tidyr)
+library(ggplot2)
+
+
+# Combine data for all levels and replicates into a single data frame
+library(tidyr)
+library(ggplot2)
+
+# Combine strict_means and strict_means_sample into a single data frame
+combined_data <- do.call(rbind, lapply(c("strict_majority_rule", "relative_majority_rule", "no_majority_rule"), function(dataset_name) {
+  dataset <- get(dataset_name)  # Dynamically get the dataset by name
+  do.call(rbind, lapply(names(dataset), function(level) {
+    do.call(rbind, lapply(seq_along(dataset[[level]]), function(replicate_index) {
+      data <- dataset[[level]][[replicate_index]]
+      df <- data.frame(
+        replicate = replicate_index,
+        all = data$all,
+        high = data$fossil_high,
+        mid = data$fossil_med,
+        low = data$fossil_low,
+        living = data$living,
+        level = level,
+        threshold_method = dataset_name  # Add a column for treatment
+      )
+      df_long <- pivot_longer(df, cols = c("living", "low", "mid", "high", "all"),
+                              names_to = "preservation_level", values_to = "distance")
+      df_long$preservation_level <- factor(df_long$preservation_level, levels = c("living", "low", "mid", "high", "all"))
+      return(df_long)
+    }))
+  }))
+}))
+combined_data$threshold_method <- factor(combined_data$threshold_method, levels = c("strict_majority_rule", "relative_majority_rule", "no_majority_rule"),labels = c("Strict majority rule", "Relative majority rule", "No majority rule (sample)"))
+
+
+# png("../Manuscript/figures/strictdistance.png", width = 350, height = 250, units = "mm", res = 600)
+colors <- c("slow" = "#8805A8", "med" = "#00B945", "fast" = "#FFB600")
+
+# Generate the combined plot with faceting by threshold_method
+
+colors <- c("slow" = "#8805A8", "med" = "#00B945", "fast" = "#FFB600")
+
+# Generate the combined plot with violin plots
+ggplot(combined_data, aes(x = preservation_level, y = distance, color = level, fill = level)) +
+  geom_boxplot(
+    alpha = 0.7,
+    outlier.size = 0.5,
+    outlier.alpha = 0.6,
+    position = position_dodge(width = 0.8)
+  ) +
+  facet_wrap(~ threshold_method, ncol = 3) +
+  labs(
+    x = "Fossil sampling",
+    y = "Mean Hamming distance score",
+    color = "Transition Rate",
+    fill = "Transition Rate"
+  ) +
+  theme_minimal() +
+  scale_color_manual(values = colors) +  # Apply custom colors to lines
+  scale_fill_manual(values = colors) +   # Apply custom colors to ribbons
+  theme(
+    # Thicker axis labels and ticks
+    axis.text = element_text(size = 7, face = "bold"),      # Larger, bold axis labels
+    axis.title = element_text(size = 10, face = "bold"),     # Larger, bold axis titles
+    axis.ticks = element_line(size = 1),                   # Thicker axis ticks
+    
+    # Legend
+    legend.position = "right",                 
+    legend.title = element_text(size = 12, face = "bold"),
+    legend.text = element_text(size = 10),
+    
+    panel.grid = element_blank(),             
+    
+    # Facet labels
+    strip.text = element_text(size = 9, face = "bold", hjust = 0.5, vjust = 1),
+    strip.background = element_rect(color = "black", fill = "white", linewidth = 0.5),
+    panel.border = element_rect(color = "black", fill = NA, linewidth = 0.5)
+  ) +
+  scale_y_reverse(limits = c(1.0, 0.0), expand = c(0,0))  # Ensure 0 is included
+
+
+
+```
+
+This figure can go into the supplementary, as it does not ask the main question relating to disparity...
+
+
+
+## Sum of variances
+
+I then constructed distance matrices and ordinated both the 'true' and 'aced' matrices, then calculated the difference between the sum of variances values between true and aced.
+
+```{R echo = FALSE, warning = FALSE, fig.width=14, fig.height=5, out.width="100%"}
+
+# discrete_var_default_diffs <- readRDS("../Data/matrices/pointvardiffs.rds")
+# discrete_var_sample_diffs <- readRDS("../Data/matrices/samplevardiffs.rds")
+# discrete_var_thresh_diffs <- readRDS("../Data/matrices/threshvardiffs.rds")
+relvardiffs <- readRDS("../Data/matrices/discrete/relvardiffs.rds")
+samplevardiffs <- readRDS("../Data/matrices/discrete/samplevardiffs.rds")
+strictvardiffs <- readRDS("../Data/matrices/discrete/strictvardiffs.rds")
+post_ord_diffs <- readRDS("../Data/matrices/discrete/post_ord_ace.Rds")
+
+library(scales)
+combined_data <- do.call(rbind, lapply(c("strictvardiffs", "relvardiffs", "samplevardiffs", "post_ord_diffs"), function(dataset_name) {
+  dataset <- get(dataset_name)  # Dynamically get the dataset by name
+  do.call(rbind, lapply(names(dataset), function(level) {
+    do.call(rbind, lapply(seq_along(dataset[[level]]), function(replicate_index) {
+      data <- dataset[[level]][[replicate_index]]
+      df <- data.frame(
+        replicate = replicate_index,
+        all = data$all,
+        high = data$fossil_high,
+        mid = data$fossil_med,
+        low = data$fossil_low,
+        living = data$living,
+        level = level,
+        threshold_method = dataset_name  # Add a column for treatment
+      )
+      df_long <- pivot_longer(df, cols = c("living", "low", "mid", "high", "all"),
+                              names_to = "preservation_level", values_to = "distance")
+      df_long$preservation_level <- factor(df_long$preservation_level, levels = c("living", "low", "mid", "high", "all"))
+      return(df_long)
+    }))
+  }))
+}))
+
+combined_data$threshold_method <- factor(combined_data$threshold_method, levels = c("strictvardiffs", "relvardiffs", "samplevardiffs", "post_ord_diffs"), labels = c("Strict majority rule", "Relative majority rule", "No majority rule (sample)", "Post-ordination ace"))
+
+# log10_reverse_trans <- trans_new(
+#   name = "log10_reverse",
+#   transform = function(x) -log10(x),  # Apply log10 and reverse
+#   inverse = function(x) 10^(-x)      # Inverse of the transformation
+# )
+
+colors <- c("slow" = "#8805A8", "med" = "#00B945", "fast" = "#FFB600")
+# Generate the combined plot
+ggplot(combined_data, aes(x = preservation_level, y = distance, color = level, fill = level)) +
+  geom_boxplot(
+    alpha = 0.7,
+    outlier.size = 0.5,
+    outlier.alpha = 0.6,
+    position = position_dodge(width = 0.8)
+  ) +
+  geom_hline(yintercept = 0, color = "black", linewidth = 0.6, linetype = "dashed") +  # Add horizontal line at y = 0
+  facet_wrap(~ threshold_method, ncol = 4, nrow = 1) +
+  labs(
+    x = "Fossil sampling",
+    y = "Relative disparity error",
+    color = "Transition Rate",
+    fill = "Transition Rate"
+  ) +
+  theme_minimal() +
+  scale_color_manual(values = colors) +  # Apply custom colors to lines
+  scale_fill_manual(values = colors) + 
+  theme(
+    # Thicker axis labels and ticks
+    axis.text = element_text(size = 7, face = "bold"),      # Larger, bold axis labels
+    axis.title = element_text(size = 10, face = "bold"),     # Larger, bold axis titles
+    axis.ticks = element_line(size = 1),                   # Thicker axis ticks
+    
+    # Legend
+    legend.position = "right",                 
+    legend.title = element_text(size = 12, face = "bold"),
+    legend.text = element_text(size = 10),
+    
+    panel.grid = element_blank(),             # Larger legend keys
+    
+    # Facet labels
+    strip.text = element_text(size = 9, face = "bold", hjust = 0.5, vjust = 1),
+    strip.background = element_rect(color = "black", fill = "white", linewidth = 0.5),
+    panel.border = element_rect(color = "black", fill = NA, linewidth = 0.5)
+    # plot.margin = margin(t = 10, r = 10, b = 10, l = 10, unit = "pt")
+      ) +
+    scale_y_reverse()   # Match fill colors to line colors
+
+
+
+```
+
+## Random extinction
+
+```{R echo = FALSE, warning=FALSE, message=FALSE}
+matched_strict <- readRDS("../Data/matrices/randomExtinction/matched.strict.Rds")
+matched_rel <- readRDS("../Data/matrices/randomExtinction/matched.rel.Rds")
+matched_sample <- readRDS( "../Data/matrices/randomExtinction/matched.sample.Rds")
+matched_no_ace <- readRDS( "../Data/matrices/randomExtinction/matched.no_ace.Rds")
+
+
+
+
+# Heat colors (red = high preservation, yellow = low)
+library(viridis)
+fossil_colors <- viridis(5, option = "plasma", direction = -1)
+names(fossil_colors) <- c("all", "fossil_high", "fossil_med", "fossil_low", "living")
+
+
+# # Terrain colors
+# fossil_colors <- terrain.colors(5)
+# names(fossil_colors) <- c("all", "fossil_high", "fossil_med", "fossil_low", "living")
+
+# all_true <- c(matched_rel$true, matched_strict$true, matched_sample$true, matched_no_ace$true)
+all_ace <- c(matched_rel$ace, matched_strict$ace, matched_sample$ace, matched_no_ace$ace)
+
+
+
+# Create correlation plot
+# Create the plot
+
+
+
+
+# Create correlation plot
+# Create the plot
+
+
+
+# Create correlation plot
+# Create the plot
+plot(matched_sample$true, matched_sample$ace,
+     xlab = "True Disparity Change",
+     ylab = "ACED Disparity Change",  # Fixed label
+     main = "Disparity Change: Sample ACE vs True",
+     pch = 16, 
+     col = fossil_colors[matched_sample$fossil_level],
+     cex = 1,
+     xlim = range(matched_rel$true),
+     ylim = range(all_ace))
+
+# Add 1:1 line
+abline(0, 1, col = "black", lty = 2, lwd = 2)
+legend("topleft", 
+       legend = names(fossil_colors),
+       col = fossil_colors,
+       pch = 16,
+       cex = 1,
+       title = "Fossil Level")
+
+
+## Note that for living no ace - there is no way that living taxa can be present during the mass extinction so it cannot be compared.
+
+
+# Create the plot
+plot(matched_no_ace$true, matched_no_ace$ace,
+     xlab = "True Disparity Change",
+     ylab = "ACED Disparity Change",  # Fixed label
+     main = "Disparity Change: No ACE vs True",
+     pch = 16, 
+     col = fossil_colors[matched_no_ace$fossil_level],
+     cex = 1,
+     xlim = range(matched_rel$true),
+     ylim = range(all_ace))
+
+# Add 1:1 line
+abline(0, 1, col = "black", lty = 2, lwd = 2)
+legend("topleft", 
+       legend = names(fossil_colors),
+       col = fossil_colors,
+       pch = 16,
+       cex = 1,
+       title = "Fossil Level")
+
+
+
+
+
+```
+
+## Selective extinction
+
+### Sample ace selective extinction
+
+```{R echo = FALSE, warning=FALSE, message=FALSE}
+matched_strict <- readRDS("../Data/matrices/selectiveExtinction/matched.strict.Rds")
+matched_rel <- readRDS("../Data/matrices/selectiveExtinction/matched.rel.Rds")
+matched_sample <- readRDS( "../Data/matrices/selectiveExtinction/matched.sample.Rds")
+matched_no_ace <- readRDS( "../Data/matrices/selectiveExtinction/matched.no_ace.Rds")
+
+
+
+
+# Heat colors (red = high preservation, yellow = low)
+library(viridis)
+fossil_colors <- viridis(5, option = "plasma", direction = -1)
+names(fossil_colors) <- c("all", "fossil_high", "fossil_med", "fossil_low", "living")
+
+
+# # Terrain colors
+# fossil_colors <- terrain.colors(5)
+# names(fossil_colors) <- c("all", "fossil_high", "fossil_med", "fossil_low", "living")
+
+# all_true <- c(matched_rel$true, matched_strict$true, matched_sample$true, matched_no_ace$true)
+all_ace <- c(matched_rel$ace, matched_strict$ace, matched_sample$ace, matched_no_ace$ace)
+
+
+
+# Create correlation plot
+# Create the plot
+
+
+
+
+# Create correlation plot
+# Create the plot
+
+
+
+# # Create correlation plot
+# # Create the plot
+# plot(matched_sample$true, matched_sample$ace,
+#      xlab = "True Disparity Change",
+#      ylab = "ACED Disparity Change",  # Fixed label
+#      main = "Disparity Change: Sample ACE vs True",
+#      pch = 16, 
+#      col = fossil_colors[matched_sample$fossil_level],
+#      cex = 1,
+#      xlim = range(matched_rel$true),
+#      ylim = range(all_ace))
+
+# # Add 1:1 line
+# abline(0, 1, col = "black", lty = 2, lwd = 2)
+# legend("topleft", 
+#        legend = names(fossil_colors),
+#        col = fossil_colors,
+#        pch = 16,
+#        cex = 1,
+#        title = "Fossil Level")
+
+
+# ## Note that for living no ace - there is no way that living taxa can be present during the mass extinction so it cannot be compared.
+
+
+# # Create the plot
+# plot(matched_no_ace$true, matched_no_ace$ace,
+#      xlab = "True Disparity Change",
+#      ylab = "ACED Disparity Change",  # Fixed label
+#      main = "Disparity Change: No ACE vs True",
+#      pch = 16, 
+#      col = fossil_colors[matched_no_ace$fossil_level],
+#      cex = 1,
+#      xlim = range(matched_rel$true),
+#      ylim = range(all_ace))
+
+# # Add 1:1 line
+# abline(0, 1, col = "black", lty = 2, lwd = 2)
+# legend("topleft", 
+#        legend = names(fossil_colors),
+#        col = fossil_colors,
+#        pch = 16,
+#        cex = 1,
+#        title = "Fossil Level")
+
+
+
+
+
+knitr::include_graphics(path = "../Manuscript/figures/selectiveExtinction/correlation/sample_disp_change.png")
+```
+
+
+### No ace selective extinction
+
+```{r echo = FALSE}
+knitr::include_graphics(path = "../Manuscript/figures/selectiveExtinction/correlation/no_ace_disp_change.png")
+
+
+```
+
+### Other disparity metrics
+
+* Sum of ranges
+* Average displacement
+* Some sort of density metric

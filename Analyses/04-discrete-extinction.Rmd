@@ -814,42 +814,13 @@ legend("topleft",
 setwd("/home/caleb/Documents/PhD/treats/treats")  # or wherever you cloned it
 devtools::load_all()
 
-
-# install_github("TGuillerme/treats", ref = "map.traits.events")
-
-slow_binary_transitions <- matrix(c(
-    0.99, 0.01,
-    0.01, 0.99
-), nrow = 2, byrow = TRUE)
-
-med_binary_transitions <- matrix(c(
-  0.90, 0.1,
-  0.1, 0.9
-), nrow = 2, byrow = TRUE)
-
-
-fast_binary_transitions <- matrix(c(
-    0.1, 0.9,
-    0.9, 0.1
-), nrow = 2, byrow = TRUE)
-
-slow_binary <- treats::make.traits(process = discrete.process, n = 30, process.args = list(transitions = slow_binary_transitions))
-
-med_binary <- treats::make.traits(process = discrete.process, n = 30, process.args = list(transitions = med_binary_transitions))
-
-
-
-fast_binary <- treats::make.traits(process = discrete.process, n = 30, process.args = list(transitions = fast_binary_transitions))
-
-
-
 slow_multi_transitions <- matrix(c(
     0.99, 0.025, 0.025,
     0.025, 0.99, 0.025,
     0.025, 0.025, 0.99
 ), nrow = 3, byrow = TRUE)
 
-slow_multi <- treats::make.traits(process = discrete.process, n = 20, process.args = list(transitions = slow_multi_transitions))
+# slow_multi <- treats::make.traits(process = discrete.process, n = 20, process.args = list(transitions = slow_multi_transitions))
 
 
 med_multi_transitions <- matrix(c(
@@ -858,7 +829,7 @@ med_multi_transitions <- matrix(c(
   0.05, 0.05, 0.9
 ), nrow = 3, byrow = TRUE)
 
-med_multi <- treats::make.traits(process = discrete.process, n = 20, process.args = list(transitions = med_multi_transitions))
+# med_multi <- treats::make.traits(process = discrete.process, n = 20, process.args = list(transitions = med_multi_transitions))
 
 
 fast_multi_transitions <- matrix(c(
@@ -867,11 +838,11 @@ fast_multi_transitions <- matrix(c(
     0.45, 0.45, 0.1 
 ), nrow = 3, byrow = TRUE)
 
-fast_multi <- treats::make.traits(process = discrete.process, n = 20, process.args = list(transitions = fast_multi_transitions))
+# # fast_multi <- treats::make.traits(process = discrete.process, n = 20, process.args = list(transitions = fast_multi_transitions))
 
-traits = list(slow = slow_binary, med = med_binary, fast = fast_binary)
+# traits = list(slow = slow_binary, med = med_binary, fast = fast_binary)
 
-multi_traits = list(slow = slow_multi, med = med_multi, fast = fast_multi)
+# multi_traits = list(slow = slow_multi, med = med_multi, fast = fast_multi)
 
 ```
 
@@ -883,11 +854,11 @@ source("../Functions/correlate.traits.R")
 # Step 1: Create the first discrete trait (e.g., 2 states)
 # Create correlated traits with adjustable correlation strength
 
-slow_cor <- correlate.traits.realistic(correlation = 0.3, n.traits = 50, transition.matrix = slow_multi_transitions, n.correlated.traits = 15) 
+slow_cor <- correlate.traits(correlation = 0.3, n.traits = 20, transition.matrix = slow_multi_transitions, n.correlated.traits = 5) 
 
-med_cor <- correlate.traits.realistic(correlation = 0.3, n.traits = 50, transition.matrix = med_multi_transitions, n.correlated.traits = 15) 
+med_cor <- correlate.traits(correlation = 0.3, n.traits = 50, transition.matrix = med_multi_transitions, n.correlated.traits = 5) 
 
-fast_cor <- correlate.traits.realistic(correlation = 0.3, n.traits = 50, transition.matrix = fast_multi_transitions, n.correlated.traits = 15) 
+fast_cor <- correlate.traits(correlation = 0.3, n.traits = 50, transition.matrix = fast_multi_transitions, n.correlated.traits = 5) 
 
 
 
@@ -902,34 +873,36 @@ multi_traits <- list(fast = fast_cor, med = med_cor, slow = slow_cor)
 
 bd_params <- make.bd.params(speciation = 0.1, extinction = 0.07)
 
-stop_rule <- list(max.living = 50)
+stop_rule <- list(max.living = 40)
 set.seed(123)
 ## so can simulate say 40 characters that are correlated by extinction -> in this way. then on resulting tree, simulate non selective traits with map.traits. can decide what level of traits need to be selected by extinction.
 selective_extinction <- make.events(
                       target       = "taxa",
-                      condition    = taxa.condition(49),
-                      modification = trait.extinction(x = 2, trait = c(seq(from =  1, to = 10, by = 1)),
-                                                      condition = `<`, severity = 1.0, threshold = 0.5))
+                      condition    = taxa.condition(30),
+                      modification = trait.extinction(x = 2, trait = c(seq(from =  1, to = 7, by = 1)),
+                                                      condition = `<`, severity = 0.8, threshold = 0.5))
 
 ## different selectivities: directional ()
 
 ## could i do this in a way that samples across different severities and selectivities.
 
-selective_extinction <- make.events(
-                      target       = "taxa",
-                      condition    = taxa.condition(49),
-                      modification = trait.extinction(x = 2, trait = c(seq(from =  1, to = 10, by = 1)),
-                                                      condition = `<`, severity = 1.0, threshold = 0.5))
-
+# selective_extinction <- make.events(
+#                       target       = "taxa",
+#                       condition    = taxa.condition(49),
+#                       modification = trait.extinction(x = 2, trait = c(seq(from =  1, to = 10, by = 1)),
+#                                                       condition = `<`, severity = 1.0, threshold = 0.5))
+# test <- treats(traits = slow_cor, stop.rule = stop_rule, bd.params = bd_params, null.error = 100, replicates = 1, events = selective_extinction)
 
 
 
 
 selective <- lapply(multi_traits, function(rate) {
-  treats(traits = rate, stop.rule = stop_rule, bd.params = bd_params, null.error = 100, replicates = 50, events = selective_extinction)
+  treats(traits = rate, stop.rule = stop_rule, bd.params = bd_params, null.error = 10000, replicates = 30, events = selective_extinction)
 })
 
 selective <- lapply(selective, lapply, drop.singles)
+saveRDS(selective, "../Data/trees/selective.treats.output.Rds")
+selective <- readRDS("../Data/trees/selective.treats.output.Rds")
 
 
 ```
@@ -979,14 +952,20 @@ fix.zero.branches <- function(tree, min_length = 1e-8) {
 
 trees <- lapply(trees, lapply, fix.zero.branches)
 
-write.tree(trees$fast, "../Data/trees/fast.selectiveExtinction.tre")
-write.tree(trees$med, "../Data/trees/med.selectiveExtinction.tre")
-write.tree(trees$slow, "../Data/trees/slow.selectiveExtinction.tre")
+# write.tree(trees$fast, "../Data/trees/fast.selectiveExtinction.tre")
+# write.tree(trees$med, "../Data/trees/med.selectiveExtinction.tre")
+# write.tree(trees$slow, "../Data/trees/slow.selectiveExtinction.tre")
 
-trees <- list(fast = read.tree("../Data/trees/fast.selectiveExtinction.tre"), med = read.tree("../Data/trees/fast.selectiveExtinction.tre"), slow = read.tree("../Data/trees/fast.selectiveExtinction.tre"))
+# trees <- list(fast = read.tree("../Data/trees/fast.selectiveExtinction.tre"), med = read.tree("../Data/trees/fast.selectiveExtinction.tre"), slow = read.tree("../Data/trees/fast.selectiveExtinction.tre"))
+
+
+
 
 trees <- lapply(trees, lapply, set.root.time)
 
+# saveRDS(trees, "../Data/trees/selective.tree.rds")
+
+# trees  <- readRDS("../Data/trees/selective.tree.rds")
 
 source("../Functions/fossil.pres.R")
 
@@ -1283,7 +1262,7 @@ extinction_times <- lapply(tip_ages, lapply, find.extinction.time)
 
 
 time_slices <- lapply(extinction_times, lapply, function(time){
-  intervals <- c(time + 10, time,  time - 10)
+  intervals <- c(time + 10, time + 0.0001,  (time + 0.0001) - 10)
   return(intervals)
 })
 
@@ -1453,11 +1432,11 @@ disp_no_ace <- lapply(chrono_subsets_no_ace, lapply, lapply, function(chrono) {
       NULL
     })
 })
-disp_sample <- list(
-  slow = disp_sample$slow,
-  med = disp_sample$med,
-  fast = disp_sample$fast
-)
+# disp_sample <- list(
+#   slow = disp_sample$slow,
+#   med = disp_sample$med,
+#   fast = disp_sample$fast
+# )
 
 # disp_sample <- lapply(chrono_subsets_sample, lapply, lapply, dispRity, metric = c(sum, variances))
 
@@ -1625,7 +1604,7 @@ rel_fit <- lm( matched_rel$ace ~ matched_rel$true)
 sample_fit <- lm(matched_sample$ace ~ matched_sample$true)
 no_ace_fit <- lm(matched_no_ace$ace ~ matched_no_ace$true)
 
-summary(no_ace_fit)
+summary(rel_fit)
 # Add correlation coefficient
 cor_coef <- cor(matched_strict$true, matched_strict$ace, use = "complete.obs")
 # text(x = min(true_changes, na.rm = TRUE), 

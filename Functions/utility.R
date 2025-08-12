@@ -28,3 +28,13 @@ fix.zero.branches <- function(tree, min_length = 1e-8) {
   tree$edge.length[tree$edge.length <= 0] <- min_length
   return(tree)
 }
+
+disp.diff <- function(ace, true){
+  if(is.null(ace[[1]]$elements )){
+    return(lapply(ace, function(x){
+      disp.diff(x, true)
+    }))
+  } 
+  diff <- (ace[[1]]$elements[1] - true[[1]]$elements[1]) / true[[1]]$elements[1]
+  return(diff)
+}

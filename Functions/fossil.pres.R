@@ -15,7 +15,7 @@ remove.fossil <- function(trees, matrices, type = c("discrete", "continuous")) {
     tree <- set.root.time(tree)
     old_root <- tree$root.time
     living_tree$root.time <- old_root
-    living_tree$node.label[1] <- "n1"
+    living_tree$node.label[1] <- "n1" ## remove this as need to keep the original node.
     # original_root_height <- max(nodeHeights(full_fossil_tree))
     # new_root_height <- max(nodeHeights(living_tree))
     # height_diff <- original_root_height - new_root_height

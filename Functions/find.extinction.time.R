@@ -12,7 +12,7 @@ find.extinction.time <- function(extinction_ages, exclude_zero = TRUE, tolerance
   # Count frequency of each age
   age_counts <- table(ages)
   
-  # Find the age with highest frequency
+  # Find the most common age
   if(length(age_counts) > 0) {
     extinction_time <- as.numeric(names(age_counts)[which.max(age_counts)])
     extinction_count <- max(age_counts)
@@ -30,7 +30,7 @@ find.extinction.time <- function(extinction_ages, exclude_zero = TRUE, tolerance
 
 tip.ages <- function(tree) {
   ages <- tree.age(tree)
-  tips <- grepl("^t", ages$elements)  # Logical vector for rows with tip names
-  tip_ages <- ages[tips, ]  # Subset ROWS where elements start with "t"
+  tips <- grepl("^t", ages$elements)
+  tip_ages <- ages[tips, ]  
   return(tip_ages)
 }
