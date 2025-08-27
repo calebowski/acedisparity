@@ -826,19 +826,6 @@ for(i in 1:tree$Nnode) {
              cex = 1.9)
 }
 
-# # Add phylopics manually (this is the tricky part in base R)
-# # You need to get the tip coordinates and add images
-# tip_coords <- list(
-#   x = c(0.3, 0.3, 0.5),  # Approximate x coordinates for tips
-#   y = c(1, 2, 1.5)       # Approximate y coordinates for tips
-# )
-
-# # For base R, you'd typically need to use rasterImage() or similar
-# # This is complex, so let's use a simpler approach with just labels
-
-# # Add custom tip labels instead of phylopics for now
-# tip_labels <- c("🦎", "🐍", "🦎")  # Unicode symbols as placeholders
-# text(tip_coords$x + 0.05, tip_coords$y, tip_labels, cex = 3)
 
 dev.off()
 
@@ -937,5 +924,136 @@ plot(c(1,2), c(0.2, 0.3), ylim = c(0, 0.4), xlim = c(0.5, 2.5), pch = 21,
 axis(1, at = c(1,2), labels = c("Assume Limbs", "Assume Limbless"), cex.axis = 2.4)
 
 text(x = c(1,2), y = c(0.22, 0.32), labels = c("0.2", "0.3"), pos = 3, cex = 3)
+
+dev.off()
+
+
+#####################################################################################################################
+
+library(treats)
+
+extinction_trees <- read.tree("../Data/trees/randomextinction.tre")
+
+selective_tree <- ladderize(extinction_trees[[67]])
+
+tree_to_plot_random <- extinction_trees[[24]]
+
+png(filename = "/home/caleb/Documents/PhD/confReview/extinctiontree.png", width = 10, height = 10, units = "in", res = 300, bg = "transparent")
+plot.phylo(selective_tree, edge.color = "darkorange", edge.width = 7, show.tip.label = FALSE)
+dev.off()
+
+png(filename = "/home/caleb/Documents/PhD/confReview/randomextinctiontree.png", width = 10, height = 10, units = "in", res = 300, bg = "transparent")
+plot.phylo(tree_to_plot_random, edge.color = "darkorange", edge.width = 7, show.tip.label = FALSE)
+dev.off()
+
+
+
+plot(selective_tree)
+
+
+
+# Use your selective tree
+selective_tree <- ladderize(extinction_trees[[67]])
+
+# Simulate trait evolution on the tree using Brownian motion
+set.seed(123)
+n_traits <- 3  # Number of morphological traits
+trait_matrix <- matrix(NA, nrow = length(selective_tree$tip.label), ncol = n_traits)
+rownames(trait_matrix) <- selective_tree$tip.label
+
+# Simulate multiple traits evolving on the tree
+for(i in 1:n_traits) {
+  trait_sim <- rTraitCont(selective_tree, model = "BM", sigma = 0.3)
+  trait_matrix[, i] <- trait_sim[selective_tree$tip.label]
+}
+
+# Create fewer time bins for disparity calculation
+tree_height <- max(nodeHeights(selective_tree))
+time_bins <- seq(0, tree_height, length.out = 15)  # Reduced from 50 to 15
+
+# Function to get taxa present at each time slice
+get_taxa_at_time <- function(tree, time_point) {
+  node_heights <- nodeHeights(tree)
+  crossing_edges <- which(node_heights[,1] <= time_point & node_heights[,2] >= time_point)
+  terminal_nodes <- tree$edge[crossing_edges, 2]
+  alive_tips <- terminal_nodes[terminal_nodes <= length(tree$tip.label)]
+  
+  if(length(alive_tips) > 0) {
+    return(tree$tip.label[alive_tips])
+  } else {
+    return(character(0))
+  }
+}
+
+# Calculate disparity through time
+disparity_through_time <- data.frame(
+  time = numeric(),
+  disparity = numeric()
+)
+
+for(t in time_bins) {
+  alive_taxa <- get_taxa_at_time(selective_tree, tree_height - t)
+  
+  if(length(alive_taxa) >= 2) {
+    subset_traits <- trait_matrix[alive_taxa, , drop = FALSE]
+    
+    # Calculate distance matrix and ordinate
+    trait_dist <- dist(subset_traits)
+    if(length(alive_taxa) > 2) {
+      trait_ord <- cmdscale(trait_dist, k = min(length(alive_taxa)-1, ncol(subset_traits)))
+    } else {
+      trait_ord <- as.matrix(subset_traits)
+    }
+    
+    # Calculate disparity (sum of variances)
+    disp_val <- sum(apply(trait_ord, 2, var))
+    
+    disparity_through_time <- rbind(disparity_through_time, 
+                                  data.frame(time = tree_height - t,  # Reverse time so 0 = present
+                                           disparity = disp_val))
+  }
+}
+
+# Create less pronounced disparity pattern: moderate difference before/after 69 Ma
+extinction_time <- 69
+disparity_through_time$disparity <- ifelse(
+  disparity_through_time$time > extinction_time,
+  # Before extinction: moderately high disparity
+  disparity_through_time$disparity * 1.8 + 0.4,
+  # After extinction: moderately low disparity (less dramatic drop)
+  disparity_through_time$disparity * 0.7 + 0.2
+)
+
+# Create the combined plot
+png("/home/caleb/Documents/PhD/confReview/dispplot.png", width = 12, height = 9, units = "in", res = 300, bg = "transparent")
+# Set up layout: top 60% for tree, bottom 40% for disparity plot
+layout(matrix(c(1, 2), nrow = 2), heights = c(0.4, 0.6))
+
+# Plot 1: Selective extinction tree
+par(mar = c(1, 4, 2, 2))
+plot(selective_tree, edge.color = "darkorange", edge.width = 4, 
+     show.tip.label = FALSE, direction = "rightwards")
+# title("Selective Extinction Tree", cex.main = 1.5)
+
+# Add time scale
+# axisPhylo(side = 1, backward = FALSE)
+
+# Plot 2: Minimal disparity through time
+par(mar = c(5, 5, 1, 1))
+plot(disparity_through_time$time, disparity_through_time$disparity, 
+     type = "l",  # Line only, no points
+     col = "red",
+     lwd = 4,
+     xlab = "Time (Ma)", 
+     ylab = "Morphological Disparity",
+     cex.lab = 1.9,
+     cex.axis = 1.3,
+     xlim = rev(range(disparity_through_time$time)),  # Reverse x-axis
+     bty = "l",  # Only left and bottom axes
+     xaxt = "n", yaxt = "n")  # Remove default axes
+
+# Add custom minimal axes
+axis(1, cex.axis = 1.5, lwd = 2)  # Bottom axis
+axis(2, cex.axis = 1.5, lwd = 2)  # Left axis
 
 dev.off()
