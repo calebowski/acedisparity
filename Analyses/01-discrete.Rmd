@@ -186,11 +186,11 @@ return(anc_states)}
 
 
 fossil_anc <- lapply(fossil_matrices, lapply, lapply, anc.states)
+names(fossil_anc) <- names(fossil_matrices)
 
 # sampled_fossil_anc <- lapply(fossil_anc, sample.anc.states)
 
-sample_fossil_anc <- lapply(fossil_anc, lapply, lapply, multi.ace, sample = 13, verbose = TRUE)
-
+sample_fossil_anc <- lapply(fossil_anc, lapply, lapply, multi.ace, sample = 12)
 
 strict_fossil_anc <- lapply(fossil_anc, lapply, lapply, multi.ace, threshold = FALSE, output = "combined.matrix", verbose = TRUE)
 
@@ -295,61 +295,73 @@ get.living <- function(living) {
 
 
 test_living <- fossil_matrices$slow[[1]]$living$tree
-test_living_node <- test_living$node.label[2]
+test_living_node <- test_living$node.label[1]
 descendents <- lapply(fossil_matrices$slow[[1]], function(x){
   tree <- x$tree
   descendents <- extract.clade(tree, node = test_living_node)
-  # tip_labels <-  tree$tip.label[descendents[[1]]]
+  tip_labels <-  tree$tip.label
+  return(tip_labels)
 })
 
 
-get.living <- function(fossil_matrices) {
-  basal_node <- tree$node.label[2]
-  trees <- allDescendants
+descendents <- (extract.clade(fossil_matrices$slow[[1]]$fossil_low$tree, node = test_living_node))$tip.label
+
+
+
+extract.living <- function(fossils) {
+  basal_node <- fossils$living$tree$node.label[1]
+  living_nodes <- fossils$living$tree$node.label
+  labels <- lapply(fossils, function(level){
+    tree <- level$tree
+    descendents <- (extract.clade(tree, node = basal_node))$tip.label
+    add_nodes <- c(descendents, living_nodes)
+  })
+  return(labels)
 }
 
-living_labels <- lapply(relative_fossil_anc$slow, get.living)
+labels <- lapply(fossil_matrices, lapply, extract.living)
 
 
-sample_living <- lapply(seq_along(sample_fossil_anc), function(rate) {
-  lapply(seq_along(sample_fossil_anc[[rate]]), function(i) {
-    labs <- living_labels[[i]]
-    lapply(sample_fossil_anc[[rate]][[i]], function(fossil) {
-      lapply(fossil, function(rep) rep[labs, , drop = FALSE])
-    })
-  })
-})
+strict_living <- Map(function(rate_anc, rate_labels) {
+  Map(function(i_anc, i_labels) {
+    Map(function(fossil_anc, label_anc) {
+      fossil_anc[label_anc, , drop = FALSE]
+    }, i_anc, i_labels)
+  }, rate_anc, rate_labels)
+}, strict_fossil_anc, labels)
 
-# Assign names to the outer list
-names(sample_living) <- names(discrete_matrices)
+names(strict_living) <- names(strict_fossil_anc)
+
+rel_living <- Map(function(rate_anc, rate_labels) {
+  Map(function(i_anc, i_labels) {
+    Map(function(fossil_anc, label_anc) {
+      fossil_anc[label_anc, , drop = FALSE]
+    }, i_anc, i_labels)
+  }, rate_anc, rate_labels)
+}, relative_fossil_anc, labels)
+
+names(rel_living) <- names(relative_fossil_anc)
+
+sample_living <- Map(function(rate_anc, rate_labels) {
+  Map(function(i_anc, i_labels) {
+    Map(function(fossil_anc, label_anc) {
+      lapply(fossil_anc, function(rep) {
+        rep[label_anc, , drop = FALSE]
+      })
+    }, i_anc, i_labels)
+  }, rate_anc, rate_labels)
+}, sample_fossil_anc, labels)
+
+names(sample_living) <- names(sample_fossil_anc)
 
 
-rel_living <- lapply(seq_along(relative_fossil_anc), function(rate) {
-  lapply(seq_along(relative_fossil_anc[[rate]]), function(i) {
-    labs <- living_labels[[i]]
-    lapply(relative_fossil_anc[[rate]][[i]], function(fossil) {
-      fossil[labs, , drop = FALSE]
-    })
-  })
-})
-names(rel_living) <- names(discrete_matrices)
 
 
-strict_living <- lapply(seq_along(strict_fossil_anc), function(rate) {
-  lapply(seq_along(strict_fossil_anc[[rate]]), function(i) {
-    labs <- living_labels[[i]]
-    lapply(strict_fossil_anc[[rate]][[i]], function(fossil) {
-      fossil[labs, , drop = FALSE]
-    })
-  })
-})
-
-names(strict_living) <- names(discrete_matrices)
 
 
 true_living <-  lapply(seq_along(discrete_matrices), function(rate) {
   lapply(seq_along(discrete_matrices[[rate]]), function(i) {
-    labs <- living_labels[[i]]
+    labs <- labels[[rate]][[i]]$all
     true_living <- discrete_matrices[[rate]][[i]][labs, , drop = FALSE]
     })
 })
@@ -471,7 +483,7 @@ saveRDS(strict_means_thresh, "../Data/matrices/threshstrictmeans.rds")
 ## Disparity diffs of just living tips/nodes
 
 ```{R}
-
+source("../Functions/utility.R")
 
 ## these are anc estimated matrices with relevant tips but only with relevant nodes.
 # anc_matrices_living
@@ -499,6 +511,43 @@ disp_true <- lapply(true_living, lapply, function(rep){
   ord <- (cmdscale(dist, k = ncol(dist) - 2, add = TRUE))$points
   disp <- dispRity(ord, metric = c(sum, variances))$disparity
 })
+
+
+disp_rel_diff <- Map(function(rate_data, true_data) {
+  Map(function(rep_data, true_rep) {
+    Map(function(fossil_data) {
+      disp.diff(fossil_data, true_rep)
+    }, rep_data)
+  }, rate_data, true_data)
+}, disp_rel, disp_true)
+
+
+disp_sample_diff <- Map(function(rate_data, true_data) {
+  Map(function(rep_data, true_rep) {
+    Map(function(fossil_data) {
+      diffs <- Map(function(sample) {
+     (disp.diff(sample, true_rep))
+      }, fossil_data)
+      return(unlist(diffs))
+    }, rep_data)
+  }, rate_data, true_data)
+}, disp_sample, disp_true)
+
+disp_strict_diff <- Map(function(rate_data, true_data) {
+  Map(function(rep_data, true_rep) {
+    Map(function(fossil_data) {
+      disp.diff(fossil_data, true_rep)
+    }, rep_data)
+  }, rate_data, true_data)
+}, disp_strict, disp_true)
+
+saveRDS(disp_strict_diff, "../Data/matrices/discrete/neighbours.rel.diff.Rds")
+saveRDS(disp_sample_diff, "../Data/matrices/discrete/neighbours.sample.diff.Rds")
+saveRDS(disp_rel_diff, "../Data/matrices/discrete/neighbours.strict.diff.Rds")
+
+
+
+
 
 ########################################################################################################################
 
