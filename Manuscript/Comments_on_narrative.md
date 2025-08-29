@@ -9,7 +9,9 @@ Then needs to include the different ways to do ace + disparity:
     - post ordination discrete (mix between both)
 
 
-Methods could have a kind of cartoon figure or table summarising the testing parameters:
+Methods could have a kind of cartoon figure or table summarising the testing parameters: Figure 0. see mark puttick paper.
+Draft it, showing the overall pipeline.
+
     Part 1:
         - trait change rates
         - "fossilisation" rates

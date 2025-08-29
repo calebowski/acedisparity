@@ -31,7 +31,7 @@ library(treats)
 
 bd_params <- make.bd.params(speciation = 1, extinction = 0.7)
 
-stop_rule <- list(max.living = 50)
+stop_rule <- list(max.living = 70)
 set.seed(123)
 trees <- treats(stop.rule = stop_rule, bd.params = bd_params, null.error = 100, replicates = 100)
 
@@ -49,30 +49,6 @@ trees <- read.tree("../Data/trees/simulated.tre")
 
 
 ## Discrete trait simulation
-
-Firstly lets simulate completely random matrix.
-
-```{r}
-
-tree_labels <- lapply(trees, function(tree) {
-  c(tree$tip.label, tree$node.label)
-})
-
-# Create a matrix with random numbers between 0 and 3
-# how do the number of character states influence ancestral states???? say if there are 5 different states, does this influence disparity analyses. could do another matrix where the number of states changes halfway through the tree to see how ace compares??? 
-random_discrete <- lapply(tree_labels, function(tree){
-                        matrix <- matrix(sample(0:2, length(tree) * 100, replace = TRUE), 
-                        nrow = length(tree), 
-                        ncol = 100)
-                        rownames(matrix) <- tree
-                        return(matrix)})
-
-
-
-
-
-```
-
 
 Now we can simulate trait data at varying levels of transition rate.
 
@@ -194,27 +170,11 @@ fossil_matrices <- readRDS("../Data/matrices/discrete/fossilmatrices.Rds")
 
 ```
 
-
-```{r}
-
-
-mat$matrix
-
-mat_pruned <- mat$matrix[,1]
-hmm_one <- corHMM(phy = mat$tree, data = dat_A1, node.states = "marginal", model = "SYM", rate.cat = 1, fixed.nodes = FALSE)
-hmm_two <- corHMM(phy = mat$tree, data = dat_A1, node.states = "marginal", model = "SYM", rate.cat = 2)
-hmm_three <- corHMM::corHMM(phy = mat$tree, data = dat_A1, node.states = "marginal", model = "SYM", rate.cat = 3)
-
-
-```
-
 ## Ace discrete
 
 ```{r}
-n_cores  <- 11
-anc.states <- function(fossil_matrices) {
-  lapply(fossil_matrices, function(level) {
-    lapply(level, function(x) {
+n_cores  <- 19
+anc.states <- function(x) {
   # Run multi.ace for each tree
   anc_states <- multi.ace(data = x$matrix, 
                           tree = x$tree, 
@@ -222,41 +182,15 @@ anc.states <- function(fossil_matrices) {
                           output = "multi.ace",
                           verbose = TRUE,
                           parallel = n_cores)
-  return(anc_states)})})
-}
+return(anc_states)}
 
-point.anc.states <- function(fossil_matrices) {
-  lapply(fossil_matrices, function(level) {
-    lapply(level, function(x) {
-  # Run multi.ace for each tree
-  anc_states <- multi.ace(data = x$matrix, 
-                          tree = x$tree, 
-                          models = "SYM", 
-                          output = "combined",
-                          verbose = TRUE)
-  return(anc_states)})})
-  }
-normal_sampling <- list(fun = rnorm, param = list(mean = mean, sd = function(x)return(diff(range(x))/4)))
 
-sample.anc.states <- function(fossil_matrices) {
-  lapply(fossil_matrices, function(level) {
-    lapply(level, function(x) {
-  # Run multi.ace for each tree
-  anc_states <- multi.ace(data = x,
-                          models = "SYM",
-                          sample = 5,
-                          sample.fun = normal_sampling,
-                          output = "combined",
-                          verbose = TRUE)
-  return(anc_states)})})
-  }
-
-fossil_anc <- lapply(fossil_matrices, anc.states)
+fossil_anc <- lapply(fossil_matrices, lapply, lapply, anc.states)
+names(fossil_anc) <- names(fossil_matrices)
 
 # sampled_fossil_anc <- lapply(fossil_anc, sample.anc.states)
 
-sample_fossil_anc <- lapply(fossil_anc, lapply, lapply, multi.ace, sample = 10, sample.fun = normal_sampling,  verbose = TRUE)
-
+sample_fossil_anc <- lapply(fossil_anc, lapply, lapply, multi.ace, sample = 12)
 
 strict_fossil_anc <- lapply(fossil_anc, lapply, lapply, multi.ace, threshold = FALSE, output = "combined.matrix", verbose = TRUE)
 
@@ -361,61 +295,73 @@ get.living <- function(living) {
 
 
 test_living <- fossil_matrices$slow[[1]]$living$tree
-test_living_node <- test_living$node.label[2]
+test_living_node <- test_living$node.label[1]
 descendents <- lapply(fossil_matrices$slow[[1]], function(x){
   tree <- x$tree
   descendents <- extract.clade(tree, node = test_living_node)
-  # tip_labels <-  tree$tip.label[descendents[[1]]]
+  tip_labels <-  tree$tip.label
+  return(tip_labels)
 })
 
 
-get.living <- function(fossil_matrices) {
-  basal_node <- tree$node.label[2]
-  trees <- allDescendants
+descendents <- (extract.clade(fossil_matrices$slow[[1]]$fossil_low$tree, node = test_living_node))$tip.label
+
+
+
+extract.living <- function(fossils) {
+  basal_node <- fossils$living$tree$node.label[1]
+  living_nodes <- fossils$living$tree$node.label
+  labels <- lapply(fossils, function(level){
+    tree <- level$tree
+    descendents <- (extract.clade(tree, node = basal_node))$tip.label
+    add_nodes <- c(descendents, living_nodes)
+  })
+  return(labels)
 }
 
-living_labels <- lapply(relative_fossil_anc$slow, get.living)
+labels <- lapply(fossil_matrices, lapply, extract.living)
 
 
-sample_living <- lapply(seq_along(sample_fossil_anc), function(rate) {
-  lapply(seq_along(sample_fossil_anc[[rate]]), function(i) {
-    labs <- living_labels[[i]]
-    lapply(sample_fossil_anc[[rate]][[i]], function(fossil) {
-      lapply(fossil, function(rep) rep[labs, , drop = FALSE])
-    })
-  })
-})
+strict_living <- Map(function(rate_anc, rate_labels) {
+  Map(function(i_anc, i_labels) {
+    Map(function(fossil_anc, label_anc) {
+      fossil_anc[label_anc, , drop = FALSE]
+    }, i_anc, i_labels)
+  }, rate_anc, rate_labels)
+}, strict_fossil_anc, labels)
 
-# Assign names to the outer list
-names(sample_living) <- names(discrete_matrices)
+names(strict_living) <- names(strict_fossil_anc)
+
+rel_living <- Map(function(rate_anc, rate_labels) {
+  Map(function(i_anc, i_labels) {
+    Map(function(fossil_anc, label_anc) {
+      fossil_anc[label_anc, , drop = FALSE]
+    }, i_anc, i_labels)
+  }, rate_anc, rate_labels)
+}, relative_fossil_anc, labels)
+
+names(rel_living) <- names(relative_fossil_anc)
+
+sample_living <- Map(function(rate_anc, rate_labels) {
+  Map(function(i_anc, i_labels) {
+    Map(function(fossil_anc, label_anc) {
+      lapply(fossil_anc, function(rep) {
+        rep[label_anc, , drop = FALSE]
+      })
+    }, i_anc, i_labels)
+  }, rate_anc, rate_labels)
+}, sample_fossil_anc, labels)
+
+names(sample_living) <- names(sample_fossil_anc)
 
 
-rel_living <- lapply(seq_along(relative_fossil_anc), function(rate) {
-  lapply(seq_along(relative_fossil_anc[[rate]]), function(i) {
-    labs <- living_labels[[i]]
-    lapply(relative_fossil_anc[[rate]][[i]], function(fossil) {
-      fossil[labs, , drop = FALSE]
-    })
-  })
-})
-names(rel_living) <- names(discrete_matrices)
 
 
-strict_living <- lapply(seq_along(strict_fossil_anc), function(rate) {
-  lapply(seq_along(strict_fossil_anc[[rate]]), function(i) {
-    labs <- living_labels[[i]]
-    lapply(strict_fossil_anc[[rate]][[i]], function(fossil) {
-      fossil[labs, , drop = FALSE]
-    })
-  })
-})
-
-names(strict_living) <- names(discrete_matrices)
 
 
 true_living <-  lapply(seq_along(discrete_matrices), function(rate) {
   lapply(seq_along(discrete_matrices[[rate]]), function(i) {
-    labs <- living_labels[[i]]
+    labs <- labels[[rate]][[i]]$all
     true_living <- discrete_matrices[[rate]][[i]][labs, , drop = FALSE]
     })
 })
@@ -537,7 +483,7 @@ saveRDS(strict_means_thresh, "../Data/matrices/threshstrictmeans.rds")
 ## Disparity diffs of just living tips/nodes
 
 ```{R}
-
+source("../Functions/utility.R")
 
 ## these are anc estimated matrices with relevant tips but only with relevant nodes.
 # anc_matrices_living
@@ -566,56 +512,171 @@ disp_true <- lapply(true_living, lapply, function(rep){
   disp <- dispRity(ord, metric = c(sum, variances))$disparity
 })
 
+
+disp_rel_diff <- Map(function(rate_data, true_data) {
+  Map(function(rep_data, true_rep) {
+    Map(function(fossil_data) {
+      disp.diff(fossil_data, true_rep)
+    }, rep_data)
+  }, rate_data, true_data)
+}, disp_rel, disp_true)
+
+
+disp_sample_diff <- Map(function(rate_data, true_data) {
+  Map(function(rep_data, true_rep) {
+    Map(function(fossil_data) {
+      diffs <- Map(function(sample) {
+     (disp.diff(sample, true_rep))
+      }, fossil_data)
+      return(unlist(diffs))
+    }, rep_data)
+  }, rate_data, true_data)
+}, disp_sample, disp_true)
+
+disp_strict_diff <- Map(function(rate_data, true_data) {
+  Map(function(rep_data, true_rep) {
+    Map(function(fossil_data) {
+      disp.diff(fossil_data, true_rep)
+    }, rep_data)
+  }, rate_data, true_data)
+}, disp_strict, disp_true)
+
+saveRDS(disp_strict_diff, "../Data/matrices/discrete/neighbours.rel.diff.Rds")
+saveRDS(disp_sample_diff, "../Data/matrices/discrete/neighbours.sample.diff.Rds")
+saveRDS(disp_rel_diff, "../Data/matrices/discrete/neighbours.strict.diff.Rds")
+
+
+
+
+
 ########################################################################################################################
 
-disp_sample <- lapply(sample_living, lapply, lapply, lapply, function(rep){
+neighbours_sample <- lapply(sample_living, lapply, lapply, lapply, function(rep){
   dist <- char.diff(rep, method = "mord", by.col = FALSE)
   ord <- (cmdscale(dist, k = ncol(dist) - 2, add = TRUE))$points
   disp <- dispRity(ord, metric = c(mean, neighbours))$disparity
 })
 
-disp_rel <- lapply(rel_living, lapply, lapply, function(rep){
+neighbours_rel <- lapply(rel_living, lapply, lapply, function(rep){
   dist <- char.diff(rep, method = "mord", by.col = FALSE)
   ord <- (cmdscale(dist, k = ncol(dist) - 2, add = TRUE))$points
   disp <- dispRity(ord, metric = c(mean, neighbours))$disparity
 })
 
-disp_strict <- lapply(strict_living, lapply, lapply, function(rep){
+neighbours_strict <- lapply(strict_living, lapply, lapply, function(rep){
   dist <- char.diff(rep, method = "mord", by.col = FALSE)
   ord <- (cmdscale(dist, k = ncol(dist) - 2, add = TRUE))$points
   disp <- dispRity(ord, metric = c(mean, neighbours))$disparity
 })
 
-disp_true <- lapply(true_living, lapply, function(rep){
+neighbours_true <- lapply(true_living, lapply, function(rep){
   dist <- char.diff(rep, method = "mord", by.col = FALSE)
   ord <- (cmdscale(dist, k = ncol(dist) - 2, add = TRUE))$points
   disp <- dispRity(ord, metric = c(mean, neighbours))$disparity
 })
 
+## Get diffs in aced vs true
 
-
-
-
-
-disp_rel_diff <- Map(function(rate_data, true_data) {
+neighbours_rel_diff <- Map(function(rate_data, true_data) {
   Map(function(rep_data, true_rep) {
     Map(function(fossil_data) {
       disp.diff(fossil_data, true_rep)
     }, rep_data)
   }, rate_data, true_data)
-}, disp_rel, disp_true)
+}, neighbours_rel, neighbours_true)
 
 
-disp_rel_diff <- Map(function(rate_data, true_data) {
+neighbours_sample_diff <- Map(function(rate_data, true_data) {
+  Map(function(rep_data, true_rep) {
+    Map(function(fossil_data) {
+      diffs <- Map(function(sample) {
+     (disp.diff(sample, true_rep))
+      }, fossil_data)
+      return(unlist(diffs))
+    }, rep_data)
+  }, rate_data, true_data)
+}, neighbours_sample, neighbours_true)
+
+neighbours_strict_diff <- Map(function(rate_data, true_data) {
   Map(function(rep_data, true_rep) {
     Map(function(fossil_data) {
       disp.diff(fossil_data, true_rep)
     }, rep_data)
   }, rate_data, true_data)
-}, disp_rel, disp_true)
+}, neighbours_strict, neighbours_true)
+
+
+saveRDS(neighbours_rel_diff, "../Data/matrices/discrete/neighbours.rel.diff.Rds")
+saveRDS(neighbours_sample_diff, "../Data/matrices/discrete/neighbours.sample.diff.Rds")
+saveRDS(neighbours_strict_diff, "../Data/matrices/discrete/neighbours.strict.diff.Rds")
 
 
 
+
+########################################################################################################################
+
+position_sample <- lapply(sample_living, lapply, lapply, lapply, function(rep){
+  dist <- char.diff(rep, method = "mord", by.col = FALSE)
+  ord <- (cmdscale(dist, k = ncol(dist) - 2, add = TRUE))$points
+  disp <- dispRity(ord, metric = c(mean, displacements))$disparity
+})
+
+position_rel <- lapply(rel_living, lapply, lapply, function(rep){
+  dist <- char.diff(rep, method = "mord", by.col = FALSE)
+  ord <- (cmdscale(dist, k = ncol(dist) - 2, add = TRUE))$points
+  disp <- dispRity(ord, metric = c(mean, displacements))$disparity
+})
+
+position_strict <- lapply(strict_living, lapply, lapply, function(rep){
+  dist <- char.diff(rep, method = "mord", by.col = FALSE)
+  ord <- (cmdscale(dist, k = ncol(dist) - 2, add = TRUE))$points
+  disp <- dispRity(ord, metric = c(mean, displacements))$disparity
+})
+
+position_true <- lapply(true_living, lapply, function(rep){
+  dist <- char.diff(rep, method = "mord", by.col = FALSE)
+  ord <- (cmdscale(dist, k = ncol(dist) - 2, add = TRUE))$points
+  disp <- dispRity(ord, metric = c(mean, displacements))$disparity
+})
+
+## Get diffs in aced vs true
+
+position_rel_diff <- Map(function(rate_data, true_data) {
+  Map(function(rep_data, true_rep) {
+    Map(function(fossil_data) {
+      disp.diff(fossil_data, true_rep)
+    }, rep_data)
+  }, rate_data, true_data)
+}, position_rel, position_true)
+
+
+position_sample_diff <- Map(function(rate_data, true_data) {
+  Map(function(rep_data, true_rep) {
+    Map(function(fossil_data) {
+      diffs <- Map(function(sample) {
+     (disp.diff(sample, true_rep))
+      }, fossil_data)
+      return(unlist(diffs))
+    }, rep_data)
+  }, rate_data, true_data)
+}, position_sample, position_true)
+
+position_strict_diff <- Map(function(rate_data, true_data) {
+  Map(function(rep_data, true_rep) {
+    Map(function(fossil_data) {
+      disp.diff(fossil_data, true_rep)
+    }, rep_data)
+  }, rate_data, true_data)
+}, position_strict, position_true)
+
+
+saveRDS(position_rel_diff, "../Data/matrices/discrete/position.rel.diff.Rds")
+saveRDS(position_sample_diff, "../Data/matrices/discrete/position.sample.diff.Rds")
+saveRDS(position_strict_diff, "../Data/matrices/discrete/position.strict.diff.Rds")
+
+
+
+####################################################################################################
 disp_post_ord_ace <- lapply(post_ord_ace_living_nodes, lapply, function(x){
   true <- x$true
   aced <- x$ace
@@ -631,291 +692,6 @@ disp_post_ord_ace <- lapply(post_ord_ace_living_nodes, lapply, function(x){
 
 saveRDS(disp_post_ord_ace, "../Data/matrices/discrete/post_ord_ace.Rds")
 
-
-
-
-
-
-
-# # perform principal components analysis
-
-# # project new data onto the PCA space
-# scale(newdata, v$center, true$scale) %*% true$rotation 
-
-# ## To project things on a already estimated PCA (fixed eigenvector)
-# ## 1- get your pca
-# my_pca <- prcomp(...)
-# ## 2- get your new data centered
-# new_data <- scale(my_new_data, centre = TRUE, scale = FALSE) # not sure about scale FALSE
-# ## 3- project it
-# new_pca <- stats::predict(my_pca, newdata = new_data)
-
-# # scaled_ord <- lapply(ord, function(preservation){
-# #   lapply(preservation, function(rate){
-# #     lapply(rate, function(treatment){
-# #       lapply(treatment, function(matrix){
-# #         scaled_pc <- scale(matrix)
-# #         return(scaled_pc)
-# #       })
-# #     })
-# #   })
-# # })
-
-
-# ## Relative distance in trait space
-
-# morphospace.dist <- function(matrix, ...) {
-#     ## Get the pairwise distances between all points
-#     distances <- pairwise.dist(matrix)
-#     ## Calculate the longest distance from the center
-#     longest_distance_from_center <- max(as.numeric(centroids(matrix, centroid = 0)), na.rm = TRUE)
-#     ## Make all these distances relative to the longest distance from the center of the traitspace
-#     return(distances/longest_distance_from_center)
-# }
-
-
-
-# morpho_diffs <- lapply(ord, lapply, lapply, function(matrices){
-#   diffs <- abs((morphospace.dist(matrices$ace)) - (morphospace.dist(matrices$true)))
-#   averages <- median(diffs)
-# })
-
-saveRDS(morpho_diffs, "../Data/matrices/morphospacediffs.Rds")
-
-## can we make this relative disparity, so that we know what is good vs bad metrics for ancestral state estimation?
-
-## i think this should be the whole morphospace, rather than just identical nodes.
-sum_var_point <- lapply(ord_point, lapply, function(matrices) {
-  true_disp <- (dispRity(matrices$true, metric = c(sum, variances)))$disparity
-  ace <- matrices$ace
-  ace_disp <- lapply(ace, function(pres) {
-    disp <- (dispRity(pres, metric = c(sum, variances)))$disparity
-  })
-  return(list(true = true_disp, ace = ace_disp ))
-})
-
-
-sum_var_thresh <- lapply(ord_thresh, lapply, function(matrices) {
-  true_disp <- (dispRity(matrices$true, metric = c(sum, variances)))$disparity
-  ace <- matrices$ace
-  ace_disp <- lapply(ace, function(pres) {
-    disp <- (dispRity(pres, metric = c(sum, variances)))$disparity
-  })
-  return(list(true = true_disp, ace = ace_disp ))
-})
-
-sum_var_sample <- lapply(ord_sample, lapply, function(matrices) {
-  true_disp <- (dispRity(matrices$true, metric = c(sum, variances)))$disparity
-  ace <- matrices$ace
-  ace_disp <- lapply(ace, function(pres) {
-    lapply(pres, function(reps) {
-      disp <- (dispRity(reps, metric = c(sum, variances)))$disparity
-    })
-  })
-  return(list(true = true_disp, ace = ace_disp ))
-})
-
-
-var_point_diffs <- lapply(sum_var_point, lapply, function(disparity){
-  true <- disparity$true[[1]]$elements[1]
-  ace <- disparity$ace
-  diffs <- lapply(ace, function(pres){
-    diff <- (pres[[1]]$elements[1] - true) / true
-  })
-  return(diffs)
-})
-
-var_thresh_diffs <- lapply(sum_var_thresh, lapply, function(disparity){
-  true <- disparity$true[[1]]$elements[1]
-  ace <- disparity$ace
-  diffs <- lapply(ace, function(pres){
-    diff <- (pres[[1]]$elements[1] - true) / true
-  })
-  return(diffs)
-})
-
-var_sample_diffs <- lapply(sum_var_sample, lapply, function(disparity) {
-  true <- disparity$true[[1]]$elements[1]
-  ace <- disparity$ace
-  diffs <- lapply(ace, function(pres) {
-    lapply(pres, function(rep) {
-      # Compute the difference
-      diff <- (rep[[1]]$elements[1] - true) / true
-      return(diff)
-    })
-  })
-  
-  # Apply unlist to the lowest level
-  diffs <- lapply(diffs, function(pres) {
-    unlist(pres, recursive = TRUE)
-  })
-  
-  return(diffs)
-})
-
-
-sum_range_point <- lapply(ord_point, lapply, function(matrices) {
-  true_disp <- (dispRity(matrices$true, metric = c(sum, ranges)))$disparity
-  ace <- matrices$ace
-  ace_disp <- lapply(ace, function(pres) {
-    disp <- (dispRity(pres, metric = c(sum, ranges)))$disparity
-  })
-  return(list(true = true_disp, ace = ace_disp ))
-})
-
-sum_range_sample <- lapply(ord_sample, lapply, function(matrices) {
-  true_disp <- (dispRity(matrices$true, metric = c(sum, ranges)))$disparity
-  ace <- matrices$ace
-  ace_disp <- lapply(ace, function(pres) {
-    lapply(pres, function(reps) {
-      disp <- (dispRity(reps, metric = c(sum, ranges)))$disparity
-    })
-  })
-  return(list(true = true_disp, ace = ace_disp ))
-})
-
-
-range_point_diffs <- lapply(sum_range_point, lapply, function(disparity){
-  true <- disparity$true[[1]]$elements[1]
-  ace <- disparity$ace
-  diffs <- lapply(ace, function(pres){
-    diff <- abs(pres[[1]]$elements[1] - true) / true
-  })
-  return(diffs)
-})
-
-range_sample_diffs <- lapply(sum_range_sample, lapply, function(disparity) {
-  true <- disparity$true[[1]]$elements[1]
-  ace <- disparity$ace
-  diffs <- lapply(ace, function(pres) {
-    lapply(pres, function(rep) {
-      # Compute the difference
-      diff <- abs(rep[[1]]$elements[1] - true) / true
-      return(diff)
-    })
-  })
-  
-  # Apply unlist to the lowest level
-  diffs <- lapply(diffs, function(pres) {
-    unlist(pres, recursive = TRUE)
-  })
-  
-  return(diffs)
-})
-
-
-
-
-
-neighbours_point <- lapply(ord_point, lapply, function(matrices) {
-  true_disp <- (dispRity(matrices$true, metric = c(mean, neighbours)))$disparity
-  ace <- matrices$ace
-  ace_disp <- lapply(ace, function(pres) {
-    disp <- (dispRity(pres, metric = c(mean, neighbours)))$disparity
-  })
-  return(list(true = true_disp, ace = ace_disp ))
-})
-
-neighbours_sample <- lapply(ord_sample, lapply, function(matrices) {
-  true_disp <- (dispRity(matrices$true, metric = c(mean, neighbours)))$disparity
-  ace <- matrices$ace
-  ace_disp <- lapply(ace, function(pres) {
-    lapply(pres, function(reps) {
-      disp <- (dispRity(reps, metric = c(mean,neighbours)))$disparity
-    })
-  })
-  return(list(true = true_disp, ace = ace_disp ))
-})
-
-
-neighbours_point_diffs <- lapply(neighbours_point, lapply, function(disparity){
-  true <- disparity$true[[1]]$elements[1]
-  ace <- disparity$ace
-  diffs <- lapply(ace, function(pres){
-    diff <- abs(pres[[1]]$elements[1] - true) / true
-  })
-  return(diffs)
-})
-
-neighbours_sample_diffs <- lapply(neighbours_sample, lapply, function(disparity) {
-  true <- disparity$true[[1]]$elements[1]
-  ace <- disparity$ace
-  diffs <- lapply(ace, function(pres) {
-    lapply(pres, function(rep) {
-      # Compute the difference
-      diff <- abs(rep[[1]]$elements[1] - true) / true
-      return(diff)
-    })
-  })
-  
-  # Apply unlist to the lowest level
-  diffs <- lapply(diffs, function(pres) {
-    unlist(pres, recursive = TRUE)
-  })
-  
-  return(diffs)
-})
-
-
-
-saveRDS(var_point_diffs, "../Data/matrices/discrete/relvardiffs.rds")
-saveRDS(var_sample_diffs, "../Data/matrices/discrete/samplevardiffs.rds")
-saveRDS(var_thresh_diffs, "../Data/matrices/discrete/strictvardiffs.rds")
-
-saveRDS(range_point_diffs, "../Data/matrices/pointrangediffs.rds")
-saveRDS(range_sample_diffs, "../Data/matrices/samplerangediffs.rds")
-## Effect of removing fossils
-
-saveRDS(neighbours_point_diffs, "../Data/matrices/pointneighboursdiffs.rds")
-saveRDS(neighbours_sample_diffs, "../Data/matrices/sampleneighoursdiffs.rds")
-
-
-
-plot(scaled_ace_ord$slow$fossil_high[[15]])
-text(scaled_ace_ord$slow$fossil_high[[15]], labels = rownames(scaled_ace_ord$slow$fossil_high[[15]]), pos = 4, cex = 0.6)
-
-
-# morphospace.dist <- function(ace_ord) {
-#   ace_scores <- ace_ord[grepl("^ace", rownames(ace_ord)), ]
-#   true_scores <- ace_ord[!grepl("^ace", rownames(ace_ord)), ]
-#   distances <- sqrt(rowSums((ace_scores[,1:15] - true_scores[,1:15])^2))
-#   return(distances)
-# }
-
-# ace_ord_scores <- ace_ord$fossil_high$low[[1]][grepl("^ace", rownames(ace_ord$fossil_high$low[[1]])), ]
-# true_ord_scores <- ace_ord$fossil_high$low[[1]][!grepl("^ace", rownames(ace_ord$fossil_high$low[[1]])), ]
-# test <- ace_ord_scores[94,1:10]
-# test2 <- true_ord_scores[94,1:10]
-# morpho_distances <- sqrt(rowSums((ace_ord_scores[,1:10] - true_ord_scores[,1:10])^2))
-# ## tends to converge on exactly the same value
-# # sqrt(sum((test - test2)^2))
-
-morpho_dists <- lapply(scaled_ace_ord, lapply, lapply, morphospace.dist)
-# morpho_dists_med <- unlist(morpho_dists$slow)
-saveRDS(morpho_dists, "../Data/matrices/orddists.Rds")
-
-unlisted_morpho_dists <- lapply(morpho_dists, function(rate) {
-    unlist(rate, recursive = TRUE)
-})
-
-split_dists <- lapply(unlisted_morpho_dists, function(rate){
-  split(rate, gsub("\\d+", "", names(rate)))
-})
-
-categories <- c("living", "fossil_high", "fossil_med", "fossil_low")
-boxplot(split_dists$med, 
-        main = "", 
-        ylab = "", 
-        xlab = "Categories", 
-        las = 2)
-
-## lowering number of pc axes increases high fossil recovery rate. Try this by lowering the number of pc axes included in distance function
-
-mean(morpho_dists$fossil_low$low[[15]])
-mean(morpho_dists$fossil_high$low[[15]])
-
-## larger distances in fossil high cos range is larger - perhaps need to scale.
-## using first 10 pc axes finds considerably more correct values.
 
 
 ```
@@ -1454,29 +1230,6 @@ no_ace_matrices <- lapply(fossil_matrices, lapply, lapply, function(x){
   x$matrix
 })
 
-
-no_ace_living_nodes <- lapply(seq_along(no_ace_matrices), function(rate) {
-  lapply(seq_along(no_ace_matrices[[rate]]), function(i) {
-    # Step 1: Get the node labels
-    node_v <- node_labels[[i]]
-
-    # Step 2: Get the true matrix for the current replicate
-    true <- discrete_matrices[[rate]][[i]][node_v, ]
-
-    # Step 3: Iterate over preservation levels
-    levels <- names(no_ace_matrices[[rate]][[i]])
-    ace_out <- lapply(levels, function(level_name) {
-      # Filter ACE matrix for the current preservation level
-      no_ace_matrices[[rate]][[i]][[level_name]][node_v, , drop = FALSE]
-    })
-
-    # Assign names to the ACE output
-    names(ace_out) <- levels
-
-    # Return the ACE matrices and the single true matrix
-    return(list(ace = ace_out, true = true))
-  })
-})
 
 
 

@@ -10,14 +10,6 @@ editor_options:
     wrap: 90
 ---
 
-# Background to idea for project
-
-Three key aspects I wanted to explore relating to ancestral state estimation:
-
-* how does fossil sampling influence estimate accuracy?
-* how does this influence change across different rates of discrete trait evolution/models of continuous trait evolution.
-* how does the 'threshold' value / 'fuzzy ace' for collapsing discrete states impact accuracy of ASE.
-
 
 ## First key enquiry: how accurate is ancestral state estimation?
 
@@ -28,6 +20,8 @@ There are three different parameters here:
 * method of collapsing ancestral states.
 
 I measured the Hamming distance between true and 'aced' estimations. 
+
+This gives a measure of the accuracy of raw ace.
 
 
 ```{R echo = FALSE}
@@ -49,7 +43,7 @@ strictvardiffs <- readRDS("../Data/matrices/discrete/strictvardiffs.rds")
 
 ```
 
-```{R echo = FALSE, , warning = FALSE}
+```{R echo = FALSE, , warning = FALSE, fig.width=12, fig.height=8, out.width="100%"}
 
 levels <- c("fast", "med", "slow")
 
@@ -96,7 +90,7 @@ colors <- c("slow" = "#8805A8", "med" = "#00B945", "fast" = "#FFB600")
 colors <- c("slow" = "#8805A8", "med" = "#00B945", "fast" = "#FFB600")
 
 # Generate the combined plot with violin plots
-ggplot(combined_data, aes(x = preservation_level, y = distance, color = level, fill = level)) +
+p <- ggplot(combined_data, aes(x = preservation_level, y = distance, color = level, fill = level)) +
   geom_boxplot(
     alpha = 0.7,
     outlier.size = 0.5,
@@ -115,24 +109,26 @@ ggplot(combined_data, aes(x = preservation_level, y = distance, color = level, f
   scale_fill_manual(values = colors) +   # Apply custom colors to ribbons
   theme(
     # Thicker axis labels and ticks
-    axis.text = element_text(size = 7, face = "bold"),      # Larger, bold axis labels
-    axis.title = element_text(size = 10, face = "bold"),     # Larger, bold axis titles
+    axis.text = element_text(size = 15, face = "bold"),      # Larger, bold axis labels
+    axis.title = element_text(size = 20, face = "bold"),     # Larger, bold axis titles
     axis.ticks = element_line(size = 1),                   # Thicker axis ticks
     
-    # Legend
-    legend.position = "right",                 
-    legend.title = element_text(size = 12, face = "bold"),
-    legend.text = element_text(size = 10),
+    # # Legend
+    # legend.position = "right",                 
+    # legend.title = element_text(size = 12, face = "bold"),
+    # legend.text = element_text(size = 10),
+    legend.position = "none",
     
     panel.grid = element_blank(),             
     
     # Facet labels
-    strip.text = element_text(size = 9, face = "bold", hjust = 0.5, vjust = 1),
+    strip.text = element_text(size = 20, face = "bold", hjust = 0.5, vjust = 1),
     strip.background = element_rect(color = "black", fill = "white", linewidth = 0.5),
     panel.border = element_rect(color = "black", fill = NA, linewidth = 0.5)
   ) +
   scale_y_reverse(limits = c(1.0, 0.0), expand = c(0,0))  # Ensure 0 is included
 
+ggsave("../Manuscript/figures/rawdist.png", p, width = 12, height = 8, dpi = 700, bg = "white")
 
 
 ```
@@ -140,10 +136,22 @@ ggplot(combined_data, aes(x = preservation_level, y = distance, color = level, f
 This figure can go into the supplementary, as it does not ask the main question relating to disparity...
 
 
+From these results:
+
+* faster transition rates = worse accuracy
+* sample method (probabilistic) is superior to strict/rel methods (deterministic)
+* in general, higher fossil sampling improves accuracy
+
+
 
 ## Sum of variances
 
-I then constructed distance matrices and ordinated both the 'true' and 'aced' matrices, then calculated the difference between the sum of variances values between true and aced.
+So we know that more fossils and lower rates increases accuracy of raw ancestral states
+
+Now lets see how that translates to disparity?
+
+In this case, we use a size-based metric (sum of variances)
+
 
 ```{R echo = FALSE, warning = FALSE, fig.width=14, fig.height=5, out.width="100%"}
 
@@ -156,7 +164,7 @@ strictvardiffs <- readRDS("../Data/matrices/discrete/strictvardiffs.rds")
 post_ord_diffs <- readRDS("../Data/matrices/discrete/post_ord_ace.Rds")
 
 library(scales)
-combined_data <- do.call(rbind, lapply(c("strictvardiffs", "relvardiffs", "samplevardiffs", "post_ord_diffs"), function(dataset_name) {
+combined_data <- do.call(rbind, lapply(c("strictvardiffs", "relvardiffs", "samplevardiffs"), function(dataset_name) {
   dataset <- get(dataset_name)  # Dynamically get the dataset by name
   do.call(rbind, lapply(names(dataset), function(level) {
     do.call(rbind, lapply(seq_along(dataset[[level]]), function(replicate_index) {
@@ -179,7 +187,7 @@ combined_data <- do.call(rbind, lapply(c("strictvardiffs", "relvardiffs", "sampl
   }))
 }))
 
-combined_data$threshold_method <- factor(combined_data$threshold_method, levels = c("strictvardiffs", "relvardiffs", "samplevardiffs", "post_ord_diffs"), labels = c("Strict majority rule", "Relative majority rule", "No majority rule (sample)", "Post-ordination ace"))
+combined_data$threshold_method <- factor(combined_data$threshold_method, levels = c("strictvardiffs", "relvardiffs", "samplevardiffs"), labels = c("Strict majority rule", "Relative majority rule", "No majority rule (sample)"))
 
 # log10_reverse_trans <- trans_new(
 #   name = "log10_reverse",
@@ -189,7 +197,7 @@ combined_data$threshold_method <- factor(combined_data$threshold_method, levels 
 
 colors <- c("slow" = "#8805A8", "med" = "#00B945", "fast" = "#FFB600")
 # Generate the combined plot
-ggplot(combined_data, aes(x = preservation_level, y = distance, color = level, fill = level)) +
+p <- ggplot(combined_data, aes(x = preservation_level, y = distance, color = level, fill = level)) +
   geom_boxplot(
     alpha = 0.7,
     outlier.size = 0.5,
@@ -197,7 +205,7 @@ ggplot(combined_data, aes(x = preservation_level, y = distance, color = level, f
     position = position_dodge(width = 0.8)
   ) +
   geom_hline(yintercept = 0, color = "black", linewidth = 0.6, linetype = "dashed") +  # Add horizontal line at y = 0
-  facet_wrap(~ threshold_method, ncol = 4, nrow = 1) +
+  facet_wrap(~ threshold_method, ncol = 3, nrow = 1) +
   labs(
     x = "Fossil sampling",
     y = "Relative disparity error",
@@ -209,30 +217,137 @@ ggplot(combined_data, aes(x = preservation_level, y = distance, color = level, f
   scale_fill_manual(values = colors) + 
   theme(
     # Thicker axis labels and ticks
-    axis.text = element_text(size = 7, face = "bold"),      # Larger, bold axis labels
-    axis.title = element_text(size = 10, face = "bold"),     # Larger, bold axis titles
-    axis.ticks = element_line(size = 1),                   # Thicker axis ticks
+    axis.text = element_text(size = 15, face = "bold"),      # Larger, bold axis labels
+    axis.title = element_text(size = 20, face = "bold"),     # Larger, bold axis titles
+    axis.ticks = element_line(size = 1),                  # Thicker axis ticks
     
     # Legend
-    legend.position = "right",                 
-    legend.title = element_text(size = 12, face = "bold"),
-    legend.text = element_text(size = 10),
+    legend.position = "none",                 
+    # legend.title = element_text(size = 12, face = "bold"),
+    # legend.text = element_text(size = 10),
     
     panel.grid = element_blank(),             # Larger legend keys
     
     # Facet labels
-    strip.text = element_text(size = 9, face = "bold", hjust = 0.5, vjust = 1),
+    strip.text = element_text(size = 20, face = "bold", hjust = 0.5, vjust = 1),
     strip.background = element_rect(color = "black", fill = "white", linewidth = 0.5),
     panel.border = element_rect(color = "black", fill = NA, linewidth = 0.5)
     # plot.margin = margin(t = 10, r = 10, b = 10, l = 10, unit = "pt")
       ) +
     scale_y_reverse()   # Match fill colors to line colors
 
+ggsave("../Manuscript/figures/sumvar.png", p, width = 12, height = 8, dpi = 700, bg = "white")
 
 
 ```
 
+Key takeaways:
+
+* Interestingly, disparity is recovered well, even when the raw accuracy (see earlier figure) is poor (i.e. fast rates)
+* Again, the sample method outperforms rel/strict methods.
+* Interestingly, performing ace post-ordination also performs well! It will be interesting to see whether this is true for different disparity metrics...
+
+
+## Average nearest neighbour (density)
+
+Here I looked at a density metric (average nearest neighbour)
+
+```{R echo = FALSE, warning = FALSE, fig.width=14, fig.height=5, out.width="100%"}
+
+# discrete_var_default_diffs <- readRDS("../Data/matrices/pointvardiffs.rds")
+# discrete_var_sample_diffs <- readRDS("../Data/matrices/samplevardiffs.rds")
+# discrete_var_thresh_diffs <- readRDS("../Data/matrices/threshvardiffs.rds")
+neighbours_rel_diff <- readRDS( "../Data/matrices/discrete/neighbours.rel.diff.Rds")
+neighbours_sample_diff <-  readRDS("../Data/matrices/discrete/neighbours.sample.diff.Rds")
+neighbours_strict_diff <-  readRDS("../Data/matrices/discrete/neighbours.strict.diff.Rds")
+
+
+library(scales)
+combined_data <- do.call(rbind, lapply(c("neighbours_strict_diff", "neighbours_rel_diff", "neighbours_sample_diff"), function(dataset_name) {
+  dataset <- get(dataset_name)  # Dynamically get the dataset by name
+  do.call(rbind, lapply(names(dataset), function(level) {
+    do.call(rbind, lapply(seq_along(dataset[[level]]), function(replicate_index) {
+      data <- dataset[[level]][[replicate_index]]
+      df <- data.frame(
+        replicate = replicate_index,
+        all = data$all,
+        high = data$fossil_high,
+        mid = data$fossil_med,
+        low = data$fossil_low,
+        living = data$living,
+        level = level,
+        threshold_method = dataset_name  # Add a column for treatment
+      )
+      df_long <- pivot_longer(df, cols = c("living", "low", "mid", "high", "all"),
+                              names_to = "preservation_level", values_to = "distance")
+      df_long$preservation_level <- factor(df_long$preservation_level, levels = c("living", "low", "mid", "high", "all"))
+      return(df_long)
+    }))
+  }))
+}))
+
+combined_data$threshold_method <- factor(combined_data$threshold_method, levels = c("neighbours_strict_diff", "neighbours_rel_diff", "neighbours_sample_diff"), labels = c("Strict majority rule", "Relative majority rule", "No majority rule (sample)"))
+
+# log10_reverse_trans <- trans_new(
+#   name = "log10_reverse",
+#   transform = function(x) -log10(x),  # Apply log10 and reverse
+#   inverse = function(x) 10^(-x)      # Inverse of the transformation
+# )
+
+colors <- c("slow" = "#8805A8", "med" = "#00B945", "fast" = "#FFB600")
+# Generate the combined plot
+p <- ggplot(combined_data, aes(x = preservation_level, y = distance, color = level, fill = level)) +
+  geom_boxplot(
+    alpha = 0.7,
+    outlier.size = 0.5,
+    outlier.alpha = 0.6,
+    position = position_dodge(width = 0.8)
+  ) +
+  geom_hline(yintercept = 0, color = "black", linewidth = 0.6, linetype = "dashed") +  # Add horizontal line at y = 0
+  facet_wrap(~ threshold_method, ncol = 3, nrow = 1) +
+  labs(
+    x = "Fossil sampling",
+    y = "Relative disparity error",
+    color = "Transition Rate",
+    fill = "Transition Rate"
+  ) +
+  theme_minimal() +
+  scale_color_manual(values = colors) +  # Apply custom colors to lines
+  scale_fill_manual(values = colors) + 
+  theme(
+    # Thicker axis labels and ticks
+    axis.text = element_text(size = 15, face = "bold"),      # Larger, bold axis labels
+    axis.title = element_text(size = 20, face = "bold"),     # Larger, bold axis titles
+    axis.ticks = element_line(size = 1),                  # Thicker axis ticks
+    
+    # Legend
+    legend.position = "none",                 
+    # legend.title = element_text(size = 12, face = "bold"),
+    # legend.text = element_text(size = 10),
+    
+    panel.grid = element_blank(),             # Larger legend keys
+    
+    # Facet labels
+    strip.text = element_text(size = 20, face = "bold", hjust = 0.5, vjust = 1),
+    strip.background = element_rect(color = "black", fill = "white", linewidth = 0.5),
+    panel.border = element_rect(color = "black", fill = NA, linewidth = 0.5)
+    # plot.margin = margin(t = 10, r = 10, b = 10, l = 10, unit = "pt")
+      ) +
+    scale_y_reverse()   # Match fill colors to line colors
+
+ggsave("../Manuscript/figures/neighbours.png", p, width = 12, height = 8, dpi = 700, bg = "white")
+
+
+```
+
+
 ## Random extinction
+
+So we know how well ace recovers the disparity value of the whole morphospace... but how about the performance of ace recovering true disparity changes across time bins? 
+Often, people look at disparity across major evolutionary events eg. a mass extinction.
+In this case, I simulated a series of mass extinction events (80% severity).
+I looked at disparity changes pre and post extinction (10Ma before after.)
+
 
 ```{R echo = FALSE, warning=FALSE, message=FALSE}
 matched_strict <- readRDS("../Data/matrices/randomExtinction/matched.strict.Rds")
@@ -320,7 +435,20 @@ legend("topleft",
 
 ```
 
+Key takeaways:
+
+* Fossil sampling increases performance of ace recovering true disparity change drastically; some estimates (with low fossil sampling) are over by >100% (and in the wrong direction!)
+* In general, disparity does not change across a random mass extinction, with the distribution of changes in disparity centred around 0.
+* Using ancestral state estimation generally performs better than no ancestral state estimation for finding the true disparity change (but hard to tell, in this case I looked at the R^2 for model fit.)
+
+
+
 ## Selective extinction
+
+How about in a selective mass extinction?
+Here, we might expect ace to perform worse, since the trait distributions post extinction are biased by selectivity.
+In this case, I simulated that anything with trait values 0 or 1 across 5 correlated and 2 independent traits has a probability of 0.9 to go extinct.
+Therefore, trait values post extinction are biased towards 2, rather than 0/1.
 
 ### Sample ace selective extinction
 
@@ -420,8 +548,13 @@ knitr::include_graphics(path = "../Manuscript/figures/selectiveExtinction/correl
 
 ```
 
-### Other disparity metrics
+Key takeaways:
+ 
+* small sample size (at the moment), but no ace in this case has a better model fit than with ace: suggests that selective extinctions can confound ace causing error.
+* however, the error is not major and the sample method still recovers true disparity change with relatively high accuracy (with high fossil sampling).
 
-* Sum of ranges
-* Average displacement
-* Some sort of density metric
+# Key takeaway from whole paper
+
+* Propagating uncertainty of ancestral state estimations down macroevolutionary pipelines (such as disparity) is key for recovering true signals.
+* Sample as many fossils as you can - even though the overall disparity signal can be recovered with low fossil sampling level, this is not true when looking at disparity through time. 
+* If you have super fast transition rates, be cautious of ace... fit an Mk model prior to doing ace to see how fast your rates are?? Or only perform ancestral state estimation on slow evolving traits?? Can discuss these take home messages?

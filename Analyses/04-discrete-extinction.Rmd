@@ -612,6 +612,13 @@ matched_sample <- create.matched.data(true_change, ace_disp_change_clean["sample
 matched_no_ace <- create.matched.data(true_change, ace_disp_change_clean["no_ace"])
 
 
+
+saveRDS(matched_strict, "../Data/matrices/randomExtinction/matched.strict.Rds")
+saveRDS(matched_rel, "../Data/matrices/randomExtinction/matched.rel.Rds")
+saveRDS(matched_sample, "../Data/matrices/randomExtinction/matched.sample.Rds")
+saveRDS(matched_no_ace, "../Data/matrices/randomExtinction/matched.no_ace.Rds")
+
+
 ```
 
 ## Plotting random extinction
@@ -1262,7 +1269,7 @@ extinction_times <- lapply(tip_ages, lapply, find.extinction.time)
 
 
 time_slices <- lapply(extinction_times, lapply, function(time){
-  intervals <- c(time + 10, time + 0.0001,  (time + 0.0001) - 10)
+  intervals <- c(time + 20, time + 0.0001,  (time + 0.0001) - 20)
   return(intervals)
 })
 
@@ -1475,6 +1482,10 @@ matched_rel <- create.matched.data(true_change, ace_disp_change_clean["rel"])
 matched_sample <- create.matched.data(true_change, ace_disp_change_clean["sample"])
 matched_no_ace <- create.matched.data(true_change, ace_disp_change_clean["no_ace"])
 
+saveRDS(matched_strict, "../Data/matrices/selectiveExtinction/matched.strict.Rds")
+saveRDS(matched_rel, "../Data/matrices/selectiveExtinction/matched.rel.Rds")
+saveRDS(matched_sample, "../Data/matrices/selectiveExtinction/matched.sample.Rds")
+saveRDS(matched_no_ace, "../Data/matrices/selectiveExtinction/matched.no_ace.Rds")
 
 # Extract relative changes for plotting
 
