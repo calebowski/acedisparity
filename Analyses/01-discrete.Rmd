@@ -31,9 +31,9 @@ library(treats)
 
 bd_params <- make.bd.params(speciation = 1, extinction = 0.7)
 
-stop_rule <- list(max.living = 70)
+stop_rule <- list(max.living = 50)
 set.seed(123)
-trees <- treats(stop.rule = stop_rule, bd.params = bd_params, null.error = 100, replicates = 100)
+trees <- treats(stop.rule = stop_rule, bd.params = bd_params, null.error = 100, replicates = 10)
 
 ## write the saved trees
 write.tree(trees, "../Data/trees/simulated.tre")
@@ -105,6 +105,7 @@ fast_multi <- treats::make.traits(process = discrete.process, n = 15, process.ar
 slow_matrices <- lapply(trees, function(tree) {
     mapped_binary <- (map.traits(slow_binary, tree))$data
     mapped_multi <- (map.traits(slow_multi, tree))$data
+    colnames(mapped_multi) <- c(paste0("B", 1:15))
     matrix <- cbind(mapped_binary, mapped_multi)
     return(matrix)
 })
@@ -112,6 +113,7 @@ slow_matrices <- lapply(trees, function(tree) {
 med_matrices <- lapply(trees, function(tree) {
     mapped_binary <- (map.traits(med_binary, tree))$data
     mapped_multi <- (map.traits(med_multi, tree))$data
+    colnames(mapped_multi) <- c(paste0("B", 1:15))
     matrix <- cbind(mapped_binary, mapped_multi)
     return(matrix)
 })
@@ -119,6 +121,7 @@ med_matrices <- lapply(trees, function(tree) {
 fast_matrices <- lapply(trees, function(tree) {
     mapped_binary <- (map.traits(fast_binary, tree))$data
     mapped_multi <- (map.traits(fast_multi, tree))$data
+    colnames(mapped_multi) <- c(paste0("B", 1:15))
     matrix <- cbind(mapped_binary, mapped_multi)
     return(matrix)
 })
@@ -127,6 +130,10 @@ fast_matrices <- lapply(trees, function(tree) {
 discrete_matrices <- list(slow = slow_matrices, med = med_matrices, fast = fast_matrices)
 saveRDS(discrete_matrices, "../Data/matrices/discrete/discretematrices.rds")
 discrete_matrices <- readRDS("../Data/matrices/discrete/discretematrices.rds")
+
+
+
+
 
 ```
 
@@ -190,7 +197,7 @@ names(fossil_anc) <- names(fossil_matrices)
 
 # sampled_fossil_anc <- lapply(fossil_anc, sample.anc.states)
 
-sample_fossil_anc <- lapply(fossil_anc, lapply, lapply, multi.ace, sample = 12)
+sample_fossil_anc <- lapply(fossil_anc, lapply, lapply, multi.ace, sample = 16)
 
 strict_fossil_anc <- lapply(fossil_anc, lapply, lapply, multi.ace, threshold = FALSE, output = "combined.matrix", verbose = TRUE)
 
@@ -219,6 +226,11 @@ test <- lapply(fossil_anc$slow[[1]]$living$discrete$estimates[[1]], function(cha
 })
 
 uncerties <- uncertainty(test)
+
+
+
+
+
 
 ##### check the number of traits - must be an issue with naming
 uncertainty <- function(likelihoods){
@@ -354,10 +366,9 @@ sample_living <- Map(function(rate_anc, rate_labels) {
 
 names(sample_living) <- names(sample_fossil_anc)
 
-
-
-
-
+no_ace_living <- lapply(strict_living, lapply, lapply, function(matrix){
+  no_node <- matrix[!grepl("^n", rownames(matrix)),]
+})
 
 true_living <-  lapply(seq_along(discrete_matrices), function(rate) {
   lapply(seq_along(discrete_matrices[[rate]]), function(i) {
@@ -489,6 +500,7 @@ source("../Functions/utility.R")
 # anc_matrices_living
 ## sum of variances
 disp_sample <- lapply(sample_living, lapply, lapply, lapply, function(rep){
+  isord <- readRDS("../Data/matrices/discrete/sample.ord.rds") ## try read it in before, if broke it runs it itself.
   dist <- char.diff(rep, method = "mord", by.col = FALSE)
   ord <- (cmdscale(dist, k = ncol(dist) - 2, add = TRUE))$points
   disp <- dispRity(ord, metric = c(sum, variances))$disparity
@@ -512,6 +524,12 @@ disp_true <- lapply(true_living, lapply, function(rep){
   disp <- dispRity(ord, metric = c(sum, variances))$disparity
 })
 
+disp_no_ace <- lapply(no_ace_living, lapply, lapply, function(rep){
+  dist <- char.diff(rep, method = "mord", by.col = FALSE)
+  ord <- (cmdscale(dist, k = ncol(dist) - 2, add = TRUE))$points
+  disp <- dispRity(ord, metric = c(sum, variances))$disparity
+})
+
 
 disp_rel_diff <- Map(function(rate_data, true_data) {
   Map(function(rep_data, true_rep) {
@@ -521,6 +539,15 @@ disp_rel_diff <- Map(function(rate_data, true_data) {
   }, rate_data, true_data)
 }, disp_rel, disp_true)
 
+
+
+disp_no_ace_diff <- Map(function(rate_data, true_data) {
+  Map(function(rep_data, true_rep) {
+    Map(function(fossil_data) {
+      disp.diff(fossil_data, true_rep)
+    }, rep_data)
+  }, rate_data, true_data)
+}, disp_no_ace, disp_true)
 
 disp_sample_diff <- Map(function(rate_data, true_data) {
   Map(function(rep_data, true_rep) {
@@ -541,9 +568,10 @@ disp_strict_diff <- Map(function(rate_data, true_data) {
   }, rate_data, true_data)
 }, disp_strict, disp_true)
 
-saveRDS(disp_strict_diff, "../Data/matrices/discrete/neighbours.rel.diff.Rds")
-saveRDS(disp_sample_diff, "../Data/matrices/discrete/neighbours.sample.diff.Rds")
-saveRDS(disp_rel_diff, "../Data/matrices/discrete/neighbours.strict.diff.Rds")
+saveRDS(disp_strict_diff, "../Data/matrices/discrete/strictvardiffs.Rds")
+saveRDS(disp_sample_diff, "../Data/matrices/discrete/samplevardiffs.Rds")
+saveRDS(disp_rel_diff, "../Data/matrices/discrete/relvardiffs.Rds")
+saveRDS(disp_no_ace_diff, "../Data/matrices/discrete/noacevardiffs.Rds")
 
 
 
@@ -570,6 +598,12 @@ neighbours_strict <- lapply(strict_living, lapply, lapply, function(rep){
 })
 
 neighbours_true <- lapply(true_living, lapply, function(rep){
+  dist <- char.diff(rep, method = "mord", by.col = FALSE)
+  ord <- (cmdscale(dist, k = ncol(dist) - 2, add = TRUE))$points
+  disp <- dispRity(ord, metric = c(mean, neighbours))$disparity
+})
+
+neighbours_no_ace <- lapply(no_ace_living, lapply, lapply, function(rep){
   dist <- char.diff(rep, method = "mord", by.col = FALSE)
   ord <- (cmdscale(dist, k = ncol(dist) - 2, add = TRUE))$points
   disp <- dispRity(ord, metric = c(mean, neighbours))$disparity
@@ -605,10 +639,19 @@ neighbours_strict_diff <- Map(function(rate_data, true_data) {
   }, rate_data, true_data)
 }, neighbours_strict, neighbours_true)
 
+neighbours_no_ace_diff <- Map(function(rate_data, true_data) {
+  Map(function(rep_data, true_rep) {
+    Map(function(fossil_data) {
+      disp.diff(fossil_data, true_rep)
+    }, rep_data)
+  }, rate_data, true_data)
+}, neighbours_no_ace, neighbours_true)
+
 
 saveRDS(neighbours_rel_diff, "../Data/matrices/discrete/neighbours.rel.diff.Rds")
 saveRDS(neighbours_sample_diff, "../Data/matrices/discrete/neighbours.sample.diff.Rds")
 saveRDS(neighbours_strict_diff, "../Data/matrices/discrete/neighbours.strict.diff.Rds")
+saveRDS(neighbours_no_ace_diff, "../Data/matrices/discrete/neighbours.noace.diff.Rds")
 
 
 

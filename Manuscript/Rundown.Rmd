@@ -158,13 +158,14 @@ In this case, we use a size-based metric (sum of variances)
 # discrete_var_default_diffs <- readRDS("../Data/matrices/pointvardiffs.rds")
 # discrete_var_sample_diffs <- readRDS("../Data/matrices/samplevardiffs.rds")
 # discrete_var_thresh_diffs <- readRDS("../Data/matrices/threshvardiffs.rds")
-relvardiffs <- readRDS("../Data/matrices/discrete/relvardiffs.rds")
-samplevardiffs <- readRDS("../Data/matrices/discrete/samplevardiffs.rds")
-strictvardiffs <- readRDS("../Data/matrices/discrete/strictvardiffs.rds")
+relvardiffs <- readRDS("../Data/matrices/discrete/relvardiffs.Rds")
+samplevardiffs <- readRDS("../Data/matrices/discrete/samplevardiffs.Rds")
+strictvardiffs <- readRDS("../Data/matrices/discrete/strictvardiffs.Rds")
 post_ord_diffs <- readRDS("../Data/matrices/discrete/post_ord_ace.Rds")
+disp_no_ace_diff <- readRDS("../Data/matrices/discrete/noacevardiffs.Rds")
 
 library(scales)
-combined_data <- do.call(rbind, lapply(c("strictvardiffs", "relvardiffs", "samplevardiffs"), function(dataset_name) {
+combined_data <- do.call(rbind, lapply(c("strictvardiffs", "relvardiffs", "samplevardiffs", "disp_no_ace_diff"), function(dataset_name) {
   dataset <- get(dataset_name)  # Dynamically get the dataset by name
   do.call(rbind, lapply(names(dataset), function(level) {
     do.call(rbind, lapply(seq_along(dataset[[level]]), function(replicate_index) {
@@ -187,7 +188,7 @@ combined_data <- do.call(rbind, lapply(c("strictvardiffs", "relvardiffs", "sampl
   }))
 }))
 
-combined_data$threshold_method <- factor(combined_data$threshold_method, levels = c("strictvardiffs", "relvardiffs", "samplevardiffs"), labels = c("Strict majority rule", "Relative majority rule", "No majority rule (sample)"))
+combined_data$threshold_method <- factor(combined_data$threshold_method, levels = c("strictvardiffs", "relvardiffs", "samplevardiffs", "disp_no_ace_diff"), labels = c("Strict majority rule", "Relative majority rule", "No majority rule (sample)", "No ACE"))
 
 # log10_reverse_trans <- trans_new(
 #   name = "log10_reverse",
@@ -197,6 +198,7 @@ combined_data$threshold_method <- factor(combined_data$threshold_method, levels 
 
 colors <- c("slow" = "#8805A8", "med" = "#00B945", "fast" = "#FFB600")
 # Generate the combined plot
+
 p <- ggplot(combined_data, aes(x = preservation_level, y = distance, color = level, fill = level)) +
   geom_boxplot(
     alpha = 0.7,
@@ -204,8 +206,8 @@ p <- ggplot(combined_data, aes(x = preservation_level, y = distance, color = lev
     outlier.alpha = 0.6,
     position = position_dodge(width = 0.8)
   ) +
-  geom_hline(yintercept = 0, color = "black", linewidth = 0.6, linetype = "dashed") +  # Add horizontal line at y = 0
-  facet_wrap(~ threshold_method, ncol = 3, nrow = 1) +
+  geom_hline(yintercept = 0, color = "black", linewidth = 0.6, linetype = "dashed") +
+  facet_wrap(~ threshold_method, ncol = 4, nrow = 1) +
   labs(
     x = "Fossil sampling",
     y = "Relative disparity error",
@@ -213,28 +215,20 @@ p <- ggplot(combined_data, aes(x = preservation_level, y = distance, color = lev
     fill = "Transition Rate"
   ) +
   theme_minimal() +
-  scale_color_manual(values = colors) +  # Apply custom colors to lines
+  scale_color_manual(values = colors) +
   scale_fill_manual(values = colors) + 
   theme(
-    # Thicker axis labels and ticks
-    axis.text = element_text(size = 15, face = "bold"),      # Larger, bold axis labels
-    axis.title = element_text(size = 20, face = "bold"),     # Larger, bold axis titles
-    axis.ticks = element_line(size = 1),                  # Thicker axis ticks
-    
-    # Legend
-    legend.position = "none",                 
-    # legend.title = element_text(size = 12, face = "bold"),
-    # legend.text = element_text(size = 10),
-    
-    panel.grid = element_blank(),             # Larger legend keys
-    
-    # Facet labels
-    strip.text = element_text(size = 20, face = "bold", hjust = 0.5, vjust = 1),
+    axis.text = element_text(size = 15, face = "bold"),
+    axis.title = element_text(size = 20, face = "bold"),
+    axis.ticks = element_line(size = 1),
+    legend.position = "none",
+    panel.grid = element_blank(),
+    strip.text = element_text(size = 15, face = "bold", hjust = 0.5, vjust = 1),
     strip.background = element_rect(color = "black", fill = "white", linewidth = 0.5),
     panel.border = element_rect(color = "black", fill = NA, linewidth = 0.5)
-    # plot.margin = margin(t = 10, r = 10, b = 10, l = 10, unit = "pt")
-      ) +
-    scale_y_reverse()   # Match fill colors to line colors
+  ) +
+  coord_trans(y = "pseudo_log") +
+  scale_y_reverse()
 
 ggsave("../Manuscript/figures/sumvar.png", p, width = 12, height = 8, dpi = 700, bg = "white")
 
@@ -260,10 +254,11 @@ Here I looked at a density metric (average nearest neighbour)
 neighbours_rel_diff <- readRDS( "../Data/matrices/discrete/neighbours.rel.diff.Rds")
 neighbours_sample_diff <-  readRDS("../Data/matrices/discrete/neighbours.sample.diff.Rds")
 neighbours_strict_diff <-  readRDS("../Data/matrices/discrete/neighbours.strict.diff.Rds")
+neighbours_no_ace_diff <- readRDS("../Data/matrices/discrete/neighbours.noace.diff.Rds")
 
 
 library(scales)
-combined_data <- do.call(rbind, lapply(c("neighbours_strict_diff", "neighbours_rel_diff", "neighbours_sample_diff"), function(dataset_name) {
+combined_data <- do.call(rbind, lapply(c("neighbours_strict_diff", "neighbours_rel_diff", "neighbours_sample_diff", "neighbours_no_ace_diff"), function(dataset_name) {
   dataset <- get(dataset_name)  # Dynamically get the dataset by name
   do.call(rbind, lapply(names(dataset), function(level) {
     do.call(rbind, lapply(seq_along(dataset[[level]]), function(replicate_index) {
@@ -286,7 +281,7 @@ combined_data <- do.call(rbind, lapply(c("neighbours_strict_diff", "neighbours_r
   }))
 }))
 
-combined_data$threshold_method <- factor(combined_data$threshold_method, levels = c("neighbours_strict_diff", "neighbours_rel_diff", "neighbours_sample_diff"), labels = c("Strict majority rule", "Relative majority rule", "No majority rule (sample)"))
+combined_data$threshold_method <- factor(combined_data$threshold_method, levels = c("neighbours_strict_diff", "neighbours_rel_diff", "neighbours_sample_diff", "neighbours_no_ace_diff"), labels = c("Strict majority rule", "Relative majority rule", "No majority rule (sample)", "No ACE"))
 
 # log10_reverse_trans <- trans_new(
 #   name = "log10_reverse",
@@ -303,8 +298,8 @@ p <- ggplot(combined_data, aes(x = preservation_level, y = distance, color = lev
     outlier.alpha = 0.6,
     position = position_dodge(width = 0.8)
   ) +
-  geom_hline(yintercept = 0, color = "black", linewidth = 0.6, linetype = "dashed") +  # Add horizontal line at y = 0
-  facet_wrap(~ threshold_method, ncol = 3, nrow = 1) +
+  geom_hline(yintercept = 0, color = "black", linewidth = 0.6, linetype = "dashed") +
+  facet_wrap(~ threshold_method, ncol = 4, nrow = 1) +
   labs(
     x = "Fossil sampling",
     y = "Relative disparity error",
@@ -312,28 +307,20 @@ p <- ggplot(combined_data, aes(x = preservation_level, y = distance, color = lev
     fill = "Transition Rate"
   ) +
   theme_minimal() +
-  scale_color_manual(values = colors) +  # Apply custom colors to lines
+  scale_color_manual(values = colors) +
   scale_fill_manual(values = colors) + 
   theme(
-    # Thicker axis labels and ticks
-    axis.text = element_text(size = 15, face = "bold"),      # Larger, bold axis labels
-    axis.title = element_text(size = 20, face = "bold"),     # Larger, bold axis titles
-    axis.ticks = element_line(size = 1),                  # Thicker axis ticks
-    
-    # Legend
-    legend.position = "none",                 
-    # legend.title = element_text(size = 12, face = "bold"),
-    # legend.text = element_text(size = 10),
-    
-    panel.grid = element_blank(),             # Larger legend keys
-    
-    # Facet labels
-    strip.text = element_text(size = 20, face = "bold", hjust = 0.5, vjust = 1),
+    axis.text = element_text(size = 15, face = "bold"),
+    axis.title = element_text(size = 20, face = "bold"),
+    axis.ticks = element_line(size = 1),
+    legend.position = "none",
+    panel.grid = element_blank(),
+    strip.text = element_text(size = 15, face = "bold", hjust = 0.5, vjust = 1),
     strip.background = element_rect(color = "black", fill = "white", linewidth = 0.5),
     panel.border = element_rect(color = "black", fill = NA, linewidth = 0.5)
-    # plot.margin = margin(t = 10, r = 10, b = 10, l = 10, unit = "pt")
-      ) +
-    scale_y_reverse()   # Match fill colors to line colors
+  ) +
+  coord_trans(y = "pseudo_log") +
+  scale_y_reverse()
 
 ggsave("../Manuscript/figures/neighbours.png", p, width = 12, height = 8, dpi = 700, bg = "white")
 
@@ -356,7 +343,11 @@ matched_sample <- readRDS( "../Data/matrices/randomExtinction/matched.sample.Rds
 matched_no_ace <- readRDS( "../Data/matrices/randomExtinction/matched.no_ace.Rds")
 
 
-
+strict_df <- data.frame(
+  ace = matched_strict$ace,
+  true = matched_strict$true,
+  fossil_level = as.factor(matched_strict$fossil_level)
+)
 
 # Heat colors (red = high preservation, yellow = low)
 library(viridis)
@@ -364,25 +355,19 @@ fossil_colors <- viridis(5, option = "plasma", direction = -1)
 names(fossil_colors) <- c("all", "fossil_high", "fossil_med", "fossil_low", "living")
 
 
-# # Terrain colors
-# fossil_colors <- terrain.colors(5)
-# names(fossil_colors) <- c("all", "fossil_high", "fossil_med", "fossil_low", "living")
 
 # all_true <- c(matched_rel$true, matched_strict$true, matched_sample$true, matched_no_ace$true)
 all_ace <- c(matched_rel$ace, matched_strict$ace, matched_sample$ace, matched_no_ace$ace)
 
 
 
-# Create correlation plot
-# Create the plot
 
+sample_fit <- lm(matched_sample$ace ~ matched_sample$true)
+no_ace_fit <- lm(matched_no_ace$ace ~ matched_no_ace$true)
 
+summary(sample_fit)
 
-
-# Create correlation plot
-# Create the plot
-
-
+png("../Manuscript/figures/randomExtinction/no_ace_disp_change.png", width = 7, height = 7, units = "in", bg = "white")
 
 # Create correlation plot
 # Create the plot
@@ -393,7 +378,7 @@ plot(matched_sample$true, matched_sample$ace,
      pch = 16, 
      col = fossil_colors[matched_sample$fossil_level],
      cex = 1,
-     xlim = range(matched_rel$true),
+     xlim = range(matched_sample$true),
      ylim = range(all_ace))
 
 # Add 1:1 line
@@ -404,6 +389,8 @@ legend("topleft",
        pch = 16,
        cex = 1,
        title = "Fossil Level")
+
+dev.off()
 
 
 ## Note that for living no ace - there is no way that living taxa can be present during the mass extinction so it cannot be compared.

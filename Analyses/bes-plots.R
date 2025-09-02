@@ -1031,7 +1031,7 @@ layout(matrix(c(1, 2), nrow = 2), heights = c(0.4, 0.6))
 
 # Plot 1: Selective extinction tree
 par(mar = c(1, 4, 2, 2))
-plot(selective_tree, edge.color = "darkorange", edge.width = 4, 
+plot(selective_tree, edge.color = "darkorange", edge.width = 3, 
      show.tip.label = FALSE, direction = "rightwards")
 # title("Selective Extinction Tree", cex.main = 1.5)
 

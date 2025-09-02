@@ -1,4 +1,3 @@
-## function to create trees of only extant species
 remove.fossil <- function(trees, matrices, type = c("discrete", "continuous")) {
   living_matrices <- Map(function(tree, matrix) {
     ages <- tree.age(tree) # get tip ages

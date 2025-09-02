@@ -113,3 +113,18 @@ Because obviously they will use the max fossils they can, but i think it would b
 PROJECT/CHAPTER IDEA: - what buffers against extinction best? Functionality or species numbers -> could implement a simulation approach whereby species have rare functionality, which allows them to persist... see how often they go extinct?
 
 Decision tree algorithms - similar to random forest; will output most important variables and parameters.
+
+
+
+
+
+
+
+
+
+
+
+
+#######################################################################################################
+
+Cluster test- - see how long one chunk takes: so thats 1 tree, 2 models, 5 fossil subsampling and aced ordinated. 
