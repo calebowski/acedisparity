@@ -219,16 +219,11 @@ sample_fossil_anc <- readRDS("../Data/matrices/discrete/sampleddiscreteanc.Rds")
 ## Uncertainty in estimates
 
 ```{R}
-str(fossil_anc$slow[[1]]$living$discrete$estimates[[1]], max.level = 1)
+fossil_anc$slow[[1]]$living$discrete$estimates[[1]]
 
 test <- lapply(fossil_anc$slow[[1]]$living$discrete$estimates[[1]], function(characters){
   characters$results
 })
-
-uncerties <- uncertainty(test)
-
-
-
 
 
 
@@ -237,7 +232,7 @@ uncertainty <- function(likelihoods){
   unlist(lapply(likelihoods, function(character){
   sums <- matrix()
   for(row in 1:nrow(character)) {
-    sums[[row]] <- 1- max(character[row,]) 
+    sums[[row]] <- 1- max(character[row, ]) 
   }
   return(sum(sums) / nrow(character))
 }))
@@ -260,6 +255,9 @@ test <- lapply(fossil_anc$slow[[1]]$living$discrete$estimates[[1]], function(cha
 discrete_matrices$slow[[1]]
 
 
+
+
+
 error <- function(likelihoods, true_matrix){
   unlist(lapply(likelihoods, function(character){
   sums <- matrix()
@@ -270,9 +268,84 @@ error <- function(likelihoods, true_matrix){
 }
 
 
+discrete_matrices$slow[[1]][,1]
+
+
+likelihoods <- fossil_anc$slow[[1]]$living$discrete$estimates[[1]][[1]]$results
+
+
+rownames(fossil_anc$slow[[1]]$living$discrete$estimates[[1]][[1]]$results)
+
+
+rownames(fossil_anc$slow[[1]]$living$discrete$estimates[[1]][[1]]$results)
 
 
 
+true_states <- discrete_matrices$slow[[1]][rownames(fossil_anc$slow[[1]]$living$discrete$estimates[[1]][[1]]$results),1]
+
+errors <- c()
+
+for(node in 1:length(true_states)){
+  true <- true_states[node]
+  estimated <- likelihoods[node, ]
+  
+  # Get likelihood assigned to true state
+  true_likelihood <- estimated[as.character(true)]
+  
+  # Calculate error (1 - probability of correct state)
+  error <- 1 - true_likelihood
+  errors <- c(errors, error)
+}
+
+living_nodes <- lapply(labels, lapply, function(x){
+  x$living[grepl("^n", x$living)]
+})
+
+
+
+error <- function(anc, true, node_labels){
+  level <- Map(function(rate_anc, rate_true, rate_nodes){
+    Map(function(i_anc, i_true, i_nodes){
+      lapply(i_anc, function(fossil){
+        traits <- fossil$discrete$estimates[[1]]
+        all_errors <- c()  # Single vector of all errors
+        
+        for(trait in 1:length(traits)){
+          likelihoods <- traits[[trait]]$results
+          true_trait <- i_true[, trait]
+          true_living_nodes <- true_trait[i_nodes]
+          
+          for(node in 1:length(true_living_nodes)){
+            true_state <- true_living_nodes[node]
+            estimated <- likelihoods[node, , drop = FALSE]
+            
+            if(as.character(true_state) %in% colnames(estimated)) {
+              true_likelihood <- estimated[1, as.character(true_state)]
+              error <- 1 - true_likelihood
+            } else {
+              error <- NA
+            }
+            
+            all_errors <- c(all_errors, error)
+          }
+        }
+        
+        # Return single unlisted vector
+        return(all_errors)
+      })
+    }, rate_anc, rate_true, rate_nodes)
+  }, anc, true, node_labels)
+  
+  return(level)
+}
+
+
+errors <- error(anc = fossil_anc, true = discrete_matrices, node_labels = living_nodes)
+
+
+
+
+discrete_matrices$slow[[1]][living_nodes$slow[[1]],]
 
 
 saveRDS(uncertainties, "../Data/matrices/discrete/uncertainties.Rds")
