@@ -1,19 +1,22 @@
-args <- commandArgs(trailingOnly = TRUE)
-replicate_id <- as.numeric(args[1])
-# library(parallel)
-library(treats)
 
-set.seed(100 + replicate_id)
+library(parallel)
+library(treats)
 
 bd_params <- make.bd.params(speciation = 1, extinction = 0.7)
 
-stop_rule <- list(max.living = 50)
-# set.seed(123)
+stop_rule <- list(max.living = 30)
+set.seed(123)
 tree <- treats(stop.rule = stop_rule, bd.params = bd_params, null.error = 100)
 
 ## write the saved trees
-write.tree(tree, paste0("/users/$USER/acedisparity/discrete/out/discrete_tree_", replicate_id, ".tre"))
+write.tree(tree, "/users/bip24cns/acedisparity/discrete/test/discrete.tre")
+# write.tree(tree, file = "../Data/processed/trees/simulated.tre")
+# tree <- read.tree("../Data/processed/trees/simulated.tre")
 
+# tree <- read.nexus("../Data/raw/trees/Beck2014.tre")
+# tree <- makeNodeLabel(tree)
+# tree <- set.root.time(tree)
+# trees <- read.tree("../Data/trees/simulated.tre")
 
 slow_binary_transitions <- matrix(c(
     0.99, 0.01,
@@ -26,8 +29,8 @@ slow_multi_transitions <- matrix(c(
     0.025, 0.025, 0.99
 ), nrow = 3, byrow = TRUE)
 
-slow_binary <- treats::make.traits(process = discrete.process, n = 85, process.args = list(transitions = slow_binary_transitions))
-slow_multi <- treats::make.traits(process = discrete.process, n = 15, process.args = list(transitions = slow_multi_transitions))
+slow_binary <- treats::make.traits(process = discrete.process, n = 50, process.args = list(transitions = slow_binary_transitions))
+slow_multi <- treats::make.traits(process = discrete.process, n = 10, process.args = list(transitions = slow_multi_transitions))
 
 
 med_binary_transitions <- matrix(c(
@@ -42,8 +45,8 @@ med_multi_transitions <- matrix(c(
   0.05, 0.05, 0.9
 ), nrow = 3, byrow = TRUE)
 
-med_binary <- treats::make.traits(process = discrete.process, n = 85, process.args = list(transitions = med_binary_transitions))
-med_multi <- treats::make.traits(process = discrete.process, n = 15, process.args = list(transitions = med_multi_transitions))
+med_binary <- treats::make.traits(process = discrete.process, n = 50, process.args = list(transitions = med_binary_transitions))
+med_multi <- treats::make.traits(process = discrete.process, n = 10, process.args = list(transitions = med_multi_transitions))
 
 fast_binary_transitions <- matrix(c(
     0.1, 0.9,
@@ -56,8 +59,8 @@ fast_multi_transitions <- matrix(c(
     0.45, 0.45, 0.1 
 ), nrow = 3, byrow = TRUE)
 
-fast_binary <- treats::make.traits(process = discrete.process, n = 85, process.args = list(transitions = fast_binary_transitions))
-fast_multi <- treats::make.traits(process = discrete.process, n = 15, process.args = list(transitions = fast_multi_transitions))
+fast_binary <- treats::make.traits(process = discrete.process, n = 50, process.args = list(transitions = fast_binary_transitions))
+fast_multi <- treats::make.traits(process = discrete.process, n = 10, process.args = list(transitions = fast_multi_transitions))
 
 
 
@@ -77,9 +80,9 @@ matrices <- lapply(trait_sets, function(traits) {
   cbind(mapped_binary, mapped_multi)
 })
 
-saveRDS(matrices, paste0("/users/$USER/acedisparity/discrete/out/matrices_", replicate_id, ".rds"))
+saveRDS(matrices, "/users/bip24cns/acedisparity/discrete/test/matrices.Rds")
 
-source("/users/$USER/acedisparity/discrete/scripts/fossil.pres.R")
+source("/users/bip24cns/acedisparity/discrete/scripts/fossil.pres.R")
 
 living <- lapply(matrices, remove.fossil, trees = tree, type = "discrete")
 fossilised_high <- lapply(matrices, fossil.pres, trees = tree, preservation = 0.5, type = "discrete")
@@ -103,7 +106,7 @@ fossil_matrices <- lapply(names(matrices), function(level) {
 # Assign names to the outer list
 names(fossil_matrices) <- names(matrices)
 
-saveRDS(fossil_matrices, paste0("/users/$USER/acedisparity/discrete/out/fossil_matrices_", replicate_id, ".rds"))
+saveRDS(fossil_matrices, "/users/bip24cns/acedisparity/discrete/test/fossil_matrices.Rds")
 
 
 
@@ -122,17 +125,16 @@ return(anc_states)}
 fossil_anc <- lapply(fossil_matrices, lapply, anc.states)
 
 
-sample_fossil_anc <- lapply(fossil_anc, lapply,  multi.ace, sample = 100)
+sample_fossil_anc <- lapply(fossil_anc, lapply,  multi.ace, sample = 10)
 
 strict_fossil_anc <- lapply(fossil_anc, lapply, multi.ace, threshold = FALSE, output = "combined.matrix", verbose = TRUE)
 
 relative_fossil_anc <- lapply(fossil_anc, lapply,  multi.ace, output = "combined.matrix", verbose = TRUE)
 
-saveRDS(fossil_anc, paste0("/users/$USER/acedisparity/discrete/out/discrete_anc_", replicate_id, ".rds"))
-saveRDS(sample_fossil_anc, paste0("/users/$USER/acedisparity/discrete/out/sample_anc_", replicate_id, ".rds"))
-saveRDS(relative_fossil_anc, paste0("/users/$USER/acedisparity/discrete/out/rel_anc_", replicate_id, ".rds"))
-saveRDS(strict_fossil_anc, paste0("/users/$USER/acedisparity/discrete/out/strict_anc_", replicate_id, ".rds"))
-
+saveRDS(fossil_anc, "/users/bip24cns/acedisparity/discrete/test/discreteanc.rds")
+saveRDS(sample_fossil_anc, "/users/bip24cns/acedisparity/discrete/test/sampleanc.rds")
+saveRDS(relative_fossil_anc, "/users/bip24cns/acedisparity/discrete/test/relanc.rds")
+saveRDS(strict_fossil_anc, "/users/bip24cns/acedisparity/discrete/test/strictanc.rds")
 
 
 ########################################################################################################################
@@ -196,7 +198,7 @@ ord_sample <- lapply(sample_living, lapply, lapply, function(rep){
   ord <- (cmdscale(dist, k = ncol(dist) - 2, add = TRUE))$points
 })
 
-saveRDS(ord_sample, paste0("/users/$USER/acedisparity/discrete/out/ord_sample_", replicate_id, ".rds"))
+saveRDS(ord_sample, "/users/bip24cns/acedisparity/discrete/test/ord_sample.rds")
 
 
 ord_rel <- lapply(rel_living, lapply, function(rep){
@@ -204,7 +206,7 @@ ord_rel <- lapply(rel_living, lapply, function(rep){
   ord <- (cmdscale(dist, k = ncol(dist) - 2, add = TRUE))$points
 })
 
-saveRDS(ord_rel, paste0("/users/$USER/acedisparity/discrete/out/ord_rel_", replicate_id, ".rds"))
+saveRDS(ord_rel, "/users/bip24cns/acedisparity/discrete/test/ord_rel.rds")
 
 
 ord_strict <- lapply(strict_living, lapply,  function(rep){
@@ -212,7 +214,7 @@ ord_strict <- lapply(strict_living, lapply,  function(rep){
   ord <- (cmdscale(dist, k = ncol(dist) - 2, add = TRUE))$points
 })
 
-saveRDS(ord_strict, paste0("/users/$USER/acedisparity/discrete/out/ord_strict_", replicate_id, ".rds"))
+saveRDS(ord_strict, "/users/bip24cns/acedisparity/discrete/test/ord_strict.rds")
 
 
 ord_true <- lapply(true_living, function(rep){
@@ -220,7 +222,7 @@ ord_true <- lapply(true_living, function(rep){
   ord <- (cmdscale(dist, k = ncol(dist) - 2, add = TRUE))$points
 })
 
-saveRDS(ord_strict, paste0("/users/$USER/acedisparity/discrete/out/ord_true_", replicate_id, ".rds"))
+saveRDS(ord_true, "/users/bip24cns/acedisparity/discrete/test/ord_true.rds")
 
 
 ord_no_ace <- lapply(no_ace_living, lapply, function(rep){
@@ -228,4 +230,4 @@ ord_no_ace <- lapply(no_ace_living, lapply, function(rep){
   ord <- (cmdscale(dist, k = ncol(dist) - 2, add = TRUE))$points
 })
 
-saveRDS(ord_no_ace, paste0("/users/$USER/acedisparity/discrete/out/ord_no_ace_", replicate_id, ".rds"))
+saveRDS(ord_no_ace, "/users/bip24cns/acedisparity/discrete/test/ord_noace.rds")

@@ -1,27 +1,39 @@
 remove.fossil <- function(trees, matrices, type = c("discrete", "continuous")) {
-  living_matrices <- Map(function(tree, matrix) {
+  
+  # Helper function to process a single tree and matrix
+  process.living <- function(tree, matrix, type) {
     ages <- tree.age(tree) # get tip ages
-    tips <- ages$element[ages$ages == 0]# find only living species
-    # root <- tree$node.label[1] 
-    living_matrix <- matrix[rownames(matrix) %in% c(tips), ]
-    # living_matrix["t1", ] <- "?"
-    if (type == "discrete") {
-    living_matrix <- apply(living_matrix, c(1, 2), as.character)
-    # living_matrix["t1", ] <- "?"
+    tips <- ages$element[ages$ages == 0] # find only living species
+    
+    living_matrix <- matrix[rownames(matrix) %in% tips, , drop = FALSE]
+    
+    # Check if we have any living species
+    if (nrow(living_matrix) == 0) {
+      warning("No living species found")
+      return(list(matrix = living_matrix, tree = NULL))
     }
-    # keep only living species in matrix
-    living_tree <- keep.tip(tree, c(tips))
+    
+    if (type == "discrete") {
+      living_matrix <- apply(living_matrix, c(1, 2), as.character)
+    }
+    
+    # keep only living species in tree
+    living_tree <- keep.tip(tree, tips)
     tree <- set.root.time(tree)
     old_root <- tree$root.time
     living_tree$root.time <- old_root
-    # living_tree$node.label[1] <- "n1" ## remove this as need to keep the original node.
-    # original_root_height <- max(nodeHeights(full_fossil_tree))
-    # new_root_height <- max(nodeHeights(living_tree))
-    # height_diff <- original_root_height - new_root_height
-    # living_tree$edge.length[living_tree$edge[,1] == Ntip(living_tree) + 1] <- living_tree$edge.length[living_tree$edge[,1] == Ntip(living_tree) + 1] + height_diff
-     # keep only living species in tree
-    return(list(matrix = living_matrix, tree = living_tree)) # return as list
-  }, trees, matrices)
+    
+    return(list(matrix = living_matrix, tree = living_tree))
+  }
+  
+  # Check if inputs are lists or single objects
+  if (is.list(trees) && is.list(matrices)) {
+    # Use Map for lists of trees and matrices
+    living_matrices <- Map(function(tree, matrix) process.living(tree, matrix, type), trees, matrices)
+  } else {
+    # Process a single tree and matrix
+    living_matrices <- process.living(trees, matrices, type)
+  }
   
   return(living_matrices)
 }

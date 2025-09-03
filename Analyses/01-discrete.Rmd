@@ -573,7 +573,6 @@ source("../Functions/utility.R")
 # anc_matrices_living
 ## sum of variances
 disp_sample <- lapply(sample_living, lapply, lapply, lapply, function(rep){
-  isord <- readRDS("../Data/matrices/discrete/sample.ord.rds") ## try read it in before, if broke it runs it itself.
   dist <- char.diff(rep, method = "mord", by.col = FALSE)
   ord <- (cmdscale(dist, k = ncol(dist) - 2, add = TRUE))$points
   disp <- dispRity(ord, metric = c(sum, variances))$disparity
