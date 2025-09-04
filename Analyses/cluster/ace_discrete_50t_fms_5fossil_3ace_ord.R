@@ -123,7 +123,8 @@ anc.states <- function(x) {
   anc_states <- multi.ace(data = x$matrix, 
                           tree = x$tree, 
                           models = "SYM", 
-                          output = "multi.ace")
+                          output = "multi.ace"
+                          )
 return(anc_states)}
 
 fossil_anc <- lapply(fossil_matrices, lapply, anc.states)
@@ -134,7 +135,14 @@ sample_fossil_anc <- lapply(fossil_anc, lapply,  multi.ace, sample = 100)
 
 strict_fossil_anc <- lapply(fossil_anc, lapply, multi.ace, threshold = FALSE, output = "combined.matrix", verbose = TRUE)
 
+
 relative_fossil_anc <- lapply(fossil_anc, lapply,  multi.ace, output = "combined.matrix", verbose = TRUE)
+
+# relative_fossil_anc <- lapply(relative_fossil_anc, lapply, function(mat){
+#   mat[grepl("/", mat)] <- NA_character_
+#   return(mat)
+# })
+
 
 saveRDS(fossil_anc, sprintf("/users/bip24cns/acedisparity/discrete/out/discrete_anc_%03d.rds", replicate_id))
 saveRDS(sample_fossil_anc, sprintf("/users/bip24cns/acedisparity/discrete/out/sample_anc_%03d.rds", replicate_id))
@@ -241,3 +249,13 @@ saveRDS(ord_no_ace, sprintf("/users/bip24cns/acedisparity/discrete/out/ord_no_ac
 cat("ordinations calculated\n")
 
 cat("Finished replicate", replicate_id, "\n")
+
+
+
+## post ordination ace
+
+
+ord_no_ace <- lapply(no_ace_living, lapply, function(rep){
+  dist <- char.diff(rep, method = "mord", by.col = FALSE)
+  ord <- (cmdscale(dist, k = ncol(dist) - 2, add = TRUE))$points
+})

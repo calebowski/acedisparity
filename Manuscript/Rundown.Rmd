@@ -158,14 +158,14 @@ In this case, we use a size-based metric (sum of variances)
 # discrete_var_default_diffs <- readRDS("../Data/matrices/pointvardiffs.rds")
 # discrete_var_sample_diffs <- readRDS("../Data/matrices/samplevardiffs.rds")
 # discrete_var_thresh_diffs <- readRDS("../Data/matrices/threshvardiffs.rds")
-relvardiffs <- readRDS("../Data/matrices/discrete/relvardiffs.Rds")
-samplevardiffs <- readRDS("../Data/matrices/discrete/samplevardiffs.Rds")
-strictvardiffs <- readRDS("../Data/matrices/discrete/strictvardiffs.Rds")
+disp_diff_strict <- readRDS("../Data/cluster/discrete/dispdiffs/disp_diff_strict.rds")
+disp_diff_sample <- readRDS("../Data/cluster/discrete/dispdiffs/disp_diff_sample.rds")
+disp_diff_rel <- readRDS("../Data/cluster/discrete/dispdiffs/disp_diff_rel.rds")
+disp_diff_no_ace <- readRDS("../Data/cluster/discrete/dispdiffs/disp_diff_no_ace.rds")
 post_ord_diffs <- readRDS("../Data/matrices/discrete/post_ord_ace.Rds")
-disp_no_ace_diff <- readRDS("../Data/matrices/discrete/noacevardiffs.Rds")
 
 library(scales)
-combined_data <- do.call(rbind, lapply(c("strictvardiffs", "relvardiffs", "samplevardiffs", "disp_no_ace_diff"), function(dataset_name) {
+combined_data <- do.call(rbind, lapply(c("disp_diff_strict", "disp_diff_rel", "disp_diff_sample", "disp_diff_no_ace"), function(dataset_name) {
   dataset <- get(dataset_name)  # Dynamically get the dataset by name
   do.call(rbind, lapply(names(dataset), function(level) {
     do.call(rbind, lapply(seq_along(dataset[[level]]), function(replicate_index) {
@@ -188,7 +188,7 @@ combined_data <- do.call(rbind, lapply(c("strictvardiffs", "relvardiffs", "sampl
   }))
 }))
 
-combined_data$threshold_method <- factor(combined_data$threshold_method, levels = c("strictvardiffs", "relvardiffs", "samplevardiffs", "disp_no_ace_diff"), labels = c("Strict majority rule", "Relative majority rule", "No majority rule (sample)", "No ACE"))
+combined_data$threshold_method <- factor(combined_data$threshold_method, levels = c("disp_diff_strict", "disp_diff_rel", "disp_diff_sample", "disp_diff_no_ace"), labels = c("Strict majority rule", "Relative majority rule", "No majority rule (sample)", "No ACE"))
 
 # log10_reverse_trans <- trans_new(
 #   name = "log10_reverse",
