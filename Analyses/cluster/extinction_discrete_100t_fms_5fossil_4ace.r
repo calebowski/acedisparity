@@ -34,6 +34,17 @@ random_extinction <- make.events(
 
 tree <- treats(stop.rule = stop_rule, bd.params = bd_params, null.error = 100, events = random_extinction)
 
+
+tree <- drop.singles(tree)
+tree <- fix.zero.branches(tree)
+tree <- set.root.time(tree)
+
+
+## fix zero branches
+## set root time
+
+## fix single nodes.
+
 write.tree(tree, sprintf("/users/bip24cns/acedisparity/randomExtinction/discrete/out/rand_ext_tree_%03d.tre", replicate_id))
 
 cat("Mapping traits...\n")
@@ -128,6 +139,10 @@ fossil_matrices <- lapply(names(matrices), function(level) {
 # Assign names to the outer list
 names(fossil_matrices) <- names(matrices)
 
+fossil_trees <- lapply(fossil_matrices, lapply,  function(level){
+  tree <- level$tree
+})
+
 cat("Fossil matrices created\n")
 saveRDS(fossil_matrices, sprintf("/users/bip24cns/acedisparity/randomExtinction/discrete/out/fossil_matrices_%03d.rds", replicate_id))
 
@@ -139,7 +154,8 @@ anc.states <- function(x) {
   anc_states <- multi.ace(data = x$matrix, 
                           tree = x$tree, 
                           models = "SYM", 
-                          output = "multi.ace"
+                          output = "multi.ace",
+                          parallel = n_cores
                           )
 return(anc_states)}
 
@@ -180,4 +196,212 @@ distances_strict <- lapply(strict_fossil_anc, lapply,  function(matrices) {
 distances_rel <- lapply(relative_fossil_anc, lapply, function(matrices) {
   dist <- char.diff(matrices, method = "mord", by.col = FALSE)
   return(dist)
+})
+
+distances_sample <- mclapply(sample_fossil_anc, lapply, lapply, function(matrices) {
+  dist <- char.diff(matrices, method = "mord", by.col = FALSE)
+  return(dist)
+}, mc.cores = 5)
+
+
+
+
+ord_no_ace <- lapply(distances_no_ace, lapply,  function(matrix){
+    ord <-  (cmdscale(matrix, k = ncol(matrix) - 2, add = TRUE))$points
+    return(ord)
+})
+
+ord_true <- lapply(distances_true, function(matrix){
+    ord <-  (cmdscale(matrix, k = ncol(matrix) - 2, add = TRUE))$points
+    return(ord)
+})
+
+
+ord_rel <- lapply(distances_rel, lapply, function(matrix) {
+ cmdscale(matrix, k = ncol(matrix) - 2, add = TRUE)$points
+})
+
+
+ord_strict <- lapply(distances_strict, lapply, function(matrix) {
+ cmdscale(matrix, k = ncol(matrix) - 2, add = TRUE)$points
+})
+
+ord_sample <- mclapply(distances_sample, lapply, lapply, function(matrix) {
+ cmdscale(matrix, k = ncol(matrix) - 2, add = TRUE)$points
+}, mc.cores = 5)
+
+
+tip_ages <- tip.ages(tree)
+extinction_time <- find.extinction.time(tip_ages)
+
+
+
+time_slices <- lapply(extinction_times,function(time){
+  intervals <- c(time + 10, time + 0.0001,  (time + 0.0001) - 10)
+  return(intervals)
+})
+
+time_slices <- c(extinction_time + 10, extinction_time + 0.00001, (extinction_time + 0.00001) - 10)
+
+chrono_subsets_strict <- lapply(names(ord_strict), function(rate) {
+  fossil_result <- lapply(names(ord_strict[[rate]]), function(fossil){ 
+    tryCatch({
+      chrono <- chrono.subsets(ord_strict[[rate]][[fossil]],
+      tree = fossil_trees[[rate]][[fossil]],
+      method = "d",
+      time = time_slices,
+      inc.nodes = TRUE)
+      return(chrono)
+    }, warning = function(w) {
+      rm(w)
+    })
+  })
+  names(fossil_result) <- names(ord_strict[[rate]])
+  return(fossil_result)
+})
+names(chrono_subsets_strict) <- names(ord_strict)
+
+
+chrono_subsets_rel <- lapply(names(ord_rel), function(rate) {
+  fossil_result <- lapply(names(ord_rel[[rate]]), function(fossil){ 
+    tryCatch({
+      chrono <- chrono.subsets(ord_rel[[rate]][[fossil]],
+      tree = fossil_trees[[rate]][[fossil]],
+      method = "d",
+      time = time_slices,
+      inc.nodes = TRUE)
+      return(chrono)
+    }, warning = function(w) {
+      rm(w)
+    })
+  })
+  names(fossil_result) <- names(ord_rel[[rate]])
+  return(fossil_result)
+})
+names(chrono_subsets_rel) <- names(ord_rel)
+
+chrono_subsets_no_ace <- lapply(names(ord_no_ace), function(rate) {
+  fossil_result <- lapply(names(ord_no_ace[[rate]]), function(fossil){ 
+    tryCatch({
+      chrono <- chrono.subsets(ord_no_ace[[rate]][[fossil]],
+      tree = fossil_trees[[rate]][[fossil]],
+      method = "d",
+      time = time_slices) # do not include nodes
+      return(chrono)
+    }, warning = function(w) {
+      rm(w)
+    })
+  })
+  names(fossil_result) <- names(ord_no_ace[[rate]])
+  return(fossil_result)
+})
+names(chrono_subsets_no_ace) <- names(ord_no_ace)
+
+
+chrono_subsets_true <- lapply(names(ord_true), function(rate) {
+    tryCatch({
+      chrono <- chrono.subsets(ord_true[[rate]],
+      tree = tree, # use tree rather than fossil trees
+      method = "d",
+      time = time_slices,
+      inc.nodes = TRUE)
+      return(chrono)
+    }, warning = function(w) {
+      rm(w)
+    })
+})
+names(chrono_subsets_true) <- names(ord_true)
+
+
+chrono_subsets_sample <- lapply(names(ord_sample), function(rate) {
+  fossil_result <- lapply(names(ord_sample[[rate]]), function(fossil) {
+    rep_result <- lapply(seq_along(ord_sample[[rate]][[fossil]]), function(i) {
+      tryCatch({
+        chrono <- chrono.subsets(ord_sample[[rate]][[fossil]][[i]],
+        tree = fossil_trees[[rate]][[fossil]],
+        method = "d",
+        time = time_slices,
+        inc.nodes = TRUE)
+        return(chrono)
+      }, warning = function(w) {
+        rm(w)
+      })
+    })
+    return(rep_result)
+  })
+  names(fossil_result) <- names(ord_sample[[rate]])
+  return(fossil_result)
+})
+names(chrono_subsets_sample) <- names(ord_sample)
+
+
+
+sum_var_true <- lapply(chrono_subsets_true,  dispRity, metric = c(sum, variances))
+
+sum_var_strict <- lapply(chrono_subsets_strict, lapply,  function(chrono) {
+  if(is.null(chrono)) {
+    return(NULL)
+  }
+  tryCatch({
+    dispRity(chrono, metric = c(sum, variances))}, warning = function(w) {
+      NULL
+    })
+})
+
+
+sum_var_rel <- lapply(chrono_subsets_rel, lapply, function(chrono) {
+  if(is.null(chrono)) {
+    return(NULL)
+  }
+  tryCatch({
+    dispRity(chrono, metric = c(sum, variances))}, warning = function(w) {
+      NULL
+    })
+})
+
+sum_var_sample <- lapply(chrono_subsets_sample, lapply, lapply, function(chrono) {
+  if(is.null(chrono)) {
+    return(NULL)
+  }
+  tryCatch({
+    dispRity(chrono, metric = c(sum, variances))}, warning = function(w) {
+      NULL
+    })
+})
+
+sum_var_no_ace <- lapply(chrono_subsets_no_ace, lapply,  function(chrono) {
+  if(is.null(chrono)) {
+    return(NULL)
+  }
+  tryCatch({
+    dispRity(chrono, metric = c(sum, variances))}, warning = function(w) {
+      NULL
+    })
+})
+
+
+ace_disp <- list(strict = disp_strict, rel = disp_rel, sample = disp_sample, no_ace = disp_no_ace)
+### get disparity
+
+ace_disp_change <- lapply(ace_disp, lapply, lapply, function (disp){
+  if(is.null(disp)) {
+    return(NULL)
+  }
+  values <- get.disparity(disp)
+  change <- (values[[2]] - values[[1]]) / values[[1]]
+})
+
+true_change <- lapply(disp_true, lapply, function(disp){
+  values <- get.disparity(disp)
+  change <- (values[[2]] - values[[1]]) / values[[1]]
+})
+
+
+# Remove NULLs at the innermost level (fossil level)
+ace_disp_change_clean <- lapply(ace_disp_change, function(method) {
+  lapply(method, function(rate) {
+    lapply(rate, function(replicate) {
+      replicate[!sapply(replicate, is.null)]  # Keep only non-NULL elements
+    })
+  })
 })
