@@ -4,7 +4,7 @@
 # Read and rearrange in one step
 rate_names <- c("slow", "med", "fast")  
 
-disp_diff_strict <- setNames(lapply(rate_names, function(rate) {
+sum_var_diff_strict <- setNames(lapply(rate_names, function(rate) {
     lapply(1:100, function(rep) {
         file_path <- sprintf("../Data/cluster/discrete/dispdiffs/rawoutput/diff_disp_strict_%03d.rds", rep)
         data <- readRDS(file_path)
@@ -12,7 +12,7 @@ disp_diff_strict <- setNames(lapply(rate_names, function(rate) {
     })
 }), rate_names)
 
-disp_diff_sample <- setNames(lapply(rate_names, function(rate) {
+sum_var_diff_sample <- setNames(lapply(rate_names, function(rate) {
     lapply(1:100, function(rep) {
         file_path <- sprintf("../Data/cluster/discrete/dispdiffs/rawoutput/diff_disp_sample_%03d.rds", rep)
         data <- readRDS(file_path)
@@ -20,7 +20,7 @@ disp_diff_sample <- setNames(lapply(rate_names, function(rate) {
     })
 }), rate_names)
 
-disp_diff_rel <- setNames(lapply(rate_names, function(rate) {
+sum_var_diff_rel <- setNames(lapply(rate_names, function(rate) {
     lapply(1:100, function(rep) {
         file_path <- sprintf("../Data/cluster/discrete/dispdiffs/rawoutput/diff_disp_rel_%03d.rds", rep)
         data <- readRDS(file_path)
@@ -28,13 +28,15 @@ disp_diff_rel <- setNames(lapply(rate_names, function(rate) {
     })
 }), rate_names)
 
-disp_diff_no_ace <- setNames(lapply(rate_names, function(rate) {
+sum_var_diff_no_ace <- setNames(lapply(rate_names, function(rate) {
     lapply(1:100, function(rep) {
         file_path <- sprintf("../Data/cluster/discrete/dispdiffs/rawoutput/diff_disp_no_ace_%03d.rds", rep)
         data <- readRDS(file_path)
         return(data[[rate]])
     })
 }), rate_names)
+
+
 
 
 

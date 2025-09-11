@@ -24,7 +24,7 @@ set.seed(100 + replicate_id) # set seed to change for each replicate
 
 bd_params <- make.bd.params(speciation = 0.1, extinction = 0.07)
 
-stop_rule <- list(max.living = 150) # different tree sizes
+stop_rule <- list(max.living = sample(x = c(50, 100, 150), size = 1)) # different tree sizes
 
 
 random_extinction <- make.events(
@@ -151,15 +151,14 @@ cat("Fossil matrices created\n")
 saveRDS(fossil_matrices, sprintf("/mnt/parscratch/users/bip24cns/acedisparity/randomExtinction/out/matrices/rand_ext_fossil_matrices_%03d.rds", replicate_id))
 
 
-n_cores  <- 5
+# n_cores  <- 5
 
 anc.states <- function(x) {
   # Run multi.ace for each tree
   anc_states <- multi.ace(data = x$matrix, 
                           tree = x$tree, 
                           models = "SYM", 
-                          output = "multi.ace",
-                          parallel = n_cores
+                          output = "multi.ace"
                           )
 return(anc_states)}
 
@@ -202,10 +201,10 @@ distances_rel <- lapply(relative_fossil_anc, lapply, function(matrices) {
   return(dist)
 })
 
-distances_sample <- mclapply(sample_fossil_anc, lapply, lapply, function(matrices) {
+distances_sample <- lapply(sample_fossil_anc, lapply, lapply, function(matrices) {
   dist <- char.diff(matrices, method = "mord", by.col = FALSE)
   return(dist)
-}, mc.cores = n_cores)
+})
 
 
 
@@ -230,9 +229,9 @@ ord_strict <- lapply(distances_strict, lapply, function(matrix) {
  cmdscale(matrix, k = ncol(matrix) - 2, add = TRUE)$points
 })
 
-ord_sample <- mclapply(distances_sample, lapply, lapply, function(matrix) {
+ord_sample <- lapply(distances_sample, lapply, lapply, function(matrix) {
  cmdscale(matrix, k = ncol(matrix) - 2, add = TRUE)$points
-}, mc.cores = n_cores)
+})
 
 
 saveRDS(ord_no_ace, sprintf("/mnt/parscratch/users/bip24cns/acedisparity/randomExtinction/out/ord/rand_ext_ord_no_ace_%03d.rds", replicate_id))
