@@ -109,6 +109,10 @@ fossil_matrices <- lapply(names(matrices), function(level) {
 # Assign names to the outer list
 names(fossil_matrices) <- names(matrices)
 
+fossil_trees <- lapply(fossil_matrices, lapply,  function(level){
+  tree <- level$tree
+})
+
 cat("Fossil matrices created\n")
 saveRDS(fossil_matrices, sprintf("/users/bip24cns/acedisparity/discrete/out/fossil_matrices_%03d.rds", replicate_id))
 
@@ -250,12 +254,23 @@ cat("ordinations calculated\n")
 
 cat("Finished replicate", replicate_id, "\n")
 
-
-
 ## post ordination ace
-
 
 ord_no_ace <- lapply(no_ace_living, lapply, function(rep){
   dist <- char.diff(rep, method = "mord", by.col = FALSE)
   ord <- (cmdscale(dist, k = ncol(dist) - 2, add = TRUE))$points
 })
+
+
+post_ord_ace <- Map(function(rate_matrix, rate_tree){
+  Map(function(fossil_matrix, fossil_tree){
+    clean <- clean.data(fossil_matrix, fossil_tree)
+    tree <- clean$tree
+    matrix <- clean$data
+    # return(list(matrix = matrix, tree = tree))
+    multi.ace(matrix, tree, models = "ML", output = "combined.matrix")
+  }, rate_matrix, rate_tree)
+}, ord_no_ace, fossil_trees)
+
+
+saveRDS(post_ord_ace, sprintf("/users/bip24cns/acedisparity/discrete/out/post_ord_ace_%03d.rds", replicate_id))

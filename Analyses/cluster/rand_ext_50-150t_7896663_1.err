@@ -1,0 +1,10 @@
+Loading required package: ape
+Loading required package: dispRity
+Warning messages:
+1: In rgl.init(initValue, onlyNULL) : RGL: unable to open X11 display
+2: 'rgl.init' failed, will use the null device.
+See '?rgl.useNULL' for ways to avoid this warning. 
+Building the tree:...Done.
+Error in write.tree(fossil_trees, sprintf("/mnt/parscratch/users/bip24cns/acedisparity/randomExtinction/out/trees/rand_ext_fossil_tree_%03d.tre",  : 
+  object "phy" must contain trees
+Execution halted

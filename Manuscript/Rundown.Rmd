@@ -343,6 +343,29 @@ matched_sample <- readRDS( "../Data/matrices/randomExtinction/matched.sample.Rds
 matched_no_ace <- readRDS( "../Data/matrices/randomExtinction/matched.no_ace.Rds")
 
 
+
+all_indices_sample <- matched_sample$fossil_level == "fossil_high"
+matched_sample_all <- list(
+  ace = matched_sample$ace[all_indices_sample],
+  true = matched_sample$true[all_indices_sample],
+  fossil_level = matched_sample$fossil_level[all_indices_sample]
+)
+
+all_indices_no_ace <- matched_no_ace$fossil_level == "fossil_high"
+matched_no_ace_all <- list(
+  ace = matched_no_ace$ace[all_indices_no_ace],
+  true = matched_no_ace$true[all_indices_no_ace],
+  fossil_level = matched_no_ace$fossil_level[all_indices_no_ace]
+)
+
+sample_fit_all <- lm(matched_sample_all$ace ~ matched_sample_all$true)
+no_ace_fit_all <- lm(matched_no_ace_all$ace ~ matched_no_ace_all$true)
+
+summary(no_ace_fit_all)
+
+
+
+
 strict_df <- data.frame(
   ace = matched_strict$ace,
   true = matched_strict$true,
