@@ -128,3 +128,21 @@ Decision tree algorithms - similar to random forest; will output most important 
 #######################################################################################################
 
 Cluster test- - see how long one chunk takes: so thats 1 tree, 2 models, 5 fossil subsampling and aced ordinated. 
+
+
+- standardise the pc axes on size 0-1- > use scale() on pc1 and will output scaling
+
+pc1 <- pca[,1]
+min <- abs(min(pc1))
+max <- abs(max(pc1)) + min
+
+new_pca <- (pca + min) / max
+
+
+
+min-max normalisation, then use the range of first pc axis on later axes so that their range is smaller.
+
+- comparable number of axes for all disparity (so living number)
+
+- ANOVAs + post hoc. comparing the columns and colours.
+- 

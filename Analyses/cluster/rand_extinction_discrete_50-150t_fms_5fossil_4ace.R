@@ -13,7 +13,7 @@ replicate_id <- as.numeric(args[1])
 # install_github("TGuillerme/treats", ref = "selective.extinction.alteration")
 
 library(treats)
-library(parallel)
+# library(parallel)
 source("/users/bip24cns/acedisparity/discrete/scripts/utility.R")
 source("/users/bip24cns/acedisparity/randomExtinction/scripts/find.extinction.time.R")
 
@@ -26,11 +26,13 @@ bd_params <- make.bd.params(speciation = 0.1, extinction = 0.07)
 
 stop_rule <- list(max.living = sample(x = c(50, 100, 150), size = 1)) # different tree sizes
 
+extinction_intensity <- runif(n = 1, min = 0.75, max = 0.9)
+
 
 random_extinction <- make.events(
                       target       = "taxa",
                       condition    = taxa.condition(stop_rule[[1]][[1]] - 10),
-                      modification = random.extinction(runif(n = 1, min = 0.75, max = 0.9))
+                      modification = random.extinction(extinction_intensity)
 )
 
 tree <- treats(stop.rule = stop_rule, bd.params = bd_params, null.error = 100, events = random_extinction)
@@ -171,6 +173,7 @@ strict_fossil_anc <- lapply(fossil_anc, lapply, multi.ace, threshold = FALSE, ou
 
 relative_fossil_anc <- lapply(fossil_anc, lapply,  multi.ace, output = "combined.matrix", verbose = TRUE)
 
+cat("Ancestral state estimation completed...\n")
 
 
 saveRDS(fossil_anc, sprintf("/mnt/parscratch/users/bip24cns/acedisparity/randomExtinction/out/anc/rand_ext_discrete_anc_%03d.rds", replicate_id))
@@ -206,8 +209,7 @@ distances_sample <- lapply(sample_fossil_anc, lapply, lapply, function(matrices)
   return(dist)
 })
 
-
-
+cat("Distances completed...\n")
 
 ord_no_ace <- lapply(distances_no_ace, lapply,  function(matrix){
     ord <-  (cmdscale(matrix, k = ncol(matrix) - 2, add = TRUE))$points
@@ -233,6 +235,7 @@ ord_sample <- lapply(distances_sample, lapply, lapply, function(matrix) {
  cmdscale(matrix, k = ncol(matrix) - 2, add = TRUE)$points
 })
 
+cat("Ordinations completed...\n")
 
 saveRDS(ord_no_ace, sprintf("/mnt/parscratch/users/bip24cns/acedisparity/randomExtinction/out/ord/rand_ext_ord_no_ace_%03d.rds", replicate_id))
 saveRDS(ord_true, sprintf("/mnt/parscratch/users/bip24cns/acedisparity/randomExtinction/out/ord/rand_ext_ord_true_%03d.rds", replicate_id))
@@ -661,3 +664,13 @@ saveRDS(rel_displacement_change, sprintf("/mnt/parscratch/users/bip24cns/acedisp
 saveRDS(sample_displacement_change, sprintf("/mnt/parscratch/users/bip24cns/acedisparity/randomExtinction/out/disp/rand_ext_change_displacement_sample_%03d.rds", replicate_id))
 saveRDS(no_ace_displacement_change, sprintf("/mnt/parscratch/users/bip24cns/acedisparity/randomExtinction/out/disp/rand_ext_change_displacement_no_ace_%03d.rds", replicate_id))
 saveRDS(true_displacement_change, sprintf("/mnt/parscratch/users/bip24cns/acedisparity/randomExtinction/out/disp/rand_ext_change_displacement_true_%03d.rds", replicate_id))
+
+
+metadata <- list(
+  replicate_id = replicate_id,
+  tree_size = stop_rule$max.living,
+  extinction_intensity = extinction_intensity,  # If you want to track this too
+  seed = 100 + replicate_id
+)
+
+saveRDS(metadata, sprintf("/mnt/parscratch/users/bip24cns/acedisparity/randomExtinction/out/metadata/metadata_%03d.rds", replicate_id))

@@ -19,7 +19,13 @@ sample_post_ord_ace <- readRDS(sprintf("/mnt/parscratch/users/bip24cns/acedispar
 # ord_no_ace <- readRDS("../Data/cluster/discrete/ord/ord_no_ace_001.rds")
 # ord_true <- readRDS("../Data/cluster/discrete/ord/ord_true_001.rds")
 
-
+scale.pc <- function(ord){
+    pc1 <- ord[,1]
+    min <- abs(min(pc1))
+    max <- abs(max(pc1)) + min
+    scal <- (ord + min) / max
+    return(scal)
+}
 
 
 sum_var_rel <- lapply(ord_rel, lapply, function(rep){

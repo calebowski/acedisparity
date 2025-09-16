@@ -818,8 +818,7 @@ legend("topleft",
 
 ## selective extinction load package and trait data
 ```{r}
-setwd("/home/caleb/Documents/PhD/treats/treats")  # or wherever you cloned it
-devtools::load_all()
+install_github("TGuillerme/treats", ref = "selective.extinction.alteration")
 
 slow_multi_transitions <- matrix(c(
     0.99, 0.025, 0.025,
@@ -870,7 +869,7 @@ fast_cor <- correlate.traits(correlation = 0.3, n.traits = 50, transition.matrix
 
 
 
-multi_traits <- list(fast = fast_cor, med = med_cor, slow = slow_cor)
+multi_traits <- list(slow = slow_cor, med = med_cor, fast = fast_cor )
 
 ```
 
