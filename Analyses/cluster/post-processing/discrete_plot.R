@@ -604,3 +604,129 @@ method_preservation_means <- emmeans(model_balanced, ~ threshold_method * preser
 summary(method_preservation_means)
 cld(method_preservation_means, alpha = 0.05, Letters = letters)
 
+
+
+##########################################################################################################################
+## With less axes
+
+
+sum_var_diff_strict <- setNames(lapply(rate_names, function(rate) {
+    lapply(1:100, function(rep) {
+        file_path <- sprintf("../Data/cluster/discrete/rmaxes/diff_sumvar_strict_%03d.rds", rep)
+        data <- readRDS(file_path)
+        return(data[[rate]])
+    })
+}), rate_names)
+
+sum_var_diff_sample <- setNames(lapply(rate_names, function(rate) {
+    lapply(1:100, function(rep) {
+        file_path <- sprintf("../Data/cluster/discrete/rmaxes/diff_sumvar_sample_%03d.rds", rep)
+        data <- readRDS(file_path)
+        return(data[[rate]])
+    })
+}), rate_names)
+
+sum_var_diff_sample_median <- lapply(sum_var_diff_sample, lapply, lapply, median)
+
+sum_var_diff_rel <- setNames(lapply(rate_names, function(rate) {
+    lapply(1:100, function(rep) {
+        file_path <- sprintf("../Data/cluster/discrete/rmaxes/diff_sumvar_rel_%03d.rds", rep)
+        data <- readRDS(file_path)
+        return(data[[rate]])
+    })
+}), rate_names)
+
+sum_var_diff_no_ace <- setNames(lapply(rate_names, function(rate) {
+    lapply(1:100, function(rep) {
+        file_path <- sprintf("../Data/cluster/discrete/rmaxes/diff_sumvar_no_ace_%03d.rds", rep)
+        data <- readRDS(file_path)
+        return(data[[rate]])
+    })
+}), rate_names)
+
+sum_var_diff_point_postord <- setNames(lapply(rate_names, function(rate) {
+    lapply(1:100, function(rep) {
+        file_path <- sprintf("../Data/cluster/discrete/rmaxes/diff_sumvar_point_postord_%03d.rds", rep)
+        data <- readRDS(file_path)
+        return(data[[rate]])
+    })
+}), rate_names)
+
+
+sum_var_diff_sample_postord <- setNames(lapply(rate_names, function(rate) {
+    lapply(1:100, function(rep) {
+        file_path <- sprintf("../Data/cluster/discrete/rmaxes/diff_sumvar_sample_postord_%03d.rds", rep)
+        data <- readRDS(file_path)
+        return(data[[rate]])
+    })
+}), rate_names)
+
+
+library(ggplot2)
+library(tidyr)
+
+library(scales)
+combined_data <- do.call(rbind, lapply(c("sum_var_diff_strict", "sum_var_diff_rel", "sum_var_diff_sample", "sum_var_diff_point_postord", "sum_var_diff_sample_postord", "sum_var_diff_no_ace"), function(dataset_name) {
+  dataset <- get(dataset_name)  # Dynamically get the dataset by name
+  do.call(rbind, lapply(names(dataset), function(level) {
+    do.call(rbind, lapply(seq_along(dataset[[level]]), function(replicate_index) {
+      data <- dataset[[level]][[replicate_index]]
+      df <- data.frame(
+        replicate = replicate_index,
+        all = data$all,
+        high = data$fossil_high,
+        mid = data$fossil_med,
+        low = data$fossil_low,
+        living = data$living,
+        level = level,
+        threshold_method = dataset_name  # Add a column for treatment
+      )
+      df_long <- pivot_longer(df, cols = c("living", "low", "mid", "high", "all"),
+                              names_to = "preservation_level", values_to = "distance")
+      df_long$preservation_level <- factor(df_long$preservation_level, levels = c("living", "low", "mid", "high", "all"))
+      return(df_long)
+    }))
+  }))
+}))
+
+combined_data$threshold_method <- factor(combined_data$threshold_method, levels = c("sum_var_diff_strict", "sum_var_diff_rel", "sum_var_diff_sample", "sum_var_diff_point_postord", "sum_var_diff_sample_postord", "sum_var_diff_no_ace"), labels = c("Strict majority rule", "Relative majority rule", "No majority rule (sample)", "Post-ord ACE (point)", "Post-ord ACE (sample)", "No ACE"))
+
+# log10_reverse_trans <- trans_new(
+#   name = "log10_reverse",
+#   transform = function(x) -log10(x),  # Apply log10 and reverse
+#   inverse = function(x) 10^(-x)      # Inverse of the transformation
+# )
+
+colors <- c("slow" = "#8805A8", "med" = "#00B945", "fast" = "#FFB600")
+# Generate the combined plot
+
+p <- ggplot(combined_data, aes(x = preservation_level, y = distance, color = level, fill = level)) +
+  geom_boxplot(
+    alpha = 0.7,
+    outlier.size = 0.5,
+    outlier.alpha = 0.6,
+    position = position_dodge(width = 0.8)
+  ) +
+  geom_hline(yintercept = 0, color = "black", linewidth = 0.6, linetype = "dashed") +
+  facet_wrap(~ threshold_method, ncol = 6, nrow = 1) +
+  labs(
+    x = "Fossil sampling",
+    y = "Relative disparity error",
+    color = "Transition Rate",
+    fill = "Transition Rate"
+  ) +
+  theme_minimal() +
+  scale_color_manual(values = colors) +
+  scale_fill_manual(values = colors) + 
+  theme(
+    axis.text = element_text(size = 15, face = "bold"),
+    axis.title = element_text(size = 20, face = "bold"),
+    axis.ticks = element_line(size = 1),
+    legend.position = "none",
+    panel.grid = element_blank(),
+    strip.text = element_text(size = 15, face = "bold", hjust = 0.5, vjust = 1),
+    strip.background = element_rect(color = "black", fill = "white", linewidth = 0.5),
+    panel.border = element_rect(color = "black", fill = NA, linewidth = 0.5)
+  ) +
+  coord_trans(y = "pseudo_log") +
+  scale_y_reverse()

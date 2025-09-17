@@ -235,6 +235,25 @@ ord_sample <- lapply(distances_sample, lapply, lapply, function(matrix) {
  cmdscale(matrix, k = ncol(matrix) - 2, add = TRUE)$points
 })
 
+
+post_ord_ace <- Map(function(rate_matrix, rate_tree) {
+  Map(function(fossil_matrix, fossil_tree) {
+    # clean <- clean.data(fossil_matrix, fossil_tree)
+    # tree <- clean$tree
+    # matrix <- clean$data
+    # return(list(matrix = matrix, tree = tree))
+    multi.ace(fossil_matrix, fossil_tree, models = "ML", output = "multi.ace")
+  }, rate_matrix, rate_tree)
+}, ord_no_ace, fossil_trees)
+
+trait_normal = list(fun = rnorm, param = list(mean = mean, sd = function(x)return(diff(range(x))/4)))
+point_post_ord_ace <- lapply(post_ord_ace, lapply,  multi.ace, output = "combined.matrix")
+sample_post_ord_ace <- lapply(post_ord_ace, lapply,  multi.ace, sample = 100, sample.fun = trait_normal, output = "combined.matrix")
+
+saveRDS(point_post_ord_ace, sprintf("/mnt/parscratch/users/bip24cns/acedisparity/randomExtinction/out/ord/post_ord_ace_point_%03d.rds", replicate_id))
+saveRDS(sample_post_ord_ace, sprintf("/mnt/parscratch/users/bip24cns/acedisparity/randomExtinction/out/ord/post_ord_ace_sample_%03d.rds", replicate_id))
+
+
 cat("Ordinations completed...\n")
 
 saveRDS(ord_no_ace, sprintf("/mnt/parscratch/users/bip24cns/acedisparity/randomExtinction/out/ord/rand_ext_ord_no_ace_%03d.rds", replicate_id))
@@ -243,11 +262,10 @@ saveRDS(ord_rel, sprintf("/mnt/parscratch/users/bip24cns/acedisparity/randomExti
 saveRDS(ord_strict, sprintf("/mnt/parscratch/users/bip24cns/acedisparity/randomExtinction/out/ord/rand_ext_ord_strict_%03d.rds", replicate_id))
 saveRDS(ord_sample, sprintf("/mnt/parscratch/users/bip24cns/acedisparity/randomExtinction/out/ord/rand_ext_ord_sample_%03d.rds", replicate_id))
 
-
 tip_ages <- tip.ages(tree)
 extinction_time <- find.extinction.time(tip_ages)
 
-time_slices <- c(extinction_time + 10, extinction_time + 0.00001, (extinction_time + 0.00001) - 10)
+time_slices <- c(extinction_time + 20, extinction_time - 0.01,  (extinction_time - 0.01) - 20)
 
 chrono_subsets_strict <- lapply(names(ord_strict), function(rate) {
   fossil_result <- lapply(names(ord_strict[[rate]]), function(fossil){ 
@@ -340,113 +358,199 @@ chrono_subsets_sample <- lapply(names(ord_sample), function(rate) {
 })
 names(chrono_subsets_sample) <- names(ord_sample)
 
+
+chrono_subsets_point_post_ord <- lapply(names(point_post_ord_ace), function(rate) {
+  fossil_result <- lapply(names(point_post_ord_ace[[rate]]), function(fossil){ 
+    tryCatch({
+      chrono <- chrono.subsets(point_post_ord_ace[[rate]][[fossil]],
+      tree = fossil_trees[[rate]][[fossil]],
+      method = "d",
+      time = time_slices,
+      inc.nodes = TRUE)
+      return(chrono)
+    }, warning = function(w) {
+      rm(w)
+    })
+  })
+  names(fossil_result) <- names(point_post_ord_ace[[rate]])
+  return(fossil_result)
+})
+names(chrono_subsets_point_post_ord) <- names(point_post_ord_ace)
+
+chrono_subsets_sample_post_ord <- lapply(names(sample_post_ord_ace), function(rate) {
+  fossil_result <- lapply(names(sample_post_ord_ace[[rate]]), function(fossil) {
+    rep_result <- lapply(seq_along(sample_post_ord_ace[[rate]][[fossil]]), function(i) {
+      tryCatch({
+        chrono <- chrono.subsets(sample_post_ord_ace[[rate]][[fossil]][[i]],
+        tree = fossil_trees[[rate]][[fossil]],
+        method = "d",
+        time = time_slices,
+        inc.nodes = TRUE)
+        return(chrono)
+      }, warning = function(w) {
+        rm(w)
+      })
+    })
+    return(rep_result)
+  })
+  names(fossil_result) <- names(sample_post_ord_ace[[rate]])
+  return(fossil_result)
+})
+names(chrono_subsets_sample_post_ord) <- names(sample_post_ord_ace)
+
 ################################################################################
 #                                                                              #
 #                           SUM OF VARIANCES                                   #
 #                                                                              #
 ################################################################################
 
+true_sum_var_change <- lapply(chrono_subsets_true, function(mat) {
+  disp <- dispRity(mat, metric = c(sum, variances))
+  values <- get.disparity(disp)
+  change <- (values[[2]] - values[[1]]) / values[[1]]
+  return(change)
+})
 
-sum_var_true <- lapply(chrono_subsets_true,  dispRity, metric = c(sum, variances))
-
-sum_var_strict <- lapply(chrono_subsets_strict, lapply,  function(chrono) {
+strict_sum_var_change <- lapply(chrono_subsets_strict, lapply,  function(chrono) {
   if(is.null(chrono)) {
     return(NULL)
   }
   tryCatch({
-    dispRity(chrono, metric = c(sum, variances))}, warning = function(w) {
+    disp <- dispRity(chrono, metric = c(sum, variances))
+    values <- get.disparity(disp)
+    change <- (values[[2]] - values[[1]]) / values[[1]]
+    return(change)
+    }, warning = function(w) {
       NULL
     })
 })
 
 
-sum_var_rel <- lapply(chrono_subsets_rel, lapply, function(chrono) {
+rel_sum_var_change <- lapply(chrono_subsets_rel, lapply, function(chrono) {
   if(is.null(chrono)) {
     return(NULL)
   }
   tryCatch({
-    dispRity(chrono, metric = c(sum, variances))}, warning = function(w) {
+    disp <- dispRity(chrono, metric = c(sum, variances))
+    values <- get.disparity(disp)
+    change <- (values[[2]] - values[[1]]) / values[[1]]
+    return(change)
+    }, warning = function(w) {
       NULL
     })
 })
 
-sum_var_sample <- lapply(chrono_subsets_sample, lapply, lapply,  function(chrono) {
+sample_sum_var_change <- lapply(chrono_subsets_sample, lapply, lapply,  function(chrono) {
   if(is.null(chrono)) {
     return(NULL)
   }
   tryCatch({
-    dispRity(chrono, metric = c(sum, variances))}, warning = function(w) {
+    disp <- dispRity(chrono, metric = c(sum, variances))
+    values <- get.disparity(disp)
+    change <- (values[[2]] - values[[1]]) / values[[1]]
+    return(change)
+    }, warning = function(w) {
       NULL
     })
 })
 
-sum_var_no_ace <- lapply(chrono_subsets_no_ace, lapply,  function(chrono) {
+no_ace_sum_var_change <- lapply(chrono_subsets_no_ace, lapply,  function(chrono) {
   if(is.null(chrono)) {
     return(NULL)
   }
   tryCatch({
-    dispRity(chrono, metric = c(sum, variances))}, warning = function(w) {
+    disp <- dispRity(chrono, metric = c(sum, variances))
+    values <- get.disparity(disp)
+    change <- (values[[2]] - values[[1]]) / values[[1]]
+    return(change)}, warning = function(w) {
       NULL
     })
 })
 
+point_post_ord_sum_var_change <- lapply(chrono_subsets_point_post_ord, lapply,  function(chrono) {
+  if(is.null(chrono)) {
+    return(NULL)
+  }
+  tryCatch({
+    disp <- dispRity(chrono, metric = c(sum, variances))
+    values <- get.disparity(disp)
+    change <- (values[[2]] - values[[1]]) / values[[1]]
+    return(change)}, warning = function(w) {
+      NULL
+    })
+})
 
-saveRDS(sum_var_true, sprintf("/mnt/parscratch/users/bip24cns/acedisparity/randomExtinction/out/disp/rand_ext_sum_var_true_%03d.rds", replicate_id))
-saveRDS(sum_var_strict, sprintf("/mnt/parscratch/users/bip24cns/acedisparity/randomExtinction/out/disp/rand_ext_sum_var_strict_%03d.rds", replicate_id))
-saveRDS(sum_var_rel, sprintf("/mnt/parscratch/users/bip24cns/acedisparity/randomExtinction/out/disp/rand_ext_sum_var_rel_%03d.rds", replicate_id))
-saveRDS(sum_var_sample, sprintf("/mnt/parscratch/users/bip24cns/acedisparity/randomExtinction/out/disp/rand_ext_sum_var_sample_%03d.rds", replicate_id))
-saveRDS(sum_var_no_ace, sprintf("/mnt/parscratch/users/bip24cns/acedisparity/randomExtinction/out/disp/rand_ext_sum_var_no_ace_%03d.rds", replicate_id))
+sample_post_ord_sum_var_change <- lapply(chrono_subsets_sample_post_ord, lapply, lapply,  function(chrono) {
+  if(is.null(chrono)) {
+    return(NULL)
+  }
+  tryCatch({
+    disp <- dispRity(chrono, metric = c(sum, variances))
+    values <- get.disparity(disp)
+    change <- (values[[2]] - values[[1]]) / values[[1]]
+    return(change)
+    }, warning = function(w) {
+      NULL
+    })
+})
+# saveRDS(sum_var_true, sprintf("/mnt/parscratch/users/bip24cns/acedisparity/randomExtinction/out/disp/rand_ext_sum_var_true_%03d.rds", replicate_id))
+# saveRDS(sum_var_strict, sprintf("/mnt/parscratch/users/bip24cns/acedisparity/randomExtinction/out/disp/rand_ext_sum_var_strict_%03d.rds", replicate_id))
+# saveRDS(sum_var_rel, sprintf("/mnt/parscratch/users/bip24cns/acedisparity/randomExtinction/out/disp/rand_ext_sum_var_rel_%03d.rds", replicate_id))
+# saveRDS(sum_var_sample, sprintf("/mnt/parscratch/users/bip24cns/acedisparity/randomExtinction/out/disp/rand_ext_sum_var_sample_%03d.rds", replicate_id))
+# saveRDS(sum_var_no_ace, sprintf("/mnt/parscratch/users/bip24cns/acedisparity/randomExtinction/out/disp/rand_ext_sum_var_no_ace_%03d.rds", replicate_id))
 
 
 # sum_var_list <- list(strict = sum_var_strict, rel = sum_var_rel, sample = sum_var_sample, no_ace = sum_var_no_ace)
 ### get disparity
 
-strict_sum_var_change <- lapply(sum_var_strict, lapply,  function(disp) {
-  if(is.null(disp)) {
-    return(NULL)
-  } else{
-  values <- get.disparity(disp)
-  change <- (values[[2]] - values[[1]]) / values[[1]]
-  }
-})
+# strict_sum_var_change <- lapply(sum_var_strict, lapply,  function(disp) {
+#   if(is.null(disp)) {
+#     return(NULL)
+#   } else{
+#   values <- get.disparity(disp)
+#   change <- (values[[2]] - values[[1]]) / values[[1]]
+#   }
+# })
 
-rel_sum_var_change <- lapply(sum_var_rel, lapply,  function(disp) {
-  if(is.null(disp)) {
-    return(NULL)
-  } else{
-  values <- get.disparity(disp)
-  change <- (values[[2]] - values[[1]]) / values[[1]]
-  }
-})
+# rel_sum_var_change <- lapply(sum_var_rel, lapply,  function(disp) {
+#   if(is.null(disp)) {
+#     return(NULL)
+#   } else{
+#   values <- get.disparity(disp)
+#   change <- (values[[2]] - values[[1]]) / values[[1]]
+#   }
+# })
 
-sample_sum_var_change <- lapply(sum_var_sample, lapply, lapply, function(disp) {
-  if(is.null(disp)) {
-    return(NULL)
-  } else{
-  values <- get.disparity(disp)
-  change <- (values[[2]] - values[[1]]) / values[[1]]
-  }
-})
+# sample_sum_var_change <- lapply(sum_var_sample, lapply, lapply, function(disp) {
+#   if(is.null(disp)) {
+#     return(NULL)
+#   } else{
+#   values <- get.disparity(disp)
+#   change <- (values[[2]] - values[[1]]) / values[[1]]
+#   }
+# })
 
-no_ace_sum_var_change <- lapply(sum_var_no_ace, lapply,  function(disp) {
-  if(is.null(disp)) {
-    return(NULL)
-  } else{
-  values <- get.disparity(disp)
-  change <- (values[[2]] - values[[1]]) / values[[1]]
-  }
-})
+# no_ace_sum_var_change <- lapply(sum_var_no_ace, lapply,  function(disp) {
+#   if(is.null(disp)) {
+#     return(NULL)
+#   } else{
+#   values <- get.disparity(disp)
+#   change <- (values[[2]] - values[[1]]) / values[[1]]
+#   }
+# })
 
-true_sum_var_change <- lapply(sum_var_true,  function(disp){
-  values <- get.disparity(disp)
-  change <- (values[[2]] - values[[1]]) / values[[1]]
-})
+# true_sum_var_change <- lapply(sum_var_true,  function(disp){
+#   values <- get.disparity(disp)
+#   change <- (values[[2]] - values[[1]]) / values[[1]]
+# })
 
 saveRDS(strict_sum_var_change, sprintf("/mnt/parscratch/users/bip24cns/acedisparity/randomExtinction/out/disp/rand_ext_change_sum_var_strict_%03d.rds", replicate_id))
 saveRDS(rel_sum_var_change, sprintf("/mnt/parscratch/users/bip24cns/acedisparity/randomExtinction/out/disp/rand_ext_change_sum_var_rel_%03d.rds", replicate_id))
 saveRDS(sample_sum_var_change, sprintf("/mnt/parscratch/users/bip24cns/acedisparity/randomExtinction/out/disp/rand_ext_change_sum_var_sample_%03d.rds", replicate_id))
 saveRDS(no_ace_sum_var_change, sprintf("/mnt/parscratch/users/bip24cns/acedisparity/randomExtinction/out/disp/rand_ext_change_sum_var_no_ace_%03d.rds", replicate_id))
 saveRDS(true_sum_var_change, sprintf("/mnt/parscratch/users/bip24cns/acedisparity/randomExtinction/out/disp/rand_ext_change_sum_var_true_%03d.rds", replicate_id))
+saveRDS(sample_post_ord_sum_var_change, sprintf("/mnt/parscratch/users/bip24cns/acedisparity/randomExtinction/out/disp/rand_ext_change_sum_var_sample_postord_%03d.rds", replicate_id))
+saveRDS(point_post_ord_sum_var_change, sprintf("/mnt/parscratch/users/bip24cns/acedisparity/randomExtinction/out/disp/rand_ext_change_sum_var_point_postord_%03d.rds", replicate_id))
 
 
 
@@ -456,107 +560,151 @@ saveRDS(true_sum_var_change, sprintf("/mnt/parscratch/users/bip24cns/acedisparit
 #                                                                              #
 ################################################################################
 
-neighbours_true <- lapply(chrono_subsets_true,  dispRity, metric = c(mean, neighbours))
+true_neighbours_change <- lapply(chrono_subsets_true, function(mat) {
+  disp <- dispRity(mat, metric = c(mean, neighbours))
+  values <- get.disparity(disp)
+  change <- (values[[2]] - values[[1]]) / values[[1]]
+  return(change)
+})
 
-neighbours_strict <- lapply(chrono_subsets_strict, lapply,  function(chrono) {
+strict_neighbours_change <- lapply(chrono_subsets_strict, lapply,  function(chrono) {
   if(is.null(chrono)) {
     return(NULL)
   }
   tryCatch({
-    dispRity(chrono, metric = c(mean, neighbours))}, warning = function(w) {
+    disp <- dispRity(chrono, metric = c(mean, neighbours))
+    values <- get.disparity(disp)
+    change <- (values[[2]] - values[[1]]) / values[[1]]
+    return(change)
+    }, warning = function(w) {
       NULL
     })
 })
 
 
-neighbours_rel <- lapply(chrono_subsets_rel, lapply, function(chrono) {
+rel_neighbours_change <- lapply(chrono_subsets_rel, lapply, function(chrono) {
   if(is.null(chrono)) {
     return(NULL)
   }
   tryCatch({
-    dispRity(chrono, metric = c(mean, neighbours))}, warning = function(w) {
+    disp <- dispRity(chrono, metric = c(mean, neighbours))
+    values <- get.disparity(disp)
+    change <- (values[[2]] - values[[1]]) / values[[1]]
+    return(change)}, warning = function(w) {
       NULL
     })
 })
 
-neighbours_sample <- lapply(chrono_subsets_sample, lapply, lapply,  function(chrono) {
+sample_neighbours_change <- lapply(chrono_subsets_sample, lapply, lapply,  function(chrono) {
   if(is.null(chrono)) {
     return(NULL)
   }
   tryCatch({
-    dispRity(chrono, metric = c(mean, neighbours))}, warning = function(w) {
+    disp <- dispRity(chrono, metric = c(mean, neighbours))
+    values <- get.disparity(disp)
+    change <- (values[[2]] - values[[1]]) / values[[1]]
+    return(change)}, warning = function(w) {
       NULL
     })
 })
 
-neighbours_no_ace <- lapply(chrono_subsets_no_ace, lapply,  function(chrono) {
+no_ace_neighbours_change <- lapply(chrono_subsets_no_ace, lapply,  function(chrono) {
   if(is.null(chrono)) {
     return(NULL)
   }
   tryCatch({
-    dispRity(chrono, metric = c(mean, neighbours))}, warning = function(w) {
+    disp <- dispRity(chrono, metric = c(mean, neighbours))
+    values <- get.disparity(disp)
+    change <- (values[[2]] - values[[1]]) / values[[1]]
+    return(change)}, warning = function(w) {
       NULL
     })
 })
 
+point_post_ord_neighbours_change <- lapply(chrono_subsets_point_post_ord, lapply,  function(chrono) {
+  if(is.null(chrono)) {
+    return(NULL)
+  }
+  tryCatch({
+    disp <- dispRity(chrono, metric = c(mean, neighbours))
+    values <- get.disparity(disp)
+    change <- (values[[2]] - values[[1]]) / values[[1]]
+    return(change)}, warning = function(w) {
+      NULL
+    })
+})
 
-saveRDS(neighbours_true, sprintf("/mnt/parscratch/users/bip24cns/acedisparity/randomExtinction/out/disp/rand_ext_neighbours_true_%03d.rds", replicate_id))
-saveRDS(neighbours_strict, sprintf("/mnt/parscratch/users/bip24cns/acedisparity/randomExtinction/out/disp/rand_ext_neighbours_strict_%03d.rds", replicate_id))
-saveRDS(neighbours_rel, sprintf("/mnt/parscratch/users/bip24cns/acedisparity/randomExtinction/out/disp/rand_ext_neighbours_rel_%03d.rds", replicate_id))
-saveRDS(neighbours_sample, sprintf("/mnt/parscratch/users/bip24cns/acedisparity/randomExtinction/out/disp/rand_ext_neighbours_sample_%03d.rds", replicate_id))
-saveRDS(neighbours_no_ace, sprintf("/mnt/parscratch/users/bip24cns/acedisparity/randomExtinction/out/disp/rand_ext_neighbours_no_ace_%03d.rds", replicate_id))
+sample_post_ord_neighbours_change <- lapply(chrono_subsets_sample_post_ord, lapply, lapply,  function(chrono) {
+  if(is.null(chrono)) {
+    return(NULL)
+  }
+  tryCatch({
+    disp <- dispRity(chrono, metric = c(mean, neighbours))
+    values <- get.disparity(disp)
+    change <- (values[[2]] - values[[1]]) / values[[1]]
+    return(change)
+    }, warning = function(w) {
+      NULL
+    })
+})
+# saveRDS(neighbours_true, sprintf("/mnt/parscratch/users/bip24cns/acedisparity/randomExtinction/out/disp/rand_ext_neighbours_true_%03d.rds", replicate_id))
+# saveRDS(neighbours_strict, sprintf("/mnt/parscratch/users/bip24cns/acedisparity/randomExtinction/out/disp/rand_ext_neighbours_strict_%03d.rds", replicate_id))
+# saveRDS(neighbours_rel, sprintf("/mnt/parscratch/users/bip24cns/acedisparity/randomExtinction/out/disp/rand_ext_neighbours_rel_%03d.rds", replicate_id))
+# saveRDS(neighbours_sample, sprintf("/mnt/parscratch/users/bip24cns/acedisparity/randomExtinction/out/disp/rand_ext_neighbours_sample_%03d.rds", replicate_id))
+# saveRDS(neighbours_no_ace, sprintf("/mnt/parscratch/users/bip24cns/acedisparity/randomExtinction/out/disp/rand_ext_neighbours_no_ace_%03d.rds", replicate_id))
 
 
 # sum_var_list <- list(strict = sum_var_strict, rel = sum_var_rel, sample = sum_var_sample, no_ace = sum_var_no_ace)
 ### get disparity
 
-strict_neighbours_change <- lapply(neighbours_strict, lapply,  function(disp) {
-  if(is.null(disp)) {
-    return(NULL)
-  } else{
-  values <- get.disparity(disp)
-  change <- (values[[2]] - values[[1]]) / values[[1]]
-  }
-})
+# strict_neighbours_change <- lapply(neighbours_strict, lapply,  function(disp) {
+#   if(is.null(disp)) {
+#     return(NULL)
+#   } else{
+#   values <- get.disparity(disp)
+#   change <- (values[[2]] - values[[1]]) / values[[1]]
+#   }
+# })
 
-rel_neighbours_change <- lapply(neighbours_rel, lapply,  function(disp) {
-  if(is.null(disp)) {
-    return(NULL)
-  } else{
-  values <- get.disparity(disp)
-  change <- (values[[2]] - values[[1]]) / values[[1]]
-  }
-})
+# rel_neighbours_change <- lapply(neighbours_rel, lapply,  function(disp) {
+#   if(is.null(disp)) {
+#     return(NULL)
+#   } else{
+#   values <- get.disparity(disp)
+#   change <- (values[[2]] - values[[1]]) / values[[1]]
+#   }
+# })
 
-sample_neighbours_change <- lapply(neighbours_sample, lapply, lapply, function(disp) {
-  if(is.null(disp)) {
-    return(NULL)
-  } else{
-  values <- get.disparity(disp)
-  change <- (values[[2]] - values[[1]]) / values[[1]]
-  }
-})
+# sample_neighbours_change <- lapply(neighbours_sample, lapply, lapply, function(disp) {
+#   if(is.null(disp)) {
+#     return(NULL)
+#   } else{
+#   values <- get.disparity(disp)
+#   change <- (values[[2]] - values[[1]]) / values[[1]]
+#   }
+# })
 
-no_ace_neighbours_change <- lapply(neighbours_no_ace, lapply,  function(disp) {
-  if(is.null(disp)) {
-    return(NULL)
-  } else{
-  values <- get.disparity(disp)
-  change <- (values[[2]] - values[[1]]) / values[[1]]
-  }
-})
+# no_ace_neighbours_change <- lapply(neighbours_no_ace, lapply,  function(disp) {
+#   if(is.null(disp)) {
+#     return(NULL)
+#   } else{
+#   values <- get.disparity(disp)
+#   change <- (values[[2]] - values[[1]]) / values[[1]]
+#   }
+# })
 
-true_neighbours_change <- lapply(neighbours_true,  function(disp){
-  values <- get.disparity(disp)
-  change <- (values[[2]] - values[[1]]) / values[[1]]
-})
+# true_neighbours_change <- lapply(neighbours_true,  function(disp){
+#   values <- get.disparity(disp)
+#   change <- (values[[2]] - values[[1]]) / values[[1]]
+# })
 
 saveRDS(strict_neighbours_change, sprintf("/mnt/parscratch/users/bip24cns/acedisparity/randomExtinction/out/disp/rand_ext_change_neighbours_strict_%03d.rds", replicate_id))
 saveRDS(rel_neighbours_change, sprintf("/mnt/parscratch/users/bip24cns/acedisparity/randomExtinction/out/disp/rand_ext_change_neighbours_rel_%03d.rds", replicate_id))
 saveRDS(sample_neighbours_change, sprintf("/mnt/parscratch/users/bip24cns/acedisparity/randomExtinction/out/disp/rand_ext_change_neighbours_sample_%03d.rds", replicate_id))
 saveRDS(no_ace_neighbours_change, sprintf("/mnt/parscratch/users/bip24cns/acedisparity/randomExtinction/out/disp/rand_ext_change_neighbours_no_ace_%03d.rds", replicate_id))
 saveRDS(true_neighbours_change, sprintf("/mnt/parscratch/users/bip24cns/acedisparity/randomExtinction/out/disp/rand_ext_change_neighbours_true_%03d.rds", replicate_id))
-
+saveRDS(point_post_ord_neighbours_change, sprintf("/mnt/parscratch/users/bip24cns/acedisparity/randomExtinction/out/disp/rand_ext_change_neighbours_point_postord_%03d.rds", replicate_id))
+saveRDS(sample_post_ord_neighbours_change, sprintf("/mnt/parscratch/users/bip24cns/acedisparity/randomExtinction/out/disp/rand_ext_change_neighbours_sample_postord_%03d.rds", replicate_id))
 
 ################################################################################
 #                                                                              #
@@ -564,107 +712,152 @@ saveRDS(true_neighbours_change, sprintf("/mnt/parscratch/users/bip24cns/acedispa
 #                                                                              #
 ################################################################################
 
-displacement_true <- lapply(chrono_subsets_true,  dispRity, metric = c(mean, displacements))
+true_displacement_change <- lapply(chrono_subsets_true, function(mat) {
+  disp <- dispRity(mat, metric = c(mean, displacements))
+  values <- get.disparity(disp)
+  change <- (values[[2]] - values[[1]]) / values[[1]]
+  return(change)
+})
 
-displacement_strict <- lapply(chrono_subsets_strict, lapply,  function(chrono) {
+strict_displacement_change <- lapply(chrono_subsets_strict, lapply,  function(chrono) {
   if(is.null(chrono)) {
     return(NULL)
   }
   tryCatch({
-    dispRity(chrono, metric = c(mean, displacements))}, warning = function(w) {
+    disp <- dispRity(chrono, metric = c(mean, displacements))
+    values <- get.disparity(disp)
+    change <- (values[[2]] - values[[1]]) / values[[1]]
+    return(change)
+    }, warning = function(w) {
       NULL
     })
 })
 
 
-displacement_rel <- lapply(chrono_subsets_rel, lapply, function(chrono) {
+rel_displacement_change <- lapply(chrono_subsets_rel, lapply, function(chrono) {
   if(is.null(chrono)) {
     return(NULL)
   }
   tryCatch({
-    dispRity(chrono, metric = c(mean, displacements))}, warning = function(w) {
+    disp <- dispRity(chrono, metric = c(mean, displacements))
+    values <- get.disparity(disp)
+    change <- (values[[2]] - values[[1]]) / values[[1]]
+    return(change)}, warning = function(w) {
       NULL
     })
 })
 
-displacement_sample <- lapply(chrono_subsets_sample, lapply, lapply,  function(chrono) {
+sample_displacement_change <- lapply(chrono_subsets_sample, lapply, lapply,  function(chrono) {
   if(is.null(chrono)) {
     return(NULL)
   }
   tryCatch({
-    dispRity(chrono, metric = c(mean, displacements))}, warning = function(w) {
+    disp <- dispRity(chrono, metric = c(mean, displacements))
+    values <- get.disparity(disp)
+    change <- (values[[2]] - values[[1]]) / values[[1]]
+    return(change)}, warning = function(w) {
       NULL
     })
 })
 
-displacement_no_ace <- lapply(chrono_subsets_no_ace, lapply,  function(chrono) {
+no_ace_displacement_change <- lapply(chrono_subsets_no_ace, lapply,  function(chrono) {
   if(is.null(chrono)) {
     return(NULL)
   }
   tryCatch({
-    dispRity(chrono, metric = c(mean, displacements))}, warning = function(w) {
+    disp <- dispRity(chrono, metric = c(mean, displacements))
+    values <- get.disparity(disp)
+    change <- (values[[2]] - values[[1]]) / values[[1]]
+    return(change)}, warning = function(w) {
       NULL
     })
 })
 
+point_post_ord_displacement_change <- lapply(chrono_subsets_point_post_ord, lapply,  function(chrono) {
+  if(is.null(chrono)) {
+    return(NULL)
+  }
+  tryCatch({
+    disp <- dispRity(chrono, metric = c(mean, displacements))
+    values <- get.disparity(disp)
+    change <- (values[[2]] - values[[1]]) / values[[1]]
+    return(change)}, warning = function(w) {
+      NULL
+    })
+})
 
-saveRDS(displacement_true, sprintf("/mnt/parscratch/users/bip24cns/acedisparity/randomExtinction/out/disp/rand_ext_displacement_true_%03d.rds", replicate_id))
-saveRDS(displacement_strict, sprintf("/mnt/parscratch/users/bip24cns/acedisparity/randomExtinction/out/disp/rand_ext_displacement_strict_%03d.rds", replicate_id))
-saveRDS(displacement_rel, sprintf("/mnt/parscratch/users/bip24cns/acedisparity/randomExtinction/out/disp/rand_ext_displacement_rel_%03d.rds", replicate_id))
-saveRDS(displacement_sample, sprintf("/mnt/parscratch/users/bip24cns/acedisparity/randomExtinction/out/disp/rand_ext_displacement_sample_%03d.rds", replicate_id))
-saveRDS(displacement_no_ace, sprintf("/mnt/parscratch/users/bip24cns/acedisparity/randomExtinction/out/disp/rand_ext_displacement_no_ace_%03d.rds", replicate_id))
+sample_post_ord_displacement_change <- lapply(chrono_subsets_sample_post_ord, lapply, lapply,  function(chrono) {
+  if(is.null(chrono)) {
+    return(NULL)
+  }
+  tryCatch({
+    disp <- dispRity(chrono, metric = c(mean, displacements))
+    values <- get.disparity(disp)
+    change <- (values[[2]] - values[[1]]) / values[[1]]
+    return(change)
+    }, warning = function(w) {
+      NULL
+    })
+})
+
+# saveRDS(displacement_true, sprintf("/mnt/parscratch/users/bip24cns/acedisparity/randomExtinction/out/disp/rand_ext_displacement_true_%03d.rds", replicate_id))
+# saveRDS(displacement_strict, sprintf("/mnt/parscratch/users/bip24cns/acedisparity/randomExtinction/out/disp/rand_ext_displacement_strict_%03d.rds", replicate_id))
+# saveRDS(displacement_rel, sprintf("/mnt/parscratch/users/bip24cns/acedisparity/randomExtinction/out/disp/rand_ext_displacement_rel_%03d.rds", replicate_id))
+# saveRDS(displacement_sample, sprintf("/mnt/parscratch/users/bip24cns/acedisparity/randomExtinction/out/disp/rand_ext_displacement_sample_%03d.rds", replicate_id))
+# saveRDS(displacement_no_ace, sprintf("/mnt/parscratch/users/bip24cns/acedisparity/randomExtinction/out/disp/rand_ext_displacement_no_ace_%03d.rds", replicate_id))
 
 
 # sum_var_list <- list(strict = sum_var_strict, rel = sum_var_rel, sample = sum_var_sample, no_ace = sum_var_no_ace)
 ### get disparity
 
-strict_displacement_change <- lapply(displacement_strict, lapply,  function(disp) {
-  if(is.null(disp)) {
-    return(NULL)
-  } else{
-  values <- get.disparity(disp)
-  change <- (values[[2]] - values[[1]]) / values[[1]]
-  }
-})
+# strict_displacement_change <- lapply(displacement_strict, lapply,  function(disp) {
+#   if(is.null(disp)) {
+#     return(NULL)
+#   } else{
+#   values <- get.disparity(disp)
+#   change <- (values[[2]] - values[[1]]) / values[[1]]
+#   }
+# })
 
-rel_displacement_change <- lapply(displacement_rel, lapply,  function(disp) {
-  if(is.null(disp)) {
-    return(NULL)
-  } else{
-  values <- get.disparity(disp)
-  change <- (values[[2]] - values[[1]]) / values[[1]]
-  }
-})
+# rel_displacement_change <- lapply(displacement_rel, lapply,  function(disp) {
+#   if(is.null(disp)) {
+#     return(NULL)
+#   } else{
+#   values <- get.disparity(disp)
+#   change <- (values[[2]] - values[[1]]) / values[[1]]
+#   }
+# })
 
-sample_displacement_change <- lapply(displacement_sample, lapply, lapply, function(disp) {
-  if(is.null(disp)) {
-    return(NULL)
-  } else{
-  values <- get.disparity(disp)
-  change <- (values[[2]] - values[[1]]) / values[[1]]
-  }
-})
+# sample_displacement_change <- lapply(displacement_sample, lapply, lapply, function(disp) {
+#   if(is.null(disp)) {
+#     return(NULL)
+#   } else{
+#   values <- get.disparity(disp)
+#   change <- (values[[2]] - values[[1]]) / values[[1]]
+#   }
+# })
 
-no_ace_displacement_change <- lapply(displacement_no_ace, lapply,  function(disp) {
-  if(is.null(disp)) {
-    return(NULL)
-  } else{
-  values <- get.disparity(disp)
-  change <- (values[[2]] - values[[1]]) / values[[1]]
-  }
-})
+# no_ace_displacement_change <- lapply(displacement_no_ace, lapply,  function(disp) {
+#   if(is.null(disp)) {
+#     return(NULL)
+#   } else{
+#   values <- get.disparity(disp)
+#   change <- (values[[2]] - values[[1]]) / values[[1]]
+#   }
+# })
 
-true_displacement_change <- lapply(displacement_true,  function(disp){
-  values <- get.disparity(disp)
-  change <- (values[[2]] - values[[1]]) / values[[1]]
-})
+# true_displacement_change <- lapply(displacement_true,  function(disp){
+#   values <- get.disparity(disp)
+#   change <- (values[[2]] - values[[1]]) / values[[1]]
+# })
 
 saveRDS(strict_displacement_change, sprintf("/mnt/parscratch/users/bip24cns/acedisparity/randomExtinction/out/disp/rand_ext_change_displacement_strict_%03d.rds", replicate_id))
 saveRDS(rel_displacement_change, sprintf("/mnt/parscratch/users/bip24cns/acedisparity/randomExtinction/out/disp/rand_ext_change_displacement_rel_%03d.rds", replicate_id))
 saveRDS(sample_displacement_change, sprintf("/mnt/parscratch/users/bip24cns/acedisparity/randomExtinction/out/disp/rand_ext_change_displacement_sample_%03d.rds", replicate_id))
 saveRDS(no_ace_displacement_change, sprintf("/mnt/parscratch/users/bip24cns/acedisparity/randomExtinction/out/disp/rand_ext_change_displacement_no_ace_%03d.rds", replicate_id))
 saveRDS(true_displacement_change, sprintf("/mnt/parscratch/users/bip24cns/acedisparity/randomExtinction/out/disp/rand_ext_change_displacement_true_%03d.rds", replicate_id))
-
+saveRDS(point_post_ord_displacement_change, sprintf("/mnt/parscratch/users/bip24cns/acedisparity/randomExtinction/out/disp/rand_ext_change_displacement_point_postord_%03d.rds", replicate_id))
+saveRDS(sample_post_ord_displacement_change, sprintf("/mnt/parscratch/users/bip24cns/acedisparity/randomExtinction/out/disp/rand_ext_change_displacement_sample_postord_%03d.rds", replicate_id))
 
 metadata <- list(
   replicate_id = replicate_id,

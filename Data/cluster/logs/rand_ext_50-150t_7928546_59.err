@@ -1,0 +1,9 @@
+Loading required package: ape
+Loading required package: dispRity
+Warning messages:
+1: In rgl.init(initValue, onlyNULL) : RGL: unable to open X11 display
+2: 'rgl.init' failed, will use the null device.
+See '?rgl.useNULL' for ways to avoid this warning. 
+Building the tree:.Done.
+/var/spool/slurmd.spool/job7928615/slurm_script: line 18: 18106 Killed                  Rscript /users/$USER/acedisparity/randomExtinction/scripts/rand_extinction_discrete_50-150t_fms_5fossil_4ace.R $SLURM_ARRAY_TASK_ID
+slurmstepd: error: Detected 1 oom_kill event in StepId=7928615.batch. Some of the step tasks have been OOM Killed.
