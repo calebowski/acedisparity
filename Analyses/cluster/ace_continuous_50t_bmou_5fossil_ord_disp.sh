@@ -2,12 +2,12 @@
 #SBATCH --job-name=TESTacecontinuous50torddisp
 #SBATCH --output=/users/bip24cns/acedisparity/continuous/logs/TEST_disp_continuous_50t_%A_%a.out
 #SBATCH --error=/users/bip24cns/acedisparity/continuous/logs/TEST_disp_continuous_50t_%A_%a.err
-#SBATCH --array=1-5                   # 100 replicates
+#SBATCH --array=1-100                   # 100 replicates
 #SBATCH --nodes=1                     # 1 node per task
 #SBATCH --ntasks=1                    # 1 R process per task
 #SBATCH --cpus-per-task=1             # adjust if using parallel inside R
-#SBATCH --mem=32G                    # adjust based on memory needs
-#SBATCH --time=12:00:00               
+#SBATCH --mem=12G                    # adjust based on memory needs
+#SBATCH --time=1:00:00               
 #SBATCH --mail-user=cnscutt1@sheffield.ac.uk
 #SBATCH --mail-type=ALL
 

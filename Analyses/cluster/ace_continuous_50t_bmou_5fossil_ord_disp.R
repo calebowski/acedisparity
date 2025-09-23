@@ -101,6 +101,14 @@ saveRDS(sample_anc, paste0(file_path, sprintf("anc/sample_anc_%03d.rds", replica
 cat("Ancestral states saved...\n")
 
 
+# sample_anc <- readRDS("../Data/cluster/continuous/anc/sample_anc_005.rds")
+# point_anc <- readRDS("../Data/cluster/continuous/anc/point_anc_005.rds")
+
+# matrices <- readRDS("../Data/cluster/continuous/matrices/matrices_005.rds")
+# fossil_matrices <- readRDS("../Data/cluster/continuous/matrices/fossil_matrices_005.rds")
+# tree <- read.tree("../Data/cluster/continuous/trees/continuous_tree_005.tre")
+# fossil_trees <- readRDS("../Data/cluster/continuous/trees/fossil_trees_005.rds")
+
 extract.living <- function(fossils) {
   basal_node <- fossils$living$tree$node.label[1]
   living_nodes <- fossils$living$tree$node.label
@@ -169,28 +177,47 @@ ord_true <- lapply(true_living,  function(mat){
 cat("Ordinations completed...\n")
 
 
+ord_fossil_tips <- lapply(fossil_matrices, lapply, function(x){
+  mat <- x$matrix
+  prcomp(mat, scale = FALSE, center = TRUE)$x
+})
+
+
+
 post_ord_ace <- Map(function(rate_matrix, rate_tree){
   Map(function(fossil_matrix, fossil_tree){
-    # clean <- clean.data(fossil_matrix, fossil_tree)
-    # tree <- clean$tree
-    # matrix <- clean$data
-    # return(list(matrix = matrix, tree = tree))
     multi.ace(fossil_matrix, fossil_tree, models = "ML", output = "multi.ace")
   }, rate_matrix, rate_tree)
-}, ord_no_ace, fossil_trees)
-
+}, ord_fossil_tips, fossil_trees)
 
 point_post_ord_ace <- lapply(post_ord_ace, lapply,  multi.ace, output = "combined.matrix")
+
+point_post_ord_ace_living <- Map(function(rate_anc, rate_labels) {
+    Map(function(fossil_anc, label_anc) {
+      fossil_anc[label_anc, , drop = FALSE]
+  }, rate_anc, rate_labels)
+}, point_post_ord_ace, labels)
+
+names(point_post_ord_ace_living) <- names(point_post_ord_ace)
+
+trait_normal = list(fun = rnorm, param = list(mean = mean, sd = function(x)return(diff(range(x))/4)))
 sample_post_ord_ace <- lapply(post_ord_ace, lapply,  multi.ace, sample = 100, sample.fun = trait_normal, output = "combined.matrix")
 
+sample_post_ord_ace_living <- Map(function(rate_anc, rate_labels) {
+    Map(function(fossil_anc, label_anc) {
+      lapply(fossil_anc, function(rep) {
+        rep[label_anc, , drop = FALSE]
+      })
+  }, rate_anc, rate_labels)
+}, sample_post_ord_ace, labels)
 cat("Post ordination ace completed...\n")
 
 saveRDS(ord_sample, paste0(file_path, sprintf("ord/sample_ord_%03d.rds", replicate_id)))
 saveRDS(ord_point, paste0(file_path, sprintf("ord/point_ord_%03d.rds", replicate_id)))
 saveRDS(ord_no_ace, paste0(file_path, sprintf("ord/no_ace_ord_%03d.rds", replicate_id)))
 saveRDS(ord_true, paste0(file_path, sprintf("ord/true_ord_%03d.rds", replicate_id)))
-saveRDS(point_post_ord_ace, paste0(file_path, sprintf("ord/point_post_ord_%03d.rds", replicate_id)))
-saveRDS(sample_post_ord_ace, paste0(file_path, sprintf("ord/sample_post_ord_%03d.rds", replicate_id)))
+saveRDS(point_post_ord_ace_living, paste0(file_path, sprintf("ord/point_post_ord_%03d.rds", replicate_id)))
+saveRDS(sample_post_ord_ace_living, paste0(file_path, sprintf("ord/sample_post_ord_%03d.rds", replicate_id)))
 
 
 metrics_list <- list(
@@ -217,10 +244,10 @@ for(metric_name in names(metrics_list)) {
          lapply(ord_true, function(mat) dispRity(mat, metric = metric)$disparity))
   
   assign(paste0(metric_name, "_point_postord"), 
-         lapply(point_post_ord_ace, lapply, function(mat) dispRity(mat, metric = metric)$disparity))
+         lapply(point_post_ord_ace_living, lapply, function(mat) dispRity(mat, metric = metric)$disparity))
 
   assign(paste0(metric_name, "_sample_postord"), 
-         lapply(sample_post_ord_ace, lapply, lapply, function(mat) dispRity(mat, metric = metric)$disparity))
+         lapply(sample_post_ord_ace_living, lapply, lapply, function(mat) dispRity(mat, metric = metric)$disparity))
 }
 
 cat("Disparity calculation finished...\n")

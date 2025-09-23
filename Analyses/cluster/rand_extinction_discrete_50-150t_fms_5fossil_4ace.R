@@ -24,7 +24,7 @@ set.seed(100 + replicate_id) # set seed to change for each replicate
 
 bd_params <- make.bd.params(speciation = 0.1, extinction = 0.07)
 
-stop_rule <- list(max.living = sample(x = c(50, 100, 150), size = 1)) # different tree sizes
+stop_rule <- list(max.living = sample(x = c(50, 75, 100), size = 1)) # different tree sizes
 
 extinction_intensity <- runif(n = 1, min = 0.75, max = 0.9)
 
@@ -35,18 +35,53 @@ random_extinction <- make.events(
                       modification = random.extinction(extinction_intensity)
 )
 
-tree <- treats(stop.rule = stop_rule, bd.params = bd_params, null.error = 100, events = random_extinction)
+# tree <- treats(stop.rule = stop_rule, bd.params = bd_params, null.error = 100, events = random_extinction)
 
+# Generate tree with feedback loop to prevent >300 tips
+max_attempts <- 1000  # Prevent infinite loops
+attempt <- 1
+
+
+if(stop_rule$max.living == 100)
+repeat {
+  tree <- treats(stop.rule = stop_rule, bd.params = bd_params, null.error = 100, events = random_extinction)
+  
+  n_tips <- length(tree$tip.label)
+  cat("Attempt", attempt, "- Tree has", n_tips, "tips\n")
+  
+
+  # Accept tree if it has ≤300 tips
+  if(n_tips <= 400) {
+    cat("✓ Accepted tree with", n_tips, "tips\n")
+    break
+  }
+  
+
+  
+  
+  # Safety check to prevent infinite loops
+  if(attempt >= max_attempts) {
+    cat("⚠ Warning: Reached maximum attempts, accepting tree with", n_tips, "tips\n")
+    break
+  }
+  
+  attempt <- attempt + 1
+}
 
 tree <- drop.singles(tree)
 tree <- fix.zero.branches(tree)
 tree <- set.root.time(tree)
 
+metadata_df <- data.frame(
+  replicate_id = replicate_id,
+  tree_size = stop_rule$max.living,
+  extinction_intensity = extinction_intensity,
+  seed = 100 + replicate_id
+)
 
-## fix zero branches
-## set root time
-
-## fix single nodes.
+write.csv(metadata_df, 
+          sprintf("/mnt/parscratch/users/bip24cns/acedisparity/randomExtinction/out/metadata/metadata_%03d.csv", replicate_id),
+          row.names = FALSE)
 
 write.tree(tree, sprintf("/mnt/parscratch/users/bip24cns/acedisparity/randomExtinction/out/trees/rand_ext_tree_%03d.tre", replicate_id))
 
@@ -272,6 +307,79 @@ point_post_ord_ace <- readRDS("../Data/cluster/randomExtinction/ord/post_ord_ace
 ord_strict <- readRDS("../Data/cluster/randomExtinction/ord/rand_ext_ord_strict_007.rds")
 tree <- read.tree("../Data/cluster/randomExtinction/trees/rand_ext_tree_007.tre")
 fossil_trees <- readRDS("../Data/cluster/randomExtinction/trees/rand_ext_fossil_tree_007.rds")
+
+
+
+
+# Add this after loading the ordination objects (around line 272)
+
+# Function to check for NAs in nested list structures
+check_nas_recursive <- function(obj, name) {
+  cat("Checking", name, "for NA values...\n")
+  
+  if(is.null(obj)) {
+    cat("  ", name, "is NULL\n")
+    return(TRUE)
+  }
+  
+  if(is.list(obj)) {
+    # For nested lists (like your ordination objects)
+    nas_found <- FALSE
+    for(i in names(obj)) {
+      for(j in names(obj[[i]])) {
+        if(is.null(obj[[i]][[j]])) {
+          cat("  ", name, "[[", i, "]][[", j, "]] is NULL\n")
+          nas_found <- TRUE
+        } else if(is.list(obj[[i]][[j]])) {
+          # Handle sample structure with replicates
+          for(k in seq_along(obj[[i]][[j]])) {
+            if(is.null(obj[[i]][[j]][[k]])) {
+              cat("  ", name, "[[", i, "]][[", j, "]][[", k, "]] is NULL\n")
+              nas_found <- TRUE
+            } else if(any(is.na(obj[[i]][[j]][[k]]))) {
+              cat("  ", name, "[[", i, "]][[", j, "]][[", k, "]] contains", sum(is.na(obj[[i]][[j]][[k]])), "NA values\n")
+              nas_found <- TRUE
+            }
+          }
+        } else if(any(is.na(obj[[i]][[j]]))) {
+          cat("  ", name, "[[", i, "]][[", j, "]] contains", sum(is.na(obj[[i]][[j]])), "NA values\n")
+          cat("    Dimensions:", dim(obj[[i]][[j]]), "\n")
+          nas_found <- TRUE
+        }
+      }
+    }
+    if(!nas_found) {
+      cat("  ", name, "- No NAs found\n")
+    }
+    return(nas_found)
+  } else {
+    # For simple matrices/arrays
+    if(any(is.na(obj))) {
+      cat("  ", name, "contains", sum(is.na(obj)), "NA values\n")
+      return(TRUE)
+    } else {
+      cat("  ", name, "- No NAs found\n")
+      return(FALSE)
+    }
+  }
+}
+
+# Check all ordination objects
+cat("=== CHECKING ORDINATION OBJECTS FOR NA VALUES ===\n")
+
+check_nas_recursive(ord_no_ace, "ord_no_ace")
+check_nas_recursive(ord_true, "ord_true") 
+check_nas_recursive(ord_rel, "ord_rel")
+check_nas_recursive(sample_post_ord_ace, "sample_post_ord_ace")
+check_nas_recursive(ord_sample, "ord_sample")
+check_nas_recursive(point_post_ord_ace, "point_post_ord_ace")
+check_nas_recursive(ord_strict, "ord_strict")
+
+cat("=== NA CHECK COMPLETE ===\n")
+
+
+
+
 
 tip_ages <- tip.ages(tree)
 extinction_time <- find.extinction.time(tip_ages)

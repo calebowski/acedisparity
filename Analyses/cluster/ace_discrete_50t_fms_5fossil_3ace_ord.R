@@ -256,28 +256,45 @@ cat("Running post ord ace", replicate_id, "\n")
 
 ## post ordination ace
 
-# ord_no_ace <- lapply(no_ace_living, lapply, function(rep){
-#   dist <- char.diff(rep, method = "mord", by.col = FALSE)
-#   ord <- (cmdscale(dist, k = ncol(dist) - 2, add = TRUE))$points
-# })
+ord_fossil_tips <- lapply(fossil_matrices, lapply, function(x){ ## ordinate the fossil tips from earlier
+  dist <- char.diff(x, method = "mord", by.col = FALSE)
+  ord <- (cmdscale(dist, k = ncol(dist) - 2, add = TRUE))$points
+})
 
 
 post_ord_ace <- Map(function(rate_matrix, rate_tree){
   Map(function(fossil_matrix, fossil_tree){
-    # clean <- clean.data(fossil_matrix, fossil_tree)
-    # tree <- clean$tree
-    # matrix <- clean$data
-    # return(list(matrix = matrix, tree = tree))
     multi.ace(matrix, tree, models = "ML", output = "multi.ace")
   }, rate_matrix, rate_tree)
-}, ord_no_ace, fossil_trees)
+}, ord_fossil_tips, fossil_trees)
+
+
 
 trait_normal = list(fun = rnorm, param = list(mean = mean, sd = function(x)return(diff(range(x))/4)))
 point_post_ord_ace <- lapply(post_ord_ace, lapply,  multi.ace, output = "combined.matrix")
+
+point_post_ord_ace_living <- Map(function(rate_anc, rate_labels) {
+    Map(function(fossil_anc, label_anc) {
+      fossil_anc[label_anc, , drop = FALSE]
+  }, rate_anc, rate_labels)
+}, point_post_ord_ace, labels)
+
+names(point_post_ord_ace_living) <- names(point_post_ord_ace)
+
 sample_post_ord_ace <- lapply(post_ord_ace, lapply,  multi.ace, sample = 100, sample.fun = trait_normal, output = "combined.matrix")
 
+sample_post_ord_ace_living <- Map(function(rate_anc, rate_labels) {
+    Map(function(fossil_anc, label_anc) {
+      lapply(fossil_anc, function(rep) {
+        rep[label_anc, , drop = FALSE]
+      })
+  }, rate_anc, rate_labels)
+}, sample_post_ord_ace, labels)
+
+
+
 saveRDS(post_ord_ace, sprintf("/mnt/parscratch/users/bip24cns/acedisparity/discrete/out/ace/post_ord_ace_%03d.rds", replicate_id))
-saveRDS(point_post_ord_ace, sprintf("/mnt/parscratch/users/bip24cns/acedisparity/discrete/out/ord/post_ord_ace_point_%03d.rds", replicate_id))
-saveRDS(sample_post_ord_ace, sprintf("/mnt/parscratch/users/bip24cns/acedisparity/discrete/out/ord/post_ord_ace_sample_%03d.rds", replicate_id))
+saveRDS(point_post_ord_ace_living, sprintf("/mnt/parscratch/users/bip24cns/acedisparity/discrete/out/ord/post_ord_ace_point_%03d.rds", replicate_id))
+saveRDS(sample_post_ord_ace_living, sprintf("/mnt/parscratch/users/bip24cns/acedisparity/discrete/out/ord/post_ord_ace_sample_%03d.rds", replicate_id))
 
 cat("Finished replicate", replicate_id, "\n")

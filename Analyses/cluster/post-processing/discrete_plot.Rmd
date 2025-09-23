@@ -149,6 +149,60 @@ saveRDS(neighbours_diff_rel, "../Data/processed/discrete/dispDiffs/neighbours_di
 saveRDS(neighbours_diff_no_ace, "../Data/processed/discrete/dispDiffs/neighbours_diff_no_ace.rds")
 saveRDS(neighbours_diff_point_postord, "../Data/processed/discrete/dispDiffs/neighbours_diff_point_postord.rds")
 saveRDS(neighbours_diff_sample_postord, "../Data/processed/discrete/dispDiffs/neighbours_diff_sample_postord.rds")
+
+quantiles_diff_strict <- setNames(lapply(rate_names, function(rate) {
+    lapply(1:100, function(rep) {
+        file_path <- sprintf("../Data/cluster/discrete/clusterOut/raw_7905416_11_09/quant_strict_diff_%03d.rds", rep)
+        data <- readRDS(file_path)
+        return(data[[rate]])
+    })
+}), rate_names)
+
+quantiles_diff_sample <- setNames(lapply(rate_names, function(rate) {
+    lapply(1:100, function(rep) {
+        file_path <- sprintf("../Data/cluster/discrete/clusterOut/raw_7905416_11_09/quant_sample_diff_%03d.rds", rep)
+        data <- readRDS(file_path)
+        return(data[[rate]])
+    })
+}), rate_names)
+
+
+quantiles_diff_rel <- setNames(lapply(rate_names, function(rate) {
+    lapply(1:100, function(rep) {
+        file_path <- sprintf("../Data/cluster/discrete/clusterOut/raw_7905416_11_09/quant_rel_diff_%03d.rds", rep)
+        data <- readRDS(file_path)
+        return(data[[rate]])
+    })
+}), rate_names)
+
+quantiles_diff_no_ace <- setNames(lapply(rate_names, function(rate) {
+    lapply(1:100, function(rep) {
+        file_path <- sprintf("../Data/cluster/discrete/clusterOut/raw_7905416_11_09/quant_no_ace_diff_%03d.rds", rep)
+        data <- readRDS(file_path)
+        return(data[[rate]])
+    })
+}), rate_names)
+
+quantiles_diff_point_postord <- setNames(lapply(rate_names, function(rate) {
+    lapply(1:100, function(rep) {
+        file_path <- sprintf("../Data/cluster/discrete/clusterOut/raw_7905416_11_09/quant_point_postord_diff_%03d.rds", rep)
+        data <- readRDS(file_path)
+        return(data[[rate]])
+    })
+}), rate_names)
+
+
+quantiles_diff_sample_postord <- setNames(lapply(rate_names, function(rate) {
+    lapply(1:100, function(rep) {
+        file_path <- sprintf("../Data/cluster/discrete/clusterOut/raw_7905416_11_09/quant_sample_postord_diff_%03d.rds", rep)
+        data <- readRDS(file_path)
+        return(data[[rate]])
+    })
+}), rate_names)
+
+
+
+
 ```
 
 
@@ -195,8 +249,32 @@ neighbours_data <- do.call(rbind, lapply(c("neighbours_diff_strict", "neighbours
         low = data$fossil_low,
         living = data$living,
         level = level,
-        threshold_method = gsub("neighbours_diff_", "sum_var_diff_", dataset_name),  # Match naming
-        metric = "Neighbours"  # Add metric identifier
+        threshold_method = gsub("neighbours_diff_", "sum_var_diff_", dataset_name),  # STANDARDIZE HERE
+        metric = "Neighbours"
+      )
+      df_long <- pivot_longer(df, cols = c("living", "low", "mid", "high", "all"),
+                              names_to = "preservation_level", values_to = "distance")
+      return(df_long)
+    }))
+  }))
+}))
+
+# Fix quantiles_data:
+quantiles_data <- do.call(rbind, lapply(c("quantiles_diff_strict", "quantiles_diff_sample", "quantiles_diff_point_postord", "quantiles_diff_sample_postord", "quantiles_diff_no_ace"), function(dataset_name) {
+  dataset <- get(dataset_name)
+  do.call(rbind, lapply(names(dataset), function(level) {
+    do.call(rbind, lapply(seq_along(dataset[[level]]), function(replicate_index) {
+      data <- dataset[[level]][[replicate_index]]
+      df <- data.frame(
+        replicate = replicate_index,
+        all = data$all,
+        high = data$fossil_high,
+        mid = data$fossil_med,
+        low = data$fossil_low,
+        living = data$living,
+        level = level,
+        threshold_method = gsub("quantiles_diff_", "sum_var_diff_", dataset_name),  # STANDARDIZE HERE
+        metric = "Sum of quantiles"
       )
       df_long <- pivot_longer(df, cols = c("living", "low", "mid", "high", "all"),
                               names_to = "preservation_level", values_to = "distance")
@@ -206,7 +284,7 @@ neighbours_data <- do.call(rbind, lapply(c("neighbours_diff_strict", "neighbours
 }))
 
 # Combine both datasets
-combined_data <- rbind(sum_var_data, neighbours_data)
+combined_data <- rbind(sum_var_data, neighbours_data, quantiles_data)
 
 # Factor the variables
 combined_data$threshold_method <- factor(combined_data$threshold_method, 
@@ -217,9 +295,10 @@ combined_data$preservation_level <- factor(combined_data$preservation_level,
                                          levels = c("living", "low", "mid", "high", "all"))
 
 combined_data$metric <- factor(combined_data$metric, 
-                             levels = c("Sum of variances", "Neighbours"))
+                             levels = c("Sum of variances", "Neighbours", "Sum of quantiles"))
 
 
+colours <- c("slow" = "#8805A8", "med" = "#00B945", "fast" = "#FFB600")
 
 combined_plot_no_rel <- ggplot(combined_data, aes(x = preservation_level, y = distance, color = level, fill = level)) +
   geom_boxplot(
@@ -237,8 +316,8 @@ combined_plot_no_rel <- ggplot(combined_data, aes(x = preservation_level, y = di
     fill = "Transition Rate"
   ) +
   theme_minimal() +
-  scale_color_manual(values = colors) +
-  scale_fill_manual(values = colors) + 
+  scale_color_manual(values = colours) +
+  scale_fill_manual(values = colours) + 
   theme(
     axis.text = element_text(size = 10, face = "bold"),
     axis.title = element_text(size = 12, face = "bold"),
