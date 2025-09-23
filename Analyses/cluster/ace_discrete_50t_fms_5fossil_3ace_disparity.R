@@ -19,13 +19,6 @@ sample_post_ord_ace <- readRDS(sprintf("/mnt/parscratch/users/bip24cns/acedispar
 # ord_no_ace <- readRDS("../Data/cluster/discrete/ord/ord_no_ace_001.rds")
 # ord_true <- readRDS("../Data/cluster/discrete/ord/ord_true_001.rds")
 
-scale.pc <- function(ord){
-    pc1 <- ord[,1]
-    min <- abs(min(pc1))
-    max <- abs(max(pc1)) + min
-    scal <- (ord + min) / max
-    return(scal)
-}
 
 
 sum_var_rel <- lapply(ord_rel, lapply, function(rep){
@@ -212,3 +205,89 @@ saveRDS(neighbours_strict_diff, sprintf("/mnt/parscratch/users/bip24cns/acedispa
 saveRDS(neighbours_no_ace_diff, sprintf("/mnt/parscratch/users/bip24cns/acedisparity/discrete/out/disparity/diff_neighbours_no_ace_%03d.rds", replicate_id))
 saveRDS(neighbours_point_postord_diff, sprintf("/mnt/parscratch/users/bip24cns/acedisparity/discrete/out/disparity/diff_neighbours_point_postord_%03d.rds", replicate_id))
 saveRDS(neighbours_sample_postord_diff, sprintf("/mnt/parscratch/users/bip24cns/acedisparity/discrete/out/disparity/diff_neighbours_sample_postord_%03d.rds", replicate_id))
+
+
+
+sum_quant_rel <- lapply(ord_rel, lapply, function(rep){
+    dispRity(rep, metric = c(sum, quantiles))$disparity
+})
+
+sum_quant_sample <- lapply(ord_sample, lapply, lapply, function(rep){
+    dispRity(rep, metric = c(sum, quantiles))$disparity
+})
+
+sum_quant_strict <- lapply(ord_strict, lapply, function(rep){
+    dispRity(rep, metric = c(sum, quantiles))$disparity
+})
+
+sum_quant_no_ace <- lapply(ord_no_ace, lapply, function(rep){
+    dispRity(rep, metric = c(sum, quantiles))$disparity
+})
+
+sum_quant_true <- lapply(ord_true,  function(rep){
+    dispRity(rep, metric = c(sum, quantiles))$disparity
+})
+
+sum_quant_point_post_ord <- lapply(point_post_ord_ace, lapply,  function(rep){
+    dispRity(rep, metric = c(sum, quantiles))$disparity
+})
+
+sum_quant_sample_post_ord <- lapply(sample_post_ord_ace, lapply, lapply, function(rep){
+    dispRity(rep, metric = c(sum, quantiles))$disparity
+})
+
+saveRDS(sum_quant_rel, sprintf("/mnt/parscratch/users/bip24cns/acedisparity/discrete/out/disparity/quant_rel_%03d.rds", replicate_id))
+saveRDS(sum_quant_sample, sprintf("/mnt/parscratch/users/bip24cns/acedisparity/discrete/out/disparity/quant_sample_%03d.rds", replicate_id))
+saveRDS(sum_quant_strict, sprintf("/mnt/parscratch/users/bip24cns/acedisparity/discrete/out/disparity/quant_strict_%03d.rds", replicate_id))
+saveRDS(sum_quant_no_ace, sprintf("/mnt/parscratch/users/bip24cns/acedisparity/discrete/out/disparity/quant_no_ace_%03d.rds", replicate_id))
+saveRDS(sum_quant_true, sprintf("/mnt/parscratch/users/bip24cns/acedisparity/discrete/out/disparity/quant_true_%03d.rds", replicate_id))
+saveRDS(sum_quant_point_post_ord, sprintf("/mnt/parscratch/users/bip24cns/acedisparity/discrete/out/disparity/quant_point_postord_%03d.rds", replicate_id))
+saveRDS(sum_quant_sample_post_ord, sprintf("/mnt/parscratch/users/bip24cns/acedisparity/discrete/out/disparity/quant_sample_postord_%03d.rds", replicate_id))
+
+
+
+
+sum_quant_rel_diff <- Map(function(rate_rel, rate_true) {
+    Map(function(fossil_data) {
+      disp.diff(fossil_data, rate_true)
+    }, rate_rel)
+}, sum_quant_rel, sum_quant_true)
+
+
+sum_quant_no_ace_diff <- Map(function(rate_no_ace, rate_true) {
+    Map(function(fossil_data) {
+      disp.diff(fossil_data, rate_true)
+    }, rate_no_ace)
+}, sum_quant_no_ace, sum_quant_true)
+
+
+sum_quant_sample_diff <- Map(function(rate_sample, rate_true) {
+    Map(function(fossil_data) {
+      diffs <- Map(function(sample) {
+     (disp.diff(sample, rate_true))
+      }, fossil_data)
+      return(unlist(diffs))
+  }, rate_sample)
+}, sum_quant_sample, sum_quant_true)
+
+sum_quant_strict_diff <- Map(function(rate_strict, rate_true) {
+    Map(function(fossil_data) {
+      disp.diff(fossil_data, rate_true)
+    }, rate_strict)
+}, sum_var_strict, sum_quant_true)
+
+
+sum_quant_post_ord_point_diff <- Map(function(rate_strict, rate_true) {
+    Map(function(fossil_data) {
+      disp.diff(fossil_data, rate_true)
+    }, rate_strict)
+}, sum_quant_point_post_ord, sum_quant_true)
+
+sum_quant_post_ord_sample_diff <- Map(function(rate_sample, rate_true) {
+    Map(function(fossil_data) {
+      diffs <- Map(function(sample) {
+     (disp.diff(sample, rate_true))
+      }, fossil_data)
+      return(unlist(diffs))
+  }, rate_sample)
+}, sum_quant_sample_post_ord, sum_quant_true)

@@ -115,14 +115,7 @@ PROJECT/CHAPTER IDEA: - what buffers against extinction best? Functionality or s
 Decision tree algorithms - similar to random forest; will output most important variables and parameters.
 
 
-
-
-
-
-
-
-
-
+What buffers against extinction the best, functionality or species numbers?
 
 
 #######################################################################################################
@@ -146,3 +139,13 @@ min-max normalisation, then use the range of first pc axis on later axes so that
 
 - ANOVAs + post hoc. comparing the columns and colours.
 - 
+
+
+19/09
+ - run ord extinction with csv files and load one at a time, do disparity then remove etc.
+ - also make a feedback loop so that trees are always less than say 500 tips (maybe lower threshold is needed?)
+ - remove relative majority rule
+ - do sum of quantiles as size metric, sum of variances as density metric
+ - potential extension: remove characters from the simualted matrices to simulate preservation not just sampling.
+
+ 

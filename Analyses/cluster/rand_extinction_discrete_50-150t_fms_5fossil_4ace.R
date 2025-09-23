@@ -262,6 +262,17 @@ saveRDS(ord_rel, sprintf("/mnt/parscratch/users/bip24cns/acedisparity/randomExti
 saveRDS(ord_strict, sprintf("/mnt/parscratch/users/bip24cns/acedisparity/randomExtinction/out/ord/rand_ext_ord_strict_%03d.rds", replicate_id))
 saveRDS(ord_sample, sprintf("/mnt/parscratch/users/bip24cns/acedisparity/randomExtinction/out/ord/rand_ext_ord_sample_%03d.rds", replicate_id))
 
+
+ord_no_ace <- readRDS("../Data/cluster/randomExtinction/ord/rand_ext_ord_no_ace_007.rds")
+ord_true <- readRDS("../Data/cluster/randomExtinction/ord/rand_ext_ord_true_007.rds")
+ord_rel <- readRDS("../Data/cluster/randomExtinction/ord/rand_ext_ord_rel_007.rds")
+sample_post_ord_ace <- readRDS("../Data/cluster/randomExtinction/ord/post_ord_ace_sample_007.rds")
+ord_sample <- readRDS("../Data/cluster/randomExtinction/ord/rand_ext_ord_sample_007.rds")
+point_post_ord_ace <- readRDS("../Data/cluster/randomExtinction/ord/post_ord_ace_point_007.rds")
+ord_strict <- readRDS("../Data/cluster/randomExtinction/ord/rand_ext_ord_strict_007.rds")
+tree <- read.tree("../Data/cluster/randomExtinction/trees/rand_ext_tree_007.tre")
+fossil_trees <- readRDS("../Data/cluster/randomExtinction/trees/rand_ext_fossil_tree_007.rds")
+
 tip_ages <- tip.ages(tree)
 extinction_time <- find.extinction.time(tip_ages)
 

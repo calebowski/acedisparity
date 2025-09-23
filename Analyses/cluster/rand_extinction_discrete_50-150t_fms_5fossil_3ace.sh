@@ -6,8 +6,8 @@
 #SBATCH --nodes=1                     # 1 node per task
 #SBATCH --ntasks=1                    # 1 R process per task
 #SBATCH --cpus-per-task=1             # adjust if using parallel inside R
-#SBATCH --mem=100G                     # adjust based on memory needs
-#SBATCH --time=24:00:00               # 2 hours, adjust as needed
+#SBATCH --mem=125G                     # adjust based on memory needs
+#SBATCH --time=48:00:00               # 2 hours, adjust as needed
 #SBATCH --mail-user=cnscutt1@sheffield.ac.uk
 #SBATCH --mail-type=ALL
 

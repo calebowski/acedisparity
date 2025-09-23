@@ -623,7 +623,7 @@ neighbours_data <- do.call(rbind, lapply(c("neighbours_diff_strict", "neighbours
         low = data$fossil_low,
         living = data$living,
         level = level,
-        threshold_method = gsub("neighbours_diff_", "sum_var_diff_", dataset_name),  # Match naming
+        threshold_method = dataset_name,  # Match naming
         metric = "Neighbours"  # Add metric identifier
       )
       df_long <- pivot_longer(df, cols = c("living", "low", "mid", "high", "all"),
@@ -841,7 +841,7 @@ neighbours_data <- do.call(rbind, lapply(c("neighbours_diff_strict", "neighbours
         low = data$fossil_low,
         living = data$living,
         level = level,
-        threshold_method = gsub("neighbours_diff_", "sum_var_diff_", dataset_name),  # Match naming
+        threshold_method = dataset_name,  # Match naming
         metric = "Neighbours"  # Add metric identifier
       )
       df_long <- pivot_longer(df, cols = c("living", "low", "mid", "high", "all"),
@@ -945,7 +945,7 @@ neighbours_data <- do.call(rbind, lapply(c("neighbours_diff_strict", "neighbours
         low = data$fossil_low,
         living = data$living,
         level = level,
-        threshold_method = gsub("neighbours_diff_", "sum_var_diff_", dataset_name),  # Match naming
+        threshold_method = dataset_name,  # Match naming
         metric = "Neighbours"  # Add metric identifier
       )
       df_long <- pivot_longer(df, cols = c("living", "low", "mid", "high", "all"),
@@ -1125,7 +1125,7 @@ tukey_method$groups
 print("Preservation rankings:")
 tukey_preservation$groups
 
-
+library(emmeans)
 combined_model_means <- emmeans(sum_var_median_model, ~ level * threshold_method * preservation_level)
 rate_method_cld <- cld(combined_model_means, alpha = 0.05, Letters = letters)
 
@@ -1169,6 +1169,8 @@ print("Preservation rankings:")
 tukey_preservation$groups
 
 
+combined_model_means <- emmeans(neighbours_median_model, ~ level * threshold_method * preservation_level)
+rate_method_cld <- cld(combined_model_means, alpha = 0.05, Letters = letters)
 
 
 

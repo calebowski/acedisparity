@@ -264,9 +264,9 @@ cat("Running post ord ace", replicate_id, "\n")
 
 post_ord_ace <- Map(function(rate_matrix, rate_tree){
   Map(function(fossil_matrix, fossil_tree){
-    clean <- clean.data(fossil_matrix, fossil_tree)
-    tree <- clean$tree
-    matrix <- clean$data
+    # clean <- clean.data(fossil_matrix, fossil_tree)
+    # tree <- clean$tree
+    # matrix <- clean$data
     # return(list(matrix = matrix, tree = tree))
     multi.ace(matrix, tree, models = "ML", output = "multi.ace")
   }, rate_matrix, rate_tree)
