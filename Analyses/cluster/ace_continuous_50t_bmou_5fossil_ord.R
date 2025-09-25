@@ -12,7 +12,7 @@ bd_params <- make.bd.params(speciation = 1, extinction = 0.7)
 stop_rule <- list(max.living = 50)
 
 tree <- treats(stop.rule = stop_rule, bd.params = bd_params, null.error = 100)
-
+tree <- drop.singles(tree)
 cat("Tree simulated...\n")
 
 
@@ -87,12 +87,29 @@ anc.states <- function(x) {
                           )
 return(anc_states)}
 
-fossil_anc <- lapply(fossil_matrices, lapply, anc.states)
+cat("=== STARTING fossil_anc ===\n"); flush.console()
+withCallingHandlers({
+  fossil_anc <- lapply(fossil_matrices, lapply, anc.states)
+}, warning = function(w) {
+  cat("WARNING in fossil_anc:", w$message, "\n")
+})
 
-point_anc <- lapply(fossil_anc, lapply, multi.ace, output = "combined.matrix")
+cat("=== STARTING point_anc ===\n"); flush.console()
+withCallingHandlers({
+  point_anc <- lapply(fossil_anc, lapply, multi.ace, output = "combined.matrix")
+}, warning = function(w) {
+  cat("WARNING in point_anc:", w$message, "\n")
+})
+
 trait_normal = list(fun = rnorm, param = list(mean = mean, sd = function(x)return(diff(range(x))/4)))
 
-sample_anc <- lapply(fossil_anc, lapply, multi.ace, output = "combined.matrix", sample = 100, sample.fun = trait_normal)
+cat("=== STARTING sample_anc ===\n"); flush.console()
+withCallingHandlers({
+  sample_anc <- lapply(fossil_anc, lapply, multi.ace, output = "combined.matrix", sample = 100, sample.fun = trait_normal)
+}, warning = function(w) {
+  cat("WARNING in sample_anc:", w$message, "\n")
+})
+
 cat("Ancestral states estimated...\n")
 
 saveRDS(fossil_anc, paste0(file_path, sprintf("anc/fossil_anc_%03d.rds", replicate_id)))
@@ -100,14 +117,6 @@ saveRDS(point_anc, paste0(file_path, sprintf("anc/point_anc_%03d.rds", replicate
 saveRDS(sample_anc, paste0(file_path, sprintf("anc/sample_anc_%03d.rds", replicate_id)))
 cat("Ancestral states saved...\n")
 
-
-# sample_anc <- readRDS("../Data/cluster/continuous/anc/sample_anc_005.rds")
-# point_anc <- readRDS("../Data/cluster/continuous/anc/point_anc_005.rds")
-
-# matrices <- readRDS("../Data/cluster/continuous/matrices/matrices_005.rds")
-# fossil_matrices <- readRDS("../Data/cluster/continuous/matrices/fossil_matrices_005.rds")
-# tree <- read.tree("../Data/cluster/continuous/trees/continuous_tree_005.tre")
-# fossil_trees <- readRDS("../Data/cluster/continuous/trees/fossil_trees_005.rds")
 
 extract.living <- function(fossils) {
   basal_node <- fossils$living$tree$node.label[1]
@@ -158,39 +167,74 @@ cat("Living matrices completed...\n")
 
 
 
-ord_sample <- lapply(sample_living, lapply, lapply, function(mat){
-  prcomp(mat, scale = FALSE, center = TRUE)$x
+cat("=== STARTING ord_sample ===\n"); flush.console()
+withCallingHandlers({
+  ord_sample <- lapply(sample_living, lapply, lapply, function(mat){
+    prcomp(mat, scale = FALSE, center = TRUE)$x
+  })
+}, warning = function(w) {
+  cat("WARNING in ord_sample:", w$message, "\n")
 })
 
-ord_point <- lapply(point_living, lapply, function(mat){
-  prcomp(mat, scale = FALSE, center = TRUE)$x
+cat("=== STARTING ord_point ===\n"); flush.console()
+withCallingHandlers({
+  ord_point <- lapply(point_living, lapply, function(mat){
+    prcomp(mat, scale = FALSE, center = TRUE)$x
+  })
+}, warning = function(w) {
+  cat("WARNING in ord_point:", w$message, "\n")
 })
 
-ord_no_ace <- lapply(no_ace_living, lapply, function(mat){
-  prcomp(mat, scale = FALSE, center = TRUE)$x
+cat("=== STARTING ord_no_ace ===\n"); flush.console()
+withCallingHandlers({
+  ord_no_ace <- lapply(no_ace_living, lapply, function(mat){
+    prcomp(mat, scale = FALSE, center = TRUE)$x
+  })
+}, warning = function(w) {
+  cat("WARNING in ord_no_ace:", w$message, "\n")
 })
 
-ord_true <- lapply(true_living,  function(mat){
-  prcomp(mat, scale = FALSE, center = TRUE)$x
+cat("=== STARTING ord_true ===\n"); flush.console()
+withCallingHandlers({
+  ord_true <- lapply(true_living,  function(mat){
+    prcomp(mat, scale = FALSE, center = TRUE)$x
+  })
+}, warning = function(w) {
+  cat("WARNING in ord_true:", w$message, "\n")
 })
 
 cat("Ordinations completed...\n")
 
 
-ord_fossil_tips <- lapply(fossil_matrices, lapply, function(x){
-  mat <- x$matrix
-  prcomp(mat, scale = FALSE, center = TRUE)$x
+cat("=== STARTING ord_fossil_tips ===\n"); flush.console()
+withCallingHandlers({
+  ord_fossil_tips <- lapply(fossil_matrices, lapply, function(x){
+    mat <- x$matrix
+    prcomp(mat, scale = FALSE, center = TRUE)$x
+  })
+}, warning = function(w) {
+  cat("WARNING in ord_fossil_tips:", w$message, "\n")
 })
 
 
 
-post_ord_ace <- Map(function(rate_matrix, rate_tree){
-  Map(function(fossil_matrix, fossil_tree){
-    multi.ace(fossil_matrix, fossil_tree, models = "ML", output = "multi.ace")
-  }, rate_matrix, rate_tree)
-}, ord_fossil_tips, fossil_trees)
+cat("=== STARTING post_ord_ace ===\n"); flush.console()
+withCallingHandlers({
+  post_ord_ace <- Map(function(rate_matrix, rate_tree){
+    Map(function(fossil_matrix, fossil_tree){
+      multi.ace(fossil_matrix, fossil_tree, models = "ML", output = "multi.ace")
+    }, rate_matrix, rate_tree)
+  }, ord_fossil_tips, fossil_trees)
+}, warning = function(w) {
+  cat("WARNING in post_ord_ace:", w$message, "\n")
+})
 
-point_post_ord_ace <- lapply(post_ord_ace, lapply,  multi.ace, output = "combined.matrix")
+cat("=== STARTING point_post_ord_ace ===\n"); flush.console()
+withCallingHandlers({
+  point_post_ord_ace <- lapply(post_ord_ace, lapply,  multi.ace, output = "combined.matrix")
+}, warning = function(w) {
+  cat("WARNING in point_post_ord_ace:", w$message, "\n")
+})
 
 point_post_ord_ace_living <- Map(function(rate_anc, rate_labels) {
     Map(function(fossil_anc, label_anc) {
@@ -201,7 +245,13 @@ point_post_ord_ace_living <- Map(function(rate_anc, rate_labels) {
 names(point_post_ord_ace_living) <- names(point_post_ord_ace)
 
 trait_normal = list(fun = rnorm, param = list(mean = mean, sd = function(x)return(diff(range(x))/4)))
-sample_post_ord_ace <- lapply(post_ord_ace, lapply,  multi.ace, sample = 100, sample.fun = trait_normal, output = "combined.matrix")
+
+cat("=== STARTING sample_post_ord_ace ===\n"); flush.console()
+withCallingHandlers({
+  sample_post_ord_ace <- lapply(post_ord_ace, lapply,  multi.ace, sample = 100, sample.fun = trait_normal, output = "combined.matrix")
+}, warning = function(w) {
+  cat("WARNING in sample_post_ord_ace:", w$message, "\n")
+})
 
 sample_post_ord_ace_living <- Map(function(rate_anc, rate_labels) {
     Map(function(fossil_anc, label_anc) {
@@ -219,86 +269,12 @@ saveRDS(ord_true, paste0(file_path, sprintf("ord/true_ord_%03d.rds", replicate_i
 saveRDS(point_post_ord_ace_living, paste0(file_path, sprintf("ord/point_post_ord_%03d.rds", replicate_id)))
 saveRDS(sample_post_ord_ace_living, paste0(file_path, sprintf("ord/sample_post_ord_%03d.rds", replicate_id)))
 
-
-metrics_list <- list(
-  sum_var = c(sum, variances),
-  sum_quant = c(sum, quantiles),
-  mean_neigh = c(mean, neighbours)
-)
-
-# Calculate disparity for all metrics
-for(metric_name in names(metrics_list)) {
-  metric <- metrics_list[[metric_name]]
-  
-  # Apply to each ordination type with appropriate structure
-  assign(paste0(metric_name, "_sample"), 
-         lapply(ord_sample, lapply, lapply, function(mat) dispRity(mat, metric = metric)$disparity))
-  
-  assign(paste0(metric_name, "_point"), 
-         lapply(ord_point, lapply, function(mat) dispRity(mat, metric = metric)$disparity))
-  
-  assign(paste0(metric_name, "_no_ace"), 
-         lapply(ord_no_ace, lapply, function(mat) dispRity(mat, metric = metric)$disparity))
-  
-  assign(paste0(metric_name, "_true"), 
-         lapply(ord_true, function(mat) dispRity(mat, metric = metric)$disparity))
-  
-  assign(paste0(metric_name, "_point_postord"), 
-         lapply(point_post_ord_ace_living, lapply, function(mat) dispRity(mat, metric = metric)$disparity))
-
-  assign(paste0(metric_name, "_sample_postord"), 
-         lapply(sample_post_ord_ace_living, lapply, lapply, function(mat) dispRity(mat, metric = metric)$disparity))
+cat("=== CHECKING WARNINGS ===\n")
+warning_list <- warnings()
+if(!is.null(warning_list)) {
+  cat("Number of warnings:", length(warning_list), "\n")
+  print(warning_list)
+} else {
+  cat("No warnings detected\n")
 }
-
-cat("Disparity calculation finished...\n")
-
-for(metric_name in names(metrics_list)) {
-  for(ord_type in c("sample", "point", "point_postord", "sample_postord", "no_ace", "true")) {
-    var_name <- paste0(metric_name, "_", ord_type)
-    saveRDS(get(var_name), paste0(file_path, sprintf("disparity/%s_%03d.rds", var_name, replicate_id)))
-  }
-}
-
-cat("Disparity files saved...\n")
-
-
-
-est_disp <- list(
-  point = mget(paste0(c("sum_var", "sum_quant", "mean_neigh"), "_point")),
-  sample = mget(paste0(c("sum_var", "sum_quant", "mean_neigh"), "_sample")),
-  no_ace = mget(paste0(c("sum_var", "sum_quant", "mean_neigh"), "_no_ace")),
-  point_postord = mget(paste0(c("sum_var", "sum_quant", "mean_neigh"), "_point_postord")),
-  sample_postord = mget(paste0(c("sum_var", "sum_quant", "mean_neigh"), "_sample_postord"))
-)
-
-true_disp <- mget(paste0(c("sum_var", "sum_quant", "mean_neigh"), "_true"))
-
-
-
-diffs <- lapply(est_disp, function(method){
-  method_result <- Map(function(est_metric, true_metric) {
-    Map(function(est_model, true_model){
-      true_disp <- true_model[[1]]$elements[1]
-      lapply(est_model, function(fossil_lev){
-        if (is.list(fossil_lev) && !is.null(fossil_lev[[1]]$elements)) {
-        diff <- (fossil_lev[[1]]$elements[1] - true_disp) / true_disp ## calculate relative disparity difference 
-        return(diff)
-        } else {lapply(fossil_lev, function(rep) { ## for sample methods with additional nested list
-          diff <- (rep[[1]]$elements[1] - true_disp) / true_disp 
-          return(diff)
-          })
-        }
-      })
-    }, est_metric, true_metric)
-  }, method, true_disp)
-})
-
-cat("Disparity diffs calculated...\n")
-
-
-methods <- names(diffs)
-for (method in methods){
-  saveRDS(diffs[[method]], paste0(file_path, sprintf("disparity/diff_%s_%03d.rds", method, replicate_id)))
-}
-
-cat("Disparity diffs saved...\n")
+cat("Script completed\n")

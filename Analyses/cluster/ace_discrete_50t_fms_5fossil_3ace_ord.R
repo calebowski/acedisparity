@@ -255,10 +255,13 @@ cat("ordinations calculated\n")
 cat("Running post ord ace", replicate_id, "\n")
 
 ## post ordination ace
+fossil_matrices <- readRDS("../Data/cluster/discrete/matrices/fossil_matrices_088.rds")
 
-ord_fossil_tips <- lapply(fossil_matrices, lapply, function(x){ ## ordinate the fossil tips from earlier
-  dist <- char.diff(x, method = "mord", by.col = FALSE)
-  ord <- (cmdscale(dist, k = ncol(dist) - 2, add = TRUE))$points
+
+ord_fossil_tips <- lapply(fossil_matrices, lapply, function(x){
+  mat <- x$matrix 
+  dist <- char.diff(mat, method = "mord", by.col = FALSE)
+  ord <- (cmdscale(dist, k = ncol(dist) - 2, add = TRUE))$points ## ordinate the fossil tips from earlier
 })
 
 
