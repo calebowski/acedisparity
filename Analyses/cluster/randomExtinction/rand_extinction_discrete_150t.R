@@ -13,20 +13,31 @@ replicate_id <- as.numeric(args[1])
 # install_github("TGuillerme/treats", ref = "selective.extinction.alteration")
 
 library(treats)
+library(dispRity)
 # library(parallel)
 source("/users/bip24cns/acedisparity/discrete/scripts/utility.R")
 source("/users/bip24cns/acedisparity/randomExtinction/scripts/find.extinction.time.R")
 
 
+# Build the base path with job-specific directory
+base_path <- "/mnt/parscratch/users/bip24cns/acedisparity/randomExtinction/150t/"
+job_id <- Sys.getenv("SLURM_ARRAY_JOB_ID")
+
+
+
+write.path <- function(subfolder, filename) {
+  return(paste0(base_path, subfolder, "/", job_id, "_", sprintf(filename, replicate_id)))
+}
+
 cat("Starting replicate", replicate_id, "\n")
 
 set.seed(100 + replicate_id) # set seed to change for each replicate
 
-bd_params <- make.bd.params(speciation = 1.0, extinction = sample(c(0.25, 0.75), size = 1))
+bd_params <- make.bd.params(speciation = 1.0, extinction = 0.5)
 
-stop_rule <- list(max.living = sample(x = c(50, 75, 100), size = 1)) # different tree sizes
+stop_rule <- list(max.living = 150) # different tree sizes
 
-extinction_intensity <- runif(n = 1, min = 0.75, max = 0.9)
+extinction_intensity <- runif(n = 1, min = 0.75, max = 0.95)
 
 
 random_extinction <- make.events(
@@ -38,41 +49,36 @@ random_extinction <- make.events(
 # tree <- treats(stop.rule = stop_rule, bd.params = bd_params, null.error = 100, events = random_extinction)
 
 # Generate tree with feedback loop to prevent >300 tips
-max_attempts <- 500  # Prevent infinite loops
+max_attempts <- 200  # Prevent infinite loops
 attempt <- 1
 
 
-if(stop_rule$max.living == 75 || stop_rule$max.living == 100) 
 repeat {
   tree <- treats(stop.rule = stop_rule, bd.params = bd_params, null.error = 100, events = random_extinction)
-  
   n_tips <- length(tree$tip.label)
-  # cat("Attempt", attempt, "- Tree has", n_tips, "tips\n")
   
-
-  # Accept tree if it has ≤300 tips
   if(n_tips <= 500) {
     cat("Tree found with", n_tips, "tips\n")
     break
   }
   
-  # Safety check to prevent infinite loops
   if(attempt >= max_attempts) {
     cat("Warning: Reached maximum attempts, accepting tree with", n_tips, "tips\n")
     break
   }
   
   attempt <- attempt + 1
-} else {
-  tree <- treats(stop.rule = stop_rule, bd.params = bd_params, null.error = 100, events = random_extinction)
 }
-gc()
+# gc()
+
+# est <- crude.bd.est(tree, method = "estimate")
+# ape_est <- birthdeath(tree)
 
 tree <- drop.singles(tree)
 tree <- fix.zero.branches(tree)
 tree <- set.root.time(tree)
 
-
+write.tree(tree, write.path("trees", "rand_ext_tree_%03d.tre"))
 
 # fossils <- sim.fossils.poisson(rate = 0.25, tree)
 
@@ -84,10 +90,9 @@ metadata_df <- data.frame(
 )
 
 write.csv(metadata_df, 
-          sprintf("/mnt/parscratch/users/bip24cns/acedisparity/randomExtinction/out/metadata/metadata_%03d.csv", replicate_id),
+          write.path("metadata","metadata_%03d.csv"),
           row.names = FALSE)
 
-write.tree(tree, sprintf("/mnt/parscratch/users/bip24cns/acedisparity/randomExtinction/out/trees/rand_ext_tree_%03d.tre", replicate_id))
 
 cat("Mapping traits...\n")
 
@@ -153,7 +158,7 @@ matrices <- lapply(trait_sets, function(traits) {
   cbind(mapped_binary, mapped_multi)
 })
 
-saveRDS(matrices, sprintf("/mnt/parscratch/users/bip24cns/acedisparity/randomExtinction/out/matrices/rand_ext_matrices_%03d.rds", replicate_id))
+saveRDS(matrices, write.path("matrices", "matrices_%03d.rds"))
 
 cat("Trait matrices saved for replicate", replicate_id, "\n")
 
@@ -185,11 +190,11 @@ fossil_trees <- lapply(fossil_matrices, lapply,  function(level){
   tree <- level$tree
 })
 
-saveRDS(fossil_trees, sprintf("/mnt/parscratch/users/bip24cns/acedisparity/randomExtinction/out/trees/rand_ext_fossil_tree_%03d.rds", replicate_id))
+saveRDS(fossil_trees, write.path("trees", "fossil_trees_%03d.rds"))
 
 
 cat("Fossil matrices created\n")
-saveRDS(fossil_matrices, sprintf("/mnt/parscratch/users/bip24cns/acedisparity/randomExtinction/out/matrices/rand_ext_fossil_matrices_%03d.rds", replicate_id))
+saveRDS(fossil_matrices, write.path("matrices", "fossil_matrices_%03d.rds"))
 
 
 # n_cores  <- 5
@@ -215,10 +220,10 @@ relative_fossil_anc <- lapply(fossil_anc, lapply,  multi.ace, output = "combined
 cat("Ancestral state estimation completed...\n")
 
 
-saveRDS(fossil_anc, sprintf("/mnt/parscratch/users/bip24cns/acedisparity/randomExtinction/out/anc/rand_ext_discrete_anc_%03d.rds", replicate_id))
-saveRDS(sample_fossil_anc, sprintf("/mnt/parscratch/users/bip24cns/acedisparity/randomExtinction/out/anc/rand_ext_sample_anc_%03d.rds", replicate_id))
-saveRDS(relative_fossil_anc, sprintf("/mnt/parscratch/users/bip24cns/acedisparity/randomExtinction/out/anc/rand_ext_rel_anc_%03d.rds", replicate_id))
-saveRDS(strict_fossil_anc, sprintf("/mnt/parscratch/users/bip24cns/acedisparity/randomExtinction/out/anc/rand_ext_strict_anc_%03d.rds", replicate_id))
+saveRDS(fossil_anc, write.path("anc", "fossil_anc_%03d.rds"))
+saveRDS(sample_fossil_anc, write.path("anc", "sample_anc_%03d.rds"))
+saveRDS(relative_fossil_anc, write.path("anc", "rel_anc_%03d.rds"))
+saveRDS(strict_fossil_anc, write.path("anc", "strict_anc_%03d.rds"))
 
 
 distances_true <- lapply(matrices, function(x){
@@ -249,70 +254,133 @@ distances_sample <- lapply(sample_fossil_anc, lapply, lapply, function(matrices)
 })
 
 cat("Distances completed...\n")
-
-ord_no_ace <- lapply(distances_no_ace, lapply,  function(matrix){
-    ord <-  (cmdscale(matrix, k = ncol(matrix) - 2, add = TRUE))$points
+ord_no_ace <- lapply(distances_no_ace, lapply, function(matrix) {
+  # Check for NA values in the distance matrix
+  if(any(is.na(matrix))) {
+    cat("Warning: NA values found in distance matrix, skipping ordination\n")
+    return(NULL)
+  }
+  tryCatch({
+    ord <- (cmdscale(matrix, k = ncol(matrix) - 2, add = TRUE))$points
+    
+    # Check if ordination result has NAs
+    if(any(is.na(ord))) {
+      cat("Warning: NA values in ordination result\n")
+      # Still return the result even with NAs
+    }
+    
     return(ord)
+  }, error = function(e) {
+    cat("Error in cmdscale:", e$message, "\n")
+    return(NULL)
+  })
 })
 
 ord_true <- lapply(distances_true, function(matrix){
-    ord <-  (cmdscale(matrix, k = ncol(matrix) - 2, add = TRUE))$points
+  if(any(is.na(matrix))) {
+    cat("Warning: NA values in true distance matrix\n")
+    return(NULL)
+  }
+  
+  tryCatch({
+    ord <- (cmdscale(matrix, k = ncol(matrix) - 2, add = TRUE))$points
+    if(any(is.na(ord))) {
+      cat("Warning: NA values in true ordination result\n")
+      # Still return the result even with NAs
+    }
     return(ord)
+  }, error = function(e) {
+    cat("Error in ordination:", e$message, "\n")
+    return(NULL)
+  })
 })
-
 
 ord_rel <- lapply(distances_rel, lapply, function(matrix) {
- cmdscale(matrix, k = ncol(matrix) - 2, add = TRUE)$points
+  if(any(is.na(matrix))) {
+    cat("Warning: NA values in distance matrix\n")
+    return(NULL)
+  }
+  tryCatch({
+    ord <- cmdscale(matrix, k = ncol(matrix) - 2, add = TRUE)$points
+    if(any(is.na(ord))) {
+      cat("Warning: NA values in ordination result\n")
+      # Still return the result even with NAs
+    }
+    return(ord)
+  }, error = function(e) {
+    cat("Error in ordination:", e$message, "\n")
+    return(NULL)
+  })
 })
 
-
 ord_strict <- lapply(distances_strict, lapply, function(matrix) {
- cmdscale(matrix, k = ncol(matrix) - 2, add = TRUE)$points
+  if(any(is.na(matrix))) {
+    cat("Warning: NA values in distance matrix\n")
+    return(NULL)
+  }
+  tryCatch({
+    ord <- cmdscale(matrix, k = ncol(matrix) - 2, add = TRUE)$points
+    if(any(is.na(ord))) {
+      cat("Warning: NA values in ordination result\n")
+      # Still return the result even with NAs
+    }
+    return(ord)
+  }, error = function(e) {
+    cat("Error in ordination:", e$message, "\n")
+    return(NULL)
+  })
 })
 
 ord_sample <- lapply(distances_sample, lapply, lapply, function(matrix) {
- cmdscale(matrix, k = ncol(matrix) - 2, add = TRUE)$points
+  if(any(is.na(matrix))) {
+    cat("Warning: NA values in distance matrix\n")
+    return(NULL)
+  }
+  tryCatch({
+    ord <- cmdscale(matrix, k = ncol(matrix) - 2, add = TRUE)$points
+    if(any(is.na(ord))) {
+      cat("Warning: NA values in ordination result\n")
+      # Still return the result even with NAs
+    }
+    return(ord)
+  }, error = function(e) {
+    cat("Error in ordination:", e$message, "\n")
+    return(NULL)
+  })
 })
-
-
-post_ord_ace <- Map(function(rate_matrix, rate_tree) {
-  Map(function(fossil_matrix, fossil_tree) {
-    # clean <- clean.data(fossil_matrix, fossil_tree)
-    # tree <- clean$tree
-    # matrix <- clean$data
-    # return(list(matrix = matrix, tree = tree))
-    multi.ace(fossil_matrix, fossil_tree, models = "ML", output = "multi.ace")
-  }, rate_matrix, rate_tree)
-}, ord_no_ace, fossil_trees)
-
-trait_normal = list(fun = rnorm, param = list(mean = mean, sd = function(x)return(diff(range(x))/4)))
-point_post_ord_ace <- lapply(post_ord_ace, lapply,  multi.ace, output = "combined.matrix")
-sample_post_ord_ace <- lapply(post_ord_ace, lapply,  multi.ace, sample = 100, sample.fun = trait_normal, output = "combined.matrix")
-
-saveRDS(point_post_ord_ace, sprintf("/mnt/parscratch/users/bip24cns/acedisparity/randomExtinction/out/ord/post_ord_ace_point_%03d.rds", replicate_id))
-saveRDS(sample_post_ord_ace, sprintf("/mnt/parscratch/users/bip24cns/acedisparity/randomExtinction/out/ord/post_ord_ace_sample_%03d.rds", replicate_id))
-
 
 cat("Ordinations completed...\n")
 
-saveRDS(ord_no_ace, sprintf("/mnt/parscratch/users/bip24cns/acedisparity/randomExtinction/out/ord/rand_ext_ord_no_ace_%03d.rds", replicate_id))
-saveRDS(ord_true, sprintf("/mnt/parscratch/users/bip24cns/acedisparity/randomExtinction/out/ord/rand_ext_ord_true_%03d.rds", replicate_id))
-saveRDS(ord_rel, sprintf("/mnt/parscratch/users/bip24cns/acedisparity/randomExtinction/out/ord/rand_ext_ord_rel_%03d.rds", replicate_id))
-saveRDS(ord_strict, sprintf("/mnt/parscratch/users/bip24cns/acedisparity/randomExtinction/out/ord/rand_ext_ord_strict_%03d.rds", replicate_id))
-saveRDS(ord_sample, sprintf("/mnt/parscratch/users/bip24cns/acedisparity/randomExtinction/out/ord/rand_ext_ord_sample_%03d.rds", replicate_id))
+saveRDS(ord_no_ace, write.path("ord", "ord_no_ace_%03d.rds"))
+saveRDS(ord_true, write.path("ord", "ord_true_%03d.rds"))
+saveRDS(ord_rel, write.path("ord", "ord_rel_%03d.rds"))
+saveRDS(ord_strict, write.path("ord", "ord_strict_%03d.rds"))
+saveRDS(ord_sample, write.path("ord", "ord_sample_%03d.rds"))
+
+cat("Ordinations saved...\n")
+
+post_ord_ace <- Map(function(rate_matrix, rate_tree) {
+  Map(function(fossil_matrix, fossil_tree) {
+      multi.ace(fossil_matrix, fossil_tree, models = "BM", output = "multi.ace")
+  }, rate_matrix, rate_tree)
+}, ord_no_ace, fossil_trees)
+
+trait_normal  <-  list(fun = rnorm, param = list(mean = mean, sd = function(x)return(diff(range(x))/4)))
+
+point_post_ord_ace <- lapply(post_ord_ace, lapply,  multi.ace, output = "combined.matrix")
+
+sample_post_ord_ace <- lapply(post_ord_ace, lapply, function(x){
+  multi.ace(x, sample = 100, sample.fun = trait_normal, output = "combined.matrix")
+})
+
+cat("Post ordination estimates completed...\n")
 
 
-# ord_no_ace <- readRDS("../Data/cluster/randomExtinction/ord/rand_ext_ord_no_ace_007.rds")
-# ord_true <- readRDS("../Data/cluster/randomExtinction/ord/rand_ext_ord_true_007.rds")
-# ord_rel <- readRDS("../Data/cluster/randomExtinction/ord/rand_ext_ord_rel_007.rds")
-# sample_post_ord_ace <- readRDS("../Data/cluster/randomExtinction/ord/post_ord_ace_sample_007.rds")
-# ord_sample <- readRDS("../Data/cluster/randomExtinction/ord/rand_ext_ord_sample_007.rds")
-# point_post_ord_ace <- readRDS("../Data/cluster/randomExtinction/ord/post_ord_ace_point_007.rds")
-# ord_strict <- readRDS("../Data/cluster/randomExtinction/ord/rand_ext_ord_strict_007.rds")
-# tree <- read.tree("../Data/cluster/randomExtinction/trees/rand_ext_tree_007.tre")
-# fossil_trees <- readRDS("../Data/cluster/randomExtinction/trees/rand_ext_fossil_tree_007.rds")
+saveRDS(point_post_ord_ace, write.path("ord", "post_ord_point_%03d.rds"))
+saveRDS(sample_post_ord_ace, write.path("ord", "post_ord_sample_%03d.rds"))
 
 
+cat("Post ordination estimates saved...\n")
 
 tip_ages <- tip.ages(tree)
 extinction_time <- find.extinction.time(tip_ages)
@@ -450,6 +518,9 @@ chrono_subsets_sample_post_ord <- lapply(names(sample_post_ord_ace), function(ra
 })
 names(chrono_subsets_sample_post_ord) <- names(sample_post_ord_ace)
 
+cat("chrono subsets completed...\n")
+
+
 ################################################################################
 #                                                                              #
 #                           SUM OF VARIANCES                                   #
@@ -545,65 +616,123 @@ sample_post_ord_sum_var_change <- lapply(chrono_subsets_sample_post_ord, lapply,
       NULL
     })
 })
-# saveRDS(sum_var_true, sprintf("/mnt/parscratch/users/bip24cns/acedisparity/randomExtinction/out/disp/rand_ext_sum_var_true_%03d.rds", replicate_id))
-# saveRDS(sum_var_strict, sprintf("/mnt/parscratch/users/bip24cns/acedisparity/randomExtinction/out/disp/rand_ext_sum_var_strict_%03d.rds", replicate_id))
-# saveRDS(sum_var_rel, sprintf("/mnt/parscratch/users/bip24cns/acedisparity/randomExtinction/out/disp/rand_ext_sum_var_rel_%03d.rds", replicate_id))
-# saveRDS(sum_var_sample, sprintf("/mnt/parscratch/users/bip24cns/acedisparity/randomExtinction/out/disp/rand_ext_sum_var_sample_%03d.rds", replicate_id))
-# saveRDS(sum_var_no_ace, sprintf("/mnt/parscratch/users/bip24cns/acedisparity/randomExtinction/out/disp/rand_ext_sum_var_no_ace_%03d.rds", replicate_id))
+
+cat("Sum variances completed...\n")
 
 
-# sum_var_list <- list(strict = sum_var_strict, rel = sum_var_rel, sample = sum_var_sample, no_ace = sum_var_no_ace)
-### get disparity
+saveRDS(strict_sum_var_change, write.path("disp", "strict_sum_var_change_%03d.rds"))
+saveRDS(rel_sum_var_change, write.path("disp", "rel_sum_var_change_%03d.rds"))
+saveRDS(sample_sum_var_change, write.path("disp", "sample_sum_var_change_%03d.rds"))
+saveRDS(no_ace_sum_var_change, write.path("disp", "no_ace_sum_var_change_%03d.rds"))
+saveRDS(true_sum_var_change, write.path("disp", "true_sum_var_change_%03d.rds"))
+saveRDS(sample_post_ord_sum_var_change, write.path("disp", "sample_postord_sum_var_change_%03d.rds"))
+saveRDS(point_post_ord_sum_var_change, write.path("disp", "point_postord_sum_var_change_%03d.rds"))
 
-# strict_sum_var_change <- lapply(sum_var_strict, lapply,  function(disp) {
-#   if(is.null(disp)) {
-#     return(NULL)
-#   } else{
-#   values <- get.disparity(disp)
-#   change <- (values[[2]] - values[[1]]) / values[[1]]
-#   }
-# })
+################################################################################
+#                                                                              #
+#                           SUM OF QUANTILES                                   #
+#                                                                              #
+################################################################################
 
-# rel_sum_var_change <- lapply(sum_var_rel, lapply,  function(disp) {
-#   if(is.null(disp)) {
-#     return(NULL)
-#   } else{
-#   values <- get.disparity(disp)
-#   change <- (values[[2]] - values[[1]]) / values[[1]]
-#   }
-# })
+true_sum_quant_change <- lapply(chrono_subsets_true, function(mat) {
+  disp <- dispRity(mat, metric = c(sum, quantiles))
+  values <- get.disparity(disp)
+  change <- (values[[2]] - values[[1]]) / values[[1]]
+  return(change)
+})
 
-# sample_sum_var_change <- lapply(sum_var_sample, lapply, lapply, function(disp) {
-#   if(is.null(disp)) {
-#     return(NULL)
-#   } else{
-#   values <- get.disparity(disp)
-#   change <- (values[[2]] - values[[1]]) / values[[1]]
-#   }
-# })
+strict_sum_quant_change <- lapply(chrono_subsets_strict, lapply,  function(chrono) {
+  if(is.null(chrono)) {
+    return(NULL)
+  }
+  tryCatch({
+    disp <- dispRity(chrono, metric = c(sum, quantiles))
+    values <- get.disparity(disp)
+    change <- (values[[2]] - values[[1]]) / values[[1]]
+    return(change)
+    }, warning = function(w) {
+      NULL
+    })
+})
 
-# no_ace_sum_var_change <- lapply(sum_var_no_ace, lapply,  function(disp) {
-#   if(is.null(disp)) {
-#     return(NULL)
-#   } else{
-#   values <- get.disparity(disp)
-#   change <- (values[[2]] - values[[1]]) / values[[1]]
-#   }
-# })
 
-# true_sum_var_change <- lapply(sum_var_true,  function(disp){
-#   values <- get.disparity(disp)
-#   change <- (values[[2]] - values[[1]]) / values[[1]]
-# })
+rel_sum_quant_change <- lapply(chrono_subsets_rel, lapply, function(chrono) {
+  if(is.null(chrono)) {
+    return(NULL)
+  }
+  tryCatch({
+    disp <- dispRity(chrono, metric = c(sum, quantiles))
+    values <- get.disparity(disp)
+    change <- (values[[2]] - values[[1]]) / values[[1]]
+    return(change)
+    }, warning = function(w) {
+      NULL
+    })
+})
 
-saveRDS(strict_sum_var_change, sprintf("/mnt/parscratch/users/bip24cns/acedisparity/randomExtinction/out/disp/rand_ext_change_sum_var_strict_%03d.rds", replicate_id))
-saveRDS(rel_sum_var_change, sprintf("/mnt/parscratch/users/bip24cns/acedisparity/randomExtinction/out/disp/rand_ext_change_sum_var_rel_%03d.rds", replicate_id))
-saveRDS(sample_sum_var_change, sprintf("/mnt/parscratch/users/bip24cns/acedisparity/randomExtinction/out/disp/rand_ext_change_sum_var_sample_%03d.rds", replicate_id))
-saveRDS(no_ace_sum_var_change, sprintf("/mnt/parscratch/users/bip24cns/acedisparity/randomExtinction/out/disp/rand_ext_change_sum_var_no_ace_%03d.rds", replicate_id))
-saveRDS(true_sum_var_change, sprintf("/mnt/parscratch/users/bip24cns/acedisparity/randomExtinction/out/disp/rand_ext_change_sum_var_true_%03d.rds", replicate_id))
-saveRDS(sample_post_ord_sum_var_change, sprintf("/mnt/parscratch/users/bip24cns/acedisparity/randomExtinction/out/disp/rand_ext_change_sum_var_sample_postord_%03d.rds", replicate_id))
-saveRDS(point_post_ord_sum_var_change, sprintf("/mnt/parscratch/users/bip24cns/acedisparity/randomExtinction/out/disp/rand_ext_change_sum_var_point_postord_%03d.rds", replicate_id))
+sample_sum_quant_change <- lapply(chrono_subsets_sample, lapply, lapply,  function(chrono) {
+  if(is.null(chrono)) {
+    return(NULL)
+  }
+  tryCatch({
+    disp <- dispRity(chrono, metric = c(sum, quantiles))
+    values <- get.disparity(disp)
+    change <- (values[[2]] - values[[1]]) / values[[1]]
+    return(change)
+    }, warning = function(w) {
+      NULL
+    })
+})
 
+no_ace_sum_quant_change <- lapply(chrono_subsets_no_ace, lapply,  function(chrono) {
+  if(is.null(chrono)) {
+    return(NULL)
+  }
+  tryCatch({
+    disp <- dispRity(chrono, metric = c(sum, quantiles))
+    values <- get.disparity(disp)
+    change <- (values[[2]] - values[[1]]) / values[[1]]
+    return(change)}, warning = function(w) {
+      NULL
+    })
+})
+
+point_post_ord_sum_quant_change <- lapply(chrono_subsets_point_post_ord, lapply,  function(chrono) {
+  if(is.null(chrono)) {
+    return(NULL)
+  }
+  tryCatch({
+    disp <- dispRity(chrono, metric = c(sum, quantiles))
+    values <- get.disparity(disp)
+    change <- (values[[2]] - values[[1]]) / values[[1]]
+    return(change)}, warning = function(w) {
+      NULL
+    })
+})
+
+sample_post_ord_sum_quant_change <- lapply(chrono_subsets_sample_post_ord, lapply, lapply,  function(chrono) {
+  if(is.null(chrono)) {
+    return(NULL)
+  }
+  tryCatch({
+    disp <- dispRity(chrono, metric = c(sum, quantiles))
+    values <- get.disparity(disp)
+    change <- (values[[2]] - values[[1]]) / values[[1]]
+    return(change)
+    }, warning = function(w) {
+      NULL
+    })
+})
+
+saveRDS(strict_sum_quant_change, write.path("disp", "strict_sum_quant_change_%03d.rds"))
+saveRDS(rel_sum_quant_change, write.path("disp", "rel_sum_quant_change_%03d.rds"))
+saveRDS(sample_sum_quant_change, write.path("disp", "sample_sum_quant_change_%03d.rds"))
+saveRDS(no_ace_sum_quant_change, write.path("disp", "no_ace_sum_quant_change_%03d.rds"))
+saveRDS(true_sum_quant_change, write.path("disp", "true_sum_quant_change_%03d.rds"))
+saveRDS(sample_post_ord_sum_quant_change, write.path("disp", "sample_postord_sum_quant_change_%03d.rds"))
+saveRDS(point_post_ord_sum_quant_change, write.path("disp", "point_postord_sum_quant_change_%03d.rds"))
+
+cat("Sum quantiles completed...\n")
 
 
 ################################################################################
@@ -697,66 +826,23 @@ sample_post_ord_neighbours_change <- lapply(chrono_subsets_sample_post_ord, lapp
     return(change)
     }, warning = function(w) {
       NULL
+    }, error = function(e) {
+      cat("Error produced with sample post ord neighbours:", e$message, "\n")
+      NULL
     })
 })
-# saveRDS(neighbours_true, sprintf("/mnt/parscratch/users/bip24cns/acedisparity/randomExtinction/out/disp/rand_ext_neighbours_true_%03d.rds", replicate_id))
-# saveRDS(neighbours_strict, sprintf("/mnt/parscratch/users/bip24cns/acedisparity/randomExtinction/out/disp/rand_ext_neighbours_strict_%03d.rds", replicate_id))
-# saveRDS(neighbours_rel, sprintf("/mnt/parscratch/users/bip24cns/acedisparity/randomExtinction/out/disp/rand_ext_neighbours_rel_%03d.rds", replicate_id))
-# saveRDS(neighbours_sample, sprintf("/mnt/parscratch/users/bip24cns/acedisparity/randomExtinction/out/disp/rand_ext_neighbours_sample_%03d.rds", replicate_id))
-# saveRDS(neighbours_no_ace, sprintf("/mnt/parscratch/users/bip24cns/acedisparity/randomExtinction/out/disp/rand_ext_neighbours_no_ace_%03d.rds", replicate_id))
+
+saveRDS(true_neighbours_change, write.path("disp", "true_neighbours_change_%03d.rds"))
+saveRDS(strict_neighbours_change, write.path("disp", "strict_neighbours_change_%03d.rds"))
+saveRDS(rel_neighbours_change, write.path("disp", "rel_neighbours_change_%03d.rds"))
+saveRDS(sample_neighbours_change, write.path("disp", "sample_neighbours_change_%03d.rds"))
+saveRDS(no_ace_neighbours_change, write.path("disp", "no_ace_neighbours_change_%03d.rds"))
+saveRDS(point_post_ord_neighbours_change, write.path("disp", "point_postord_neighbours_change_%03d.rds"))
+saveRDS(sample_post_ord_neighbours_change, write.path("disp", "sample_postord_neighbours_change_%03d.rds"))
+
+cat("Neighbours completed...\n")
 
 
-# sum_var_list <- list(strict = sum_var_strict, rel = sum_var_rel, sample = sum_var_sample, no_ace = sum_var_no_ace)
-### get disparity
-
-# strict_neighbours_change <- lapply(neighbours_strict, lapply,  function(disp) {
-#   if(is.null(disp)) {
-#     return(NULL)
-#   } else{
-#   values <- get.disparity(disp)
-#   change <- (values[[2]] - values[[1]]) / values[[1]]
-#   }
-# })
-
-# rel_neighbours_change <- lapply(neighbours_rel, lapply,  function(disp) {
-#   if(is.null(disp)) {
-#     return(NULL)
-#   } else{
-#   values <- get.disparity(disp)
-#   change <- (values[[2]] - values[[1]]) / values[[1]]
-#   }
-# })
-
-# sample_neighbours_change <- lapply(neighbours_sample, lapply, lapply, function(disp) {
-#   if(is.null(disp)) {
-#     return(NULL)
-#   } else{
-#   values <- get.disparity(disp)
-#   change <- (values[[2]] - values[[1]]) / values[[1]]
-#   }
-# })
-
-# no_ace_neighbours_change <- lapply(neighbours_no_ace, lapply,  function(disp) {
-#   if(is.null(disp)) {
-#     return(NULL)
-#   } else{
-#   values <- get.disparity(disp)
-#   change <- (values[[2]] - values[[1]]) / values[[1]]
-#   }
-# })
-
-# true_neighbours_change <- lapply(neighbours_true,  function(disp){
-#   values <- get.disparity(disp)
-#   change <- (values[[2]] - values[[1]]) / values[[1]]
-# })
-
-saveRDS(strict_neighbours_change, sprintf("/mnt/parscratch/users/bip24cns/acedisparity/randomExtinction/out/disp/rand_ext_change_neighbours_strict_%03d.rds", replicate_id))
-saveRDS(rel_neighbours_change, sprintf("/mnt/parscratch/users/bip24cns/acedisparity/randomExtinction/out/disp/rand_ext_change_neighbours_rel_%03d.rds", replicate_id))
-saveRDS(sample_neighbours_change, sprintf("/mnt/parscratch/users/bip24cns/acedisparity/randomExtinction/out/disp/rand_ext_change_neighbours_sample_%03d.rds", replicate_id))
-saveRDS(no_ace_neighbours_change, sprintf("/mnt/parscratch/users/bip24cns/acedisparity/randomExtinction/out/disp/rand_ext_change_neighbours_no_ace_%03d.rds", replicate_id))
-saveRDS(true_neighbours_change, sprintf("/mnt/parscratch/users/bip24cns/acedisparity/randomExtinction/out/disp/rand_ext_change_neighbours_true_%03d.rds", replicate_id))
-saveRDS(point_post_ord_neighbours_change, sprintf("/mnt/parscratch/users/bip24cns/acedisparity/randomExtinction/out/disp/rand_ext_change_neighbours_point_postord_%03d.rds", replicate_id))
-saveRDS(sample_post_ord_neighbours_change, sprintf("/mnt/parscratch/users/bip24cns/acedisparity/randomExtinction/out/disp/rand_ext_change_neighbours_sample_postord_%03d.rds", replicate_id))
 
 ################################################################################
 #                                                                              #
@@ -849,73 +935,19 @@ sample_post_ord_displacement_change <- lapply(chrono_subsets_sample_post_ord, la
     return(change)
     }, warning = function(w) {
       NULL
+    }, error = function(e){
+      cat("Error produced with sample post ord displacement:", e$message, "\n")
+      NULL
     })
 })
 
-# saveRDS(displacement_true, sprintf("/mnt/parscratch/users/bip24cns/acedisparity/randomExtinction/out/disp/rand_ext_displacement_true_%03d.rds", replicate_id))
-# saveRDS(displacement_strict, sprintf("/mnt/parscratch/users/bip24cns/acedisparity/randomExtinction/out/disp/rand_ext_displacement_strict_%03d.rds", replicate_id))
-# saveRDS(displacement_rel, sprintf("/mnt/parscratch/users/bip24cns/acedisparity/randomExtinction/out/disp/rand_ext_displacement_rel_%03d.rds", replicate_id))
-# saveRDS(displacement_sample, sprintf("/mnt/parscratch/users/bip24cns/acedisparity/randomExtinction/out/disp/rand_ext_displacement_sample_%03d.rds", replicate_id))
-# saveRDS(displacement_no_ace, sprintf("/mnt/parscratch/users/bip24cns/acedisparity/randomExtinction/out/disp/rand_ext_displacement_no_ace_%03d.rds", replicate_id))
+cat("Displacement completed...\n")
 
+saveRDS(true_displacement_change, write.path("disp", "true_displacement_change_%03d.rds"))
+saveRDS(strict_displacement_change, write.path("disp", "strict_displacement_change_%03d.rds"))
+saveRDS(rel_displacement_change, write.path("disp", "rel_displacement_change_%03d.rds"))
+saveRDS(sample_displacement_change, write.path("disp", "sample_displacement_change_%03d.rds"))
+saveRDS(no_ace_displacement_change, write.path("disp", "no_ace_displacement_change_%03d.rds"))
+saveRDS(point_post_ord_displacement_change, write.path("disp", "point_postord_displacement_change_%03d.rds"))
+saveRDS(sample_post_ord_displacement_change, write.path("disp", "sample_postord_displacement_change_%03d.rds"))
 
-# sum_var_list <- list(strict = sum_var_strict, rel = sum_var_rel, sample = sum_var_sample, no_ace = sum_var_no_ace)
-### get disparity
-
-# strict_displacement_change <- lapply(displacement_strict, lapply,  function(disp) {
-#   if(is.null(disp)) {
-#     return(NULL)
-#   } else{
-#   values <- get.disparity(disp)
-#   change <- (values[[2]] - values[[1]]) / values[[1]]
-#   }
-# })
-
-# rel_displacement_change <- lapply(displacement_rel, lapply,  function(disp) {
-#   if(is.null(disp)) {
-#     return(NULL)
-#   } else{
-#   values <- get.disparity(disp)
-#   change <- (values[[2]] - values[[1]]) / values[[1]]
-#   }
-# })
-
-# sample_displacement_change <- lapply(displacement_sample, lapply, lapply, function(disp) {
-#   if(is.null(disp)) {
-#     return(NULL)
-#   } else{
-#   values <- get.disparity(disp)
-#   change <- (values[[2]] - values[[1]]) / values[[1]]
-#   }
-# })
-
-# no_ace_displacement_change <- lapply(displacement_no_ace, lapply,  function(disp) {
-#   if(is.null(disp)) {
-#     return(NULL)
-#   } else{
-#   values <- get.disparity(disp)
-#   change <- (values[[2]] - values[[1]]) / values[[1]]
-#   }
-# })
-
-# true_displacement_change <- lapply(displacement_true,  function(disp){
-#   values <- get.disparity(disp)
-#   change <- (values[[2]] - values[[1]]) / values[[1]]
-# })
-
-saveRDS(strict_displacement_change, sprintf("/mnt/parscratch/users/bip24cns/acedisparity/randomExtinction/out/disp/rand_ext_change_displacement_strict_%03d.rds", replicate_id))
-saveRDS(rel_displacement_change, sprintf("/mnt/parscratch/users/bip24cns/acedisparity/randomExtinction/out/disp/rand_ext_change_displacement_rel_%03d.rds", replicate_id))
-saveRDS(sample_displacement_change, sprintf("/mnt/parscratch/users/bip24cns/acedisparity/randomExtinction/out/disp/rand_ext_change_displacement_sample_%03d.rds", replicate_id))
-saveRDS(no_ace_displacement_change, sprintf("/mnt/parscratch/users/bip24cns/acedisparity/randomExtinction/out/disp/rand_ext_change_displacement_no_ace_%03d.rds", replicate_id))
-saveRDS(true_displacement_change, sprintf("/mnt/parscratch/users/bip24cns/acedisparity/randomExtinction/out/disp/rand_ext_change_displacement_true_%03d.rds", replicate_id))
-saveRDS(point_post_ord_displacement_change, sprintf("/mnt/parscratch/users/bip24cns/acedisparity/randomExtinction/out/disp/rand_ext_change_displacement_point_postord_%03d.rds", replicate_id))
-saveRDS(sample_post_ord_displacement_change, sprintf("/mnt/parscratch/users/bip24cns/acedisparity/randomExtinction/out/disp/rand_ext_change_displacement_sample_postord_%03d.rds", replicate_id))
-
-metadata <- list(
-  replicate_id = replicate_id,
-  tree_size = stop_rule$max.living,
-  extinction_intensity = extinction_intensity,  # If you want to track this too
-  seed = 100 + replicate_id
-)
-
-saveRDS(metadata, sprintf("/mnt/parscratch/users/bip24cns/acedisparity/randomExtinction/out/metadata/metadata_%03d.rds", replicate_id))

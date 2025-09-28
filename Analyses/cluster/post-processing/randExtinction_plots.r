@@ -2,22 +2,32 @@ rate_names <- c("slow", "med", "fast")
 
 # Load sample data (keep as is)
 sum_var_change_sample <- setNames(lapply(rate_names, function(rate) {
-    lapply(1:100, function(rep) {
-        tryCatch({
-            file_path <- sprintf("../Data/cluster/randomExtinction/disp/rand_ext_change_sum_var_sample_%03d.rds", rep)
+    # Load all replicates first
+    all_reps <- lapply(1:100, function(rep) {
+            file_path <- sprintf("../Data/cluster/randomExtinction/disp/8092287_sample_sum_var_change_%03d.rds", rep)
             data <- readRDS(file_path)
             return(data[[rate]])
-        }, warning = function(w) {
-            NULL
-        })
     })
-}), rate_names)
+}), rate_names
+)
+
+sum_var_change_no_ace <- setNames(lapply(rate_names, function(rate) {
+    # Load all replicates first
+    all_reps <- lapply(1:100, function(rep) {
+            file_path <- sprintf("../Data/cluster/randomExtinction/disp/8092287_no_ace_sum_var_change_%03d.rds", rep)
+            data <- readRDS(file_path)
+            return(data[[rate]])
+    })
+}), rate_names
+)
+
+
 
 # Load true data (keep as is)
-sum_var_change_true_raw <- setNames(lapply(rate_names, function(rate) {
+sum_var_change_true <- setNames(lapply(rate_names, function(rate) {
     lapply(1:100, function(rep) {
         tryCatch({
-            file_path <- sprintf("../Data/cluster/randomExtinction/disp/rand_ext_change_sum_var_true_%03d.rds", rep)
+            file_path <- sprintf("../Data/cluster/randomExtinction/disp/8092287_true_sum_var_change_%03d.rds", rep)
             data <- readRDS(file_path)
             return(data[[rate]])
         }, warning = function(w) {
@@ -26,31 +36,11 @@ sum_var_change_true_raw <- setNames(lapply(rate_names, function(rate) {
     })
 }), rate_names)
 
-# FILTER BOTH DATASETS TO MATCHING NON-NULL REPLICATES
-sum_var_change_sample_filtered <- lapply(rate_names, function(rate) {
-    # Find which replicates are complete in BOTH datasets
-    sample_complete <- !sapply(sum_var_change_sample[[rate]], is.null)
-    true_complete <- !sapply(sum_var_change_true_raw[[rate]], is.null)
-    both_complete <- sample_complete & true_complete
-    
-    # Keep only replicates that are complete in both
-    return(sum_var_change_sample[[rate]][both_complete])
-})
-names(sum_var_change_sample_filtered) <- rate_names
 
-sum_var_change_true_filtered <- lapply(rate_names, function(rate) {
-    # Find which replicates are complete in BOTH datasets
-    sample_complete <- !sapply(sum_var_change_sample[[rate]], is.null)
-    true_complete <- !sapply(sum_var_change_true_raw[[rate]], is.null)
-    both_complete <- sample_complete & true_complete
-    
-    # Keep only replicates that are complete in both
-    return(sum_var_change_true_raw[[rate]][both_complete])
-})
-names(sum_var_change_true_filtered) <- rate_names
+
 
 # Calculate median on filtered sample data
-sum_var_change_sample_median <- lapply(sum_var_change_sample_filtered, function(rate_data) {
+sum_var_change_sample_median <- lapply(sum_var_change_sample, function(rate_data) {
     lapply(rate_data, function(replicate_data) {
         # Apply median directly to each fossil level
         result <- lapply(replicate_data, function(fossil_level_values) {
@@ -61,8 +51,16 @@ sum_var_change_sample_median <- lapply(sum_var_change_sample_filtered, function(
     })
 })
 
+clean_sample <- lapply(sum_var_change_sample_median, lapply, function(x){
+    x[!sapply(x, is.null)]  # Keep only non-NULL elements
+})
+
+clean_no_ace <- lapply(sum_var_change_no_ace, lapply, function(x){
+    x[!sapply(x, is.null)]  # Keep only non-NULL elements
+})
+
 # Use filtered true data
-sum_var_change_true <- sum_var_change_true_filtered
+# sum_var_change_true <- sum_var_change_true_filtered
 
 # Your function should now work perfectly
 create.matched.data <- function(true, estimated) {
@@ -86,25 +84,40 @@ create.matched.data <- function(true, estimated) {
 }
 
 # Test the match
-matched_sample <- create.matched.data(sum_var_change_true, sum_var_change_sample_median)
+matched_sample <- create.matched.data(sum_var_change_true, clean_sample)
+matched_no_ace <- create.matched.data(sum_var_change_true, clean_no_ace)
 
-cat("True length:", length(matched_sample$true), "\n")
-cat("Estimated length:", length(matched_sample$estimated), "\n")
-cat("Should be equal now!\n")
+all_ace <- c(matched_sample$estimated, matched_no_ace$estimated)
 
-# Plot
+
+
 library(viridis)
 fossil_colors <- viridis(5, option = "plasma", direction = -1)
 names(fossil_colors) <- c("all", "fossil_high", "fossil_med", "fossil_low", "living")
 
 plot(matched_sample$true, matched_sample$estimated,
-     xlab = "True Disparity Change",
-     ylab = "Estimated Disparity Change",
-     main = "Disparity Change: No majority Rule vs True",
-     pch = 16, 
-     col = fossil_colors[matched_sample$fossil_level],
-     cex = 1.7
+    xlab = "True Disparity Change",
+    ylab = "Est Disparity Change",
+    main = "Disparity Change: No majority Rule vs True",
+    pch = 16, 
+    col = fossil_colors[matched_sample$fossil_level],
+    cex = 1.7, 
+    ylim = range(all_ace)
 )
 
 # Add 1:1 reference line
 abline(0, 1, col = "red", lty = 2, lwd = 2)
+
+plot(matched_no_ace$true, matched_no_ace$estimated,
+    xlab = "True Disparity Change",
+    ylab = "Estimated Disparity Change",
+    main = "Disparity Change: No ace vs True",
+    pch = 16, 
+    col = fossil_colors[matched_no_ace$fossil_level],
+    cex = 1.7,
+    ylim = range(all_ace)
+)
+
+abline(0, 1, col = "red", lty = 2, lwd = 2)
+
+

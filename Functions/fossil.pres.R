@@ -1,6 +1,6 @@
 remove.fossil <- function(trees, matrices, type = c("discrete", "continuous")) {
   
-  # Helper function to process a single tree and matrix
+  # Base function for processing one tree and one matrix (discrete or continuous)
   process.living <- function(tree, matrix, type) {
     ages <- tree.age(tree) # get tip ages
     tips <- ages$element[ages$ages == 0] # find only living species
@@ -26,12 +26,12 @@ remove.fossil <- function(trees, matrices, type = c("discrete", "continuous")) {
     return(list(matrix = living_matrix, tree = living_tree))
   }
   
-  # Check if inputs are lists or single objects
+  # Adapt code for when there is nested list structures
   if (is.list(trees) && is.list(matrices)) {
-    # Use Map for lists of trees and matrices
+    
     living_matrices <- Map(function(tree, matrix) process.living(tree, matrix, type), trees, matrices)
   } else {
-    # Process a single tree and matrix
+    
     living_matrices <- process.living(trees, matrices, type)
   }
   
@@ -41,14 +41,12 @@ remove.fossil <- function(trees, matrices, type = c("discrete", "continuous")) {
 ## function to remove fossils at varying preservation levels
 ## idea - split time into time bins and vary preservation level per bin
 fossil.pres <- function(trees, matrices, preservation = c(0.05, 0.15, 0.5, 1.0), type = c("discrete", "continuous")) {
-  if (!preservation %in% c(0.05, 0.15, 0.5, 1.0)) {
-    stop("Invalid preservation value. Must be one of 1.0, 0.05, 0.15, or 0.5.")
-  }
+  # if (!preservation %in% c(0.05, 0.15, 0.5, 1.0)) {
+  #   stop("Invalid preservation value. Must be one of 1.0, 0.05, 0.15, or 0.5.")
+  # } ## commented this out so that preservation level can be any value between >0 - 1.
 
   # Helper function to process a single tree and matrix
   process.fossil <- function(tree, matrix, type) {
-    # print(paste("Processing with type:", type))
-    
     ages <- tree.age(tree)
     tips <- ages$element[ages$ages == 0]  # Keep living species
 
@@ -71,10 +69,6 @@ fossil.pres <- function(trees, matrices, preservation = c(0.05, 0.15, 0.5, 1.0),
     kept <- c(unlist(unname(sample)), tips)
     fossil_matrix <- matrix[rownames(matrix) %in% kept, ]
 
-    # if (preservation %in% c(0.05, 0.15)) {
-    #   fossil_matrix["t1", ] <- "?"
-    # }
-
     # Discrete needs characters returned for ace, continuous needs numeric
     if (type == "discrete") {
       fossil_matrix <- apply(fossil_matrix, c(1, 2), as.character)
@@ -85,20 +79,11 @@ fossil.pres <- function(trees, matrices, preservation = c(0.05, 0.15, 0.5, 1.0),
       # fossil_matrix <- as.data.frame(fossil_matrix)
     }
 
-    # if (preservation %in% c(0.05, 0.15) && type == "discrete") {
-    #   fossil_matrix["t1", ] <- "?"
-    # }
 
-    # if (preservation %in% c(0.05, 0.15) && type == "continuous") {
-    #   fossil_matrix["t1", ] <- NA
-    # }
-
-    pruned <- keep.tip(tree, kept) # Rescale tree so that tree height is maintained 
+    pruned <- keep.tip(tree, kept) # Rescale tree so that tree height is maintained
     tree <- set.root.time(tree)
     old_root <- tree$root.time
     pruned$root.time <- old_root
-    # pruned$node.label[1] <- "n1"
-      # Prune tree
     return(list(matrix = fossil_matrix, tree = pruned))
   }
 

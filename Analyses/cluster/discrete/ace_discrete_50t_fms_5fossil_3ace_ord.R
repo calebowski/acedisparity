@@ -7,7 +7,7 @@ cat("Starting replicate", replicate_id, "\n")
 
 set.seed(100 + replicate_id)
 
-bd_params <- make.bd.params(speciation = 1, extinction = 0.7)
+bd_params <- make.bd.params(speciation = 1, extinction = sample(c(0.25, 0.75), size = 1))
 
 stop_rule <- list(max.living = 50)
 # set.seed(123)
@@ -142,10 +142,7 @@ strict_fossil_anc <- lapply(fossil_anc, lapply, multi.ace, threshold = FALSE, ou
 
 relative_fossil_anc <- lapply(fossil_anc, lapply,  multi.ace, output = "combined.matrix", verbose = TRUE)
 
-# relative_fossil_anc <- lapply(relative_fossil_anc, lapply, function(mat){
-#   mat[grepl("/", mat)] <- NA_character_
-#   return(mat)
-# })
+
 
 
 saveRDS(fossil_anc, sprintf("/mnt/parscratch/users/bip24cns/acedisparity/discrete/out/ace/discrete_anc_%03d.rds", replicate_id))

@@ -38,3 +38,7 @@ disp.diff <- function(ace, true){
   diff <- (ace[[1]]$elements[1] - true[[1]]$elements[1]) / true[[1]]$elements[1]
   return(diff)
 }
+
+write.path <- function(subfolder, filename) {
+  return(paste0(base_path, subfolder, "/", job_id, "_", sprintf(filename, replicate_id)))
+}
