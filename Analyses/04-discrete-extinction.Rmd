@@ -17,17 +17,17 @@ editor_options:
 
 library(treats)
 source("../Functions/utility.R")
-bd_params <- make.bd.params(speciation = 0.1, extinction = 0.07)
+bd_params <- make.bd.params(speciation = 1.0, extinction = 0.5)
 
-stop_rule <- list(max.living = 30)
+stop_rule <- list(max.living = 50)
 set.seed(123)
 
 mass_extinction <- make.events(
                       target       = "taxa",
-                      condition    = taxa.condition(29),
+                      condition    = taxa.condition(40),
                       modification = random.extinction(0.80))
 
-trees <- treats(stop.rule = stop_rule, bd.params = bd_params, null.error = 100, replicates = 100, events = mass_extinction)
+trees <- treats(stop.rule = stop_rule, bd.params = bd_params, null.error = 100, replicates = 70, events = mass_extinction)
 trees <- lapply(trees, drop.singles)
 
 
@@ -185,7 +185,7 @@ fossil_trees <- lapply(fossil_matrices, lapply, lapply, function(level){
 ## ACE
 ```{r}
 
-n_cores  <- 11
+n_cores  <- 15
 anc.states <- function(fossil_matrices) {
   lapply(fossil_matrices, function(level) {
     lapply(level, function(x) {
@@ -206,7 +206,7 @@ saveRDS(fossil_anc, "../Data/matrices/randomExtinction/fossilanc.Rds")
 fossil_anc <- readRDS("../Data/matrices/randomExtinction/fossilanc.Rds")
 
 
-sample_fossil_anc <- lapply(fossil_anc, lapply, lapply, multi.ace, sample = 20, verbose = TRUE)
+sample_fossil_anc <- lapply(fossil_anc, lapply, lapply, multi.ace, sample = 80, verbose = TRUE)
 
 
 strict_fossil_anc <- lapply(fossil_anc, lapply, lapply, multi.ace, threshold = FALSE, output = "combined.matrix", verbose = TRUE)
@@ -397,8 +397,6 @@ trees <- lapply(trees, fix.zero.branches)
 
 
 source("../Functions/find.extinction.time.R")
-
-
 
 
 

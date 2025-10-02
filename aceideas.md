@@ -150,4 +150,14 @@ min-max normalisation, then use the range of first pc axis on later axes so that
 
  
 
- 
+#  01/10/25
+
+- Discrete needs running again with new script 
+    - 50t
+    - 100t
+    - 150t
+
+- Continuous needs running again (what was the error).
+    - 50t
+    - 100t
+    - 150t

@@ -16,20 +16,20 @@ editor_options:
 rate_names <- c("slow", "med", "fast")
 
 # Load sample data (keep as is)
-sum_var_change_sample <- setNames(lapply(rate_names, function(rate) {
+sum_var_change_sample_50 <- setNames(lapply(rate_names, function(rate) {
     # Load all replicates first
     all_reps <- lapply(1:100, function(rep) {
-            file_path <- sprintf("../Data/cluster/randomExtinction/disp/8092287_sample_sum_var_change_%03d.rds", rep)
+            file_path <- sprintf("../Data/cluster/randomExtinction/disp/8122585_sample_sum_var_change_%03d.rds", rep)
             data <- readRDS(file_path)
             return(data[[rate]])
     })
 }), rate_names
 )
 
-sum_var_change_no_ace <- setNames(lapply(rate_names, function(rate) {
+sum_var_change_no_ace_50 <- setNames(lapply(rate_names, function(rate) {
     # Load all replicates first
     all_reps <- lapply(1:100, function(rep) {
-            file_path <- sprintf("../Data/cluster/randomExtinction/disp/8092287_no_ace_sum_var_change_%03d.rds", rep)
+            file_path <- sprintf("../Data/cluster/randomExtinction/disp/8122585_no_ace_sum_var_change_%03d.rds", rep)
             data <- readRDS(file_path)
             return(data[[rate]])
     })
@@ -39,10 +39,10 @@ sum_var_change_no_ace <- setNames(lapply(rate_names, function(rate) {
 
 
 # Load true data (keep as is)
-sum_var_change_true <- setNames(lapply(rate_names, function(rate) {
+sum_var_change_true_50 <- setNames(lapply(rate_names, function(rate) {
     lapply(1:100, function(rep) {
         tryCatch({
-            file_path <- sprintf("../Data/cluster/randomExtinction/disp/8092287_true_sum_var_change_%03d.rds", rep)
+            file_path <- sprintf("../Data/cluster/randomExtinction/disp/8122585_true_sum_var_change_%03d.rds", rep)
             data <- readRDS(file_path)
             return(data[[rate]])
         }, warning = function(w) {
@@ -54,19 +54,7 @@ sum_var_change_true <- setNames(lapply(rate_names, function(rate) {
 
 
 
-# Calculate median on filtered sample data
-sum_var_change_sample_median <- lapply(sum_var_change_sample, function(rate_data) {
-    lapply(rate_data, function(replicate_data) {
-        # Apply median directly to each fossil level
-        result <- lapply(replicate_data, function(fossil_level_values) {
-            values <- unlist(fossil_level_values, use.names = FALSE)
-            return(median(values, na.rm = TRUE))
-        })
-        return(result)  # This ensures we return the fossil level list directly
-    })
-})
-
-sum_var_change_sample_unlist <- lapply(sum_var_change_sample, function(rate_data) {
+sum_var_change_sample_unlist_50 <- lapply(sum_var_change_sample_50, function(rate_data) {
     lapply(rate_data, function(replicate_data) {
         # Apply median directly to each fossil level
         result <- lapply(replicate_data, function(fossil_level_values) {
@@ -79,11 +67,11 @@ sum_var_change_sample_unlist <- lapply(sum_var_change_sample, function(rate_data
 
 
 
-clean_sample <- lapply(sum_var_change_sample_unlist, lapply, function(x){
+clean_sample_50 <- lapply(sum_var_change_sample_unlist_50, lapply, function(x){
     x[!sapply(x, is.null)]  # Keep only non-NULL elements
 })
 
-clean_no_ace <- lapply(sum_var_change_no_ace, lapply, function(x){
+clean_no_ace_50 <- lapply(sum_var_change_no_ace_50, lapply, function(x){
     x[!sapply(x, is.null)]  # Keep only non-NULL elements
 })
 
@@ -118,47 +106,101 @@ create.matched.data <- function(true, estimated) {
     }
     return(result)
 }
-matched_sample <- create.matched.data(sum_var_change_true, clean_sample)
-matched_no_ace <- create.matched.data(sum_var_change_true, clean_no_ace)
-
-all_ace <- c(matched_sample$estimated, matched_no_ace$estimated)
 
 
+matched_sample_50 <- create.matched.data(sum_var_change_true_50, clean_sample_50)
+matched_no_ace_50 <- create.matched.data(sum_var_change_true_50, clean_no_ace_50)
 
-library(viridis)
-fossil_colors <- viridis(5, option = "plasma", direction = -1)
-names(fossil_colors) <- c("all", "fossil_high", "fossil_med", "fossil_low", "living")
 
-plot(
-  c(matched_sample$slow$true, matched_sample$med$true, matched_sample$fast$true),
-  c(matched_sample$slow$estimated, matched_sample$med$estimated, matched_sample$fast$estimated),
-  xlab = "True Disparity Change",
-  ylab = "Est Disparity Change",
-  main = "Disparity Change: No majority Rule vs True",
-  pch = 16,
-  col = fossil_colors[
-    c(matched_sample$slow$fossil_level, matched_sample$med$fossil_level, matched_sample$fast$fossil_level)
-  ],
-  cex = 1.7
+
+
+# Calculate differences for sample method
+matched_sample_50$slow$diffs  <- matched_sample_50$slow$estimated - matched_sample_50$slow$true
+matched_sample_50$med$diffs   <- matched_sample_50$med$estimated - matched_sample_50$med$true
+matched_sample_50$fast$diffs  <- matched_sample_50$fast$estimated - matched_sample_50$fast$true
+
+# Calculate differences for no_ace method
+matched_no_ace_50$slow$diffs  <- matched_no_ace_50$slow$estimated - matched_no_ace_50$slow$true
+matched_no_ace_50$med$diffs   <- matched_no_ace_50$med$estimated - matched_no_ace_50$med$true
+matched_no_ace_50$fast$diffs  <- matched_no_ace_50$fast$estimated - matched_no_ace_50$fast$true
+
+
+
+
+sample_data_50 <- data.frame(
+  diffs = c(matched_sample_50$slow$diffs, matched_sample_50$med$diffs, matched_sample_50$fast$diffs),
+  fossil_level = c(matched_sample_50$slow$fossil_level, matched_sample_50$med$fossil_level, matched_sample_50$fast$fossil_level),
+  rate = rep(c("slow", "med", "fast"), 
+             c(length(matched_sample_50$slow$diffs), length(matched_sample_50$med$diffs), length(matched_sample_50$fast$diffs))),
+  method = "Sample ACE"
 )
 
-# Add 1:1 reference line
-abline(0, 1, col = "red", lty = 2, lwd = 2)
-
-plot(c(matched_no_ace$slow$true, matched_no_ace$med$true, matched_no_ace$fast$true),
-  c(matched_no_ace$slow$estimated, matched_no_ace$med$estimated, matched_no_ace$fast$estimated),
-    xlab = "True Disparity Change",
-    ylab = "Estimated Disparity Change",
-    main = "Disparity Change: No ace vs True",
-    pch = 16, 
-    col = fossil_colors[
-    c(matched_no_ace$slow$fossil_level, matched_no_ace$med$fossil_level, matched_no_ace$fast$fossil_level)
-  ],
-    cex = 1.7,
-    ylim = range(all_ace)
+# Add no_ace data
+no_ace_data_50 <- data.frame(
+  diffs = c(matched_no_ace_50$slow$diffs, matched_no_ace_50$med$diffs, matched_no_ace_50$fast$diffs),
+  fossil_level = c(matched_no_ace_50$slow$fossil_level, matched_no_ace_50$med$fossil_level, matched_no_ace_50$fast$fossil_level),
+  rate = rep(c("slow", "med", "fast"), 
+             c(length(matched_no_ace_50$slow$diffs), length(matched_no_ace_50$med$diffs), length(matched_no_ace_50$fast$diffs))),
+  method = "No ACE"
 )
 
-abline(0, 1, col = "red", lty = 2, lwd = 2)
+combined_data_50 <- rbind(sample_data_50, no_ace_data_50)
+
+
+# Set the order for fossil levels (low to high preservation, then all)
+level_order <- c("living", "fossil_low", "fossil_med", "fossil_high", "all")
+
+# Convert fossil_level to factor with specified order in your combined_data
+combined_data_50$fossil_level <- factor(combined_data_50$fossil_level, levels = level_order)
+
+# Now your ridge plot will display in the correct order
+ggplot(combined_data_50, aes(x = diffs, y = interaction(fossil_level, method), fill = method)) +
+  geom_density_ridges(alpha = 0.7, scale = 1.2) +
+  geom_vline(xintercept = 0, color = "red", linetype = "dashed", size = 1) +
+  scale_fill_viridis_d(option = "plasma", end = 0.8) +
+  facet_wrap(~rate, scales = "free_x") +
+  theme_ridges() +
+  theme(legend.position = "bottom") +
+  labs(title = "Ridge Plot: Distribution of Estimation Errors",
+       subtitle = "Higher peaks = more concentrated errors",
+       x = "Estimation Error (Estimated - True)",
+       y = "Fossil Level × Method",
+       fill = "Method")
+
+# library(viridis)
+# fossil_colors <- viridis(5, option = "plasma", direction = -1)
+# names(fossil_colors) <- c("all", "fossil_high", "fossil_med", "fossil_low", "living")
+
+# plot(
+#   c(matched_sample$slow$true, matched_sample$med$true, matched_sample$fast$true),
+#   c(matched_sample$slow$estimated, matched_sample$med$estimated, matched_sample$fast$estimated),
+#   xlab = "True Disparity Change",
+#   ylab = "Est Disparity Change",
+#   main = "Disparity Change: No majority Rule vs True",
+#   pch = 16,
+#   col = fossil_colors[
+#     c(matched_sample$slow$fossil_level, matched_sample$med$fossil_level, matched_sample$fast$fossil_level)
+#   ],
+#   cex = 1.7,
+#   ylim = c(-1, 1)
+# )
+
+# # Add 1:1 reference line
+# abline(0, 1, col = "red", lty = 2, lwd = 2)
+
+# plot(c(matched_no_ace$slow$true, matched_no_ace$med$true, matched_no_ace$fast$true),
+#   c(matched_no_ace$slow$estimated, matched_no_ace$med$estimated, matched_no_ace$fast$estimated),
+#     xlab = "True Disparity Change",
+#     ylab = "Estimated Disparity Change",
+#     main = "Disparity Change: No ace vs True",
+#     pch = 16, 
+#     col = fossil_colors[
+#     c(matched_no_ace$slow$fossil_level, matched_no_ace$med$fossil_level, matched_no_ace$fast$fossil_level)
+#   ],
+#     cex = 1.7,
+#     ylim = c(-1, 1))
+
+# abline(0, 1, col = "red", lty = 2, lwd = 2)
 
 
 ```
@@ -168,59 +210,35 @@ abline(0, 1, col = "red", lty = 2, lwd = 2)
 
 ```{R}
 
-sum_var_change_true_ranges <- lapply(sum_var_change_true, lapply, function (x){
-    range <- x * 0.1
-    return(c((x- range), (x+range)))
-})
+# sum_var_change_true_ranges <- lapply(sum_var_change_true, lapply, function (x){
+#     range <- x * 0.1
+#     return(c((x- range), (x+range)))
+# })
 
-coverage_no_majority <- Map(function(sample_rate, true_rate){
-    Map(function(sample_rep, true_rep){
-        true_vals <- true_rep
-        lapply(sample_rep, function(fossil){
-            sapply(fossil, function(v){
-                is_within <- v >= min(true_vals) && v <= max(true_vals)
-                return(is_within)
-            })
-        })
-    }, sample_rate, true_rate)
-}, clean_sample, sum_var_change_true_ranges)
+# coverage_no_majority <- Map(function(sample_rate, true_rate){
+#     Map(function(sample_rep, true_rep){
+#         true_vals <- true_rep
+#         lapply(sample_rep, function(fossil){
+#             sapply(fossil, function(v){
+#                 is_within <- v >= min(true_vals) && v <= max(true_vals)
+#                 return(is_within)
+#             })
+#         })
+#     }, sample_rate, true_rate)
+# }, clean_sample, sum_var_change_true_ranges)
 
-coverage_no_ace <- Map(function(sample_rate, true_rate){
-    Map(function(sample_rep, true_rep){
-        true_vals <- true_rep
-        lapply(sample_rep, function(fossil){
-            is_within <- fossil >= min(true_vals) && fossil <= max(true_vals)
-            return(is_within)
-        })
-    }, sample_rate, true_rate)
-}, clean_no_ace, sum_var_change_true_ranges)
-
-
-
-
-
-
-
-
-
-
+# coverage_no_ace <- Map(function(sample_rate, true_rate){
+#     Map(function(sample_rep, true_rep){
+#         true_vals <- true_rep
+#         lapply(sample_rep, function(fossil){
+#             is_within <- fossil >= min(true_vals) && fossil <= max(true_vals)
+#             return(is_within)
+#         })
+#     }, sample_rate, true_rate)
+# }, clean_no_ace, sum_var_change_true_ranges)
 
 
 ```
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -234,20 +252,20 @@ coverage_no_ace <- Map(function(sample_rate, true_rate){
 rate_names <- c("slow", "med", "fast")
 
 # Load sample data (keep as is)
-sum_var_change_sample <- setNames(lapply(rate_names, function(rate) {
+sum_var_change_sample_100 <- setNames(lapply(rate_names, function(rate) {
     # Load all replicates first
     all_reps <- lapply(1:100, function(rep) {
-            file_path <- sprintf("../Data/cluster/randomExtinction/disp/8100947_sample_sum_var_change_%03d.rds", rep)
+            file_path <- sprintf("../Data/cluster/randomExtinction/disp/8140859_sample_sum_var_change_%03d.rds", rep)
             data <- readRDS(file_path)
             return(data[[rate]])
     })
 }), rate_names
 )
 
-sum_var_change_no_ace <- setNames(lapply(rate_names, function(rate) {
+sum_var_change_no_ace_100 <- setNames(lapply(rate_names, function(rate) {
     # Load all replicates first
     all_reps <- lapply(1:100, function(rep) {
-            file_path <- sprintf("../Data/cluster/randomExtinction/disp/8100947_no_ace_sum_var_change_%03d.rds", rep)
+            file_path <- sprintf("../Data/cluster/randomExtinction/disp/8140859_no_ace_sum_var_change_%03d.rds", rep)
             data <- readRDS(file_path)
             return(data[[rate]])
     })
@@ -257,10 +275,10 @@ sum_var_change_no_ace <- setNames(lapply(rate_names, function(rate) {
 
 
 # Load true data (keep as is)
-sum_var_change_true <- setNames(lapply(rate_names, function(rate) {
+sum_var_change_true_100 <- setNames(lapply(rate_names, function(rate) {
     lapply(1:100, function(rep) {
         tryCatch({
-            file_path <- sprintf("../Data/cluster/randomExtinction/disp/8100947_true_sum_var_change_%03d.rds", rep)
+            file_path <- sprintf("../Data/cluster/randomExtinction/disp/8140859_true_sum_var_change_%03d.rds", rep)
             data <- readRDS(file_path)
             return(data[[rate]])
         }, warning = function(w) {
@@ -271,103 +289,259 @@ sum_var_change_true <- setNames(lapply(rate_names, function(rate) {
 
 
 # Calculate median on filtered sample data
-sum_var_change_sample_median <- lapply(sum_var_change_sample, function(rate_data) {
+# sum_var_change_sample_median <- lapply(sum_var_change_sample, function(rate_data) {
+#     lapply(rate_data, function(replicate_data) {
+#         # Apply median directly to each fossil level
+#         result <- lapply(replicate_data, function(fossil_level_values) {
+#             values <- unlist(fossil_level_values, use.names = FALSE)
+#             return(median(values, na.rm = TRUE))
+#         })
+#         return(result)  
+#     })
+# })
+sum_var_change_sample_unlist_100 <- lapply(sum_var_change_sample, function(rate_data) {
     lapply(rate_data, function(replicate_data) {
         # Apply median directly to each fossil level
         result <- lapply(replicate_data, function(fossil_level_values) {
             values <- unlist(fossil_level_values, use.names = FALSE)
-            return(median(values, na.rm = TRUE))
+            return(values)
         })
-        return(result)  # This ensures we return the fossil level list directly
+        return(result)  
     })
 })
 
-clean_sample <- lapply(sum_var_change_sample_median, lapply, function(x){
-    x[!sapply(x, is.null)]  # Keep only non-NULL elements
+clean_sample_100 <- lapply(sum_var_change_sample_unlist_100, lapply, function(x){
+    x[!sapply(x, is.null)]  
 })
 
-clean_no_ace <- lapply(sum_var_change_no_ace, lapply, function(x){
-    x[!sapply(x, is.null)]  # Keep only non-NULL elements
+clean_no_ace_100 <- lapply(sum_var_change_no_ace_100, lapply, function(x){
+    x[!sapply(x, is.null)]  
 })
 
 
 
 
 # Test the match
-matched_sample <- create.matched.data(sum_var_change_true, clean_sample)
-matched_no_ace <- create.matched.data(sum_var_change_true, clean_no_ace)
+matched_sample_100 <- create.matched.data(sum_var_change_true_100, clean_sample_100)
+matched_no_ace_100 <- create.matched.data(sum_var_change_true_100, clean_no_ace_100)
 
-all_ace <- c(matched_sample$estimated, matched_no_ace$estimated)
 
+
+
+# Calculate differences for sample method
+matched_sample_100$slow$diffs  <- matched_sample_100$slow$estimated - matched_sample_100$slow$true
+matched_sample_100$med$diffs   <- matched_sample_100$med$estimated - matched_sample_100$med$true
+matched_sample_100$fast$diffs  <- matched_sample_100$fast$estimated - matched_sample_100$fast$true
+
+# Calculate differences for no_ace method
+matched_no_ace_100$slow$diffs  <- matched_no_ace_100$slow$estimated - matched_no_ace_100$slow$true
+matched_no_ace_100$med$diffs   <- matched_no_ace_100$med$estimated - matched_no_ace_100$med$true
+matched_no_ace_100$fast$diffs  <- matched_no_ace_100$fast$estimated - matched_no_ace_100$fast$true
+
+
+
+# matched_sample_100$slow$diffs  <- matched_sample$slow$estimated - matched_sample$slow$true
+# matched_sample$med$diffs  <- matched_sample$med$estimated - matched_sample$med$true
+# matched_sample$fast$diffs  <- matched_sample$fast$estimated - matched_sample$fast$true
+
+
+# matched_no_ace <- create.matched.data(sum_var_change_true, clean_no_ace)
+# matched_no_ace$slow$diffs  <- matched_no_ace$slow$estimated - matched_no_ace$slow$true
+# matched_no_ace$med$diffs  <- matched_no_ace$med$estimated - matched_no_ace$med$true
+# matched_no_ace$fast$diffs  <- matched_no_ace$fast$estimated - matched_no_ace$fast$true
+# all_ace <- c(matched_sample$estimated, matched_no_ace$estimated)
+
+
+sample_data_100 <- data.frame(
+  diffs = c(matched_sample_100$slow$diffs, matched_sample_100$med$diffs, matched_sample_100$fast$diffs),
+  fossil_level = c(matched_sample_100$slow$fossil_level, matched_sample_100$med$fossil_level, matched_sample_100$fast$fossil_level),
+  rate = rep(c("slow", "med", "fast"), 
+             c(length(matched_sample_100$slow$diffs), length(matched_sample_100$med$diffs), length(matched_sample_100$fast$diffs))),
+  method = "Sample ACE"
+)
+
+# Add no_ace data
+no_ace_data_100 <- data.frame(
+  diffs = c(matched_no_ace_100$slow$diffs, matched_no_ace_100$med$diffs, matched_no_ace_100$fast$diffs),
+  fossil_level = c(matched_no_ace_100$slow$fossil_level, matched_no_ace_100$med$fossil_level, matched_no_ace_100$fast$fossil_level),
+  rate = rep(c("slow", "med", "fast"), 
+             c(length(matched_no_ace_100$slow$diffs), length(matched_no_ace_100$med$diffs), length(matched_no_ace_100$fast$diffs))),
+  method = "No ACE"
+)
+
+combined_data_100 <- rbind(sample_data_100, no_ace_data_100)
+
+
+# Set the order for fossil levels (low to high preservation, then all)
+level_order <- c("living", "fossil_low", "fossil_med", "fossil_high", "all")
+
+# Convert fossil_level to factor with specified order in your combined_data
+combined_data_100$fossil_level <- factor(combined_data_100$fossil_level, levels = level_order)
+
+# Now your ridge plot will display in the correct order
+ggplot(combined_data_100, aes(x = diffs, y = interaction(fossil_level, method), fill = method)) +
+  geom_density_ridges(alpha = 0.7, scale = 1.2) +
+  geom_vline(xintercept = 0, color = "red", linetype = "dashed", size = 1) +
+  scale_fill_viridis_d(option = "plasma", end = 0.8) +
+  facet_wrap(~rate, scales = "free_x") +
+  theme_ridges() +
+  theme(legend.position = "bottom") +
+  labs(title = "Ridge Plot: Distribution of Estimation Errors",
+       subtitle = "Higher peaks = more concentrated errors",
+       x = "Estimation Error (Estimated - True)",
+       y = "Fossil Level × Method",
+       fill = "Method")
 
 
 library(viridis)
 fossil_colors <- viridis(5, option = "plasma", direction = -1)
 names(fossil_colors) <- c("all", "fossil_high", "fossil_med", "fossil_low", "living")
 
-plot(matched_sample$true, matched_sample$estimated,
-    xlab = "True Disparity Change",
-    ylab = "Est Disparity Change",
-    main = "Disparity Change: No majority Rule vs True",
-    pch = 16, 
-    col = fossil_colors[matched_sample$fossil_level],
-    cex = 1.7, 
-    ylim = range(all_ace)
+level_order <- c("living", "fossil_low", "fossil_med", "fossil_high", "all")
+
+# # Combine all data
+# all_true <- c(matched_sample$slow$true, matched_sample$med$true, matched_sample$fast$true)
+# all_est <- c(matched_sample$slow$estimated, matched_sample$med$estimated, matched_sample$fast$estimated)
+# all_fossils <- c(matched_sample$slow$fossil_level, matched_sample$med$fossil_level, matched_sample$fast$fossil_level)
+
+# plot(all_true, all_est,
+#      xlab = "True Disparity Change",
+#      ylab = "Est Disparity Change", 
+#      main = "Disparity Change: No majority Rule vs True",
+#      type = "n", 
+#      ylim = c(-0.6, 0.6))
+
+# for(level in level_order) {
+#   indices <- all_fossils == level
+#   points(all_true[indices], all_est[indices],
+#          pch = 20, col = fossil_colors[level], cex = 1.7)
+# }
+
+# abline(0, 1, col = "red", lty = 2, lwd = 2)
+# legend("topleft", 
+#        legend = level_order,  # Legend in same order as plotting
+#        col = fossil_colors[level_order], 
+#        pch = 20, cex = 1.2, title = "Fossil Level")
+
+
+# plot(c(matched_no_ace$slow$true, matched_no_ace$med$true, matched_no_ace$fast$true),
+#   c(matched_no_ace$slow$estimated, matched_no_ace$med$estimated, matched_no_ace$fast$estimated),
+#     xlab = "True Disparity Change",
+#     ylab = "Estimated Disparity Change",
+#     main = "Disparity Change: No ace vs True",
+#     pch = 20, 
+#     col = fossil_colors[
+#     c(matched_no_ace$slow$fossil_level, matched_no_ace$med$fossil_level, matched_no_ace$fast$fossil_level)
+#   ],
+#     cex = 1.7,
+#     ylim = c(-0.6, 0.6))
+# abline(0, 1, col = "red", lty = 2, lwd = 2)
+
+```
+
+## Combined 50-100 t
+
+```{R}
+
+
+matched_sample <- Map(function(rate_50, rate_100){
+    Map(function(treatment_50, treatment_100){
+        c(treatment_50, treatment_100)
+    }, rate_50, rate_100)
+}, matched_sample_50, matched_sample_100)
+
+matched_no_ace <- Map(function(rate_50, rate_100){
+    Map(function(treatment_50, treatment_100){
+        c(treatment_50, treatment_100)
+    }, rate_50, rate_100)
+}, matched_no_ace_50, matched_no_ace_100)
+
+# Calculate differences for sample method
+matched_sample$slow$diffs  <- matched_sample$slow$estimated - matched_sample$slow$true
+matched_sample$med$diffs   <- matched_sample$med$estimated - matched_sample$med$true
+matched_sample$fast$diffs  <- matched_sample$fast$estimated - matched_sample$fast$true
+
+# Calculate differences for no_ace method
+matched_no_ace$slow$diffs  <- matched_no_ace$slow$estimated - matched_no_ace$slow$true
+matched_no_ace$med$diffs   <- matched_no_ace$med$estimated - matched_no_ace$med$true
+matched_no_ace$fast$diffs  <- matched_no_ace$fast$estimated - matched_no_ace$fast$true
+plot_data <- data.frame(
+  diffs = c(matched_sample$slow$diffs, matched_sample$med$diffs, matched_sample$fast$diffs),
+  fossil_level = c(matched_sample$slow$fossil_level, matched_sample$med$fossil_level, matched_sample$fast$fossil_level),
+  rate = rep(c("slow", "med", "fast"), 
+             c(length(matched_sample$slow$diffs), length(matched_sample$med$diffs), length(matched_sample$fast$diffs))),
+  method = "Sample ACE"
 )
 
-# Add 1:1 reference line
-abline(0, 1, col = "red", lty = 2, lwd = 2)
-
-plot(matched_no_ace$true, matched_no_ace$estimated,
-    xlab = "True Disparity Change",
-    ylab = "Estimated Disparity Change",
-    main = "Disparity Change: No ace vs True",
-    pch = 16, 
-    col = fossil_colors[matched_no_ace$fossil_level],
-    cex = 1.7,
-    ylim = range(all_ace)
+# Add no_ace data
+no_ace_data <- data.frame(
+  diffs = c(matched_no_ace$slow$diffs, matched_no_ace$med$diffs, matched_no_ace$fast$diffs),
+  fossil_level = c(matched_no_ace$slow$fossil_level, matched_no_ace$med$fossil_level, matched_no_ace$fast$fossil_level),
+  rate = rep(c("slow", "med", "fast"), 
+             c(length(matched_no_ace$slow$diffs), length(matched_no_ace$med$diffs), length(matched_no_ace$fast$diffs))),
+  method = "No ACE"
 )
 
-abline(0, 1, col = "red", lty = 2, lwd = 2)
+combined_data <- rbind(plot_data, no_ace_data)
 
 
+# Set the order for fossil levels (low to high preservation, then all)
+level_order <- c("living", "fossil_low", "fossil_med", "fossil_high", "all")
 
+# Convert fossil_level to factor with specified order in your combined_data
+combined_data$fossil_level <- factor(combined_data$fossil_level, levels = level_order)
 
-create.lm.model <- function(matched, fossil) {
-    indices <- matched$fossil_level == fossil
-    estimated <- matched$estimated[indices]
-    true <- matched$true[indices]
-    model <- lm(estimated ~ true)
-    # Return a named list so you can use $all, $fossil_high, etc.
-    result <- list(estimated = estimated, true = true, model = model)
-    names(result) <- c("estimated", "true", "model")
-    return(result)
-}
-
-
-matched_sample_fossil_high <- create.lm.model(matched_sample$med, "fossil_low")
-matched_no_ace_fossil_high <- create.lm.model(matched_no_ace$med, "fossil_low")
-
-
-summary(matched_sample_fossil_high$model)
-summary(matched_no_ace_fossil_high$model)
-
-
-
-all_indices <- matched_sample$fossil_level == "all"
-matched_sample$all$estimated <- matched_sample$estimated[all_indices]
-matched_sample$all$true <- matched_sample$true[all_indices]
-
-all_indices <- matched_no_ace$fossil_level == "all"
-matched_no_ace$all$estimated <- matched_no_ace$estimated[all_indices]
-matched_no_ace$all$true <- matched_no_ace$true[all_indices]
+# Now your ridge plot will display in the correct order
+ggplot(combined_data, aes(x = diffs, y = interaction(fossil_level, method), fill = method)) +
+  geom_density_ridges(alpha = 0.7, scale = 1.2) +
+  geom_vline(xintercept = 0, color = "red", linetype = "dashed", size = 1) +
+  scale_fill_viridis_d(option = "plasma", end = 0.8) +
+  facet_wrap(~rate, scales = "free_x") +
+  theme_ridges() +
+  theme(legend.position = "bottom") +
+  labs(title = "Distribution of error in change in disparity",
+       x = "Estimation Error (Estimated - True)",
+       fill = "Method")
 
 
 
 
 
-all_model_sample <- lm(matched_sample$all$estimated ~ matched_sample$all$true)
-all_model_no_ace <- lm(matched_no_ace$all$estimated ~ matched_no_ace$all$true)
+# create.lm.model <- function(matched, fossil) {
+#     indices <- matched$fossil_level == fossil
+#     estimated <- matched$estimated[indices]
+#     true <- matched$true[indices]
+#     model <- lm(estimated ~ true)
+#     # Return a named list so you can use $all, $fossil_high, etc.
+#     result <- list(estimated = estimated, true = true, model = model)
+#     names(result) <- c("estimated", "true", "model")
+#     return(result)
+# }
+
+
+# matched_sample_fossil_high <- create.lm.model(matched_sample$med, "fossil_low")
+# matched_no_ace_fossil_high <- create.lm.model(matched_no_ace$med, "fossil_low")
+
+
+# summary(matched_sample_fossil_high$model)
+# summary(matched_no_ace_fossil_high$model)
+
+
+
+# all_indices <- matched_sample$fossil_level == "all"
+# matched_sample$all$estimated <- matched_sample$estimated[all_indices]
+# matched_sample$all$true <- matched_sample$true[all_indices]
+
+# all_indices <- matched_no_ace$fossil_level == "all"
+# matched_no_ace$all$estimated <- matched_no_ace$estimated[all_indices]
+# matched_no_ace$all$true <- matched_no_ace$true[all_indices]
+
+
+
+
+
+# all_model_sample <- lm(matched_sample$all$estimated ~ matched_sample$all$true)
+# all_model_no_ace <- lm(matched_no_ace$all$estimated ~ matched_no_ace$all$true)
 
 
 
@@ -594,6 +768,392 @@ legend("topleft",
        cex = 1.2,
        title = "Fossil Level")
 
+
+
+```
+
+# 50t with higher turnover and 
+
+```{R}
+
+
+# 50t
+```{R}
+rate_names <- c("slow", "med", "fast")
+
+# Load sample data (keep as is)
+sum_var_change_sample <- setNames(lapply(rate_names, function(rate) {
+    # Load all replicates first
+    all_reps <- lapply(1:100, function(rep) {
+            file_path <- sprintf("../Data/cluster/randomExtinction/disp/8115692_sample_sum_var_change_%03d.rds", rep)
+            data <- readRDS(file_path)
+            return(data[[rate]])
+    })
+}), rate_names
+)
+
+sum_var_change_strict <- setNames(lapply(rate_names, function(rate) {
+    # Load all replicates first
+    all_reps <- lapply(1:100, function(rep) {
+            file_path <- sprintf("../Data/cluster/randomExtinction/disp/8115692_strict_sum_var_change_%03d.rds", rep)
+            data <- readRDS(file_path)
+            return(data[[rate]])
+    })
+}), rate_names
+)
+
+sum_var_change_no_ace <- setNames(lapply(rate_names, function(rate) {
+    # Load all replicates first
+    all_reps <- lapply(1:100, function(rep) {
+            file_path <- sprintf("../Data/cluster/randomExtinction/disp/8115692_no_ace_sum_var_change_%03d.rds", rep)
+            data <- readRDS(file_path)
+            return(data[[rate]])
+    })
+}), rate_names
+)
+
+
+
+# Load true data (keep as is)
+sum_var_change_true <- setNames(lapply(rate_names, function(rate) {
+    lapply(1:100, function(rep) {
+        tryCatch({
+            file_path <- sprintf("../Data/cluster/randomExtinction/disp/8115692_true_sum_var_change_%03d.rds", rep)
+            data <- readRDS(file_path)
+            return(data[[rate]])
+        }, warning = function(w) {
+            NULL
+        })
+    })
+}), rate_names)
+
+
+
+
+# Calculate median on filtered sample data
+sum_var_change_sample_median <- lapply(sum_var_change_sample, function(rate_data) {
+    lapply(rate_data, function(replicate_data) {
+        # Apply median directly to each fossil level
+        result <- lapply(replicate_data, function(fossil_level_values) {
+            values <- unlist(fossil_level_values, use.names = FALSE)
+            return(median(values, na.rm = TRUE))
+        })
+        return(result)  # This ensures we return the fossil level list directly
+    })
+})
+
+sum_var_change_sample_unlist <- lapply(sum_var_change_sample, function(rate_data) {
+    lapply(rate_data, function(replicate_data) {
+        # Apply median directly to each fossil level
+        result <- lapply(replicate_data, function(fossil_level_values) {
+            values <- unlist(fossil_level_values, use.names = FALSE)
+            return(values)
+        })
+        return(result)  # This ensures we return the fossil level list directly
+    })
+})
+
+
+
+clean_sample <- lapply(sum_var_change_sample_unlist, lapply, function(x){
+    x[!sapply(x, is.null)]  # Keep only non-NULL elements
+})
+
+clean_no_ace <- lapply(sum_var_change_no_ace, lapply, function(x){
+    x[!sapply(x, is.null)]  # Keep only non-NULL elements
+})
+
+
+
+clean_strict <- lapply(sum_var_change_strict, lapply, function(x){
+    x[!sapply(x, is.null)]  # Keep only non-NULL elements
+})
+# 
+#Use filtered true data
+# sum_var_change_true <- sum_var_change_true_filtered
+
+# Your function should now work perfectly
+create.matched.data <- function(true, estimated) {
+    result <- list()
+    for(rate_name in names(estimated)) {
+        true_matched <- c()
+        est_matched <- c()
+        fossil_levels <- c()
+        for(rep in seq_along(estimated[[rate_name]])) {
+            true_val <- true[[rate_name]][[rep]]
+            est_rep_val <- estimated[[rate_name]][[rep]]
+            fossil_names <- names(est_rep_val)
+            # Loop over fossil levels
+            for(i in seq_along(est_rep_val)) {
+                est_vals <- est_rep_val[[i]]
+                n_est <- length(est_vals)
+                true_matched <- c(true_matched, rep(true_val, n_est))
+                est_matched <- c(est_matched, est_vals)
+                fossil_levels <- c(fossil_levels, rep(fossil_names[i], n_est))
+            }
+        }
+        result[[rate_name]] <- list(
+            true = true_matched,
+            estimated = est_matched,
+            fossil_level = fossil_levels
+        )
+    }
+    return(result)
+}
+matched_sample <- create.matched.data(sum_var_change_true, clean_sample)
+matched_no_ace <- create.matched.data(sum_var_change_true, clean_no_ace)
+matched_strict <- create.matched.data(sum_var_change_true, clean_strict)
+
+all_ace <- c(matched_sample$estimated, matched_no_ace$estimated)
+
+
+
+library(viridis)
+fossil_colors <- viridis(5, option = "plasma", direction = -1)
+names(fossil_colors) <- c("all", "fossil_high", "fossil_med", "fossil_low", "living")
+
+plot(
+  c(matched_sample$slow$true, matched_sample$med$true, matched_sample$fast$true),
+  c(matched_sample$slow$estimated, matched_sample$med$estimated, matched_sample$fast$estimated),
+  xlab = "True Disparity Change",
+  ylab = "Est Disparity Change",
+  main = "Disparity Change: No majority Rule vs True",
+  pch = 20,
+  col = fossil_colors[
+    c(matched_sample$slow$fossil_level, matched_sample$med$fossil_level, matched_sample$fast$fossil_level)
+  ],
+  cex = 1.7,
+  ylim = c(-0.6, 0.6)
+)
+
+# Add 1:1 reference line
+abline(0, 1, col = "red", lty = 2, lwd = 2)
+
+plot(c(matched_no_ace$slow$true, matched_no_ace$med$true, matched_no_ace$fast$true),
+  c(matched_no_ace$slow$estimated, matched_no_ace$med$estimated, matched_no_ace$fast$estimated),
+    xlab = "True Disparity Change",
+    ylab = "Estimated Disparity Change",
+    main = "Disparity Change: No ace vs True",
+    pch = 20, 
+    col = fossil_colors[
+    c(matched_no_ace$slow$fossil_level, matched_no_ace$med$fossil_level, matched_no_ace$fast$fossil_level)
+  ],
+    cex = 1.7,
+      ylim = c(-0.6, 0.6)
+)
+
+abline(0, 1, col = "red", lty = 2, lwd = 2)
+
+
+
+plot(c(matched_strict$slow$true, matched_strict$med$true, matched_strict$fast$true),
+  c(matched_strict$slow$estimated, matched_strict$med$estimated, matched_strict$fast$estimated),
+    xlab = "True Disparity Change",
+    ylab = "Estimated Disparity Change",
+    main = "Disparity Change: Strict majority vs True",
+    pch = 20, 
+    col = fossil_colors[
+    c(matched_strict$slow$fossil_level)
+  ],
+    cex = 1.7,
+      ylim = c(-0.6, 0.6)
+)
+
+abline(0, 1, col = "red", lty = 2, lwd = 2)
+
+
+```
+
+
+
+# 50t with higher turnover and rm axes and 10my subsets
+
+```{R}
+
+
+# 50t
+```{R}
+rate_names <- c("slow", "med", "fast")
+
+# Load sample data (keep as is)
+sum_var_change_sample <- setNames(lapply(rate_names, function(rate) {
+    # Load all replicates first
+    all_reps <- lapply(1:100, function(rep) {
+            file_path <- sprintf("../Data/cluster/randomExtinction/disp/8120770_sample_sum_var_change_%03d.rds", rep)
+            data <- readRDS(file_path)
+            return(data[[rate]])
+    })
+}), rate_names
+)
+
+sum_var_change_strict <- setNames(lapply(rate_names, function(rate) {
+    # Load all replicates first
+    all_reps <- lapply(1:100, function(rep) {
+            file_path <- sprintf("../Data/cluster/randomExtinction/disp/8120770_strict_sum_var_change_%03d.rds", rep)
+            data <- readRDS(file_path)
+            return(data[[rate]])
+    })
+}), rate_names
+)
+
+sum_var_change_no_ace <- setNames(lapply(rate_names, function(rate) {
+    # Load all replicates first
+    all_reps <- lapply(1:100, function(rep) {
+            file_path <- sprintf("../Data/cluster/randomExtinction/disp/8120770_no_ace_sum_var_change_%03d.rds", rep)
+            data <- readRDS(file_path)
+            return(data[[rate]])
+    })
+}), rate_names
+)
+
+
+
+# Load true data (keep as is)
+sum_var_change_true <- setNames(lapply(rate_names, function(rate) {
+    lapply(1:100, function(rep) {
+        tryCatch({
+            file_path <- sprintf("../Data/cluster/randomExtinction/disp/8120770_true_sum_var_change_%03d.rds", rep)
+            data <- readRDS(file_path)
+            return(data[[rate]])
+        }, warning = function(w) {
+            NULL
+        })
+    })
+}), rate_names)
+
+
+
+
+# Calculate median on filtered sample data
+sum_var_change_sample_median <- lapply(sum_var_change_sample, function(rate_data) {
+    lapply(rate_data, function(replicate_data) {
+        # Apply median directly to each fossil level
+        result <- lapply(replicate_data, function(fossil_level_values) {
+            values <- unlist(fossil_level_values, use.names = FALSE)
+            return(median(values, na.rm = TRUE))
+        })
+        return(result)  # This ensures we return the fossil level list directly
+    })
+})
+
+sum_var_change_sample_unlist <- lapply(sample_sum_var_change, function(rate_data) {
+    lapply(rate_data, function(replicate_data) {
+        # Apply median directly to each fossil level
+        result <- lapply(replicate_data, function(fossil_level_values) {
+            values <- unlist(fossil_level_values, use.names = FALSE)
+            return(values)
+        })
+        return(result)  # This ensures we return the fossil level list directly
+    })
+})
+
+
+
+clean_sample <- lapply(sum_var_change_sample_unlist, lapply, function(x){
+    x[!sapply(x, is.null)]  # Keep only non-NULL elements
+})
+
+clean_no_ace <- lapply(no_ace_sum_var_change, lapply, function(x){
+    x[!sapply(x, is.null)]  # Keep only non-NULL elements
+})
+
+
+
+clean_strict <- lapply(strict_sum_var_change, lapply, function(x){
+    x[!sapply(x, is.null)]  # Keep only non-NULL elements
+})
+# 
+#Use filtered true data
+# sum_var_change_true <- sum_var_change_true_filtered
+
+# Your function should now work perfectly
+create.matched.data <- function(true, estimated) {
+    result <- list()
+    for(rate_name in names(estimated)) {
+        true_matched <- c()
+        est_matched <- c()
+        fossil_levels <- c()
+        for(rep in seq_along(estimated[[rate_name]])) {
+            true_val <- true[[rate_name]][[rep]]
+            est_rep_val <- estimated[[rate_name]][[rep]]
+            fossil_names <- names(est_rep_val)
+            # Loop over fossil levels
+            for(i in seq_along(est_rep_val)) {
+                est_vals <- est_rep_val[[i]]
+                n_est <- length(est_vals)
+                true_matched <- c(true_matched, rep(true_val, n_est))
+                est_matched <- c(est_matched, est_vals)
+                fossil_levels <- c(fossil_levels, rep(fossil_names[i], n_est))
+            }
+        }
+        result[[rate_name]] <- list(
+            true = true_matched,
+            estimated = est_matched,
+            fossil_level = fossil_levels
+        )
+    }
+    return(result)
+}
+matched_sample <- create.matched.data(true_sum_var_change, clean_sample)
+matched_no_ace <- create.matched.data(true_sum_var_change, clean_no_ace)
+matched_strict <- create.matched.data(true_sum_var_change, clean_strict)
+
+all_ace <- c(matched_sample$estimated, matched_no_ace$estimated)
+
+
+
+library(viridis)
+fossil_colors <- viridis(5, option = "plasma", direction = -1)
+names(fossil_colors) <- c("all", "fossil_high", "fossil_med", "fossil_low", "living")
+
+plot(
+  c(matched_sample$slow$true, matched_sample$med$true, matched_sample$fast$true),
+  c(matched_sample$slow$estimated, matched_sample$med$estimated, matched_sample$fast$estimated),
+  xlab = "True Disparity Change",
+  ylab = "Est Disparity Change",
+  main = "Disparity Change: No majority Rule vs True",
+  pch = 20,
+  col = fossil_colors[
+    c(matched_sample$slow$fossil_level, matched_sample$med$fossil_level, matched_sample$fast$fossil_level)
+  ],
+  cex = 1.7,
+  ylim = c(-0.6, 0.6)
+)
+
+# Add 1:1 reference line
+abline(0, 1, col = "red", lty = 2, lwd = 2)
+
+plot(c(matched_no_ace$slow$true, matched_no_ace$med$true, matched_no_ace$fast$true),
+  c(matched_no_ace$slow$estimated, matched_no_ace$med$estimated, matched_no_ace$fast$estimated),
+    xlab = "True Disparity Change",
+    ylab = "Estimated Disparity Change",
+    main = "Disparity Change: No ace vs True",
+    pch = 20, 
+    col = fossil_colors[
+    c(matched_no_ace$slow$fossil_level, matched_no_ace$med$fossil_level, matched_no_ace$fast$fossil_level)
+  ],
+    cex = 1.7,
+      ylim = c(-0.6, 0.6)
+)
+
+abline(0, 1, col = "red", lty = 2, lwd = 2)
+
+
+
+plot(c(matched_strict$slow$true, matched_strict$med$true, matched_strict$fast$true),
+  c(matched_strict$slow$estimated, matched_strict$med$estimated, matched_strict$fast$estimated),
+    xlab = "True Disparity Change",
+    ylab = "Estimated Disparity Change",
+    main = "Disparity Change: Strict majority vs True",
+    pch = 20, 
+    col = fossil_colors[
+    c(matched_strict$slow$fossil_level)
+  ],
+    cex = 1.7,
+      ylim = c(-0.6, 0.6)
+)
+
+abline(0, 1, col = "red", lty = 2, lwd = 2)
 
 
 ```

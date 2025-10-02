@@ -1,0 +1,121 @@
+
+\documentclass[12pt,letterpaper]{article}
+\usepackage[a4paper, total={7in, 10in}]{geometry}
+\renewcommand{\familydefault}{\sfdefault}
+\usepackage{graphicx}
+\usepackage{helvet}
+\usepackage{authblk}
+\usepackage{hyperref}
+\usepackage{amsmath} 
+\usepackage{amssymb} 
+\usepackage{orcidlink} 
+\usepackage[super,comma,sort&compress]  
+   {natbib}\bibliographystyle{numbered}
+\usepackage[right]{lineno} \linenumbers
+
+
+\makeatletter
+\renewcommand{\maketitle}{\bgroup\setlength{\parindent}{0pt}
+\begin{flushleft}
+  \textbf{\@title}
+  
+  \@author
+\end{flushleft}\egroup}
+\makeatother
+
+%%%  Insert title below; leave date empty.
+
+\title{Title is a maximum of 145 characters, including spaces, and avoids the use of jargon and uncommon abbreviations}
+\date{}
+
+%%%  Author first and last names should be spelled 
+%%%  out in their entirety (do not abbreviate "J.H. 
+%%%  Watson" unless this is how the author's name 
+%%%  always appears). Middle initials are OK. Do 
+%%%  not include titles, positions, or degrees.
+
+%%%  Use numbered footnotes to indicate institutional 
+%%%  affiliations. Authors may have multiple 
+%%%  institutional affiliations, and affiliations 
+%%%  may be shared among multiple authors.
+
+%%%  After the institutional affiliations, numbered 
+%%%  footnotes may be used to indicate an author's 
+%%%  present address, equal contribution status, 
+%%%  and/or senior author status. 
+
+%%%  The final numbered footnote should indicate 
+%%%  which author is the lead contact (required). 
+%%%  One author must be designated as the lead contact. 
+%%%  There can be no more than one lead contact. 
+
+%%%  Corresponding authors should be indicated with 
+%%%  asterisks (*). Use 2 asterisks (**) for the 
+%%%  second-listed corresponding author, 3 (***) for 
+%%%  the third-listed, and so on. The lead contact 
+%%%  must be a corresponding author. Additional 
+%%%  authors may also serve as corresponding authors.
+
+\author[1,5,\orcidlink{0000-0000-0000-0000}]{First Last}
+\author[1,2,5]{First Middle Last}
+\author[2,3]{First M.M. Last}
+\author[3,*]{First Last, Jr.}
+\author[3,4,6,7,**]{F. Middle Last}
+
+
+%%%  Institutional affiliations should contain the 
+%%%  following information at minimum: department(s)/
+%%%  subunit(s), institution, city, state/region (if 
+%%%  applicable), and country. 
+
+\affil[1]{University A, London SW7 2AZ, UK}
+\affil[2]{Department B, University B, Toronto, ON M5S 3H6, Canada}
+\affil[3]{Division C, Department C, University C, Cambridge, MA, USA}
+
+\affil[4]{Present address: 123 Sesame Street, New York, NY, USA}
+\affil[5]{These authors contributed equally}
+\affil[6]{Senior author}
+\affil[7]{Lead contact}
+
+%%%  List only one email address per corresponding author.
+
+\affil[*]{Correspondence: first.last.jr@university.edu}
+\affil[**]{Correspondence: f.middle.last@university.edu}
+
+
+\begin{document}
+
+\maketitle
+
+\section*{SUMMARY}
+
+The summary (abstract) should consist of a single paragraph of 150 words or fewer.
+
+\section*{KEYWORDS}
+
+%%%  Include up to 10 keywords, separated by commas. 
+%%%  Keywords entered in EM are not carried over; only 
+%%%  keywords included in the main text will be used 
+%%%  in the final article metadata. Please note that 
+%%%  for some journals, keywords are chosen by the editors.
+
+
+
+\bibliography{references}
+
+
+
+\bigskip
+
+
+
+\newpage
+
+
+
+
+
+
+
+
+\end{document}

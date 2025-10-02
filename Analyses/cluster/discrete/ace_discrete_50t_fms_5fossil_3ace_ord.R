@@ -7,7 +7,7 @@ cat("Starting replicate", replicate_id, "\n")
 
 set.seed(100 + replicate_id)
 
-bd_params <- make.bd.params(speciation = 1, extinction = sample(c(0.25, 0.75), size = 1))
+bd_params <- make.bd.params(speciation = 1, extinction = 0.7)
 
 stop_rule <- list(max.living = 50)
 # set.seed(123)

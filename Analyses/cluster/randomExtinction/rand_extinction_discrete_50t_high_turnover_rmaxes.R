@@ -33,7 +33,7 @@ cat("Starting replicate", replicate_id, "\n")
 
 set.seed(100 + replicate_id) # set seed to change for each replicate
 
-bd_params <- make.bd.params(speciation = 1.0, extinction = 0.7)
+bd_params <- make.bd.params(speciation = 1.0, extinction = 0.6)
 
 stop_rule <- list(max.living = 50) # different tree sizes
 
@@ -351,6 +351,20 @@ ord_sample <- lapply(distances_sample, lapply, lapply, function(matrix) {
 
 cat("Ordinations completed...\n")
 
+
+remove.axes <- function(ord) {
+    select_axes <- ord[,1:48]
+    return(select_axes)
+}
+
+ord_rel <- lapply(ord_rel, lapply, remove.axes)
+ord_sample <- lapply(ord_sample, lapply, lapply, remove.axes)
+ord_strict <- lapply(ord_strict, lapply, remove.axes)
+ord_no_ace <- lapply(ord_no_ace, lapply, remove.axes)
+ord_true <- lapply(ord_true,  remove.axes)
+
+
+
 saveRDS(ord_no_ace, write.path("ord", "ord_no_ace_%03d.rds"))
 saveRDS(ord_true, write.path("ord", "ord_true_%03d.rds"))
 saveRDS(ord_rel, write.path("ord", "ord_rel_%03d.rds"))
@@ -390,33 +404,37 @@ sample_post_ord_ace <- lapply(post_ord_ace, lapply, function(x){
 })
 
 cat("Post ordination estimates completed...\n")
-
+point_post_ord_ace <- lapply(point_post_ord_ace, lapply,  remove.axes)
+sample_post_ord_ace <- lapply(sample_post_ord_ace, lapply, lapply,  remove.axes)
 
 saveRDS(point_post_ord_ace, write.path("ord", "post_ord_point_%03d.rds"))
 saveRDS(sample_post_ord_ace, write.path("ord", "post_ord_sample_%03d.rds"))
 
 
+
+
+
 cat("Post ordination estimates saved...\n")
 
 
-# ord_no_ace <- readRDS("../Data/cluster/randomExtinction/ord/rand_ext_ord_no_ace_007.rds")
-# ord_true <- readRDS("../Data/cluster/randomExtinction/ord/rand_ext_ord_true_007.rds")
+ord_no_ace <- readRDS("../Data/cluster/randomExtinction/ord/8120770_ord_no_ace_001.rds")
+ord_true <- readRDS("../Data/cluster/randomExtinction/ord/8120770_ord_true_001.rds")
 # ord_rel <- readRDS("../Data/cluster/randomExtinction/ord/rand_ext_ord_rel_007.rds")
 # sample_post_ord_ace <- readRDS("../Data/cluster/randomExtinction/ord/post_ord_ace_sample_007.rds")
-# ord_sample <- readRDS("../Data/cluster/randomExtinction/ord/rand_ext_ord_sample_007.rds")
+ord_sample <- readRDS("../Data/cluster/randomExtinction/ord/8120770_ord_sample_001.rds")
 # point_post_ord_ace <- readRDS("../Data/cluster/randomExtinction/ord/post_ord_ace_point_007.rds")
-# ord_strict <- readRDS("../Data/cluster/randomExtinction/ord/rand_ext_ord_strict_007.rds")
-# tree <- read.tree("../Data/cluster/randomExtinction/trees/rand_ext_tree_007.tre")
-# fossil_trees <- readRDS("../Data/cluster/randomExtinction/trees/rand_ext_fossil_tree_007.rds")
+ord_strict <- readRDS("../Data/cluster/randomExtinction/ord/8120770_ord_strict_001.rds")
+tree <- read.tree("../Data/cluster/randomExtinction/trees/8120770_rand_ext_tree_001.tre")
+fossil_trees <- readRDS("../Data/cluster/randomExtinction/trees/8120770_fossil_trees_001.rds")
 
 
 
 tip_ages <- tip.ages(tree)
 extinction_time <- find.extinction.time(tip_ages)
 
-
 tree_height <- max(node.depth.edgelength(tree))
-stage <- tree_height / 6 ## split the tree into 6 subsets
+stage <- tree_height / 8
+
 time_slices <- c(extinction_time + stage, extinction_time - 0.01,  (extinction_time - 0.01) - stage)
 
 chrono_subsets_strict <- lapply(names(ord_strict), function(rate) {

@@ -33,7 +33,7 @@ cat("Starting replicate", replicate_id, "\n")
 
 set.seed(100 + replicate_id) # set seed to change for each replicate
 
-bd_params <- make.bd.params(speciation = 1.0, extinction = 0.5)
+bd_params <- make.bd.params(speciation = 1.0, extinction = 0.7)
 
 stop_rule <- list(max.living = 100) # different tree sizes
 
@@ -57,7 +57,7 @@ repeat {
   tree <- treats(stop.rule = stop_rule, bd.params = bd_params, null.error = 100, events = random_extinction)
   n_tips <- length(tree$tip.label)
   
-  if(n_tips <= 300) {
+  if(n_tips <= 500) {
     cat("Tree found with", n_tips, "tips\n")
     break
   }
@@ -385,7 +385,9 @@ cat("Post ordination estimates saved...\n")
 tip_ages <- tip.ages(tree)
 extinction_time <- find.extinction.time(tip_ages)
 
-time_slices <- c(extinction_time + 20, extinction_time - 0.01,  (extinction_time - 0.01) - 20)
+tree_height <- max(node.depth.edgelength(tree))
+stage <- tree_height / 6 ## split the tree into 6 subsets
+time_slices <- c(extinction_time + stage, extinction_time - 0.01,  (extinction_time - 0.01) - stage)
 
 chrono_subsets_strict <- lapply(names(ord_strict), function(rate) {
   fossil_result <- lapply(names(ord_strict[[rate]]), function(fossil){ 
