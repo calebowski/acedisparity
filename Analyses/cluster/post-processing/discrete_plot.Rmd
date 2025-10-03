@@ -442,7 +442,7 @@ combined_ridge_plot <- ggplot(combined_data, aes(x = distance, y = preservation_
     rel_min_height = 0.01,
     size = 0.1
   ) +
-  geom_vline(xintercept = 0, color = "black", linewidth = 1.5, linetype = "dotted") +
+  geom_vline(xintercept = 0, color = "black", linewidth = 1.5, linetype = "dashed") +
   facet_grid(metric ~ threshold_method) +
   labs(
     x = "Relative Disparity Error",

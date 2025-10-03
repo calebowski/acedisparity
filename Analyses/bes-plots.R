@@ -938,7 +938,7 @@ selective_tree <- ladderize(extinction_trees[[67]])
 
 tree_to_plot_random <- extinction_trees[[24]]
 
-png(filename = "/home/caleb/Documents/PhD/confReview/extinctiontree.png", width = 10, height = 10, units = "in", res = 300, bg = "transparent")
+png(filename = "/home/caleb/Documents/PhD/confReview/extinctiontree.png", width = 10, height = 10, units = "in", res = 700, bg = "transparent")
 plot.phylo(selective_tree, edge.color = "darkorange", edge.width = 7, show.tip.label = FALSE)
 dev.off()
 
