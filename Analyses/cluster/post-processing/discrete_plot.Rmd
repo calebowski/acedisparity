@@ -28,179 +28,189 @@ rate_names <- c("slow", "med", "fast")
 
 
 # r <- readRDS("../Data/cluster/discrete/raw/diff_sumvar_strict_001.rds")
-
-sum_var_diff_strict <- setNames(lapply(rate_names, function(rate) {
+sum_var_diff_strict_50 <- setNames(lapply(rate_names, function(rate) {
     lapply(1:100, function(rep) {
-        file_path <- sprintf("../Data/cluster/discrete/clusterOut/raw_7905416_11_09/diff_sumvar_strict_%03d.rds", rep)
+        file_path <- sprintf("../Data/cluster/discrete/disparity/50t/raw/8218707_diff_sumvar_strict_%03d.rds", rep)
         data <- readRDS(file_path)
         return(data[[rate]])
     })
 }), rate_names)
 
-sum_var_diff_sample <- setNames(lapply(rate_names, function(rate) {
+sum_var_diff_sample_50 <- setNames(lapply(rate_names, function(rate) {
     lapply(1:100, function(rep) {
-        file_path <- sprintf("../Data/cluster/discrete/clusterOut/raw_7905416_11_09/diff_sumvar_sample_%03d.rds", rep)
+        file_path <- sprintf("../Data/cluster/discrete/disparity/50t/raw/8218707_diff_sumvar_sample_%03d.rds", rep)
+        data <- readRDS(file_path)
+        return(data[[rate]])
+    })
+}), rate_names)
+
+sum_var_diff_point_postord_50 <- setNames(lapply(rate_names, function(rate) {
+    lapply(1:100, function(rep) {
+        file_path <- sprintf("../Data/cluster/discrete/disparity/50t/raw/8218707_diff_sumvar_point_postord_%03d.rds", rep)
+        data <- readRDS(file_path)
+        return(data[[rate]])
+    })
+}), rate_names)
+
+sum_var_diff_sample_postord_50 <- setNames(lapply(rate_names, function(rate) {
+    lapply(1:100, function(rep) {
+        file_path <- sprintf("../Data/cluster/discrete/disparity/50t/raw/8218707_diff_sumvar_sample_postord_%03d.rds", rep)
+        data <- readRDS(file_path)
+        return(data[[rate]])
+    })
+}), rate_names)
+
+sum_var_diff_no_ace_50 <- setNames(lapply(rate_names, function(rate) {
+    lapply(1:100, function(rep) {
+        file_path <- sprintf("../Data/cluster/discrete/disparity/50t/raw/8218707_diff_sumvar_no_ace_%03d.rds", rep)
+        data <- readRDS(file_path)
+        return(data[[rate]])
+    })
+}), rate_names)
+
+sum_var_diff_strict_100 <- setNames(lapply(rate_names, function(rate) {
+    lapply(1:100, function(rep) {
+        file_path <- sprintf("../Data/cluster/discrete/disparity/100t/raw/8219416_diff_sumvar_strict_%03d.rds", rep)
+        data <- readRDS(file_path)
+        return(data[[rate]])
+    })
+}), rate_names)
+
+sum_var_diff_sample_100 <- setNames(lapply(rate_names, function(rate) {
+    lapply(1:100, function(rep) {
+        file_path <- sprintf("../Data/cluster/discrete/disparity/100t/raw/8219416_diff_sumvar_sample_%03d.rds", rep)
+        data <- readRDS(file_path)
+        return(data[[rate]])
+    })
+}), rate_names)
+
+sum_var_diff_point_postord_100 <- setNames(lapply(rate_names, function(rate) {
+    lapply(1:100, function(rep) {
+        file_path <- sprintf("../Data/cluster/discrete/disparity/100t/raw/8219416_diff_sumvar_point_postord_%03d.rds", rep)
+        data <- readRDS(file_path)
+        return(data[[rate]])
+    })
+}), rate_names)
+
+sum_var_diff_sample_postord_100 <- setNames(lapply(rate_names, function(rate) {
+    lapply(1:100, function(rep) {
+        file_path <- sprintf("../Data/cluster/discrete/disparity/100t/raw/8219416_diff_sumvar_sample_postord_%03d.rds", rep)
+        data <- readRDS(file_path)
+        return(data[[rate]])
+    })
+}), rate_names)
+
+sum_var_diff_no_ace_100 <- setNames(lapply(rate_names, function(rate) {
+    lapply(1:100, function(rep) {
+        file_path <- sprintf("../Data/cluster/discrete/disparity/100t/raw/8219416_diff_sumvar_no_ace_%03d.rds", rep)
         data <- readRDS(file_path)
         return(data[[rate]])
     })
 }), rate_names)
 
 
-sum_var_diff_rel <- setNames(lapply(rate_names, function(rate) {
+sum_quant_diff_strict_50 <- setNames(lapply(rate_names, function(rate) {
     lapply(1:100, function(rep) {
-        file_path <- sprintf("../Data/cluster/discrete/clusterOut/raw_7905416_11_09/diff_sumvar_rel_%03d.rds", rep)
+        file_path <- sprintf("../Data/cluster/discrete/disparity/50t/raw/8218707_diff_quant_strict_%03d.rds", rep)
         data <- readRDS(file_path)
         return(data[[rate]])
     })
 }), rate_names)
 
-sum_var_diff_no_ace <- setNames(lapply(rate_names, function(rate) {
+sum_quant_diff_sample_50 <- setNames(lapply(rate_names, function(rate) {
     lapply(1:100, function(rep) {
-        file_path <- sprintf("../Data/cluster/discrete/clusterOut/raw_7905416_11_09/diff_sumvar_no_ace_%03d.rds", rep)
+        file_path <- sprintf("../Data/cluster/discrete/disparity/50t/raw/8218707_diff_quant_sample_%03d.rds", rep)
         data <- readRDS(file_path)
         return(data[[rate]])
     })
 }), rate_names)
 
-sum_var_diff_point_postord <- setNames(lapply(rate_names, function(rate) {
+sum_quant_diff_point_postord_50 <- setNames(lapply(rate_names, function(rate) {
     lapply(1:100, function(rep) {
-        file_path <- sprintf("../Data/cluster/discrete/clusterOut/raw_7905416_11_09/diff_sumvar_point_postord_%03d.rds", rep)
+        file_path <- sprintf("../Data/cluster/discrete/disparity/50t/raw/8218707_diff_quant_point_postord_%03d.rds", rep)
         data <- readRDS(file_path)
         return(data[[rate]])
     })
 }), rate_names)
 
-
-sum_var_diff_sample_postord <- setNames(lapply(rate_names, function(rate) {
+sum_quant_diff_sample_postord_50 <- setNames(lapply(rate_names, function(rate) {
     lapply(1:100, function(rep) {
-        file_path <- sprintf("../Data/cluster/discrete/clusterOut/raw_7905416_11_09/diff_sumvar_sample_postord_%03d.rds", rep)
+        file_path <- sprintf("../Data/cluster/discrete/disparity/50t/raw/8218707_diff_quant_sample_postord_%03d.rds", rep)
         data <- readRDS(file_path)
         return(data[[rate]])
     })
 }), rate_names)
 
-saveRDS(sum_var_diff_strict, "../Data/processed/discrete/dispDiffs/sum_var_diff_strict.rds")
-saveRDS(sum_var_diff_sample, "../Data/processed/discrete/dispDiffs/sum_var_diff_sample.rds")
-saveRDS(sum_var_diff_rel, "../Data/processed/discrete/dispDiffs/sum_var_diff_rel.rds")
-saveRDS(sum_var_diff_no_ace, "../Data/processed/discrete/dispDiffs/sum_var_diff_no_ace.rds")
-saveRDS(sum_var_diff_point_postord, "../Data/processed/discrete/dispDiffs/sum_var_diff_point_postord.rds")
-saveRDS(sum_var_diff_sample_postord, "../Data/processed/discrete/dispDiffs/sum_var_diff_sample_postord.rds")
+sum_quant_diff_no_ace_50 <- setNames(lapply(rate_names, function(rate) {
+    lapply(1:100, function(rep) {
+        file_path <- sprintf("../Data/cluster/discrete/disparity/50t/raw/8218707_diff_quant_no_ace_%03d.rds", rep)
+        data <- readRDS(file_path)
+        return(data[[rate]])
+    })
+}), rate_names)
 
-
-
-
-
+# 100t data loading - Sum of quantiles (corrected filename)
 ########################################################################################################################
 
-neighbours_diff_strict <- setNames(lapply(rate_names, function(rate) {
+sum_quant_diff_strict_100 <- setNames(lapply(rate_names, function(rate) {
     lapply(1:100, function(rep) {
-        file_path <- sprintf("../Data/cluster/discrete/clusterOut/raw_7905416_11_09/diff_neighbours_strict_%03d.rds", rep)
+        file_path <- sprintf("../Data/cluster/discrete/disparity/100t/raw/8219416_diff_quant_strict_%03d.rds", rep)
         data <- readRDS(file_path)
         return(data[[rate]])
     })
 }), rate_names)
 
-neighbours_diff_sample <- setNames(lapply(rate_names, function(rate) {
+sum_quant_diff_sample_100 <- setNames(lapply(rate_names, function(rate) {
     lapply(1:100, function(rep) {
-        file_path <- sprintf("../Data/cluster/discrete/clusterOut/raw_7905416_11_09/diff_neighbours_sample_%03d.rds", rep)
+        file_path <- sprintf("../Data/cluster/discrete/disparity/100t/raw/8219416_diff_quant_sample_%03d.rds", rep)
         data <- readRDS(file_path)
         return(data[[rate]])
     })
 }), rate_names)
 
-
-neighbours_diff_rel <- setNames(lapply(rate_names, function(rate) {
+sum_quant_diff_point_postord_100 <- setNames(lapply(rate_names, function(rate) {
     lapply(1:100, function(rep) {
-        file_path <- sprintf("../Data/cluster/discrete/clusterOut/raw_7905416_11_09/diff_neighbours_rel_%03d.rds", rep)
+        file_path <- sprintf("../Data/cluster/discrete/disparity/100t/raw/8219416_diff_quant_point_postord_%03d.rds", rep)
         data <- readRDS(file_path)
         return(data[[rate]])
     })
 }), rate_names)
 
-neighbours_diff_no_ace <- setNames(lapply(rate_names, function(rate) {
+sum_quant_diff_sample_postord_100 <- setNames(lapply(rate_names, function(rate) {
     lapply(1:100, function(rep) {
-        file_path <- sprintf("../Data/cluster/discrete/clusterOut/raw_7905416_11_09/diff_neighbours_no_ace_%03d.rds", rep)
+        file_path <- sprintf("../Data/cluster/discrete/disparity/100t/raw/8219416_diff_quant_sample_postord_%03d.rds", rep)
         data <- readRDS(file_path)
         return(data[[rate]])
     })
 }), rate_names)
 
-neighbours_diff_point_postord <- setNames(lapply(rate_names, function(rate) {
+sum_quant_diff_no_ace_100 <- setNames(lapply(rate_names, function(rate) {
     lapply(1:100, function(rep) {
-        file_path <- sprintf("../Data/cluster/discrete/clusterOut/raw_7905416_11_09/diff_neighbours_point_postord_%03d.rds", rep)
+        file_path <- sprintf("../Data/cluster/discrete/disparity/100t/raw/8219416_diff_quant_no_ace_%03d.rds", rep)
         data <- readRDS(file_path)
         return(data[[rate]])
     })
 }), rate_names)
 
+combine_datasets_flat <- function(data_50, data_100) {
+  Map(function(rate_50, rate_100) {
+    # Flatten: concatenate the lists directly
+    c(rate_50, rate_100)
+  }, data_50, data_100)
+}
+# Sum of variances - combine 50t and 100t
+sum_var_diff_strict <- combine_datasets_flat(sum_var_diff_strict_50, sum_var_diff_strict_100)
+sum_var_diff_sample <- combine_datasets_flat(sum_var_diff_sample_50, sum_var_diff_sample_100)
+sum_var_diff_point_postord <- combine_datasets_flat(sum_var_diff_point_postord_50, sum_var_diff_point_postord_100)
+sum_var_diff_sample_postord <- combine_datasets_flat(sum_var_diff_sample_postord_50, sum_var_diff_sample_postord_100)
+sum_var_diff_no_ace <- combine_datasets_flat(sum_var_diff_no_ace_50, sum_var_diff_no_ace_100)
 
-neighbours_diff_sample_postord <- setNames(lapply(rate_names, function(rate) {
-    lapply(1:100, function(rep) {
-        file_path <- sprintf("../Data/cluster/discrete/clusterOut/raw_7905416_11_09/diff_neighbours_sample_postord_%03d.rds", rep)
-        data <- readRDS(file_path)
-        return(data[[rate]])
-    })
-}), rate_names)
-
-
-saveRDS(neighbours_diff_strict, "../Data/processed/discrete/dispDiffs/neighbours_diff_strict.rds")
-saveRDS(neighbours_diff_sample, "../Data/processed/discrete/dispDiffs/neighbours_diff_sample.rds")
-saveRDS(neighbours_diff_rel, "../Data/processed/discrete/dispDiffs/neighbours_diff_rel.rds")
-saveRDS(neighbours_diff_no_ace, "../Data/processed/discrete/dispDiffs/neighbours_diff_no_ace.rds")
-saveRDS(neighbours_diff_point_postord, "../Data/processed/discrete/dispDiffs/neighbours_diff_point_postord.rds")
-saveRDS(neighbours_diff_sample_postord, "../Data/processed/discrete/dispDiffs/neighbours_diff_sample_postord.rds")
-
-quantiles_diff_strict <- setNames(lapply(rate_names, function(rate) {
-    lapply(1:100, function(rep) {
-        file_path <- sprintf("../Data/cluster/discrete/clusterOut/raw_7905416_11_09/quant_strict_diff_%03d.rds", rep)
-        data <- readRDS(file_path)
-        return(data[[rate]])
-    })
-}), rate_names)
-
-quantiles_diff_sample <- setNames(lapply(rate_names, function(rate) {
-    lapply(1:100, function(rep) {
-        file_path <- sprintf("../Data/cluster/discrete/clusterOut/raw_7905416_11_09/quant_sample_diff_%03d.rds", rep)
-        data <- readRDS(file_path)
-        return(data[[rate]])
-    })
-}), rate_names)
-
-
-quantiles_diff_rel <- setNames(lapply(rate_names, function(rate) {
-    lapply(1:100, function(rep) {
-        file_path <- sprintf("../Data/cluster/discrete/clusterOut/raw_7905416_11_09/quant_rel_diff_%03d.rds", rep)
-        data <- readRDS(file_path)
-        return(data[[rate]])
-    })
-}), rate_names)
-
-quantiles_diff_no_ace <- setNames(lapply(rate_names, function(rate) {
-    lapply(1:100, function(rep) {
-        file_path <- sprintf("../Data/cluster/discrete/clusterOut/raw_7905416_11_09/quant_no_ace_diff_%03d.rds", rep)
-        data <- readRDS(file_path)
-        return(data[[rate]])
-    })
-}), rate_names)
-
-quantiles_diff_point_postord <- setNames(lapply(rate_names, function(rate) {
-    lapply(1:100, function(rep) {
-        file_path <- sprintf("../Data/cluster/discrete/clusterOut/raw_7905416_11_09/quant_point_postord_diff_%03d.rds", rep)
-        data <- readRDS(file_path)
-        return(data[[rate]])
-    })
-}), rate_names)
-
-
-quantiles_diff_sample_postord <- setNames(lapply(rate_names, function(rate) {
-    lapply(1:100, function(rep) {
-        file_path <- sprintf("../Data/cluster/discrete/clusterOut/raw_7905416_11_09/quant_sample_postord_diff_%03d.rds", rep)
-        data <- readRDS(file_path)
-        return(data[[rate]])
-    })
-}), rate_names)
-
-
+# Sum of quantiles - combine 50t and 100t
+sum_quant_diff_strict <- combine_datasets_flat(sum_quant_diff_strict_50, sum_quant_diff_strict_100)
+sum_quant_diff_sample <- combine_datasets_flat(sum_quant_diff_sample_50, sum_quant_diff_sample_100)
+sum_quant_diff_point_postord <- combine_datasets_flat(sum_quant_diff_point_postord_50, sum_quant_diff_point_postord_100)
+sum_quant_diff_sample_postord <- combine_datasets_flat(sum_quant_diff_sample_postord_50, sum_quant_diff_sample_postord_100)
+sum_quant_diff_no_ace <- combine_datasets_flat(sum_quant_diff_no_ace_50, sum_quant_diff_no_ace_100)
 
 
 ```
@@ -260,7 +270,7 @@ neighbours_data <- do.call(rbind, lapply(c("neighbours_diff_strict", "neighbours
 }))
 
 # Fix quantiles_data:
-quantiles_data <- do.call(rbind, lapply(c("quantiles_diff_strict", "quantiles_diff_sample", "quantiles_diff_point_postord", "quantiles_diff_sample_postord", "quantiles_diff_no_ace"), function(dataset_name) {
+quantiles_data <- do.call(rbind, lapply(c("sum_quant_diff_strict", "sum_quant_diff_sample", "sum_quant_diff_point_postord", "sum_quant_diff_sample_postord", "sum_quant_diff_no_ace"), function(dataset_name) {
   dataset <- get(dataset_name)
   do.call(rbind, lapply(names(dataset), function(level) {
     do.call(rbind, lapply(seq_along(dataset[[level]]), function(replicate_index) {
@@ -286,53 +296,53 @@ quantiles_data <- do.call(rbind, lapply(c("quantiles_diff_strict", "quantiles_di
 # Combine both datasets
 combined_data <- rbind(quantiles_data, sum_var_data)
 
-# Factor the variables
-combined_data$threshold_method <- factor(combined_data$threshold_method, 
-                                       levels = c("sum_var_diff_strict", "sum_var_diff_sample", "sum_var_diff_point_postord", "sum_var_diff_sample_postord", "sum_var_diff_no_ace"), 
-                                       labels = c("Strict majority rule", "No majority rule (sample)", "Post-ord ACE (point)", "Post-ord ACE (sample)", "No ACE"))
+# # Factor the variables
+# combined_data$threshold_method <- factor(combined_data$threshold_method, 
+#                                        levels = c("sum_var_diff_strict", "sum_var_diff_sample", "sum_var_diff_point_postord", "sum_var_diff_sample_postord", "sum_var_diff_no_ace"), 
+#                                        labels = c("Strict majority rule", "No majority rule (sample)", "Post-ord ACE (point)", "Post-ord ACE (sample)", "No ACE"))
 
-combined_data$preservation_level <- factor(combined_data$preservation_level, 
-                                         levels = c("living", "low", "mid", "high", "all"))
+# combined_data$preservation_level <- factor(combined_data$preservation_level, 
+#                                          levels = c("living", "low", "mid", "high", "all"))
 
-combined_data$metric <- factor(combined_data$metric, 
-                             levels = c( "Sum of quantiles", "Sum of Variances"))
-
-
-colours <- c("slow" = "#8805A8", "med" = "#00B945", "fast" = "#FFB600")
-
-combined_plot_no_rel <- ggplot(combined_data, aes(x = preservation_level, y = distance, color = level, fill = level)) +
-  geom_boxplot(
-    alpha = 0.7,
-    outlier.size = 0.5,
-    outlier.alpha = 0.6,
-    position = position_dodge(width = 0.8)
-  ) +
-  geom_hline(yintercept = 0, color = "black", linewidth = 0.6, linetype = "dashed") +
-  facet_grid(metric ~ threshold_method) +  # 2 rows (metrics) × 5 columns (methods)
-  labs(
-    x = "Fossil sampling",
-    y = "Relative disparity error",
-    color = "Transition Rate",
-    fill = "Transition Rate"
-  ) +
-  theme_minimal() +
-  scale_color_manual(values = colours) +
-  scale_fill_manual(values = colours) + 
-  theme(
-    axis.text = element_text(size = 10, face = "bold"),
-    axis.title = element_text(size = 12, face = "bold"),
-    axis.ticks = element_line(size = 1),
-    legend.position = "bottom",
-    panel.grid = element_blank(),
-    strip.text = element_text(size = 10, face = "bold"),
-    strip.background = element_rect(color = "black", fill = "white", linewidth = 0.5),
-    panel.border = element_rect(color = "black", fill = NA, linewidth = 0.5)
-  ) +
-  coord_trans(y = "pseudo_log") +
-  scale_y_reverse()
+# combined_data$metric <- factor(combined_data$metric, 
+#                              levels = c( "Sum of quantiles", "Sum of Variances"))
 
 
-ggsave("../Manuscript/figures/overall_combined_7904947_no_rel.png", combined_plot_no_rel, width = 12, height = 8, dpi = 700, bg = "white")
+# colours <- c("slow" = "#8805A8", "med" = "#00B945", "fast" = "#FFB600")
+
+# combined_plot_no_rel <- ggplot(combined_data, aes(x = preservation_level, y = distance, color = level, fill = level)) +
+#   geom_boxplot(
+#     alpha = 0.7,
+#     outlier.size = 0.5,
+#     outlier.alpha = 0.6,
+#     position = position_dodge(width = 0.8)
+#   ) +
+#   geom_hline(yintercept = 0, color = "black", linewidth = 0.6, linetype = "dashed") +
+#   facet_grid(metric ~ threshold_method) +  # 2 rows (metrics) × 5 columns (methods)
+#   labs(
+#     x = "Fossil sampling",
+#     y = "Relative disparity error",
+#     color = "Transition Rate",
+#     fill = "Transition Rate"
+#   ) +
+#   theme_minimal() +
+#   scale_color_manual(values = colours) +
+#   scale_fill_manual(values = colours) + 
+#   theme(
+#     axis.text = element_text(size = 10, face = "bold"),
+#     axis.title = element_text(size = 12, face = "bold"),
+#     axis.ticks = element_line(size = 1),
+#     legend.position = "bottom",
+#     panel.grid = element_blank(),
+#     strip.text = element_text(size = 10, face = "bold"),
+#     strip.background = element_rect(color = "black", fill = "white", linewidth = 0.5),
+#     panel.border = element_rect(color = "black", fill = NA, linewidth = 0.5)
+#   ) +
+#   coord_trans(y = "pseudo_log") +
+#   scale_y_reverse()
+
+
+# ggsave("../Manuscript/figures/overall_combined_7904947_no_rel.png", combined_plot_no_rel, width = 12, height = 8, dpi = 700, bg = "white")
 
 ```
 
@@ -349,8 +359,10 @@ library(scales)
 combined_data <- rbind(quantiles_data, sum_var_data)
 
 combined_data$threshold_method <- factor(combined_data$threshold_method, 
-                                       levels = c("sum_var_diff_strict", "sum_var_diff_sample", "sum_var_diff_point_postord", "sum_var_diff_sample_postord", "sum_var_diff_no_ace"), 
-                                       labels = c("Pre-ord ACE (point)", "Pre-ord ACE (dist)", "Post-ord ACE (point)", "Post-ord ACE (dist)", "No ACE"))
+                                       levels = c("sum_var_diff_strict", "sum_var_diff_sample", "sum_var_diff_point_postord", "sum_var_diff_sample_postord", "sum_var_diff_no_ace",
+                                                  "sum_quant_diff_strict", "sum_quant_diff_sample", "sum_quant_diff_point_postord", "sum_quant_diff_sample_postord", "sum_quant_diff_no_ace"), 
+                                       labels = c("Pre-ord ACE (point)", "Pre-ord ACE (dist)", "Post-ord ACE (point)", "Post-ord ACE (dist)", "No ACE",
+                                                  "Pre-ord ACE (point)", "Pre-ord ACE (dist)", "Post-ord ACE (point)", "Post-ord ACE (dist)", "No ACE"))
 
 combined_data$preservation_level <- factor(combined_data$preservation_level, 
                                          levels = c("living", "low", "mid", "high", "all"),
@@ -445,7 +457,7 @@ combined_ridge_plot <- ggplot(combined_data, aes(x = distance, y = preservation_
   geom_vline(xintercept = 0, color = "black", linewidth = 1.5, linetype = "dashed") +
   facet_grid(metric ~ threshold_method) +
   labs(
-    x = "Relative Disparity Error",
+    x = "Relative overall disparity error",
     y = NULL,
     fill = NULL,
     title = NULL,
@@ -456,9 +468,10 @@ combined_ridge_plot <- ggplot(combined_data, aes(x = distance, y = preservation_
   theme(
     axis.text = element_text(size = 14, color = "black"),
     axis.text.x = element_text(angle = 0),
-    axis.title.y = element_blank(),
+    axis.title.y = element_text(size = 16, face = "bold"),
     axis.title.x = element_text(size = 18, face = "bold", color = "black"),
     plot.title = element_blank(),
+    strip.text.y = element_text(face = "bold", size = 14),
     plot.subtitle = element_blank(),
     legend.position = "none",
     strip.text = element_blank(),
