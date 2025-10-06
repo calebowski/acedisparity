@@ -1015,7 +1015,7 @@ for(t in time_bins) {
 }
 
 # Create less pronounced disparity pattern: moderate difference before/after 69 Ma
-extinction_time <- 69
+extinction_time <- 66
 disparity_through_time$disparity <- ifelse(
   disparity_through_time$time > extinction_time,
   # Before extinction: moderately high disparity
@@ -1039,21 +1039,35 @@ plot(selective_tree, edge.color = "darkorange", edge.width = 3,
 # axisPhylo(side = 1, backward = FALSE)
 
 # Plot 2: Minimal disparity through time
-par(mar = c(5, 5, 1, 1))
-plot(disparity_through_time$time, disparity_through_time$disparity, 
-     type = "l",  # Line only, no points
-     col = "red",
-     lwd = 4,
-     xlab = "Time (Ma)", 
-     ylab = "Morphological Disparity",
-     cex.lab = 1.9,
-     cex.axis = 1.3,
-     xlim = rev(range(disparity_through_time$time)),  # Reverse x-axis
-     bty = "l",  # Only left and bottom axes
-     xaxt = "n", yaxt = "n")  # Remove default axes
+par(mar = c(7, 7, 2, 2))
 
-# Add custom minimal axes
-axis(1, cex.axis = 1.5, lwd = 2)  # Bottom axis
-axis(2, cex.axis = 1.5, lwd = 2)  # Left axis
+png("disparity_plot.png", width = 12, height = 10, units = "in", res = 300, bg = "transparent")
+# ... your plot code ...
+par(mar = c(7, 7, 2, 2))
+
+plot(disparity_through_time$time, disparity_through_time$disparity, 
+     type = "l",
+     col = "#00ff8cff",
+     lwd = 20,
+     xlab = "Time (Ma)", 
+     ylab = "Disparity",
+     cex.lab = 4,
+     cex.axis =7,
+     xlim = rev(range(disparity_through_time$time)),
+     ylim = range(disparity_through_time$disparity),
+     bty = "n",  # Remove default box
+     xaxt = "n", yaxt = "n")
+
+# Add custom thick axes that span the full plot area
+# Get the actual plot limits
+x_lims <- par("usr")[1:2]
+y_lims <- par("usr")[3:4]
+abline(v = 66, col = "red", lty = 2, lwd = 8)
+# Draw thick axis lines manually
+lines(c(x_lims[1], x_lims[2]), c(y_lims[1], y_lims[1]), lwd = 22, col = "black")  # x-axis
+lines(c(x_lims[1], x_lims[1]), c(y_lims[1], y_lims[2]), lwd = 22, col = "black")  # y-axis
+
+# Add axis labels and tick marks
+# axis(1, cex.axis = 2.5, lwd = 0, lwd.ticks = 5, tcl = -0.3, padj = 0.5)  # tcl controls tick length, padj adjusts label position
 
 dev.off()
