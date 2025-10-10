@@ -11,60 +11,34 @@ editor_options:
 ---
 
 
-
-# Load data
-
-## 50t, 100t 
+# 50t
 ```{R}
 rate_names <- c("slow", "med", "fast")
 
-rate_names <- c("slow", "med", "fast")
-
-########################################################################################################################
-# 50t data loading
-########################################################################################################################
-
-# Sum of variances
+# Load sample data (keep as is)
 sum_var_change_sample_50 <- setNames(lapply(rate_names, function(rate) {
+    # Load all replicates first
     all_reps <- lapply(1:100, function(rep) {
-        file_path <- sprintf("../Data/cluster/randomExtinction/disp/8122585_sample_sum_var_change_%03d.rds", rep)
-        data <- readRDS(file_path)
-        return(data[[rate]])
+            file_path <- sprintf("../Data/cluster/randomExtinction/disp/8122585_sample_sum_var_change_%03d.rds", rep)
+            data <- readRDS(file_path)
+            return(data[[rate]])
     })
-}), rate_names)
-
-sum_var_change_strict_50 <- setNames(lapply(rate_names, function(rate) {
-    all_reps <- lapply(1:100, function(rep) {
-        file_path <- sprintf("../Data/cluster/randomExtinction/disp/8122585_strict_sum_var_change_%03d.rds", rep)
-        data <- readRDS(file_path)
-        return(data[[rate]])
-    })
-}), rate_names)
-
-sum_var_change_point_postord_50 <- setNames(lapply(rate_names, function(rate) {
-    all_reps <- lapply(1:100, function(rep) {
-        file_path <- sprintf("../Data/cluster/randomExtinction/disp/8122585_point_postord_sum_var_change_%03d.rds", rep)
-        data <- readRDS(file_path)
-        return(data[[rate]])
-    })
-}), rate_names)
-
-sum_var_change_sample_postord_50 <- setNames(lapply(rate_names, function(rate) {
-    all_reps <- lapply(1:100, function(rep) {
-        file_path <- sprintf("../Data/cluster/randomExtinction/disp/8122585_sample_postord_sum_var_change_%03d.rds", rep)
-        data <- readRDS(file_path)
-        return(data[[rate]])
-    })
-}), rate_names)
+}), rate_names
+)
 
 sum_var_change_no_ace_50 <- setNames(lapply(rate_names, function(rate) {
+    # Load all replicates first
     all_reps <- lapply(1:100, function(rep) {
-        file_path <- sprintf("../Data/cluster/randomExtinction/disp/8122585_no_ace_sum_var_change_%03d.rds", rep)
-        data <- readRDS(file_path)
-        return(data[[rate]])
+            file_path <- sprintf("../Data/cluster/randomExtinction/disp/8122585_no_ace_sum_var_change_%03d.rds", rep)
+            data <- readRDS(file_path)
+            return(data[[rate]])
     })
-}), rate_names)
+}), rate_names
+)
 
+
+
+# Load true data (keep as is)
 sum_var_change_true_50 <- setNames(lapply(rate_names, function(rate) {
     lapply(1:100, function(rep) {
         tryCatch({
@@ -77,294 +51,34 @@ sum_var_change_true_50 <- setNames(lapply(rate_names, function(rate) {
     })
 }), rate_names)
 
-########################################################################################################################
-# 100t data loading - Sum of variances
-########################################################################################################################
 
-sum_var_change_sample_100 <- setNames(lapply(rate_names, function(rate) {
-    all_reps <- lapply(1:100, function(rep) {
-        file_path <- sprintf("../Data/cluster/randomExtinction/disp/8140859_sample_sum_var_change_%03d.rds", rep)
-        data <- readRDS(file_path)
-        return(data[[rate]])
-    })
-}), rate_names)
 
-sum_var_change_strict_100 <- setNames(lapply(rate_names, function(rate) {
-    all_reps <- lapply(1:100, function(rep) {
-        file_path <- sprintf("../Data/cluster/randomExtinction/disp/8140859_strict_sum_var_change_%03d.rds", rep)
-        data <- readRDS(file_path)
-        return(data[[rate]])
-    })
-}), rate_names)
 
-sum_var_change_point_postord_100 <- setNames(lapply(rate_names, function(rate) {
-    all_reps <- lapply(1:100, function(rep) {
-        file_path <- sprintf("../Data/cluster/randomExtinction/disp/8140859_point_postord_sum_var_change_%03d.rds", rep)
-        data <- readRDS(file_path)
-        return(data[[rate]])
-    })
-}), rate_names)
-
-sum_var_change_sample_postord_100 <- setNames(lapply(rate_names, function(rate) {
-    all_reps <- lapply(1:100, function(rep) {
-        file_path <- sprintf("../Data/cluster/randomExtinction/disp/8140859_sample_postord_sum_var_change_%03d.rds", rep)
-        data <- readRDS(file_path)
-        return(data[[rate]])
-    })
-}), rate_names)
-
-sum_var_change_no_ace_100 <- setNames(lapply(rate_names, function(rate) {
-    all_reps <- lapply(1:100, function(rep) {
-        file_path <- sprintf("../Data/cluster/randomExtinction/disp/8140859_no_ace_sum_var_change_%03d.rds", rep)
-        data <- readRDS(file_path)
-        return(data[[rate]])
-    })
-}), rate_names)
-
-sum_var_change_true_100 <- setNames(lapply(rate_names, function(rate) {
-    lapply(1:100, function(rep) {
-        tryCatch({
-            file_path <- sprintf("../Data/cluster/randomExtinction/disp/8140859_true_sum_var_change_%03d.rds", rep)
-            data <- readRDS(file_path)
-            return(data[[rate]])
-        }, warning = function(w) {
-            NULL
+sum_var_change_sample_unlist_50 <- lapply(sum_var_change_sample_50, function(rate_data) {
+    lapply(rate_data, function(replicate_data) {
+        # Apply median directly to each fossil level
+        result <- lapply(replicate_data, function(fossil_level_values) {
+            values <- unlist(fossil_level_values, use.names = FALSE)
+            return(values)
         })
+        return(result)  # This ensures we return the fossil level list directly
     })
-}), rate_names)
-
-########################################################################################################################
-# 50t data loading - Sum of quantiles
-########################################################################################################################
-
-sum_quant_change_sample_50 <- setNames(lapply(rate_names, function(rate) {
-    all_reps <- lapply(1:100, function(rep) {
-        file_path <- sprintf("../Data/cluster/randomExtinction/disp/8122585_sample_sum_quant_change_%03d.rds", rep)
-        data <- readRDS(file_path)
-        return(data[[rate]])
-    })
-}), rate_names)
-
-sum_quant_change_strict_50 <- setNames(lapply(rate_names, function(rate) {
-    all_reps <- lapply(1:100, function(rep) {
-        file_path <- sprintf("../Data/cluster/randomExtinction/disp/8122585_strict_sum_quant_change_%03d.rds", rep)
-        data <- readRDS(file_path)
-        return(data[[rate]])
-    })
-}), rate_names)
-
-sum_quant_change_point_postord_50 <- setNames(lapply(rate_names, function(rate) {
-    all_reps <- lapply(1:100, function(rep) {
-        file_path <- sprintf("../Data/cluster/randomExtinction/disp/8122585_point_postord_sum_quant_change_%03d.rds", rep)
-        data <- readRDS(file_path)
-        return(data[[rate]])
-    })
-}), rate_names)
-
-sum_quant_change_sample_postord_50 <- setNames(lapply(rate_names, function(rate) {
-    all_reps <- lapply(1:100, function(rep) {
-        file_path <- sprintf("../Data/cluster/randomExtinction/disp/8122585_sample_postord_sum_quant_change_%03d.rds", rep)
-        data <- readRDS(file_path)
-        return(data[[rate]])
-    })
-}), rate_names)
-
-sum_quant_change_no_ace_50 <- setNames(lapply(rate_names, function(rate) {
-    all_reps <- lapply(1:100, function(rep) {
-        file_path <- sprintf("../Data/cluster/randomExtinction/disp/8122585_no_ace_sum_quant_change_%03d.rds", rep)
-        data <- readRDS(file_path)
-        return(data[[rate]])
-    })
-}), rate_names)
-
-sum_quant_change_true_50 <- setNames(lapply(rate_names, function(rate) {
-    lapply(1:100, function(rep) {
-        tryCatch({
-            file_path <- sprintf("../Data/cluster/randomExtinction/disp/8122585_true_sum_quant_change_%03d.rds", rep)
-            data <- readRDS(file_path)
-            return(data[[rate]])
-        }, warning = function(w) {
-            NULL
-        })
-    })
-}), rate_names)
-
-########################################################################################################################
-# 100t data loading - Sum of quantiles
-########################################################################################################################
-
-sum_quant_change_sample_100 <- setNames(lapply(rate_names, function(rate) {
-    all_reps <- lapply(1:100, function(rep) {
-        file_path <- sprintf("../Data/cluster/randomExtinction/disp/8140859_sample_sum_quant_change_%03d.rds", rep)
-        data <- readRDS(file_path)
-        return(data[[rate]])
-    })
-}), rate_names)
-
-sum_quant_change_strict_100 <- setNames(lapply(rate_names, function(rate) {
-    all_reps <- lapply(1:100, function(rep) {
-        file_path <- sprintf("../Data/cluster/randomExtinction/disp/8140859_strict_sum_quant_change_%03d.rds", rep)
-        data <- readRDS(file_path)
-        return(data[[rate]])
-    })
-}), rate_names)
-
-sum_quant_change_point_postord_100 <- setNames(lapply(rate_names, function(rate) {
-    all_reps <- lapply(1:100, function(rep) {
-        file_path <- sprintf("../Data/cluster/randomExtinction/disp/8140859_point_postord_sum_quant_change_%03d.rds", rep)
-        data <- readRDS(file_path)
-        return(data[[rate]])
-    })
-}), rate_names)
-
-sum_quant_change_sample_postord_100 <- setNames(lapply(rate_names, function(rate) {
-    all_reps <- lapply(1:100, function(rep) {
-        file_path <- sprintf("../Data/cluster/randomExtinction/disp/8140859_sample_postord_sum_quant_change_%03d.rds", rep)
-        data <- readRDS(file_path)
-        return(data[[rate]])
-    })
-}), rate_names)
-
-sum_quant_change_no_ace_100 <- setNames(lapply(rate_names, function(rate) {
-    all_reps <- lapply(1:100, function(rep) {
-        file_path <- sprintf("../Data/cluster/randomExtinction/disp/8140859_no_ace_sum_quant_change_%03d.rds", rep)
-        data <- readRDS(file_path)
-        return(data[[rate]])
-    })
-}), rate_names)
-
-sum_quant_change_true_100 <- setNames(lapply(rate_names, function(rate) {
-    lapply(1:100, function(rep) {
-        tryCatch({
-            file_path <- sprintf("../Data/cluster/randomExtinction/disp/8140859_true_sum_quant_change_%03d.rds", rep)
-            data <- readRDS(file_path)
-            return(data[[rate]])
-        }, warning = function(w) {
-            NULL
-        })
-    })
-}), rate_names)
-
-########################################################################################################################
-# 50t data loading - Displacement
-########################################################################################################################
-
-displacement_change_sample_50 <- setNames(lapply(rate_names, function(rate) {
-    all_reps <- lapply(1:100, function(rep) {
-        file_path <- sprintf("../Data/cluster/randomExtinction/disp/8122585_sample_displacement_change_%03d.rds", rep)
-        data <- readRDS(file_path)
-        return(data[[rate]])
-    })
-}), rate_names)
-
-displacement_change_strict_50 <- setNames(lapply(rate_names, function(rate) {
-    all_reps <- lapply(1:100, function(rep) {
-        file_path <- sprintf("../Data/cluster/randomExtinction/disp/8122585_strict_displacement_change_%03d.rds", rep)
-        data <- readRDS(file_path)
-        return(data[[rate]])
-    })
-}), rate_names)
-
-displacement_change_point_postord_50 <- setNames(lapply(rate_names, function(rate) {
-    all_reps <- lapply(1:100, function(rep) {
-        file_path <- sprintf("../Data/cluster/randomExtinction/disp/8122585_point_postord_displacement_change_%03d.rds", rep)
-        data <- readRDS(file_path)
-        return(data[[rate]])
-    })
-}), rate_names)
-
-displacement_change_sample_postord_50 <- setNames(lapply(rate_names, function(rate) {
-    all_reps <- lapply(1:100, function(rep) {
-        file_path <- sprintf("../Data/cluster/randomExtinction/disp/8122585_sample_postord_displacement_change_%03d.rds", rep)
-        data <- readRDS(file_path)
-        return(data[[rate]])
-    })
-}), rate_names)
-
-displacement_change_no_ace_50 <- setNames(lapply(rate_names, function(rate) {
-    all_reps <- lapply(1:100, function(rep) {
-        file_path <- sprintf("../Data/cluster/randomExtinction/disp/8122585_no_ace_displacement_change_%03d.rds", rep)
-        data <- readRDS(file_path)
-        return(data[[rate]])
-    })
-}), rate_names)
-
-displacement_change_true_50 <- setNames(lapply(rate_names, function(rate) {
-    lapply(1:100, function(rep) {
-        tryCatch({
-            file_path <- sprintf("../Data/cluster/randomExtinction/disp/8122585_true_displacement_change_%03d.rds", rep)
-            data <- readRDS(file_path)
-            return(data[[rate]])
-        }, warning = function(w) {
-            NULL
-        })
-    })
-}), rate_names)
-
-########################################################################################################################
-# 100t data loading - Displacement
-########################################################################################################################
-
-displacement_change_sample_100 <- setNames(lapply(rate_names, function(rate) {
-    all_reps <- lapply(1:100, function(rep) {
-        file_path <- sprintf("../Data/cluster/randomExtinction/disp/8140859_sample_displacement_change_%03d.rds", rep)
-        data <- readRDS(file_path)
-        return(data[[rate]])
-    })
-}), rate_names)
-
-displacement_change_strict_100 <- setNames(lapply(rate_names, function(rate) {
-    all_reps <- lapply(1:100, function(rep) {
-        file_path <- sprintf("../Data/cluster/randomExtinction/disp/8140859_strict_displacement_change_%03d.rds", rep)
-        data <- readRDS(file_path)
-        return(data[[rate]])
-    })
-}), rate_names)
-
-displacement_change_point_postord_100 <- setNames(lapply(rate_names, function(rate) {
-    all_reps <- lapply(1:100, function(rep) {
-        file_path <- sprintf("../Data/cluster/randomExtinction/disp/8140859_point_postord_displacement_change_%03d.rds", rep)
-        data <- readRDS(file_path)
-        return(data[[rate]])
-    })
-}), rate_names)
-
-displacement_change_sample_postord_100 <- setNames(lapply(rate_names, function(rate) {
-    all_reps <- lapply(1:100, function(rep) {
-        file_path <- sprintf("../Data/cluster/randomExtinction/disp/8140859_sample_postord_displacement_change_%03d.rds", rep)
-        data <- readRDS(file_path)
-        return(data[[rate]])
-    })
-}), rate_names)
-
-displacement_change_no_ace_100 <- setNames(lapply(rate_names, function(rate) {
-    all_reps <- lapply(1:100, function(rep) {
-        file_path <- sprintf("../Data/cluster/randomExtinction/disp/8140859_no_ace_displacement_change_%03d.rds", rep)
-        data <- readRDS(file_path)
-        return(data[[rate]])
-    })
-}), rate_names)
-
-displacement_change_true_100 <- setNames(lapply(rate_names, function(rate) {
-    lapply(1:100, function(rep) {
-        tryCatch({
-            file_path <- sprintf("../Data/cluster/randomExtinction/disp/8140859_true_displacement_change_%03d.rds", rep)
-            data <- readRDS(file_path)
-            return(data[[rate]])
-        }, warning = function(w) {
-            NULL
-        })
-    })
-}), rate_names)
+})
 
 
-```
 
-# Clean and match data
+clean_sample_50 <- lapply(sum_var_change_sample_unlist_50, lapply, function(x){
+    x[!sapply(x, is.null)]  # Keep only non-NULL elements
+})
 
-This cleans the data of any NULL results (due to too low fossil sampling). eg in living. And then matches the true change to estimated change
+clean_no_ace_50 <- lapply(sum_var_change_no_ace_50, lapply, function(x){
+    x[!sapply(x, is.null)]  # Keep only non-NULL elements
+})
 
-```{R}
+# Use filtered true data
+# sum_var_change_true <- sum_var_change_true_filtered
+
+# Your function should now work perfectly
 create.matched.data <- function(true, estimated) {
     result <- list()
     for(rate_name in names(estimated)) {
@@ -393,464 +107,22 @@ create.matched.data <- function(true, estimated) {
     return(result)
 }
 
-# sum_var_change_sample_unlist_50 <- lapply(sum_var_change_sample_50, function(rate_data) {
-#     lapply(rate_data, function(replicate_data) {
-#         # Apply median directly to each fossil level
-#         result <- lapply(replicate_data, function(fossil_level_values) {
-#             values <- unlist(fossil_level_values, use.names = FALSE)
-#             return(values)
-#         })
-#         return(result)  # This ensures we return the fossil level list directly
-#     })
-# })
 
-sum_quant_change_sample_unlist_50 <- lapply(sum_quant_change_sample_50, lapply, lapply, unlist, use.names = FALSE)
-sum_quant_change_sample_unlist_100 <- lapply(sum_quant_change_sample_100, lapply, lapply, unlist, use.names = FALSE)
-sum_var_change_sample_unlist_50 <- lapply(sum_var_change_sample_50, lapply, lapply, unlist, use.names = FALSE)
-sum_var_change_sample_unlist_100 <- lapply(sum_var_change_sample_100, lapply, lapply, unlist, use.names = FALSE)
-displacement_change_sample_unlist_50 <- lapply(displacement_change_sample_50, lapply, lapply, unlist, use.names = FALSE)
-displacement_change_sample_unlist_100 <- lapply(displacement_change_sample_100, lapply, lapply, unlist, use.names = FALSE)
-sum_var_change_sample_postord_unlist_50 <- lapply(sum_var_change_sample_postord_50, lapply, lapply, unlist, use.names = FALSE)
-sum_var_change_sample_postord_unlist_100 <- lapply(sum_var_change_sample_postord_100, lapply, lapply, unlist, use.names = FALSE)
-sum_quant_change_sample_postord_unlist_50 <- lapply(sum_quant_change_sample_postord_50, lapply, lapply, unlist, use.names = FALSE)
-sum_quant_change_sample_postord_unlist_100 <- lapply(sum_quant_change_sample_postord_100, lapply, lapply, unlist, use.names = FALSE)
-displacement_change_sample_postord_unlist_50 <- lapply(displacement_change_sample_postord_50, lapply, lapply, unlist, use.names = FALSE)
-displacement_change_sample_postord_unlist_100 <- lapply(displacement_change_sample_postord_100, lapply, lapply, unlist, use.names = FALSE)
+matched_sample_50 <- create.matched.data(sum_var_change_true_50, clean_sample_50)
+matched_no_ace_50 <- create.matched.data(sum_var_change_true_50, clean_no_ace_50)
 
 
-# Clean all datasets (remove NULLs)
-# Sum of variances
-sum_var_clean_sample_50 <- lapply(sum_var_change_sample_unlist_50, lapply, function(x) x[!sapply(x, is.null)])
-sum_var_clean_sample_100 <- lapply(sum_var_change_sample_unlist_100, lapply, function(x) x[!sapply(x, is.null)])
-sum_var_clean_strict_50 <- lapply(sum_var_change_strict_50, lapply, function(x) x[!sapply(x, is.null)])
-sum_var_clean_strict_100 <- lapply(sum_var_change_strict_100, lapply, function(x) x[!sapply(x, is.null)])
-sum_var_clean_point_postord_50 <- lapply(sum_var_change_point_postord_50, lapply, function(x) x[!sapply(x, is.null)])
-sum_var_clean_point_postord_100 <- lapply(sum_var_change_point_postord_100, lapply, function(x) x[!sapply(x, is.null)])
-sum_var_clean_sample_postord_50 <- lapply(sum_var_change_sample_postord_unlist_50, lapply, function(x) x[!sapply(x, is.null)])
-sum_var_clean_sample_postord_100 <- lapply(sum_var_change_sample_postord_unlist_100, lapply, function(x) x[!sapply(x, is.null)])
-sum_var_clean_no_ace_50 <- lapply(sum_var_change_no_ace_50, lapply, function(x) x[!sapply(x, is.null)])
-sum_var_clean_no_ace_100 <- lapply(sum_var_change_no_ace_100, lapply, function(x) x[!sapply(x, is.null)])
 
-# Sum of quantiles
-sum_quant_clean_sample_50 <- lapply(sum_quant_change_sample_unlist_50, lapply, function(x) x[!sapply(x, is.null)])
-sum_quant_clean_sample_100 <- lapply(sum_quant_change_sample_unlist_100, lapply, function(x) x[!sapply(x, is.null)])
-sum_quant_clean_strict_50 <- lapply(sum_quant_change_strict_50, lapply, function(x) x[!sapply(x, is.null)])
-sum_quant_clean_strict_100 <- lapply(sum_quant_change_strict_100, lapply, function(x) x[!sapply(x, is.null)])
-sum_quant_clean_point_postord_50 <- lapply(sum_quant_change_point_postord_50, lapply, function(x) x[!sapply(x, is.null)])
-sum_quant_clean_point_postord_100 <- lapply(sum_quant_change_point_postord_100, lapply, function(x) x[!sapply(x, is.null)])
-sum_quant_clean_sample_postord_50 <- lapply(sum_quant_change_sample_postord_unlist_50, lapply, function(x) x[!sapply(x, is.null)])
-sum_quant_clean_sample_postord_100 <- lapply(sum_quant_change_sample_postord_unlist_100, lapply, function(x) x[!sapply(x, is.null)])
-sum_quant_clean_no_ace_50 <- lapply(sum_quant_change_no_ace_50, lapply, function(x) x[!sapply(x, is.null)])
-sum_quant_clean_no_ace_100 <- lapply(sum_quant_change_no_ace_100, lapply, function(x) x[!sapply(x, is.null)])
 
-# Displacement
-displacement_clean_sample_50 <- lapply(displacement_change_sample_unlist_50, lapply, function(x) x[!sapply(x, is.null)])
-displacement_clean_sample_100 <- lapply(displacement_change_sample_unlist_100, lapply, function(x) x[!sapply(x, is.null)])
-displacement_clean_strict_50 <- lapply(displacement_change_strict_50, lapply, function(x) x[!sapply(x, is.null)])
-displacement_clean_strict_100 <- lapply(displacement_change_strict_100, lapply, function(x) x[!sapply(x, is.null)])
-displacement_clean_point_postord_50 <- lapply(displacement_change_point_postord_50, lapply, function(x) x[!sapply(x, is.null)])
-displacement_clean_point_postord_100 <- lapply(displacement_change_point_postord_100, lapply, function(x) x[!sapply(x, is.null)])
-displacement_clean_sample_postord_50 <- lapply(displacement_change_sample_postord_unlist_50, lapply, function(x) x[!sapply(x, is.null)])
-displacement_clean_sample_postord_100 <- lapply(displacement_change_sample_postord_unlist_100, lapply, function(x) x[!sapply(x, is.null)])
-displacement_clean_no_ace_50 <- lapply(displacement_change_no_ace_50, lapply, function(x) x[!sapply(x, is.null)])
-displacement_clean_no_ace_100 <- lapply(displacement_change_no_ace_100, lapply, function(x) x[!sapply(x, is.null)])
+# Calculate differences for sample method
+matched_sample_50$slow$diffs  <- matched_sample_50$slow$estimated - matched_sample_50$slow$true
+matched_sample_50$med$diffs   <- matched_sample_50$med$estimated - matched_sample_50$med$true
+matched_sample_50$fast$diffs  <- matched_sample_50$fast$estimated - matched_sample_50$fast$true
 
-# Create matched data for all methods
-# Sum of variances
-sum_var_matched_sample_50 <- create.matched.data(sum_var_change_true_50, sum_var_clean_sample_50)
-sum_var_matched_sample_100 <- create.matched.data(sum_var_change_true_100, sum_var_clean_sample_100)
-sum_var_matched_strict_50 <- create.matched.data(sum_var_change_true_50, sum_var_clean_strict_50)
-sum_var_matched_strict_100 <- create.matched.data(sum_var_change_true_100, sum_var_clean_strict_100)
-sum_var_matched_point_postord_50 <- create.matched.data(sum_var_change_true_50, sum_var_clean_point_postord_50)
-sum_var_matched_point_postord_100 <- create.matched.data(sum_var_change_true_100, sum_var_clean_point_postord_100)
-sum_var_matched_sample_postord_50 <- create.matched.data(sum_var_change_true_50, sum_var_clean_sample_postord_50)
-sum_var_matched_sample_postord_100 <- create.matched.data(sum_var_change_true_100, sum_var_clean_sample_postord_100)
-sum_var_matched_no_ace_50 <- create.matched.data(sum_var_change_true_50, sum_var_clean_no_ace_50)
-sum_var_matched_no_ace_100 <- create.matched.data(sum_var_change_true_100, sum_var_clean_no_ace_100)
-
-# Sum of quantiles
-sum_quant_matched_sample_50 <- create.matched.data(sum_quant_change_true_50, sum_quant_clean_sample_50)
-sum_quant_matched_sample_100 <- create.matched.data(sum_quant_change_true_100, sum_quant_clean_sample_100)
-sum_quant_matched_strict_50 <- create.matched.data(sum_quant_change_true_50, sum_quant_clean_strict_50)
-sum_quant_matched_strict_100 <- create.matched.data(sum_quant_change_true_100, sum_quant_clean_strict_100)
-sum_quant_matched_point_postord_50 <- create.matched.data(sum_quant_change_true_50, sum_quant_clean_point_postord_50)
-sum_quant_matched_point_postord_100 <- create.matched.data(sum_quant_change_true_100, sum_quant_clean_point_postord_100)
-sum_quant_matched_sample_postord_50 <- create.matched.data(sum_quant_change_true_50, sum_quant_clean_sample_postord_50)
-sum_quant_matched_sample_postord_100 <- create.matched.data(sum_quant_change_true_100, sum_quant_clean_sample_postord_100)
-sum_quant_matched_no_ace_50 <- create.matched.data(sum_quant_change_true_50, sum_quant_clean_no_ace_50)
-sum_quant_matched_no_ace_100 <- create.matched.data(sum_quant_change_true_100, sum_quant_clean_no_ace_100)
-
-# Displacement
-displacement_matched_sample_50 <- create.matched.data(displacement_change_true_50, displacement_clean_sample_50)
-displacement_matched_sample_100 <- create.matched.data(displacement_change_true_100, displacement_clean_sample_100)
-displacement_matched_strict_50 <- create.matched.data(displacement_change_true_50, displacement_clean_strict_50)
-displacement_matched_strict_100 <- create.matched.data(displacement_change_true_100, displacement_clean_strict_100)
-displacement_matched_point_postord_50 <- create.matched.data(displacement_change_true_50, displacement_clean_point_postord_50)
-displacement_matched_point_postord_100 <- create.matched.data(displacement_change_true_100, displacement_clean_point_postord_100)
-displacement_matched_sample_postord_50 <- create.matched.data(displacement_change_true_50, displacement_clean_sample_postord_50)
-displacement_matched_sample_postord_100 <- create.matched.data(displacement_change_true_100, displacement_clean_sample_postord_100)
-displacement_matched_no_ace_50 <- create.matched.data(displacement_change_true_50, displacement_clean_no_ace_50)
-displacement_matched_no_ace_100 <- create.matched.data(displacement_change_true_100, displacement_clean_no_ace_100)
-
-
-
-combine_datasets <- function(data_50, data_100) {
-  Map(function(rate_50, rate_100) {
-    Map(function(treatment_50, treatment_100) {
-      c(treatment_50, treatment_100)
-    }, rate_50, rate_100)
-  }, data_50, data_100)
-}
-
-# Sum of variances
-sum_var_matched_sample <- combine_datasets(sum_var_matched_sample_50, sum_var_matched_sample_100)
-sum_var_matched_strict <- combine_datasets(sum_var_matched_strict_50, sum_var_matched_strict_100)
-sum_var_matched_point_postord <- combine_datasets(sum_var_matched_point_postord_50, sum_var_matched_point_postord_100)
-sum_var_matched_sample_postord <- combine_datasets(sum_var_matched_sample_postord_50, sum_var_matched_sample_postord_100)
-sum_var_matched_no_ace <- combine_datasets(sum_var_matched_no_ace_50, sum_var_matched_no_ace_100)
-
-# Sum of quantiles
-sum_quant_matched_sample <- combine_datasets(sum_quant_matched_sample_50, sum_quant_matched_sample_100)
-sum_quant_matched_strict <- combine_datasets(sum_quant_matched_strict_50, sum_quant_matched_strict_100)
-sum_quant_matched_point_postord <- combine_datasets(sum_quant_matched_point_postord_50, sum_quant_matched_point_postord_100)
-sum_quant_matched_sample_postord <- combine_datasets(sum_quant_matched_sample_postord_50, sum_quant_matched_sample_postord_100)
-sum_quant_matched_no_ace <- combine_datasets(sum_quant_matched_no_ace_50, sum_quant_matched_no_ace_100)
-
-# Displacement
-displacement_matched_sample <- combine_datasets(displacement_matched_sample_50, displacement_matched_sample_100)
-displacement_matched_strict <- combine_datasets(displacement_matched_strict_50, displacement_matched_strict_100)
-displacement_matched_point_postord <- combine_datasets(displacement_matched_point_postord_50, displacement_matched_point_postord_100)
-displacement_matched_sample_postord <- combine_datasets(displacement_matched_sample_postord_50, displacement_matched_sample_postord_100)
-displacement_matched_no_ace <- combine_datasets(displacement_matched_no_ace_50, displacement_matched_no_ace_100)
-
-calculate.diffs <- function(matched_data) {
-  lapply(matched_data, function(rate_data) {
-    rate_data$diffs <- rate_data$estimated - rate_data$true
-    return(rate_data)
-  })
-}
-
-# calculate.diffs.sign <- function(matched_data) {
-#   lapply(matched_data, function(rate_data) {
-#     # Assuming rate_data is a list of "estimated" and "true" vectors
-#     rate_data$diffs <- rate_data$estimated - rate_data$true
-#     rate_data$wrong_dir <- sign(rate_data$estimated) != sign(rate_data$true)
-    
-#     # Keep only entries where direction is wrong
-#     rate_data$estimated <- rate_data$estimated[rate_data$wrong_dir]
-#     rate_data$true <- rate_data$true[rate_data$wrong_dir]
-#     rate_data$diffs <- rate_data$diffs[rate_data$wrong_dir]
-    
-#     return(rate_data)
-#   })
-# }
-
-# Apply to all datasets
-all_matched_datasets <- list(
-  sum_var_matched_sample, sum_var_matched_strict, sum_var_matched_point_postord, 
-  sum_var_matched_sample_postord, sum_var_matched_no_ace,
-  sum_quant_matched_sample, sum_quant_matched_strict, sum_quant_matched_point_postord, 
-  sum_quant_matched_sample_postord, sum_quant_matched_no_ace,
-  displacement_matched_sample, displacement_matched_strict, displacement_matched_point_postord, 
-  displacement_matched_sample_postord, displacement_matched_no_ace
-)
-
-# Calculate diffs for all
-all_matched_datasets <- lapply(all_matched_datasets, calculate.diffs)
-list2env(setNames(all_matched_datasets, c(
-  "sum_var_matched_sample", "sum_var_matched_strict", "sum_var_matched_point_postord", 
-  "sum_var_matched_sample_postord", "sum_var_matched_no_ace",
-  "sum_quant_matched_sample", "sum_quant_matched_strict", "sum_quant_matched_point_postord", 
-  "sum_quant_matched_sample_postord", "sum_quant_matched_no_ace",
-  "displacement_matched_sample", "displacement_matched_strict", "displacement_matched_point_postord", 
-  "displacement_matched_sample_postord", "displacement_matched_no_ace"
-)), envir = .GlobalEnv)
-
-
-library(ggridges)
-library(ggplot2)
-library(tidyr)
-
-# Create data for all three metrics and all methods
-create_ridge_data <- function(matched_data, metric_name) {
-  data.frame(
-    diffs = c(matched_data$slow$diffs, matched_data$med$diffs, matched_data$fast$diffs),
-    fossil_level = c(matched_data$slow$fossil_level, matched_data$med$fossil_level, matched_data$fast$fossil_level),
-    rate = rep(c("slow", "med", "fast"), 
-               c(length(matched_data$slow$diffs), length(matched_data$med$diffs), length(matched_data$fast$diffs))),
-    metric = metric_name
-  )
-}
-
-# Combine all data for all methods
-sample_data_all <- rbind(
-  create_ridge_data(sum_var_matched_sample, "Sum of Variances"),
-  create_ridge_data(sum_quant_matched_sample, "Sum of Quantiles"),
-  create_ridge_data(displacement_matched_sample, "Displacement")
-)
-sample_data_all$method <- "Pre-ord ACE (dist)"
-
-strict_data_all <- rbind(
-  create_ridge_data(sum_var_matched_strict, "Sum of Variances"),
-  create_ridge_data(sum_quant_matched_strict, "Sum of Quantiles"), 
-  create_ridge_data(displacement_matched_strict, "Displacement")
-)
-strict_data_all$method <- "Pre-ord ACE (point)"
-
-point_postord_data_all <- rbind(
-  create_ridge_data(sum_var_matched_point_postord, "Sum of Variances"),
-  create_ridge_data(sum_quant_matched_point_postord, "Sum of Quantiles"), 
-  create_ridge_data(displacement_matched_point_postord, "Displacement")
-)
-point_postord_data_all$method <- "Post-ord ACE (point)"
-
-sample_postord_data_all <- rbind(
-  create_ridge_data(sum_var_matched_sample_postord, "Sum of Variances"),
-  create_ridge_data(sum_quant_matched_sample_postord, "Sum of Quantiles"), 
-  create_ridge_data(displacement_matched_sample_postord, "Displacement")
-)
-sample_postord_data_all$method <- "Post-ord ACE (dist)"
-
-no_ace_data_all <- rbind(
-  create_ridge_data(sum_var_matched_no_ace, "Sum of Variances"),
-  create_ridge_data(sum_quant_matched_no_ace, "Sum of Quantiles"), 
-  create_ridge_data(displacement_matched_no_ace, "Displacement")
-)
-no_ace_data_all$method <- "No ACE"
-
-# Combine all methods
-combined_ridge_data <- rbind(sample_data_all, strict_data_all, point_postord_data_all, 
-                            sample_postord_data_all, no_ace_data_all)
-
-# Filter out living data and set factor levels
-level_order <- c("fossil_low", "fossil_med", "fossil_high", "all")
-combined_ridge_data_filtered <- combined_ridge_data[combined_ridge_data$fossil_level != "living", ]
-combined_ridge_data_filtered$fossil_level <- factor(combined_ridge_data_filtered$fossil_level, 
-                                                   levels = level_order,
-                                                   labels = c("5%", "15%", "50%", "100%"))
-
-combined_ridge_data_filtered$metric <- factor(combined_ridge_data_filtered$metric, 
-                                             levels = c("Sum of Variances", "Sum of Quantiles", "Displacement"))
-
-combined_ridge_data_filtered$method <- factor(combined_ridge_data_filtered$method,
-                                             levels = c("Pre-ord ACE (point)", "Pre-ord ACE (dist)", 
-                                                       "Post-ord ACE (point)", "Post-ord ACE (dist)", "No ACE"))
-
-# Color scheme
-colours <- c("slow" = "#8805A8", "med" = "#00B945", "fast" = "#FFB600")
-
-# combined_ridge_data_filtered <- combined_ridge_data_filtered %>%
-#   group_by(method) %>%
-#   mutate(weight_method = 1 / n()) %>%  # weight = 1 / total points in method
-# #   ungroup()
-
-# randext_ridge_plot <- ggplot(combined_ridge_data_filtered, aes(x = diffs, y = fossil_level, fill = rate)) +
-#   geom_density_ridges(
-#   alpha = 0.7,
-#   scale = 1,          # controls how tall ridges are relative to each other
-#   rel_min_height = 0.001
-# ) +
-#   geom_vline(xintercept = 0, color = "black", linewidth = 0.6, linetype = "dashed") +
-#   facet_grid(metric ~ method) +
-#   labs(
-#     x = "Estimation Error",
-#     y = NULL,
-#     fill = NULL,
-#     title = NULL,
-#     subtitle = NULL
-#   ) +
-#   theme_minimal() +
-#   scale_fill_manual(values = colours) + 
-#   theme(
-#     axis.text = element_text(size = 14, color = "black"),
-#     axis.text.x = element_text(angle = 0),
-#     axis.title.y = element_blank(),
-#     axis.title.x = element_text(size = 18, face = "bold", color = "black"),
-#     plot.title = element_blank(),
-#     plot.subtitle = element_blank(),
-#     legend.position = "none",
-#     strip.text = element_text(size = 12, face = "bold", color = "black"),  # Add this back
-#     strip.background = element_rect(fill = "white", color = "black"),      # Optional: add background
-#     panel.border = element_rect(color = "black", fill = NA, linewidth = 0.4),
-#     panel.grid = element_blank(),
-#     panel.spacing = unit(0.7, "cm"),
-#     plot.margin = margin(20, 20, 20, 20),
-#     panel.background = element_rect(fill = NA, color = NA),
-#     plot.background = element_rect(fill = NA, color = NA)
-#   ) +
-#   scale_x_continuous(
-#     breaks = c(-1.0, -0.5, 0, 0.5, 1.0),
-#     labels = c("-1.0", "-0.5", "0", "0.5", "1.0"),
-#     expand = expansion(mult = c(0.02, 0.02))
-#   ) +
-#   coord_cartesian(xlim = c(-1, 1.0)) +
-#   scale_y_discrete(expand = expansion(mult = c(0, 0.1)))
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# plot_data <- data.frame(
-#   diffs = c(matched_sample$slow$diffs, matched_sample$med$diffs, matched_sample$fast$diffs),
-#   fossil_level = c(matched_sample$slow$fossil_level, matched_sample$med$fossil_level, matched_sample$fast$fossil_level),
-#   rate = rep(c("slow", "med", "fast"), 
-#              c(length(matched_sample$slow$diffs), length(matched_sample$med$diffs), length(matched_sample$fast$diffs))),
-#   method = "Sample ACE"
-# )
-
-
-
-
-
-
-
-
-# Create data for all three metrics - Sample ACE only
-sample_data_all <- rbind(
-    create_ridge_data(sum_quant_matched_sample, "Sum of quantiles"),
-    create_ridge_data(sum_var_matched_sample, "Sum of variances"),
-    create_ridge_data(displacement_matched_sample, "Average displacement")
-)
-sample_data_all$method <- "Pre-ord ACE (dist)"
-
-# Create data for all three metrics - No ACE only
-no_ace_data_all <- rbind(
-      create_ridge_data(sum_quant_matched_no_ace, "Sum of quantiles"), 
-  create_ridge_data(sum_var_matched_no_ace, "Sum of variances"),
-  create_ridge_data(displacement_matched_no_ace, "Average displacement")
-)
-no_ace_data_all$method <- "No ACE"
-
-# Combine just these two methods
-combined_ridge_data <- rbind(sample_data_all, no_ace_data_all)
-
-# Filter out living data and set factor levels
-level_order <- c("fossil_low", "fossil_med", "fossil_high", "all")
-combined_ridge_data_filtered <- combined_ridge_data[combined_ridge_data$fossil_level != "living", ]
-combined_ridge_data_filtered$fossil_level <- factor(combined_ridge_data_filtered$fossil_level, 
-                                                   levels = level_order,
-                                                   labels = c("5%", "15%", "50%", "100%"))
-
-combined_ridge_data_filtered$metric <- factor(combined_ridge_data_filtered$metric, 
-                                             levels = c("Sum of quantiles", "Sum of variances", "Average displacement"))
-
-combined_ridge_data_filtered$method <- factor(combined_ridge_data_filtered$method,
-                                             levels = c("Pre-ord ACE (dist)", "No ACE"))
-
-
-bw_table <- combined_ridge_data_filtered %>%  ### need to calculate bandwidth per treatment, due to different sample sizes
-  group_by(method, metric, rate) %>%
-  summarise(
-    n_points = n(),
-    sd_diffs = sd(diffs, na.rm = TRUE),
-    bw = 1.06 * sd_diffs * n_points^(-1/5),
-    .groups = "drop"
-  )
-
-
-# Color scheme
-colours <- c("slow" = "#8805A8", "med" = "#00B945", "fast" = "#FFB600")
-
-# Create the ridge plot for just sample vs no ace
-ridge_data <- combined_ridge_data_filtered %>%
-  left_join(bw_table, by = c("method", "metric", "rate"))
-
-ridge_data_grouped <- ridge_data %>%
-  group_by(method, metric, rate) %>%
-  mutate(bw_group = first(bw)) %>%   # pick one bw per group
-  ungroup()
-
-
-# Corrected ggplot call
-rand_ext_ridge <- ggplot(ridge_data, aes(x = diffs, y = fossil_level, fill = rate)) +
-  geom_density_ridges(
-    alpha = 0.7,
-    scale = 1,
-    rel_min_height = 0.001,
-    size = 0.1
-    # The line 'stat = "density"' has been removed
-  ) +
-  facet_grid(metric ~ method + rate) +
-  labs(
-    x = "Relative change in disparity error",
-    y = "Fossil sampling",
-    fill = NULL
-  ) +
-  scale_fill_manual(values = c("slow" = "#8805A8", "med" = "#00B945", "fast" = "#FFB600")) +
-  theme_minimal(base_size = 14) +
-  geom_vline(xintercept = 0, color = "black", linewidth = 0.6, linetype = "dashed") +
-  theme(
-    axis.text = element_text(size = 14, color = "black"),
-    axis.text.x = element_text(angle = 0),
-    axis.title.y = element_blank(),
-    axis.title.x = element_text(size = 18, face = "bold", color = "black"),
-    plot.title = element_blank(),
-    strip.text.y = element_text(face = "bold", size = 14),
-    plot.subtitle = element_blank(),
-    legend.position = "none",
-    strip.text = element_blank(),
-    strip.background = element_blank(),
-    panel.border = element_rect(color = "black", fill = NA, linewidth = 0.4),
-    panel.grid = element_blank(),
-    panel.spacing = unit(0.7, "cm"),
-    plot.margin = margin(20, 20, 20, 20),
-    panel.background = element_rect(fill = NA, color = NA),  # Make panel transparent
-    plot.background = element_rect(fill = NA, color = NA)
-  ) +
-  scale_x_continuous(
-    breaks = c(-0.5, 0, 0.5),
-    labels = c("-0.5", "0", "0.5")
-  ) +
-  coord_cartesian(xlim = c(-0.5, 0.5)) 
-
-# This should now run without error
-print(rand_ext_ridge)
-
-
-# Save the plot
-ggsave("../Manuscript/figures/rand_ext_ridge_pre_ord_no_ace.png", 
-       rand_ext_ridge, 
-       width = 11, height = 8, dpi = 700, bg = "transparent")
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+# Calculate differences for no_ace method
+matched_no_ace_50$slow$diffs  <- matched_no_ace_50$slow$estimated - matched_no_ace_50$slow$true
+matched_no_ace_50$med$diffs   <- matched_no_ace_50$med$estimated - matched_no_ace_50$med$true
+matched_no_ace_50$fast$diffs  <- matched_no_ace_50$fast$estimated - matched_no_ace_50$fast$true
 
 
 
@@ -1027,7 +299,7 @@ sum_var_change_true_100 <- setNames(lapply(rate_names, function(rate) {
 #         return(result)  
 #     })
 # })
-sum_var_change_sample_unlist_100 <- lapply(sum_var_change_sample, function(rate_data) {
+sum_var_change_sample_unlist_100 <- lapply(sum_var_change_sample_100, function(rate_data) {
     lapply(rate_data, function(replicate_data) {
         # Apply median directly to each fossil level
         result <- lapply(replicate_data, function(fossil_level_values) {

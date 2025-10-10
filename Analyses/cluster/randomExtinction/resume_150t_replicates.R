@@ -23,39 +23,60 @@ ord_no_ace <- readRDS(write.path("ord", "ord_no_ace_%03d.rds"))
 fossil_trees <- readRDS(write.path("trees", "fossil_trees_%03d.rds"))
 tree <- read.tree(write.path("trees", "rand_ext_tree_%03d.tre"))
 
+tree <- drop.singles(tree)
+tree <- fix.zero.branches(tree)
+tree <- set.root.time(tree)
+
 # Resume from post-ordination ACE
 # cat("Starting post-ordination ACE...\n")
 cat("Starting post-ordination ACE...\n")
 
 # Set up parallel processing for 5 fossil levels
-n_cores <- 5  # Match your 5 fossil levels
-cl <- makeCluster(n_cores)
-clusterEvalQ(cl, library(treats))
-
-# Export necessary objects to cluster
-clusterExport(cl, c("ord_no_ace", "fossil_trees"))
-
-cat("Starting post-ordination ACE with", n_cores, "cores (5 fossil levels)...\n")
-
-# Parallelized version - parallelize across fossil levels within each rate
-post_ord_ace <- Map(function(rate_matrix, rate_tree) {
-  # Get fossil level names to preserve them
-  fossil_names <- names(rate_matrix)
+# Function to flatten and parallelize all 15 tasks
+run_ace_all_parallel <- function(matrices, trees, models = "BM", n_cores = 15) {
   
-  # Parallelize across the 5 fossil levels
-  result <- parLapply(cl, seq_along(rate_matrix), function(i) {
-    fossil_matrix <- rate_matrix[[i]]
-    fossil_tree <- rate_tree[[i]]
-    multi.ace(fossil_matrix, fossil_tree, models = "BM", output = "multi.ace")
+  # Create task list for all 15 combinations
+  tasks <- expand.grid(
+    rate = names(matrices),
+    fossil = names(matrices[[1]]),
+    stringsAsFactors = FALSE
+  )
+  
+  cl <- makeCluster(n_cores)
+  on.exit(stopCluster(cl))
+  
+  clusterEvalQ(cl, library(treats))
+  clusterExport(cl, c("matrices", "trees"), envir = environment())
+  
+  cat("Processing", nrow(tasks), "ACE tasks with", length(cl), "cores...\n")
+  
+  # Run all 15 tasks in parallel
+  results <- parLapply(cl, 1:nrow(tasks), function(i) {
+    rate <- tasks$rate[i]
+    fossil <- tasks$fossil[i]
+    multi.ace(matrices[[rate]][[fossil]], 
+              trees[[rate]][[fossil]], 
+              models = models, 
+              output = "multi.ace")
   })
   
-  # Restore names
-  names(result) <- fossil_names
-  return(result)
-}, ord_no_ace, fossil_trees)
+  # Reconstruct nested structure
+  output <- setNames(vector("list", length(names(matrices))), names(matrices))
+  for(i in 1:nrow(tasks)) {
+    rate <- tasks$rate[i]
+    fossil <- tasks$fossil[i]
+    if(is.null(output[[rate]])) output[[rate]] <- list()
+    output[[rate]][[fossil]] <- results[[i]]
+  }
+  
+  return(output)
+}
 
-# Clean up cluster
-stopCluster(cl)
+# Replace your current post-ordination ACE section with:
+n_cores <- 15  # Match your 3 models × 5 fossil levels
+cat("Starting post-ordination ACE with", n_cores, "cores (15 total tasks)...\n")
+
+post_ord_ace <- run_ace_all_parallel(ord_no_ace, fossil_trees, models = "BM", n_cores = n_cores)
 
 cat("Post-ordination ACE completed with parallel processing...\n")
 

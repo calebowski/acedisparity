@@ -1,121 +1,222 @@
-
-\documentclass[12pt,letterpaper]{article}
-\usepackage[a4paper, total={7in, 10in}]{geometry}
-\renewcommand{\familydefault}{\sfdefault}
+\documentclass[11pt, a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[margin=1in]{geometry}
+\usepackage{microtype}
 \usepackage{graphicx}
-\usepackage{helvet}
-\usepackage{authblk}
-\usepackage{hyperref}
-\usepackage{amsmath} 
-\usepackage{amssymb} 
-\usepackage{orcidlink} 
-\usepackage[super,comma,sort&compress]  
-   {natbib}\bibliographystyle{numbered}
-\usepackage[right]{lineno} \linenumbers
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{booktabs}
+\usepackage{amsmath,amssymb}
+\usepackage{siunitx}
+\usepackage[authoryear,round]{natbib}\usepackage{setspace}
+\usepackage{lineno}
+\usepackage{xcolor}
+\usepackage[hidelinks]{hyperref}
+\usepackage{multirow}
+\setcitestyle{aysep={}}  % Removes comma between author and year
 
+% Line spacing and numbering for review
+\doublespacing
+\linenumbers
 
-\makeatletter
-\renewcommand{\maketitle}{\bgroup\setlength{\parindent}{0pt}
-\begin{flushleft}
-  \textbf{\@title}
-  
-  \@author
-\end{flushleft}\egroup}
-\makeatother
+\title{Disparity Analyses Are Robust To Ancestral State Estimation Uncertainty}
 
-%%%  Insert title below; leave date empty.
+\author{Caleb Scutt\textsuperscript{1,*}, Natalie Cooper\textsuperscript{2}, Gavin Thomas\textsuperscript{1}, Thomas Guillerme\textsuperscript{1}}
 
-\title{Title is a maximum of 145 characters, including spaces, and avoids the use of jargon and uncommon abbreviations}
 \date{}
-
-%%%  Author first and last names should be spelled 
-%%%  out in their entirety (do not abbreviate "J.H. 
-%%%  Watson" unless this is how the author's name 
-%%%  always appears). Middle initials are OK. Do 
-%%%  not include titles, positions, or degrees.
-
-%%%  Use numbered footnotes to indicate institutional 
-%%%  affiliations. Authors may have multiple 
-%%%  institutional affiliations, and affiliations 
-%%%  may be shared among multiple authors.
-
-%%%  After the institutional affiliations, numbered 
-%%%  footnotes may be used to indicate an author's 
-%%%  present address, equal contribution status, 
-%%%  and/or senior author status. 
-
-%%%  The final numbered footnote should indicate 
-%%%  which author is the lead contact (required). 
-%%%  One author must be designated as the lead contact. 
-%%%  There can be no more than one lead contact. 
-
-%%%  Corresponding authors should be indicated with 
-%%%  asterisks (*). Use 2 asterisks (**) for the 
-%%%  second-listed corresponding author, 3 (***) for 
-%%%  the third-listed, and so on. The lead contact 
-%%%  must be a corresponding author. Additional 
-%%%  authors may also serve as corresponding authors.
-
-\author[1,5,\orcidlink{0000-0000-0000-0000}]{First Last}
-\author[1,2,5]{First Middle Last}
-\author[2,3]{First M.M. Last}
-\author[3,*]{First Last, Jr.}
-\author[3,4,6,7,**]{F. Middle Last}
-
-
-%%%  Institutional affiliations should contain the 
-%%%  following information at minimum: department(s)/
-%%%  subunit(s), institution, city, state/region (if 
-%%%  applicable), and country. 
-
-\affil[1]{University A, London SW7 2AZ, UK}
-\affil[2]{Department B, University B, Toronto, ON M5S 3H6, Canada}
-\affil[3]{Division C, Department C, University C, Cambridge, MA, USA}
-
-\affil[4]{Present address: 123 Sesame Street, New York, NY, USA}
-\affil[5]{These authors contributed equally}
-\affil[6]{Senior author}
-\affil[7]{Lead contact}
-
-%%%  List only one email address per corresponding author.
-
-\affil[*]{Correspondence: first.last.jr@university.edu}
-\affil[**]{Correspondence: f.middle.last@university.edu}
-
 
 \begin{document}
 
 \maketitle
 
-\section*{SUMMARY}
+\begin{center}
+\small
+\textsuperscript{1}School of Biosciences, University of Sheffield, Sheffield, UK\\
+\textsuperscript{2}Natural History Museum, London, UK\\[12pt]
+*Corresponding author: cnscutt1@sheffield.ac.uk
+\end{center}
 
-The summary (abstract) should consist of a single paragraph of 150 words or fewer.
+\begin{abstract}
+\noindent
+Ancestral state estimation is a widely used method to infer unobserved traits across a phylogeny, extending analyses beyond incomplete fossil records. 
+In studies of morphological disparity ancestral state estimation can account for ghost lineages, yet estimates are often confounded with high uncertainty. 
+How best to deal with this uncertainty remains unclear. 
+Using simulations, we compared pre- and post-ordination estimation methods, as well as both point estimate and probabilistic approaches for treating uncertainty, under varying transition rates and fossil sampling levels.
+The relative disparity error was calculated from the difference between our estimated disparity values and the true disparity values from the original simulations.
+We then extended this framework to evaluate the recovery of changes in disparity across time by simulating mass extinction events with varying intensity and selectivity.
+We find that pre-ordination probabilistic estimations outperform post-ordination and point estimation methods and that omission of ancestral state estimations leads to underestimates of disparity.
+As expected, higher fossil sampling improves estimation accuracy, although recovered disparity accuracy was robust even at low fossil sampling. 
+Similar patterns were observed when recovering changes in disparity across mass extinction events but declined significantly when fossil sampling was low, highlighting that fossil inclusion is essential when assessing disparity in deep time.
+These results demonstrate that explicitly propagating uncertainty, rather than collapsing states into point estimates, is more likely to recover accurate patterns in disparity, reinforcing the need to move beyond point estimates when working with the incomplete fossil record.
+\end{abstract}
 
-\section*{KEYWORDS}
+\noindent\textbf{Keywords:} ancestral state estimation; morphological disparity; fossils; simulation; uncertainty; macroevolution
 
-%%%  Include up to 10 keywords, separated by commas. 
-%%%  Keywords entered in EM are not carried over; only 
-%%%  keywords included in the main text will be used 
-%%%  in the final article metadata. Please note that 
-%%%  for some journals, keywords are chosen by the editors.
-
-
-
-\bibliography{references}
-
-
-
-\bigskip
-
-
-
-\newpage
-
-
-
+\section{Introduction}
 
 
+\section{Materials and Methods}
+
+\subsection{Simulation Framework}
+\subsubsection{Phylogenies}
+
+Simulations were carried out using treats \citep{guillerme2024treats}.
+Phylogenies were simulated using a modified version of the birth-death process algorithm.
+The process begins with a single lineage and iteratively selects lineages to grow the tree forward in time.
+At each step, all living branches are extended by a branch length increment, drawn from an exponential distribution based on the total number of lineages and the combined speciation and extinction rates.
+Selected lineages then undergo either speciation or extinction based on a probabilistic decision determined by the specified rates.
+Phylogenies were simulated with birth-death parameters as speciation ($\lambda$) = 1.0, and extinction ($\mu$) across a range between 0.9-0.5.
+Fixing $\lambda$ = 1.0 provides a convenient relative time-scale, since only the ratio of extinction to speciation affects the shape and balance of simulated trees.
+The chosen parameters correspond to a moderate-to-high turnover regime, consistent with the upper-empirical estimates from both fossil- and molecular-based diversification studies of vertebrate groups. % add references here.
+This level of extinction produces realistic evolutionary trees with substantial lineage pruning and extinct diversity, while maintaining a positive net diversification rate ($\lambda$ - $\mu$ = 0.3).
+However, these parameters were not fixed, since they can vary if a tree fails to be generated with given stop rule and parameters.
+A histogram of the distribution of speciation/extinction ratios is in the supplementary. % write this in
+Trees were simulated at three different sizes: 50, 100 and 150 living taxa.
+
+\subsubsection{Trait simulation}
+Across each of the phylogenies, we simulated discrete and continuous trait data separately.
+Discrete trait data were simulated across three rate categories, representing fast, medium and slow transition rates.
+These rates were assigned by generating equal rate transition probability matrices \ref{tab:models}.
+For each category, 85 binary characters and 15 three-state characters were simulated, representing the coding scheme found in most discrete datasets.
+Discrete trait evolution was simulated using a discrete-time Markov process, where the probability of state transition along each branch was proportional to the product of the transition probability and branch length.
+
+Continuous trait data were simulated under variations of Brownian motion and Ornstein-Uhlenbeck models. 
+For Brownian motion, the trait data was simulated as both default and with a moving trend.
+For Ornstein Uhlenbeck, the data was simulated as strong, weak and with differing optimum and root states.
+Following \cite{gearty2024impact}, the alpha ($\alpha$) parameter was set based on phylogenetic half life ($\mathit{ln(2)} / \alpha$) to account for differing tree heights across simulations \citep{cooper2016cautionary}.
+Continuous trait data were simulated across 100 characters for each model across each phylogeny.
+
+\subsection{Fossil sampling}
+In order to simulate different levels of fossil sampling, each tree was split into four chronological ‘stages’ to replicate the stratigraphic nature of the fossil record.
+Fossil tips were then subsampled so that only a percentage of fossils are present, $\omega$ (where $\omega_{P} = P\% \ \text{fossils sampled}$).
+Five different fossil sampling levels were generated for each simulated phylogeny, $\omega_{0}, \ \omega_{5}, \ \omega_{15}, \ \omega_{50} \ \text{and}  \ \omega_{100}$.
+% Here i can reference a csv with all the tree tip and downsampled tree tip counts???
+% Have thought here about expanding this: trait-dependent preservation (i.e more likely if in state 0 to be preserved??); fossil can be sampled at any point along its branch.
+The simulated trait matrices were analogously downsampled and node states removed.
+
+\subsection{Ancestral state estimation}
+Ancestral state estimation was carried out using Maximum Likelihood.
+We used four combinations of two approaches to ancestral state estimation to understand which was the best at recovering the true disparity signal.
+Firstly, we compared pre- versus post-ordination estimation methods. 
+Pre-ordination estimation methods of discrete characters involves estimating the marginal likelihoods for each discrete state at each node, based on a Maximum-Likelihood derived estimate of the Mk transition matrix and the tree topology given \citep{pagel1999maximum,yang2006computational}.
+\subsubsection{Discrete estimation}
 
 
+
+
+
+
+
+\subsection{Disparity Calculation}
+
+Morphospaces were constructed using principal coordinates analysis (PCO). Disparity was quantified using two metrics: sum of variances and mean nearest-neighbor distances. Relative disparity error was calculated as:
+
+\begin{equation}
+\text{Relative Error} = \frac{\text{Estimated Disparity} - \text{True Disparity}}{\text{True Disparity}}
+\end{equation}
+
+\subsection{Statistical Analysis}
+
+% We used linear mixed-effects models to analyze the factors affecting disparity estimation accuracy, with ASE method, fossil sampling level, and evolutionary rate as fixed effects, and replicate as a random effect. All analyses were conducted in R v4.3.0.
+
+\section{Results}
+
+\subsection{Overall Performance of ASE Methods}
+
+% Pre-ordination probabilistic methods consistently outperformed all other approaches across all simulation scenarios (Figure~\ref{fig:main-results}). Mean absolute relative error was lowest for pre-ordination distributions (0.12 ± 0.08) compared to post-ordination methods (0.24 ± 0.15) and point estimates (0.31 ± 0.19).
+
+% Omitting ancestral state estimation entirely resulted in systematic underestimation of disparity, with errors increasing substantially at lower fossil sampling levels (Figure~\ref{fig:sampling-effects}).
+
+
+
+\subsection{Sensitivity to Evolutionary Rate}
+
+
+\section{Discussion}
+
+
+
+
+\section{Conclusions}
+
+Pre-ordination probabilistic ancestral state estimation provides the most accurate approach for morphological disparity analysis. Explicitly accounting for uncertainty in ancestral reconstructions is crucial for robust disparity estimation, particularly when fossil sampling is limited.
+
+\section*{Acknowledgments}
+
+We thank [funding sources] for financial support and [computing resources] for computational facilities.
+
+\section*{Author Contributions}
+
+C.S. conceived the study, performed analyses, and wrote the manuscript. N.C., G.T., and T.G. contributed to study design and manuscript revision. All authors approved the final version.
+
+\section*{Data Availability}
+
+Data and code are available at: [repository URL]
+
+\section*{Competing Interests}
+
+The authors declare no competing interests.
+
+% Uncomment when you have references
+% \begin{thebibliography}{}
+% \bibitem[Guillerme(2024)]{guillerme2024treats}
+% Guillerme, T. (2024). treats: an R package for trait simulations and analyses. R package version 0.1.0. Available at: \url{https://github.com/tguillerme/treats}
+% \end{thebibliography}
+
+\clearpage
+
+\section*{Figures}
+
+% \begin{figure}[h]
+% \centering
+% \includegraphics[width=0.8\textwidth]{figures/main-results.pdf}
+% \caption{\textbf{Comparison of ancestral state estimation methods.} Relative disparity error for different ASE approaches across varying fossil sampling levels. Points show mean values with 95\% confidence intervals. Pre-ordination probabilistic methods (blue) consistently outperform alternatives.}
+% \label{fig:main-results}
+% \end{figure}
+
+% \begin{figure}[h]
+% \centering
+% \includegraphics[width=0.8\textwidth]{figures/sampling-effects.pdf}
+% \caption{\textbf{Effect of fossil sampling on disparity estimation.} Absolute relative error decreases with increased fossil sampling for all methods, but pre-ordination approaches remain most accurate even at low sampling levels.}
+% \label{fig:sampling-effects}
+% \end{figure}
+
+\clearpage
+
+\section*{Tables}
+
+\begin{table}[ht]
+\centering
+\caption{Trait simulation models and parameters used across each phylogeny. For continuous characters, the root state was always set as 0.}
+\label{tab:models}
+\begin{tabular}{|c|c|c|}
+\hline
+\textbf{Type of data} & \textbf{Model} & \textbf{Parameters} \\
+\hline
+\multirow{3}{*}{\textbf{Discrete}} & Fast & $P_{ij}=0.9$ \\
+\cline{2-3}
+ & Medium & $P_{ij}=0.1$ \\
+\cline{2-3}
+ & Slow & $P_{ij}=0.01$ \\
+\hline
+\multirow{5}{*}{\textbf{Continuous}} & Brownian motion & $\sigma=0.25$ \\
+\cline{2-3}
+ & Brownian motion (trend) & $\sigma=0.25,\ \mu=0.1$ \\
+\cline{2-3}
+ & OU (strong) & $\sigma=0.25,\ \alpha=\dfrac{\ln(2)}{\text{tree height / 10}}$ \\
+\cline{2-3}
+ & OU (weak) & $\sigma=0.25,\ \alpha=\dfrac{\ln(2)}{\text{tree height / 5}}$ \\
+\cline{2-3}
+ & OU (shift optimum) & $\sigma=0.25,\ \alpha=\dfrac{\ln(2)}{\text{tree height / 5}},\ \theta=2$ \\
+\hline
+\end{tabular}
+\end{table}
+
+
+
+
+\bibliographystyle{plainnat}
+\bibliography{references.bib}
 
 \end{document}

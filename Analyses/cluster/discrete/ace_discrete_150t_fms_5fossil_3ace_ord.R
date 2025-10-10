@@ -7,7 +7,7 @@ cat("Starting replicate", replicate_id, "\n")
 
 set.seed(100 + replicate_id)
 
-base_path <- "/mnt/parscratch/users/bip24cns/acedisparity/discrete/100t/"
+base_path <- "/mnt/parscratch/users/bip24cns/acedisparity/discrete/150t/"
 job_id <- Sys.getenv("SLURM_ARRAY_JOB_ID")
 
 
@@ -17,10 +17,29 @@ write.path <- function(subfolder, filename) {
 
 bd_params <- make.bd.params(speciation = 1, extinction = 0.7)
 
-stop_rule <- list(max.living = 100)
+stop_rule <- list(max.living = 150)
 # set.seed(123)
-tree <- treats(stop.rule = stop_rule, bd.params = bd_params, null.error = 100)
+max_attempts <- 200  # Prevent infinite loops
+attempt <- 1
 
+
+repeat {
+  tree <- treats(stop.rule = stop_rule, bd.params = bd_params, null.error = 100)
+  n_tips <- length(tree$tip.label)
+  
+  if(n_tips <= 500) {
+    cat("Tree found with", n_tips, "tips\n")
+    break
+  }
+  
+  if(attempt >= max_attempts) {
+    cat("Warning: Reached maximum attempts, accepting tree with", n_tips, "tips\n")
+    break
+  }
+  
+  attempt <- attempt + 1
+}
+gc()
 b_d_est <- crude.bd.est(tree, "estimate")
 
 metadata_df <- data.frame(
