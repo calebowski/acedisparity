@@ -29,55 +29,45 @@ rate_names <- c("slow", "med", "fast")
 
 # r <- readRDS("../Data/cluster/discrete/raw/diff_sumvar_strict_001.rds")
 
-sum_var_diff_strict <- setNames(lapply(rate_names, function(rate) {
-    lapply(1:100, function(rep) {
-        file_path <- sprintf("../Data/cluster/discrete/clusterOut/raw_7905416_11_09/diff_sumvar_strict_%03d.rds", rep)
-        data <- readRDS(file_path)
-        return(data[[rate]])
+methods <- c("strict", "sample", "point_postord", "sample_postord", "no_ace")
+sample_sum_var <- list()
+sum_var_change_sample_50 <- list()
+
+
+diff_sum_var_50 <- setNames(lapply(methods, function(method) {
+  setNames(lapply(rate_names, function(rate) {
+    lapply(seq_len(100), function(rep_idx) {
+      file_path <- file.path("..","Data","cluster","discrete","disparity","50t","raw",
+                             paste0("8218707_diff_sumvar_", method, sprintf("_%03d.rds", rep_idx)))
+      if(!file.exists(file_path)) return(NULL)         # avoid hard error if missing
+      data <- readRDS(file_path)
+      data[[rate]]
     })
-}), rate_names)
-
-sum_var_diff_sample <- setNames(lapply(rate_names, function(rate) {
-    lapply(1:100, function(rep) {
-        file_path <- sprintf("../Data/cluster/discrete/clusterOut/raw_7905416_11_09/diff_sumvar_sample_%03d.rds", rep)
-        data <- readRDS(file_path)
-        return(data[[rate]])
-    })
-}), rate_names)
+  }), rate_names)
+}), methods)
 
 
-sum_var_diff_rel <- setNames(lapply(rate_names, function(rate) {
-    lapply(1:100, function(rep) {
-        file_path <- sprintf("../Data/cluster/discrete/clusterOut/raw_7905416_11_09/diff_sumvar_rel_%03d.rds", rep)
-        data <- readRDS(file_path)
-        return(data[[rate]])
-    })
-}), rate_names)
-
-sum_var_diff_no_ace <- setNames(lapply(rate_names, function(rate) {
-    lapply(1:100, function(rep) {
-        file_path <- sprintf("../Data/cluster/discrete/clusterOut/raw_7905416_11_09/diff_sumvar_no_ace_%03d.rds", rep)
-        data <- readRDS(file_path)
-        return(data[[rate]])
-    })
-}), rate_names)
-
-sum_var_diff_point_postord <- setNames(lapply(rate_names, function(rate) {
-    lapply(1:100, function(rep) {
-        file_path <- sprintf("../Data/cluster/discrete/clusterOut/raw_7905416_11_09/diff_sumvar_point_postord_%03d.rds", rep)
-        data <- readRDS(file_path)
-        return(data[[rate]])
-    })
-}), rate_names)
-
-
-sum_var_diff_sample_postord <- setNames(lapply(rate_names, function(rate) {
-    lapply(1:100, function(rep) {
-        file_path <- sprintf("../Data/cluster/discrete/clusterOut/raw_7905416_11_09/diff_sumvar_sample_postord_%03d.rds", rep)
-        data <- readRDS(file_path)
-        return(data[[rate]])
-    })
-}), rate_names)
+sum_var_data <- do.call(rbind, lapply(names(diff_sum_var_50), function(method){
+  dataset <- diff_sum_var_50[[method]]
+  do.call(rbind, lapply(names(dataset), function(rate){
+    do.call(rbind, lapply(seq_along(dataset[[rate]]), function(replicate_index){
+      data  <- dataset[[rate]][[replicate_index]]
+      df <- data.frame(
+        replicate = replicate_index,
+        all = data$all,
+        high = data$fossil_high,
+        mid = data$fossil_med,
+        low = data$fossil_low,
+        living = data$living,
+        rate = rate,
+        method = method,
+        metric = "Sum of variances"
+      )
+      pivot_longer(df, cols = c("living","low","mid","high","all"),
+                   names_to = "preservation_level", values_to = "distance")
+    }))
+  }))
+}))
 
 saveRDS(sum_var_diff_strict, "../Data/processed/discrete/dispDiffs/sum_var_diff_strict.rds")
 saveRDS(sum_var_diff_sample, "../Data/processed/discrete/dispDiffs/sum_var_diff_sample.rds")

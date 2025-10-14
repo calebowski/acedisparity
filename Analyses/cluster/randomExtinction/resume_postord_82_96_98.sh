@@ -5,9 +5,9 @@
 #SBATCH --array=82,96,98
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
-#SBATCH --cpus-per-task=5
+#SBATCH --cpus-per-task=15
 #SBATCH --mem=64G
-#SBATCH --time=70:00:00
+#SBATCH --time=80:00:00
 #SBATCH --mail-user=cnscutt1@sheffield.ac.uk
 #SBATCH --mail-type=ALL
 

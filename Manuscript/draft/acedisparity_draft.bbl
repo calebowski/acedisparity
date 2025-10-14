@@ -1,4 +1,4 @@
-\begin{thebibliography}{5}
+\begin{thebibliography}{9}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -20,10 +20,30 @@ Thomas Guillerme.
 \newblock treats: A modular r package for simulating trees and traits.
 \newblock \emph{Methods in Ecology and Evolution}, 15\penalty0 (4):\penalty0 647--656, 2024.
 
+\bibitem[Guillerme et~al.(2020)Guillerme, Puttick, Marcy, and Weisbecker]{guillerme2020shifting}
+Thomas Guillerme, Mark~N Puttick, Ariel~E Marcy, and Vera Weisbecker.
+\newblock Shifting spaces: Which disparity or dissimilarity measurement best summarize occupancy in multidimensional spaces?
+\newblock \emph{Ecology and evolution}, 10\penalty0 (14):\penalty0 7261--7275, 2020.
+
+\bibitem[Keating(2023)]{keating2023best}
+Joseph~N Keating.
+\newblock What is the best method for estimating ancestral states from discrete characters?
+\newblock \emph{bioRxiv}, pages 2023--08, 2023.
+
+\bibitem[Lloyd(2016)]{lloyd2016estimating}
+Graeme~T Lloyd.
+\newblock Estimating morphological diversity and tempo with discrete character-taxon matrices: implementation, challenges, progress, and future directions.
+\newblock \emph{Biological Journal of the Linnean Society}, 118\penalty0 (1):\penalty0 131--151, 2016.
+
 \bibitem[Pagel(1999)]{pagel1999maximum}
 Mark Pagel.
 \newblock The maximum likelihood approach to reconstructing ancestral character states of discrete characters on phylogenies.
 \newblock \emph{Systematic biology}, 48\penalty0 (3):\penalty0 612--622, 1999.
+
+\bibitem[Revell(2025)]{revell2025ancestral}
+Liam~J Revell.
+\newblock Ancestral state reconstruction of phenotypic characters.
+\newblock \emph{Evolutionary Biology}, pages 1--25, 2025.
 
 \bibitem[Yang(2006)]{yang2006computational}
 Ziheng Yang.

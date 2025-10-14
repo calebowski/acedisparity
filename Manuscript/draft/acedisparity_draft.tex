@@ -42,7 +42,7 @@
 Ancestral state estimation is a widely used method to infer unobserved traits across a phylogeny, extending analyses beyond incomplete fossil records. 
 In studies of morphological disparity ancestral state estimation can account for ghost lineages, yet estimates are often confounded with high uncertainty. 
 How best to deal with this uncertainty remains unclear. 
-Using simulations, we compared pre- and post-ordination estimation methods, as well as both point estimate and probabilistic approaches for treating uncertainty, under varying transition rates and fossil sampling levels.
+Using simulations, we compared pre- and post-ordination estimation methods, as well as both point estimate and probabilistic approaches for treating uncertainty, under continuous and discrete trait models and varying fossil sampling levels.
 The relative disparity error was calculated from the difference between our estimated disparity values and the true disparity values from the original simulations.
 We then extended this framework to evaluate the recovery of changes in disparity across time by simulating mass extinction events with varying intensity and selectivity.
 We find that pre-ordination probabilistic estimations outperform post-ordination and point estimation methods and that omission of ancestral state estimations leads to underestimates of disparity.
@@ -60,8 +60,7 @@ These results demonstrate that explicitly propagating uncertainty, rather than c
 
 \subsection{Simulation Framework}
 \subsubsection{Phylogenies}
-
-Simulations were carried out using treats \citep{guillerme2024treats}.
+Simulations were carried out using \texttt{treats} \citep{guillerme2024treats}.
 Phylogenies were simulated using a modified version of the birth-death process algorithm.
 The process begins with a single lineage and iteratively selects lineages to grow the tree forward in time.
 At each step, all living branches are extended by a branch length increment, drawn from an exponential distribution based on the total number of lineages and the combined speciation and extinction rates.
@@ -74,63 +73,112 @@ However, these parameters were not fixed, since they can vary if a tree fails to
 A histogram of the distribution of speciation/extinction ratios is in the supplementary. % write this in
 Trees were simulated at three different sizes: 50, 100 and 150 living taxa.
 
+
+
+
 \subsubsection{Trait simulation}
 Across each of the phylogenies, we simulated discrete and continuous trait data separately.
-Discrete trait data were simulated across three rate categories, representing fast, medium and slow transition rates.
-These rates were assigned by generating equal rate transition probability matrices \ref{tab:models}.
+Discrete trait data were simulated across three rate categories, representing fast, medium and slow transition rates (table \ref{tab:models}).
+These rates were assigned by generating equal rate transition probability matrices.
 For each category, 85 binary characters and 15 three-state characters were simulated, representing the coding scheme found in most discrete datasets.
 Discrete trait evolution was simulated using a discrete-time Markov process, where the probability of state transition along each branch was proportional to the product of the transition probability and branch length.
+% trait simulations where traits were independent...
 
-Continuous trait data were simulated under variations of Brownian motion and Ornstein-Uhlenbeck models. 
+Continuous trait data were simulated under variations of Brownian motion and Ornstein-Uhlenbeck models (table \ref{tab:models}). 
 For Brownian motion, the trait data was simulated as both default and with a moving trend.
 For Ornstein Uhlenbeck, the data was simulated as strong, weak and with differing optimum and root states.
 Following \cite{gearty2024impact}, the alpha ($\alpha$) parameter was set based on phylogenetic half life ($\mathit{ln(2)} / \alpha$) to account for differing tree heights across simulations \citep{cooper2016cautionary}.
 Continuous trait data were simulated across 100 characters for each model across each phylogeny.
+Each character was treated as independent.
 
 \subsection{Fossil sampling}
 In order to simulate different levels of fossil sampling, each tree was split into four chronological ‘stages’ to replicate the stratigraphic nature of the fossil record.
-Fossil tips were then subsampled so that only a percentage of fossils are present, $\omega$ (where $\omega_{P} = P\% \ \text{fossils sampled}$).
-Five different fossil sampling levels were generated for each simulated phylogeny, $\omega_{0}, \ \omega_{5}, \ \omega_{15}, \ \omega_{50} \ \text{and}  \ \omega_{100}$.
+Fossil tips were sampled uniformly at random from all extinct lineages within each chronological stage.
+% $\omega$ (where $\omega_{P} = P\% \ \text{fossils sampled}$).
+Fossil sampling was carried out at five levels, $\omega_{0}, \ \omega_{5}, \ \omega_{15}, \ \omega_{50} \ \text{and}  \ \omega_{100}$ (where $\omega_{P} = P\% \ \text{fossils sampled}$), across each simulated phylogeny.
+% Fossil tips were sampled uniformly at random from all extinct lineages within each chronological stage.
 % Here i can reference a csv with all the tree tip and downsampled tree tip counts???
 % Have thought here about expanding this: trait-dependent preservation (i.e more likely if in state 0 to be preserved??); fossil can be sampled at any point along its branch.
-The simulated trait matrices were analogously downsampled and node states removed.
+The corresponding trait matrices were subsetted to match sampled taxa, with ancestral (internal) nodes excluded.
 
 \subsection{Ancestral state estimation}
+\subsubsection{Pre-ordination estimation}
 Ancestral state estimation was carried out using Maximum Likelihood.
 We used four combinations of two approaches to ancestral state estimation to understand which was the best at recovering the true disparity signal.
 Firstly, we compared pre- versus post-ordination estimation methods. 
 Pre-ordination estimation methods of discrete characters involves estimating the marginal likelihoods for each discrete state at each node, based on a Maximum-Likelihood derived estimate of the Mk transition matrix and the tree topology given \citep{pagel1999maximum,yang2006computational}.
-\subsubsection{Discrete estimation}
+Given that the transition rates were set \textit{a priori} during simulations, the ER model was used to avoid model misspecification as a confounding factor on estimation accuracy \citep{keating2023best}.
+
+Pre-ordination estimation of continuous characters models evolution under a Brownian motion model, whereby ancestral state values lie within a multivariate normal distribution that is estimated given the observed tip data and the shared evolutionary history between taxa, i.e., the tree topology. 
+The width of the confidence interval is therefore usually dictated by the evolutionary distance from the tip data.
+For a full explanation of the methods described here see \cite{revell2025ancestral}.
+
+\subsubsection{Post-ordination estimation}
+Post-ordination estimation involves the estimation of a node's position within a multidimensional ordination matrix.
+The generation of an ordination matrix differed between discrete and continuous characters.
+For discrete characters, distances were computed using the `MORD' metric \citep{lloyd2016estimating} and ordinated using principal coordinates analyses (PCoA) \texttt{cmdscale()} function.
+For continuous characters, the tip data were ordinated using principal components analysis (PCA) \texttt{prcomp()}.
+The continuous ancestral states across all PC axes were then estimated under a Brownian motion model, as detailed above.
+
+
+\subsubsection{Uncertainty treatment}
+For each estimation method, we also treated uncertainty in estimates with both deterministic and probabilistic approaches.
+The deterministic approach involves collapsing the likelihood outputs into point estimates.
+For discrete characters, this involved a strict majority rule whereby the state with the highest scaled likelihood was selected at each node for each character.
+In scenarios where states are equally tied, one state is collapsed at random.
+We also employed a relative majority rule, whereby any state at a scaled likelihood greater than the maximum observed scaled likelihood minus the inverse number of possible states is collapsed, otherwise states are left as uncertain.
+For continuous characters, the deterministic approach used the median of the estimated ancestral confidence interval for each PC axis.
+
+The probabilistic approach differs in that uncertainty in estimates are explicitly accounted for through the replication of matrices.
+For instance, discrete states at each node for each character were `sampled' according to their scaled likelihoods across 100 matrices.
+In a scenario where there is uncertainty in a binary character, e.g., 0.55 for state 0 and 0.45 for state 1, this probabilistic approach 
 
 
 
-
-
-
-
-\subsection{Disparity Calculation}
-
-Morphospaces were constructed using principal coordinates analysis (PCO). Disparity was quantified using two metrics: sum of variances and mean nearest-neighbor distances. Relative disparity error was calculated as:
+\subsection{Disparity metrics}
+From the output of ancestral state estimation, to ensure fair comparison between different fossil sampling levels only the nodes present in each fossil sampling level were retained; therefore, fossil sampling levels differed based purely on the difference in number of fossil tips and estimations of node states.
+Pre-ordination ancestral state estimations were ordinated in the same manner as before.
+When assessing overall disparity, we wanted to understand how well ancestral state estimation can find true patterns in size and density in morphospace \citep{guillerme2020shifting}.
+Since we are assessing overall disparity, position was not a metric that can be discenered due to the centering of ordinated matrices.
+For size, we measured the sum of quantiles metric.
+This metric has similar properties to the often used sum of ranges metric, but with less sensitivity to outliers.
+For density, we measured the sum of variances and the average nearest neighbour distance.
+The sum of variances is the most widely used metric in disparity analyses.
+The relative disparity error was calculated as
 
 \begin{equation}
-\text{Relative Error} = \frac{\text{Estimated Disparity} - \text{True Disparity}}{\text{True Disparity}}
+\text{Relative disparity error} = \frac{\text{Estimated disparity} - \text{True disparity}}{\text{True disparity}}
 \end{equation}
 
-\subsection{Statistical Analysis}
 
-% We used linear mixed-effects models to analyze the factors affecting disparity estimation accuracy, with ASE method, fossil sampling level, and evolutionary rate as fixed effects, and replicate as a random effect. All analyses were conducted in R v4.3.0.
+\subsection{Mass extinction simulations}
+Having established the accuracy of different ancestral state estimation methods in recovering general morphospace dispersion, we next tested how well these methods capture changes in disparity across time during simulated mass extinction events.
+Following the framework above, 100 trees were simulated across 50, 100 and 150 living taxa, but including random and selective extinction scenarios.
+Extinction severity was set with a uniform distribution between 75--90\%.
+For selective extinctions, % put parameters here.
+%trait data was simulated simultaneously to the tree generation.
+
+With the new set of trees (and trait data for selective extinctions), the pipeline %cite here
+above was followed.
+
+
+
+
+
+\begin{equation}
+\text{Relative disparity error} = \frac{\text{Estimated disparity} - \text{True disparity}}{\text{True disparity}}
+\end{equation}
+
+
+
+
+
+
 
 \section{Results}
 
 \subsection{Overall Performance of ASE Methods}
 
-% Pre-ordination probabilistic methods consistently outperformed all other approaches across all simulation scenarios (Figure~\ref{fig:main-results}). Mean absolute relative error was lowest for pre-ordination distributions (0.12 ± 0.08) compared to post-ordination methods (0.24 ± 0.15) and point estimates (0.31 ± 0.19).
-
-% Omitting ancestral state estimation entirely resulted in systematic underestimation of disparity, with errors increasing substantially at lower fossil sampling levels (Figure~\ref{fig:sampling-effects}).
-
-
-
-\subsection{Sensitivity to Evolutionary Rate}
 
 
 \section{Discussion}
@@ -140,29 +188,22 @@ Morphospaces were constructed using principal coordinates analysis (PCO). Dispar
 
 \section{Conclusions}
 
-Pre-ordination probabilistic ancestral state estimation provides the most accurate approach for morphological disparity analysis. Explicitly accounting for uncertainty in ancestral reconstructions is crucial for robust disparity estimation, particularly when fossil sampling is limited.
+% Pre-ordination probabilistic ancestral state estimation provides the most accurate approach for morphological disparity analysis. Explicitly accounting for uncertainty in ancestral reconstructions is crucial for robust disparity estimation, particularly when fossil sampling is limited.
 
 \section*{Acknowledgments}
 
-We thank [funding sources] for financial support and [computing resources] for computational facilities.
 
 \section*{Author Contributions}
 
-C.S. conceived the study, performed analyses, and wrote the manuscript. N.C., G.T., and T.G. contributed to study design and manuscript revision. All authors approved the final version.
+
 
 \section*{Data Availability}
 
-Data and code are available at: [repository URL]
 
 \section*{Competing Interests}
 
-The authors declare no competing interests.
 
-% Uncomment when you have references
-% \begin{thebibliography}{}
-% \bibitem[Guillerme(2024)]{guillerme2024treats}
-% Guillerme, T. (2024). treats: an R package for trait simulations and analyses. R package version 0.1.0. Available at: \url{https://github.com/tguillerme/treats}
-% \end{thebibliography}
+
 
 \clearpage
 
@@ -200,9 +241,9 @@ The authors declare no competing interests.
 \cline{2-3}
  & Slow & $P_{ij}=0.01$ \\
 \hline
-\multirow{5}{*}{\textbf{Continuous}} & Brownian motion & $\sigma=0.25$ \\
+\multirow{5}{*}{\textbf{Continuous}} & BM & $\sigma=0.25$ \\
 \cline{2-3}
- & Brownian motion (trend) & $\sigma=0.25,\ \mu=0.1$ \\
+ & BM (trend) & $\sigma=0.25,\ \text{trend}=0.3$ \\
 \cline{2-3}
  & OU (strong) & $\sigma=0.25,\ \alpha=\dfrac{\ln(2)}{\text{tree height / 10}}$ \\
 \cline{2-3}

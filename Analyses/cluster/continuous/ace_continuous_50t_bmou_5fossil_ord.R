@@ -42,19 +42,19 @@ write.csv(metadata_df,
 
 tree_height <- max(node.depth.edgelength(tree))
 
-BM.trend.process <- function(x0 = 0, edge.length = 1, Sigma = diag(length(x0)), trend = 0, ...) {
-    # Logarithmic scaling: log(1 + x) grows slowly for large x
-    # scaled_trend <- trend / tree_height
-    # drift <- trend * edge.length
-    if(Sigma[1,1] < (0.01 * edge.length)){trend <- 0} ## trend does not occur if branch length is too small and too small is defined by <1% variance.
-    return(t(MASS::mvrnorm(n = 1, mu = x0 + trend, Sigma = Sigma * edge.length, ...)))
+BM.trend.process <- function(x0 = 0, edge.length = 1, Sigma = diag(length(x0)), trend = 0.1, ...) {
+      # Square root gives more trend than log but less than linear
+      drift <- trend * log(edge.length + 1)
+      if(edge.length < (0.01 * Sigma[1,1])){drift <- 0} ## if edge length is smaller than 1% of variance, drift is 0.
+      return(t(MASS::mvrnorm(n = 1, mu = x0 + drift, Sigma = Sigma * edge.length, ...)))
 }
+
 
 
 
 # Sigma_matrix <- diag(0.25, 100) ## make diagonal variance-covariance matrix
 bm <- make.traits(process = BM.process, n = 100, process.args = list(Sigma = diag(0.25, 100)))
-bm_trend <- make.traits(process = BM.trend.process, n = 100, process.args = list(Sigma = diag(0.25, 100), trend = 0.1))
+bm_trend <- make.traits(process = BM.trend.process, n = 100, process.args = list(Sigma = diag(0.25, 100), trend = 0.3))
 ou_strong <- make.traits(process = OU.process, n = 100, process.args = list(alpha = (log(2) / (tree_height / 10)), Sigma = diag(0.25, 100)))
 ou_weak <- make.traits(process = OU.process, n = 100, process.args = list(alpha = (log(2) / 5), Sigma = diag(0.25, 100)))
 ou_shift <- make.traits(process = OU.process, n = 100, process.args = list(optimum = 2, alpha = (log(2) / (tree_height / 5)), Sigma = diag(0.25, 100)))
@@ -64,7 +64,7 @@ ou_shift <- make.traits(process = OU.process, n = 100, process.args = list(optim
 
 # bm_switch <- make.events(target = "traits", condition = age.condition(tree_height / 2), modification = traits.update(process = BM.process))
 bm_matrices <- map.traits(bm, tree)$data
-bm_matrices_trend <- map.traits(bm_trend, tree)
+bm_matrices_trend <- map.traits(bm_trend, tree)$data
 ou_s_matrices <- map.traits(ou_strong, tree)$data
 ou_w_matrices <- map.traits(ou_weak, tree)$data
 ou_shift_matrices <- map.traits(ou_shift, tree)$data
@@ -245,19 +245,38 @@ cat("=== STARTING ord_true ===\n");
 cat("Ordinations completed...\n")
 
 
-cat("=== STARTING ord_fossil_tips ===\n"); 
+cat("=== STARTING ord_fossil_tips ===\n")
 ord_fossil_tips <- lapply(fossil_matrices, lapply, function(x){
     mat <- x$matrix
     prcomp(mat, scale = FALSE, center = TRUE)$x
   })
 
-cat("=== STARTING post_ord_ace ===\n"); 
-post_ord_ace <- Map(function(rate_matrix, rate_tree){
-    Map(function(fossil_matrix, fossil_tree){
-      multi.ace(fossil_matrix, fossil_tree, models = "ML", output = "multi.ace")
-    }, rate_matrix, rate_tree)
-  }, ord_fossil_tips, fossil_trees)
+cat("=== STARTING post_ord_ace ===\n")
+# post_ord_ace <- Map(function(rate_matrix, rate_tree){
+#     Map(function(fossil_matrix, fossil_tree){
+#       multi.ace(fossil_matrix, fossil_tree, models = "ML", output = "multi.ace")
+#     }, rate_matrix, rate_tree)
+#   }, ord_fossil_tips, fossil_trees)
 
+
+
+cl <- makeCluster(10)
+registerDoParallel(cl)
+clusterEvalQ(cl, library(treats))
+clusterExport(cl, c("ord_fossil_tips", "fossil_trees"))
+
+post_ord_ace <- foreach(model_name = names(ord_fossil_tips), .packages = "treats") %dopar% {
+  rate_matrix <- ord_fossil_tips[[model_name]]
+  rate_tree <- fossil_trees[[model_name]]
+  
+  # Map across fossil levels for this model
+  Map(function(fossil_matrix, fossil_tree) {
+    multi.ace(fossil_matrix, fossil_tree, models = "BM", output = "multi.ace")
+  }, rate_matrix, rate_tree)
+}
+names(post_ord_ace) <- names(ord_fossil_tips)
+
+stopCluster(cl)
 
 cat("=== STARTING point_post_ord_ace ===\n");
 point_post_ord_ace <- lapply(post_ord_ace, lapply,  multi.ace, output = "combined.matrix")
