@@ -12,12 +12,12 @@ set.seed(100 + replicate_id)
 write.path <- function(subfolder, filename) {
   return(paste0(base_path, subfolder, "/", job_id, "_", sprintf(filename, replicate_id)))
 }
-base_path <- "/mnt/parscratch/users/bip24cns/acedisparity/continuous/50t/"
-job_id <- 8368504
+base_path <- "/mnt/parscratch/users/bip24cns/acedisparity/continuous/100t/"
+job_id <- Sys.getenv("SLURM_ARRAY_JOB_ID")
 
 bd_params <- make.bd.params(speciation = 1, extinction = 0.7)
 
-stop_rule <- list(max.living = 50)
+stop_rule <- list(max.living = 100)
 
 
 tree <- treats(stop.rule = stop_rule, bd.params = bd_params, null.error = 100)
@@ -49,20 +49,27 @@ BM.trend.process <- function(x0 = 0, edge.length = 1, Sigma = diag(length(x0)), 
       return(t(MASS::mvrnorm(n = 1, mu = x0 + drift, Sigma = Sigma * edge.length, ...)))
 }
 
+
+
+
 # Sigma_matrix <- diag(0.25, 100) ## make diagonal variance-covariance matrix
 bm <- make.traits(process = BM.process, n = 100, process.args = list(Sigma = diag(0.25, 100)))
 bm_trend <- make.traits(process = BM.trend.process, n = 100, process.args = list(Sigma = diag(0.25, 100), trend = 0.3))
 ou_strong <- make.traits(process = OU.process, n = 100, process.args = list(alpha = (log(2) / (tree_height / 10)), Sigma = diag(0.25, 100)))
 ou_weak <- make.traits(process = OU.process, n = 100, process.args = list(alpha = (log(2) / (tree_height / 2)), Sigma = diag(0.25, 100)))
-ou_shift <- make.traits(process = OU.process, n = 100, process.args = list(optimum = 2, alpha = (log(2) / (tree_height / 2)), Sigma = diag(0.25, 100)))
+ou_shift <- make.traits(process = OU.process, n = 100, process.args = list(optimum = 2, alpha = (log(2) / (tree_height / 5)), Sigma = diag(0.25, 100)))
 
 
+
+
+# bm_switch <- make.events(target = "traits", condition = age.condition(tree_height / 2), modification = traits.update(process = BM.process))
 bm_matrices <- map.traits(bm, tree)$data
 bm_matrices_trend <- map.traits(bm_trend, tree)$data
 ou_s_matrices <- map.traits(ou_strong, tree)$data
 ou_w_matrices <- map.traits(ou_weak, tree)$data
 ou_shift_matrices <- map.traits(ou_shift, tree)$data
 
+# ou_s_bm_matrices <- map.traits(ou_strong, tree, events = bm_switch)
 cat("Traits simulated...\n")
 
 matrices <- list(bm = bm_matrices, bm_t = bm_matrices_trend, ou_w = ou_w_matrices, ou_st = ou_s_matrices, ou_sh = ou_shift_matrices)
@@ -103,35 +110,40 @@ saveRDS(fossil_matrices, write.path("matrices", "fossil_matrices_%03d.rds"))
 saveRDS(fossil_trees, write.path("trees", "fossil_trees_%03d.rds"))
 
 
-tasks  <- expand.grid(model = names(fossil_matrices), fossil_level = names(fossil_matrices[[1]]), stringsAsFactors = FALSE) ## flatten to give 25 rows, model combinations for each row
+tasks  <- expand.grid(model = names(fossil_matrices), fossil_level = names(fossil_matrices[[1]]), stringsAsFactors = FALSE)
 
 cl <- makeCluster(25)
 clusterEvalQ(cl, library(treats))
 clusterExport(cl, c("fossil_matrices", "tasks"))
 
 
-res <- parLapply(cl, seq_len(nrow(tasks)), function(i){ ## loop over each model combination by row
+res <- parLapply(cl, seq_len(nrow(tasks)), function(i){
     task <- tasks[i,]
     model_combination <- fossil_matrices[[task$model]][[task$fossil_level]]
     tryCatch({
     multi.ace(model_combination$matrix, model_combination$tree, models = "BM", output = "multi.ace")
   }, error = function(e) {
-    cat("ERROR:", task$model, task$fossil_level, e$message, "\n") ## error handeling
+    cat("ERROR:", task$model, task$fossil_level, e$message, "\n")
     NULL
   })
 })
 
 stopCluster(cl)
 
-fossil_anc <- list(bm = list(), bm_t = list(), ou_w = list(), ou_st = list(), ou_sh = list())
+# reconstruct nested list by model -> level
+# fossil_anc <- setNames(vector("list", length(unique(tasks$model))), unique(tasks$model))
+
+fossil_anc <- list(bm = NULL, bm_t = NULL, ou_w = NULL, ou_st = NULL, ou_sh = NULL)
+# fossil_anc  <-  list(bm = NULL, bm_s = NULL)
 for(i in seq_along(res)) {
   m <- tasks$model[i]
   l <- tasks$fossil_level[i]
+#   if(is.null(fossil_anc[[m]])) fossil_anc[[m]] <- list()
   fossil_anc[[m]][[l]] <- res[[i]]
 }
 
 cat("=== STARTING point_anc ===\n")
-point_anc <- lapply(fossil_anc, lapply, multi.ace, output = "combined.matrix")
+  point_anc <- lapply(fossil_anc, lapply, multi.ace, output = "combined.matrix")
 
 trait_normal  <-  list(fun = rnorm, param = list(mean = mean, sd = function(x)return(diff(range(x))/4)))
 
@@ -230,6 +242,11 @@ ord_fossil_tips <- lapply(fossil_matrices, lapply, function(x){
   })
 
 cat("=== STARTING post_ord_ace ===\n")
+# post_ord_ace <- Map(function(rate_matrix, rate_tree){
+#     Map(function(fossil_matrix, fossil_tree){
+#       multi.ace(fossil_matrix, fossil_tree, models = "ML", output = "multi.ace")
+#     }, rate_matrix, rate_tree)
+#   }, ord_fossil_tips, fossil_trees)
 
 tasks_post_ord <- expand.grid(model = names(ord_fossil_tips), fossil_level = names(ord_fossil_tips[[1]]), stringsAsFactors = FALSE)
 
@@ -249,10 +266,12 @@ res_post_ord <- parLapply(cl, seq_len(nrow(tasks_post_ord)), function(i){
 })
 stopCluster(cl)
 
-post_ord_ace  <- list(bm = list(), bm_t = list(), ou_w = list(), ou_st = list(), ou_sh = list())
+
+post_ord_ace  <- list(bm = NULL, bm_t = NULL, ou_w = NULL, ou_st = NULL, ou_sh = NULL)
 for(i in seq_along(res_post_ord)){
     m <- tasks_post_ord$model[i]
     l <- tasks_post_ord$fossil_level[i]
+    # if(is.null(post_ord_ace[[m]])){ post_ord_ace[[m]] <- list()}
     post_ord_ace[[m]][[l]] <- res_post_ord[[i]]
 }
 

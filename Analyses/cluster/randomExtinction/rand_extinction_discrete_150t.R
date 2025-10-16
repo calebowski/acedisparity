@@ -21,7 +21,7 @@ source("/users/bip24cns/acedisparity/randomExtinction/scripts/find.extinction.ti
 
 # Build the base path with job-specific directory
 base_path <- "/mnt/parscratch/users/bip24cns/acedisparity/randomExtinction/150t/"
-job_id <- Sys.getenv("SLURM_ARRAY_JOB_ID")
+job_id <- 8153183
 
 
 
@@ -57,7 +57,7 @@ repeat {
   tree <- treats(stop.rule = stop_rule, bd.params = bd_params, null.error = 100, events = random_extinction)
   n_tips <- length(tree$tip.label)
   
-  if(n_tips <= 700) {
+  if(n_tips <= 750) {
     cat("Tree found with", n_tips, "tips\n")
     break
   }
@@ -102,9 +102,9 @@ slow_binary_transitions <- matrix(c(
 ), nrow = 2, byrow = TRUE)
 
 slow_multi_transitions <- matrix(c(
-    0.99, 0.025, 0.025,
-    0.025, 0.99, 0.025,
-    0.025, 0.025, 0.99
+    0.99, 0.005, 0.005,
+    0.005, 0.99, 0.005,
+    0.005, 0.005, 0.99
 ), nrow = 3, byrow = TRUE)
 
 slow_binary <- treats::make.traits(process = discrete.process, n = 85, process.args = list(transitions = slow_binary_transitions))
@@ -203,7 +203,7 @@ anc.states <- function(x) {
   # Run multi.ace for each tree
   anc_states <- multi.ace(data = x$matrix, 
                           tree = x$tree, 
-                          models = "SYM", 
+                          models = "ER", 
                           output = "multi.ace"
                           )
 return(anc_states)}

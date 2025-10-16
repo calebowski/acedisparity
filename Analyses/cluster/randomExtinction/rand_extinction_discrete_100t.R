@@ -101,11 +101,13 @@ slow_binary_transitions <- matrix(c(
     0.01, 0.99
 ), nrow = 2, byrow = TRUE)
 
+
 slow_multi_transitions <- matrix(c(
-    0.99, 0.025, 0.025,
-    0.025, 0.99, 0.025,
-    0.025, 0.025, 0.99
+    0.99, 0.005, 0.005,
+    0.005, 0.99, 0.005,
+    0.005, 0.005, 0.99
 ), nrow = 3, byrow = TRUE)
+
 
 slow_binary <- treats::make.traits(process = discrete.process, n = 85, process.args = list(transitions = slow_binary_transitions))
 slow_multi <- treats::make.traits(process = discrete.process, n = 15, process.args = list(transitions = slow_multi_transitions))
@@ -203,7 +205,7 @@ anc.states <- function(x) {
   # Run multi.ace for each tree
   anc_states <- multi.ace(data = x$matrix, 
                           tree = x$tree, 
-                          models = "SYM", 
+                          models = "ER", 
                           output = "multi.ace"
                           )
 return(anc_states)}

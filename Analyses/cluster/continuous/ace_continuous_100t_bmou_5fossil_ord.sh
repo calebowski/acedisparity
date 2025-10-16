@@ -16,4 +16,4 @@ module load R/4.4.1-foss-2022b
 export R_LIBS_USER=/users/$USER/R/x86_64-pc-linux-gnu-library/4.4
 
 
-Rscript /users/$USER/acedisparity/continuous/scripts/ace_continuous_50t_bmou_5fossil_ord.R $SLURM_ARRAY_TASK_ID
+Rscript /users/$USER/acedisparity/continuous/scripts/ace_continuous_100t_bmou_5fossil_ord.R $SLURM_ARRAY_TASK_ID
