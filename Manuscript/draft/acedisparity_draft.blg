@@ -4,45 +4,46 @@ The top-level auxiliary file: acedisparity_draft.aux
 The style file: plainnat.bst
 Database file #1: references.bib
 Warning--empty journal in gearty2024impact
-You've used 9 entries,
+Warning--empty journal in wills2001morphological
+You've used 14 entries,
             2773 wiz_defined-function locations,
-            652 strings with 6541 characters,
-and the built_in function-call counts, 4039 in all, are:
-= -- 367
-> -- 186
-< -- 8
-+ -- 66
-- -- 57
-* -- 307
-:= -- 617
-add.period$ -- 27
-call.type$ -- 9
-change.case$ -- 45
-chr.to.int$ -- 9
-cite$ -- 19
-duplicate$ -- 198
-empty$ -- 352
-format.name$ -- 66
-if$ -- 845
+            683 strings with 7379 characters,
+and the built_in function-call counts, 6304 in all, are:
+= -- 577
+> -- 285
+< -- 12
++ -- 101
+- -- 87
+* -- 489
+:= -- 957
+add.period$ -- 42
+call.type$ -- 14
+change.case$ -- 70
+chr.to.int$ -- 14
+cite$ -- 30
+duplicate$ -- 307
+empty$ -- 555
+format.name$ -- 101
+if$ -- 1322
 int.to.chr$ -- 1
 int.to.str$ -- 1
-missing$ -- 10
-newline$ -- 53
-num.names$ -- 36
-pop$ -- 93
+missing$ -- 15
+newline$ -- 78
+num.names$ -- 56
+pop$ -- 140
 preamble$ -- 1
-purify$ -- 37
+purify$ -- 57
 quote$ -- 0
-skip$ -- 148
+skip$ -- 227
 stack$ -- 0
-substring$ -- 196
-swap$ -- 24
-text.length$ -- 2
+substring$ -- 323
+swap$ -- 35
+text.length$ -- 3
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 94
-warning$ -- 1
-while$ -- 43
+type$ -- 149
+warning$ -- 2
+while$ -- 68
 width$ -- 0
-write$ -- 121
-(There was 1 warning)
+write$ -- 185
+(There were 2 warnings)

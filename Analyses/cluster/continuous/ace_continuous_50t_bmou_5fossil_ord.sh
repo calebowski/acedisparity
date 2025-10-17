@@ -2,11 +2,11 @@
 #SBATCH --job-name=acecontinuous50tord
 #SBATCH --output=/users/bip24cns/acedisparity/continuous/logs/ord_continuous_50t_%A_%a.out
 #SBATCH --error=/users/bip24cns/acedisparity/continuous/logs/ord_continuous_50t_%A_%a.err
-#SBATCH --array=1-5                   # 100 replicates
+#SBATCH --array=6-100                   # 100 replicates
 #SBATCH --nodes=1                     # 1 node per task
 #SBATCH --ntasks=1                    # 1 R process per task
 #SBATCH --cpus-per-task=25            # adjust if using parallel inside R
-#SBATCH --mem=32G                    # adjust based on memory needs
+#SBATCH --mem=14G                    # adjust based on memory needs
 #SBATCH --time=48:00:00               
 #SBATCH --mail-user=cnscutt1@sheffield.ac.uk
 #SBATCH --mail-type=ALL

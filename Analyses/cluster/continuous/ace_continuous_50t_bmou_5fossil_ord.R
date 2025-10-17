@@ -73,14 +73,11 @@ cat("Trait matrices saved for replicate", replicate_id, "\n")
 
 source("/users/bip24cns/acedisparity/discrete/scripts/fossil.pres.R")
 
-
 living <- lapply(matrices, remove.fossil, trees = tree, type = "continuous")
 fossilised_high <- lapply(matrices, fossil.pres, trees = tree, preservation = 0.5, type = "continuous")
 all_fossil <- lapply(matrices, fossil.pres, trees = tree, preservation = 1.0, type = "continuous")
 fossilised_med <- lapply(matrices, fossil.pres, trees = tree, preservation = 0.15, type = "continuous")
 fossilised_low <- lapply(matrices, fossil.pres, trees = tree, preservation = 0.05, type = "continuous")
-
-
 
 
 fossil_matrices <- lapply(names(matrices), function(level) {
@@ -105,7 +102,7 @@ saveRDS(fossil_trees, write.path("trees", "fossil_trees_%03d.rds"))
 
 tasks  <- expand.grid(model = names(fossil_matrices), fossil_level = names(fossil_matrices[[1]]), stringsAsFactors = FALSE) ## flatten to give 25 rows, model combinations for each row
 
-cl <- makeCluster(25)
+cl <- makeCluster(25) ## make 25 core cluster (one for each task)
 clusterEvalQ(cl, library(treats))
 clusterExport(cl, c("fossil_matrices", "tasks"))
 
@@ -130,13 +127,13 @@ for(i in seq_along(res)) {
   fossil_anc[[m]][[l]] <- res[[i]]
 }
 
-cat("=== STARTING point_anc ===\n")
-point_anc <- lapply(fossil_anc, lapply, multi.ace, output = "combined.matrix")
+cat("Starting point ancestral state estimation...\n")
+point_anc <- lapply(fossil_anc, lapply, multi.ace, output = "combined.matrix")  ## takes median of confidence interval
 
-trait_normal  <-  list(fun = rnorm, param = list(mean = mean, sd = function(x)return(diff(range(x))/4)))
+trait_normal  <-  list(fun = rnorm, param = list(mean = mean, sd = function(x)return(diff(range(x))/4))) ## samples with normal distribution
 
-
-sample_anc <- lapply(fossil_anc, lapply, multi.ace, output = "combined.matrix", sample = 100, sample.fun = trait_normal)
+cat("Starting distribution ancestral state estimation...\n")
+sample_anc <- lapply(fossil_anc, lapply, multi.ace, output = "combined.matrix", sample = 100, sample.fun = trait_normal) ## 100 matrices replicated, 
 
 
 cat("Ancestral states estimated...\n")
@@ -223,13 +220,13 @@ cat("=== STARTING ord_true ===\n");
 cat("Ordinations completed...\n")
 
 
-cat("=== STARTING ord_fossil_tips ===\n")
-ord_fossil_tips <- lapply(fossil_matrices, lapply, function(x){
+cat("=== STARTING ordination of fossil tips for post ordiation ace ===\n")
+ord_fossil_tips <- lapply(fossil_matrices, lapply, function(x) {
     mat <- x$matrix
     prcomp(mat, scale = FALSE, center = TRUE)$x
   })
 
-cat("=== STARTING post_ord_ace ===\n")
+cat("=== STARTING ancestral statte estimation of post ordination ===\n")
 
 tasks_post_ord <- expand.grid(model = names(ord_fossil_tips), fossil_level = names(ord_fossil_tips[[1]]), stringsAsFactors = FALSE)
 
@@ -243,7 +240,7 @@ res_post_ord <- parLapply(cl, seq_len(nrow(tasks_post_ord)), function(i){
     fossil_tree <- fossil_trees[[task$model]][[task$fossil_level]]
     tryCatch({
         multi.ace(ord_matrix, fossil_tree, models = "BM", output = "multi.ace")
-    }, error = function(e){
+    }, error = function(e) {
         cat("ERROR:", task$model, task$fossil_level, e$message, "\n")
     })
 })
@@ -256,7 +253,7 @@ for(i in seq_along(res_post_ord)){
     post_ord_ace[[m]][[l]] <- res_post_ord[[i]]
 }
 
-cat("=== STARTING point_post_ord_ace ===\n");
+cat("=== STARTING point estimation post ord ace ===\n");
 point_post_ord_ace <- lapply(post_ord_ace, lapply,  multi.ace, output = "combined.matrix")
 
 
@@ -268,7 +265,7 @@ point_post_ord_ace_living <- Map(function(rate_anc, rate_labels) {
 
 names(point_post_ord_ace_living) <- names(point_post_ord_ace)
 
-trait_normal = list(fun = rnorm, param = list(mean = mean, sd = function(x)return(diff(range(x))/4)))
+trait_normal <-  list(fun = rnorm, param = list(mean = mean, sd = function(x)return(diff(range(x))/4)))
 
 
 sample_post_ord_ace <- lapply(post_ord_ace, lapply,  multi.ace, sample = 100, sample.fun = trait_normal, output = "combined.matrix")
@@ -290,12 +287,5 @@ saveRDS(ord_true, write.path("ord", "ord_true_%03d.rds"))
 saveRDS(point_post_ord_ace_living, write.path("ord", "post_ord_point_%03d.rds"))
 saveRDS(sample_post_ord_ace_living, write.path("ord", "post_ord_sample_%03d.rds"))
 
-# cat("=== CHECKING WARNINGS ===\n")
-# warning_list <- warnings()
-# if(!is.null(warning_list)) {
-#   cat("Number of warnings:", length(warning_list), "\n")
-#   print(warning_list)
-# } else {
-#   cat("No warnings detected\n")
-# }
+
 cat("Script completed\n")

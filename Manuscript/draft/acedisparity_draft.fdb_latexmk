@@ -1,15 +1,15 @@
 # Fdb version 4
-["bibtex acedisparity_draft"] 1760450177.62981 "acedisparity_draft.aux" "acedisparity_draft.bbl" "acedisparity_draft" 1760450368.48498 0
-  "./references.bib" 1760106718.89677 3262 a9bfad9e612ae6f3a801d606501c3fd1 ""
+["bibtex acedisparity_draft"] 1760707997.4953 "acedisparity_draft.aux" "acedisparity_draft.bbl" "acedisparity_draft" 1760708753.57757 0
+  "./references.bib" 1760707653.25792 4807 0a60d3c2ef41def6c24b038c3e045561 ""
   "/usr/share/texlive/texmf-dist/bibtex/bst/natbib/plainnat.bst" 1233624470 26816 ffe5423d2019860bad9f54bc402fac15 ""
-  "acedisparity_draft.aux" 1760450368.25961 3607 5d920354b1a71ed9fe20d96b4b08d3b1 "pdflatex"
+  "acedisparity_draft.aux" 1760708753.37523 4533 aa35014c487d76e72d4439f39c323651 "pdflatex"
   (generated)
   "acedisparity_draft.bbl"
   "acedisparity_draft.blg"
   (rewritten before read)
-["pdflatex"] 1760450367.7527 "/home/caleb/Documents/PhD/acedisparity/Manuscript/draft/acedisparity_draft.tex" "acedisparity_draft.pdf" "acedisparity_draft" 1760450368.48514 0
+["pdflatex"] 1760708752.88828 "/home/caleb/Documents/PhD/acedisparity/Manuscript/draft/acedisparity_draft.tex" "acedisparity_draft.pdf" "acedisparity_draft" 1760708753.57771 0
   "/etc/texmf/web2c/texmf.cnf" 1730844760.28548 475 c0e671620eb5563b2130f56340a5fde8 ""
-  "/home/caleb/Documents/PhD/acedisparity/Manuscript/draft/acedisparity_draft.tex" 1760450367.58861 15264 a11c73f238c5774b00cea9fa3bd7152e ""
+  "/home/caleb/Documents/PhD/acedisparity/Manuscript/draft/acedisparity_draft.tex" 1760708752.73022 17129 85fa522712b467492a1446089b48c199 ""
   "/usr/share/texlive/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/jknappen/ec/ecbx1000.tfm" 1136768653 3584 2d666ecf6d466d8b007246bc2f94d9da ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/jknappen/ec/ecbx1095.tfm" 1136768653 3584 21b378cca2e40816b0e6d74a4dc98f04 ""
@@ -54,7 +54,7 @@
   "/usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb" 1248133631 35752 024fb6c41858982481f6968b5fc26508 ""
   "/usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb" 1248133631 32726 0a1aea6fcd6468ee2cf64d891f5c43c8 ""
   "/usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb" 1248133631 32569 5e5ddc8df908dea60932f3c484a54c0d ""
-  "/usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb" 1248133631 37944 359e864bd06cde3b1cf57bb20757fb06 ""
+  "/usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmti8.pfb" 1248133631 35660 fb24af7afbadb71801619f1415838111 ""
   "/usr/share/texlive/texmf-dist/tex/context/base/mkii/supp-pdf.mkii" 1461363279 71627 94eb9990bed73c364d7f53f960cc8c5b ""
   "/usr/share/texlive/texmf-dist/tex/generic/atbegshi/atbegshi.sty" 1575674566 24708 5584a51a7101caf7e6bbf1fc27d8f7b1 ""
   "/usr/share/texlive/texmf-dist/tex/generic/bigintcalc/bigintcalc.sty" 1576625341 40635 c40361e206be584d448876bba8a64a3b ""
@@ -150,10 +150,10 @@
   "/usr/share/texmf/web2c/texmf.cnf" 1707919699 40399 f2c302f7d2af602abb742093540a5834 ""
   "/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map" 1730844780.91279 5472669 54eaf61a88b6b7896ebd0dac973cb29c ""
   "/var/lib/texmf/web2c/pdftex/pdflatex.fmt" 1730844870 8215263 37da5ff08623ce8426d1176d844cce83 ""
-  "acedisparity_draft.aux" 1760450368.25961 3607 5d920354b1a71ed9fe20d96b4b08d3b1 "pdflatex"
-  "acedisparity_draft.bbl" 1760450177.70488 2663 3169932c1956f21ddfdc3e2b2d2254dd "bibtex acedisparity_draft"
-  "acedisparity_draft.out" 1760450368.25961 2445 3802e8d91d33e5c91e0921e29cae5b31 "pdflatex"
-  "acedisparity_draft.tex" 1760450367.58861 15264 a11c73f238c5774b00cea9fa3bd7152e ""
+  "acedisparity_draft.aux" 1760708753.37523 4533 aa35014c487d76e72d4439f39c323651 "pdflatex"
+  "acedisparity_draft.bbl" 1760707997.56599 3966 56012cfa1bd23a5850fbbe13159bd700 "bibtex acedisparity_draft"
+  "acedisparity_draft.out" 1760708753.37523 2445 3802e8d91d33e5c91e0921e29cae5b31 "pdflatex"
+  "acedisparity_draft.tex" 1760708752.73022 17129 85fa522712b467492a1446089b48c199 ""
   (generated)
   "acedisparity_draft.aux"
   "acedisparity_draft.log"
