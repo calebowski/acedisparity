@@ -1,4 +1,4 @@
-\begin{thebibliography}{14}
+\begin{thebibliography}{17}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -60,10 +60,25 @@ Mark Pagel.
 \newblock The maximum likelihood approach to reconstructing ancestral character states of discrete characters on phylogenies.
 \newblock \emph{Systematic biology}, 48\penalty0 (3):\penalty0 612--622, 1999.
 
+\bibitem[Paradis and Schliep(2019)]{paradis2019ape}
+Emmanuel Paradis and Klaus Schliep.
+\newblock ape 5.0: an environment for modern phylogenetics and evolutionary analyses in r.
+\newblock \emph{Bioinformatics}, 35\penalty0 (3):\penalty0 526--528, 2019.
+
 \bibitem[Revell(2025)]{revell2025ancestral}
 Liam~J Revell.
 \newblock Ancestral state reconstruction of phenotypic characters.
 \newblock \emph{Evolutionary Biology}, pages 1--25, 2025.
+
+\bibitem[Rohlf(2001)]{rohlf2001comparative}
+F~James Rohlf.
+\newblock Comparative methods for the analysis of continuous variables: geometric interpretations.
+\newblock \emph{Evolution}, 55\penalty0 (11):\penalty0 2143--2160, 2001.
+
+\bibitem[Schluter et~al.(1997)Schluter, Price, Mooers, and Ludwig]{schluter1997likelihood}
+Dolph Schluter, Trevor Price, Arne~{\O} Mooers, and Donald Ludwig.
+\newblock Likelihood of ancestor states in adaptive radiation.
+\newblock \emph{Evolution}, 51\penalty0 (6):\penalty0 1699--1711, 1997.
 
 \bibitem[Wills(2001)]{wills2001morphological}
 Matthew~A Wills.

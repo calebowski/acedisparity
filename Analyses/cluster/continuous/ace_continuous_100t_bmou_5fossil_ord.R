@@ -302,12 +302,12 @@ sample_post_ord_ace_living <- Map(function(rate_anc, rate_labels) {
 }, sample_post_ord_ace, labels)
 cat("Post ordination ace completed...\n")
 
-saveRDS(ord_sample, write.path("ord", "ord_sample_%03d.rds"))
-saveRDS(ord_point, write.path("ord", "ord_point_%03d.rds"))
-saveRDS(ord_no_ace, write.path("ord", "ord_no_ace_%03d.rds"))
-saveRDS(ord_true, write.path("ord", "ord_true_%03d.rds"))
-saveRDS(point_post_ord_ace_living, write.path("ord", "post_ord_point_%03d.rds"))
-saveRDS(sample_post_ord_ace_living, write.path("ord", "post_ord_sample_%03d.rds"))
+saveRDS(ord_sample, write.path("ord", paste0(model_name, "_ord_sample_%03d.rds")))
+saveRDS(ord_point, write.path("ord", paste0(model_name, "_ord_point_%03d.rds")))
+saveRDS(ord_no_ace, write.path("ord", paste0(model_name, "_ord_no_ace_%03d.rds")))
+saveRDS(ord_true, write.path("ord", paste0(model_name, "_ord_true_%03d.rds")))
+saveRDS(point_post_ord_ace_living, write.path("ord", paste0(model_name, "_post_ord_point_%03d.rds")))
+saveRDS(sample_post_ord_ace_living, write.path("ord", paste0(model_name, "_post_ord_sample_%03d.rds")))
 
 # cat("=== CHECKING WARNINGS ===\n")
 # warning_list <- warnings()

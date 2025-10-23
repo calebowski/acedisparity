@@ -8,7 +8,7 @@ cat("Starting replicate", replicate_id, "\n")
 
 set.seed(100 + replicate_id)
 
-file_path <- "/mnt/parscratch/users/bip24cns/acedisparity/continuous/"
+file_path <- "/mnt/parscratch/users/bip24cns/acedisparity/continuous/50t/ord/"
 
 ord_sample <- readRDS(paste0(file_path, sprintf("ord/sample_ord_%03d.rds", replicate_id)))
 ord_point <- readRDS(paste0(file_path, sprintf("ord/point_ord_%03d.rds", replicate_id)))
