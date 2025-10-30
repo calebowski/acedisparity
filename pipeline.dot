@@ -1,0 +1,76 @@
+digraph pipeline {
+  rankdir=TB;
+  graph [splines=true, nodesep=0.6, ranksep=0.8, bgcolor="white"];
+  node [shape=box, style="rounded", fontsize=10, fontname="Helvetica"];
+
+  // Core data generation
+  tree [label="Tree simulations"];
+  discrete [label="Discrete traits"];
+  continuous [label="Continuous traits"];
+
+  // True ordination
+  ord_true [label="Ordination (true)\n(from full traits)", style="rounded,filled", fillcolor="#EEEEEE"];
+
+  // Fossil sampling
+  fossil [label="Fossil sampling"];
+
+  // Pre-ordination ASE path
+  pre_ase [label="Ancestral state estimation\n(pre-ordination)", fillcolor="#D8EAFE", style="rounded,filled"];
+  ord_est_pre [label="Ordination (estimated)\nfrom pre-ASE", fillcolor="#D8EAFE", style="rounded,filled"];
+
+  // Post-ordination ASE path
+  ord_sampled [label="Ordination (sampled traits)", fillcolor="#FFEACC", style="rounded,filled"];
+  post_ase [label="Ancestral state estimation\n(post-ordination)", fillcolor="#FFEACC", style="rounded,filled"];
+
+  // Disparity error
+  disparity [label="Disparity error\n(compare estimated vs true ordination)", style="rounded,filled", fillcolor="#F8F8F3"];
+
+  // Core simulation links
+  tree -> discrete;
+  tree -> continuous;
+
+  // Ordination (true) comes directly from both trait types
+  discrete -> ord_true;
+  continuous -> ord_true;
+
+  // Fossil sampling uses both traits
+  discrete -> fossil;
+  continuous -> fossil;
+
+  // Pre-ordination ASE route
+  fossil -> pre_ase;
+  pre_ase -> ord_est_pre;
+
+  // Post-ordination ASE route
+  fossil -> ord_sampled;
+  ord_sampled -> post_ase;
+
+  // Disparity comparisons
+  ord_true -> disparity [style=dashed, label="reference"];
+  ord_est_pre -> disparity [label="compare pre"];
+  post_ase -> disparity [label="compare post"];
+
+  // Optional styling clusters
+  subgraph cluster_pre {
+    label="Pre-ordination ASE path";
+    color="#A7C8F0";
+    pre_ase;
+    ord_est_pre;
+  }
+
+  subgraph cluster_post {
+    label="Post-ordination ASE path";
+    color="#F4C88C";
+    ord_sampled;
+    post_ase;
+  }
+
+  subgraph cluster_truth {
+    label="True simulation reference";
+    color="#CCCCCC";
+    ord_true;
+  }
+
+  // Ensure proper vertical order
+  { rank = same; discrete; continuous; }
+}

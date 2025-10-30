@@ -7,7 +7,7 @@
 #SBATCH --ntasks=5                    # 1 R process per task
 #SBATCH --cpus-per-task=5            # adjust if using parallel inside R
 #SBATCH --mem=12G                    # adjust based on memory needs
-#SBATCH --time=80:00:00               
+#SBATCH --time=90:00:00               
 #SBATCH --mail-user=cnscutt1@sheffield.ac.uk
 #SBATCH --mail-type=ALL
 
@@ -16,16 +16,15 @@ module load R/4.4.1-foss-2022b
 export R_LIBS_USER=/users/$USER/R/x86_64-pc-linux-gnu-library/4.4
 
 
-
 REPLICATE=${SLURM_ARRAY_TASK_ID}
 MODELS=("bm" "bm_t" "ou_st" "ou_w" "ou_sh")
 
-Rscript ace_continuous_50t_generate_tree.R ${REPLICATE}
+Rscript /users/$USER/acedisparity/continuous/scripts/ace_continuous_50t_generate_tree.R ${REPLICATE}
 
 for i in "${!MODELS[@]}"; do
     MODEL="${MODELS[$i]}"
     srun --ntasks=1 --cpus-per-task=5 --exclusive \
-        Rscript /users/$USER/acedisparity/continuous/scripts/ace_continuous_process_model.R ${REPLICATE} ${MODEL} &
+        Rscript /users/$USER/acedisparity/continuous/scripts/ace_continuous_process_model.R ${REPLICATE} ${MODEL} "50t" &
 done
 
 wait

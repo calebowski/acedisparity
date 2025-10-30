@@ -4,7 +4,8 @@ replicate_id <- as.numeric(args[1])
 library(treats)
 
 base_path <- "/mnt/parscratch/users/bip24cns/acedisparity/continuous/50t/"
-job_id <- 8368504
+job_id <- Sys.getenv("SLURM_ARRAY_JOB_ID")
+
 
 write.path <- function(subfolder, filename) {
   paste0(base_path, subfolder, "/", job_id, "_", sprintf(filename, replicate_id))

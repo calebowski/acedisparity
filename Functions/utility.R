@@ -30,13 +30,19 @@ fix.zero.branches <- function(tree, min_length = 1e-8) {
 }
 
 disp.diff <- function(ace, true){
-  if(is.null(ace[[1]]$elements )){
-    return(lapply(ace, function(x){
-      disp.diff(x, true)
-    }))
-  } 
-  diff <- (ace[[1]]$elements[1] - true[[1]]$elements[1]) / true[[1]]$elements[1]
-  return(diff)
+  tryCatch({
+    if(is.null(ace[[1]]$elements)){
+      return(lapply(ace, function(x){
+        disp.diff(x, true)
+      }))
+    } 
+    diff <- (ace[[1]]$elements[1] - true[[1]]$elements[1]) / true[[1]]$elements[1]
+    return(diff)
+  }, error = function(e) {
+    cat("Error in disp.diff:", e$message, "\n")
+    cat("ace class:", class(ace), "true class:", class(true), "\n")
+    return(NA)
+  })
 }
 
 write.path <- function(subfolder, filename) {

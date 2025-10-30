@@ -918,7 +918,7 @@ library(ggplot2)
 png("../besMacro/limb_less.png", width = 10, height = 6, units = "in", res = 300, bg = "transparent")
 par(mar = c(4, 8, 4, 4))
 plot(c(1,2), c(0.2, 0.3), ylim = c(0, 0.4), xlim = c(0.5, 2.5), pch = 21,
-     bg = c("#FF8C00", "navy"), xaxt = "n", ylab = "Disparity", xlab = "",
+     bg = c("#FF8C00", "#000080"), xaxt = "n", ylab = "Disparity", xlab = "",
      cex = 6, bty = "n", cex.lab = 2.6, cex.axis = 2)  # Enlarges y-axis label
 
 axis(1, at = c(1,2), labels = c("Assume Limbs", "Assume Limbless"), cex.axis = 2.4)
@@ -939,7 +939,7 @@ selective_tree <- ladderize(extinction_trees[[67]])
 tree_to_plot_random <- extinction_trees[[24]]
 
 png(filename = "/home/caleb/Documents/PhD/confReview/extinctiontree.png", width = 10, height = 10, units = "in", res = 700, bg = "transparent")
-plot.phylo(selective_tree, edge.color = "darkorange", edge.width = 7, show.tip.label = FALSE)
+plot.phylo(selective_tree, edge.color = "#ff8c00", edge.width = 7, show.tip.label = FALSE)
 dev.off()
 
 png(filename = "/home/caleb/Documents/PhD/confReview/randomextinctiontree.png", width = 10, height = 10, units = "in", res = 300, bg = "transparent")
