@@ -71,19 +71,17 @@ The chosen parameters correspond to a moderate-to-high turnover regime, consiste
 This level of extinction produces realistic evolutionary trees with substantial lineage pruning and extinct diversity, while maintaining a positive net diversification rate ($\lambda$ - $\mu$ = 0.3).
 However, these parameters were not fixed, since they can vary if a tree fails to be generated with given stop rule and parameters.
 A histogram of the distribution of speciation/extinction ratios is in the supplementary. % write this in
-Trees were simulated at three different sizes: 50, 100 and 150 living taxa.
-
+100 trees were simulated for each of three different stop rules: 50, 100 and 150 living taxa. 
 
 \subsubsection{Trait simulation} \label{trait simulation}
-Across each of the phylogenies, we simulated discrete and continuous trait data separately.
+Across each phylogeny, we simulated discrete and continuous trait data separately.
 Discrete trait data were simulated across three rate categories, representing fast, medium and slow transition rates (table \ref{tab:models}).
 These rates were assigned by generating equal-rate (ER) transition probability matrices, i.e., $P_{ij} = P_{ji}$.
-For each category, 85 binary characters and 15 three-state characters were simulated, following the character coding ratios found in most discrete disparity datasets \citep{casali2023morphological}. % CS: need more citations here ; not sure if this is necessarily true, but how would we justify this choice?
-Discrete trait evolution were simulated using a discrete-time Markov process, where the probability of state transition along each branch was proportional to the product of the transition probability and branch length.
-% trait simulations where traits were independent...
+For each category, 85 binary characters and 15 three-state characters were simulated, following the character coding ratios often found in discrete datasets used for disparity analyses \citep{casali2023morphological}. % CS: need more citations here ; is this a fair justification for this choice?
+Discrete trait evolution was simulated using a discrete-time Markov process, where the probability of state transition along each branch was proportional to the product of the transition probability and branch length.
 
 Continuous trait data were simulated under variations of Brownian motion (BM) and Ornstein-Uhlenbeck (OU) models (table \ref{tab:models}). 
-For BM, the trait data were simulated as both default and with a moving trend.
+For BM, the trait data were simulated as both stationary and with a moving trend.
 For OU, the data were simulated as strong, weak and with differing optimum and root states.
 Following \cite{gearty2024impact}, the alpha ($\alpha$) parameter was set based on phylogenetic half life ($\frac{\mathit{ln(2)}} {\alpha}$) to account for differing tree heights across simulations \citep{cooper2016cautionary}.
 For the strong and weak OU models $\alpha$ was set as 10\% and 50\% of the tree height respectively.
@@ -94,29 +92,29 @@ Each character was simulated as independent.
 In order to simulate different levels of fossil sampling, each tree was split into chronological `stages' to emulate the stratigraphic nature of the fossil record.
 Fossil tips were sampled uniformly at random from all extinct lineages within each chronological stage.
 Fossil sampling was carried out at five levels, $\omega_{0}, \ \omega_{5}, \ \omega_{15}, \ \omega_{50} \ \text{and}  \ \omega_{100}$ (where $\omega_{P} = P\% \ \text{fossils sampled}$), across each simulated phylogeny.
-% Fossil tips were sampled uniformly at random from all extinct lineages within each chronological stage.
 % Here i can reference a csv with all the tree tip and downsampled tree tip counts???
 % Have thought here about expanding this: trait-dependent preservation (i.e more likely if in state 0 to be preserved??); fossil can be sampled at any point along its branch.
 The corresponding trait matrices were subset to match sampled taxa, with ancestral node states excluded.
 
 \subsection{Ancestral state estimation}
-Ancestral state estimation was carried out on these downsampled matrices using the \texttt{multi.ace} function in \texttt{dispRity}, which is a wrapper for \texttt{ace} in the \texttt{ape} package \citep{paradis2019ape}.
+Ancestral state estimation was carried out on the down-sampled matrices using the \texttt{multi.ace} function in \texttt{dispRity}, which is a wrapper for \texttt{ace} in the \texttt{ape} package \citep{paradis2019ape}.
 We used four combinations of two approaches to ancestral state estimation to evaluate each method's accuracy in recovering the true disparity signal.
 \subsubsection{Pre-ordination estimation} \label{pre-ord}
 Firstly, we compared pre- versus post-ordination estimation methods. 
 Pre-ordination estimation methods of discrete characters involves estimating the marginal likelihoods for each discrete state at each node, based on a Maximum-Likelihood derived estimate of the M\textit{k} transition matrix and the tree topology given \citep{pagel1999maximum,yang2006computational}.
 Given that the transition rates were set \textit{a priori} during simulations, the equal-rates (ER) model was used to avoid model misspecification as a confounding factor on estimation accuracy \citep{keating2023best}.
+%cs: could do an analysis where ARD model is used to see if results change with model mispecification (Russell mentioned this)? 
 
-Pre-ordination estimation of continuous characters models evolution under a Brownian motion model, whereby ancestral state values lie within a multivariate normal distribution that is estimated given the observed tip data and the shared evolutionary history between taxa, i.e., the tree topology \citep{schluter1997likelihood,rohlf2001comparative}. % need citations
-Confidence intervals were calculated from standard errors derived from the Hessian matrix at the maximum likelihood estimate.
+Pre-ordination estimation of continuous characters models evolution under a Brownian motion model, whereby ancestral state values lie within a multivariate normal distribution that is estimated given the observed tip data and the shared evolutionary history between taxa, i.e., the tree topology \citep{schluter1997likelihood,rohlf2001comparative}. 
+Confidence intervals were calculated from standard errors derived from the Hessian matrix at the maximum likelihood estimate. % CS: not sure if this is necessary but put it in since the confidence interval will be mentioned lots in rest of paper.
 The width of confidence intervals reflects the uncertainty in continuous ancestral estimates, which typically increases with node depth and decreases with the number of informative descendant lineages.
-For an in-depth review of the methods described here see \cite{revell2025ancestral}.
+For a recent review of the methods described here see \cite{revell2025ancestral}.
 
 \subsubsection{Post-ordination estimation} \label{post-ord}
 Post-ordination estimation involves the estimation of a node's position within a multidimensional ordination matrix (or trait space).
 The generation of an ordination matrix differed between discrete and continuous characters.
-For discrete characters, distance matrices were computed using the `MORD' metric \citep{lloyd2016estimating} and ordinated using principal coordinates analyses (PCoA) \texttt{cmdscale()} function.
-Continuous data were ordinated using principal components analysis (PCA) \texttt{prcomp()}.
+For discrete characters, distance matrices were computed using the `MORD' metric \citep{lloyd2016estimating} and ordinated using principal coordinates analyses (PCoA) (\texttt{cmdscale()} function).
+Continuous data were ordinated using principal components analysis (PCA) (\texttt{prcomp()} function).
 For both the discrete- and continuous- character derived trait spaces, the ancestral states across all PC axes were then estimated under a Brownian motion model, as detailed in section \ref{pre-ord}.
 
 \subsubsection{Uncertainty treatment} \label{uncertainty}
@@ -125,13 +123,15 @@ The deterministic approach involves collapsing the likelihood outputs into point
 For discrete characters, this involved a strict majority rule whereby the state with the highest scaled likelihood was selected at each node for each character.
 In scenarios where state likelihoods are equally tied, one state is collapsed at random.
 We also employed a relative majority rule, whereby any state at a scaled likelihood greater than the maximum observed scaled likelihood minus the inverse number of possible states is collapsed, otherwise states are left as uncertain.
-For continuous characters, the deterministic approach used the median of the estimated ancestral confidence interval for each PC axis.
+For continuous characters, the deterministic approach used the median of the estimated ancestral confidence interval. 
 
 The probabilistic approach differs in that uncertainty in estimates are explicitly accounted for through the replication of matrices.
 For instance, discrete states at each node for each character were `sampled' according to their scaled likelihoods across 100 matrix replications.
-In a scenario where there is uncertainty in a binary character for a specific node, e.g., 0.55 for state 0 and 0.45 for state 1, this probabilistic approach would have a 55\% probability of sampling state 0 in each matrix at this respective node.
-Continuous characters were treated similarly, with 100 matrices replicated and ancestral state estimates at each node and character sampled across a normal distribution within their respective estimated confidence interval.
+In a scenario where there is uncertainty in a binary character for a specific node, e.g., 0.55 for state 0 and 0.45 for state 1, this probabilistic approach would have a 55\% probability of sampling state 0 in each matrix for the respective node.
+Continuous characters were treated similarly, with 100 matrices replicated and ancestral state estimates for each node and character sampled across a normal distribution within their respective estimated confidence interval.
 Both procedures are implemented in the \texttt{dispRity} package using the \texttt{sample = 100} argument in the \texttt{multi.ace} function \citep{guillerme2018disprity}.
+
+% CS: could perhaps do with a figure showing how these methods compare? or add it to the pipeline figure
 
 
 \subsection{Disparity metrics}
@@ -139,31 +139,31 @@ To ensure fair comparison between different fossil sampling levels only the node
 Discrete and continuous pre-ordination ancestral state estimations were ordinated in the same manner as described in section \ref{post-ord}.
 
 When assessing overall disparity, we wanted to understand how well ancestral state estimation can recover true patterns in size and density in trait space \citep{guillerme2020shifting}.
-Since we are assessing overall disparity, position was not a metric that can be discenered due to the centering of ordinated matrices.
+Since we were assessing overall disparity, position was not a metric that can be discerned due to the centring of ordinated matrices.
 Size-based metrics describe the spread of points in the trait space \citep{guillerme2020shifting}.
 To explore how well the size of the trait space was recovered, we calculated the sum of quantiles.
 The sum of quantiles calculates the range on each PC axis for the 95\% of the data and then sums these ranges across all axes.
 This metric has similar properties to the often used sum of ranges metric by describing the total trait space exploited \citep{foote1992rarefaction}, but with less sensitivity to outliers.
 For density, we measured the sum of variances \citep{ciampaglio2001detecting,wills2001morphological} and the average nearest neighbour distance \citep{foote1992rarefaction}.
 The sum of variances is the most widely used metric in disparity analyses.
-Disparity values were calculated across each estimation and the `true' simulation, so that a relative disparity error could be calculated.
+Disparity values were calculated across each estimation and the `true' simulation so that a relative disparity error could be calculated.
 
 \begin{equation}
 \text{Relative disparity error} = \frac{\text{Estimated disparity} - \text{True disparity}}{\text{True disparity}}
 \end{equation}
 
-Disparity calculations were done with three treatments on the ordinated matrices.
+Disparity calculations were carried out across three treatments of the ordinated matrices.
 Firstly, the untreated ordination output was used.
-Secondly, we min-max normalised the matrices so that the absolute magnitude in PC scores did not influence the disparity metric scores.
-Thirdly, we only used the minimum number of dimensions that were contained across all fossil sampling levels and treatments.
+Secondly, we min-max standardised the PC axes so that the absolute magnitude in PC scores did not influence the disparity metric scores.
+Thirdly, we only used the minimum number of dimensions that were contained across all fossil sampling levels for that specific phylogeny.
 For the simulations of 50 living taxa trees, this would be the first 48 dimensions, in the 100 living taxa it would be 98 dimensions etc.
 
 \subsection{Mass extinction simulations}
 Having established the accuracy of different ancestral state estimation methods in recovering overall trait space patterns, we next tested how well these methods capture changes in disparity across time during simulated mass extinction events.
-Following the framework above, 100 trees were simulated for each tree size of 50, 100 and 150 living taxa, but with extinction events simulated when the number of taxa equalled the stop limit - 10.
-We simulated both random, where taxa are eliminated at random, and selective extinctions, where taxa are more prone to extinction based on their trait values.
+Following the framework above, 100 trees were simulated for each tree size of 50, 100 and 150 living taxa with a mass extinction event.
+We simulated both random, where taxa were eliminated at non-selectively, and selective extinctions, where taxa were more prone to extinction based on their trait values.
 Extinction severity was set with a uniform distribution between 75--95\%, the range seen between K-Pg and the Permian extinctions.
-For selective extinctions, % put parameters here.
+For selective extinctions, % put parameters here once you have finalised
 %trait data was simulated simultaneously to the tree generation.
 
 With the new set of trees (and trait data for selective extinctions), the framework from section \ref{trait simulation} to \ref{uncertainty} was repeated. 
@@ -219,7 +219,7 @@ Disparity was measured from the taxa contained within each of these two bins to 
 \begin{figure}[h]
 \centering
 \includegraphics[width=0.8\textwidth]{figures/ACEDisparity_pipeline.pdf}
-\caption{\textbf{Simulation workflow}}
+\caption{\textbf{Simulation workflow}} Green arrow = `true disparity'; blue arrow = pre-ordination estimation; orange arrow = post-ordination estimation.
 \label{fig:pipeline}
 \end{figure}
 
@@ -230,7 +230,7 @@ Disparity was measured from the taxa contained within each of these two bins to 
 
 \begin{table}[ht]
 \centering
-\caption{Trait simulation models and parameters used across each phylogeny. For continuous characters, the root state was always set as 0.}
+\caption{Trait simulation models and parameters used across each phylogeny. For continuous characters, the root state was always set as 0. $P_{ij}$ = transition probability;  $\sigma$ = variance; $\alpha$ = rate of adaptation toward the optimum; $\theta$ = optimum.}
 \label{tab:models}
 \begin{tabular}{|c|c|c|}
 \hline
