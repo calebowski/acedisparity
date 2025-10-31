@@ -119,15 +119,16 @@ The pre-ordination estimation method for estimating ancestral discrete character
 Given that the transition rates were set \textit{a priori} during simulations, the equal-rates (ER) model was used to avoid model misspecification as a confounding factor on estimation accuracy \citep{keating2023best}.
 %cs: could do an analysis where ARD model is used to see if results change with model mispecification (Russell mentioned this)? TG: this is also a very good point like the one for the different fossilisation biases but I think we should keep it to what it is for now and then add/remove depending on the reviews.
 
-Pre-ordination estimation of continuous characters models evolution under a Brownian motion model, whereby ancestral state values lie within a multivariate normal distribution that is estimated given the observed tip data and the shared evolutionary history between taxa, i.e., the tree topology \citep{schluter1997likelihood,rohlf2001comparative}. 
-Confidence intervals were calculated from standard errors derived from the Hessian matrix at the maximum likelihood estimate. % CS: not sure if this is necessary but put it in since the confidence interval will be mentioned lots in rest of paper.
+Pre-ordination estimation of continuous characters models evolution under a Brownian motion model, whereby ancestral state values lie within a multivariate normal distribution that is estimated given the observed tip data and the shared evolutionary history between taxa \citep{schluter1997likelihood,rohlf2001comparative}. 
+Confidence intervals were calculated from standard errors derived from the Hessian matrix at the maximum likelihood estimate. % CS: not sure if this is necessary but put it in since the confidence interval will be mentioned lots in rest of paper. TG:Probably not necessary unless you can/want to develop what a Hessian matrix is.
 The width of confidence intervals reflects the uncertainty in continuous ancestral estimates, which typically increases with node depth and decreases with the number of informative descendant lineages.
-For a recent review of the methods described here see \cite{revell2025ancestral}.
+For a recent review of the methods described here see \cite{revell2025ancestral}. %TG: up to you but it might not be necessary to add that sentence.
 
 \subsubsection{Post-ordination estimation} \label{post-ord}
-Post-ordination estimation involves the estimation of a node's position within a multidimensional ordination matrix (or trait space).
-The generation of an ordination matrix differed between discrete and continuous characters.
-For discrete characters, distance matrices were computed using the `MORD' metric \citep{lloyd2016estimating} and ordinated using principal coordinates analyses (PCoA) (\texttt{cmdscale()} function).
+Post-ordination estimation involves the estimation of a node's position within a multidimensional ordinated matrix (commonly referred to as the trait space, morphospace, functional space, etc.).
+The generation of an ordinated matrix differed between discrete and continuous characters.
+For discrete characters, distance matrices were computed using the `MORD' metric \citep{lloyd2016estimating} %TG: probably worth at least spelling out the acronym for a quick understanding for the reader.
+ and ordinated using principal coordinates analyses (PCoA) (\texttt{cmdscale()} function). 
 Continuous data were ordinated using principal components analysis (PCA) (\texttt{prcomp()} function).
 For both the discrete- and continuous- character derived trait spaces, the ancestral states across all PC axes were then estimated under a Brownian motion model, as detailed in section \ref{pre-ord}.
 
