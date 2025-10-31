@@ -76,7 +76,7 @@ This level of extinction produces realistic evolutionary trees with substantial 
 % A histogram of the distribution of speciation/extinction ratios is in the supplementary. % write this in
 % 100 trees were simulated for each of three different stop rules: 50, 100 and 150 living taxa.
 We generated three sets of 100 birth-death trees with these parameters until it the simulations reached 50, 100 and 150 living taxa.
-Because of the stochasticity of the birth-death model (e.g. simulations containing only extinct taxa), we re-ran each individual simulation until we obtained the desired number of living taxa.
+Because of the randomness of the birth-death model (e.g. simulations containing only extinct taxa), we re-ran each individual simulation until we obtained the desired number of living taxa (50, 100 or 150).
 This means that although the input parameters where set to $\lambda = 1$; $\mu = 0.7$ the effective parameters slightly deviates from these input values (see supplementary figure @@@).
 
 
@@ -93,20 +93,24 @@ For BM, the trait data were simulated as both stationary and with a moving trend
 For OU, the data were simulated as strong, weak and with differing optimum and root states.
 Following \cite{gearty2024impact}, the alpha ($\alpha$) parameter was set based on phylogenetic half life ($\frac{\mathit{ln(2)}} {\alpha}$) to account for differing tree heights across simulations \citep{cooper2016cautionary}.
 For the strong and weak OU models $\alpha$ was set as 10\% and 50\% of the tree height respectively.
-Continuous trait data were simulated across 100 characters for each model across each phylogeny.
-Each character was simulated as independent.
+We simulate 100 independent characters for each model %TG: you can maybe repeat what models gere in brackets (BM, BM trend, OU, etc) ; also why a 100? can probably reduce to 20 no?
+ across each phylogeny.
 
 \subsection{Fossil sampling}
-In order to simulate different levels of fossil sampling, each tree was split into chronological `stages' to emulate the stratigraphic nature of the fossil record.
+In order to simulate different levels of fossil sampling, each tree was split into chronological `stages' to emulate the stratigraphic nature of the fossil record. %TG: Not sure what's the thing about stages here. From what I understood you did you resample the whole tree but including 5%, 15%, etc. of fossils throughout. Or do you split the tree in 5 bins and apply a different resampling for each bin? Like 5% for "stage 1", 5% for "stage 2" etc.? This section needs either simplifying ("we resample stuff") or exanding (what's happening with the stages and why?)
 Fossil tips were sampled uniformly at random from all extinct lineages within each chronological stage.
-Fossil sampling was carried out at five levels, $\omega_{0}, \ \omega_{5}, \ \omega_{15}, \ \omega_{50} \ \text{and}  \ \omega_{100}$ (where $\omega_{P} = P\% \ \text{fossils sampled}$), across each simulated phylogeny.
+Fossil sampling was carried out at five levels, $\omega_{0}, \ \omega_{5}, \ \omega_{15}, \ \omega_{50} \ \text{and}  \ \omega_{100}$ (where $\omega_{P} = P\% \ \text{fossils sampled}$), across each simulated phylogeny. %TG: use just "probablity of sampling" as discussed during our meeing (instead of omega)
 % Here i can reference a csv with all the tree tip and downsampled tree tip counts???
-% Have thought here about expanding this: trait-dependent preservation (i.e more likely if in state 0 to be preserved??); fossil can be sampled at any point along its branch.
-The corresponding trait matrices were subset to match sampled taxa, with ancestral node states excluded.
+% Have thought here about expanding this: trait-dependent preservation (i.e more likely if in state 0 to be preserved??); fossil can be sampled at any point along its branch. %TG: this is a really good idea! I like it! But maybe we should focus on getting this manuscript done first and see what people comment at SVP?
+The corresponding trait matrices were subset to match sampled taxa, with ancestral node states excluded. %TG: it's not clear what you're meaning here.
 
 \subsection{Ancestral state estimation}
-Ancestral state estimation was carried out on the down-sampled matrices using the \texttt{multi.ace} function in \texttt{dispRity}, which is a wrapper for \texttt{ace} in the \texttt{ape} package \citep{paradis2019ape}.
-We used four combinations of two approaches to ancestral state estimation to evaluate each method's accuracy in recovering the true disparity signal.
+We ran ancestral state estimation on the down-sampled matrices using the \texttt{multi.ace} function in \texttt{dispRity}, %TG: or you can use the notation \texttt{dispRity::multi.ace} \cite{guillerme2018disprity} (and same for ape::ace); I think it makes it slightly easier to read
+    which is a wrapper for \texttt{ace} in the \texttt{ape} package \citep{paradis2019ape}.
+We used four combinations of two approaches to ancestral state estimation to evaluate each method's accuracy in recovering the true disparity signal. %TG: really nice bit here, remind the reader where you're going!
+
+
+
 \subsubsection{Pre-ordination estimation} \label{pre-ord}
 Firstly, we compared pre- versus post-ordination estimation methods. 
 Pre-ordination estimation methods of discrete characters involves estimating the marginal likelihoods for each discrete state at each node, based on a Maximum-Likelihood derived estimate of the M\textit{k} transition matrix and the tree topology given \citep{pagel1999maximum,yang2006computational}.
