@@ -66,18 +66,18 @@ Simulations were carried out using \texttt{treats} \citep{guillerme2024treats}.
 % The process begins with a single lineage and iteratively selects lineages to grow the tree forward in time.
 % At each step, all living branches are extended by a branch length increment, drawn from an exponential distribution based on the total number of lineages and the combined speciation and extinction rates.
 % Selected lineages then undergo either speciation or extinction based on a probabilistic decision determined by the specified rates.
-We simulated birth-death trees withe the speciation parameter set to 1 ($\lambda$ - birth), and the extinction one uniformally sampled between 0.9 and 0.5 ($\mu$ - death).
-Fixing $\lambda$ = 1.0 provides a convenient relative time-scale, since only the ratio of extinction to speciation affects the shape and balance of simulated trees.
+We simulated birth-death trees with the speciation parameter set to 1 ($\lambda$ - birth), and the extinction one set to 0.7 ($\mu$ - death).
+Fixing $\lambda = 1$ provides a convenient relative time-scale, since only the ratio of extinction to speciation affects the shape and balance of simulated trees.
 These parameters correspond to a moderate-to-high turnover regime, consistent with the upper-empirical estimates from both fossil- and molecular-based diversification studies of vertebrate groups. % add references here.
 This level of extinction produces realistic evolutionary trees with substantial extant and extinct diversity, %TG: not sure lineage pruning is what's happening there.
- while maintaining a positive net diversification rate ($\lambda - \mu \in [0.1; 0.5]$). %TG: is that right? The diversification rate is a range since mu is a range no?
+ while maintaining a positive net diversification rate ($\lambda - \mu = 0.3$).
 %TG: I would rewrite these three last sentences differently to explain more clearly what's happening:
 % However, these parameters were not fixed, since they can vary if a tree fails to be generated with given stop rule and parameters.
 % A histogram of the distribution of speciation/extinction ratios is in the supplementary. % write this in
 % 100 trees were simulated for each of three different stop rules: 50, 100 and 150 living taxa.
 We generated three sets of 100 birth-death trees with these parameters until it the simulations reached 50, 100 and 150 living taxa.
 Because of the stochasticity of the birth-death model (e.g. simulations containing only extinct taxa), we re-ran each individual simulation until we obtained the desired number of living taxa.
-This means that although the input parameters where set to $\lambda = 1$; $\mu \in [0.9;0.5]$ the effective parameters slightly deviates from these input values (see supplementary figure @@@).
+This means that although the input parameters where set to $\lambda = 1$; $\mu = 0.7$ the effective parameters slightly deviates from these input values (see supplementary figure @@@).
 
 
 \subsubsection{Trait simulation} \label{trait simulation}
