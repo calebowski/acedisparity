@@ -34,7 +34,7 @@
 \small
 \textsuperscript{1}School of Biosciences, University of Sheffield, Sheffield, UK\\
 \textsuperscript{2}Natural History Museum, London, UK\\[12pt]
-*Corresponding author: cnscutt1@sheffield.ac.uk
+*Corresponding author: cnscutt1@sheffield.ac.uk %TG: Note that for the email here, it might be worth creating a permanent one through proton mail or something like that (caleb.scutt@...) so that you still have access to it after your PhD!
 \end{center}
 
 \begin{abstract}
@@ -61,27 +61,35 @@ These results demonstrate that explicitly propagating uncertainty, rather than c
 \subsection{Simulation Framework}
 \subsubsection{Phylogenies}
 Simulations were carried out using \texttt{treats} \citep{guillerme2024treats}.
-Phylogenies were simulated using a modified version of the birth-death process algorithm.
-The process begins with a single lineage and iteratively selects lineages to grow the tree forward in time.
-At each step, all living branches are extended by a branch length increment, drawn from an exponential distribution based on the total number of lineages and the combined speciation and extinction rates.
-Selected lineages then undergo either speciation or extinction based on a probabilistic decision determined by the specified rates.
-Phylogenies were simulated with birth-death parameters as speciation ($\lambda$) = 1.0, and extinction ($\mu$) across a range between 0.9-0.5.
+%TG: for here and throughout, please use the active voice, which is easier to read: "We ran the simulations using treats". And same throughout (e.g. next setence, "We simulated phylogenies...")
+% Phylogenies were simulated using a modified version of the birth-death process algorithm. %TG: not sure it's a modified version of the birth death process. Also, I think these details are good for the paper. Because treats is already a standalone package you can say something like "We simulated birth-death trees with the following parameters (cite treats)." so the reader can go there for more info.
+% The process begins with a single lineage and iteratively selects lineages to grow the tree forward in time.
+% At each step, all living branches are extended by a branch length increment, drawn from an exponential distribution based on the total number of lineages and the combined speciation and extinction rates.
+% Selected lineages then undergo either speciation or extinction based on a probabilistic decision determined by the specified rates.
+We simulated birth-death trees withe the speciation parameter set to 1 ($\lambda$ - birth), and the extinction one uniformally sampled between 0.9 and 0.5 ($\mu$ - death).
 Fixing $\lambda$ = 1.0 provides a convenient relative time-scale, since only the ratio of extinction to speciation affects the shape and balance of simulated trees.
-The chosen parameters correspond to a moderate-to-high turnover regime, consistent with the upper-empirical estimates from both fossil- and molecular-based diversification studies of vertebrate groups. % add references here.
-This level of extinction produces realistic evolutionary trees with substantial lineage pruning and extinct diversity, while maintaining a positive net diversification rate ($\lambda$ - $\mu$ = 0.3).
-However, these parameters were not fixed, since they can vary if a tree fails to be generated with given stop rule and parameters.
-A histogram of the distribution of speciation/extinction ratios is in the supplementary. % write this in
-100 trees were simulated for each of three different stop rules: 50, 100 and 150 living taxa. 
+These parameters correspond to a moderate-to-high turnover regime, consistent with the upper-empirical estimates from both fossil- and molecular-based diversification studies of vertebrate groups. % add references here.
+This level of extinction produces realistic evolutionary trees with substantial extant and extinct diversity, %TG: not sure lineage pruning is what's happening there.
+ while maintaining a positive net diversification rate ($\lambda - \mu \in [0.1; 0.5]$). %TG: is that right? The diversification rate is a range since mu is a range no?
+%TG: I would rewrite these three last sentences differently to explain more clearly what's happening:
+% However, these parameters were not fixed, since they can vary if a tree fails to be generated with given stop rule and parameters.
+% A histogram of the distribution of speciation/extinction ratios is in the supplementary. % write this in
+% 100 trees were simulated for each of three different stop rules: 50, 100 and 150 living taxa.
+We generated three sets of 100 birth-death trees with these parameters until it the simulations reached 50, 100 and 150 living taxa.
+Because of the stochasticity of the birth-death model (e.g. simulations containing only extinct taxa), we re-ran each individual simulation until we obtained the desired number of living taxa.
+This means that although the input parameters where set to $\lambda = 1$; $\mu \in [0.9;0.5]$ the effective parameters slightly deviates from these input values (see supplementary figure @@@).
+
 
 \subsubsection{Trait simulation} \label{trait simulation}
-Across each phylogeny, we simulated discrete and continuous trait data separately.
-Discrete trait data were simulated across three rate categories, representing fast, medium and slow transition rates (table \ref{tab:models}).
+For each phylogeny, we simulated discrete and continuous trait data separately. %TG: for the whole manuscript, I suggest you go with continuous first then discrete. I think people understand continuous more easily (e.g. all them ecology people!).
+Discrete trait data were simulated using across three rate categories, representing fast, medium and slow transition rates (table \ref{tab:models}). %TG: what are the rates? Where do they come from?
 These rates were assigned by generating equal-rate (ER) transition probability matrices, i.e., $P_{ij} = P_{ji}$.
-For each category, 85 binary characters and 15 three-state characters were simulated, following the character coding ratios often found in discrete datasets used for disparity analyses \citep{casali2023morphological}. % CS: need more citations here ; is this a fair justification for this choice?
-Discrete trait evolution was simulated using a discrete-time Markov process, where the probability of state transition along each branch was proportional to the product of the transition probability and branch length.
+%TG: I think it's easier to explain first that you used an ER model (no need to explain the P_ij = P_ji  since I think it's obvious from the text and the little math annotation is more confusing than just the english (what is P, i and j)); and then explain you used three different rates of evolution for each of the same model.
+For each category, 85 binary characters and 15 three-state characters were simulated, following the number of states from empirical data \citep{casali2023morphological}. % CS: need more citations here ; is this a fair justification for this choice? TG: yes! cite Guillerme and Cooper 2016 - https://doi.org/10.1016/j.ympev.2015.08.023
+Discrete trait evolution was simulated using a discrete-time Markov process, where the probability of state transition along each branch was proportional to the product of the transition probability and branch length. %TG: I think this should go nearer the top as well. You first explain the general: we simulated traits using a Mk process with an ER model on top of the trees. For each of them we use three different rates (which ones). And for each of these we use different number of states (85% binary, 15% 3 states).
 
 Continuous trait data were simulated under variations of Brownian motion (BM) and Ornstein-Uhlenbeck (OU) models (table \ref{tab:models}). 
-For BM, the trait data were simulated as both stationary and with a moving trend.
+For BM, the trait data were simulated as both stationary and with a moving trend. %TG: you probably need to explain more stuff here. 1) what parameters where used (the variance? or something like that, don't remember the one) + what is the trend model, etc. 
 For OU, the data were simulated as strong, weak and with differing optimum and root states.
 Following \cite{gearty2024impact}, the alpha ($\alpha$) parameter was set based on phylogenetic half life ($\frac{\mathit{ln(2)}} {\alpha}$) to account for differing tree heights across simulations \citep{cooper2016cautionary}.
 For the strong and weak OU models $\alpha$ was set as 10\% and 50\% of the tree height respectively.
