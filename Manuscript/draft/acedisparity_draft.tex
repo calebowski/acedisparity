@@ -133,39 +133,40 @@ Continuous data were ordinated using principal components analysis (PCA) (\textt
 For both the discrete- and continuous- character derived trait spaces, the ancestral states across all PC axes were then estimated under a Brownian motion model, as detailed in section \ref{pre-ord}.
 
 \subsubsection{Uncertainty treatment} \label{uncertainty}
-For each estimation method, we also treated uncertainty in estimates with both deterministic and probabilistic approaches.
-The deterministic approach involves collapsing the likelihood outputs into point estimates.
+For each estimation method, we also treated uncertainty in estimates with both deterministic and probabilistic approaches. %TG: not sure what you're referring to with deterministic and probabilistic here. I think you mean more "point estimate" and "distribution" no?
+The deterministic approach involves collapsing the likelihood outputs into point estimates. %TG: Re: comment about, yeah, I don't think deterministic means this in this context (I think it means the outcome can be reliably predicted or something like that).
 For discrete characters, this involved a strict majority rule whereby the state with the highest scaled likelihood was selected at each node for each character.
-In scenarios where state likelihoods are equally tied, one state is collapsed at random.
-We also employed a relative majority rule, whereby any state at a scaled likelihood greater than the maximum observed scaled likelihood minus the inverse number of possible states is collapsed, otherwise states are left as uncertain.
+In scenarios where state likelihoods are equal, one state is chosen at random.
+We also employed a relative majority rule, whereby any state at a scaled likelihood greater than the maximum observed scaled likelihood minus the inverse number of possible states is collapsed, otherwise states are left as uncertain. %TG: this is in the supplementaries now no? Might be worth stating here so that people don't look for it
 For continuous characters, the deterministic approach used the median of the estimated ancestral confidence interval. 
 
-The probabilistic approach differs in that uncertainty in estimates are explicitly accounted for through the replication of matrices.
-For instance, discrete states at each node for each character were `sampled' according to their scaled likelihoods across 100 matrix replications.
-In a scenario where there is uncertainty in a binary character for a specific node, e.g., 0.55 for state 0 and 0.45 for state 1, this probabilistic approach would have a 55\% probability of sampling state 0 in each matrix for the respective node.
-Continuous characters were treated similarly, with 100 matrices replicated and ancestral state estimates for each node and character sampled across a normal distribution within their respective estimated confidence interval.
+The probabilistic approach differs in that uncertainty in estimates are explicitly accounted for by sampling multiple results rather than a single point estimate. %TG: (changed the replication thing here - more like a sampling); also, probablistic approach here should be more called something like the "distribution method/approach".
+For each discrete character states at a node the states where sampled a 100 times according to their scaled likelihoods (resulting in a 100 character estimation matrices). %TG: rephrased a bit here. Mainly sampled didn't need quotes ;).
+In a scenario where there is uncertainty in a binary character for a specific node, e.g., 0.55 for state 0 and 0.45 for state 1, this distribution approach would results in a 55\% probability of sampling state 0 in each matrix for the respective node (and 45\% chance of sampling state 1).
+Continuous characters were treated similarly, with 100 matrices replicated and ancestral state estimates for each node and character sampled across a normal distribution centered on the mean estimation and spread across the estimated confidence interval.
 Both procedures are implemented in the \texttt{dispRity} package using the \texttt{sample = 100} argument in the \texttt{multi.ace} function \citep{guillerme2018disprity}.
 
 % CS: could perhaps do with a figure showing how these methods compare? or add it to the pipeline figure
-
+%TG: I think a figure here is a really good idea! You could try to squeeze it in the pipeline one but maybe it's clearer as a standalone. maybe try both and see?
 
 \subsection{Disparity metrics}
 To ensure fair comparison between different fossil sampling levels only the nodes present across all fossil sampling levels were retained from the ancestral state estimation outputs for each phylogeny; therefore, comparisons in disparity calculations between fossil sampling levels differed solely on the difference in number of fossil tips and the estimations of node states.
-Discrete and continuous pre-ordination ancestral state estimations were ordinated in the same manner as described in section \ref{post-ord}.
+Discrete and continuous pre-ordination ancestral state estimations were ordinated in the same manner as described in section \ref{post-ord}. %TG: I think this bit should go above in the section where you talk about ordination.
 
-When assessing overall disparity, we wanted to understand how well ancestral state estimation can recover true patterns in size and density in trait space \citep{guillerme2020shifting}.
-Since we were assessing overall disparity, position was not a metric that can be discerned due to the centring of ordinated matrices.
+When assessing overall disparity, we wanted to understand how well ancestral state estimation can recover true patterns in size and density in trait space occupancy \citep{guillerme2020shifting}.
+% Since we were assessing overall disparity, position was not a metric that can be discerned due to the centring of ordinated matrices. TG: this sentence is probably not necessary. But might bring it back if a reviewer asks for why no position?
 Size-based metrics describe the spread of points in the trait space \citep{guillerme2020shifting}.
 To explore how well the size of the trait space was recovered, we calculated the sum of quantiles.
 The sum of quantiles calculates the range on each PC axis for the 95\% of the data and then sums these ranges across all axes.
-This metric has similar properties to the often used sum of ranges metric by describing the total trait space exploited \citep{foote1992rarefaction}, but with less sensitivity to outliers.
-For density, we measured the sum of variances \citep{ciampaglio2001detecting,wills2001morphological} and the average nearest neighbour distance \citep{foote1992rarefaction}.
-The sum of variances is the most widely used metric in disparity analyses.
-Disparity values were calculated across each estimation and the `true' simulation so that a relative disparity error could be calculated.
+This metric has similar properties to the often used sum of ranges metric by describing the total trait space exploited \citep{foote1992rarefaction}, but with less sensitivity to outliers and is thus less sensitive to sample size.
+For density, we measured the sum of variances \citep{ciampaglio2001detecting,wills2001morphological} and the average nearest neighbour distance \citep{foote1992rarefaction}. %TG: I think you could probably just use one? And the second goes to the supplementaries?
+The sum of variances is a very widely used metric in disparity analyses. %TG: pro intuition writing tip: if you say "the most used" I'd probably want to see a meta analysis to prove it. if you say "very widely used" I can agree with you without any extra reference/work ;)
+Disparity values were calculated across each estimation and the `true' simulation so that a relative disparity error could be calculated. %TG: I think throughout the manuscript you should choose whether to write true in quotes or not. I think in your case it is _actually_ the true disparity (the one simulated) so I think it can do without quotes.
 
 \begin{equation}
 \text{Relative disparity error} = \frac{\text{Estimated disparity} - \text{True disparity}}{\text{True disparity}}
 \end{equation}
+%TG: need equation! Clear and easy to read by humans!
 
 Disparity calculations were carried out across three treatments of the ordinated matrices.
 Firstly, the untreated ordination output was used.
