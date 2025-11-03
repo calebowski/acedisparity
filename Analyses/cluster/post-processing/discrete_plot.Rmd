@@ -1,5 +1,5 @@
 ---
-title: "ACE Project continuous"
+title: "ACE Project discrete plot"
 author: "Caleb"
 date: "`r Sys.Date()`"
 output:

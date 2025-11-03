@@ -4,7 +4,7 @@ tree_size <- args[2]
 job_id <- as.numeric(args[3])
 
 
-base_path <- paste0("/mnt/parscratch/users/bip24cns/acedisparity/continuous/", tree_size, "/")
+base_path <- paste0("/mnt/parscratch/users/bip24cns/acedisparity/randomExtinction/continuous/", tree_size, "/")
 # job_id <- 8469104
 write.path <- function(subfolder, filename) {
   return(paste0(base_path, subfolder, "/", job_id, "_", sprintf(filename, replicate_id)))

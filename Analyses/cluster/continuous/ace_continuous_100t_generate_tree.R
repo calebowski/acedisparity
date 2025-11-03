@@ -13,36 +13,22 @@ write.path <- function(subfolder, filename) {
 
 set.seed(100 + replicate_id)
 
+# Use the same simple approach as 50t
 bd_params <- make.bd.params(speciation = 1, extinction = 0.7)
-stop_rule <- list(max.living = 100)
+stop_rule <- list(max.living = 100)  # Changed to 100 tips
 
+# Simple tree generation - no complex retry logic
 tree <- treats(stop.rule = stop_rule, bd.params = bd_params, null.error = 100)
-
-max_attempts <- 200  # Prevent infinite loops
-attempt <- 1
-
-repeat {
-  tree <- treats(stop.rule = stop_rule, bd.params = bd_params, null.error = 100)
-  n_tips <- length(tree$tip.label)
-  
-  if(n_tips <= 300) {
-    cat("Tree found with", n_tips, "tips\n")
-    break
-  }
-  
-  if(attempt >= max_attempts) {
-    cat("Warning: Reached maximum attempts, accepting tree with", n_tips, "tips\n")
-    break
-  }
-  
-  attempt <- attempt + 1
-}
-
 tree <- drop.singles(tree)
 tree <- fix.zero.branches(tree)
 tree <- set.root.time(tree)
+
+
+
+# Write tree
 write.tree(tree, write.path("trees", "tree_%03d.tre"))
 
+# Metadata
 b_d_est <- crude.bd.est(tree, "estimate")
 metadata_df <- data.frame(
   replicate_id = replicate_id,
@@ -51,6 +37,9 @@ metadata_df <- data.frame(
   speciation = b_d_est$call$speciation,
   extinction = b_d_est$call$extinction
 )
+
+
+
 write.csv(metadata_df, write.path("metadata", "metadata_%03d.csv"), row.names = FALSE)
 
 cat("Tree generated for replicate", replicate_id, "\n")

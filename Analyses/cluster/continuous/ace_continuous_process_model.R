@@ -2,6 +2,7 @@ args <- commandArgs(trailingOnly = TRUE)
 replicate_id <- as.numeric(args[1])
 model_name <- args[2] 
 tree_size <- args[3]
+job_id <- as.numeric(args[4])
 
 library(treats)
 library(parallel)
@@ -9,18 +10,30 @@ library(MASS)
 
 cat("Starting replicate", replicate_id, "\n")
 
-set.seed(100 + replicate_id)
 
 base_path <- paste0("/mnt/parscratch/users/bip24cns/acedisparity/continuous/", tree_size, "/")
-job_id <- Sys.getenv("SLURM_ARRAY_JOB_ID")
-
+# 
 write.path <- function(subfolder, filename) {
   return(paste0(base_path, subfolder, "/", job_id, "_", sprintf(filename, replicate_id)))
 }
 
+# Test 1: Read tree
+cat("\n=== STEP 1: Reading tree ===\n")
+tree_file <- write.path("trees", "tree_%03d.tre")
+cat("Tree file:", tree_file, "\n")
 
-tree <- read.tree(write.path("trees", "tree_%03d.tre"))
+tryCatch({
+  tree <- read.tree(tree_file)
+  cat("SUCCESS: Read tree with", length(tree$tip.label), "tips\n")
+}, error = function(e) {
+  cat("ERROR reading tree:", e$message, "\n")
+  quit(status = 1)
+})
+
+
 tree_height <- max(node.depth.edgelength(tree))
+
+set.seed(100 + replicate_id)
 
 BM.trend.process <- function(x0 = 0, edge.length = 1, Sigma = diag(length(x0)), trend = 0.1, ...) {
       # Square root gives more trend than log but less than linear
@@ -51,6 +64,8 @@ traits <- switch(model_name,
   
   stop("Unknown model: ", model_name)
 )
+
+cat("Starting model", model_name, "for replicate", replicate_id, "at", Sys.time(), "\n")
 
 mat <- map.traits(traits, tree)$data
 
@@ -132,7 +147,6 @@ saveRDS(point_anc, write.path("anc", paste0(model_name, "_point_anc_%03d.rds")))
 saveRDS(sample_anc, write.path("anc", paste0(model_name, "_sample_anc_%03d.rds")))
 cat("Ancestral states saved...\n")
 
-
 extract.living <- function(fossils) {
   basal_node <- fossils$living$tree$node.label[1]
   living_nodes <- fossils$living$tree$node.label
@@ -171,7 +185,7 @@ true_living <- mat[labels$all, , drop = FALSE]
 cat("Living matrices completed...\n")
 
 
-cat("=== STARTING ord_sample ===\n"); 
+cat("=== STARTING ord_sample ===\n")
   ord_sample <- lapply(sample_living, lapply, function(mat){
     prcomp(mat, scale = FALSE, center = TRUE)$x
   })
@@ -189,8 +203,8 @@ cat("=== STARTING ord_no_ace ===\n")
   })
 
 
-cat("=== STARTING ord_true ===\n"); 
-ord_true <- prcomp(true_living, scale = FALSE, center = TRUE)$x
+cat("=== STARTING ord_true ===\n")
+  ord_true <- prcomp(true_living, scale = FALSE, center = TRUE)$x
 
 
 
@@ -258,4 +272,4 @@ saveRDS(point_post_ord_ace_living, write.path("ord/temp", paste0(model_name, "_p
 saveRDS(sample_post_ord_ace_living, write.path("ord/temp", paste0(model_name, "_post_ord_sample_%03d.rds")))
 
 
-cat("Script completed\n")
+cat("Finished model", model_name, "for replicate", replicate_id, "at", Sys.time(), "\n")

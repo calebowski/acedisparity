@@ -7,43 +7,43 @@ Warning--empty journal in gearty2024impact
 Warning--empty journal in wills2001morphological
 You've used 17 entries,
             2773 wiz_defined-function locations,
-            705 strings with 7880 characters,
-and the built_in function-call counts, 7743 in all, are:
-= -- 712
-> -- 355
-< -- 14
-+ -- 125
-- -- 108
-* -- 613
-:= -- 1174
+            706 strings with 7955 characters,
+and the built_in function-call counts, 7779 in all, are:
+= -- 715
+> -- 366
+< -- 13
++ -- 128
+- -- 111
+* -- 624
+:= -- 1182
 add.period$ -- 51
 call.type$ -- 17
-change.case$ -- 86
+change.case$ -- 87
 chr.to.int$ -- 17
 cite$ -- 36
-duplicate$ -- 368
-empty$ -- 680
-format.name$ -- 127
-if$ -- 1621
+duplicate$ -- 363
+empty$ -- 679
+format.name$ -- 132
+if$ -- 1623
 int.to.chr$ -- 1
 int.to.str$ -- 1
 missing$ -- 18
 newline$ -- 93
 num.names$ -- 68
-pop$ -- 167
+pop$ -- 166
 preamble$ -- 1
-purify$ -- 70
+purify$ -- 71
 quote$ -- 0
-skip$ -- 272
+skip$ -- 269
 stack$ -- 0
-substring$ -- 416
-swap$ -- 38
-text.length$ -- 3
+substring$ -- 422
+swap$ -- 33
+text.length$ -- 2
 text.prefix$ -- 0
 top$ -- 0
 type$ -- 182
 warning$ -- 2
-while$ -- 83
+while$ -- 82
 width$ -- 0
 write$ -- 224
 (There were 2 warnings)

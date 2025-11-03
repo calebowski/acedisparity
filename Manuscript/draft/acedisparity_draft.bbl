@@ -40,6 +40,11 @@ Thomas Guillerme.
 \newblock treats: A modular r package for simulating trees and traits.
 \newblock \emph{Methods in Ecology and Evolution}, 15\penalty0 (4):\penalty0 647--656, 2024.
 
+\bibitem[Guillerme and Cooper(2016)]{guillerme2016effects}
+Thomas Guillerme and Natalie Cooper.
+\newblock Effects of missing data on topological inference using a total evidence approach.
+\newblock \emph{Molecular phylogenetics and evolution}, 94:\penalty0 146--158, 2016.
+
 \bibitem[Guillerme et~al.(2020)Guillerme, Puttick, Marcy, and Weisbecker]{guillerme2020shifting}
 Thomas Guillerme, Mark~N Puttick, Ariel~E Marcy, and Vera Weisbecker.
 \newblock Shifting spaces: Which disparity or dissimilarity measurement best summarize occupancy in multidimensional spaces?
@@ -64,11 +69,6 @@ Mark Pagel.
 Emmanuel Paradis and Klaus Schliep.
 \newblock ape 5.0: an environment for modern phylogenetics and evolutionary analyses in r.
 \newblock \emph{Bioinformatics}, 35\penalty0 (3):\penalty0 526--528, 2019.
-
-\bibitem[Revell(2025)]{revell2025ancestral}
-Liam~J Revell.
-\newblock Ancestral state reconstruction of phenotypic characters.
-\newblock \emph{Evolutionary Biology}, pages 1--25, 2025.
 
 \bibitem[Rohlf(2001)]{rohlf2001comparative}
 F~James Rohlf.
