@@ -180,7 +180,7 @@ For the simulations of 50 living taxa trees, this would be the first 48 dimensio
 Having established the accuracy of different ancestral state estimation methods in recovering overall trait space patterns, we next tested how well these methods capture changes in disparity across time during simulated mass extinction events.
 Following the framework above, 100 additional trees were simulated with again 50, 100 and 150 living taxa but this time including a mass extinction event.
 We simulated both random mass extinctions, where taxa were a certain number of living taxa where made extinct at a specific time of the simulation. %TG: when?
-And we simulated selective mass extinctions, similar as above but where taxa were more prone to extinction based on their trait values. %TG: what trait value? - Also I think this implies you also simulated traits mapped on the tree at some point. Maybe you need to re-explain that vefore the mass extinction types again.
+And we simulated selective mass extinctions, similar as above but where taxa were more prone to extinction based on their trait values. %TG: what trait value? - Also I think this implies you also simulated traits mapped on the tree at some point. Maybe you need to re-explain that vefore the mass extinction types again. Also, from my understanding, the traits simulated for the mass extinction are independent from the disparity ones? - That might be seen as an unfair bias from some reviewers. Might be good to chat about that next friday.
 Extinction severity was set with a uniform distribution between 75--95\%, the range seen between Cretaceous-Paleogene (66 million years ago - mya) and the end Permian extinctions mass extinction (251 mya). %TG: I've added the dates for the extinctions. Please check them. You can also find a reference for it here (or within): https://onlinelibrary.wiley.com/doi/abs/10.1111/gcb.70476
 For selective extinctions, % put parameters here once you have finalised
 %trait data was simulated simultaneously to the tree generation.
@@ -188,14 +188,14 @@ For selective extinctions, % put parameters here once you have finalised
 
 With the new set of trees (and trait data for selective extinctions), the framework from section \ref{trait simulation} to \ref{uncertainty} was repeated. 
 Rather than evaluating the overall disparity estimate, we assessed how well the methods could recover the relative disparity change across the extinction event.
-Two bins that were equidistant based off the total tree height divided by six were sampled either side of the extinction event.
+Two bins that were equidistant based off the total tree height divided by six were sampled either side of the extinction event. %TG: passive form. Good example here were it makes the sentence quiet complicated to read. Basically you generated the bins by making them equal to 1/6 of the tree height both side of the extinction? (so covering only the 1/3 middle of the tree?). Why did you chose these parameters?
 Disparity was measured from the taxa contained within each of these two bins to calculate a relative disparity change across the extinction event.
 
 \begin{equation}
 \text{Relative change in disparity} = \frac{\text{Disparity post-extinction} - \text{Disparity pre-extinction}}{\text{Disparity pre-extinction}}
 \end{equation}
 
-\noindent The sum of quantiles, sum of variances and average nearest neighbour distance were calculated again, as well as the average displacement \citep{guillerme2020shifting} as a change in position metric.
+\noindent The sum of quantiles, sum of variances and average nearest neighbour distance were calculated again, as well as the average displacement \citep{guillerme2020shifting} as a change in position metric. %TG: couple of passive form sentences in this section to check ;)
 
 
 
