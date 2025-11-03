@@ -168,19 +168,23 @@ Disparity values were calculated across each estimation and the `true' simulatio
 \end{equation}
 %TG: neat equation! Clear and easy to read by humans!
 
-Disparity calculations were carried out across three treatments of the ordinated matrices.
-Firstly, the untreated ordination output was used.
-Secondly, we min-max standardised the PC axes so that the absolute magnitude in PC scores did not influence the disparity metric scores.
-Thirdly, we only used the minimum number of dimensions that were contained across all fossil sampling levels for that specific phylogeny.
-For the simulations of 50 living taxa trees, this would be the first 48 dimensions, in the 100 living taxa it would be 98 dimensions etc.
+We calculated disparity across three different treatments of the ordinated matrices.
+Firstly, the untreated ordination output was used. %TG: not gonna do all passive forms here but they are a couple appearing again ;); also, you probably want to have a minor justification for this first treatment as well (same way for the second and third). Also also, if you prefer, you can also make lists with a), b), c). Up to you.
+Secondly, we min-max standardised %TG: make sure min-max standardisation is an actual stats term, not a Thomas-Caleb one like "pixels".
+ the PC axes so that the absolute magnitude in PC scores did not influence the disparity metric scores (i.e. in this case, the length of PC1 was always set to 1). %TG: is that correct? or 2? (spread from [-1;1])
+Thirdly, we only used the minimum number of dimensions that were contained across all fossil sampling levels for that specific phylogeny. %TG: mini justification needed (for the reader to follow why you do that)
+For the simulations of 50 living taxa trees, this would be the first 48 dimensions, in the 100 living taxa it would be 98 dimensions etc. %TG: I think you can skip the etc. here and go: "48, 98 and 148 dimensions for the simulations with respectively 50, 100 and 150 living taxa."
+%TG: I think towards the methods, you should also refer to the relevant sections in the figure (i.e. kind of "you are here" on the map). But I'll get back to the figure at the end.
 
 \subsection{Mass extinction simulations}
 Having established the accuracy of different ancestral state estimation methods in recovering overall trait space patterns, we next tested how well these methods capture changes in disparity across time during simulated mass extinction events.
-Following the framework above, 100 trees were simulated for each tree size of 50, 100 and 150 living taxa with a mass extinction event.
-We simulated both random, where taxa were eliminated at non-selectively, and selective extinctions, where taxa were more prone to extinction based on their trait values.
-Extinction severity was set with a uniform distribution between 75--95\%, the range seen between K-Pg and the Permian extinctions.
+Following the framework above, 100 additional trees were simulated with again 50, 100 and 150 living taxa but this time including a mass extinction event.
+We simulated both random mass extinctions, where taxa were a certain number of living taxa where made extinct at a specific time of the simulation. %TG: when?
+And we simulated selective mass extinctions, similar as above but where taxa were more prone to extinction based on their trait values. %TG: what trait value? - Also I think this implies you also simulated traits mapped on the tree at some point. Maybe you need to re-explain that vefore the mass extinction types again.
+Extinction severity was set with a uniform distribution between 75--95\%, the range seen between Cretaceous-Paleogene (66 million years ago - mya) and the end Permian extinctions mass extinction (251 mya). %TG: I've added the dates for the extinctions. Please check them. You can also find a reference for it here (or within): https://onlinelibrary.wiley.com/doi/abs/10.1111/gcb.70476
 For selective extinctions, % put parameters here once you have finalised
 %trait data was simulated simultaneously to the tree generation.
+%TG: TODO: CS
 
 With the new set of trees (and trait data for selective extinctions), the framework from section \ref{trait simulation} to \ref{uncertainty} was repeated. 
 Rather than evaluating the overall disparity estimate, we assessed how well the methods could recover the relative disparity change across the extinction event.
