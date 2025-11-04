@@ -2,7 +2,7 @@ args <- commandArgs(trailingOnly = TRUE)
 replicate_id <- as.numeric(args[1])
 model_name <- args[2] 
 tree_size <- args[3]
-job_id <- as.numeric(args[4])
+job_id <- Sys.getenv("SLURM_ARRAY_JOB_ID")
 
 library(treats)
 library(parallel)
@@ -12,54 +12,63 @@ cat("Starting replicate", replicate_id, "\n")
 
 
 base_path <- paste0("/mnt/parscratch/users/bip24cns/acedisparity/continuous/", tree_size, "/")
-# 
+source("/users/bip24cns/acedisparity/discrete/scripts/utility.R")
+
 write.path <- function(subfolder, filename) {
   return(paste0(base_path, subfolder, "/", job_id, "_", sprintf(filename, replicate_id)))
 }
 
 # Test 1: Read tree
-cat("\n=== STEP 1: Reading tree ===\n")
-tree_file <- write.path("trees", "tree_%03d.tre")
-cat("Tree file:", tree_file, "\n")
+# cat("\n=== STEP 1: Reading tree ===\n")
+# tree_file <- write.path("trees", "tree_%03d.tre")
+# cat("Tree file:", tree_file, "\n")
 
-tryCatch({
-  tree <- read.tree(tree_file)
-  cat("SUCCESS: Read tree with", length(tree$tip.label), "tips\n")
-}, error = function(e) {
-  cat("ERROR reading tree:", e$message, "\n")
-  quit(status = 1)
-})
+# tryCatch({
+#   tree <- read.tree(tree_file)
+#   cat("SUCCESS: Read tree with", length(tree$tip.label), "tips\n")
+# }, error = function(e) {
+#   cat("ERROR reading tree:", e$message, "\n")
+#   quit(status = 1)
+# })
+
+cat("\n=== STEP 1: Generating tree ===\n")
+set.seed(100 + replicate_id)  # Set seed for reproducible tree generation
+
+tree_files <- list.files(paste0("/mnt/parscratch/users/bip24cns/acedisparity/discrete/", tree_size, "/trees"))
+filename <- tree_files[1]
+tree_job_id <- sub("_tree_.*$", "", filename)
+tree <- read.tree(paste0("/mnt/parscratch/users/bip24cns/acedisparity/discrete/100t/trees/",tree_job_id, sprintf("_tree_%03d.tre", replicate_id)))
+
+tree <- drop.singles(tree)
+tree <- fix.zero.branches(tree)
+tree <- set.root.time(tree)
 
 
 tree_height <- max(node.depth.edgelength(tree))
 
-set.seed(100 + replicate_id)
 
-BM.trend.process <- function(x0 = 0, edge.length = 1, Sigma = diag(length(x0)), trend = 0.1, ...) {
-      # Square root gives more trend than log but less than linear
-      drift <- trend * log(edge.length + 1)
-      if(edge.length < (0.01 * Sigma[1,1])){drift <- 0} ## if edge length is smaller than 1% of variance, drift is 0.
-      return(t(MASS::mvrnorm(n = 1, mu = x0 + drift, Sigma = Sigma * edge.length, ...)))
-}
+
+cat("Tree generated for replicate", replicate_id, "\n")
+
 
 traits <- switch(model_name,
-  "bm" = make.traits(process = BM.process, n = 100, 
+  "bm" = make.traits(process = BM.process, n = 20, 
                      process.args = list(Sigma = diag(0.25, 100))),
   
-  "bm_t" = make.traits(process = BM.trend.process, n = 100, 
+  "bm_t" = make.traits(process = BM.trend.process, n = 20, 
                       process.args = list(Sigma = diag(0.25, 100), trend = 0.3)),
   
-  "ou_w" = make.traits(process = OU.process, n = 100, 
-                      process.args = list(alpha = (log(2) / (tree_height / 2)), 
+  "ou_w" = make.traits(process = OU.process, n = 20, 
+                      process.args = list(alpha = (log(2) / (tree_height * 0.75)), 
                                         Sigma = diag(0.25, 100))),
   
-  "ou_st" = make.traits(process = OU.process, n = 100, 
-                       process.args = list(alpha = (log(2) / (tree_height / 10)), 
+  "ou_st" = make.traits(process = OU.process, n = 20, 
+                       process.args = list(alpha = (log(2) / (tree_height * 0.25)), 
                                          Sigma = diag(0.25, 100))),
   
-  "ou_sh" = make.traits(process = OU.process, n = 100, 
+  "ou_sh" = make.traits(process = OU.process, n = 20, 
                        process.args = list(optimum = 2, 
-                                         alpha = (log(2) / (tree_height / 2)), 
+                                         alpha = (log(2) / (tree_height * 0.75)), 
                                          Sigma = diag(0.25, 100))),
   
   stop("Unknown model: ", model_name)

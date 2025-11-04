@@ -1,7 +1,7 @@
 args <- commandArgs(trailingOnly = TRUE)
 replicate_id <- as.numeric(args[1])
 tree_size <- args[2]
-job_id <- as.numeric(args[3])
+job_id <- Sys.getenv("SLURM_ARRAY_JOB_ID")
 
 
 base_path <- paste0("/mnt/parscratch/users/bip24cns/acedisparity/continuous/", tree_size, "/")

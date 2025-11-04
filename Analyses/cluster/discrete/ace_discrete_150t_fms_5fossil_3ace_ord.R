@@ -27,7 +27,7 @@ repeat {
   tree <- treats(stop.rule = stop_rule, bd.params = bd_params, null.error = 100)
   n_tips <- length(tree$tip.label)
   
-  if(n_tips <= 500) {
+  if(n_tips <= 1000) {
     cat("Tree found with", n_tips, "tips\n")
     break
   }
