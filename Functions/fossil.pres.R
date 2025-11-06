@@ -1,7 +1,7 @@
-remove.fossil.stages <- function(trees, matrices, type = c("discrete", "continuous")) {
+remove.fossil <- function(trees, matrices, type = c("discrete", "continuous")) {
   
   # Base function for processing one tree and one matrix (discrete or continuous)
-  process.living.stages <- function(tree, matrix, type) {
+  process.living <- function(tree, matrix, type) {
     ages <- tree.age(tree) # get tip ages
     tips <- ages$element[ages$ages == 0] # find only living species
     
@@ -101,20 +101,40 @@ fossil.pres.stages <- function(trees, matrices, preservation = c(0.05, 0.15, 0.5
 
 
 
-fossil.pres <- function(trees, matrices, preservation = c(0.05, 0.15, 0.5, 1.0), type = c("discrete", "continuous")) {
-  # if (!preservation %in% c(0.05, 0.15, 0.5, 1.0)) {
-  #   stop("Invalid preservation value. Must be one of 1.0, 0.05, 0.15, or 0.5.")
-  # } ## commented this out so that preservation level can be any value between >0 - 1.
-
-  # Helper function to process a single tree and matrix
-  process.fossil <- function(tree, matrix, type) {
+fossil.pres <- function(trees, matrices, preservation = c(0.05, 0.15, 0.5, 1.0), type = c("discrete", "continuous"), seed = NULL) {
+  process.fossil <- function(tree, matrix, type, seed) {
     ages <- tree.age(tree)
     tips <- ages$element[ages$ages == 0]  # Keep living species
     fossils <- ages$element[ages$ages > 0 & grepl("^t", ages$element)]
+    set.seed(seed)
+    max_attempts <- 20
+    attempt <- 1
+    repeat {
 
-    sample_fossil <- sample(fossils, size = length(fossils) * preservation)
+      if(length(fossils) == 0){
+        sample_fossil  <- character(0) 
+        cat("No fossils in tree... \n")
+        break
 
-    kept <- c(unlist(unname(sample)), tips)
+      } else {
+
+      keep_vector <- as.logical(rbinom(length(fossils), size = 1, prob = preservation)) ## uses Bernoulli: samples fossils independently
+      sample_fossil  <- fossils[keep_vector]
+        if (length(sample_fossil) > 0) break
+
+      }
+
+      if(attempt >= max_attempts) {
+        sample_fossil <- sample(fossils, 1) ## if reach max attempts just use one fossil
+      cat("Warning: Reached maximum attempts, accepting 1 fossil... \n")
+      break
+      }
+
+      attempt <- attempt + 1
+
+    }
+
+    kept <- c(unlist(unname(sample_fossil)), tips)
     fossil_matrix <- matrix[rownames(matrix) %in% kept, ]
 
     # Discrete needs characters returned for ace, continuous needs numeric
@@ -138,11 +158,15 @@ fossil.pres <- function(trees, matrices, preservation = c(0.05, 0.15, 0.5, 1.0),
   # Check if inputs are lists or single objects
   if (is.list(trees) && is.list(matrices)) {
     # Use Map for lists of trees and matrices
-    fossil_matrices <- Map(function(tree, matrix) process.fossil(tree, matrix, type), trees, matrices)
+    fossil_matrices <- Map(function(tree, matrix) process.fossil(tree, matrix, type, seed), trees, matrices)
   } else {
     # Process a single tree and matrix
-    fossil_matrices <- process.fossil(trees, matrices, type)
+    fossil_matrices <- process.fossil(trees, matrices, type, seed)
   }
 
   return(fossil_matrices)
 }
+
+
+# With Bernoulli sampling, the probability that any given species is preserved doesn’t depend on how many species existed at the same time.
+# That avoids the bias that trees with low diversity won’t automatically get overrepresented.
