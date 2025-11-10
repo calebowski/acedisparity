@@ -346,7 +346,7 @@ for(i in seq_along(res_post_ord)) {
 saveRDS(post_ord_ace, write.path("anc", "post_ord_ace_%03d.rds"))
 
 
-trait_normal = list(fun = rnorm, param = list(mean = mean, sd = function(x)return(diff(range(x))/4)))
+# trait_normal = list(fun = rnorm, param = list(mean = mean, sd = function(x)return(diff(range(x))/4)))
 point_post_ord_ace <- lapply(post_ord_ace, lapply,  multi.ace, output = "combined.matrix")
 
 point_post_ord_ace_living <- Map(function(rate_anc, rate_labels) {
@@ -356,6 +356,8 @@ point_post_ord_ace_living <- Map(function(rate_anc, rate_labels) {
 }, point_post_ord_ace, labels)
 
 names(point_post_ord_ace_living) <- names(point_post_ord_ace)
+
+trait_normal <- list(fun = rnorm, param = list(mean = mean, sd = function(x)return(diff(range(x))/4)))
 
 sample_post_ord_ace <- lapply(post_ord_ace, lapply,  multi.ace, sample = 100, sample.fun = trait_normal, output = "combined.matrix")
 

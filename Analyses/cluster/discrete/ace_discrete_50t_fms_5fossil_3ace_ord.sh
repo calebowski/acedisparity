@@ -2,12 +2,12 @@
 #SBATCH --job-name=50t_discrete_ord
 #SBATCH --output=/users/bip24cns/acedisparity/discrete/logs/50t_%A_%a.out
 #SBATCH --error=/users/bip24cns/acedisparity/discrete/logs/50t_%A_%a.err
-#SBATCH --array=1-100                # 100 replicates
+#SBATCH --array=1-100          # 100 replicates
 #SBATCH --nodes=1                     # 1 node per task
 #SBATCH --ntasks=1                    # 1 R process per task
 #SBATCH --cpus-per-task=15             # adjust if using parallel inside R
 #SBATCH --mem=12G                     # adjust based on memory needs
-#SBATCH --time=06:00:00               # 2 hours, adjust as needed
+#SBATCH --time=30:00:00               # 2 hours, adjust as needed
 #SBATCH --mail-user=cnscutt1@sheffield.ac.uk
 #SBATCH --mail-type=ALL
 

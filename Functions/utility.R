@@ -49,9 +49,10 @@ write.path <- function(subfolder, filename) {
   return(paste0(base_path, subfolder, "/", job_id, "_", sprintf(filename, replicate_id)))
 }
 
-BM.trend.process <- function(x0 = 0, edge.length = 1, Sigma = diag(length(x0)), trend = 0.1, ...) {
-      # Square root gives more trend than log but less than linear
-      drift <- trend * log(edge.length + 1)
-      if(edge.length < (0.01 * Sigma[1,1])){drift <- 0} ## if edge length is smaller than 1% of variance, drift is 0.
-      return(t(MASS::mvrnorm(n = 1, mu = x0 + drift, Sigma = Sigma * edge.length, ...)))
+BM.trend.process <- function(x0 = 0, edge.length = 1,
+                             Sigma = diag(length(x0)), trend = 0.1, ...) {
+  drift <- trend * edge.length
+  if (edge.length < (0.01 * Sigma[1,1])) drift <- 0
+  return(t(MASS::mvrnorm(n = 1, mu = x0 + drift, Sigma = Sigma * edge.length, ...)))
 }
+
