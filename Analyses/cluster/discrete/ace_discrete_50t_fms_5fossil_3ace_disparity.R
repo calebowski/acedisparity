@@ -324,10 +324,9 @@ saveRDS(sum_quant_post_ord_sample_diff, write.path("disparity/raw", "diff_quant_
 ########################################################################################################################                                                                                                                     
 
 scale.pc <- function(ord){
-    pc1 <- ord[,1]
-    min <- abs(min(pc1))
-    max <- abs(max(pc1)) + min
-    scal <- (ord + min) / max
+    pc1_min <- min(ord[,1])
+    pc1_range <- diff(range(ord[,1]))
+    scal <- (ord - pc1_min) / pc1_range  # Shift then scale
     return(scal)
 }
 

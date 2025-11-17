@@ -246,30 +246,30 @@ names(true_living) <- names(matrices)
 ########################################################################################################################
 
 
-tasks_sample_ord <- expand.grid(rate = names(sample_living), fossil_level = names(sample_living[[1]]), stringsAsFactors = FALSE)
+# tasks_sample_ord <- expand.grid(rate = names(sample_living), fossil_level = names(sample_living[[1]]), stringsAsFactors = FALSE)
 
-cl <- makeCluster(15)
-clusterEvalQ(cl, library(treats))
-clusterExport(cl, c("sample_living",  "tasks_sample_ord"))
+# cl <- makeCluster(15)
+# clusterEvalQ(cl, library(treats))
+# clusterExport(cl, c("sample_living",  "tasks_sample_ord"))
 
-res_ord_sample <- parLapply(cl, seq_len(nrow(tasks_sample_ord)), function(i){
-    task <- tasks_sample_ord[i, ]
-    mat <- sample_living[[task$rate]][[task$fossil_level]]
-    ord <- lapply(mat, function(rep){
-        dist <- char.diff(rep, method = "mord", by.col = FALSE)
-        ord_rep <- (cmdscale(dist, k = ncol(dist) - 2, add = TRUE))$points
-        return(ord_rep)
-    })
-    return(ord)
-})
-stopCluster(cl)
+# res_ord_sample <- parLapply(cl, seq_len(nrow(tasks_sample_ord)), function(i){
+#     task <- tasks_sample_ord[i, ]
+#     mat <- sample_living[[task$rate]][[task$fossil_level]]
+#     ord <- lapply(mat, function(rep){
+#         dist <- char.diff(rep, method = "mord", by.col = FALSE)
+#         ord_rep <- (cmdscale(dist, k = ncol(dist) - 2, add = TRUE))$points
+#         return(ord_rep)
+#     })
+#     return(ord)
+# })
+# stopCluster(cl)
 
-ord_sample <- list()
-for(i in seq_along(res_ord_sample)) {
-  rate <- tasks_sample_ord$rate[i]
-  fossil_level <- tasks_sample_ord$fossil_level[i]
-  ord_sample[[rate]][[fossil_level]] <- res_ord_sample[[i]]
-}
+# ord_sample <- list()
+# for(i in seq_along(res_ord_sample)) {
+#   rate <- tasks_sample_ord$rate[i]
+#   fossil_level <- tasks_sample_ord$fossil_level[i]
+#   ord_sample[[rate]][[fossil_level]] <- res_ord_sample[[i]]
+# }
 
 
 ord_rel <- lapply(rel_living, lapply, function(rep){
@@ -296,7 +296,7 @@ saveRDS(ord_no_ace, write.path("ord", "ord_no_ace_%03d.rds"))
 saveRDS(ord_true, write.path("ord", "ord_true_%03d.rds"))
 saveRDS(ord_rel, write.path("ord", "ord_rel_%03d.rds"))
 saveRDS(ord_point, write.path("ord", "ord_point_%03d.rds"))
-saveRDS(ord_sample, write.path("ord", "ord_sample_%03d.rds"))
+# saveRDS(ord_sample, write.path("ord", "ord_sample_%03d.rds"))
 
 cat("ordinations calculated\n")
 
@@ -311,23 +311,63 @@ ord_fossil_tips <- lapply(fossil_matrices, lapply, function(x){
   ord <- (cmdscale(dist, k = ncol(dist) - 2, add = TRUE))$points ## ordinate the fossil tips from earlier
 })
 
+# tasks_post_ord <- expand.grid(rate = names(ord_fossil_tips), fossil_level = names(ord_fossil_tips[[1]]), stringsAsFactors = FALSE)
+# Combine both task sets
+tasks_sample_ord <- expand.grid(rate = names(sample_living), fossil_level = names(sample_living[[1]]), stringsAsFactors = FALSE)
 tasks_post_ord <- expand.grid(rate = names(ord_fossil_tips), fossil_level = names(ord_fossil_tips[[1]]), stringsAsFactors = FALSE)
 
-cl <- makeCluster(15)
-clusterEvalQ(cl, library(treats))
-clusterExport(cl, c("ord_fossil_tips", "fossil_trees", "tasks_post_ord"))
+# Add task type identifier
+tasks_sample_ord$task_type <- "sample_ord"
+tasks_post_ord$task_type <- "post_ord"
 
-res_post_ord <- parLapply(cl, seq_len(nrow(tasks_post_ord)), function(i){
-    task <- tasks_post_ord[i,]
-    ord_matrix <- ord_fossil_tips[[task$rate]][[task$fossil_level]]
-    fossil_tree <- fossil_trees[[task$rate]][[task$fossil_level]]
-    tryCatch({
-        multi.ace(ord_matrix, fossil_tree, models = "BM", output = "multi.ace")
-    }, error = function(e) {
-        cat("ERROR in level:", task, e$message, "\n")
-    })
+# Combine into one task list
+all_tasks <- rbind(tasks_sample_ord, tasks_post_ord)
+
+# Single cluster with 30 cores for all 30 tasks
+cl <- makeCluster(30)
+clusterEvalQ(cl, library(treats))
+clusterExport(cl, c("sample_living", "ord_fossil_tips", "fossil_trees", "all_tasks"))
+
+res_combined <- parLapply(cl, seq_len(nrow(all_tasks)), function(i){
+    task <- all_tasks[i, ]
+    
+    if(task$task_type == "sample_ord") {
+        # Sample ordination task
+        mat <- sample_living[[task$rate]][[task$fossil_level]]
+        ord <- lapply(mat, function(rep){
+            dist <- char.diff(rep, method = "mord", by.col = FALSE)
+            ord_rep <- (cmdscale(dist, k = ncol(dist) - 2, add = TRUE))$points
+            return(ord_rep)
+        })
+        return(list(type = "sample_ord", result = ord))
+        
+    } else {
+        # Post-ordination ACE task
+        ord_matrix <- ord_fossil_tips[[task$rate]][[task$fossil_level]]
+        fossil_tree <- fossil_trees[[task$rate]][[task$fossil_level]]
+        result <- tryCatch({
+            multi.ace(ord_matrix, fossil_tree, models = "BM", output = "multi.ace")
+        }, error = function(e) {
+            cat("ERROR:", task$rate, task$fossil_level, e$message, "\n")
+            NULL
+        })
+        return(list(type = "post_ord", result = result))
+    }
 })
 stopCluster(cl)
+
+# Split results back
+is_sample <- all_tasks$task_type == "sample_ord"
+res_ord_sample <- lapply(res_combined[is_sample], function(x) x$result)
+res_post_ord <- lapply(res_combined[!is_sample], function(x) x$result)
+
+# Reconstruct nested lists
+ord_sample <- list()
+for(i in seq_along(res_ord_sample)) {
+  rate <- tasks_sample_ord$rate[i]
+  fossil_level <- tasks_sample_ord$fossil_level[i]
+  ord_sample[[rate]][[fossil_level]] <- res_ord_sample[[i]]
+}
 
 post_ord_ace <- list()
 for(i in seq_along(res_post_ord)) {
@@ -337,16 +377,10 @@ for(i in seq_along(res_post_ord)) {
 }
 
 
-# post_ord_ace <- Map(function(rate_matrix, rate_tree){
-#   Map(function(fossil_matrix, fossil_tree){
-#     multi.ace(fossil_matrix, fossil_tree, models = "BM", output = "multi.ace")
-#   }, rate_matrix, rate_tree)
-# }, ord_fossil_tips, fossil_trees)
-
+saveRDS(ord_sample, write.path("ord", "ord_sample_%03d.rds"))
 saveRDS(post_ord_ace, write.path("anc", "post_ord_ace_%03d.rds"))
 
 
-# trait_normal = list(fun = rnorm, param = list(mean = mean, sd = function(x)return(diff(range(x))/4)))
 point_post_ord_ace <- lapply(post_ord_ace, lapply,  multi.ace, output = "combined.matrix")
 
 point_post_ord_ace_living <- Map(function(rate_anc, rate_labels) {

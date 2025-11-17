@@ -4,9 +4,9 @@
 #SBATCH --error=/users/bip24cns/acedisparity/discrete/logs/resume_rep_60_100t.err
 #SBATCH --nodes=1                     # 1 node per task
 #SBATCH --ntasks=1                    # 1 R process per task
-#SBATCH --cpus-per-task=1             # adjust if using parallel inside R
+#SBATCH --cpus-per-task=30             # adjust if using parallel inside R
 #SBATCH --mem=12G                     # adjust based on memory needs
-#SBATCH --time=16:00:00               # 8 hours, adjust as needed
+#SBATCH --time=85:00:00               # 8 hours, adjust as needed
 #SBATCH --mail-user=cnscutt1@sheffield.ac.uk
 #SBATCH --mail-type=ALL
 
