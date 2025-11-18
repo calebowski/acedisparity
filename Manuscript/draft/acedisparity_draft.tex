@@ -104,7 +104,7 @@ These rates were assigned by generating equal-rates (ER) transition probability 
 For each category, 85 binary characters and 15 three-state characters were simulated, following a typical scoring ratio found in empirical data \citep{guillerme2016effects, casali2023morphological}.
 
 %NC: It's probably ok but maybe we should think if there is a better term than fossil sampling we can use here? Maybe it should be simulating fossil sampling or something similar? I think adding the word simulation somehwere might remove possible confusion, same in Fig 2? As otherwise you have tree simulation and trait simulation but then fossil sampling makes it sound like you really have fossils?
-\subsection{Fossil sampling}
+\subsection{Fossil sampling simulation}
 To simulate different levels of fossil sampling, extinct tips were either retained (`fossilized') or pruned using a Bernoulli sampling method at five different probabilities: 0\%, 5\%, 15\%, 50\% and 100\%. 
 This method means each extinct tip had an equal probability of being `fossilized' at each sample level, irrespective of the total tree size.
 The corresponding trait matrices were subset to match each downsampled tree.
@@ -113,7 +113,7 @@ The corresponding trait matrices were subset to match each downsampled tree.
 
 \subsection{Ancestral state estimation (ASE)} %NC: Add ASE abbreviation if you intend to use this later
 %NC: Maybe "We estimated ancestral states" rather than "We ran ancestral state estimation"?
-We ran ancestral state estimation on the down-sampled matrices using the \texttt{dispRity::multi.ace} \citep{guillerme2018disprity}, which is a wrapper for \texttt{ape::ace} \citep{paradis2019ape}.
+We estimated ancestral state on the down-sampled matrices using the \texttt{dispRity::multi.ace} \citep{guillerme2018disprity}, which is a wrapper for \texttt{ape::ace} \citep{paradis2019ape}.
 We used four combinations of two approaches to ancestral state estimation to evaluate each method's accuracy in recovering the true disparity signal. These were then compared to a null model bypassing ancestral state estimation (Fig. \ref{fig:pipeline}, Step 4). %TG: really nice bit here, remind the reader where you're going!
 
 \subsubsection{Pre-ordination estimation} \label{pre-ord}
