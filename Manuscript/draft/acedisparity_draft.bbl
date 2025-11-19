@@ -1,4 +1,4 @@
-\begin{thebibliography}{23}
+\begin{thebibliography}{24}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -19,6 +19,14 @@ Charles~N Ciampaglio, Matthieu Kemp, and Daniel~W McShea.
 Natalie Cooper, Gavin~H Thomas, Chris Venditti, Andrew Meade, and Rob~P Freckleton.
 \newblock A cautionary note on the use of ornstein uhlenbeck models in macroevolutionary studies.
 \newblock \emph{Biological journal of the Linnean Society}, 118\penalty0 (1):\penalty0 64--77, 2016.
+
+\bibitem[Erwin(2007)]{erwin_disparity_2007}
+Douglas~H. Erwin.
+\newblock {DISPARITY}: {MORPHOLOGICAL} {PATTERN} {AND} {DEVELOPMENTAL} {CONTEXT}.
+\newblock \emph{Palaeontology}, 50\penalty0 (1):\penalty0 57--73, January 2007.
+\newblock ISSN 1475-4983.
+\newblock \doi{10.1111/j.1475-4983.2006.00614.x}.
+\newblock Publisher: John Wiley \& Sons, Ltd.
 
 \bibitem[Foote(1992)]{foote1992rarefaction}
 Mike Foote.

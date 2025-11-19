@@ -161,3 +161,54 @@ min-max normalisation, then use the range of first pc axis on later axes so that
     - 50t
     - 100t
     - 150t
+
+
+
+    i have two approaches. give me the pros and cons for each. full tree goes like: 1) preord: ace everything -> ordinate everything -> prune to 49 nodes and all other tips/fossils and measure disparity of this. 2) post ord: ordinate everything -> ace everything -> prune to 49 nodes and all other tips/fossils and measure disparity of this. mrca goes like: 1) preord: prune to crown -> ace -> ordinate -> measure disparity of 49 nodes and all tips (now just within crown). 2) postord: prune to crown -> ordinate -> measure disparity of 49 nodes and all tips (just within crown)
+
+
+when ordination occurs, it is with all nodes and tips, because it has to be comparable to the post ord ace, which will put in those nodes into its traitspace and thus points in traitspace become relative.
+
+
+✔ Final Logical Sequence for MRCA workflow (copy this)
+
+Pre-OASE:
+
+Prune tree to MRCA.
+
+ACE on raw traits.
+
+Ordinate node+tip matrix.
+
+Prune to 49 shared nodes + tips + fossils (if present)
+
+Compute disparity.
+
+Post-OASE:
+
+Prune to MRCA.
+
+Ordinate tip matrix.
+
+ACE on PC axes.
+
+Prune to 49 nodes + tips + fossils (if present)
+
+Compute disparity.
+
+Main takeaways of why this is better: all trees are run with ASE at same tree length.
+Only fossils included contribute (are descendents) of the nodes that are assessed!
+Makes more computational sense (stem taxa are discarded anyway).
+
+LONG STORY SHORT - no point running ACE on the stem taxa, since they are not part of the 49 nodes that are analysed, and so we are only looking at impact of fossils that contribute to the shaping of the nodal morphospace... i.e. when it comes to post-OASE, the fossil/extant tips determine the outer limits of the morphospace and where the states lie.
+
+
+
+## For dimensionality issue across fossil sampling levels
+Optional sanity check
+
+Plot cumulative variance vs axis number for each level.
+
+Ensure that truncating to the chosen k axes still captures most variation.
+
+This avoids losing too much signal while maintaining comparability.

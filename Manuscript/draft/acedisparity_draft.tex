@@ -55,11 +55,33 @@ These results demonstrate that explicitly propagating uncertainty, rather than c
 
 \section{Introduction}
 
-%NC: Be consistent - Maximum Likelihood, or maximum likelihood or Maximum-Likelihood?
 
-%NC: Love figure 2 but i don't understand the arrow labelled true. I'm sure the legend will explain :)
+% 1. Introduce disparity
+%     a. Can be used to infer morphological diversity -> proxy for evolutionary processes through time
+%     b. Can use either discrete or continuous data
+%     c. Poor fossil record limits our understanding of disparity
+% 2. Introduce ancestral state estimation
+%     a. What is it?
+%     b. Applications (not just to disparity)
+%     c. Show examples of where it has been used in disparity?
+% 3. Key issues with ASE
+%     a. High uncertainty in estimates
+%     b. Lack of fossils in trees can cause erroneous inferences.
+% 4. Introduce aim of paper.
+%     a. We want to know what performs best for recovering true value of disparity
+%     b. Employed simulation framework
+%         (i). Gearty paper, Keating paper, Boyko paper? 
+%     c. Looked at both continuous and discrete traits
+%     d. And effect of fossil sampling
 
-%NC: use "where" rather than "whereby" which is archaic. You can aslso just say "To" rather than "In order to" and "and" rather than "as well as". I'd also use "First" rather than "Firstly". Try and keep it short and snappy.
+The incorporation of morphological trait data with phylogenies has become ubiquitous within phylogenetic comparative methods, particularly within modern analyses of morphological diversity.
+Morphological diversity, hereafter termed disparity, describes the distribution or spread of taxa within a morphospace — a multidimensional mathematical space configured by morphological similarity \citep{erwin_disparity_2007}. 
+
+
+
+
+
+
 
 
 \section{Materials and Methods}
@@ -91,8 +113,8 @@ Mean net diversification across all simulated trees was $0.30\pm0.09$.
 For each phylogeny, we simulated continuous and discrete trait data separately. %NC: I swapped d and c around as you talk about cont data first.
 Continuous trait data were simulated under variations of Brownian motion (BM) and Ornstein-Uhlenbeck (OU) models (table \ref{tab:models}). 
 We simulated BM with variance = 0.25.
-We also simulated BM with a trend ($BM_t$), whereby the ancestral trait value increased by an increment of 0.1 multiplied by branch length.
-For OU models, the data were simulated with strong pull to the optimum ($\alpha$) %NC: strong what? pull towards the optimum? 
+We also simulated BM with a trend ($BM_t$), where the ancestral trait value increased by an increment of 0.1 multiplied by branch length.
+For OU models, the data were simulated with strong attraction to the optimum ($\alpha$) %NC: strong what? pull towards the optimum? 
 ($OU_{st}$), weak $\alpha$ ($OU_w$) and with differing optimum and root states ($OU_{sh}$).
 Following \cite{gearty2024impact}, the $\alpha$ parameter was set based on phylogenetic half life ($\frac{\mathit{ln(2)}} {\alpha}$) to account for differing tree heights across simulations \citep{cooper2016cautionary}.
 For the strong and weak OU models, $\alpha$ was set as 25\% and 75\% of the tree height respectively.
@@ -112,9 +134,9 @@ The corresponding trait matrices were subset to match each downsampled tree.
 % Have thought here about expanding this: trait-dependent preservation (i.e more likely if in state 0 to be preserved??); fossil can be sampled at any point along its branch. %TG: this is a really good idea! I like it! But maybe we should focus on getting this manuscript done first and see what people comment at SVP? NC: I think leave as is for now, you want to leave something for the reviewers to suggest :)
 
 \subsection{Ancestral state estimation (ASE)} %NC: Add ASE abbreviation if you intend to use this later
-%NC: Maybe "We estimated ancestral states" rather than "We ran ancestral state estimation"?
 We estimated ancestral state on the down-sampled matrices using the \texttt{dispRity::multi.ace} \citep{guillerme2018disprity}, which is a wrapper for \texttt{ape::ace} \citep{paradis2019ape}.
-We used four combinations of two approaches to ancestral state estimation to evaluate each method's accuracy in recovering the true disparity signal. These were then compared to a null model bypassing ancestral state estimation (Fig. \ref{fig:pipeline}, Step 4). %TG: really nice bit here, remind the reader where you're going!
+We used four combinations of two approaches to ancestral state estimation to evaluate each method's accuracy in recovering the true disparity signal. 
+These were then compared to a null model bypassing ancestral state estimation (Fig. \ref{fig:pipeline}, Step 4). %TG: really nice bit here, remind the reader where you're going!
 
 \subsubsection{Pre-ordination estimation} \label{pre-ord}
 %First, we compared pre- versus post-ordination estimation methods. NC: This seems a bit out of place. Either needs to be more here or maybe just jump into the OASE without this floating sentence first
@@ -123,10 +145,9 @@ Pre-ordination estimation (pre-OASE) involves the estimation of the raw trait va
 Post-ordination estimation (post-OASE) calculates the continuous scores across each PC axis of an ordination matrix.
 %TG: then say briefly what these two methods do (for both continuous and discrete - i.e. estimating before ordination or estimating within ordination). 
 
-Pre-OASE of continuous characters models evolution under a Brownian motion model, where ancestral state values lie within a multivariate normal distribution that is estimated given the observed tip data and the shared evolutionary history among taxa %NC: among is comparing more than two things, between is comparing two things only
-\citep{schluter1997likelihood,rohlf2001comparative}. 
-Confidence intervals were calculated from standard errors derived from the Hessian matrix at the maximum likelihood estimate. % CS: not sure if this is necessary but put it in since the confidence interval will be mentioned lots in rest of paper. TG:Probably not necessary unless you can/want to develop what a Hessian matrix is. %NC: Specify: ML estimate of what?
-The width of confidence intervals reflects the uncertainty in continuous ancestral estimates, which typically increases with node depth and decreases with the number of informative descendant lineages.
+Pre-OASE of continuous characters models evolution under a Brownian motion model, where ancestral state values lie within a multivariate normal distribution that is estimated given the observed tip data and the shared evolutionary history among taxa \citep{schluter1997likelihood,rohlf2001comparative}. 
+% Confidence intervals were calculated from standard errors derived from the Hessian matrix at the maximum likelihood estimate. % CS: not sure if this is necessary but put it in since the confidence interval will be mentioned lots in rest of paper. TG:Probably not necessary unless you can/want to develop what a Hessian matrix is. %NC: Specify: ML estimate of what?
+The width of estimated confidence intervals reflects the uncertainty in continuous ancestral estimates, which typically increases with node depth and decreases with the number of informative descendant lineages.
 % For a recent review of the methods described here see \cite{revell2025ancestral}. %TG: up to you but it might not be necessary to add that sentence. NC: Yeah this is not needed here
 
 The pre-OASE method for estimating ancestral discrete characters involves estimating the marginal likelihoods for each discrete state at each node, based on a maximum likelihood derived estimate of the M\textit{k} transition matrix and the tree topology given \citep{pagel1999maximum,yang2006computational}.
@@ -208,6 +229,12 @@ This was to negate any effect that higher-dimensional trait space estimations we
 % \noindent The sum of quantiles, sum of variances and average nearest neighbour distance were calculated again, as well as the average displacement \citep{guillerme2020shifting} as a change in position metric. %TG: couple of passive form sentences in this section to check ;)
 
 
+\subsection{Statistical tests}
+Relative disparity error scores were made absolute and log transformed, so that the lower the value, the closer to 0 the original error (and therefore more accurate).
+We used ANOVA to explore the effect and interaction that the estimation method, transition rate/model and fossil sampling level had on disparity error.
+Given that the distribution  estimation methods (pre-OASE and post-OASE) had a much larger sample size than the point estimate methods, we used the median of the distributions.
+Then Tukey test.
+
 
 
 
@@ -215,25 +242,17 @@ This was to negate any effect that higher-dimensional trait space estimations we
 
 \section{Results}
 % \subsection{Overall disparity error}
-\subsection{Discrete traits}
-The relative discrete trait disparity error varied across transition rate, fossil sampling proportion, method of ancestral state estimation and disparity metric.
-\subsubsection{Effect of estimation method}
-Pre-ordination estimation (pre-OASE) methods were generally more accurate at recovering the true disparity value than post-ordination estimation (post-OASE) methods.
+\subsection{Effect of estimation method}
+For discrete characters, the pre-ordination estimation (pre-OASE) methods were more accurate at recovering the true disparity value than post-ordination estimation (post-OASE) methods.
 In particular, the pre-OASE distribution method was the best performing ancestral state estimation method.
-
-\subsubsection{Effect of estimation method}
-
+The null model of bypassing ASE consistently recovers an underestimate of disparity.
 
 
+\subsection{Effect of model of evolution}
+For discrete characters, disparity outputs from slower rates of character evolution were easier to recover than faster rates of evolution.
+In general, each estimation method performed better at recovering slow rates than fast rates, 
 
-For both discrete and continuous traits, pre-ordination estimation (pre-OASE) methods were generally more accurate at recovering the true disparity value than post-ordination estimation (post-OASE) methods.
-The pre-ordination estimation method performs bst. 
-The relative disparity error varied across transition rate, fossil sampling proportion, method of ancestral state estimation and disparity metric. 
-Firstly, we found that the pre-OASE distribution method was the most accurate estimation method for returning the true disparity value across all transition rates, fossil sampling levels and disparity metrics.
-Furthermore, estimation error decreased as fossil sampling increased.
-In general, disparity values resulting from slow transition rates were the easiest to recover.
 
-Density metrics, such as the sum of variances and average nearest neighbour distance, tended to be the easiest to recover the true value, whereas size-based metrics were the hardest.
 
 
 
@@ -347,6 +366,12 @@ Density metrics, such as the sum of variances and average nearest neighbour dist
 \end{tabular}
 \end{table}
 
+
+%NC: Be consistent - Maximum Likelihood, or maximum likelihood or Maximum-Likelihood?
+
+%NC: Love figure 2 but i don't understand the arrow labelled true. I'm sure the legend will explain :)
+
+%NC: use "where" rather than "whereby" which is archaic. You can aslso just say "To" rather than "In order to" and "and" rather than "as well as". I'd also use "First" rather than "Firstly". Try and keep it short and snappy.
 
 
 

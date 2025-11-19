@@ -6,7 +6,7 @@ library(treats)
 library(dispRity)
 library(ape)
 
-base_path <- paste0("/mnt/parscratch/users/bip24cns/acedisparity/discrete/", tree_size, "/")
+base_path <- paste0("/mnt/parscratch/users/bip24cns/acedisparity/discrete/crown/", tree_size, "/")
 job_id <- 8505975
 
 write.path <- function(subfolder, filename) {
@@ -20,31 +20,24 @@ if(!dir.exists(checkpoint_dir)) dir.create(checkpoint_dir, recursive = TRUE, sho
 checkpoint_file <- paste0(checkpoint_dir, job_id, "_post_ord_progress_", sprintf("%03d.rds", replicate_id))
 
 fossil_matrices <- readRDS(write.path("matrices", "fossil_matrices_%03d.rds"))
-
-ord_fossil_tips <- lapply(fossil_matrices, lapply, function(x){
-  mat <- x$matrix 
-  dist <- char.diff(mat, method = "mord", by.col = FALSE)
-  ord <- (cmdscale(dist, k = ncol(dist) - 2, add = TRUE))$points
-})
-
 fossil_trees <- lapply(fossil_matrices, lapply, function(level){
   tree <- level$tree
 })
 
+tip_mat <- lapply(fossil_matrices, lapply, function(x){
+    mat <- x$matrix
+    tip_mat <- mat[grepl("^t", rownames(mat)), ]
+    return(tip_mat)
+})
+
+
+ord_fossil_tips <- lapply(tip_mat, lapply, function(x){
+  dist <- char.diff(x, method = "mord", by.col = FALSE)
+  ord <- (cmdscale(dist, k = ncol(dist) - 2, add = TRUE))$points
+})
+
+
 # Extract living labels
-extract.living <- function(fossils) { 
-  basal_node <- fossils$living$tree$node.label[1]
-  living_nodes <- fossils$living$tree$node.label
-  labels <- lapply(fossils, function(level){
-    tree <- level$tree
-    descendents <- (extract.clade(tree, node = basal_node))$tip.label
-    add_nodes <- c(descendents, living_nodes)
-  })
-  return(labels)
-}
-
-labels <- lapply(fossil_matrices, extract.living)
-
 # Split each matrix into 4 partitions
 split_matrices <- lapply(ord_fossil_tips, function(rate_list) {
   lapply(rate_list, function(mat) {
@@ -176,17 +169,14 @@ point_post_ord_ace <- lapply(post_ord_ace, lapply, function(x) {
   multi.ace(x, output = "combined.matrix")
 })
 
-point_post_ord_ace_living <- Map(function(rate_anc, rate_labels) {
-    Map(function(fossil_anc, label_anc) {
-      if(is.null(fossil_anc)) return(NULL)
-      fossil_anc[label_anc, , drop = FALSE]
-  }, rate_anc, rate_labels)
-}, point_post_ord_ace, labels)
+# point_post_ord_ace_living <- Map(function(rate_anc, rate_labels) {
+#     Map(function(fossil_anc, label_anc) {
+#       if(is.null(fossil_anc)) return(NULL)
+#       fossil_anc[label_anc, , drop = FALSE]
+#   }, rate_anc, rate_labels)
+# }, point_post_ord_ace, labels)
 
-## so the issue is that there is an ordination on fossil matrices, which means the ordination axes are defined by taxa that are then removed, but also are not within the pre-ord ace, since that follows ace-> prune -> ord. 
-# post ord ace pipeline follows: ord -> ace -> prune.
-
-names(point_post_ord_ace_living) <- names(point_post_ord_ace)
+# names(point_post_ord_ace_living) <- names(point_post_ord_ace)
 
 cat("Starting sample post-ord ACE (100 samples)...\n")
 
@@ -198,20 +188,20 @@ sample_post_ord_ace <- lapply(post_ord_ace, lapply, function(x) {
   multi.ace(x, sample = 100, sample.fun = trait_normal, output = "combined.matrix")
 })
 
-sample_post_ord_ace_living <- Map(function(rate_anc, rate_labels) {
-    Map(function(fossil_anc, label_anc) {
-      if(is.null(fossil_anc)) return(NULL)
-      lapply(fossil_anc, function(rep) {
-        rep[label_anc, , drop = FALSE]
-      })
-  }, rate_anc, rate_labels)
-}, sample_post_ord_ace, labels)
+# sample_post_ord_ace_living <- Map(function(rate_anc, rate_labels) {
+#     Map(function(fossil_anc, label_anc) {
+#       if(is.null(fossil_anc)) return(NULL)
+#       lapply(fossil_anc, function(rep) {
+#         rep[label_anc, , drop = FALSE]
+#       })
+#   }, rate_anc, rate_labels)
+# }, sample_post_ord_ace, labels)
 
-names(sample_post_ord_ace_living) <- names(sample_post_ord_ace)
+# names(sample_post_ord_ace_living) <- names(sample_post_ord_ace)
 
 # Save final outputs
-saveRDS(point_post_ord_ace_living, write.path("ord", "post_ord_point_%03d.rds"))
-saveRDS(sample_post_ord_ace_living, write.path("ord", "post_ord_sample_%03d.rds"))
+saveRDS(point_post_ord_ace, write.path("ord", "post_ord_point_%03d.rds"))
+saveRDS(sample_post_ord_ace, write.path("ord", "post_ord_sample_%03d.rds"))
 
 # Clean up checkpoint
 if(file.exists(checkpoint_file)) file.remove(checkpoint_file)
