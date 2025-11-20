@@ -73,6 +73,10 @@ tasks_sample_ord <- expand.grid(
   stringsAsFactors = FALSE
 )
 
+tasks_sample_ord <- tasks_sample_ord[order(tasks_sample_ord$fossil_level, 
+                                        tasks_sample_ord$rate, 
+                                        tasks_sample_ord$rep_n), ]
+
 cat("Total tasks:", nrow(tasks_sample_ord), "\n")
 
 # Check for existing checkpoint
@@ -93,7 +97,7 @@ cat("Running", length(remaining_tasks), "remaining tasks on 64 cores\n")
 
 if(length(remaining_tasks) > 0) {
   # Process in batches with periodic checkpointing
-  batch_size <- 300  # Save every 300 tasks (~3-5 min)
+  batch_size <- 300  # Save every 300 tasks (corresponds to each fossil level)
   n_batches <- ceiling(length(remaining_tasks) / batch_size)
   
   for(batch_idx in 1:n_batches) {

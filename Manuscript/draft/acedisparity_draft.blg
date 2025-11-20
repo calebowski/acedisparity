@@ -5,45 +5,45 @@ The style file: plainnat.bst
 Database file #1: references.bib
 Warning--empty journal in gearty2024impact
 Warning--empty journal in wills2001morphological
-You've used 24 entries,
+You've used 27 entries,
             2773 wiz_defined-function locations,
-            753 strings with 9469 characters,
-and the built_in function-call counts, 11172 in all, are:
-= -- 1018
-> -- 579
-< -- 17
-+ -- 201
-- -- 177
-* -- 921
-:= -- 1720
-add.period$ -- 76
-call.type$ -- 24
-change.case$ -- 129
-chr.to.int$ -- 24
-cite$ -- 50
-duplicate$ -- 502
-empty$ -- 939
-format.name$ -- 207
-if$ -- 2316
+            772 strings with 10104 characters,
+and the built_in function-call counts, 12622 in all, are:
+= -- 1143
+> -- 667
+< -- 18
++ -- 231
+- -- 204
+* -- 1053
+:= -- 1946
+add.period$ -- 85
+call.type$ -- 27
+change.case$ -- 147
+chr.to.int$ -- 27
+cite$ -- 56
+duplicate$ -- 564
+empty$ -- 1058
+format.name$ -- 237
+if$ -- 2614
 int.to.chr$ -- 1
 int.to.str$ -- 1
-missing$ -- 24
-newline$ -- 132
-num.names$ -- 96
-pop$ -- 237
+missing$ -- 27
+newline$ -- 147
+num.names$ -- 108
+pop$ -- 268
 preamble$ -- 1
-purify$ -- 107
+purify$ -- 122
 quote$ -- 0
-skip$ -- 375
+skip$ -- 420
 stack$ -- 0
-substring$ -- 559
-swap$ -- 42
+substring$ -- 623
+swap$ -- 45
 text.length$ -- 2
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 259
+type$ -- 292
 warning$ -- 2
-while$ -- 111
+while$ -- 124
 width$ -- 0
-write$ -- 323
+write$ -- 362
 (There were 2 warnings)

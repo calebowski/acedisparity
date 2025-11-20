@@ -1,4 +1,4 @@
-\begin{thebibliography}{24}
+\begin{thebibliography}{27}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -28,10 +28,25 @@ Douglas~H. Erwin.
 \newblock \doi{10.1111/j.1475-4983.2006.00614.x}.
 \newblock Publisher: John Wiley \& Sons, Ltd.
 
+\bibitem[Flannery~Sutherland et~al.(2019)Flannery~Sutherland, Moon, Stubbs, and Benton]{flannery2019does}
+Joseph~T Flannery~Sutherland, Benjamin~C Moon, Thomas~L Stubbs, and Michael~J Benton.
+\newblock Does exceptional preservation distort our view of disparity in the fossil record?
+\newblock \emph{Proceedings of the Royal Society B}, 286\penalty0 (1897):\penalty0 20190091, 2019.
+
 \bibitem[Foote(1992)]{foote1992rarefaction}
 Mike Foote.
 \newblock Rarefaction analysis of morphological and taxonomic diversity.
 \newblock \emph{Paleobiology}, 18\penalty0 (1):\penalty0 1--16, 1992.
+
+\bibitem[Foote(1994)]{foote1994morphological}
+Mike Foote.
+\newblock Morphological disparity in ordovician-devonian crinoids and the early saturation of morphological space.
+\newblock \emph{Paleobiology}, 20\penalty0 (3):\penalty0 320--344, 1994.
+
+\bibitem[Garc{\'\i}a-Navas et~al.(2017)Garc{\'\i}a-Navas, Noguerales, Cordero, and Ortego]{garcia2017phenotypic}
+Vicente Garc{\'\i}a-Navas, V{\'\i}ctor Noguerales, Pedro~J Cordero, and Joaqu{\'\i}n Ortego.
+\newblock Phenotypic disparity in iberian short-horned grasshoppers (acrididae): the role of ecology and phylogeny.
+\newblock \emph{BMC Evolutionary Biology}, 17\penalty0 (1):\penalty0 109, 2017.
 
 \bibitem[Gearty et~al.(2024)Gearty, Allen, Godoy, and Chiarenza]{gearty2024impact}
 William Gearty, Bethany Allen, Pedro~L Godoy, and Alfio~Alessandro Chiarenza.

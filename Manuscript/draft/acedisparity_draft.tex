@@ -75,7 +75,20 @@ These results demonstrate that explicitly propagating uncertainty, rather than c
 %     d. And effect of fossil sampling
 
 The incorporation of morphological trait data with phylogenies has become ubiquitous within phylogenetic comparative methods, particularly within modern analyses of morphological diversity.
-Morphological diversity, hereafter termed disparity, describes the distribution or spread of taxa within a morphospace — a multidimensional mathematical space configured by morphological similarity \citep{erwin_disparity_2007}. 
+Morphological diversity, hereafter termed disparity, describes the distribution or spread of taxa within a trait space — a multidimensional mathematical space configured by trait similarity \citep{erwin_disparity_2007}. 
+These traits may be continuous, e.g. body size \citep{garcia2017phenotypic} %need another refernce here
+or discrete \citep{foote1994morphological, lloyd2016estimating}.
+The poor resolution of the fossil record is an inevitable limitation affecting disparity analyses, since only a small biased portion of a clade's evolutionary history is preserved \citep{flannery2019does}. 
+Therefore, only a small portion of the clade's evolutionary history is accounted for when doing disparity analyses and ghost lineages are left out.
+% As described by both \cite{brusatte2011phylogenetic} and \cite{halliday2016eutherian}, ghost lineages
+This has hindered our ability to understand disparity patterns in deep time.
+
+One way in which ghost lineages can be accounted for is through the use of ancestral state estimation (ASE).
+Ancestral state estimation (ASE) allows the unification of our observed trait data with a phylogeny enables a switch from simply observing a pattern (points in morphospace) to inferring a process through time. 
+Ancestral state estimation has been extensively used across macroevolutionary studies for inferring the evolutionary history any trait of interest (continuous or discrete). 
+
+
+
 
 
 
@@ -107,7 +120,10 @@ The randomness of the birth-death model meant some simulated trees contained onl
 This meant that although the parameters were set to $\lambda = 1$ and $\mu = 0.9$, the effective parameters slightly deviated from these input values (see Supplementary Figure \ref{fig:net div overall trees}).
 Mean net diversification across all simulated trees was $0.30\pm0.09$.
 
-% NC: This might be later in the manuscript but somewhere need to cite R and the version used. Also should calrify when you mention multi ace and ace that these are R packages.
+Prior to trait simulation, trees were pruned to extract the crown clade of the tree, i.e., at the MRCA of the extant tips. 
+This ensured that all simulated fossil sampling levels shared an identical root node and comparable tree height, providing a consistent framework for downstream analyses.
+From this point onward, any tip included in the analyses was a descendant of the most basal node considered, i.e., the MRCA, guaranteeing that all ordinations and disparity values were calculated within a consistent clade, allowing a robust assessment of the interaction between fossil sampling and ancestral state estimation.
+Pruning also avoided unnecessary computation for ancestral nodes outside the crown that were not used in subsequent analyses.% NC: This might be later in the manuscript but somewhere need to cite R and the version used. Also should calrify when you mention multi ace and ace that these are R packages.
 
 \subsubsection{Trait simulations} \label{trait simulation}
 For each phylogeny, we simulated continuous and discrete trait data separately. %NC: I swapped d and c around as you talk about cont data first.

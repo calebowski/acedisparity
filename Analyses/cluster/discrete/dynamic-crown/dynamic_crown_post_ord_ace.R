@@ -1,13 +1,14 @@
 args <- commandArgs(trailingOnly = TRUE)
 replicate_id <- as.numeric(args[1])
 tree_size <- args[2]
+job_id <- as.numeric(args[3])
 library(parallel)
 library(treats)
 library(dispRity)
 library(ape)
 
 base_path <- paste0("/mnt/parscratch/users/bip24cns/acedisparity/discrete/crown/", tree_size, "/")
-job_id <- 8505975
+# job_id <- 8558401
 
 write.path <- function(subfolder, filename) {
   return(paste0(base_path, subfolder, "/", job_id, "_", sprintf(filename, replicate_id)))
@@ -42,11 +43,11 @@ ord_fossil_tips <- lapply(tip_mat, lapply, function(x){
 split_matrices <- lapply(ord_fossil_tips, function(rate_list) {
   lapply(rate_list, function(mat) {
     n_dims <- ncol(mat)
-    partition_size <- ceiling(n_dims / 4)
+    partition_size <- ceiling(n_dims / 6)
     
     # Create 4 partitions
     partitions <- list()
-    for(i in 1:4) {
+    for(i in 1:6) {
       start_col <- (i - 1) * partition_size + 1
       end_col <- min(i * partition_size, n_dims)
       partitions[[i]] <- mat[, start_col:end_col, drop = FALSE]
@@ -56,13 +57,17 @@ split_matrices <- lapply(ord_fossil_tips, function(rate_list) {
   })
 })
 
-# Create tasks: 60 tasks (3 rates × 5 levels × 4 partitions)
+# Create tasks: 60 tasks (3 rates × 5 levels × 6 partitions)
 tasks_post_ord <- expand.grid(
   rate = names(ord_fossil_tips), 
   fossil_level = names(ord_fossil_tips[[1]]), 
-  partition = 1:4, 
+  partition = 1:6, 
   stringsAsFactors = FALSE
 )
+
+tasks_post_ord <- tasks_post_ord[order(tasks_post_ord$fossil_level, 
+                                        tasks_post_ord$rate, 
+                                        tasks_post_ord$partition), ]
 
 cat("Total tasks:", nrow(tasks_post_ord), "\n")
 
@@ -79,9 +84,9 @@ if(file.exists(checkpoint_file)) {
 }
 
 remaining_tasks <- setdiff(seq_len(nrow(tasks_post_ord)), completed_tasks)
-cat("Running", length(remaining_tasks), "remaining tasks on 20 cores with batches of 20...\n")
+cat("Running", length(remaining_tasks), "remaining tasks on 18 cores with batches of 18...\n")
 if(length(remaining_tasks) > 0) {
-    batch_size <- 20  # Process 20 tasks at a time (3 batches)
+    batch_size <- 18  # Process 18 tasks at a time (5 batches)
     n_batches <- ceiling(length(remaining_tasks) / batch_size)
     
     for(batch_idx in 1:n_batches) {
@@ -92,7 +97,7 @@ if(length(remaining_tasks) > 0) {
         cat("Batch", batch_idx, "/", n_batches, ": processing", length(batch_tasks), "tasks\n")
         
         # Run batch
-        res_batch <- mclapply(batch_tasks, function(i){
+        res_batch <- mclapply(batch_tasks, function(i) {
             task <- tasks_post_ord[i, ]
             matrix_partition <- split_matrices[[task$rate]][[task$fossil_level]][[task$partition]]
             fossil_tree <- fossil_trees[[task$rate]][[task$fossil_level]]
@@ -105,7 +110,7 @@ if(length(remaining_tasks) > 0) {
             })
             
             return(result)
-        }, mc.cores = 20)
+        }, mc.cores = 18)
         
         # Store batch results
         for(j in seq_along(batch_tasks)) {
@@ -149,7 +154,7 @@ for(rate in names(ord_fossil_tips)) {
     combined <- partitions[[1]]
     
     # Add dimensions from partitions 2, 3, 4
-    for(p in 2:4) {
+    for(p in 2:6) {
       # Combine ace estimates (column-bind trait dimensions)
       combined$ace <- cbind(combined$ace, partitions[[p]]$ace)
       combined$CI95 <- cbind(combined$CI95, partitions[[p]]$CI95)

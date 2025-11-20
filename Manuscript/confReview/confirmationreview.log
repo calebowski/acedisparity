@@ -1,10 +1,10 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2024.11.5)  2 SEP 2025 15:31
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2024.11.5)  20 NOV 2025 15:24
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
  %&-line parsing enabled.
-**/home/caleb/Documents/PhD/acedisparity/Manuscript/confirmationreview.tex
-(/home/caleb/Documents/PhD/acedisparity/Manuscript/confirmationreview.tex
+**/home/caleb/Documents/PhD/acedisparity/Manuscript/confReview/confirmationreview.tex
+(/home/caleb/Documents/PhD/acedisparity/Manuscript/confReview/confirmationreview.tex
 LaTeX2e <2023-11-01> patch level 1
 L3 programming layer <2024-01-22>
 (/usr/share/texlive/texmf-dist/tex/latex/base/article.cls
@@ -309,7 +309,6 @@ Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 48
 File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Live
 ))
 Package hyperref Info: Link coloring OFF on input line 24.
- (./confirmationreview.out) (./confirmationreview.out)
 \@outlinefile=\write3
 \openout3 = `confirmationreview.out'.
 
@@ -348,64 +347,300 @@ Package hyperref Info: Link coloring OFF on input line 24.
 * \@reversemarginfalse
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
-<figures/sheffieldlogo.png, id=180, 1505.625pt x 456.70625pt>
-File: figures/sheffieldlogo.png Graphic file (type png)
-<use figures/sheffieldlogo.png>
-Package pdftex.def Info: figures/sheffieldlogo.png  used on input line 28.
-(pdftex.def)             Requested size: 142.26378pt x 43.1506pt.
-[1
 
-{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map} <./figures/sheffieldlogo.png>] (./confirmationreview.toc
-pdfTeX warning (ext4): destination with the same identifier (name{page.1}) has been already used, duplicate ignored
-<to be read again> 
-                   \relax 
-l.32 ...}{\numberline {12}Methods}{19}{section.12}
-                                                  % [1])
+LaTeX Warning: File `figures/sheffieldlogo.png' not found on input line 28.
+
+
+/home/caleb/Documents/PhD/acedisparity/Manuscript/confReview/confirmationreview.tex:28: Package pdftex.def Error: File `figures/sheffieldlogo.png' not found: using draft setting.
+
+See the pdftex.def package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.28 ...hics[width=5cm]{figures/sheffieldlogo.png}
+                                                  
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+[1{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}
+
+]
+No file confirmationreview.toc.
 \tf@toc=\write4
 \openout4 = `confirmationreview.toc'.
 
- [2] [3]
-<figures/extinctionscenarios.png, id=318, 896.59969pt x 213.79875pt>
-File: figures/extinctionscenarios.png Graphic file (type png)
-<use figures/extinctionscenarios.png>
-Package pdftex.def Info: figures/extinctionscenarios.png  used on input line 167.
-(pdftex.def)             Requested size: 472.03123pt x 112.55594pt.
- [4
+
+Package natbib Warning: Citation `raup1981extintion' on page 1 undefined on input line 90.
+
+
+Package natbib Warning: Citation `raup_mass_1982' on page 1 undefined on input line 91.
+
+
+Package natbib Warning: Citation `raup_mass_1982' on page 1 undefined on input line 92.
+
+
+Package natbib Warning: Citation `jablonski_lessons_2001' on page 1 undefined on input line 94.
+
+
+Package natbib Warning: Citation `hull_life_2015' on page 1 undefined on input line 95.
+
+
+pdfTeX warning (ext4): destination with the same identifier (name{page.1}) has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.96 
+      [1]
+
+Package natbib Warning: Citation `jablonski2025mass' on page 2 undefined on input line 98.
+
+
+Package natbib Warning: Citation `hull_life_2015' on page 2 undefined on input line 99.
+
+
+Package natbib Warning: Citation `hansen1999effect' on page 2 undefined on input line 100.
+
+
+Package natbib Warning: Citation `raup1981extintion' on page 2 undefined on input line 100.
+
+
+Package natbib Warning: Citation `schluter2000ecology' on page 2 undefined on input line 105.
+
+
+Package natbib Warning: Citation `foote_discordance_1993' on page 2 undefined on input line 106.
+
+
+Package natbib Warning: Citation `hopkins2013decoupling' on page 2 undefined on input line 106.
+
+
+Package natbib Warning: Citation `ruta2013decoupling' on page 2 undefined on input line 106.
+
+
+Package natbib Warning: Citation `wan2021decoupling' on page 2 undefined on input line 106.
+
+
+Package natbib Warning: Citation `bapst_graptoloid_2012' on page 2 undefined on input line 107.
+
+
+Package natbib Warning: Citation `ruta2013decoupling' on page 2 undefined on input line 107.
+
+
+Package natbib Warning: Citation `edie_contrasting_2018' on page 2 undefined on input line 108.
+
+
+Package natbib Warning: Citation `puttick_complex_2020' on page 2 undefined on input line 109.
+
+
+Package natbib Warning: Citation `wills_disparity_1994' on page 2 undefined on input line 127.
+
+
+Package natbib Warning: Citation `erwin_disparity_2007' on page 2 undefined on input line 128.
+
+
+Package natbib Warning: Citation `lowery2019morphospace' on page 2 undefined on input line 131.
+
+
+Package natbib Warning: Citation `budd2021morphospace' on page 2 undefined on input line 131.
+
+
+Package natbib Warning: Citation `foote1994morphological' on page 2 undefined on input line 132.
+
+
+Package natbib Warning: Citation `raup1994role' on page 2 undefined on input line 132.
+
+
+Package natbib Warning: Citation `sidlauskas2008continuous' on page 2 undefined on input line 132.
+
+
+Package natbib Warning: Citation `hopkins2016magnitude' on page 2 undefined on input line 133.
+
+[2]
+
+LaTeX Warning: Reference `fig:scenarios' on page 3 undefined on input line 158.
+
+
+Package natbib Warning: Citation `korn_extinction_2013' on page 3 undefined on input line 162.
+
+
+LaTeX Warning: File `figures/extinctionscenarios.png' not found on input line 167.
+
+
+/home/caleb/Documents/PhD/acedisparity/Manuscript/confReview/confirmationreview.tex:167: Package pdftex.def Error: File `figures/extinctionscenarios.png' not found: using draft setting.
+
+See the pdftex.def package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.167 ...newidth]{figures/extinctionscenarios.png}
+                                                  
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+
+Package natbib Warning: Citation `grossnickle_therian_2016' on page 3 undefined on input line 168.
+
+
+Package natbib Warning: Citation `grossnickle_therian_2016' on page 3 undefined on input line 168.
+
+[3]
+
+Package natbib Warning: Citation `foote1997evolution' on page 4 undefined on input line 175.
+
+
+Package natbib Warning: Citation `korn_extinction_2013' on page 4 undefined on input line 175.
+
+
+Package natbib Warning: Citation `puttick_complex_2020' on page 4 undefined on input line 177.
+
+
+Package natbib Warning: Citation `guillerme_shifting_2020' on page 4 undefined on input line 177.
+
+
+Package natbib Warning: Citation `cole_selectivity_2021' on page 4 undefined on input line 178.
+
+[4
 pdfTeX warning (ext4): destination with the same identifier (name{figure.1}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
 l.179 
-       <./figures/extinctionscenarios.png>] [5]
-<figures/grossnickleradiations.jpg, id=428, 300.20958pt x 538.98965pt>
-File: figures/grossnickleradiations.jpg Graphic file (type jpg)
-<use figures/grossnickleradiations.jpg>
-Package pdftex.def Info: figures/grossnickleradiations.jpg  used on input line 215.
-(pdftex.def)             Requested size: 330.42041pt x 593.26875pt.
- [6] [7
+      ]
+
+Package natbib Warning: Citation `alvarez_extraterrestrial_1980' on page 5 undefined on input line 190.
+
+
+Package natbib Warning: Citation `schulte_chicxulub_2010' on page 5 undefined on input line 190.
+
+
+Package natbib Warning: Citation `brusatte_extinction_2015' on page 5 undefined on input line 190.
+
+
+Package natbib Warning: Citation `osborn_law_1902' on page 5 undefined on input line 193.
+
+
+Package natbib Warning: Citation `alroy_fossil_1999' on page 5 undefined on input line 193.
+
+
+Package natbib Warning: Citation `codron_ecological_2013' on page 5 undefined on input line 193.
+
+
+Package natbib Warning: Citation `oleary_placental_2013' on page 5 undefined on input line 193.
+
+
+Package natbib Warning: Citation `alroy_fossil_1999' on page 5 undefined on input line 194.
+
+
+Package natbib Warning: Citation `benevento_early_2023' on page 5 undefined on input line 195.
+
+
+Package natbib Warning: Citation `cooper_body_2010' on page 5 undefined on input line 196.
+
+
+Package natbib Warning: Citation `smith_evolution_2010' on page 5 undefined on input line 196.
+
+
+Package natbib Warning: Citation `raia_rapid_2013' on page 5 undefined on input line 196.
+
+
+Package natbib Warning: Citation `slater_phylogenetic_2013' on page 5 undefined on input line 196.
+
+
+Package natbib Warning: Citation `alroy_fossil_1999' on page 5 undefined on input line 200.
+
+
+Package natbib Warning: Citation `slater_phylogenetic_2013' on page 5 undefined on input line 200.
+
+
+Package natbib Warning: Citation `grossnickle_feeding_2020' on page 5 undefined on input line 200.
+
+
+Package natbib Warning: Citation `grossnickle_untangling_2019' on page 5 undefined on input line 201.
+
+
+LaTeX Warning: Reference `fig:radiations' on page 5 undefined on input line 202.
+
+
+Package natbib Warning: Citation `meredith_impacts_2011' on page 5 undefined on input line 202.
+
+
+Package natbib Warning: Citation `benton_angiosperm_2022' on page 5 undefined on input line 202.
+
+
+Package natbib Warning: Citation `grossnickle_therian_2016' on page 5 undefined on input line 203.
+
+
+Package natbib Warning: Citation `wilson_mammals_2013' on page 5 undefined on input line 204.
+
+
+Package natbib Warning: Citation `chen_assembly_2019' on page 5 undefined on input line 205.
+
+
+LaTeX Warning: Reference `fig:radiations' on page 5 undefined on input line 207.
+
+
+Package natbib Warning: Citation `bininda-emonds_delayed_2007' on page 5 undefined on input line 207.
+
+
+Package natbib Warning: Citation `benevento_patterns_2019' on page 5 undefined on input line 208.
+
+
+Package natbib Warning: Citation `bertrand_brawn_2022' on page 5 undefined on input line 209.
+
+[5]
+
+LaTeX Warning: File `figures/grossnickleradiations.jpg' not found on input line 215.
+
+
+/home/caleb/Documents/PhD/acedisparity/Manuscript/confReview/confirmationreview.tex:215: Package pdftex.def Error: File `figures/grossnickleradiations.jpg' not found: using draft setting.
+
+See the pdftex.def package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.215 ...width]{figures/grossnickleradiations.jpg}
+                                                  
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+
+Package natbib Warning: Citation `grossnickle_untangling_2019' on page 6 undefined on input line 216.
+
+
+Package natbib Warning: Citation `grossnickle_untangling_2019' on page 6 undefined on input line 216.
+
+[6
 pdfTeX warning (ext4): destination with the same identifier (name{figure.2}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
 l.233 
-       <./figures/grossnickleradiations.jpg>]
-<figures/simplepipeline.png, id=450, 1281.78876pt x 1505.625pt>
-File: figures/simplepipeline.png Graphic file (type png)
-<use figures/simplepipeline.png>
-Package pdftex.def Info: figures/simplepipeline.png  used on input line 236.
-(pdftex.def)             Requested size: 377.62642pt x 443.55821pt.
- [8
-pdfTeX warning (ext4): destination with the same identifier (name{figure.3}) has been already used, duplicate ignored
-<argument> ...shipout:D \box_use:N \l_shipout_box 
-                                                  \__shipout_drop_firstpage_...
-l.245 
-       <./figures/simplepipeline.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 260--260
-[]|[]\OT1/cmr/m/n/10 Alroy[] ([]1999[]); []O'Leary
- []
+      ]
+
+LaTeX Warning: File `figures/simplepipeline.png' not found on input line 236.
 
 
-Underfull \hbox (badness 4634) in paragraph at lines 260--260
-\OT1/cmr/m/n/10 ([]2017[]); []Hal-l-i-day et al.[]
- []
+/home/caleb/Documents/PhD/acedisparity/Manuscript/confReview/confirmationreview.tex:236: Package pdftex.def Error: File `figures/simplepipeline.png' not found: using draft setting.
+
+See the pdftex.def package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.236 ....8\linewidth]{figures/simplepipeline.png}
+                                                  
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+
+LaTeX Warning: Reference `tab:placental_models' on page 7 undefined on input line 244.
+
+
+Package natbib Warning: Citation `alroy_fossil_1999' on page 7 undefined on input line 260.
+
+
+Package natbib Warning: Citation `oleary_placental_2013' on page 7 undefined on input line 260.
+
+
+Package natbib Warning: Citation `davies2017completeness' on page 7 undefined on input line 260.
+
+
+Package natbib Warning: Citation `halliday_resolving_2017' on page 7 undefined on input line 260.
 
 
 Underfull \hbox (badness 1286) in paragraph at lines 260--260
@@ -413,9 +648,10 @@ Underfull \hbox (badness 1286) in paragraph at lines 260--260
  []
 
 
-Underfull \hbox (badness 3250) in paragraph at lines 260--260
-[]|[]\OT1/cmr/m/n/10 Phillips[] ([]2016[]); []Phillips
- []
+Package natbib Warning: Citation `phillips_geomolecular_2016' on page 7 undefined on input line 260.
+
+
+Package natbib Warning: Citation `phillips_soft_2018' on page 7 undefined on input line 260.
 
 
 Underfull \hbox (badness 3826) in paragraph at lines 260--260
@@ -423,117 +659,488 @@ Underfull \hbox (badness 3826) in paragraph at lines 260--260
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 260--260
-[]|[]\OT1/cmr/m/n/10 Archibald and
- []
+Package natbib Warning: Citation `archibald_quantitative_2001' on page 7 undefined on input line 260.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 260--260
-\OT1/cmr/m/n/10 Deutschman[] ([]2001[]);
- []
+Package natbib Warning: Citation `meredith_impacts_2011' on page 7 undefined on input line 260.
 
 
-Underfull \hbox (badness 2495) in paragraph at lines 260--260
-[]\OT1/cmr/m/n/10 Mered-ith et al.[] ([]2011[]);
- []
+Package natbib Warning: Citation `dos_reis_phylogenomic_2012' on page 7 undefined on input line 260.
 
-[9
+
+Package natbib Warning: Citation `foley_mammal_2016' on page 7 undefined on input line 260.
+
+
+Package natbib Warning: Citation `carlisle_timescale_2023' on page 7 undefined on input line 260.
+
+[7
+pdfTeX warning (ext4): destination with the same identifier (name{figure.3}) has been already used, duplicate ignored
+<argument> ...shipout:D \box_use:N \l_shipout_box 
+                                                  \__shipout_drop_firstpage_...
+l.262 \end{table}
+                 ]
+
+Package natbib Warning: Citation `grossnickle_mammal_2013' on page 8 undefined on input line 264.
+
+
+Package natbib Warning: Citation `wilson_mammals_2013' on page 8 undefined on input line 264.
+
+
+Package natbib Warning: Citation `grossnickle_therian_2016' on page 8 undefined on input line 264.
+
+
+Package natbib Warning: Citation `benevento_patterns_2019' on page 8 undefined on input line 264.
+
+
+Package natbib Warning: Citation `guillerme2018time' on page 8 undefined on input line 265.
+
+
+Package natbib Warning: Citation `guillerme2018time' on page 8 undefined on input line 268.
+
+
+Package natbib Warning: Citation `lloyd2018journeys' on page 8 undefined on input line 307.
+
+
+Package natbib Warning: Citation `schluter1997likelihood' on page 8 undefined on input line 314.
+
+
+Package natbib Warning: Citation `cunningham1998reconstructing' on page 8 undefined on input line 314.
+
+
+Package natbib Warning: Citation `brusatte2011phylogenetic' on page 8 undefined on input line 316.
+
+
+LaTeX Warning: Reference `fig:ichthy_phylo' on page 8 undefined on input line 318.
+
+
+LaTeX Warning: File `figures/Ichthyosauria_phylogeny.jpg' not found on input line 323.
+
+
+/home/caleb/Documents/PhD/acedisparity/Manuscript/confReview/confirmationreview.tex:323: Package pdftex.def Error: File `figures/Ichthyosauria_phylogeny.jpg' not found: using draft setting.
+
+See the pdftex.def package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.323 ...0cm]{figures/Ichthyosauria_phylogeny.jpg}
+                                                  
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+
+Package natbib Warning: Citation `fischer2012new' on page 8 undefined on input line 324.
+
+
+Package natbib Warning: Citation `fischer2012new' on page 8 undefined on input line 324.
+
+[8
 pdfTeX warning (ext4): destination with the same identifier (name{table.1}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.319 
+l.328 
       ]
-<figures/Ichthyosauria_phylogeny.jpg, id=572, 2063.71pt x 1417.295pt>
-File: figures/Ichthyosauria_phylogeny.jpg Graphic file (type jpg)
-<use figures/Ichthyosauria_phylogeny.jpg>
-Package pdftex.def Info: figures/Ichthyosauria_phylogeny.jpg  used on input line 323.
-(pdftex.def)             Requested size: 284.52756pt x 195.39229pt.
- [10
+
+Package natbib Warning: Citation `friedman2009ecomorphological' on page 9 undefined on input line 330.
+
+
+Package natbib Warning: Citation `brusatte2011phylogenetic' on page 9 undefined on input line 330.
+
+
+Package natbib Warning: Citation `joy2016ancestral' on page 9 undefined on input line 355.
+
+
+Package natbib Warning: Citation `felsenstein1985phylogenies' on page 9 undefined on input line 361.
+
+
+Package natbib Warning: Citation `omeara2006testing' on page 9 undefined on input line 361.
+
+[9
 pdfTeX warning (ext4): destination with the same identifier (name{figure.4}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
 l.365 
-       <./figures/Ichthyosauria_phylogeny.jpg>] [11] [12] [13] [14{/usr/share/texmf/fonts/enc/dvips/cm-super/cm-super-ts1.enc}] [15]
+      ]
+
+Package natbib Warning: Citation `pagel1994detecting' on page 10 undefined on input line 379.
+
+
+Package natbib Warning: Citation `yang2006computational' on page 10 undefined on input line 379.
+
+
+Package natbib Warning: Citation `revell2025ancestral' on page 10 undefined on input line 403.
+
+
+Package natbib Warning: Citation `swofford1992parsimony' on page 10 undefined on input line 455.
+
+[10]
+
+Package natbib Warning: Citation `schluter1997likelihood' on page 11 undefined on input line 458.
+
+
+Package natbib Warning: Citation `gascuel2014predicting' on page 11 undefined on input line 459.
+
+
+Package natbib Warning: Citation `silvestro2015measurement' on page 11 undefined on input line 464.
+
+
+Package natbib Warning: Citation `ackerly2006niche' on page 11 undefined on input line 466.
+
+
+Package natbib Warning: Citation `vanderpoorten2006mapping' on page 11 undefined on input line 466.
+
+
+Package natbib Warning: Citation `smith2022evolution' on page 11 undefined on input line 470.
+
+
+Package natbib Warning: Citation `casali2023morphological' on page 11 undefined on input line 470.
+
+
+Package natbib Warning: Citation `ane2008analysis' on page 11 undefined on input line 476.
+
+
+Package natbib Warning: Citation `finarelli2006ancestral' on page 11 undefined on input line 477.
+
+
+Package natbib Warning: Citation `finarelli2013potential' on page 11 undefined on input line 477.
+
+
+Package natbib Warning: Citation `harmon2010early' on page 11 undefined on input line 481.
+
+
+Package natbib Warning: Citation `hughes2013clades' on page 11 undefined on input line 481.
+
+
+Package natbib Warning: Citation `mitchell2015extant' on page 11 undefined on input line 482.
+
+
+Package natbib Warning: Citation `revell2025ancestral' on page 11 undefined on input line 497.
+
+[11]
+
+Package natbib Warning: Citation `webster2002testing' on page 12 undefined on input line 500.
+
+
+Package natbib Warning: Citation `finarelli2006ancestral' on page 12 undefined on input line 500.
+
+
+Package natbib Warning: Citation `royer2016comparison' on page 12 undefined on input line 502.
+
+
+Package natbib Warning: Citation `jablonski1986background' on page 12 undefined on input line 503.
+
+
+Package natbib Warning: Citation `slater_phylogenetic_2013' on page 12 undefined on input line 504.
+
+
+Package natbib Warning: Citation `puttick2016partially' on page 12 undefined on input line 507.
+
+
+Package natbib Warning: Citation `goswami2025phenomics' on page 12 undefined on input line 508.
+
+
+Package natbib Warning: Citation `alroy1998cope' on page 12 undefined on input line 510.
+
+
+Package natbib Warning: Citation `keating2023best' on page 12 undefined on input line 511.
+
+
+Package natbib Warning: Citation `moon2020early' on page 12 undefined on input line 534.
+
+
+Package natbib Warning: Citation `apaldetti2021sauropodomorph' on page 12 undefined on input line 534.
+
+
+Package natbib Warning: Citation `donati2025continuity' on page 12 undefined on input line 534.
+
+
+Package natbib Warning: Citation `patton2021adaptive' on page 12 undefined on input line 535.
+
+
+Package natbib Warning: Citation `haug2023quantitative' on page 12 undefined on input line 535.
+
+
+Package natbib Warning: Citation `wang2023low' on page 12 undefined on input line 535.
+
+
+Package natbib Warning: Citation `hunt2015simple' on page 12 undefined on input line 541.
+
+
+Package natbib Warning: Citation `pagel2022general' on page 12 undefined on input line 541.
+
+
+Package natbib Warning: Citation `freckleton2006detecting' on page 12 undefined on input line 548.
+
+
+Package natbib Warning: Citation `murrell2018global' on page 12 undefined on input line 548.
+
+
+Package natbib Warning: Citation `murrell2018global' on page 12 undefined on input line 549.
+
+
+Package natbib Warning: Citation `harmon2003tempo' on page 12 undefined on input line 549.
+
+
+Package natbib Warning: Citation `smith2022evolution' on page 12 undefined on input line 550.
+
+
+Package natbib Warning: Citation `mcshea2010biology' on page 12 undefined on input line 550.
+
+[12]
+
+LaTeX Warning: Reference `fig:radiations' on page 13 undefined on input line 570.
+
+[13{/usr/share/texmf/fonts/enc/dvips/cm-super/cm-super-ts1.enc}]
+
+LaTeX Warning: Reference `phylogenies' on page 14 undefined on input line 583.
+
+
+LaTeX Warning: Reference `chapter four' on page 14 undefined on input line 584.
+
+[14]
 Overfull \hbox (14.76158pt too wide) in paragraph at lines 632--632
 []\OT1/cmr/bx/n/14.4 Chapter Three: Mea-sur-ing changes in trends in dis-par-ity through
  []
 
-[16]
-<figures/baci.png, id=759, 2495.3225pt x 1647.15375pt>
-File: figures/baci.png Graphic file (type png)
-<use figures/baci.png>
-Package pdftex.def Info: figures/baci.png  used on input line 664.
-(pdftex.def)             Requested size: 426.79134pt x 281.72151pt.
- [17] [18
+
+Package natbib Warning: Citation `wauchope2021evaluating' on page 15 undefined on input line 645.
+
+[15]
+
+Package natbib Warning: Citation `wauchope2021evaluating' on page 16 undefined on input line 653.
+
+
+LaTeX Warning: File `figures/baci.png' not found on input line 664.
+
+
+/home/caleb/Documents/PhD/acedisparity/Manuscript/confReview/confirmationreview.tex:664: Package pdftex.def Error: File `figures/baci.png' not found: using draft setting.
+
+See the pdftex.def package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.664 ...egraphics[width = 15cm]{figures/baci.png}
+                                                  
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+
+Package natbib Warning: Citation `wauchope2021evaluating' on page 16 undefined on input line 665.
+
+
+Package natbib Warning: Citation `wauchope2021evaluating' on page 16 undefined on input line 665.
+
+[16] [17
 pdfTeX warning (ext4): destination with the same identifier (name{figure.5}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.686     \item U
-                 se the BACI contrast function developed in chapter three to... <./figures/baci.png>]
-<figures/gantt.png, id=779, 1040.88875pt x 306.14375pt>
-File: figures/gantt.png Graphic file (type png)
-<use figures/gantt.png>
-Package pdftex.def Info: figures/gantt.png  used on input line 691.
-(pdftex.def)             Requested size: 455.24408pt x 133.89551pt.
- [19
+l.677     \item D
+                 oes this shift depend on the phylogenetic topology used?]
+
+Package natbib Warning: Citation `emmerson_changes_2022' on page 18 undefined on input line 684.
+
+
+LaTeX Warning: File `figures/gantt.png' not found on input line 691.
+
+
+/home/caleb/Documents/PhD/acedisparity/Manuscript/confReview/confirmationreview.tex:691: Package pdftex.def Error: File `figures/gantt.png' not found: using draft setting.
+
+See the pdftex.def package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.691 ...graphics[width = 16cm]{figures/gantt.png}
+                                                  
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+[18]
+
+Package natbib Warning: Citation `guillerme2024treats' on page 19 undefined on input line 702.
+
+[19
 pdfTeX warning (ext4): destination with the same identifier (name{figure.6}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.714 
-       <./figures/gantt.png>] [20] [21]
-<figures/strictdistance.pdf, id=817, 578.16pt x 289.08pt>
-File: figures/strictdistance.pdf Graphic file (type pdf)
-<use figures/strictdistance.pdf>
-Package pdftex.def Info: figures/strictdistance.pdf  used on input line 798.
-(pdftex.def)             Requested size: 426.79134pt x 213.39534pt.
- [22
+l.709 
+      ]
+
+Package natbib Warning: Citation `davies2017completeness' on page 20 undefined on input line 724.
+
+
+Package natbib Warning: Citation `guillerme2018disprity' on page 20 undefined on input line 728.
+
+
+LaTeX Warning: Reference `ace discrete' on page 20 undefined on input line 731.
+
+
+Package natbib Warning: Citation `keating2023best' on page 20 undefined on input line 732.
+
+[20]
+
+LaTeX Warning: Reference `continuous ace' on page 21 undefined on input line 745.
+
+
+LaTeX Warning: Reference `fig:pipeline' on page 21 undefined on input line 763.
+
+
+Package natbib Warning: Citation `lloyd_estimating_2016' on page 21 undefined on input line 764.
+
+[21]
+
+Package natbib Warning: Citation `guillerme2018disprity' on page 22 undefined on input line 770.
+
+
+LaTeX Warning: Reference `fig:rawdistance' on page 22 undefined on input line 787.
+
+
+Package natbib Warning: Citation `finarelli2006ancestral' on page 22 undefined on input line 791.
+
+
+Package natbib Warning: Citation `keating2023best' on page 22 undefined on input line 791.
+
+
+LaTeX Warning: File `figures/strictdistance.pdf' not found on input line 798.
+
+
+/home/caleb/Documents/PhD/acedisparity/Manuscript/confReview/confirmationreview.tex:798: Package pdftex.def Error: File `figures/strictdistance.pdf' not found: using draft setting.
+
+See the pdftex.def package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.798 ...width = 15cm]{figures/strictdistance.pdf}
+                                                  
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+[22]
+
+LaTeX Warning: Reference `fig:rootdistance' on page 23 undefined on input line 803.
+
+
+LaTeX Warning: File `figures/rootdistance.pdf' not found on input line 810.
+
+
+/home/caleb/Documents/PhD/acedisparity/Manuscript/confReview/confirmationreview.tex:810: Package pdftex.def Error: File `figures/rootdistance.pdf' not found: using draft setting.
+
+See the pdftex.def package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.810 ...s[width = 15cm]{figures/rootdistance.pdf}
+                                                  
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+[23
 pdfTeX warning (ext4): destination with the same identifier (name{figure.7}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.807 
-       <./figures/strictdistance.pdf>]
-<figures/rootdistance.pdf, id=833, 578.16pt x 289.08pt>
-File: figures/rootdistance.pdf Graphic file (type pdf)
-<use figures/rootdistance.pdf>
-Package pdftex.def Info: figures/rootdistance.pdf  used on input line 810.
-(pdftex.def)             Requested size: 426.79134pt x 213.39534pt.
-<figures/sumvardistance.pdf, id=835, 578.16pt x 289.08pt>
-File: figures/sumvardistance.pdf Graphic file (type pdf)
-<use figures/sumvardistance.pdf>
-Package pdftex.def Info: figures/sumvardistance.pdf  used on input line 822.
-(pdftex.def)             Requested size: 426.79134pt x 213.39534pt.
- [23
+l.814 
+      ]
+
+LaTeX Warning: Reference `fig: discrete sum var distance' on page 24 undefined on input line 815.
+
+
+LaTeX Warning: File `figures/sumvardistance.pdf' not found on input line 822.
+
+
+/home/caleb/Documents/PhD/acedisparity/Manuscript/confReview/confirmationreview.tex:822: Package pdftex.def Error: File `figures/sumvardistance.pdf' not found: using draft setting.
+
+See the pdftex.def package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.822 ...width = 15cm]{figures/sumvardistance.pdf}
+                                                  
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+[24
 pdfTeX warning (ext4): destination with the same identifier (name{figure.8}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
 l.826 
-       <./figures/rootdistance.pdf>] [24
+      ]
+
+Package natbib Warning: Citation `joy2016ancestral' on page 25 undefined on input line 829.
+
+[25
 pdfTeX warning (ext4): destination with the same identifier (name{figure.9}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.845 
-       <./figures/sumvardistance.pdf>]
-<figures/contdist.pdf, id=877, 578.16pt x 289.08pt>
-File: figures/contdist.pdf Graphic file (type pdf)
-<use figures/contdist.pdf>
-Package pdftex.def Info: figures/contdist.pdf  used on input line 849.
-(pdftex.def)             Requested size: 426.79134pt x 213.39534pt.
-<figures/sumvarcontinuous.pdf, id=880, 578.16pt x 289.08pt>
-File: figures/sumvarcontinuous.pdf Graphic file (type pdf)
-<use figures/sumvarcontinuous.pdf>
-Package pdftex.def Info: figures/sumvarcontinuous.pdf  used on input line 863.
-(pdftex.def)             Requested size: 426.79134pt x 213.39534pt.
- [25
+l.832 
+      ]
+
+Package natbib Warning: Citation `slater2014robust' on page 26 undefined on input line 833.
+
+
+Package natbib Warning: Citation `caetano2019estimating' on page 26 undefined on input line 833.
+
+
+LaTeX Warning: Reference `fig:contdist' on page 26 undefined on input line 839.
+
+
+Package natbib Warning: Citation `royer2016comparison' on page 26 undefined on input line 841.
+
+
+Package natbib Warning: Citation `ho2014intrinsic' on page 26 undefined on input line 841.
+
+
+Package natbib Warning: Citation `goswami2025phenomics' on page 26 undefined on input line 844.
+
+
+LaTeX Warning: File `figures/contdist.pdf' not found on input line 849.
+
+
+/home/caleb/Documents/PhD/acedisparity/Manuscript/confReview/confirmationreview.tex:849: Package pdftex.def Error: File `figures/contdist.pdf' not found: using draft setting.
+
+See the pdftex.def package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.849 ...phics[width = 15cm]{figures/contdist.pdf}
+                                                  
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+[26]
+
+LaTeX Warning: Reference `fig:cont disparity' on page 27 undefined on input line 854.
+
+
+LaTeX Warning: Reference `fig:contdist' on page 27 undefined on input line 858.
+
+
+LaTeX Warning: File `figures/sumvarcontinuous.pdf' not found on input line 863.
+
+
+/home/caleb/Documents/PhD/acedisparity/Manuscript/confReview/confirmationreview.tex:863: Package pdftex.def Error: File `figures/sumvarcontinuous.pdf' not found: using draft setting.
+
+See the pdftex.def package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.863 ...dth = 15cm]{figures/sumvarcontinuous.pdf}
+                                                  
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+[27
 pdfTeX warning (ext4): destination with the same identifier (name{figure.10}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
 l.867 
-       <./figures/contdist.pdf>] [26
+      ] [28
 pdfTeX warning (ext4): destination with the same identifier (name{figure.11}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.884 
-       <./figures/sumvarcontinuous.pdf>] (./confirmationreview.bbl [27]
+l.877 
+      ]
+
+Package natbib Warning: Citation `webster2002testing' on page 29 undefined on input line 890.
+
+(./confirmationreview.bbl [29]
 Underfull \hbox (badness 10000) in paragraph at lines 38--40
 []\OT1/cmr/m/n/10 Benton, M. J., Wilf, P. and Sauquet, H. (2022), `The An-giosperm Ter-res-trial Rev-o-lu-
  []
@@ -543,7 +1150,7 @@ Underfull \hbox (badness 3439) in paragraph at lines 38--40
 \OT1/cmr/m/n/10 tion and the ori-gins of mod-ern bio-di-ver-sity', \OT1/cmr/m/it/10 New Phy-tol-o-gist \OT1/cmr/bx/n/10 233\OT1/cmr/m/n/10 (5), 2017--2035.  []eprint:
  []
 
-[28] [29] [30]
+[30] [31] [32]
 Underfull \hbox (badness 10000) in paragraph at lines 172--174
 []\OT1/cmr/m/n/10 Halliday, T. J. D., Up-church, P. and Goswami, A. (2017), `Re-solv-ing the re-la-tion-
  []
@@ -553,27 +1160,49 @@ Underfull \hbox (badness 10000) in paragraph at lines 172--174
 \OT1/cmr/m/n/10 ships of Pa-le-ocene pla-cen-tal mam-mals', \OT1/cmr/m/it/10 Bi-o-log-i-cal Re-views \OT1/cmr/bx/n/10 92\OT1/cmr/m/n/10 (1), 521--550.  []eprint:
  []
 
-[31] [32] [33] [34] [35]) [36] (./confirmationreview.aux)
+[33] [34] [35] [36] [37])
+
+Package natbib Warning: There were undefined citations.
+
+[38] (./confirmationreview.aux
+
+Package natbib Warning: Citation(s) may have changed.
+(natbib)                Rerun to get citations correct.
+
+)
  ***********
 LaTeX2e <2023-11-01> patch level 1
 L3 programming layer <2024-01-22>
  ***********
-Package rerunfilecheck Info: File `confirmationreview.out' has not changed.
-(rerunfilecheck)             Checksum: B502C529AFEB92D80981804E17D07A1A;8405.
+
+
+LaTeX Warning: There were undefined references.
+
+
+LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
+
+
+Package rerunfilecheck Warning: File `confirmationreview.out' has changed.
+(rerunfilecheck)                Rerun to get outlines right
+(rerunfilecheck)                or use package `bookmark'.
+
+Package rerunfilecheck Info: Checksums for `confirmationreview.out':
+(rerunfilecheck)             Before: <no file>
+(rerunfilecheck)             After:  B502C529AFEB92D80981804E17D07A1A;8405.
  ) 
 Here is how much of TeX's memory you used:
- 10803 strings out of 474222
- 171194 string characters out of 5748733
- 1935975 words of memory out of 5000000
- 32723 multiletter control sequences out of 15000+600000
+ 11028 strings out of 474222
+ 180387 string characters out of 5748733
+ 1934975 words of memory out of 5000000
+ 32952 multiletter control sequences out of 15000+600000
  568413 words of font info for 71 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 75i,12n,79p,917b,758s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 75i,12n,79p,928b,758s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbxti10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmib10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfrm1000.pfb>
-Output written on confirmationreview.pdf (37 pages, 2119929 bytes).
+Output written on confirmationreview.pdf (39 pages, 278442 bytes).
 PDF statistics:
- 1068 PDF objects out of 1200 (max. 8388607)
- 917 compressed objects within 10 object streams
- 205 named destinations out of 1000 (max. 500000)
- 413 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 461 PDF objects out of 1000 (max. 8388607)
+ 386 compressed objects within 4 object streams
+ 207 named destinations out of 1000 (max. 500000)
+ 1 words of extra memory for PDF output out of 10000 (max. 10000000)
 
