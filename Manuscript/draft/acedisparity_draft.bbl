@@ -1,9 +1,19 @@
-\begin{thebibliography}{27}
+\begin{thebibliography}{36}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
   \providecommand{\doi}[1]{doi: #1}\else
   \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[Ackerly et~al.(2006)Ackerly, Schwilk, and Webb]{ackerly2006niche}
+DD~Ackerly, DW~Schwilk, and CO~Webb.
+\newblock Niche evolution and adaptive radiation: testing the order of trait divergence.
+\newblock \emph{Ecology}, 87\penalty0 (sp7):\penalty0 S50--S61, 2006.
+
+\bibitem[An{\'e}(2008)]{ane2008analysis}
+C{\'e}cile An{\'e}.
+\newblock Analysis of comparative data with hierarchical autocorrelation.
+\newblock 2008.
 
 \bibitem[Casali et~al.(2023)Casali, Boscaini, Gaudin, and Perini]{casali2023morphological}
 Daniel~M Casali, Alberto Boscaini, Timothy~J Gaudin, and Fernando~A Perini.
@@ -27,6 +37,16 @@ Douglas~H. Erwin.
 \newblock ISSN 1475-4983.
 \newblock \doi{10.1111/j.1475-4983.2006.00614.x}.
 \newblock Publisher: John Wiley \& Sons, Ltd.
+
+\bibitem[Finarelli and Flynn(2006)]{finarelli2006ancestral}
+John~A Finarelli and John~J Flynn.
+\newblock Ancestral state reconstruction of body size in the caniformia (carnivora, mammalia): the effects of incorporating data from the fossil record.
+\newblock \emph{Systematic Biology}, 55\penalty0 (2):\penalty0 301--313, 2006.
+
+\bibitem[Finarelli and Goswami(2013)]{finarelli2013potential}
+John~A Finarelli and Anjali Goswami.
+\newblock Potential pitfalls of reconstructing deep time evolutionary history with only extant data, a case study using the canidae (mammalia, carnivora).
+\newblock \emph{Evolution}, 67\penalty0 (12):\penalty0 3678--3685, 2013.
 
 \bibitem[Flannery~Sutherland et~al.(2019)Flannery~Sutherland, Moon, Stubbs, and Benton]{flannery2019does}
 Joseph~T Flannery~Sutherland, Benjamin~C Moon, Thomas~L Stubbs, and Michael~J Benton.
@@ -53,6 +73,11 @@ William Gearty, Bethany Allen, Pedro~L Godoy, and Alfio~Alessandro Chiarenza.
 \newblock The impact of tip age distribution on reconstructing trait evolution using phylogenetic comparative methods.
 \newblock 2024.
 
+\bibitem[Goswami and Clavel(2025)]{goswami2025morphological}
+Anjali Goswami and Julien Clavel.
+\newblock Morphological evolution in a time of phenomics.
+\newblock \emph{Paleobiology}, 51\penalty0 (1):\penalty0 195--213, 2025.
+
 \bibitem[Guillerme(2018)]{guillerme2018disprity}
 Thomas Guillerme.
 \newblock disprity: a modular r package for measuring disparity.
@@ -73,6 +98,11 @@ Thomas Guillerme, Mark~N Puttick, Ariel~E Marcy, and Vera Weisbecker.
 \newblock Shifting spaces: Which disparity or dissimilarity measurement best summarize occupancy in multidimensional spaces?
 \newblock \emph{Ecology and evolution}, 10\penalty0 (14):\penalty0 7261--7275, 2020.
 
+\bibitem[Halliday and Goswami(2016)]{halliday2016eutherian}
+Thomas John~Dixon Halliday and Anjali Goswami.
+\newblock Eutherian morphological disparity across the end-cretaceous mass extinction.
+\newblock \emph{Biological Journal of the Linnean Society}, 118\penalty0 (1):\penalty0 152--168, 2016.
+
 \bibitem[Henao~Diaz et~al.(2019)Henao~Diaz, Harmon, Sugawara, Miller, and Pennell]{henao2019macroevolutionary}
 L~Francisco Henao~Diaz, Luke~J Harmon, Mauro~TC Sugawara, Eliot~T Miller, and Matthew~W Pennell.
 \newblock Macroevolutionary diversification rates show time dependency.
@@ -92,6 +122,10 @@ Graeme~T Lloyd.
 Graeme~T Lloyd.
 \newblock Journeys through discrete-character morphospace: synthesizing phylogeny, tempo, and disparity.
 \newblock \emph{Palaeontology}, 61\penalty0 (5):\penalty0 637--645, 2018.
+
+\bibitem[Losos(1999)]{losos1999uncertainty}
+Jonathan~B Losos.
+\newblock Uncertainty in the reconstruction of ancestral character states and limitations on the use of phylogenetic comparative methods, 1999.
 
 \bibitem[Morlon et~al.(2024)Morlon, Andr{\'e}oletti, Barido-Sottani, Lambert, Perez-Lamarque, Quintero, Senderov, and Veron]{morlon2024phylogenetic}
 H{\'e}l{\`e}ne Morlon, J{\'e}r{\'e}my Andr{\'e}oletti, Jo{\"e}lle Barido-Sottani, Sophia Lambert, Beno{\^\i}t Perez-Lamarque, Ignacio Quintero, Viktor Senderov, and Pierre Veron.
@@ -133,6 +167,16 @@ Dolph Schluter, Trevor Price, Arne~{\O} Mooers, and Donald Ludwig.
 Joshua~P Scholl and John~J Wiens.
 \newblock Diversification rates and species richness across the tree of life.
 \newblock \emph{Proceedings of the Royal Society B: Biological Sciences}, 283\penalty0 (1838):\penalty0 20161334, 2016.
+
+\bibitem[Silvestro et~al.(2015)Silvestro, Kostikova, Litsios, Pearman, and Salamin]{silvestro2015measurement}
+Daniele Silvestro, Anna Kostikova, Glenn Litsios, Peter~B Pearman, and Nicolas Salamin.
+\newblock Measurement errors should always be incorporated in phylogenetic comparative analysis.
+\newblock \emph{Methods in Ecology and Evolution}, 6\penalty0 (3):\penalty0 340--346, 2015.
+
+\bibitem[Vanderpoorten and Goffinet(2006)]{vanderpoorten2006mapping}
+Alain Vanderpoorten and B~Goffinet.
+\newblock Mapping uncertainty and phylogenetic uncertainty in ancestral character state reconstruction: an example in the moss genus brachytheciastrum.
+\newblock \emph{Systematic Biology}, 55\penalty0 (6):\penalty0 957--971, 2006.
 
 \bibitem[Wills(2001)]{wills2001morphological}
 Matthew~A Wills.

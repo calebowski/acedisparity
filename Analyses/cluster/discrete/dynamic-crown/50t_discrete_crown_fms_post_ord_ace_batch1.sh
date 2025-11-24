@@ -6,7 +6,7 @@
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=1
-#SBATCH --mem=6G
+#SBATCH --mem=18G
 #SBATCH --time=96:00:00              # 96 hours for "all" levels
 #SBATCH --mail-user=cnscutt1@sheffield.ac.uk
 #SBATCH --mail-type=END,FAIL
@@ -14,5 +14,4 @@
 module load R/4.4.1-foss-2022b
 export R_LIBS_USER=/users/$USER/R/x86_64-pc-linux-gnu-library/4.4
 
-Rscript /users/$USER/acedisparity/discrete_crown/scripts/dynamic_crown_post_ord_ace_stage1.R \
-    ${SLURM_ARRAY_TASK_ID} "50t" "8558401"
+Rscript /users/$USER/acedisparity/discrete_crown/scripts/dynamic_crown_post_ord_ace.R ${SLURM_ARRAY_TASK_ID} "50t" "8558401" "0"

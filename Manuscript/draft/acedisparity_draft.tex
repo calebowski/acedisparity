@@ -20,7 +20,7 @@
 \doublespacing
 \linenumbers
 
-\title{Disparity Analyses Are Robust To Ancestral State Estimation Uncertainty} % NC: we generally use sentence case for titles not camel case
+\title{Disparity analyses are robust to ancestral state estimation uncertainty} % NC: we generally use sentence case for titles not camel case
 
 \author{Caleb Scutt\textsuperscript{1,2*}, Natalie Cooper\textsuperscript{2}, Gavin Thomas\textsuperscript{1}, Thomas Guillerme\textsuperscript{1}}
 
@@ -51,7 +51,7 @@ Similar patterns were observed when recovering changes in disparity across mass 
 These results demonstrate that explicitly propagating uncertainty, rather than collapsing states into point estimates, is more likely to recover accurate patterns in disparity, reinforcing the need to move beyond point estimates when working with the incomplete fossil record.
 \end{abstract}
 
-\noindent\textbf{Keywords:} ancestral state estimation; morphological disparity; fossils; simulation; uncertainty; macroevolution
+\noindent\textbf{Keywords:} ancestral state estimation; disparity; fossils; simulation; uncertainty; macroevolution
 
 \section{Introduction}
 
@@ -83,9 +83,30 @@ Therefore, only a small portion of the clade's evolutionary history is accounted
 % As described by both \cite{brusatte2011phylogenetic} and \cite{halliday2016eutherian}, ghost lineages
 This has hindered our ability to understand disparity patterns in deep time.
 
+\subsection{Ancestral state estimation (ASE)}
+
 One way in which ghost lineages can be accounted for is through the use of ancestral state estimation (ASE).
-Ancestral state estimation (ASE) allows the unification of our observed trait data with a phylogeny enables a switch from simply observing a pattern (points in morphospace) to inferring a process through time. 
-Ancestral state estimation has been extensively used across macroevolutionary studies for inferring the evolutionary history any trait of interest (continuous or discrete). 
+ASE allows the unification of our observed trait data with a phylogeny, enabling a switch from simply observing a pattern (points in morphospace) to inferring a process through time. 
+ASE has been extensively used across macroevolutionary studies for inferring the evolutionary history for any continuous or discrete trait of interest.
+These estimated ancestral states can be combined with observed data to construct the ordination space, from which disparity can be estimated.
+Inferring ancestral states also allows disparity across time analyses to be explored with higher resolution through the use of time-slicing \citep{halliday2016eutherian, guillerme2018disprity}. 
+
+\subsection{Issues with ASE}
+
+Despite its obvious advantages, the integration of ASE within the disparity analysis pipeline has often been neglected.
+Much of the apprehension towards the utilisation of ASE has likely stemmed from the notion that estimates are inherently uncertain.
+Indeed, root-ward estimates in particular are often associated with large confidence intervals/inconclusive scaled likelihoods, with often no guidance on how to correctly treat this uncertainty downstream when constructing the trait space \citep{losos1999uncertainty}.
+Despite the encouragement for uncertainty to be carried forward in comparative analyses \citep{silvestro2015measurement}, most computational implementations of ASE return point estimates.
+By ignoring uncertainty, point estimates can lead to overconfidence in results and erroneous inferences in downstream analyses, all while obscuring potentially `accurate' uncertainty \citep{ackerly2006niche,vanderpoorten2006mapping}.
+
+Given that uncertainty is often high in ancestral state estimation, how then can estimates be improved?
+\cite{ane2008analysis} demonstrates that ancestral state estimation is \textit{statistically inconsistent}, meaning that even if the sample size of extant tips is infinite, estimates are not expected to converge on the true value.
+Instead, the inclusion of fossils can improve estimates, due to the shorter evolutionary path to the root of the tree \citep{finarelli2006ancestral,finarelli2013potential,goswami2025morphological}.
+% Fossils can be used as priors on nodes, or simply added to the tree as tips.
+% By extension, inclusion of fossils can greatly influence inferences into disparity.
+% Extant-only datasets often miss early rapid morphological diversification signals \citep{harmon2010early}, whereas analyses incorporating fossil data often finds the reverse \citep{hughes2013clades}
+% For example,~\cite{mitchell2015extant} found that analyses of bird disparity were underestimated when using ancestral state estimation of extant-only datasets.
+
 
 
 
@@ -120,10 +141,15 @@ The randomness of the birth-death model meant some simulated trees contained onl
 This meant that although the parameters were set to $\lambda = 1$ and $\mu = 0.9$, the effective parameters slightly deviated from these input values (see Supplementary Figure \ref{fig:net div overall trees}).
 Mean net diversification across all simulated trees was $0.30\pm0.09$.
 
-Prior to trait simulation, trees were pruned to extract the crown clade of the tree, i.e., at the MRCA of the extant tips. 
-This ensured that all simulated fossil sampling levels shared an identical root node and comparable tree height, providing a consistent framework for downstream analyses.
+Trees were pruned to extract the crown clade of the tree, i.e., clade extracted the MRCA of the extant tips. 
+This ensured that all simulated fossil sampling levels shared an identical root node and tree height, providing a consistent framework for downstream analyses.
 From this point onward, any tip included in the analyses was a descendant of the most basal node considered, i.e., the MRCA, guaranteeing that all ordinations and disparity values were calculated within a consistent clade, allowing a robust assessment of the interaction between fossil sampling and ancestral state estimation.
 Pruning also avoided unnecessary computation for ancestral nodes outside the crown that were not used in subsequent analyses.% NC: This might be later in the manuscript but somewhere need to cite R and the version used. Also should calrify when you mention multi ace and ace that these are R packages.
+% Prevents ordination axes being influenced by stem taxa that won’t be used in disparity analyses,
+%Preserves consistency across fossil sampling levels: each disparity estimate is based on the same clade boundaries.
+% deep stem nodes (often large trait-change regions) will pull PCA/PCoA axes
+% yet those nodes are removed later when computing disparity
+
 
 \subsubsection{Trait simulations} \label{trait simulation}
 For each phylogeny, we simulated continuous and discrete trait data separately. %NC: I swapped d and c around as you talk about cont data first.

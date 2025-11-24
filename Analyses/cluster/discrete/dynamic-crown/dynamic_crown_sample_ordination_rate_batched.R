@@ -52,7 +52,7 @@ for(ord_num in start:end) {
   ord_result <- (cmdscale(dist, k = ncol(dist) - 2, add = TRUE))$points
   
   # Save it
-  save_dir <- paste0(base_path, "checkpoints/rep", sprintf("%03d", ord$replicate), 
+  save_dir <- paste0(base_path, "checkpoints_ord/rep", sprintf("%03d", ord$replicate), 
                      "/", ord$rate, "/", ord$fossil_level)
   dir.create(save_dir, recursive = TRUE, showWarnings = FALSE)
   
