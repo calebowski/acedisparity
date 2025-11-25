@@ -1,5 +1,5 @@
 #!/bin/bash
-#SBATCH --job-name=50t_discrete_ord
+#SBATCH --job-name=50t_discrete_pre_ord_ace
 #SBATCH --output=/users/bip24cns/acedisparity/discrete_crown/logs/50t_pre_ord_ace_%A_%a.out
 #SBATCH --error=/users/bip24cns/acedisparity/discrete_crown/logs/50t_pre_ord_ace_%A_%a.err
 #SBATCH --array=1-100          # 100 replicates
