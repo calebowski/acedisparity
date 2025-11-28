@@ -120,7 +120,7 @@ Despite this, analyses of both ancestral state estimation \citep{amador2021evolu
 \subsection{Aims}
 Numerous studies have assessed the raw accuracy (meaning the ability to return the correct trait value at a node) of ancestral state estimation under different models of evolution, methods of estimation and fossil sampling level \citep{elliot2014inferring,royer2016comparison, reyes2018testing, holland2020accuracy,keating2023best,boyko2025uncertainty}. 
 However, investigation as to how this raw accuracy is converted into recovery of accurate  morphospace signal is much less studied, despite its widespread use.
-\cite{lloyd2018journeys} used a single empirical case study to investigate how different approaches to ASE can affect the distirubution of points in morphospace. 
+\cite{lloyd2018journeys} used a single empirical case study to investigate how different approaches to ASE can affect the distribution of points in morphospace.
 This paper extends these analyses through a simulation framework.
 % 1. While many studies on the accuracy of raw state estimation, very few on how errors in estimations are outputted into disparity analyses
 %     a. in fact, there has not been a clear assessment as to whether it is best to use ASE in disparity analyses or not? 
@@ -161,10 +161,10 @@ The randomness of the birth-death model meant some simulated trees contained onl
 This meant that although the parameters were set to $\lambda = 1$ and $\mu = 0.9$, the effective parameters slightly deviated from these input values (see Supplementary Figure \ref{fig:net div overall trees}).
 Mean net diversification across all simulated trees was $0.30\pm0.09$.
 
-Trees were pruned to extract the crown clade of the tree, i.e., clade extracted the MRCA of the extant tips. 
+Trees were pruned to extract the crown clade of the tree for downstream analyses.
 This ensured that all simulated fossil sampling levels shared an identical root node and tree height, providing a consistent framework for downstream analyses.
-From this point onward, any tip included in the analyses was a descendant of the most basal node considered, i.e., the MRCA, guaranteeing that all ordinations and disparity values were calculated within a consistent clade, allowing a robust assessment of the interaction between fossil sampling and ancestral state estimation.
-Pruning also avoided unnecessary computation for ancestral nodes outside the crown that were not used in subsequent analyses.% NC: This might be later in the manuscript but somewhere need to cite R and the version used. Also should calrify when you mention multi ace and ace that these are R packages.
+Any tip included in the analyses was a descendant of the most basal node considered, i.e., the MRCA of extant tips, guaranteeing that all ordinations and disparity values were calculated within a consistent clade, allowing a robust assessment of the interaction between fossil sampling and ancestral state estimation.
+% Pruning also avoided unnecessary computation for stem ancestral nodes outside the crown that were not used in subsequent analyses.% NC: This might be later in the manuscript but somewhere need to cite R and the version used. Also should calrify when you mention multi ace and ace that these are R packages.
 % Prevents ordination axes being influenced by stem taxa that won’t be used in disparity analyses,
 %Preserves consistency across fossil sampling levels: each disparity estimate is based on the same clade boundaries.
 % deep stem nodes (often large trait-change regions) will pull PCA/PCoA axes
@@ -417,7 +417,7 @@ In general, each estimation method performed better at recovering slow rates tha
 \hline
 \multirow{5}{*}{\textbf{Continuous}} & $BM$ & $\sigma=0.25$ \\
 \cline{2-3}
- & $BM_t$ & $\sigma=0.25,\ \text{trend}=0.3$ \\
+ & $BM_t$ & $\sigma=0.25,\ \text{trend}=0.1$ \\
 \cline{2-3}
  & $OU_{st}$ & $\sigma=0.25,\ \alpha=\dfrac{\ln(2)}{\text{tree height $\times$ 0.25}}$ \\
 \cline{2-3}
