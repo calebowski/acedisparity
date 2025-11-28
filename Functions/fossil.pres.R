@@ -19,9 +19,9 @@ remove.fossil <- function(trees, matrices, type = c("discrete", "continuous")) {
     
     # keep only living species in tree
     living_tree <- keep.tip(tree, tips)
-    tree <- set.root.time(tree)
-    old_root <- tree$root.time
-    living_tree$root.time <- old_root
+    # tree <- set.root.time(tree)
+    # old_root <- tree$root.time
+    # living_tree$root.time <- old_root
     
     return(list(matrix = living_matrix, tree = living_tree))
   }
@@ -149,9 +149,9 @@ fossil.pres <- function(trees, matrices, preservation = c(0.05, 0.15, 0.5, 1.0),
 
 
     pruned <- keep.tip(tree, kept) # Rescale tree so that tree height is maintained
-    tree <- set.root.time(tree)
-    old_root <- tree$root.time
-    pruned$root.time <- old_root
+    # tree <- set.root.time(tree)
+    # old_root <- tree$root.time
+    # pruned$root.time <- old_root
     return(list(matrix = fossil_matrix, tree = pruned))
   }
 

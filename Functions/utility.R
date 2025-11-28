@@ -51,8 +51,23 @@ write.path <- function(subfolder, filename) {
 
 BM.trend.process <- function(x0 = 0, edge.length = 1,
                              Sigma = diag(length(x0)), trend = 0.1, ...) {
-  drift <- trend * edge.length
-  if (edge.length < (0.01 * Sigma[1,1])) drift <- 0
+  drift <- trend * edge.length 
+  if (edge.length < (0.01 * Sigma[1,1])){ drift <- 0}
   return(t(MASS::mvrnorm(n = 1, mu = x0 + drift, Sigma = Sigma * edge.length, ...)))
 }
+
+
+
+
+BM.time.tracker <- function(x0 = 0, edge.length = 1,...) {
+  return(x0 <- x0+edge.length)
+  # drift <- trend * edge.length 
+  # if (edge.length < (0.01 * Sigma[1,1])) drift <- 0
+  # return(current_time)
+}
+
+
+time_tracker <- make.traits(process = BM.time.tracker, n = 1)
+
+map.traits(time_tracker, random_tree)$data
 
