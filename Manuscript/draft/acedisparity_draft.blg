@@ -6,45 +6,45 @@ Database file #1: references.bib
 Warning--empty journal in ane2008analysis
 Warning--empty journal in gearty2024impact
 Warning--empty journal in wills2001morphological
-You've used 38 entries,
+You've used 61 entries,
             2773 wiz_defined-function locations,
-            830 strings with 12042 characters,
-and the built_in function-call counts, 17524 in all, are:
-= -- 1599
-> -- 912
-< -- 27
-+ -- 314
-- -- 276
-* -- 1450
-:= -- 2686
-add.period$ -- 117
-call.type$ -- 38
-change.case$ -- 204
-chr.to.int$ -- 38
-cite$ -- 79
-duplicate$ -- 780
-empty$ -- 1484
-format.name$ -- 334
-if$ -- 3638
-int.to.chr$ -- 1
+            960 strings with 16729 characters,
+and the built_in function-call counts, 29990 in all, are:
+= -- 2694
+> -- 1756
+< -- 38
++ -- 599
+- -- 537
+* -- 2584
+:= -- 4615
+add.period$ -- 186
+call.type$ -- 61
+change.case$ -- 358
+chr.to.int$ -- 60
+cite$ -- 125
+duplicate$ -- 1270
+empty$ -- 2417
+format.name$ -- 630
+if$ -- 6202
+int.to.chr$ -- 2
 int.to.str$ -- 1
-missing$ -- 37
-newline$ -- 201
-num.names$ -- 152
-pop$ -- 372
+missing$ -- 60
+newline$ -- 316
+num.names$ -- 244
+pop$ -- 641
 preamble$ -- 1
-purify$ -- 168
+purify$ -- 299
 quote$ -- 0
-skip$ -- 591
+skip$ -- 984
 stack$ -- 0
-substring$ -- 876
-swap$ -- 55
-text.length$ -- 2
+substring$ -- 1457
+swap$ -- 96
+text.length$ -- 4
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 413
+type$ -- 666
 warning$ -- 3
-while$ -- 175
+while$ -- 285
 width$ -- 0
-write$ -- 500
+write$ -- 799
 (There were 3 warnings)

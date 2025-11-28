@@ -55,7 +55,6 @@ These results demonstrate that explicitly propagating uncertainty, rather than c
 
 \section{Introduction}
 
-
 % 1. Introduce disparity
 %     a. Can be used to infer morphological diversity -> proxy for evolutionary processes through time
 %     b. Can use either discrete or continuous data
@@ -78,26 +77,22 @@ These results demonstrate that explicitly propagating uncertainty, rather than c
 %     c. Looked at both continuous and discrete traits
 %     d. And effect of fossil sampling
 
-The incorporation of morphological trait data with phylogenies has become ubiquitous within phylogenetic comparative methods, particularly within modern analyses of morphological diversity.
-Morphological diversity, hereafter termed disparity, describes the distribution or spread of taxa within a trait space — a multidimensional mathematical space configured by trait similarity \citep{erwin_disparity_2007}. 
-These traits may be continuous, e.g. body size \citep{garcia2017phenotypic} %need another refernce here
-or discrete \citep{foote1994morphological, lloyd2016estimating}.
-The poor resolution of the fossil record is an inevitable limitation affecting disparity analyses, since only a small biased portion of a clade's evolutionary history is preserved \citep{flannery2019does}. 
-Therefore, only a small portion of the clade's evolutionary history is accounted for when doing disparity analyses and ghost lineages are left out.
-% As described by both \cite{brusatte2011phylogenetic} and \cite{halliday2016eutherian}, ghost lineages
-This has hindered our ability to understand disparity patterns in deep time.
+
+Morphological disparity analyses are widely used to investigate evolutionary patterns and processes and are increasingly integrated with phylogenetic frameworks \citep{guillerme2020disparities}. % aware that need more ref's here.
+Disparity refers to the distribution or spread of taxa within a multidimensional trait space defined by morphological similarity \citep{erwin_disparity_2007} and can be quantified using both continuous \citep{garcia2017phenotypic} and discrete characters \citep{foote1994morphological, lloyd2016estimating}.
+However, disparity analyses are limited by the incompleteness of the fossil record; only a biased subset of past diversity is preserved, leaving many lineages unsampled and obscuring large portions of a clade's evolutionary history \citep{flannery2019does,smith2021phylogenetic}.
+As a result, estimations of disparity may substantially underestimate the true evolutionary signal.
 
 \subsection{Ancestral state estimation (ASE)}
-
-One way in which ghost lineages can be accounted for is through the use of ancestral state estimation (ASE).
-ASE allows the unification of our observed trait data with a phylogeny, enabling a switch from simply observing a pattern (points in morphospace) to inferring a process through time. 
+One way in which unsampled lineages can be accounted for is through the use of ancestral state estimation (ASE).
+ASE is the broad method of estimating trait value(s) in a set of common ancestors given a set of observed data for tips on a phylogenetic tree \citep{schluter1997likelihood,cunningham1998reconstructing,revell2025ancestral}.
+% This involves the unification of our observed trait data with a phylogeny, enabling a switch from simply observing a pattern (points in morphospace) to inferring a process through time. 
 ASE has been extensively used across macroevolutionary studies for inferring the evolutionary history for any continuous or discrete trait of interest.
 These estimated ancestral states can be combined with observed data to construct the ordination space, from which disparity can be estimated.
 Inferring ancestral states also allows disparity across time analyses to be explored with higher resolution through the use of time-slicing \citep{halliday2016eutherian, guillerme2018disprity}. 
 
 \subsection{Issues with ASE}
-
-Despite the obvious advantages, integration of ASE within the disparity analysis pipeline has often been neglected.
+Despite the aforementioned advantages, integration of ASE within the disparity analysis pipeline has often been neglected.
 Much of the apprehension towards the utilisation of ASE has likely stemmed from the notion that estimates are inherently uncertain.
 Indeed, root-ward estimates in particular are often associated with large confidence intervals/inconclusive scaled likelihoods \citep{schluter1997likelihood, losos1999uncertainty,gascuel2014predicting}, with often no guidance on how to correctly treat this uncertainty downstream when constructing the trait space. % often set with arbitary thresholds , see casali, tj smith disparity fungal paper.
 Despite the encouragement for uncertainty to be carried forward in comparative analyses \citep{silvestro2015measurement,boyko2024dentist}, most computational implementations of ASE return point estimates.
@@ -105,37 +100,34 @@ By ignoring uncertainty, point estimates can lead to overconfidence in results a
 
 
 % CS: I think much of this paragraph is redundant.
-% Another key issue with ASE is its sensitivity to model misspecification.
-% Likelihood-based approaches to ASE require both a tree topology and a specified model of character evolution.
-% Estimation of continuous characters are typically modelled under Brownian motion (BM), which describes a directionless, stochastic process where the trait divergence between related taxa is proportional to their shared evolutionary history and the rate of evolution \citep{felsenstein1985phylogenies,schluter1997likelihood,omeara2006testing}.
-% However, deviations from BM in the trait data, such as directional trends or stabilising selection, can result in inaccurate estimations. 
-% For example, both \cite{webster2002testing} and \cite{finarelli2006ancestral} were unable to recover accurate ancestral estimates of body size in planktonic foraminifera and mammals, respectively, due to a trend of increase through time.
-% Model-related issues can also arise for discrete traits, which are estimated using the M\textit{k} model, requiring a tree topology and specified model of evolution (describing transition rates).
-% Estimation of discrete states also appear prone to model overparamatersation \citep{keating2023best}, but surprisingly robust to rate heterogeneity \citep{reyes2018testing}. 
-% However, discrete ASE faces a paradoxical trade-off where a slow rate of change allows for an easy estimation of ancestral states, but provides little information for estimating transition rates \citep{gascuel2020darwinian}.
+Another key issue with ASE is its sensitivity to model misspecification.
+Likelihood-based approaches to ASE require both a tree topology and a specified model of character evolution.
+Estimation of continuous characters are typically modelled under Brownian motion (BM), which describes a directionless, stochastic process where the trait divergence between related taxa is proportional to their shared evolutionary history and the rate of evolution \citep{felsenstein1985phylogenies,schluter1997likelihood,omeara2006testing}.
+However, deviations from BM in the trait data, such as directional trends or stabilising selection, can result in inaccurate estimations. 
+For example, both \cite{webster2002testing} and \cite{finarelli2006ancestral} were unable to recover accurate ancestral estimates of body size in planktonic foraminifera and mammals, respectively, due to a trend of increase through time.
+Model-related issues can also arise for discrete traits, which are estimated using the M\textit{k} model, requiring a tree topology and specified model of evolution (describing transition rates).
+Estimation of discrete states appears prone to model over-parameterisation and sensitive to fast transition rates \citep{keating2023best}.
+Furthermore discrete ASE faces a paradoxical trade-off where a slow rate of evolution allows for an easy estimation of ancestral states, but provides little information for estimating transition rates \citep{gascuel2020darwinian}.
+
+Given that uncertainty is often high in ancestral state estimation, how then can estimates be improved?
+\cite{ane2008analysis} demonstrated that ASE is statistically inconsistent, meaning that even if the sample size of extant tips were infinite, estimates are not expected to converge on the true value.
+Instead, the inclusion of fossils can improve estimates, due to the shorter evolutionary path to the root of the tree \citep{finarelli2006ancestral,finarelli2013potential,joy2016ancestral, goswami2025morphological}.
+Numerous simulation and empirical based studies have shown that ancestral state estimations based on extant-only taxa are extremely biased \citep{webster2002testing,finarelli2006ancestral,albert2009fossils, betancur2015fossil, royer2016comparison,monson2022keeping,wisniewski2022extant,keating2023best}.
+Similar biases have been observed in disparity analyses \citep{mitchell2015extant}. %find some more refs
+Despite this, analyses of both ancestral state estimation \citep{amador2021evolution} and disparity \citep{harmon2010early,baker2015adaptive,smith2022evolution} using extant-only trees are common in the literature.
 
 
+\subsection{Aims}
+Numerous studies have assessed the raw accuracy (meaning the ability to return the correct trait value at a node) of ancestral state estimation under different models of evolution, methods of estimation and fossil sampling level \citep{elliot2014inferring,royer2016comparison, reyes2018testing, holland2020accuracy,keating2023best,boyko2025uncertainty}. 
+However, investigation as to how this raw accuracy is converted into recovery of accurate  morphospace signal is much less studied, despite its widespread use.
+\cite{lloyd2018journeys} used a single empirical case study to investigate how different approaches to ASE can affect the distirubution of points in morphospace. 
+This paper extends these analyses through a simulation framework.
+% 1. While many studies on the accuracy of raw state estimation, very few on how errors in estimations are outputted into disparity analyses
+%     a. in fact, there has not been a clear assessment as to whether it is best to use ASE in disparity analyses or not? 
+% 2. Building on Lloyd's paper, but expanding it across a simulation framework and for discrete and continuous characters.
 
 
 % However, despite these observations and cautions, extant-only trees remain ubiquitous in studies conducting phylogenetic comparative methods (e.g., Álvarez-Carretero et al., 2022; Jetz et al., 2012; Jetz & Pyron, 2018; Magallón et al., 2015; Pie et al., 2023; Rabosky et al., 2018; Smyčka et al., 2023; Upham et al., 2019).
-
-
-% discrete characters:
-%     1. Uses mk2 model
-%     3. ER vs ARD model
-%     2. Darwinian uncertainty principle
-%     3. Heterotachy (altho there is a paper which suggests it is fine)
-
-
-
-Given that uncertainty is often high in ancestral state estimation, how then can estimates be improved?
-\cite{ane2008analysis} demonstrates that ancestral state estimation is statistically inconsistent, meaning that even if the sample size of extant tips is infinite, estimates are not expected to converge on the true value.
-Instead, the inclusion of fossils can improve estimates, due to the shorter evolutionary path to the root of the tree \citep{finarelli2006ancestral,finarelli2013potential,goswami2025morphological}.
-% Fossils can be used as priors on nodes, or simply added to the tree as tips.
-% By extension, inclusion of fossils can greatly influence inferences into disparity.
-% Extant-only datasets often miss early rapid morphological diversification signals \citep{harmon2010early}, whereas analyses incorporating fossil data often finds the reverse \citep{hughes2013clades}
-% For example,~\cite{mitchell2015extant} found that analyses of bird disparity were underestimated when using ancestral state estimation of extant-only datasets.
-
 
 
 

@@ -1,4 +1,4 @@
-\begin{thebibliography}{38}
+\begin{thebibliography}{61}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -10,15 +10,40 @@ DD~Ackerly, DW~Schwilk, and CO~Webb.
 \newblock Niche evolution and adaptive radiation: testing the order of trait divergence.
 \newblock \emph{Ecology}, 87\penalty0 (sp7):\penalty0 S50--S61, 2006.
 
+\bibitem[Albert et~al.(2009)Albert, Johnson, and Knouft]{albert2009fossils}
+James~S Albert, Derek~M Johnson, and Jason~H Knouft.
+\newblock Fossils provide better estimates of ancestral body size than do extant taxa in fishes.
+\newblock \emph{Acta Zoologica}, 90:\penalty0 357--384, 2009.
+
+\bibitem[Amador and Giannini(2021)]{amador2021evolution}
+Lucila~I Amador and Norberto~P Giannini.
+\newblock Evolution of diet in extant marsupials: emergent patterns from a broad phylogenetic perspective.
+\newblock \emph{Mammal Review}, 51\penalty0 (2):\penalty0 178--192, 2021.
+
 \bibitem[An{\'e}(2008)]{ane2008analysis}
 C{\'e}cile An{\'e}.
 \newblock Analysis of comparative data with hierarchical autocorrelation.
 \newblock 2008.
 
+\bibitem[Baker et~al.(2015)Baker, Meade, Pagel, and Venditti]{baker2015adaptive}
+Joanna Baker, Andrew Meade, Mark Pagel, and Chris Venditti.
+\newblock Adaptive evolution toward larger size in mammals.
+\newblock \emph{Proceedings of the National Academy of Sciences}, 112\penalty0 (16):\penalty0 5093--5098, 2015.
+
+\bibitem[Betancur-R et~al.(2015)Betancur-R, Ort{\'\i}, and Pyron]{betancur2015fossil}
+Ricardo Betancur-R, Guillermo Ort{\'\i}, and Robert~Alexander Pyron.
+\newblock Fossil-based comparative analyses reveal ancient marine ancestry erased by extinction in ray-finned fishes.
+\newblock \emph{Ecology letters}, 18\penalty0 (5):\penalty0 441--450, 2015.
+
 \bibitem[Boyko and O'Meara(2024)]{boyko2024dentist}
 James~D Boyko and Brian~C O'Meara.
 \newblock dentist: Quantifying uncertainty by sampling points around maximum likelihood estimates.
 \newblock \emph{Methods in Ecology and Evolution}, 15\penalty0 (4):\penalty0 628--638, 2024.
+
+\bibitem[Boyko et~al.(2025)Boyko, Gontjes, Snitkin, and Smith]{boyko2025uncertainty}
+James~D Boyko, Kyle~J Gontjes, Evan~S Snitkin, and Stephen~A Smith.
+\newblock Uncertainty in joint ancestral state reconstruction: Improving accuracy and biological interpretability of ancestral state prediction.
+\newblock \emph{bioRxiv}, pages 2025--10, 2025.
 
 \bibitem[Casali et~al.(2023)Casali, Boscaini, Gaudin, and Perini]{casali2023morphological}
 Daniel~M Casali, Alberto Boscaini, Timothy~J Gaudin, and Fernando~A Perini.
@@ -35,6 +60,16 @@ Natalie Cooper, Gavin~H Thomas, Chris Venditti, Andrew Meade, and Rob~P Frecklet
 \newblock A cautionary note on the use of ornstein uhlenbeck models in macroevolutionary studies.
 \newblock \emph{Biological journal of the Linnean Society}, 118\penalty0 (1):\penalty0 64--77, 2016.
 
+\bibitem[Cunningham et~al.(1998)Cunningham, Omland, and Oakley]{cunningham1998reconstructing}
+Clifford~W Cunningham, Kevin~E Omland, and Todd~H Oakley.
+\newblock Reconstructing ancestral character states: a critical reappraisal.
+\newblock \emph{Trends in ecology \& evolution}, 13\penalty0 (9):\penalty0 361--366, 1998.
+
+\bibitem[Elliot and Mooers(2014)]{elliot2014inferring}
+Michael~G Elliot and Arne~{\O} Mooers.
+\newblock Inferring ancestral states without assuming neutrality or gradualism using a stable model of continuous character evolution.
+\newblock \emph{BMC evolutionary biology}, 14\penalty0 (1):\penalty0 226, 2014.
+
 \bibitem[Erwin(2007)]{erwin_disparity_2007}
 Douglas~H. Erwin.
 \newblock {DISPARITY}: {MORPHOLOGICAL} {PATTERN} {AND} {DEVELOPMENTAL} {CONTEXT}.
@@ -42,6 +77,11 @@ Douglas~H. Erwin.
 \newblock ISSN 1475-4983.
 \newblock \doi{10.1111/j.1475-4983.2006.00614.x}.
 \newblock Publisher: John Wiley \& Sons, Ltd.
+
+\bibitem[Felsenstein(1985)]{felsenstein1985phylogenies}
+Joseph Felsenstein.
+\newblock Phylogenies and the comparative method.
+\newblock \emph{The American Naturalist}, 125\penalty0 (1):\penalty0 1--15, 1985.
 
 \bibitem[Finarelli and Flynn(2006)]{finarelli2006ancestral}
 John~A Finarelli and John~J Flynn.
@@ -78,6 +118,11 @@ Olivier Gascuel and Mike Steel.
 \newblock Predicting the ancestral character changes in a tree is typically easier than predicting the root state.
 \newblock \emph{Systematic biology}, 63\penalty0 (3):\penalty0 421--435, 2014.
 
+\bibitem[Gascuel and Steel(2020)]{gascuel2020darwinian}
+Olivier Gascuel and Mike Steel.
+\newblock A darwinian uncertainty principle.
+\newblock \emph{Systematic Biology}, 69\penalty0 (3):\penalty0 521--529, 2020.
+
 \bibitem[Gearty et~al.(2024)Gearty, Allen, Godoy, and Chiarenza]{gearty2024impact}
 William Gearty, Bethany Allen, Pedro~L Godoy, and Alfio~Alessandro Chiarenza.
 \newblock The impact of tip age distribution on reconstructing trait evolution using phylogenetic comparative methods.
@@ -103,20 +148,40 @@ Thomas Guillerme and Natalie Cooper.
 \newblock Effects of missing data on topological inference using a total evidence approach.
 \newblock \emph{Molecular phylogenetics and evolution}, 94:\penalty0 146--158, 2016.
 
-\bibitem[Guillerme et~al.(2020)Guillerme, Puttick, Marcy, and Weisbecker]{guillerme2020shifting}
+\bibitem[Guillerme et~al.(2020{\natexlab{a}})Guillerme, Cooper, Brusatte, Davis, Jackson, Gerber, Goswami, Healy, Hopkins, Jones, et~al.]{guillerme2020disparities}
+Thomas Guillerme, Natalie Cooper, Stephen~L Brusatte, Katie~E Davis, Andrew~L Jackson, Sylvain Gerber, Anjali Goswami, Kevin Healy, Melanie~J Hopkins, Marc~EH Jones, et~al.
+\newblock Disparities in the analysis of morphological disparity.
+\newblock \emph{Biology letters}, 16\penalty0 (7):\penalty0 20200199, 2020{\natexlab{a}}.
+
+\bibitem[Guillerme et~al.(2020{\natexlab{b}})Guillerme, Puttick, Marcy, and Weisbecker]{guillerme2020shifting}
 Thomas Guillerme, Mark~N Puttick, Ariel~E Marcy, and Vera Weisbecker.
 \newblock Shifting spaces: Which disparity or dissimilarity measurement best summarize occupancy in multidimensional spaces?
-\newblock \emph{Ecology and evolution}, 10\penalty0 (14):\penalty0 7261--7275, 2020.
+\newblock \emph{Ecology and evolution}, 10\penalty0 (14):\penalty0 7261--7275, 2020{\natexlab{b}}.
 
 \bibitem[Halliday and Goswami(2016)]{halliday2016eutherian}
 Thomas John~Dixon Halliday and Anjali Goswami.
 \newblock Eutherian morphological disparity across the end-cretaceous mass extinction.
 \newblock \emph{Biological Journal of the Linnean Society}, 118\penalty0 (1):\penalty0 152--168, 2016.
 
+\bibitem[Harmon et~al.(2010)Harmon, Losos, Jonathan~Davies, Gillespie, Gittleman, Bryan~Jennings, Kozak, McPeek, Moreno-Roark, Near, et~al.]{harmon2010early}
+Luke~J Harmon, Jonathan~B Losos, T~Jonathan~Davies, Rosemary~G Gillespie, John~L Gittleman, W~Bryan~Jennings, Kenneth~H Kozak, Mark~A McPeek, Franck Moreno-Roark, Thomas~J Near, et~al.
+\newblock Early bursts of body size and shape evolution are rare in comparative data.
+\newblock \emph{Evolution}, 64\penalty0 (8):\penalty0 2385--2396, 2010.
+
 \bibitem[Henao~Diaz et~al.(2019)Henao~Diaz, Harmon, Sugawara, Miller, and Pennell]{henao2019macroevolutionary}
 L~Francisco Henao~Diaz, Luke~J Harmon, Mauro~TC Sugawara, Eliot~T Miller, and Matthew~W Pennell.
 \newblock Macroevolutionary diversification rates show time dependency.
 \newblock \emph{Proceedings of the National Academy of Sciences}, 116\penalty0 (15):\penalty0 7403--7408, 2019.
+
+\bibitem[Holland et~al.(2020)Holland, Ketelaar-Jones, o’Mara, Woodhams, and Jordan]{holland2020accuracy}
+Barbara~R Holland, Saan Ketelaar-Jones, Aidan~R o’Mara, Michael~D Woodhams, and Gregory~J Jordan.
+\newblock Accuracy of ancestral state reconstruction for non-neutral traits.
+\newblock \emph{Scientific Reports}, 10\penalty0 (1):\penalty0 7644, 2020.
+
+\bibitem[Joy et~al.(2016)Joy, Liang, McCloskey, Nguyen, and Poon]{joy2016ancestral}
+Jeffrey~B Joy, Richard~H Liang, Rosemary~M McCloskey, T~Nguyen, and Art~FY Poon.
+\newblock Ancestral reconstruction.
+\newblock \emph{PLoS computational biology}, 12\penalty0 (7):\penalty0 e1004763, 2016.
 
 \bibitem[Keating(2023)]{keating2023best}
 Joseph~N Keating.
@@ -137,10 +202,25 @@ Graeme~T Lloyd.
 Jonathan~B Losos.
 \newblock Uncertainty in the reconstruction of ancestral character states and limitations on the use of phylogenetic comparative methods, 1999.
 
+\bibitem[Mitchell(2015)]{mitchell2015extant}
+Jonathan~S Mitchell.
+\newblock Extant-only comparative methods fail to recover the disparity preserved in the bird fossil record.
+\newblock \emph{Evolution}, 69\penalty0 (9):\penalty0 2414--2424, 2015.
+
+\bibitem[Monson et~al.(2022)Monson, Brasil, Mahaney, Schmitt, Taylor, and Hlusko]{monson2022keeping}
+Tesla~A Monson, Marianne~F Brasil, Michael~C Mahaney, Christopher~A Schmitt, Catherine~E Taylor, and Leslea~J Hlusko.
+\newblock Keeping 21st century paleontology grounded: Quantitative genetic analyses and ancestral state reconstruction re-emphasize the essentiality of fossils.
+\newblock \emph{Biology}, 11\penalty0 (8):\penalty0 1218, 2022.
+
 \bibitem[Morlon et~al.(2024)Morlon, Andr{\'e}oletti, Barido-Sottani, Lambert, Perez-Lamarque, Quintero, Senderov, and Veron]{morlon2024phylogenetic}
 H{\'e}l{\`e}ne Morlon, J{\'e}r{\'e}my Andr{\'e}oletti, Jo{\"e}lle Barido-Sottani, Sophia Lambert, Beno{\^\i}t Perez-Lamarque, Ignacio Quintero, Viktor Senderov, and Pierre Veron.
 \newblock Phylogenetic insights into diversification.
 \newblock \emph{Annual Review of Ecology, Evolution, and Systematics}, 55, 2024.
+
+\bibitem[O'Meara et~al.(2006)O'Meara, An{\'e}, Sanderson, and Wainwright]{omeara2006testing}
+Brian~C O'Meara, C{\'e}cile An{\'e}, Michael~J Sanderson, and Peter~C Wainwright.
+\newblock Testing for different rates of continuous trait evolution using likelihood.
+\newblock \emph{Evolution}, 60\penalty0 (5):\penalty0 922--933, 2006.
 
 \bibitem[Pagel(1999)]{pagel1999maximum}
 Mark Pagel.
@@ -163,10 +243,25 @@ Mathias~M Pires, Brian~D Rankin, Daniele Silvestro, and Tiago~B Quental.
 \newblock R Foundation for Statistical Computing, Vienna, Austria, 2025.
 \newblock URL \url{https://www.R-project.org/}.
 
+\bibitem[Revell(2025)]{revell2025ancestral}
+Liam~J Revell.
+\newblock Ancestral state reconstruction of phenotypic characters.
+\newblock \emph{Evolutionary Biology}, pages 1--25, 2025.
+
+\bibitem[Reyes et~al.(2018)Reyes, Nadot, Von~Balthazar, Sch{\"o}nenberger, and Sauquet]{reyes2018testing}
+Elisabeth Reyes, Sophie Nadot, Maria Von~Balthazar, J{\"u}rg Sch{\"o}nenberger, and Herv{\'e} Sauquet.
+\newblock Testing the impact of morphological rate heterogeneity on ancestral state reconstruction of five floral traits in angiosperms.
+\newblock \emph{Scientific Reports}, 8\penalty0 (1):\penalty0 9473, 2018.
+
 \bibitem[Rohlf(2001)]{rohlf2001comparative}
 F~James Rohlf.
 \newblock Comparative methods for the analysis of continuous variables: geometric interpretations.
 \newblock \emph{Evolution}, 55\penalty0 (11):\penalty0 2143--2160, 2001.
+
+\bibitem[Royer-Carenzi and Didier(2016)]{royer2016comparison}
+Manuela Royer-Carenzi and Gilles Didier.
+\newblock A comparison of ancestral state reconstruction methods for quantitative characters.
+\newblock \emph{Journal of Theoretical Biology}, 404:\penalty0 126--142, 2016.
 
 \bibitem[Schluter et~al.(1997)Schluter, Price, Mooers, and Ludwig]{schluter1997likelihood}
 Dolph Schluter, Trevor Price, Arne~{\O} Mooers, and Donald Ludwig.
@@ -183,15 +278,35 @@ Daniele Silvestro, Anna Kostikova, Glenn Litsios, Peter~B Pearman, and Nicolas S
 \newblock Measurement errors should always be incorporated in phylogenetic comparative analysis.
 \newblock \emph{Methods in Ecology and Evolution}, 6\penalty0 (3):\penalty0 340--346, 2015.
 
+\bibitem[Smith and Donoghue(2022)]{smith2022evolution}
+Thomas~J Smith and Philip~CJ Donoghue.
+\newblock Evolution of fungal phenotypic disparity.
+\newblock \emph{Nature Ecology \& Evolution}, 6\penalty0 (10):\penalty0 1489--1500, 2022.
+
+\bibitem[Smith et~al.(2021)Smith, Puttick, O’Reilly, Pisani, and Donoghue]{smith2021phylogenetic}
+Thomas~J Smith, Mark~N Puttick, Joseph~E O’Reilly, Davide Pisani, and Philip~CJ Donoghue.
+\newblock Phylogenetic sampling affects evolutionary patterns of morphological disparity.
+\newblock \emph{Palaeontology}, 64\penalty0 (6):\penalty0 765--787, 2021.
+
 \bibitem[Vanderpoorten and Goffinet(2006)]{vanderpoorten2006mapping}
 Alain Vanderpoorten and B~Goffinet.
 \newblock Mapping uncertainty and phylogenetic uncertainty in ancestral character state reconstruction: an example in the moss genus brachytheciastrum.
 \newblock \emph{Systematic Biology}, 55\penalty0 (6):\penalty0 957--971, 2006.
 
+\bibitem[Webster and Purvis(2002)]{webster2002testing}
+Andrea~J Webster and Andy Purvis.
+\newblock Testing the accuracy of methods for reconstructing ancestral states of continuous characters.
+\newblock \emph{Proceedings of the Royal Society of London. Series B: Biological Sciences}, 269\penalty0 (1487):\penalty0 143--149, 2002.
+
 \bibitem[Wills(2001)]{wills2001morphological}
 Matthew~A Wills.
 \newblock Morphological disparity: a primer.
 \newblock pages 55--144, 2001.
+
+\bibitem[Wisniewski et~al.(2022)Wisniewski, Lloyd, and Slater]{wisniewski2022extant}
+Anna~L Wisniewski, Graeme~T Lloyd, and Graham~J Slater.
+\newblock Extant species fail to estimate ancestral geographical ranges at older nodes in primate phylogeny.
+\newblock \emph{Proceedings of the Royal Society B}, 289\penalty0 (1975):\penalty0 20212535, 2022.
 
 \bibitem[Yang(2006)]{yang2006computational}
 Ziheng Yang.
