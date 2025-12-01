@@ -1,4 +1,4 @@
-\begin{thebibliography}{61}
+\begin{thebibliography}{62}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -20,11 +20,6 @@ Lucila~I Amador and Norberto~P Giannini.
 \newblock Evolution of diet in extant marsupials: emergent patterns from a broad phylogenetic perspective.
 \newblock \emph{Mammal Review}, 51\penalty0 (2):\penalty0 178--192, 2021.
 
-\bibitem[An{\'e}(2008)]{ane2008analysis}
-C{\'e}cile An{\'e}.
-\newblock Analysis of comparative data with hierarchical autocorrelation.
-\newblock 2008.
-
 \bibitem[Baker et~al.(2015)Baker, Meade, Pagel, and Venditti]{baker2015adaptive}
 Joanna Baker, Andrew Meade, Mark Pagel, and Chris Venditti.
 \newblock Adaptive evolution toward larger size in mammals.
@@ -44,6 +39,11 @@ James~D Boyko and Brian~C O'Meara.
 James~D Boyko, Kyle~J Gontjes, Evan~S Snitkin, and Stephen~A Smith.
 \newblock Uncertainty in joint ancestral state reconstruction: Improving accuracy and biological interpretability of ancestral state prediction.
 \newblock \emph{bioRxiv}, pages 2025--10, 2025.
+
+\bibitem[Brusatte et~al.(2011)Brusatte, Montanari, Yi, and Norell]{brusatte2011phylogenetic}
+Stephen~L Brusatte, Shaena Montanari, Hong-yu Yi, and Mark~A Norell.
+\newblock Phylogenetic corrections for morphological disparity analysis: new methodology and case studies.
+\newblock \emph{Paleobiology}, 37\penalty0 (1):\penalty0 1--22, 2011.
 
 \bibitem[Casali et~al.(2023)Casali, Boscaini, Gaudin, and Perini]{casali2023morphological}
 Daniel~M Casali, Alberto Boscaini, Timothy~J Gaudin, and Fernando~A Perini.
@@ -158,11 +158,6 @@ Thomas Guillerme, Mark~N Puttick, Ariel~E Marcy, and Vera Weisbecker.
 \newblock Shifting spaces: Which disparity or dissimilarity measurement best summarize occupancy in multidimensional spaces?
 \newblock \emph{Ecology and evolution}, 10\penalty0 (14):\penalty0 7261--7275, 2020{\natexlab{b}}.
 
-\bibitem[Halliday and Goswami(2016)]{halliday2016eutherian}
-Thomas John~Dixon Halliday and Anjali Goswami.
-\newblock Eutherian morphological disparity across the end-cretaceous mass extinction.
-\newblock \emph{Biological Journal of the Linnean Society}, 118\penalty0 (1):\penalty0 152--168, 2016.
-
 \bibitem[Harmon et~al.(2010)Harmon, Losos, Jonathan~Davies, Gillespie, Gittleman, Bryan~Jennings, Kozak, McPeek, Moreno-Roark, Near, et~al.]{harmon2010early}
 Luke~J Harmon, Jonathan~B Losos, T~Jonathan~Davies, Rosemary~G Gillespie, John~L Gittleman, W~Bryan~Jennings, Kenneth~H Kozak, Mark~A McPeek, Franck Moreno-Roark, Thomas~J Near, et~al.
 \newblock Early bursts of body size and shape evolution are rare in comparative data.
@@ -273,6 +268,11 @@ Joshua~P Scholl and John~J Wiens.
 \newblock Diversification rates and species richness across the tree of life.
 \newblock \emph{Proceedings of the Royal Society B: Biological Sciences}, 283\penalty0 (1838):\penalty0 20161334, 2016.
 
+\bibitem[Sidlauskas(2008)]{sidlauskas2008continuous}
+Brian Sidlauskas.
+\newblock Continuous and arrested morphological diversification in sister clades of characiform fishes: a phylomorphospace approach.
+\newblock \emph{Evolution}, 62\penalty0 (12):\penalty0 3135--3156, 2008.
+
 \bibitem[Silvestro et~al.(2015)Silvestro, Kostikova, Litsios, Pearman, and Salamin]{silvestro2015measurement}
 Daniele Silvestro, Anna Kostikova, Glenn Litsios, Peter~B Pearman, and Nicolas Salamin.
 \newblock Measurement errors should always be incorporated in phylogenetic comparative analysis.
@@ -287,6 +287,11 @@ Thomas~J Smith and Philip~CJ Donoghue.
 Thomas~J Smith, Mark~N Puttick, Joseph~E O’Reilly, Davide Pisani, and Philip~CJ Donoghue.
 \newblock Phylogenetic sampling affects evolutionary patterns of morphological disparity.
 \newblock \emph{Palaeontology}, 64\penalty0 (6):\penalty0 765--787, 2021.
+
+\bibitem[Smith et~al.(2023)Smith, Sansom, Pisani, and Donoghue]{smith2023fossilization}
+Thomas~J Smith, Robert~S Sansom, Davide Pisani, and Philip~CJ Donoghue.
+\newblock Fossilization can mislead analyses of phenotypic disparity.
+\newblock \emph{Proceedings of the Royal Society B}, 290\penalty0 (2004):\penalty0 20230522, 2023.
 
 \bibitem[Vanderpoorten and Goffinet(2006)]{vanderpoorten2006mapping}
 Alain Vanderpoorten and B~Goffinet.

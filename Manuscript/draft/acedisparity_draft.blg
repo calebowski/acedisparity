@@ -3,48 +3,47 @@ Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
 The top-level auxiliary file: acedisparity_draft.aux
 The style file: plainnat.bst
 Database file #1: references.bib
-Warning--empty journal in ane2008analysis
 Warning--empty journal in gearty2024impact
 Warning--empty journal in wills2001morphological
-You've used 61 entries,
+You've used 62 entries,
             2773 wiz_defined-function locations,
-            960 strings with 16729 characters,
-and the built_in function-call counts, 29990 in all, are:
-= -- 2694
-> -- 1756
-< -- 38
-+ -- 599
-- -- 537
-* -- 2584
-:= -- 4615
-add.period$ -- 186
-call.type$ -- 61
-change.case$ -- 358
-chr.to.int$ -- 60
-cite$ -- 125
-duplicate$ -- 1270
-empty$ -- 2417
-format.name$ -- 630
-if$ -- 6202
+            970 strings with 17036 characters,
+and the built_in function-call counts, 30727 in all, are:
+= -- 2757
+> -- 1813
+< -- 37
++ -- 618
+- -- 555
+* -- 2668
+:= -- 4729
+add.period$ -- 189
+call.type$ -- 62
+change.case$ -- 367
+chr.to.int$ -- 61
+cite$ -- 126
+duplicate$ -- 1293
+empty$ -- 2469
+format.name$ -- 647
+if$ -- 6351
 int.to.chr$ -- 2
 int.to.str$ -- 1
-missing$ -- 60
-newline$ -- 316
-num.names$ -- 244
-pop$ -- 641
+missing$ -- 61
+newline$ -- 321
+num.names$ -- 248
+pop$ -- 653
 preamble$ -- 1
-purify$ -- 299
+purify$ -- 307
 quote$ -- 0
-skip$ -- 984
+skip$ -- 1000
 stack$ -- 0
-substring$ -- 1457
-swap$ -- 96
+substring$ -- 1505
+swap$ -- 98
 text.length$ -- 4
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 666
-warning$ -- 3
-while$ -- 285
+type$ -- 677
+warning$ -- 2
+while$ -- 291
 width$ -- 0
-write$ -- 799
-(There were 3 warnings)
+write$ -- 814
+(There were 2 warnings)

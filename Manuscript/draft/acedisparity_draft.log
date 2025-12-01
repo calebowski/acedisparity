@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2024.11.5)  28 NOV 2025 15:01
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2024.11.5)  1 DEC 2025 16:48
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -531,8 +531,8 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 File: mt-msb.cfg 2005/06/01 v1.0 microtype config. file: AMS symbols (b) (RS)
 ) [1
 
-{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}{/usr/share/texmf/fonts/enc/dvips/cm-super/cm-super-t1.enc}] [2] [3] [4]
-LaTeX Font Info:    Trying to load font information for T1+cmtt on input line 199.
+{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}{/usr/share/texmf/fonts/enc/dvips/cm-super/cm-super-t1.enc}] [2] [3] [4] [5]
+LaTeX Font Info:    Trying to load font information for T1+cmtt on input line 210.
  (/usr/share/texlive/texmf-dist/tex/latex/base/t1cmtt.fd
 File: t1cmtt.fd 2023/04/13 v2.5m Standard LaTeX font definitions
 )
@@ -540,48 +540,48 @@ Package microtype Info: Loading generic protrusion settings for font family
 (microtype)             `cmtt' (encoding: T1).
 (microtype)             For optimal results, create family-specific settings.
 (microtype)             See the microtype manual for details.
- [5] [6] [7] [8] [9]
-<figures/net_div_hist_overall_trees.pdf, id=392, 505.89pt x 505.89pt>
+ [6] [7] [8] [9] [10]
+<figures/net_div_hist_overall_trees.pdf, id=405, 505.89pt x 505.89pt>
 File: figures/net_div_hist_overall_trees.pdf Graphic file (type pdf)
 <use figures/net_div_hist_overall_trees.pdf>
-Package pdftex.def Info: figures/net_div_hist_overall_trees.pdf  used on input line 383.
+Package pdftex.def Info: figures/net_div_hist_overall_trees.pdf  used on input line 394.
 (pdftex.def)             Requested size: 362.37569pt x 362.38017pt.
 
 
 pdfTeX warning: pdflatex (file ./figures/ACEDisparity_pipeline.pdf): PDF inclusion: found PDF version <1.7>, but at most version <1.5> allowed
-<figures/ACEDisparity_pipeline.pdf, id=393, 451.6875pt x 677.53125pt>
+<figures/ACEDisparity_pipeline.pdf, id=406, 451.6875pt x 677.53125pt>
 File: figures/ACEDisparity_pipeline.pdf Graphic file (type pdf)
 <use figures/ACEDisparity_pipeline.pdf>
-Package pdftex.def Info: figures/ACEDisparity_pipeline.pdf  used on input line 392.
+Package pdftex.def Info: figures/ACEDisparity_pipeline.pdf  used on input line 403.
 (pdftex.def)             Requested size: 362.37569pt x 543.59715pt.
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-[10
+[11
 
- <./figures/net_div_hist_overall_trees.pdf>] [11 <./figures/ACEDisparity_pipeline.pdf>] (./acedisparity_draft.bbl [12
+ <./figures/net_div_hist_overall_trees.pdf>] [12 <./figures/ACEDisparity_pipeline.pdf>] (./acedisparity_draft.bbl [13
 
-] [13] [14] [15] [16]) [17] (./acedisparity_draft.aux)
+] [14] [15] [16] [17]) [18] (./acedisparity_draft.aux)
  ***********
 LaTeX2e <2023-11-01> patch level 1
 L3 programming layer <2024-01-22>
  ***********
 Package rerunfilecheck Info: File `acedisparity_draft.out' has not changed.
-(rerunfilecheck)             Checksum: C081A3CB1D6653BA6252FEFA96E3A946;3469.
+(rerunfilecheck)             Checksum: 415560E08ABE7AA1D41D0148736F00B0;3671.
  ) 
 Here is how much of TeX's memory you used:
- 19216 strings out of 474222
- 364428 string characters out of 5748733
+ 19223 strings out of 474222
+ 364628 string characters out of 5748733
  1938975 words of memory out of 5000000
- 40941 multiletter control sequences out of 15000+600000
+ 40945 multiletter control sequences out of 15000+600000
  585836 words of font info for 190 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 73i,17n,80p,1071b,1147s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 73i,17n,80p,1071b,1145s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmti8.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfbx1000.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfbx1095.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfbx1200.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfbx1440.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfrm0700.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfrm0800.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfrm1000.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfrm1095.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfrm1200.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfrm1728.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfss0800.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfti1095.pfb></usr/share/texmf/fonts/type1/public/cm-super/sftt1095.pfb>
-Output written on acedisparity_draft.pdf (17 pages, 372454 bytes).
+Output written on acedisparity_draft.pdf (18 pages, 373786 bytes).
 PDF statistics:
- 582 PDF objects out of 1000 (max. 8388607)
- 516 compressed objects within 6 object streams
- 112 named destinations out of 1000 (max. 500000)
- 51899 words of extra memory for PDF output out of 61914 (max. 10000000)
+ 596 PDF objects out of 1000 (max. 8388607)
+ 529 compressed objects within 6 object streams
+ 115 named destinations out of 1000 (max. 500000)
+ 51907 words of extra memory for PDF output out of 61914 (max. 10000000)
 
