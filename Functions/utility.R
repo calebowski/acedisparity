@@ -56,18 +56,28 @@ BM.trend.process <- function(x0 = 0, edge.length = 1,
   return(t(MASS::mvrnorm(n = 1, mu = x0 + drift, Sigma = Sigma * edge.length, ...)))
 }
 
-
-
-
-BM.time.tracker <- function(x0 = 0, edge.length = 1,...) {
-  return(x0 <- x0+edge.length)
-  # drift <- trend * edge.length 
-  # if (edge.length < (0.01 * Sigma[1,1])) drift <- 0
-  # return(current_time)
+calc.error <- function(estimates, true_vals, metric_fun) {
+  Map(function(rate_est, rate_true) {
+    lapply(rate_est, function(fossil_est) {
+      # Handle both single estimates and lists of samples
+      if(is.list(fossil_est) && !is.data.frame(fossil_est) && length(fossil_est) > 1) {
+        # This is a list of samples (100 replicates)
+        lapply(fossil_est, function(sample) {
+          est <- get.disparity(dispRity(sample, metric = metric_fun))[[1]]
+          (est - rate_true[[1]]) / rate_true[[1]]
+        })
+      } else {
+        # This is a single estimate
+        est <- get.disparity(dispRity(fossil_est, metric = metric_fun))[[1]]
+        (est - rate_true[[1]]) / rate_true[[1]]
+      }
+    })
+  }, estimates, true_vals)
 }
 
-
-time_tracker <- make.traits(process = BM.time.tracker, n = 1)
-
-map.traits(time_tracker, random_tree)$data
-
+pairwise.dist.na.rm <- function(matrix, method = "euclidean", ...) {
+ 
+        # Calculate distances on clean data
+        distances <- vegan::vegdist(matrix, method = method, na.rm = TRUE, ...)
+        return(as.vector(distances))
+}

@@ -11,11 +11,7 @@ editor_options:
 ---
 
 
-# Overall disparity JOB ID: 7904947
-Treatment: 
-
-* no rescaled
-* no remove axes
+# RAW
 
 
 ```{R}
@@ -29,190 +25,49 @@ rate_names <- c("slow", "med", "fast")
 
 # r <- readRDS("../Data/cluster/discrete/raw/diff_sumvar_strict_001.rds")
 
-methods <- c("strict", "sample", "point_postord", "sample_postord", "no_ace")
+methods <- c("pre_ord_point", "pre_ord_sample", "post_ord_point", "post_ord_sample", "no_ace")
 sample_sum_var <- list()
 sum_var_change_sample_50 <- list()
 
 
-diff_sum_var_50 <- setNames(lapply(methods, function(method) {
-  setNames(lapply(rate_names, function(rate) {
-    lapply(seq_len(100), function(rep_idx) {
-      file_path <- file.path("..","Data","cluster","discrete","disparity","50t","raw",
-                             paste0("8218707_diff_sumvar_", method, sprintf("_%03d.rds", rep_idx)))
-      if(!file.exists(file_path)) return(NULL)         # avoid hard error if missing
-      data <- readRDS(file_path)
-      data[[rate]]
+raw_results <- list()
+for (method in methods) {
+  raw_results[[method]] <- list()
+  for(i in 1:100) {
+    file_path <- file.path("..", "Data", "cluster", "discrete_crown", "50t", "disparity", "raw",
+                          sprintf("8558401_%s_%03d.rds", method, i))
+    raw_results[[method]][[i]] <- readRDS(file_path)
+  }
+}
+metric_names <- names(raw_results[[1]][[1]])  # c("sum_var", "sum_quant", "neighbour")
+
+# Transpose the structure
+raw_results_relisted <- setNames(lapply(metric_names, function(metric) {
+  setNames(lapply(methods, function(method) {
+    # Check if this is a sample method
+    is_sample_method <- grepl("sample", method)
+    
+    lapply(raw_results[[method]], function(rep_data) {
+      metric_data <- rep_data[[metric]]  # Extract this metric for this replicate
+      
+      if(is_sample_method) {
+        # Unlist sample methods: convert lists to vectors
+        lapply(metric_data, function(rate_data) {
+          lapply(rate_data, function(fossil_data) {
+            if(is.list(fossil_data) && !is.data.frame(fossil_data)) {
+              unlist(fossil_data)  # ✅ Flatten the 100 samples into a vector
+            } else {
+              fossil_data
+            }
+          })
+        })
+      } else {
+        # Keep point methods as-is
+        metric_data
+      }
     })
-  }), rate_names)
-}), methods)
-
-
-sum_var_data <- do.call(rbind, lapply(names(diff_sum_var_50), function(method){
-  dataset <- diff_sum_var_50[[method]]
-  do.call(rbind, lapply(names(dataset), function(rate){
-    do.call(rbind, lapply(seq_along(dataset[[rate]]), function(replicate_index){
-      data  <- dataset[[rate]][[replicate_index]]
-      df <- data.frame(
-        replicate = replicate_index,
-        all = data$all,
-        high = data$fossil_high,
-        mid = data$fossil_med,
-        low = data$fossil_low,
-        living = data$living,
-        rate = rate,
-        method = method,
-        metric = "Sum of variances"
-      )
-      pivot_longer(df, cols = c("living","low","mid","high","all"),
-                   names_to = "preservation_level", values_to = "distance")
-    }))
-  }))
-}))
-
-# saveRDS(sum_var_diff_strict, "../Data/processed/discrete/dispDiffs/sum_var_diff_strict.rds")
-# saveRDS(sum_var_diff_sample, "../Data/processed/discrete/dispDiffs/sum_var_diff_sample.rds")
-# saveRDS(sum_var_diff_rel, "../Data/processed/discrete/dispDiffs/sum_var_diff_rel.rds")
-# saveRDS(sum_var_diff_no_ace, "../Data/processed/discrete/dispDiffs/sum_var_diff_no_ace.rds")
-# saveRDS(sum_var_diff_point_postord, "../Data/processed/discrete/dispDiffs/sum_var_diff_point_postord.rds")
-# saveRDS(sum_var_diff_sample_postord, "../Data/processed/discrete/dispDiffs/sum_var_diff_sample_postord.rds")
-
-
-
-
-
-########################################################################################################################
-diff_neighbours_50 <- setNames(lapply(methods, function(method) {
-  setNames(lapply(rate_names, function(rate) {
-    lapply(seq_len(100), function(rep_idx) {
-      file_path <- file.path("..","Data","cluster","discrete","disparity","50t","raw",
-                             paste0("8218707_diff_neighbours_", method, sprintf("_%03d.rds", rep_idx)))
-      if(!file.exists(file_path)) return(NULL)         # avoid hard error if missing
-      data <- readRDS(file_path)
-      data[[rate]]
-    })
-  }), rate_names)
-}), methods)
-
-neighbours_data <- do.call(rbind, lapply(names(diff_neighbours_50), function(method){
-  dataset <- diff_neighbours_50[[method]]
-  do.call(rbind, lapply(names(dataset), function(rate){
-    do.call(rbind, lapply(seq_along(dataset[[rate]]), function(replicate_index){
-      data  <- dataset[[rate]][[replicate_index]]
-      df <- data.frame(
-        replicate = replicate_index,
-        all = data$all,
-        high = data$fossil_high,
-        mid = data$fossil_med,
-        low = data$fossil_low,
-        living = data$living,
-        rate = rate,
-        method = method,
-        metric = "Average neighbour"
-      )
-      pivot_longer(df, cols = c("living","low","mid","high","all"),
-                   names_to = "preservation_level", values_to = "distance")
-    }))
-  }))
-}))
-
-
-
-
-diff_quantiles_50 <- setNames(lapply(methods, function(method) {
-  setNames(lapply(rate_names, function(rate) {
-    lapply(seq_len(100), function(rep_idx) {
-      file_path <- file.path("..","Data","cluster","discrete","disparity","50t","raw",
-                             paste0("8218707_diff_quant_", method, sprintf("_%03d.rds", rep_idx)))
-      if(!file.exists(file_path)) return(NULL)         # avoid hard error if missing
-      data <- readRDS(file_path)
-      data[[rate]]
-    })
-  }), rate_names)
-}), methods)
-
-
-quantiles_data <- do.call(rbind, lapply(names(diff_quantiles_50), function(method){
-  dataset <- diff_quantiles_50[[method]]
-  do.call(rbind, lapply(names(dataset), function(rate){
-    do.call(rbind, lapply(seq_along(dataset[[rate]]), function(replicate_index){
-      data  <- dataset[[rate]][[replicate_index]]
-      df <- data.frame(
-        replicate = replicate_index,
-        all = data$all,
-        high = data$fossil_high,
-        mid = data$fossil_med,
-        low = data$fossil_low,
-        living = data$living,
-        rate = rate,
-        method = method,
-        metric = "Sum of quantiles"
-      )
-      pivot_longer(df, cols = c("living","low","mid","high","all"),
-                   names_to = "preservation_level", values_to = "distance")
-    }))
-  }))
-}))
-
-```
-
-
-
-## Combined (neighbours and sum var) no rel
-
-```{R}
-
-# # Combine both datasets
-# combined_data <- rbind(quantiles_data, sum_var_data)
-
-# # Factor the variables
-# combined_data$threshold_method <- factor(combined_data$threshold_method, 
-#                                        levels = c("sum_var_diff_strict", "sum_var_diff_sample", "sum_var_diff_point_postord", "sum_var_diff_sample_postord", "sum_var_diff_no_ace"), 
-#                                        labels = c("Strict majority rule", "No majority rule (sample)", "Post-ord ACE (point)", "Post-ord ACE (sample)", "No ACE"))
-
-# combined_data$preservation_level <- factor(combined_data$preservation_level, 
-#                                          levels = c("living", "low", "mid", "high", "all"))
-
-# combined_data$metric <- factor(combined_data$metric, 
-#                              levels = c( "Sum of quantiles", "Sum of Variances"))
-
-
-# colours <- c("slow" = "#8805A8", "med" = "#00B945", "fast" = "#FFB600")
-
-# combined_plot_no_rel <- ggplot(combined_data, aes(x = preservation_level, y = distance, color = level, fill = level)) +
-#   geom_boxplot(
-#     alpha = 0.7,
-#     outlier.size = 0.5,
-#     outlier.alpha = 0.6,
-#     position = position_dodge(width = 0.8)
-#   ) +
-#   geom_hline(yintercept = 0, color = "black", linewidth = 0.6, linetype = "dashed") +
-#   facet_grid(metric ~ threshold_method) +  # 2 rows (metrics) × 5 columns (methods)
-#   labs(
-#     x = "Fossil sampling",
-#     y = "Relative disparity error",
-#     color = "Transition Rate",
-#     fill = "Transition Rate"
-#   ) +
-#   theme_minimal() +
-#   scale_color_manual(values = colours) +
-#   scale_fill_manual(values = colours) + 
-#   theme(
-#     axis.text = element_text(size = 10, face = "bold"),
-#     axis.title = element_text(size = 12, face = "bold"),
-#     axis.ticks = element_line(size = 1),
-#     legend.position = "bottom",
-#     panel.grid = element_blank(),
-#     strip.text = element_text(size = 10, face = "bold"),
-#     strip.background = element_rect(color = "black", fill = "white", linewidth = 0.5),
-#     panel.border = element_rect(color = "black", fill = NA, linewidth = 0.5)
-#   ) +
-#   coord_trans(y = "pseudo_log") +
-#   scale_y_reverse()
-
-
-# ggsave("../Manuscript/figures/overall_combined_7904947_no_rel.png", combined_plot_no_rel, width = 12, height = 8, dpi = 700, bg = "white")
-
-```
+  }), methods)
+}), metric_names)
 
 ## Ridge plot
 
@@ -223,25 +78,25 @@ library(ggplot2)
 library(tidyr)
 library(scales)
 
-# Your existing data preparation code stays the same...
-combined_data <- rbind(quantiles_data, sum_var_data)
+# # Your existing data preparation code stays the same...
+# combined_data <- rbind(quantiles_data, sum_var_data)
 
-combined_data$method <-  factor(combined_data$method, 
-                                       levels = c("strict", "sample", "point_postord", "sample_postord", "no_ace"), 
-                                       labels = c("Pre-ord ACE (point)", "Pre-ord ACE (dist)", "Post-ord ACE (point)", "Post-ord ACE (dist)", "No ACE"))
+# combined_data$method <-  factor(combined_data$method, 
+#                                        levels = c("strict", "sample", "point_postord", "sample_postord", "no_ace"), 
+#                                        labels = c("Pre-ord ACE (point)", "Pre-ord ACE (dist)", "Post-ord ACE (point)", "Post-ord ACE (dist)", "No ACE"))
 
-combined_data$preservation_level <- factor(combined_data$preservation_level, 
-                                         levels = c("living", "low", "mid", "high", "all"),
-                                         labels = c("0%", "5%", "15%", "50%", "100%"))
+# combined_data$preservation_level <- factor(combined_data$preservation_level, 
+#                                          levels = c("living", "low", "mid", "high", "all"),
+#                                          labels = c("0%", "5%", "15%", "50%", "100%"))
 
-colours <- c("slow" = "#8805A8", "med" = "#00B945", "fast" = "#FFB600")
+# colours <- c("slow" = "#8805A8", "med" = "#00B945", "fast" = "#FFB600")
 
 
 
 ## get bandwidth
 
 library(MASS)
-bw_global <- bw.nrd0(combined_data$distance)
+# bw_global <- bw.nrd0(combined_data$distance)
 # Create Sum of Quantiles plot
 combined_ridge_plot <- ggplot(combined_data, aes(x = distance, y = preservation_level, fill = rate)) +
   stat_density_ridges(

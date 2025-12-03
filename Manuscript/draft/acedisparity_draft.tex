@@ -78,19 +78,19 @@ These results demonstrate that explicitly propagating uncertainty, rather than c
 %     d. And effect of fossil sampling
 
 \subsection{Disparity and ancestral state estimation (ASE)} % these subheadings are put as placeholders for structuring the intro.
-Morphological diversity, hereafter termed disparity, has become a ubiquitous metric used for investigating macroevolutionary dynamics \citep{guillerme2020disparities}. % aware that need more ref's here.
+Morphological diversity, hereafter termed disparity, is a widely used metric for investigating macroevolutionary dynamics \citep{guillerme2020disparities}. % aware that need more ref's here.
 Disparity can be described as the distribution or spread of taxa within a multidimensional trait space defined by morphological similarity \citep{erwin_disparity_2007} and can be quantified using both continuous \citep{garcia2017phenotypic} and discrete characters \citep{foote1994morphological, lloyd2016estimating}.
 Morphological trait datasets are routinely integrated with phylogenies when examining disparity across clades or a temporal scale.
 However, such analyses are inevitably limited by the incompleteness of the fossil record; only a biased subset of past diversity is preserved, leaving unsampled ghost lineages and obscuring large portions of a clade's evolutionary history \citep{flannery2019does,smith2021phylogenetic}.
 This absence of data has been shown to result in both under- and over-estimations of disparity \citep{mitchell2015extant,smith2023fossilization}. 
-% ghost lineages are unaccounted for in morphospace analyses
+% ghost lineages are unaccounted for in trait space analyses
 % missing these ancestors can bias estimates of morphological variation
 % can lead to underestimation of disparity.
 
 % \subsection{Ancestral state estimation (ASE)}
 One way in which unsampled lineages can be accounted for is through the use of ancestral state estimation (ASE).
 ASE is the broad method of estimating trait value(s) in a set of common ancestors given a set of observed data for tips on a phylogenetic tree \citep{schluter1997likelihood,cunningham1998reconstructing,revell2025ancestral}.
-% This involves the unification of our observed trait data with a phylogeny, enabling a switch from simply observing a pattern (points in morphospace) to inferring a process through time. 
+% This involves the unification of our observed trait data with a phylogeny, enabling a switch from simply observing a pattern (points in trait space) to inferring a process through time. 
 ASE has been extensively used across macroevolutionary studies for inferring the likely character state at each node on a phylogeny for continuous or discrete traits of interest.
 These estimated states can be combined with observed data to generate a more complete trait space, mitigating the gaps left by an incomplete fossil record and, in theory, improve our ability to recover the true disparity signal \citep{sidlauskas2008continuous,brusatte2011phylogenetic,lloyd2018journeys}.
 % Inferring ancestral states also allows disparity across time analyses to be explored with higher resolution through the use of time-slicing \citep{halliday2016eutherian, guillerme2018disprity}. 
@@ -113,23 +113,26 @@ Furthermore discrete ASE faces a paradoxical trade-off where a slow rate of evol
 
 % Given that uncertainty is often high in ancestral state estimation, how then can estimates be improved?
 % \cite{ane2008analysis} demonstrated that ASE is statistically inconsistent, meaning that even if the sample size of extant tips were infinite, estimates are not expected to converge on the true value.
-The inclusion of fossils can improve estimates, due to the shorter evolutionary path to the root of the tree \citep{finarelli2006ancestral,finarelli2013potential,joy2016ancestral, goswami2025morphological}.
+The inclusion of fossils can improve estimations, due to the shorter evolutionary path to the root of the tree \citep{finarelli2006ancestral,finarelli2013potential,joy2016ancestral, goswami2025morphological}.
 Numerous simulation and empirical based studies have shown that ancestral state estimations based on extant-only taxa are extremely biased \citep{webster2002testing,finarelli2006ancestral,albert2009fossils, betancur2015fossil, royer2016comparison,monson2022keeping,wisniewski2022extant,keating2023best}.
 Similar biases have been observed in disparity analyses \citep{mitchell2015extant}. %find some more refs
-Despite this, analyses of both ancestral state estimation \citep{amador2021evolution} and disparity \citep{harmon2010early,baker2015adaptive,smith2022evolution} using extant-only trees are still commonly carried out.
-
+Despite this, analyses of both ancestral state estimation \citep{amador2021evolution} and disparity \citep{harmon2010early,baker2015adaptive,smith2022evolution} using extant-only trees are still carried out.
 
 \subsection{Previous work}
 Numerous studies have assessed the raw estimation error of ASE approaches under different models of evolution, methods of estimation and fossil sampling level \citep{elliot2014inferring,royer2016comparison, reyes2018testing, holland2020accuracy,keating2023best,boyko2025uncertainty}. 
-However, investigation as to how the raw estimation error is propagated into recovery of an accurate morphospace is less understood, despite the continued use of ASE in disparity analyses.
-\cite{lloyd2018journeys} demonstrated that carrying out ASE post-ordination compared to pre-ordination can affect the distribution of points in a morphospace markedly, introducing unwanted phylogenetic signal
+However, how state estimation accuracy is propagated into recovery of an accurate trait space is less understood, despite the continued use of ASE in disparity analyses.
+\cite{lloyd2018journeys} demonstrated that carrying out ASE post-ordination rather than pre-ordination can distort the distribution of points in a trait space markedly, introducing unwanted phylogenetic signal and low levels of convergence.
 However, this study was restricted to a single empirical dataset and to discrete traits.
-Thus, we lack a comprehensive understanding of how estimation approaches, trait data and fossil sampling level interact to affect our ability to recover accurate patterns in morphospace.
+Thus, we lack a comprehensive understanding of how estimation approaches, trait data and fossil sampling level interact to affect our ability to recover accurate patterns in trait space.
 
 \subsection{Aims}
 Using a simulation framework, we expand on this work to evaluate the ability of different ASE approaches to recover true disparity values across different evolutionary models and fossil sampling regimes.
 Specifically, we compare pre- versus post-ordination estimation, as well as point-estimate versus probabilistic approaches to uncertainty in estimations.
-Simulation frameworks allow for robust benchmarking of methodological choices; the true disparity signal can be known and estimation methods accuracy can be benchmarked.
+Simulations allow for robust benchmarking of methodological choices; the true disparity signal can be known and estimation methods accuracy can be benchmarked.
+
+
+
+
 
 
 

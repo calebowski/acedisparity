@@ -79,7 +79,7 @@ cat("Calculating raw disparity errors...\n")
 metrics <- list(
   sum_var = c(sum, variances),
   sum_quant = c(sum, quantiles),
-  neighbour = c(mean, neighbours)
+  pairwise = c(mean, pairwise.dist.na.rm)
 )
 
 # Fix: Calculate with correct metric names
@@ -112,12 +112,10 @@ saveRDS(lapply(results_raw, `[[`, "post_ord_sample"), write.path("disparity/raw"
 
 cat("Completed raw...!\n")
 
-
 ################################################################################
 # CALCULATE ERRORS FOR ALL METRICS USING ALL AXES
 ################################################################################
 cat("Beginning rm axes...\n")
-
 
 tree_num <- as.numeric(gsub("t", "", tree_size))  
 
