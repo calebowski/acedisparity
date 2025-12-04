@@ -1,4 +1,4 @@
-\begin{thebibliography}{62}
+\begin{thebibliography}{63}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -196,6 +196,11 @@ Graeme~T Lloyd.
 \bibitem[Losos(1999)]{losos1999uncertainty}
 Jonathan~B Losos.
 \newblock Uncertainty in the reconstruction of ancestral character states and limitations on the use of phylogenetic comparative methods, 1999.
+
+\bibitem[Lotterhos et~al.(2022)Lotterhos, Fitzpatrick, and Blackmon]{lotterhos2022simulation}
+Katie~E Lotterhos, Matthew~C Fitzpatrick, and Heath Blackmon.
+\newblock Simulation tests of methods in evolution, ecology, and systematics: pitfalls, progress, and principles.
+\newblock \emph{Annual Review of Ecology, Evolution, and Systematics}, 53\penalty0 (1):\penalty0 113--136, 2022.
 
 \bibitem[Mitchell(2015)]{mitchell2015extant}
 Jonathan~S Mitchell.

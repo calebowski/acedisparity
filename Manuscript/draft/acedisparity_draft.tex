@@ -97,18 +97,17 @@ These estimated states can be combined with observed data to generate a more com
 
 \subsection{Issues with ASE}
 Despite the aforementioned advantages, integration of ASE within the disparity analysis pipeline has often been neglected.
-Much of the apprehension towards the utilisation of ASE has likely stemmed from the notion that estimates are inherently uncertain.
-Indeed, root-ward estimates in particular are often associated with large confidence intervals/inconclusive scaled likelihoods \citep{schluter1997likelihood, losos1999uncertainty,gascuel2014predicting}, with often no guidance on how to correctly treat this uncertainty downstream when constructing the trait space. % often set with arbitary thresholds , see casali, tj smith disparity fungal paper.
-Despite the encouragement for uncertainty to be carried forward in comparative analyses \citep{silvestro2015measurement,boyko2024dentist}, most computational implementations of ASE return point estimates.
-By ignoring uncertainty, point estimates can lead to overconfidence in results and erroneous inferences in downstream analyses, all while obscuring potentially `accurate' uncertainty \citep{ackerly2006niche,vanderpoorten2006mapping}.
+Much of the apprehension towards the utilisation of ASE has likely stemmed from the notion that estimates are inherently uncertain; root-ward estimates in particular are often associated with large confidence intervals or inconclusive scaled likelihoods \citep{schluter1997likelihood, losos1999uncertainty,gascuel2014predicting}.
+Despite the encouragement for uncertainty to be carried forward in comparative analyses \citep{silvestro2015measurement,boyko2024dentist}, most computational implementations of ASE return point estimates, since there is little guidance on how to correctly treat this uncertainty downstream when constructing the trait space. % often set with arbitary thresholds , see casali, tj smith disparity fungal paper.
+By ignoring uncertainty, point estimates can lead to overconfidence in results and erroneous inferences in downstream analyses, all while obscuring potentially accurate signals \citep{ackerly2006niche,vanderpoorten2006mapping}.
 
 Another key issue with ASE is its sensitivity to model misspecification.
 Likelihood-based approaches to ASE require both a tree topology and a specified model of character evolution.
 Estimation of continuous characters are typically modelled under Brownian motion (BM), which describes a directionless, stochastic process where the trait divergence between related taxa is proportional to their shared evolutionary history and the rate of evolution \citep{felsenstein1985phylogenies,schluter1997likelihood,omeara2006testing}.
 However, deviations from BM in the trait data, such as directional trends or stabilising selection, can result in inaccurate estimations. 
 For example, both \cite{webster2002testing} and \cite{finarelli2006ancestral} were unable to recover accurate ancestral estimates of body size in planktonic foraminifera and mammals, respectively, due to a trend of increase through time.
-Model-related issues can also arise for discrete traits, which are estimated using the M\textit{k} model, requiring a tree topology and specified model of evolution (describing transition rates).
-Estimation of discrete states appears prone to model over-parameterisation and sensitive to fast transition rates \citep{keating2023best}.
+Model-related issues can also arise for discrete traits, which are estimated using an M\textit{k} model, requiring a tree topology and specified model of evolution (describing transition rates).
+Estimation accuracy of discrete states appears prone to model over-parameterisation and sensitive to fast transition rates \citep{keating2023best}.
 Furthermore discrete ASE faces a paradoxical trade-off where a slow rate of evolution allows for an easy estimation of ancestral states, but provides little information for estimating transition rates \citep{gascuel2020darwinian}.
 
 % Given that uncertainty is often high in ancestral state estimation, how then can estimates be improved?
@@ -127,26 +126,14 @@ Thus, we lack a comprehensive understanding of how estimation approaches, trait 
 
 \subsection{Aims}
 Using a simulation framework, we expand on this work to evaluate the ability of different ASE approaches to recover true disparity values across different evolutionary models and fossil sampling regimes.
-Specifically, we compare pre- versus post-ordination estimation, as well as point-estimate versus probabilistic approaches to uncertainty in estimations.
-Simulations allow for robust benchmarking of methodological choices; the true disparity signal can be known and estimation methods accuracy can be benchmarked.
-
-
-
-
-
-
-
-% 1. While many studies on the accuracy of raw state estimation, very few on how errors in estimations are outputted into disparity analyses
-%     a. in fact, there has not been a clear assessment as to whether it is best to use ASE in disparity analyses or not? 
-% 2. Building on Lloyd's paper, but expanding it across a simulation framework and for discrete and continuous characters.
+Simulations offer a robust approach for benchmarking methodologies since a ground-truth dataset can be generated, so trait values and the resulting disparity signal are all known \textit{a priori} \citep{lotterhos2022simulation}.
+Different methodological choices and estimation scenarios can then be evaluated against the true disparity value. 
+Specifically, we directly compare pre- versus post-ordination estimation approaches, as well as point-estimate versus probabilistic treatments of uncertainty, thereby examining two axes of methodological variation.
+We also investigate how estimation error varies under different models of trait evolution and fossil sampling regimes.
+This integrative framework provides a comprehensive evaluation for understanding when ASE improves disparity estimation, when it introduces bias, and how uncertainty should be treated when working with incomplete fossil data.
 
 
 % However, despite these observations and cautions, extant-only trees remain ubiquitous in studies conducting phylogenetic comparative methods (e.g., Álvarez-Carretero et al., 2022; Jetz et al., 2012; Jetz & Pyron, 2018; Magallón et al., 2015; Pie et al., 2023; Rabosky et al., 2018; Smyčka et al., 2023; Upham et al., 2019).
-
-
-
-
-%while all of these issues have been explored in studies looking at `raw' ancestral state estimation accuracy, the effect on the ability to recover the true disparity signal has not been explored.
 
 
 
@@ -368,6 +355,7 @@ In general, each estimation method performed better at recovering slow rates tha
 
 \section{Discussion}
 
+% being able to estimate the transition rate may be enough for disparity, rather than exact states? i.e. in a situation of fast rates, where say none of the states are estimated correctly, but disparity signal is accurate, because a similar dispersion of morphospace has been reached.
 
 
 
