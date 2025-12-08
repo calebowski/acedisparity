@@ -113,7 +113,7 @@ saveRDS(lapply(results_raw, `[[`, "post_ord_sample"), write.path("disparity/raw"
 cat("Completed raw...!\n")
 
 ################################################################################
-# CALCULATE ERRORS FOR ALL METRICS USING ALL AXES
+# CALCULATE ERRORS FOR ALL METRICS USING MIN AXES
 ################################################################################
 cat("Beginning rm axes...\n")
 

@@ -156,16 +156,20 @@ for(i in seq_along(res_pre_ord_ace)) {
 
 cat("Ancestral states estimated\n")
 
-sample_fossil_anc <- lapply(pre_ord_ace, lapply,  multi.ace, sample = 100)
+sample_fossil_anc <- lapply(pre_ord_ace, lapply,  multi.ace, ml.collapse = list(type = "sample", sample = 100))
 
-point_fossil_anc <- lapply(pre_ord_ace, lapply, multi.ace, threshold = FALSE, output = "combined.matrix", verbose = TRUE)
+point_fossil_anc <- lapply(pre_ord_ace, lapply, multi.ace, ml.collapse = list(type = "majority"), output = "combined.matrix", verbose = TRUE)
 
-relative_fossil_anc <- lapply(pre_ord_ace, lapply,  multi.ace, output = "combined.matrix", verbose = TRUE)
+point_tiebreaker_fossil_anc <- lapply(pre_ord_ace, lapply, multi.ace, ml.collapse = list(type = "majority", tie.breaker = TRUE), output = "combined.matrix", verbose = TRUE)
+
+
+relative_fossil_anc <- lapply(pre_ord_ace, lapply,  multi.ace,  ml.collapse = list(type = "relative"), output = "combined.matrix", verbose = TRUE)
 
 saveRDS(pre_ord_ace, write.path("anc", "pre_ord_anc_%03d.rds"))
 saveRDS(sample_fossil_anc, write.path("anc", "pre_ord_sample_%03d.rds"))
 saveRDS(relative_fossil_anc, write.path("anc", "pre_ord_rel_%03d.rds"))
 saveRDS(point_fossil_anc, write.path("anc", "pre_ord_point_%03d.rds"))
+saveRDS(point_tiebreaker_fossil_anc, write.path("anc", "pre_ord_tiebreaker_%03d.rds"))
 
 ########################################################################################################################
 

@@ -96,7 +96,7 @@ trait_normal <- list(
 )
 
 sample_post_ord_ace <- tryCatch({
-  multi.ace(ace_result, sample = 100, sample.fun = trait_normal, output = "combined.matrix")
+  multi.ace(ace_result, ml.collapse = list(type = "sample", sample = 100, sample.fun = trait_normal), output = "combined.matrix")
 }, error = function(e) {
   cat("ERROR in sample estimates:", e$message, "\n")
   return(NULL)

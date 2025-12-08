@@ -1,4 +1,4 @@
-\begin{thebibliography}{63}
+\begin{thebibliography}{64}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -19,6 +19,11 @@ James~S Albert, Derek~M Johnson, and Jason~H Knouft.
 Lucila~I Amador and Norberto~P Giannini.
 \newblock Evolution of diet in extant marsupials: emergent patterns from a broad phylogenetic perspective.
 \newblock \emph{Mammal Review}, 51\penalty0 (2):\penalty0 178--192, 2021.
+
+\bibitem[An{\'e}(2008)]{ane2008analysis}
+C{\'e}cile An{\'e}.
+\newblock Analysis of comparative data with hierarchical autocorrelation.
+\newblock 2008.
 
 \bibitem[Baker et~al.(2015)Baker, Meade, Pagel, and Venditti]{baker2015adaptive}
 Joanna Baker, Andrew Meade, Mark Pagel, and Chris Venditti.
