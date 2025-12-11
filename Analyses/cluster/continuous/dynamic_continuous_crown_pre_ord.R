@@ -1,7 +1,6 @@
 args <- commandArgs(trailingOnly = TRUE)
 replicate_id <- as.numeric(args[1])
-model_name <- args[2] 
-tree_size <- args[3]
+tree_size <- args[2]
 job_id <- Sys.getenv("SLURM_ARRAY_JOB_ID")
 
 library(treats)
@@ -30,6 +29,17 @@ write.path <- function(subfolder, filename) {
 #   cat("ERROR reading tree:", e$message, "\n")
 #   quit(status = 1)
 # })
+
+cat("Ensuring directories exist...\n")
+dirs <- c("matrices", "trees", "anc", "ord")
+for(dir in dirs) {
+  full_path <- paste0(base_path, dir)
+  if(!dir.exists(full_path)) {
+    dir.create(full_path, recursive = TRUE)
+    cat("Created:", full_path, "\n")
+  }
+}
+
 
 cat("\n=== STEP 1: Generating tree ===\n")
 set.seed(100 + replicate_id)  # Set seed for reproducible tree generation
@@ -73,45 +83,20 @@ ou_sh <-  make.traits(process = OU.process, n = 20,
                                          Sigma = diag(0.25, 20)))
 
 # traits <- list(bm = bm, bm_t = bm_t)
-traits <- list(bm = bm, bm_t = bm_t, ou_w = ou_w, ou_st = ou_st, ou_sh= ou_sh)
+traits <- list(bm = bm, bm_t = bm_t, ou_w = ou_w, ou_st = ou_st, ou_sh = ou_sh)
 
-
-# traits <- switch(model_name,
-#   "bm" = make.traits(process = BM.process, n = 20, 
-#                      process.args = list(Sigma = diag(0.25, 20))),
-  
-#   "bm_t" = make.traits(process = BM.trend.process, n = 20, 
-#                       process.args = list(Sigma = diag(0.25, 20), trend = 0.3)),
-  
-#   "ou_w" = make.traits(process = OU.process, n = 20, 
-#                       process.args = list(alpha = (log(2) / (tree_height * 0.75)), 
-#                                         Sigma = diag(0.25, 20))),
-  
-#   "ou_st" = make.traits(process = OU.process, n = 20, 
-#                        process.args = list(alpha = (log(2) / (tree_height * 0.25)), 
-#                                          Sigma = diag(0.25, 20))),
-  
-#   "ou_sh" = make.traits(process = OU.process, n = 20, 
-#                        process.args = list(optimum = 2, 
-#                                          alpha = (log(2) / (tree_height * 0.75)), 
-#                                          Sigma = diag(0.25, 20))),
-  
-#   stop("Unknown model: ", model_name)
-# )
-
-cat("Starting model", model_name, "for replicate", replicate_id, "at", Sys.time(), "\n")
 
 # mat <- map.traits(traits, tree)$data
 
 matrices <- lapply(traits, function(x){map.traits(x, crown_tree)$data})
 
-cat("Traits simulated for", model_name, "\n")
+cat("Traits simulated...\n")
 
 # matrices <- list(bm = bm_matrices, bm_t = bm_matrices_trend, ou_w = ou_w_matrices, ou_st = ou_s_matrices, ou_sh = ou_shift_matrices)
 
-saveRDS(matrices, write.path("matrices", paste0(model_name, "_matrix_%03d.rds")))
+saveRDS(matrices, write.path("matrices", "matrices_%03d.rds"))
 
-cat("Trait matrices saved for replicate", replicate_id, model_name, "\n")
+cat("Trait matrices saved...\n")
 
 source("/users/bip24cns/acedisparity/discrete/scripts/fossil.pres.R")
 set_seed <- 100 + replicate_id
@@ -136,13 +121,12 @@ fossil_matrices <- lapply(names(matrices), function(level) {
 names(fossil_matrices) <- names(matrices)
 
 
-fossil_trees <- lapply(fossil_matrices, function(level){
+fossil_trees <- lapply(fossil_matrices, lapply, function(level){
   tree <- level$tree
 })
 cat("Fossil matrices completed...\n")
 
-saveRDS(fossil_matrices, write.path("matrices", paste0(model_name, "_fossil_matrices_%03d.rds")))
-saveRDS(fossil_trees, write.path("trees", paste0(model_name, "_fossil_trees_%03d.rds")))
+saveRDS(fossil_matrices, write.path("matrices", "fossil_matrices_%03d.rds"))
 
 tasks  <- expand.grid(model = names(fossil_matrices), fossil_level = names(fossil_matrices[[1]]),  stringsAsFactors = FALSE) 
 
@@ -160,19 +144,6 @@ res_pre_ord_ace <- lapply(seq_len(nrow(tasks)), function(i){ ## loop over each m
 
 elapsed <- difftime(Sys.time(), start_time, units = "mins")
 
-
-# res_pre_ord_ace <- mclapply(seq_len(nrow(tasks)), function(i){ ## loop over each model combination by row
-#     task <- tasks[i,]
-#     level <- fossil_matrices[[task$model]][[task$fossil_level]]
-#     tryCatch({
-#     multi.ace(level$matrix, level$tree, models = "BM", output = "multi.ace")
-#   }, error = function(e) {
-#     cat("ERROR:", task$fossil_level, e$message, "\n") ## error handeling
-#     NULL
-#   })
-# }, mc.cores = 25)
-# elapsed <- difftime(Sys.time(), start_time, units = "hours")
-
 fossil_anc <- list()
 for(i in seq_along(res_pre_ord_ace)) {
   m <- tasks$model[i] 
@@ -186,16 +157,14 @@ point_anc <- lapply(fossil_anc, lapply, multi.ace, output = "combined.matrix")  
 trait_normal  <-  list(fun = rnorm, param = list(mean = mean, sd = function(x)return(diff(range(x))/4))) ## samples with normal distribution
 
 cat("Starting distribution ancestral state estimation...\n")
-sample_anc <- lapply(fossil_anc, lapply, multi.ace, output = "combined.matrix", sample = 100, sample.fun = trait_normal) ## 100 matrices replicated, 
-
+sample_anc <- lapply(fossil_anc, lapply, multi.ace, output = "combined.matrix", ml.collapse = list(type = "sample", sample = 100, sample.fun = trait_normal)) ## 100 matrices replicated, 
 
 cat("Ancestral states estimated...\n")
 
-saveRDS(fossil_anc, write.path("anc", paste0(model_name, "_fossil_anc_%03d.rds")))
-saveRDS(point_anc, write.path("anc", paste0(model_name, "_point_anc_%03d.rds")))
-saveRDS(sample_anc, write.path("anc", paste0(model_name, "_sample_anc_%03d.rds")))
+saveRDS(fossil_anc, write.path("anc", "pre_ord_ace_%03d.rds"))
+saveRDS(point_anc, write.path("anc", "pre_ord_point_%03d.rds"))
+saveRDS(sample_anc, write.path("anc", "pre_ord_sample_%03d.rds"))
 cat("Ancestral states saved...\n")
-
 
 
 cat("=== STARTING ord_sample ===\n")
@@ -217,8 +186,9 @@ cat("=== STARTING ord_no_ace ===\n")
 
 
 cat("=== STARTING ord_true ===\n")
-  ord_true <- lapply(matrices, prcomp, scale = FALSE, center = TRUE)$x
-
+ord_true <- lapply(matrices, function(mat) {
+  prcomp(mat, scale = FALSE, center = TRUE)$x
+})
 
 
 cat("Ordinations completed...\n")
@@ -235,11 +205,12 @@ cat("=== STARTING ancestral statte estimation of post ordination ===\n")
 tasks_post_ord <- expand.grid(model = names(ord_no_ace), fossil_level = names(ord_no_ace[[1]]), stringsAsFactors = FALSE)
 
 start_time <- Sys.time()
-res_pre_ord_ace <- lapply(seq_len(nrow(tasks_post_ord)), function(i){ ## loop over each model combination by row
+res_post_ord_ace <- lapply(seq_len(nrow(tasks_post_ord)), function(i){ ## loop over each model combination by row
     task <- tasks_post_ord[i,]
-    level <- ord_no_ace[[task$model]][[task$fossil_level]]
+    level_matrix <- ord_no_ace[[task$model]][[task$fossil_level]]
+    level_tree <- fossil_trees[[task$model]][[task$fossil_level]]
     tryCatch({
-    multi.ace(level$matrix, level$tree, models = "BM", output = "multi.ace")
+    multi.ace(level_matrix, level_tree, models = "BM", output = "multi.ace")
   }, error = function(e) {
     cat("ERROR:", task$fossil_level, e$message, "\n") ## error handeling
     NULL
@@ -250,30 +221,30 @@ elapsed <- difftime(Sys.time(), start_time, units = "mins")
 
 
 post_ord_ace  <- list()
-for(i in seq_along(res_post_ord)){
+for(i in seq_along(res_post_ord_ace)){
+    m <- tasks_post_ord$model[i]
     l <- tasks_post_ord$fossil_level[i]
-    post_ord_ace[[l]] <- res_post_ord[[i]]
+    post_ord_ace[[m]][[l]] <- res_post_ord_ace[[i]]
 }
 
 cat("=== STARTING point estimation post ord ace ===\n")
 
 point_post_ord_ace <- lapply(post_ord_ace, lapply, multi.ace, output = "combined.matrix")
 
-
-names(point_post_ord_ace_living) <- names(point_post_ord_ace)
-
 trait_normal <- list(fun = rnorm, param = list(mean = mean, sd = function(x)return(diff(range(x))/4)))
 
-sample_post_ord_ace <- lapply(post_ord_ace, lapply, multi.ace, sample = 100, sample.fun = trait_normal, output = "combined.matrix")
+sample_post_ord_ace <- lapply(post_ord_ace, lapply, multi.ace, ml.collapse = list(type = "sample", sample = 100, sample.fun = trait_normal), output = "combined.matrix")
 
 cat("Post ordination ace completed...\n")
 
-saveRDS(ord_sample, write.path("ord/temp", paste0(model_name, "_ord_sample_%03d.rds")))
-saveRDS(ord_point, write.path("ord/temp", paste0(model_name, "_ord_point_%03d.rds")))
-saveRDS(ord_no_ace, write.path("ord/temp", paste0(model_name, "_ord_no_ace_%03d.rds")))
-saveRDS(ord_true, write.path("ord/temp", paste0(model_name, "_ord_true_%03d.rds")))
-saveRDS(point_post_ord_ace_living, write.path("ord/temp", paste0(model_name, "_post_ord_point_%03d.rds")))
-saveRDS(sample_post_ord_ace_living, write.path("ord/temp", paste0(model_name, "_post_ord_sample_%03d.rds")))
+
+saveRDS(post_ord_ace, write.path("anc", "post_ord_ace_%03d.rds"))
+saveRDS(ord_sample, write.path("ord", "ord_sample_%03d.rds"))
+saveRDS(ord_point, write.path("ord", "ord_point_%03d.rds"))
+saveRDS(ord_no_ace, write.path("ord", "ord_no_ace_%03d.rds"))
+saveRDS(ord_true, write.path("ord", "ord_true_%03d.rds"))
+saveRDS(point_post_ord_ace, write.path("ord", "post_ord_point_%03d.rds"))
+saveRDS(sample_post_ord_ace, write.path("ord", "post_ord_sample_%03d.rds"))
 
 
-cat("Finished model", model_name, "for replicate", replicate_id, "at", Sys.time(), "\n")
+cat("Finished replicate", replicate_id, "at", Sys.time(), "\n")
