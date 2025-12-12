@@ -15,7 +15,8 @@
 \usepackage[hidelinks]{hyperref}
 \usepackage{multirow}
 \setcitestyle{aysep={}}  % Removes comma between authoer and year.
-
+\newcommand{\ASE}{Ancestral state estimation }
+\newcommand{\ase}{ancestral state estimation }
 % Line spacing and numbering for review
 \doublespacing
 \linenumbers
@@ -77,13 +78,16 @@ These results demonstrate that explicitly propagating uncertainty, rather than c
 %     c. Looked at both continuous and discrete traits
 %     d. And effect of fossil sampling
 
-\subsection{Disparity and ancestral state estimation (ASE)} % these subheadings are put as placeholders for structuring the intro.
-Morphological diversity, hereafter termed disparity, is widely used for investigating macroevolutionary dynamics \citep{guillerme2020disparities}. % aware that need more ref's here. %TG: morphological diversity/disparity is not a metric ;) disparity metric is the metric :P
+% \subsection{Disparity and ancestral state estimation (ASE)} % these subheadings are put as placeholders for structuring the intro.
+Morphological diversity, hereafter termed disparity, is widely used for investigating macroevolutionary dynamics \citep{guillerme2020disparities}. % aware that need more ref's here. 
 Disparity can be described as the distribution or spread of taxa within a multidimensional trait space defined by morphological similarity \citep{erwin_disparity_2007} and can be quantified using both continuous \citep{garcia2017phenotypic} and discrete characters \citep{foote1994morphological, lloyd2016estimating}.
-Morphological trait datasets are routinely integrated with phylogenies when examining disparity across clades or a temporal scale.
-% TG: might be worth adding here an extra sentence showing examples of what it's be used for. For example something like: "These type of disparity through time analyses have been used to show X, Y and Z."
+Morphological trait datasets are routinely integrated with phylogenies when examining disparity across clades or time.
+These analyses can be used to investigate selectivity across mass extinctions \citep{bapst2012graptoloid,cole2021selectivity, liu2024heterogeneous}, can identify timings of key morphological innovations \citep{foth2021rapid}. % and something else...
 However, such analyses are inevitably limited by the incompleteness of the fossil record; only a biased subset of past diversity is preserved, leaving unsampled ghost lineages and obscuring large portions of a clade's evolutionary history \citep{flannery2019does,smith2021phylogenetic}.
 This missing data has been shown to result in both under- and over-estimations of disparity \citep{mitchell2015extant,smith2023fossilization}.
+For example, high amounts of missing data results in `centroid-slippage', whereby an incomplete taxon is pulled towards the centre of the morphospace \citep{flannery2019does}.
+Conversely, exceptional preservation, such as Lagerstätten taxa may result in inflated disparity, seen in ichthyosaurs \citep{flannery2019does} and pterosaurs \citep{butler2012geological}.
+% stem-ward slippagge \citep{sansom2013fossilization}, stem-ward species are supposedly more primitive due to fossilisation.
 % TG: might be worth adding - if you know of a good example - of why under/over estimations can be erroneous. Maybe you came accross some paper saying disparity in clade X increases with Y but actually it does nothing because of overestimation?
 % ghost lineages are unaccounted for in trait space analyses
 % missing these ancestors can bias estimates of morphological variation
@@ -92,57 +96,57 @@ This missing data has been shown to result in both under- and over-estimations o
 % \subsection{Ancestral state estimation (ASE)}
 % TG: maybe it needs a logical connector here? Like "Fortunately,"? Not sure though.
 One way in which unsampled lineages can be accounted for is through the use of ancestral state estimation (ASE). %TG: I think you should remove the acronym throughout. I think you should always keep them for very obvious acronyms only (e.g. PCA, DNA) and not introduce new ones. If it's just for lazy reasons, you know you can define macros in LaTeX so you can just type \ase each time (e.g. something like \def\ase{ancestral states estimations}.)
-ASE is the broad method of estimating trait value(s) in a set of common ancestors given a set of observed data for tips on a phylogenetic tree \citep{schluter1997likelihood,cunningham1998reconstructing,revell2025ancestral}.
+\ASE is the broad method of estimating trait value(s) in a set of common ancestors given a set of observed data for tips on a phylogenetic tree \citep{schluter1997likelihood,cunningham1998reconstructing,revell2025ancestral}.
 % This involves the unification of our observed trait data with a phylogeny, enabling a switch from simply observing a pattern (points in trait space) to inferring a process through time. 
 ASE has been extensively used across macroevolutionary studies for inferring the likely character state at each node on a phylogeny for continuous or discrete traits of interest.
 These estimated states can be combined with observed data to generate a more complete trait space, mitigating the gaps left by an incomplete fossil record and, in theory, improve our ability to recover the true disparity signal \citep{sidlauskas2008continuous,brusatte2011phylogenetic,lloyd2018journeys}.
-% Inferring ancestral states also allows disparity across time analyses to be explored with higher resolution through the use of time-slicing \citep{halliday2016eutherian, guillerme2018disprity}. TG: I think this is good to add as an example (but not mentioning time-slicing necessarily).
+Inferring ancestral states also allows disparity across time analyses to be explored with higher resolution \citep{brusatte2011phylogenetic, halliday2016eutherian, guillerme2018disprity}.
 
 % TG: kind of general semantic thought: Maybe we should call it Ancestral traits estimations rather than states? States refer more to discrete characters in my mind (although for a continuous trait - e.g. body length - technically 42 is the state for that trait). Might be worth discussing in the pub: are you estimating a trait or a trait state (I think the later but ancestral trait state estimations is a mouthful...).
 
 \subsection{Issues with ASE}
-Despite the aforementioned advantages, %TG: it's not clear from the reading what advantages you mean here
- integration of ASE within the disparity analysis pipeline has often been neglected.
-Much of the apprehension towards the use of ASE has likely stemmed from the notion that estimates are inherently uncertain; root-ward estimates in particular are often associated with large confidence intervals or inconclusive scaled likelihoods \citep{schluter1997likelihood, losos1999uncertainty,gascuel2014predicting}.
-Despite the encouragement for uncertainty to be carried forward in comparative analyses \citep{silvestro2015measurement,boyko2024dentist}, most computational implementations of ASE return point estimates, since there is little guidance on how to correctly treat this uncertainty downstream when constructing the trait space. % often set with arbitary thresholds , see casali, tj smith disparity fungal paper. %TG: again, good to add that as an exanmple!
+Despite its theoretical advantages, %TG: it's not clear from the reading what advantages you mean here
+ integration of \ase within the disparity analysis pipeline has often been neglected.
+Much of the apprehension towards the use of \ase has likely stemmed from the notion that estimates are inherently uncertain; root-ward estimates in particular are often associated with large confidence intervals or inconclusive scaled likelihoods \citep{schluter1997likelihood, losos1999uncertainty,gascuel2014predicting}.
+Despite the encouragement for uncertainty to be carried forward in comparative analyses \citep{silvestro2015measurement,boyko2024dentist}, most computational implementations of \ase return point estimates, since there is little guidance on how to correctly treat this uncertainty downstream when constructing the trait space. 
+These point estimates are typically averages from confidence intervals for continuous characters or collapsed states returned from arbitrary thresholds \citep{smith2022evolution,casali2023morphological}. % see casali, tj smith disparity fungal paper. %TG: again, good to add that as an exanmple!
 By ignoring uncertainty, point estimates can lead to overconfidence in results and erroneous inferences in downstream analyses, all while obscuring potentially accurate signals \citep{ackerly2006niche,vanderpoorten2006mapping}.
 
-Another key issue with ASE is its sensitivity to model misspecification.
-Likelihood-based approaches to ASE require both a tree topology and a specified model of character evolution.
+Another key issue with \ase is its sensitivity to model misspecification.
+Likelihood-based approaches to \ase require both a tree topology and a specified model of character evolution.
 Estimation of continuous characters are typically modeled under Brownian motion (BM), which describes a directionless, stochastic process where the trait divergence between related taxa is proportional to their shared evolutionary history and the rate of evolution \citep{felsenstein1985phylogenies,schluter1997likelihood,omeara2006testing}.
 However, deviations from BM %TG: no acronym here would be easier to read as well
  in the trait data, such as directional trends or stabilising selection, can result in inaccurate estimations. 
 For example, both \cite{webster2002testing} and \cite{finarelli2006ancestral} were unable to recover accurate ancestral estimates of body size in planktonic foraminifera and mammals, respectively, due to a trend of increase through time.
 Model-related issues can also arise for discrete traits, which are estimated using an M\textit{k} model, requiring a tree topology and specified model of evolution (describing transition rates).
 Estimation accuracy of discrete states appears prone to model over-parameterisation and sensitive to fast transition rates \citep{keating2023best}.
-Furthermore discrete ASE faces a paradoxical trade-off where a slow rate of evolution allows for an easy estimation of ancestral states, but provides little information for estimating transition rates \citep{gascuel2020darwinian}.
+Furthermore discrete \ase faces a paradoxical trade-off where a slow rate of evolution allows for an easy estimation of ancestral states, but provides little information for estimating transition rates \citep{gascuel2020darwinian}.
 %TG: super nice section!
 
 % Given that uncertainty is often high in ancestral state estimation, how then can estimates be improved?
-\cite{ane2008analysis} demonstrated that ASE is statistically inconsistent, meaning that even if the sample size of extant tips were infinite, estimates are not expected to converge on the true value. 
+\cite{ane2008analysis} demonstrated that \ase is statistically inconsistent, meaning that even if the sample size of extant tips were infinite, estimates are not expected to converge on the true value. 
 The inclusion of fossils can improve estimations, due to the shorter evolutionary path to the root of the tree \citep{finarelli2006ancestral,finarelli2013potential,joy2016ancestral, goswami2025morphological}. %TG: I see what you mean here. But I think you mean "due to shorter branch length which leads to lower cumulative uncertainty" or something like that?
 Numerous simulation and empirical based studies have shown that ancestral state estimations based on extant-only taxa are extremely biased \citep{webster2002testing,finarelli2006ancestral,albert2009fossils, betancur2015fossil, royer2016comparison,monson2022keeping,wisniewski2022extant,keating2023best}.
 Similar biases have been observed in disparity analyses \citep{mitchell2015extant}. %find some more refs
-Despite this, analyses of both ancestral state estimation \citep{amador2021evolution} and disparity \citep{harmon2010early,baker2015adaptive,smith2022evolution} using extant-only trees are still carried out. %TG: you might want to tone down that sentence. Maybe something like saying that unfortunately sometimes you only have living data to work with and no good method to take into account uncertainty (cite all these people).
+Despite this, many studies are forced to use extant-only trees for both ancestral state estimation \citep{jetz2018interplay, amador2021evolution} and disparity \citep{harmon2010early,baker2015adaptive,smith2022evolution} due to the lack of reasonable fossil data. %TG: you might want to tone down that sentence. Maybe something like saying that unfortunately sometimes you only have living data to work with and no good method to take into account uncertainty (cite all these people).
 
 \subsection{Previous work}
-Numerous studies have assessed the raw estimation error of ASE approaches under different models of evolution, methods of estimation and fossil sampling level \citep{elliot2014inferring,royer2016comparison, reyes2018testing, holland2020accuracy,keating2023best,boyko2025uncertainty}. 
-However, how state estimation accuracy is propagated into recovery of an accurate trait space is less understood, despite the continued use of ASE in disparity analyses.
-\cite{lloyd2018journeys} demonstrated that carrying out ASE post-ordination rather than pre-ordination can distort the distribution of points in a trait space markedly, introducing unwanted phylogenetic signal and low levels of convergence.
+Numerous studies have assessed the raw estimation error of \ase approaches under different models of evolution, methods of estimation and fossil sampling level \citep{elliot2014inferring,royer2016comparison, reyes2018testing, holland2020accuracy,keating2023best,boyko2025uncertainty}. 
+However, how state estimation accuracy is propagated into recovery of an accurate trait space is less understood, despite the continued use of \ase in disparity analyses.
+\cite{lloyd2018journeys} demonstrated that carrying out \ase post-ordination rather than pre-ordination can distort the distribution of points in a trait space markedly, introducing unwanted phylogenetic signal and low levels of convergence.
 However, this study was restricted to a single empirical dataset and to discrete traits.
 Thus, we lack a comprehensive understanding of how estimation approaches, trait data and fossil sampling level interact to affect our ability to recover accurate patterns in trait space.
 %TG: very good!
 
 \subsection{Aims}
-Using a simulation framework, we expand on this work to evaluate the ability of different ASE approaches to recover true disparity values across different evolutionary models and fossil sampling regimes.
+Using a simulation framework, we expand on this work to evaluate the ability of different \ase approaches to recover true disparity values across different evolutionary models and fossil sampling regimes.
 Simulations offer a robust approach for benchmarking methodologies since a ground-truth dataset can be generated, so trait values and the resulting disparity signal are all known \textit{a priori} \citep{lotterhos2022simulation}.
 Different methodological choices and estimation scenarios can then be evaluated against the true disparity value. 
 Specifically, we directly compare pre- versus post-ordination estimation approaches, as well as point-estimate versus probabilistic treatments of uncertainty, thereby examining two axes of methodological variation.
 We also investigate how estimation error varies under different models of trait evolution and fossil sampling regimes.
-This integrative framework provides a comprehensive evaluation for understanding when ASE improves disparity estimation, when it introduces bias, and how uncertainty should be treated when working with incomplete fossil data.
+This integrative framework provides a comprehensive evaluation for understanding when \ase improves disparity estimation, when it introduces bias, and how uncertainty should be treated when working with incomplete fossil data.
 %TG: I think it'd be useful, after the paper is done to go with some TL;DR here. Like "We found that for this type of data, using this type of model provides the most accurate results".
 
-% However, despite these observations and cautions, extant-only trees remain ubiquitous in studies conducting phylogenetic comparative methods (e.g., Álvarez-Carretero et al., 2022; Jetz et al., 2012; Jetz & Pyron, 2018; Magallón et al., 2015; Pie et al., 2023; Rabosky et al., 2018; Smyčka et al., 2023; Upham et al., 2019).
 
 
 
@@ -366,6 +370,7 @@ In general, each estimation method performed better at recovering slow rates tha
 
 % being able to estimate the transition rate may be enough for disparity, rather than exact states? i.e. in a situation of fast rates, where say none of the states are estimated correctly, but disparity signal is accurate, because a similar dispersion of morphospace has been reached.
 
+% Second, use of discrete characters may create a problem with character exhaustion and could produce underestimates of disparity relative to studies using continuous characters  (Erwin 2007)
 
 
 \section{Conclusions}
@@ -391,7 +396,7 @@ In general, each estimation method performed better at recovering slow rates tha
 % supplementary
 \begin{figure}[h]
 \centering
-\includegraphics[width=0.8\textwidth]{figures/net_div_hist_overall_trees.pdf}
+\includegraphics[width=1\textwidth]{figures/net_div_hist_overall_trees.pdf}
 \caption{\textbf{Birth-death parameters for tree simulation (overall disparity)}} Distribution of net diversification values for all trees simulated.
 \label{fig:net div overall trees} 
 \end{figure}
@@ -400,11 +405,34 @@ In general, each estimation method performed better at recovering slow rates tha
 
 \begin{figure}[h]
 \centering
-\includegraphics[width=0.8\textwidth]{figures/ACEDisparity_pipeline.pdf}
+\includegraphics[width=1\textwidth]{figures/ACEDisparity_pipeline.pdf}
 \caption{\textbf{Simulation workflow}} 
 \label{fig:pipeline} 
 \end{figure}
 
+\begin{figure}[h]
+\centering
+\includegraphics[width=1\textwidth]{figures/continuous_boxplot.pdf}
+\caption{\textbf{Results continuous} Continuous} 
+\label{fig:discrete equal axes results} 
+\end{figure}
+
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=1\textwidth]{figures/discrete_boxplot.pdf}
+\caption{\textbf{Results discrete (raw)} Relative disparity errors across all dimensions returned by ordinations.} 
+\label{fig:discrete raw results} 
+\end{figure}
+
+
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=1\textwidth]{figures/discrete_boxplot_rm_axes.pdf}
+\caption{\textbf{Results discrete (equal axes)} Relative disparity errors across minimum number of shared dimensions across fossil sample levels for each tree size.} 
+\label{fig:discrete equal axes results} 
+\end{figure}
 
 
 \clearpage

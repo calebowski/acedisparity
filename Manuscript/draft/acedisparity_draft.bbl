@@ -1,4 +1,4 @@
-\begin{thebibliography}{64}
+\begin{thebibliography}{71}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -30,6 +30,11 @@ Joanna Baker, Andrew Meade, Mark Pagel, and Chris Venditti.
 \newblock Adaptive evolution toward larger size in mammals.
 \newblock \emph{Proceedings of the National Academy of Sciences}, 112\penalty0 (16):\penalty0 5093--5098, 2015.
 
+\bibitem[Bapst et~al.(2012)Bapst, Bullock, Melchin, Sheets, and Mitchell]{bapst2012graptoloid}
+David~W Bapst, Peter~C Bullock, Michael~J Melchin, H~David Sheets, and Charles~E Mitchell.
+\newblock Graptoloid diversity and disparity became decoupled during the ordovician mass extinction.
+\newblock \emph{Proceedings of the National Academy of Sciences}, 109\penalty0 (9):\penalty0 3428--3433, 2012.
+
 \bibitem[Betancur-R et~al.(2015)Betancur-R, Ort{\'\i}, and Pyron]{betancur2015fossil}
 Ricardo Betancur-R, Guillermo Ort{\'\i}, and Robert~Alexander Pyron.
 \newblock Fossil-based comparative analyses reveal ancient marine ancestry erased by extinction in ray-finned fishes.
@@ -50,6 +55,11 @@ Stephen~L Brusatte, Shaena Montanari, Hong-yu Yi, and Mark~A Norell.
 \newblock Phylogenetic corrections for morphological disparity analysis: new methodology and case studies.
 \newblock \emph{Paleobiology}, 37\penalty0 (1):\penalty0 1--22, 2011.
 
+\bibitem[Butler et~al.(2012)Butler, Brusatte, Andres, and Benson]{butler2012geological}
+Richard~J Butler, Stephen~L Brusatte, Brian Andres, and Roger~BJ Benson.
+\newblock How do geological sampling biases affect studies of morphological evolution in deep time? a case study of pterosaur (reptilia: Archosauria) disparity.
+\newblock \emph{Evolution}, 66\penalty0 (1):\penalty0 147--162, 2012.
+
 \bibitem[Casali et~al.(2023)Casali, Boscaini, Gaudin, and Perini]{casali2023morphological}
 Daniel~M Casali, Alberto Boscaini, Timothy~J Gaudin, and Fernando~A Perini.
 \newblock Morphological disparity and evolutionary rates of cranial and postcranial characters in sloths (mammalia, pilosa, folivora).
@@ -59,6 +69,11 @@ Daniel~M Casali, Alberto Boscaini, Timothy~J Gaudin, and Fernando~A Perini.
 Charles~N Ciampaglio, Matthieu Kemp, and Daniel~W McShea.
 \newblock Detecting changes in morphospace occupation patterns in the fossil record: characterization and analysis of measures of disparity.
 \newblock \emph{Paleobiology}, 27\penalty0 (4):\penalty0 695--715, 2001.
+
+\bibitem[Cole and Hopkins(2021)]{cole2021selectivity}
+Selina~R Cole and Melanie~J Hopkins.
+\newblock Selectivity and the effect of mass extinctions on disparity and functional ecology.
+\newblock \emph{Science Advances}, 7\penalty0 (19):\penalty0 eabf4072, 2021.
 
 \bibitem[Cooper et~al.(2016)Cooper, Thomas, Venditti, Meade, and Freckleton]{cooper2016cautionary}
 Natalie Cooper, Gavin~H Thomas, Chris Venditti, Andrew Meade, and Rob~P Freckleton.
@@ -113,6 +128,11 @@ Mike Foote.
 \newblock Morphological disparity in ordovician-devonian crinoids and the early saturation of morphological space.
 \newblock \emph{Paleobiology}, 20\penalty0 (3):\penalty0 320--344, 1994.
 
+\bibitem[Foth et~al.(2021)Foth, Sookias, and Ezcurra]{foth2021rapid}
+Christian Foth, Roland~B Sookias, and Mart{\'\i}n~D Ezcurra.
+\newblock Rapid initial morphospace expansion and delayed morphological disparity peak in the first 100 million years of the archosauromorph evolutionary radiation.
+\newblock \emph{Frontiers in Earth Science}, 9:\penalty0 723973, 2021.
+
 \bibitem[Garc{\'\i}a-Navas et~al.(2017)Garc{\'\i}a-Navas, Noguerales, Cordero, and Ortego]{garcia2017phenotypic}
 Vicente Garc{\'\i}a-Navas, V{\'\i}ctor Noguerales, Pedro~J Cordero, and Joaqu{\'\i}n Ortego.
 \newblock Phenotypic disparity in iberian short-horned grasshoppers (acrididae): the role of ecology and phylogeny.
@@ -163,6 +183,11 @@ Thomas Guillerme, Mark~N Puttick, Ariel~E Marcy, and Vera Weisbecker.
 \newblock Shifting spaces: Which disparity or dissimilarity measurement best summarize occupancy in multidimensional spaces?
 \newblock \emph{Ecology and evolution}, 10\penalty0 (14):\penalty0 7261--7275, 2020{\natexlab{b}}.
 
+\bibitem[Halliday and Goswami(2016)]{halliday2016eutherian}
+Thomas John~Dixon Halliday and Anjali Goswami.
+\newblock Eutherian morphological disparity across the end-cretaceous mass extinction.
+\newblock \emph{Biological Journal of the Linnean Society}, 118\penalty0 (1):\penalty0 152--168, 2016.
+
 \bibitem[Harmon et~al.(2010)Harmon, Losos, Jonathan~Davies, Gillespie, Gittleman, Bryan~Jennings, Kozak, McPeek, Moreno-Roark, Near, et~al.]{harmon2010early}
 Luke~J Harmon, Jonathan~B Losos, T~Jonathan~Davies, Rosemary~G Gillespie, John~L Gittleman, W~Bryan~Jennings, Kenneth~H Kozak, Mark~A McPeek, Franck Moreno-Roark, Thomas~J Near, et~al.
 \newblock Early bursts of body size and shape evolution are rare in comparative data.
@@ -178,6 +203,11 @@ Barbara~R Holland, Saan Ketelaar-Jones, Aidan~R o’Mara, Michael~D Woodhams, an
 \newblock Accuracy of ancestral state reconstruction for non-neutral traits.
 \newblock \emph{Scientific Reports}, 10\penalty0 (1):\penalty0 7644, 2020.
 
+\bibitem[Jetz and Pyron(2018)]{jetz2018interplay}
+Walter Jetz and R~Alexander Pyron.
+\newblock The interplay of past diversification and evolutionary isolation with present imperilment across the amphibian tree of life.
+\newblock \emph{Nature ecology \& evolution}, 2\penalty0 (5):\penalty0 850--858, 2018.
+
 \bibitem[Joy et~al.(2016)Joy, Liang, McCloskey, Nguyen, and Poon]{joy2016ancestral}
 Jeffrey~B Joy, Richard~H Liang, Rosemary~M McCloskey, T~Nguyen, and Art~FY Poon.
 \newblock Ancestral reconstruction.
@@ -187,6 +217,11 @@ Jeffrey~B Joy, Richard~H Liang, Rosemary~M McCloskey, T~Nguyen, and Art~FY Poon.
 Joseph~N Keating.
 \newblock What is the best method for estimating ancestral states from discrete characters?
 \newblock \emph{bioRxiv}, pages 2023--08, 2023.
+
+\bibitem[Liu et~al.(2024)Liu, Song, Chu, Dai, Wang, and Silvestro]{liu2024heterogeneous}
+Xiaokang Liu, Haijun Song, Daoliang Chu, Xu~Dai, Fengyu Wang, and Daniele Silvestro.
+\newblock Heterogeneous selectivity and morphological evolution of marine clades during the permian--triassic mass extinction.
+\newblock \emph{Nature Ecology \& Evolution}, 8\penalty0 (7):\penalty0 1248--1258, 2024.
 
 \bibitem[Lloyd(2016)]{lloyd2016estimating}
 Graeme~T Lloyd.
