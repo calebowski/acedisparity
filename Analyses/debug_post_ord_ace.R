@@ -73,3 +73,45 @@ rep_001_sample_diffs_all <- lapply(disp_post_ord_ace_sample_all[[1]], function(x
 scale_01 <- function(x) {
     (x - min(x)) / (max(x) - min(x))
 }
+
+
+
+
+ord_true_slow <- ord_true[[1]]$slow[,1:48]
+
+point_ord <-  post_ord_ace_point[[1]]
+all_names <- intersect(rownames(point_ord), rownames(ord_true_slow))
+
+node_names <- all_names[grepl("^n", all_names)]
+anchor_names <- all_names[!grepl("^n", all_names)]
+
+anchors_true_coords <- ord_true_slow[anchor_names, ]
+anchors_est_coords  <- point_ord[anchor_names, ]
+
+
+proc_fit <- procrustes(X = anchors_true_coords, Y = anchors_est_coords, scale = TRUE)
+
+rot_mat <- proc_fit$rotation
+scale_k <- proc_fit$scale
+
+center_est <- colMeans(anchors_est_coords)
+nodes_est_centered <- sweep(point_ord[node_names, ], 2, center_est, "-")
+
+nodes_rotated <- (nodes_est_centered %*% rot_mat) * scale_k
+
+# 3. Translate to True Space (add centroid of True Anchors)
+center_true <- colMeans(anchors_true_coords)
+nodes_final <- sweep(nodes_rotated, 2, center_true, "+")
+
+# ===========================================================
+# 6. CALCULATE ERROR
+# ===========================================================
+# Get the coordinates of the TRUE nodes
+nodes_true_coords <- ord_true_slow[node_names, ]
+
+# Calculate Euclidean distance between Estimated Node and True Node
+distances <- sqrt(rowSums((nodes_final - nodes_true_coords)^2))
+
+# Result: A vector of errors for each node
+head(distances)
+

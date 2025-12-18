@@ -307,7 +307,7 @@ This was to negate any effect that higher-dimensional trait space estimations we
 
 \subsection{Statistical tests}
 Relative disparity error scores were made absolute and log transformed, so that the lower the value, the closer to 0 the original error (and therefore more accurate).
-We used ANOVA to explore the effect and interaction that the estimation method, transition rate/model and fossil sampling level had on disparity error.
+We used LMM to explore the effect and interaction that the estimation method, transition rate/model and fossil sampling level had on disparity error.
 Given that the distribution  estimation methods (pre-OASE and post-OASE) had a much larger sample size than the point estimate methods, we used the median of the distributions.
 Then Tukey test.
 
@@ -319,6 +319,16 @@ Then Tukey test.
 \section{Results}
 % \subsection{Overall disparity error}
 \subsection{Effect of estimation method}
+For continuous characters, estimation methods showed similar levels of accuracy across evolutionary models and fossil sampling levels.
+The best performing method across all models and sampling levels was the pre-ordination ancestral state estimation method.
+However, it should be noted that all methods of ancestral state estimation performed better than bypassing ancestral state estimation.
+
+For discrete characters, 
+
+
+
+
+
 For discrete characters, the pre-ordination estimation (pre-OASE) methods were more accurate at recovering the true disparity value than post-ordination estimation (post-OASE) methods.
 In particular, the pre-OASE distribution method was the best performing ancestral state estimation method.
 The null model of bypassing ASE consistently recovers an underestimate of disparity.
@@ -396,11 +406,17 @@ In general, each estimation method performed better at recovering slow rates tha
 % supplementary
 \begin{figure}[h]
 \centering
-\includegraphics[width=1\textwidth]{figures/net_div_hist_overall_trees.pdf}
-\caption{\textbf{Birth-death parameters for tree simulation (overall disparity)}} Distribution of net diversification values for all trees simulated.
+\includegraphics[width=0.5\textwidth]{figures/net_div_hist_overall_trees.pdf}
+\caption{\textbf{Birth-death parameters for tree simulation}} Distribution of net diversification values for all trees simulated.
 \label{fig:net div overall trees} 
 \end{figure}
 
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.5\textwidth]{figures/symmetry.pdf}
+\caption{\textbf{Tree symmetry}} Distribution of symmetry values using corrected Colless index \citep{heard1992patterns}.
+\label{fig:tree symmetry} 
+\end{figure}
 
 
 \begin{figure}[h]

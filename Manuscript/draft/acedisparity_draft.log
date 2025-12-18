@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2024.11.5)  12 DEC 2025 14:45
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2024.11.5)  17 DEC 2025 15:26
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -548,49 +548,54 @@ Package microtype Info: Loading generic protrusion settings for font family
 <figures/net_div_hist_overall_trees.pdf, id=449, 505.89pt x 505.89pt>
 File: figures/net_div_hist_overall_trees.pdf Graphic file (type pdf)
 <use figures/net_div_hist_overall_trees.pdf>
-Package pdftex.def Info: figures/net_div_hist_overall_trees.pdf  used on input line 399.
-(pdftex.def)             Requested size: 452.9679pt x 452.97328pt.
+Package pdftex.def Info: figures/net_div_hist_overall_trees.pdf  used on input line 409.
+(pdftex.def)             Requested size: 226.48395pt x 226.48277pt.
+<figures/symmetry.pdf, id=450, 505.89pt x 505.89pt>
+File: figures/symmetry.pdf Graphic file (type pdf)
+<use figures/symmetry.pdf>
+Package pdftex.def Info: figures/symmetry.pdf  used on input line 416.
+(pdftex.def)             Requested size: 226.48395pt x 226.48277pt.
 
 
 pdfTeX warning: pdflatex (file ./figures/ACEDisparity_pipeline.pdf): PDF inclusion: found PDF version <1.7>, but at most version <1.5> allowed
-<figures/ACEDisparity_pipeline.pdf, id=450, 451.6875pt x 677.53125pt>
+<figures/ACEDisparity_pipeline.pdf, id=453, 451.6875pt x 677.53125pt>
 File: figures/ACEDisparity_pipeline.pdf Graphic file (type pdf)
 <use figures/ACEDisparity_pipeline.pdf>
-Package pdftex.def Info: figures/ACEDisparity_pipeline.pdf  used on input line 408.
+Package pdftex.def Info: figures/ACEDisparity_pipeline.pdf  used on input line 424.
 (pdftex.def)             Requested size: 452.9679pt x 679.49385pt.
 
-LaTeX Warning: Float too large for page by 2.58698pt on input line 411.
+LaTeX Warning: Float too large for page by 2.58698pt on input line 427.
 
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-<figures/continuous_boxplot.pdf, id=451, 1300.86pt x 1011.78pt>
+<figures/continuous_boxplot.pdf, id=454, 1300.86pt x 1011.78pt>
 File: figures/continuous_boxplot.pdf Graphic file (type pdf)
 <use figures/continuous_boxplot.pdf>
-Package pdftex.def Info: figures/continuous_boxplot.pdf  used on input line 415.
+Package pdftex.def Info: figures/continuous_boxplot.pdf  used on input line 431.
 (pdftex.def)             Requested size: 452.9679pt x 352.30656pt.
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-<figures/discrete_boxplot.pdf, id=452, 1300.86pt x 1011.78pt>
+<figures/discrete_boxplot.pdf, id=455, 1300.86pt x 1011.78pt>
 File: figures/discrete_boxplot.pdf Graphic file (type pdf)
 <use figures/discrete_boxplot.pdf>
-Package pdftex.def Info: figures/discrete_boxplot.pdf  used on input line 423.
+Package pdftex.def Info: figures/discrete_boxplot.pdf  used on input line 439.
 (pdftex.def)             Requested size: 452.9679pt x 352.30656pt.
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-<figures/discrete_boxplot_rm_axes.pdf, id=453, 1300.86pt x 1011.78pt>
+<figures/discrete_boxplot_rm_axes.pdf, id=456, 1300.86pt x 1011.78pt>
 File: figures/discrete_boxplot_rm_axes.pdf Graphic file (type pdf)
 <use figures/discrete_boxplot_rm_axes.pdf>
-Package pdftex.def Info: figures/discrete_boxplot_rm_axes.pdf  used on input line 432.
+Package pdftex.def Info: figures/discrete_boxplot_rm_axes.pdf  used on input line 448.
 (pdftex.def)             Requested size: 452.9679pt x 352.30656pt.
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
 [11
 
- <./figures/net_div_hist_overall_trees.pdf>] [12 <./figures/ACEDisparity_pipeline.pdf>] [13 <./figures/continuous_boxplot.pdf>] [14 <./figures/discrete_boxplot.pdf>] [15 <./figures/discrete_boxplot_rm_axes.pdf>] (./acedisparity_draft.bbl [16
+ <./figures/net_div_hist_overall_trees.pdf> <./figures/symmetry.pdf>] [12 <./figures/ACEDisparity_pipeline.pdf>] [13 <./figures/continuous_boxplot.pdf>] [14 <./figures/discrete_boxplot.pdf>] [15 <./figures/discrete_boxplot_rm_axes.pdf>] (./acedisparity_draft.bbl [16
 
 ] [17] [18] [19] [20] [21]) [22] (./acedisparity_draft.aux)
  ***********
@@ -605,18 +610,18 @@ Package rerunfilecheck Info: File `acedisparity_draft.out' has not changed.
 (rerunfilecheck)             Checksum: F54D62519579AE1250616DD04A05280B;3362.
  ) 
 Here is how much of TeX's memory you used:
- 19297 strings out of 474222
- 366629 string characters out of 5748733
+ 19310 strings out of 474222
+ 366974 string characters out of 5748733
  1939975 words of memory out of 5000000
- 40996 multiletter control sequences out of 15000+600000
+ 41007 multiletter control sequences out of 15000+600000
  586174 words of font info for 194 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 73i,17n,80p,1071b,1167s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 73i,17n,80p,1071b,1169s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmti8.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfbx1000.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfbx1095.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfbx1200.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfbx1440.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfrm0700.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfrm0800.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfrm1000.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfrm1095.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfrm1200.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfrm1728.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfss0800.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfti1095.pfb></usr/share/texmf/fonts/type1/public/cm-super/sftt1095.pfb>
-Output written on acedisparity_draft.pdf (22 pages, 434743 bytes).
+Output written on acedisparity_draft.pdf (22 pages, 439560 bytes).
 PDF statistics:
- 692 PDF objects out of 1000 (max. 8388607)
- 614 compressed objects within 7 object streams
- 130 named destinations out of 1000 (max. 500000)
- 51914 words of extra memory for PDF output out of 61914 (max. 10000000)
+ 703 PDF objects out of 1000 (max. 8388607)
+ 623 compressed objects within 7 object streams
+ 132 named destinations out of 1000 (max. 500000)
+ 51919 words of extra memory for PDF output out of 61914 (max. 10000000)
 

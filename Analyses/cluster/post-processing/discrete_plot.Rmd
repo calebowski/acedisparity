@@ -866,7 +866,7 @@ for(metric_name in metrics) {
   
   #  Linear Mixed Model with random effects for replicate and tree_size
   lmm_model <- lmer(log_abs_error ~ rate * method * preservation_level + 
-                      (1|replicate) + (1|tree_size), 
+                      (1|replicate) + (1|tree_size) + (1|), 
                     data = metric_data,
                     REML = FALSE)  # Use ML for likelihood ratio tests
   
@@ -909,6 +909,28 @@ for(metric_name in metrics) {
   # Print only a subset to avoid overwhelming output
   print(head(as.data.frame(cld(emm_three_way, Letters = letters)), 20))
 }
+
+
+
+```
+
+## Combine RM AXES and Raw
+
+```{R}
+
+raw_results_df_long$axes_treatment <- "Raw"
+rmaxes_results_df_long$axes_treatment <- "Axes Removed"
+
+# Now combine
+combined_rm_raw_df <- rbind(raw_results_df_long, rmaxes_results_df_long)
+
+# Optionally make it a factor with specific order
+combined_rm_raw_df$axes_treatment <- factor(
+  combined_rm_raw_df$axes_treatment,
+  levels = c("Raw", "Axes Removed")
+)
+
+
 
 
 

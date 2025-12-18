@@ -1,30 +1,10 @@
----
-title: "ACE Project discrete plot"
-author: "Caleb"
-date: "`r Sys.Date()`"
-output:
-  html_document: default
-  pdf_document: default
-editor_options: 
-  markdown: 
-    wrap: 72
----
-
-
-# Read in data
-```{R}
-
-library(ggplot2)
+library(dplyr)
 library(tidyr)
-library(patchwork)
-library(scales)
-# Read and rearrange in one step
-# model_names <- c("bm", "bm", "fast")
+library(lme4)
+library(lmerTest) 
+library(emmeans)
+library(multcomp)
 
-
-# r <- readRDS("../Data/cluster/discrete/raw/diff_sumvar_strict_001.rds")
-
-# Define job IDs for each tree size
 job_ids <- list(
   "50t" = "8690335",
   "100t" = "8690474",  # Replace with actual job ID
@@ -43,9 +23,9 @@ for (size in tree_sizes) {
   for (method in methods) {
     results[[size]][[method]] <- list()
     for(i in 1:100) {
-      file_path <- file.path("..", "Data", "cluster", "continuous", size, 
+      file_path <- file.path("/mnt", "parscratch", "users", "bip24cns", "acedisparity", "continuous", size,
                             "disparity",
-                            sprintf("%s_%s_%03d.rds", job_id, method, i))      
+                            sprintf("%s_%s_%03d.rds", job_id, method, i))
       if(file.exists(file_path)) {
         results[[size]][[method]][[i]] <- readRDS(file_path)
       } else {
@@ -55,6 +35,13 @@ for (size in tree_sizes) {
     }
   }
 }
+
+# 1: In install.packages(c("lme4", "lmerTest", "emmeans", "multcomp",  :
+#   installation of package ‘ragg’ had non-zero exit status
+# 2: In install.packages(c("lme4", "lmerTest", "emmeans", "multcomp",  :
+#   installation of package ‘tidyverse’ had non-zero exit status
+
+
 
 metric_names <- names(results[["50t"]][[1]][[1]])  # Get from first available
 
@@ -172,123 +159,9 @@ results_df_long$metric <- factor(
   labels = c("Sum of Variances", "Sum of Quantiles", "Mean Pairwise Distance")
 )
 
-
-
-```
-
-## Boxplot
-
-```{R}
-
-library(tidyverse)
-## filter so just have bm, bm+trend and ou strong
 results_df_long  <- results_df_long %>% filter(model %in% c("BM", "BM + trend", "OU (strong)"))
 
 
-# colours <- c("BM" = "#009999", "BM + trend" = "#F60018", "OU (strong)" = "#FFB000")
-colours <- c("BM" = "#F60018", "BM + trend" = "#FFB000", "OU (strong)" = "#009999")
-
-
-boxplot_plot_continuous <- ggplot(results_df_long, 
-                           aes(x = preservation_level, y = error, fill = model, colour = model)) +
-  geom_boxplot(
-    alpha = 0.7,
-    # outlier.alpha = 0.1,
-    outlier.shape = NA,  # Hide outliers for cleaner plot
-    position = position_dodge(width = 0.8)
-  ) +
-  geom_hline(yintercept = 0, colour = "black", linewidth = 0.8, linetype = "dashed") +
-  facet_grid(metric ~ method) +  #  Only facet by metric and method
-  labs(
-    x = "Fossil Sampling (%)",
-    y = "Relative Disparity Error",
-    fill = "Transition Rate"
-  ) +
-  theme_minimal() +
-  scale_fill_manual(
-    values = colours,
-    labels = c("BM", "BM + trend", "OU (strong)")
-  ) +
-  scale_colour_manual(
-    values = colours,
-    labels = c("BM", "BM + trend", "OU (strong)"),
-    guide = "none"
-  ) +
-  theme(
-    axis.text = element_text(size = 16, color = "black"),
-    axis.title = element_text(size = 20, face = "bold", color = "black"),
-    legend.position = "right",
-    legend.title = element_text(size = 18, face = "bold"),
-    legend.text = element_text(size = 15),
-    strip.text = element_text(size = 20, face = "bold"),
-    strip.background = element_rect(fill = "gray95", color = "black", linewidth = 0.3),
-    panel.border = element_rect(color = "black", fill = NA, linewidth = 0.4),
-    panel.grid.major.y = element_line(color = "gray90", linewidth = 0.3),
-    panel.grid.major.x = element_blank(),
-    panel.grid.minor = element_blank(),
-    panel.spacing = unit(0.3, "cm")
-  ) +
-  scale_y_continuous(
-    breaks = c(-0.5, 0, 0.5),
-    labels = c("-0.5", "0", "0.5")
-  ) +
-  coord_cartesian(ylim = c(-0.5, 0.5))
-
-ggsave("../Manuscript/draft/figures/continuous_boxplot.pdf", device = "pdf", boxplot_plot_continuous, width = 18, height = 14, dpi = 700, units = "in", bg = "white")
-
-
-point_plot_all <- ggplot(results_df_long, 
-                           aes(x = preservation_level, y = error, color = model, group = model)) +
-  stat_summary(
-    fun.data = mean_cl_boot,  # Bootstrap confidence intervals
-    geom = "pointrange",
-    position = position_dodge(width = 0.5),
-    size = 0.5,
-    linewidth = 0.8
-  ) +
-  stat_summary(
-    fun = mean,
-    geom = "line",
-    position = position_dodge(width = 0.5),
-    linewidth = 0.6,
-    alpha = 0.7
-  ) +
-  geom_hline(yintercept = 0, color = "black", linewidth = 0.8, linetype = "dashed") +
-  facet_grid(metric ~ method) +
-  labs(
-    x = "Fossil Sampling (%)",
-    y = "Relative Disparity Error",
-    color = "Model"
-  ) +
-  theme_minimal() +
-  theme(
-    axis.text = element_text(size = 11, color = "black"),
-    axis.title = element_text(size = 13, face = "bold", color = "black"),
-    legend.position = "bottom",
-    legend.title = element_text(size = 12, face = "bold"),
-    legend.text = element_text(size = 11),
-    strip.text = element_text(size = 10, face = "bold"),
-    strip.background = element_rect(fill = "gray95", color = "black", linewidth = 0.3),
-    panel.border = element_rect(color = "black", fill = NA, linewidth = 0.4),
-    panel.grid.major.y = element_line(color = "gray90", linewidth = 0.3),
-    panel.grid.major.x = element_blank(),
-    panel.grid.minor = element_blank(),
-    panel.spacing = unit(0.3, "cm")
-  ) +
-  scale_y_continuous(
-    breaks = c(-0.5, 0, 0.5),
-    labels = c("-0.5", "0", "0.5")
-  ) +
-  coord_cartesian(ylim = c(-0.5, 0.5))
-```
-
-## LMM
-```{R}
-
-library(lme4)
-library(lmerTest)  # Adds p-values to lmer()
-library(emmeans)
-library(multcomp)
 # Transform for normality (log of absolute values)
 results_df_long$abs_error <- abs(results_df_long$error)
 results_df_long$log_abs_error <- log(results_df_long$abs_error + 0.001)
@@ -303,7 +176,12 @@ lmm_model <- lmer(log_abs_error ~ model * method * preservation_level * metric +
                       (1|replicate) + (1|tree_size), 
                     data = results_df_long,
                     REML = FALSE)  # Use ML for likelihood ratio tests
-saveRDS(lmm_model, "../Data/cluster/continuous/lmm/continuous_lmm_model.rds")
+
+# dir.create("/mnt", "parscratch", "users", "bip24cns", "acedisparity", "continuous","lmm")
+
+
+
+saveRDS(lmm_model, file.path("/mnt", "parscratch", "users", "bip24cns", "acedisparity", "continuous","lmm", "lmm_continuous_3_model.rds"))
 # Print model summary
 print(summary(lmm_model))
 
@@ -345,18 +223,11 @@ print(cld(emm_method_pres, Letters = letters, alpha = 0.05))
 
 # Method x metric
 cat("\n--- Method × Metric Interaction ---\n")
-emm_method_pres <- emmeans(lmm_model, ~ method * metric)
+emm_method_metric <- emmeans(lmm_model, ~ method * metric)
 print(cld(emm_method_metric, Letters = letters, alpha = 0.05))
-
-
-
 
 # Four-way interaction
 cat("\n--- Four-way Interaction ---\n")
-emm_three_way <- emmeans(lmm_model, ~ model * method * preservation_level * metric)
+emm_four_way <- emmeans(lmm_model, ~ model * method * preservation_level * metric)
 # Print only a subset to avoid overwhelming output
-print(head(as.data.frame(cld(emm_three_way, Letters = letters)), 20))
-
-
-
-```
+print(as.data.frame(cld(emm_four_way, Letters = letters)))

@@ -155,3 +155,59 @@ saveRDS(lapply(results_rm_axes, `[[`, "post_ord_point"), write.path("disparity/r
 saveRDS(lapply(results_rm_axes, `[[`, "post_ord_sample"), write.path("disparity/rm_axes", "post_ord_sample_%03d.rds"))
 
 cat("Finished rm axes...\n")
+
+
+cat("Starting procrustes superimposition disparity...\n")
+
+
+procrustes.align <- function(true_ord, est_ord){
+  ndim_est <- ncol(est_ord)
+  trim_true_ord <- true_ord[, 1:ndim_est]
+  matching_names <- intersect(rownames(est_ord), rownames(est_ord))
+
+  node_names <- matching_names[grepl("^n", matching_names)]
+  anchor_names <- matching_names[!grepl("^n", matching_names)]
+
+  anchors_true_coords <- trim_true_ord[anchor_names, ]
+  anchors_est_coords  <- est_ord[anchor_names, ]
+
+  proc_fit <- procrustes(X = anchors_true_coords, Y = anchors_est_coords, scale = TRUE)
+
+  rot_mat <- proc_fit$rotation
+  scale_k <- proc_fit$scale
+
+  center_est <- colMeans(anchors_est_coords)
+  nodes_est_centered <- sweep(est_ord[node_names, ], 2, center_est, "-")
+
+  nodes_rotated <- (nodes_est_centered %*% rot_mat) * scale_k
+
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+## might need to do a procrustes one where all dimensions are kept?
+
+
+
+
+
+# scaling_factors <- lapply(ord_true, function(rate){ 
+#   diff(range(rate[, 1])) 
+# })
+
+# rescale.ord <- function(ord, scaling_factor) {
+#   ord / scaling_factor
+# }
+
+
