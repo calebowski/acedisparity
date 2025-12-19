@@ -319,19 +319,28 @@ Then Tukey test.
 \section{Results}
 % \subsection{Overall disparity error}
 \subsection{Effect of estimation method}
-For continuous characters, estimation methods showed similar levels of accuracy across evolutionary models and fossil sampling levels.
-The best performing method across all models and sampling levels was the pre-ordination ancestral state estimation method.
-However, it should be noted that all methods of ancestral state estimation performed better than bypassing ancestral state estimation.
+For continuous characters, method of estimation had a significant effect on disparity signal accuracy ($F = 320,~ p < .001$).
+Notably, ancestral state estimation methods performed better overall than bypassing ancestral state estimation, reducing disparity error by 6.6\%.
+Specifically, post-hoc pairwise comparisons of estimated marginal means (\textit{emmean}) revealed both pre- and post-ordination distributions of ancestral state estimations returned the lowest disparity error ($emmean \approx -3.33$) and were indistinguishable from each other, while using point estimates performed worse than bypassing ancestral state estimation.
 
-For discrete characters, 
+\subsection{Effect of fossil sampling}
+As expected, fossil sampling was the strongest driver of recovery of an accurate disparity signal ($F = 13126,~ p < .001$).
+Every increase in fossil sampling level resulted in a significant reduction in disparity error.
+Specifically, estimations lacking fossil data recovered disparity error five times larger than those with complete fossil records.
+While ancestral state estimations performed best at high fossil sampling levels (100, 50 and 15\%), at low fossil sampling levels (5 and 0\%) bypassing ancestral state estimation was the best performing method. 
+However, this pattern is both model- and disparity metric-dependent.
+
+\subsection{Effect of disparity metric}
 
 
 
 
 
-For discrete characters, the pre-ordination estimation (pre-OASE) methods were more accurate at recovering the true disparity value than post-ordination estimation (post-OASE) methods.
-In particular, the pre-OASE distribution method was the best performing ancestral state estimation method.
-The null model of bypassing ASE consistently recovers an underestimate of disparity.
+% discrete characters
+
+% For discrete characters, the pre-ordination estimation (pre-OASE) methods were more accurate at recovering the true disparity value than post-ordination estimation (post-OASE) methods.
+% In particular, the pre-OASE distribution method was the best performing ancestral state estimation method.
+% The null model of bypassing ASE consistently recovers an underestimate of disparity.
 
 
 \subsection{Effect of model of evolution}
@@ -479,6 +488,27 @@ In general, each estimation method performed better at recovering slow rates tha
  & $OU_w$ & $\sigma=0.25,\ \alpha=\dfrac{\ln(2)}{\text{tree height $\times$ 0.75}}$ \\
 \cline{2-3}
  & $OU_{sh}$  & $\sigma=0.25,\ \alpha=\dfrac{\ln(2)}{\text{tree height $\times$ 0.75}},\ \theta=2$ \\
+\hline
+\end{tabular}
+\end{table}
+
+
+\begin{table}[ht]
+\centering
+\label{tab:cld continuous sum quant}
+\begin{tabular}{|c|c|c|c|c|c|}
+\hline
+\textbf{Model} & \textbf{0\%} &\textbf{5\%} & \textbf{15\%}  & \textbf{50\%} & \textbf{100\%} \\
+\hline
+% \multirow{3}{*}{\textbf{Discrete}} & $Fast$ & $P_{ij}=0.9$ \\
+\textbf{BM} & No decision & ASE (dist)  & All ASE & All ASE & ASE (distribution) \\
+\hline
+\textbf{BM + trend} & No ASE & ASE (dist)  & All ASE & All ASE & ASE (distribution) \\
+\hline
+\textbf{OU} & ASE (dist) & $P_{ij}=0.1$ & & &  \\
+
+
+
 \hline
 \end{tabular}
 \end{table}

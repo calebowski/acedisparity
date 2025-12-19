@@ -1,12 +1,12 @@
 #!/bin/bash
-#SBATCH --job-name=lmm
-#SBATCH --output=/users/bip24cns/acedisparity/continuous/logs/lmm.out
-#SBATCH --error=/users/bip24cns/acedisparity/continuous/logs/lmm.err
+#SBATCH --job-name=lmm_raw
+#SBATCH --output=/users/bip24cns/acedisparity/discrete_crown/logs/lmm_raw.out
+#SBATCH --error=/users/bip24cns/acedisparity/discrete_crown/logs/lmm_raw.err
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=1
-#SBATCH --time=10:00:00
-#SBATCH --mem=60G
+#SBATCH --time=3:00:00
+#SBATCH --mem=80G
 #SBATCH --mail-user=cnscutt1@sheffield.ac.uk
 #SBATCH --mail-type=ALL
 
@@ -17,4 +17,4 @@ module load R/4.4.1-foss-2022b
 export R_LIBS_USER=/users/bip24cns/R/x86_64-pc-linux-gnu-library/4.4
 
 # 3. Run the test script
-Rscript /users/bip24cns/acedisparity/continuous/scripts/cont_lmm.R
+Rscript /users/bip24cns/acedisparity/discrete_crown/scripts/discrete_lmm.R "raw"

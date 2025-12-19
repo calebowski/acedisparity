@@ -1,0 +1,220 @@
+---
+title: "LMM Continuous model fitting"
+author: "Caleb"
+date: "`r Sys.Date()`"
+output:
+  html_document: default
+  pdf_document: default
+editor_options: 
+  markdown: 
+    wrap: 72
+---
+
+```{R}
+# Define job IDs for each tree size
+job_ids <- list(
+  "50t" = "8690335",
+  "100t" = "8690474",  # Replace with actual job ID
+  "150t" = "8690995"   # Replace with actual job ID
+)
+
+tree_sizes <- c("50t", "100t", "150t")
+methods <- c("pre_ord_point", "pre_ord_sample", "post_ord_point", "post_ord_sample", "no_ace")
+
+# Load all data with different job IDs
+results <- list()
+for (size in tree_sizes) {
+  results[[size]] <- list()
+  job_id <- job_ids[[size]]  #  Get job ID for this tree size
+  
+  for (method in methods) {
+    results[[size]][[method]] <- list()
+    for(i in 1:100) {
+      file_path <- file.path("..", "Data", "cluster", "continuous", size, 
+                            "disparity",
+                            sprintf("%s_%s_%03d.rds", job_id, method, i))      
+      if(file.exists(file_path)) {
+        results[[size]][[method]][[i]] <- readRDS(file_path)
+      } else {
+        warning("Missing file: ", file_path)
+        results[[size]][[method]][[i]] <- NULL
+      }
+    }
+  }
+}
+
+metric_names <- names(results[["50t"]][[1]][[1]])  # Get from first available
+
+
+
+# Transpose structure: metric -> tree_size -> method -> replicate
+results_relisted <- setNames(lapply(metric_names, function(metric) {
+  setNames(lapply(tree_sizes, function(size) {
+    setNames(lapply(methods, function(method) {
+      is_sample_method <- grepl("sample", method)
+      
+      lapply(results[[size]][[method]], function(rep_data) {
+        metric_data <- rep_data[[metric]]
+        
+        if(is_sample_method) {
+          lapply(metric_data, function(model_data) {
+            lapply(model_data, function(fossil_data) {
+              if(is.list(fossil_data) && !is.data.frame(fossil_data)) {
+                unlist(fossil_data)
+              } else {
+                fossil_data
+              }
+            })
+          })
+        } else {
+          metric_data
+        }
+      })
+    }), methods)
+  }), tree_sizes)
+}), metric_names)
+
+# Build dataframe with tree_size
+results_df <- do.call(rbind, lapply(names(results_relisted), function(metric_name) {
+  metric_data <- results_relisted[[metric_name]]
+  
+  do.call(rbind, lapply(names(metric_data), function(size_name) {
+    size_data <- metric_data[[size_name]]
+    
+    do.call(rbind, lapply(names(size_data), function(method_name) {
+      method_data <- size_data[[method_name]]
+      
+      do.call(rbind, lapply(seq_along(method_data), function(rep_idx) {
+        rep_data <- method_data[[rep_idx]]
+        
+        if(is.null(rep_data)) return(NULL)
+        
+        do.call(rbind, lapply(names(rep_data), function(model_name) {
+          model_data <- rep_data[[model_name]]
+          
+          if(is.null(model_data)) return(NULL)
+          
+          data.frame(
+            replicate = rep_idx,
+            all = I(list(model_data$all)),
+            high = I(list(model_data$fossil_high)),
+            mid = I(list(model_data$fossil_med)),
+            low = I(list(model_data$fossil_low)),
+            living = I(list(model_data$living)),
+            model = model_name,
+            method = method_name,
+            metric = metric_name,
+            tree_size = size_name,  #  Add tree size
+            stringsAsFactors = FALSE
+          )
+        }))
+      }))
+    }))
+  }))
+}))
+
+# Pivot to long format
+results_df_long <- results_df %>%
+  pivot_longer(
+    cols = c("living", "low", "mid", "high", "all"),
+    names_to = "preservation_level",
+    values_to = "error"
+  ) %>%
+  unnest(error)
+
+# Factor variables
+results_df_long$tree_size <- factor(
+  results_df_long$tree_size,
+  levels = c("50t", "100t", "150t"),
+  labels = c("50 taxa", "100 taxa", "150 taxa")
+)
+
+results_df_long$method <- factor(
+  results_df_long$method,
+  levels = c("pre_ord_poin", "pre_ord_point", "pre_ord_sample", 
+             "post_ord_point", "post_ord_sample", "no_ace"),
+  labels = c("Pre-ord ACE\n(point)", "Pre-ord ACE\n(point)", 
+             "Pre-ord ACE\n(dist)", "Post-ord ACE\n(point)", 
+             "Post-ord ACE\n(dist)", "No ACE")
+)
+
+results_df_long$preservation_level <- factor(
+  results_df_long$preservation_level,
+  levels = c("living", "low", "mid", "high", "all"),
+  labels = c("0%", "5%", "15%", "50%", "100%")
+)
+
+results_df_long$model <- factor(
+  results_df_long$model,
+  levels = c("bm", "bm_t", "ou_w", "ou_st", "ou_sh"),
+  labels = c("BM", "BM + trend", "OU (weak)", "OU (strong)", "OU (shifting)")
+)
+
+# traits <- list(bm = bm, bm_t = bm_t, ou_w = ou_w, ou_st = ou_st, ou_sh = ou_sh)
+
+
+results_df_long$metric <- factor(
+  results_df_long$metric,
+  levels = c("sum_var", "sum_quant", "pairwise"),
+  labels = c("Sum of Variances", "Sum of Quantiles", "Mean Pairwise Distance")
+)
+
+results_df_long  <- results_df_long %>% filter(model %in% c("BM", "BM + trend", "OU (strong)"))
+
+
+saveRDS(results_df_long, "../Data/cluster/continuous/lmm/continuous_table.rds")
+
+
+
+
+results_df_long <- readRDS("../Data/cluster/continuous/lmm/continuous_table.rds")
+
+
+results_df_long$abs_error <- abs(results_df_long$error)
+results_df_long$log_abs_error <- log(results_df_long$abs_error + 0.001)
+
+```
+
+
+## Step 1: Test for method
+
+```{R}
+lmm_model <- lmer(log_abs_error ~ model 
+                      (1|replicate) + (1|tree_size), 
+                    data = results_df_long,
+                    REML = FALSE)  # Use ML for likelihood ratio tests
+
+lmm_model <- readRDS("../Data/cluster/continuous/lmm/lmm_continuous_3_model.rds")
+
+step_res <- lmerTest::step(lmm_model)
+
+
+
+
+```
+
+## Read in 3 way cld csv
+
+
+```{R}
+
+fossil_method_model <- read.csv("../Data/cluster/continuous/lmm/tables/method_model_fossil_multcomp.csv")
+
+
+chunks <- split(fossil_method_model, list(fossil_method_model$model, fossil_method_model$fossil_sampling), drop = TRUE) ## visually inspect it
+
+
+fossil_method_model_metric <- read.csv("../Data/cluster/continuous/lmm/tables/method_model_fossil_metric_multcomp.csv")
+chunks <- split(fossil_method_model_metric, list(fossil_method_model_metric$metric, fossil_method_model_metric$model, fossil_method_model_metric$fossil_sampling), drop = TRUE) ## visually inspect it
+
+
+
+
+
+group_1 <- strsplit(trimws(as.character()))
+
+
+
+
+```
+

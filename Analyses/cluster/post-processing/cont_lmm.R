@@ -4,6 +4,7 @@ library(lme4)
 library(lmerTest) 
 library(emmeans)
 library(multcomp)
+library(multcompView)
 
 job_ids <- list(
   "50t" = "8690335",
@@ -14,7 +15,28 @@ job_ids <- list(
 tree_sizes <- c("50t", "100t", "150t")
 methods <- c("pre_ord_point", "pre_ord_sample", "post_ord_point", "post_ord_sample", "no_ace")
 
-# Load all data with different job IDs
+# # Load all data with different job IDs
+# results <- list()
+# for (size in tree_sizes) {
+#   results[[size]] <- list()
+#   job_id <- job_ids[[size]]  #  Get job ID for this tree size
+  
+#   for (method in methods) {
+#     results[[size]][[method]] <- list()
+#     for(i in 1:100) {
+#       file_path <- file.path("/mnt", "parscratch", "users", "bip24cns", "acedisparity", "continuous", size,
+#                             "disparity",
+#                             sprintf("%s_%s_%03d.rds", job_id, method, i))
+#       if(file.exists(file_path)) {
+#         results[[size]][[method]][[i]] <- readRDS(file_path)
+#       } else {
+#         warning("Missing file: ", file_path)
+#         results[[size]][[method]][[i]] <- NULL
+#       }
+#     }
+#   }
+# }
+
 results <- list()
 for (size in tree_sizes) {
   results[[size]] <- list()
@@ -23,9 +45,9 @@ for (size in tree_sizes) {
   for (method in methods) {
     results[[size]][[method]] <- list()
     for(i in 1:100) {
-      file_path <- file.path("/mnt", "parscratch", "users", "bip24cns", "acedisparity", "continuous", size,
+      file_path <- file.path("..", "Data", "cluster", "continuous", size, 
                             "disparity",
-                            sprintf("%s_%s_%03d.rds", job_id, method, i))
+                            sprintf("%s_%s_%03d.rds", job_id, method, i))      
       if(file.exists(file_path)) {
         results[[size]][[method]][[i]] <- readRDS(file_path)
       } else {
@@ -36,16 +58,7 @@ for (size in tree_sizes) {
   }
 }
 
-# 1: In install.packages(c("lme4", "lmerTest", "emmeans", "multcomp",  :
-#   installation of package ‘ragg’ had non-zero exit status
-# 2: In install.packages(c("lme4", "lmerTest", "emmeans", "multcomp",  :
-#   installation of package ‘tidyverse’ had non-zero exit status
-
-
-
-metric_names <- names(results[["50t"]][[1]][[1]])  # Get from first available
-
-
+metric_names <- c("sum_var", "sum_quant", "pairwise")
 
 # Transpose structure: metric -> tree_size -> method -> replicate
 results_relisted <- setNames(lapply(metric_names, function(metric) {
@@ -74,6 +87,9 @@ results_relisted <- setNames(lapply(metric_names, function(metric) {
   }), tree_sizes)
 }), metric_names)
 
+rm(results)
+gc()
+
 # Build dataframe with tree_size
 results_df <- do.call(rbind, lapply(names(results_relisted), function(metric_name) {
   metric_data <- results_relisted[[metric_name]]
@@ -98,7 +114,7 @@ results_df <- do.call(rbind, lapply(names(results_relisted), function(metric_nam
             replicate = rep_idx,
             all = I(list(model_data$all)),
             high = I(list(model_data$fossil_high)),
-            mid = I(list(model_data$fossil_med)),
+            med = I(list(model_data$fossil_med)),
             low = I(list(model_data$fossil_low)),
             living = I(list(model_data$living)),
             model = model_name,
@@ -113,121 +129,266 @@ results_df <- do.call(rbind, lapply(names(results_relisted), function(metric_nam
   }))
 }))
 
-# Pivot to long format
-results_df_long <- results_df %>%
-  pivot_longer(
-    cols = c("living", "low", "mid", "high", "all"),
-    names_to = "preservation_level",
-    values_to = "error"
-  ) %>%
-  unnest(error)
+rm(results_relisted)
+gc()
+
+
+# Pivot to long format using base R - FIXED VERSION
+results_df_long <- do.call(rbind, lapply(1:nrow(results_df), function(i) {
+  row <- results_df[i, ]
+  
+  # Extract each fossil sampling level separately
+  fossil_levels <- c("all", "high", "med", "low", "living")
+  
+  # Build data frame by binding each fossil level
+  do.call(rbind, lapply(fossil_levels, function(fossil_level) {
+    values <- unlist(row[[fossil_level]])
+    if(length(values) > 0) {
+      data.frame(
+        tree_size = row$tree_size,
+        replicate = row$replicate,
+        model = row$model,
+        method = row$method,
+        metric = row$metric,
+        fossil_sampling = fossil_level,
+        error = values,
+        stringsAsFactors = FALSE,
+        row.names = NULL
+      )
+    } else {
+      NULL
+    }
+  }))
+}))
+
+
+# Aggregate sample methods, keep point methods as-is
+results_df_long$is_sample <- grepl("sample", results_df_long$method)
+
+# Split data by sample vs point methods
+sample_data <- results_df_long[results_df_long$is_sample, ]
+point_data <- results_df_long[!results_df_long$is_sample, ]
+
+# Aggregate only sample methods
+sample_aggregated <- aggregate(error ~ tree_size + replicate + model + method + metric + fossil_sampling,
+                               data = sample_data, 
+                               FUN = median)
+
+# Combine back together
+results_df_long <- rbind(
+  point_data[, c("tree_size", "replicate", "model", "method", "metric", "fossil_sampling", "error")],
+  sample_aggregated
+)
 
 # Factor variables
-results_df_long$tree_size <- factor(
-  results_df_long$tree_size,
-  levels = c("50t", "100t", "150t"),
-  labels = c("50 taxa", "100 taxa", "150 taxa")
-)
-
-results_df_long$method <- factor(
-  results_df_long$method,
-  levels = c("pre_ord_poin", "pre_ord_point", "pre_ord_sample", 
-             "post_ord_point", "post_ord_sample", "no_ace"),
-  labels = c("Pre-ord ACE\n(point)", "Pre-ord ACE\n(point)", 
-             "Pre-ord ACE\n(dist)", "Post-ord ACE\n(point)", 
-             "Post-ord ACE\n(dist)", "No ACE")
-)
-
-results_df_long$preservation_level <- factor(
-  results_df_long$preservation_level,
-  levels = c("living", "low", "mid", "high", "all"),
-  labels = c("0%", "5%", "15%", "50%", "100%")
-)
-
-results_df_long$model <- factor(
-  results_df_long$model,
-  levels = c("bm", "bm_t", "ou_w", "ou_st", "ou_sh"),
-  labels = c("BM", "BM + trend", "OU (weak)", "OU (strong)", "OU (shifting)")
-)
-
-# traits <- list(bm = bm, bm_t = bm_t, ou_w = ou_w, ou_st = ou_st, ou_sh = ou_sh)
+results_df_long$tree_size <- factor(results_df_long$tree_size)
+results_df_long$method <- factor(results_df_long$method)
+results_df_long$fossil_sampling <- factor(results_df_long$fossil_sampling)
+results_df_long$model <- factor(results_df_long$model)
+results_df_long$metric <- factor(results_df_long$metric)
 
 
-results_df_long$metric <- factor(
-  results_df_long$metric,
-  levels = c("sum_var", "sum_quant", "pairwise"),
-  labels = c("Sum of Variances", "Sum of Quantiles", "Mean Pairwise Distance")
-)
-
-results_df_long  <- results_df_long %>% filter(model %in% c("BM", "BM + trend", "OU (strong)"))
 
 
+results_df_long_filtered <- results_df_long[results_df_long$model %in% c("bm", "bm_t", "ou_st"),]
+table(results_df_long_filtered$method)
+
+results_df_long_filtered$tree_unique_id <- interaction(results_df_long_filtered$tree_size, 
+                                              results_df_long_filtered$replicate)
+
+# 2. Unique Simulation ID (Accounts for the specific trait generation)
+# results_df_long_filtered$sim_unique_id <- interaction(results_df_long_filtered$tree_unique_id, 
+#                                              results_df_long_filtered$model)
+
+rm(results_df_long)
+gc()
 # Transform for normality (log of absolute values)
-results_df_long$abs_error <- abs(results_df_long$error)
-results_df_long$log_abs_error <- log(results_df_long$abs_error + 0.001)
-
-# Run LMM for each metric
-metrics <- c("Sum of Variances", "Sum of Quantiles", "Mean Pairwise Distance")
+results_df_long_filtered$abs_error <- abs(results_df_long_filtered$error)
+results_df_long_filtered$log_abs_error <- log(results_df_long_filtered$abs_error + 0.001)
 
 
+
+#  What questions do we want to know: 
+#   - Fossil sampling x method
+#   - Metric x method
+#   - Model x method
+#   - FOssil sampling x metric x method x model
   
 #  Linear Mixed Model with random effects for replicate and tree_size
-lmm_model <- lmer(log_abs_error ~ model * method * preservation_level * metric + 
-                      (1|replicate) + (1|tree_size), 
-                    data = results_df_long,
-                    REML = FALSE)  # Use ML for likelihood ratio tests
-
-# dir.create("/mnt", "parscratch", "users", "bip24cns", "acedisparity", "continuous","lmm")
+lmm_model <- lmer(log_abs_error ~ model * method * fossil_sampling * metric + tree_size +
+                                  (1|tree_unique_id),
+                    data = results_df_long_filtered, REML = TRUE)
 
 
+# saveRDS(lmm_model, file.path("/mnt", "parscratch", "users", "bip24cns", "acedisparity", "continuous","lmm", "lmm_continuous_3_model.rds"))
 
-saveRDS(lmm_model, file.path("/mnt", "parscratch", "users", "bip24cns", "acedisparity", "continuous","lmm", "lmm_continuous_3_model.rds"))
-# Print model summary
+# filtered_model <- lmerTest::step(lmm_model) ## backwards step selection to find best model
+
+# got_model <- lmerTest::get_model(filtered_model)
+# final_formula <- formula(got_model)
+
+# lmm_model_final <- lmer(final_formula, data = results_df_long_filtered)
+
+saveRDS(lmm_model, file.path("../Data/cluster/continuous/lmm/lmm_model_four_way.rds"))
+
+# final_terms <- attr(terms(lmm_model_final), "term.labels")
+# saveRDS(final_terms, file.path("/mnt", "parscratch", "users", "bip24cns", "acedisparity", "continuous","lmm", "final_model_terms.rds"))
+
+#################################################################################################
+lmm_path <- "/home/caleb/Documents/PhD/acedisparity/Data/cluster/continuous/lmm/"
+
+# Residual plots
+pdf(paste0(lmm_path, "diagnostics/diagnostic_plot.pdf"), width = 10, height = 8)
+par(mfrow = c(2, 2))
+
+# QQ plot
+qqnorm(resid(lmm_model), main = "Q-Q Plot of Residuals")
+qqline(resid(lmm_model), col = "red")
+
+# Residuals vs Fitted
+plot(fitted(lmm_model), resid(lmm_model),
+     xlab = "Fitted Values", ylab = "Residuals",
+     main = "Residuals vs Fitted")
+abline(h = 0, col = "red", lty = 2)
+
+# Scale-Location
+plot(fitted(lmm_model), sqrt(abs(resid(lmm_model))),
+     xlab = "Fitted Values", ylab = "Square Root of |Residuals|",
+     main = "Scale-Location")
+
+# Histogram of residuals
+hist(resid(lmm_model), breaks = 50, main = "Histogram of residuals",
+     xlab = "Residuals")
+dev.off()
+
+
+#################################################################################################
+
+sink(paste0(lmm_path, "model_summaries_four_way.txt"))
+cat("\n Model Summary \n")
 print(summary(lmm_model))
 
-# ANOVA table (Type III tests)
-cat("\n--- ANOVA Table (Type III) ---\n")
+cat("\n Model fit \n")
+cat("AIC:", AIC(lmm_model), "\n")
+cat("BIC:", BIC(lmm_model), "\n")
+cat("Log-Likelihood:", logLik(lmm_model), "\n")
+
+cat("\n Random effects variance \n")
+print(VarCorr(lmm_model))
+
+# ANOVA table type 3 due to unequal sample sizes
+cat("\n ANOVA table type 3 due to unequal sample sizes \n")
 print(anova(lmm_model, type = 3))
+sink()
+
+#################################################################################################
 
 # Estimated marginal means and Tukey comparisons
 cat("\n--- Rate Rankings ---\n")
 emm_model <- emmeans(lmm_model, ~ model)
-print(pairs(emm_model, adjust = "tukey"))
-print(cld(emm_model, Letters = letters))
+cld_model <- cld(emm_model, Letters = letters, alpha = 0.05)
+write.csv(cld_model, paste0(lmm_path, "tables/model_multcomp.csv"))
 
 
 cat("\n--- Method Rankings ---\n")
 emm_method <- emmeans(lmm_model, ~ method)
-print(pairs(emm_method, adjust = "tukey"))
-print(cld(emm_method, Letters = letters))
+cld_method <- cld(emm_method, Letters = letters, alpha = 0.05)
+write.csv(cld_method, paste0(lmm_path, "tables/method_multcomp.csv"))
 
-cat("\n--- Preservation Level Rankings ---\n")
-emm_preservation <- emmeans(lmm_model, ~ preservation_level)
-print(pairs(emm_preservation, adjust = "tukey"))
-print(cld(emm_preservation, Letters = letters))
+cat("\n--- Fossil sampling Level Rankings ---\n")
+emm_fossils <- emmeans(lmm_model, ~ fossil_sampling)
+cld_fossils <- cld(emm_fossils, Letters = letters, alpha = 0.05)
+write.csv(cld_fossils, paste0(lmm_path, "tables/fossil_multcomp.csv"))
+
 
 cat("\n--- Metric Level Rankings ---\n")
 emm_metric <- emmeans(lmm_model, ~ metric)
-print(pairs(emm_metric, adjust = "tukey"))
-print(cld(emm_metric, Letters = letters))
+cld_metric <- cld(emm_metric, Letters = letters, alpha = 0.05)
+write.csv(cld_metric, paste0(lmm_path, "tables/metric_multcomp.csv"))
+
+#################################################################################################
 
 # Rate × Method interaction
 cat("\n--- Model × Method Interaction ---\n")
 emm_model_method <- emmeans(lmm_model, ~ model * method)
-print(cld(emm_model_method, Letters = letters, alpha = 0.05))
+write.csv(cld(emm_model_method, Letters = letters, alpha = 0.05), paste0(lmm_path, "tables/model_method_multcomp.csv"))
 
-# Method × Preservation interaction
-cat("\n--- Method × Preservation Interaction ---\n")
-emm_method_pres <- emmeans(lmm_model, ~ method * preservation_level)
-print(cld(emm_method_pres, Letters = letters, alpha = 0.05))
+# Method × Fossil sampling interaction
+cat("\n--- Method × Fossil sampling Interaction ---\n")
+emm_method_fossil <- emmeans(lmm_model, ~ method * fossil_sampling)
+write.csv(cld(emm_method_fossil, Letters = letters, alpha = 0.05), paste0(lmm_path, "tables/fossil_method_multcomp.csv"))
 
 # Method x metric
 cat("\n--- Method × Metric Interaction ---\n")
 emm_method_metric <- emmeans(lmm_model, ~ method * metric)
-print(cld(emm_method_metric, Letters = letters, alpha = 0.05))
+write.csv(cld(emm_method_metric, Letters = letters, alpha = 0.05), paste0(lmm_path, "tables/method_metric_multcomp.csv"))
+#################################################################################################
+
+# Three-way interaction
+cat("\n Method x Fossil sampling x model \n")
+emm_three_way <- emmeans(lmm_model, ~ method * model * fossil_sampling)
+write.csv(cld(emm_three_way, Letters = letters, alpha = 0.05), paste0(lmm_path, "tables/method_model_fossil_multcomp.csv"))
+#################################################################################################
+
 
 # Four-way interaction
 cat("\n--- Four-way Interaction ---\n")
-emm_four_way <- emmeans(lmm_model, ~ model * method * preservation_level * metric)
+emm_four_way <- emmeans(lmm_model, ~ model * method * fossil_sampling * metric)
 # Print only a subset to avoid overwhelming output
-print(as.data.frame(cld(emm_four_way, Letters = letters)))
+write.csv(cld(emm_four_way, Letters = letters, alpha = 0.05), paste0(lmm_path, "tables/method_model_fossil_metric_multcomp.csv"))
+
+by_method <- emmeans(lmm_model, ~ method | model * fossil_sampling * metric)
+write.csv(cld(by_method, Letters = letters, alpha = 0.05), paste0(lmm_path, "tables/method_model_fossil_by_metric_multcomp.csv"))
+
+#################################################################################################
+
+# Compare ACE methods to No ACE
+cat("\n Contrast ASE vs no ase \n")
+ase_vs_noase <- contrast(emm_method, 
+                         list("ASE vs No ASE" = c(1/4, 1/4, 1/4, 1/4, -1)))
+print(ase_vs_noase)
+print(confint(ase_vs_noase))
+
+# Compare Pre-ord vs Post-ord (averaging point and distribution)
+cat("\n Contrast pre-ord vs post-ord \n")
+preord_vs_postord <- contrast(emm_method,
+                               list("Pre-ord vs Post-ord" = c(1/2, 1/2, -1/2, -1/2, 0)))
+print(preord_vs_postord)
+print(confint(preord_vs_postord))
+
+# Compare Point vs Sample (averaging pre and post)
+cat("\n Contrast point estimate vs probabilistic \n")
+point_vs_distribution <- contrast(emm_method,
+                             list("Point vs distribution" = c(1/2, -1/2, 1/2, -1/2, 0)))
+print(point_vs_distribution)
+print(confint(point_vs_distribution))
+
+write.csv(as.data.frame(summary(ase_vs_noase)), paste0(lmm_path, "tables/contrast_ase_vs_noase.csv"))
+write.csv(as.data.frame(summary(preord_vs_postord)), paste0(lmm_path, "tables/contrast_preord_vs_postord.csv"))
+write.csv(as.data.frame(summary(point_vs_distribution)), paste0(lmm_path, "tables/contrast_point_vs_dist.csv"))
+
+
+cat("Finished LMM continuos...\n")
+
+
+#################################################################################################
+
+fossil_method_model <- read.csv("../Data/cluster/continuous/lmm/tables/method_model_fossil_metric_multcomp.csv")
+
+
+chunks <- split(fossil_method_model, list(fossil_method_model$model, fossil_method_model$fossil_sampling), drop = TRUE) ## visually inspect it
+
+
+fossil_method_model_metric <- read.csv("../Data/cluster/continuous/lmm/tables/method_model_fossil_metric_multcomp.csv")
+chunks <- split(fossil_method_model_metric, list(fossil_method_model_metric$metric, fossil_method_model_metric$model, fossil_method_model_metric$fossil_sampling), drop = TRUE) ## visually inspect it
+
+
+chunks_nested <- lapply(split(fossil_method_model_metric, fossil_method_model_metric$metric), function(metric_data) {
+  lapply(split(metric_data, metric_data$model), function(model_data) {
+    lapply(split(model_data, model_data$fossil_sampling), function(fossil_data) {
+      fossil_data
+    })
+  })
+})
+
+
