@@ -5,6 +5,8 @@ library(lmerTest)
 library(emmeans)
 library(multcomp)
 library(multcompView)
+library(xtable)
+library(tatoo)
 
 job_ids <- list(
   "50t" = "8690335",
@@ -214,7 +216,7 @@ results_df_long_filtered$log_abs_error <- log(results_df_long_filtered$abs_error
 #   - Model x method
 #   - FOssil sampling x metric x method x model
   
-#  Linear Mixed Model with random effects for replicate and tree_size
+#  Linear Mixed Model
 lmm_model <- lmer(log_abs_error ~ model * method * fossil_sampling * metric + tree_size +
                                   (1|tree_unique_id),
                     data = results_df_long_filtered, REML = TRUE)
@@ -229,7 +231,8 @@ lmm_model <- lmer(log_abs_error ~ model * method * fossil_sampling * metric + tr
 
 # lmm_model_final <- lmer(final_formula, data = results_df_long_filtered)
 
-saveRDS(lmm_model, file.path("../Data/cluster/continuous/lmm/lmm_model_four_way.rds"))
+saveRDS(lmm_model, "../Data/cluster/continuous/lmm/lmm_model_four_way.rds")
+lmm_model <- readRDS("../Data/cluster/continuous/lmm/lmm_model_four_way.rds")
 
 # final_terms <- attr(terms(lmm_model_final), "term.labels")
 # saveRDS(final_terms, file.path("/mnt", "parscratch", "users", "bip24cns", "acedisparity", "continuous","lmm", "final_model_terms.rds"))
@@ -288,23 +291,28 @@ cat("\n--- Rate Rankings ---\n")
 emm_model <- emmeans(lmm_model, ~ model)
 cld_model <- cld(emm_model, Letters = letters, alpha = 0.05)
 write.csv(cld_model, paste0(lmm_path, "tables/model_multcomp.csv"))
-
+print(xtable(cld_model), 
+      include.rownames = FALSE)
 
 cat("\n--- Method Rankings ---\n")
 emm_method <- emmeans(lmm_model, ~ method)
 cld_method <- cld(emm_method, Letters = letters, alpha = 0.05)
 write.csv(cld_method, paste0(lmm_path, "tables/method_multcomp.csv"))
+print(xtable(cld_method), 
+      include.rownames = FALSE)
+
 
 cat("\n--- Fossil sampling Level Rankings ---\n")
 emm_fossils <- emmeans(lmm_model, ~ fossil_sampling)
 cld_fossils <- cld(emm_fossils, Letters = letters, alpha = 0.05)
 write.csv(cld_fossils, paste0(lmm_path, "tables/fossil_multcomp.csv"))
-
+print(xtable(cld_fossils), include.rownames = FALSE)
 
 cat("\n--- Metric Level Rankings ---\n")
 emm_metric <- emmeans(lmm_model, ~ metric)
 cld_metric <- cld(emm_metric, Letters = letters, alpha = 0.05)
 write.csv(cld_metric, paste0(lmm_path, "tables/metric_multcomp.csv"))
+print(xtable(cld_metric), include.rownames = FALSE)
 
 #################################################################################################
 
@@ -317,6 +325,8 @@ write.csv(cld(emm_model_method, Letters = letters, alpha = 0.05), paste0(lmm_pat
 cat("\n--- Method × Fossil sampling Interaction ---\n")
 emm_method_fossil <- emmeans(lmm_model, ~ method * fossil_sampling)
 write.csv(cld(emm_method_fossil, Letters = letters, alpha = 0.05), paste0(lmm_path, "tables/fossil_method_multcomp.csv"))
+print(xtable(cld(emm_method_fossil, Letters = letters, alpha = 0.05), include.rownames = FALSE))
+
 
 # Method x metric
 cat("\n--- Method × Metric Interaction ---\n")
@@ -379,7 +389,7 @@ fossil_method_model <- read.csv("../Data/cluster/continuous/lmm/tables/method_mo
 chunks <- split(fossil_method_model, list(fossil_method_model$model, fossil_method_model$fossil_sampling), drop = TRUE) ## visually inspect it
 
 
-fossil_method_model_metric <- read.csv("../Data/cluster/continuous/lmm/tables/method_model_fossil_metric_multcomp.csv")
+fossil_method_model_metric <- read.csv("../Data/cluster/continuous/lmm/tables/method_model_fossil_by_metric_multcomp.csv")
 chunks <- split(fossil_method_model_metric, list(fossil_method_model_metric$metric, fossil_method_model_metric$model, fossil_method_model_metric$fossil_sampling), drop = TRUE) ## visually inspect it
 
 
@@ -392,3 +402,151 @@ chunks_nested <- lapply(split(fossil_method_model_metric, fossil_method_model_me
 })
 
 
+# #########################################################################################################
+# ## HEATMAP
+# library(ggplot2)
+# library(dplyr)
+
+# # 1. Prepare the Data
+# # Convert emmeans object to a standard dataframe
+# plot_df <- as.data.frame(by_method)
+
+# # 2. FILTER: Isolate only ONE metric to avoid the overlay mess
+# # Change "sum_quant" to match exactly what is in your 'metric' column
+# df_to_plot <- plot_df %>% 
+#   filter(metric == "sum_quant") 
+
+# # 3. Clean up factors for the plot logic
+# # Ensure Fossils are in the logical order (Living -> Low -> Med -> High -> All)
+# df_to_plot$fossil_sampling <- factor(df_to_plot$fossil_sampling, 
+#                                      levels = c("living", "low", "med", "high", "all"))
+
+# # 4. Generate the "Graphical Table"
+# ggplot(df_to_plot, aes(x = method, y = emmean, fill = method)) +
+  
+#   # create side-by-side bars for each method
+#   geom_col(position = position_dodge(), width = 0.7) +
+  
+#   # Add Error Bars (Crucial for showing the overlap/significance)
+#   geom_errorbar(aes(ymin = asymp.LCL, ymax = asymp.UCL), 
+#                 width = 0.2, position = position_dodge(0.7)) +
+  
+#   # THE GRID: Rows = Model, Columns = Fossils
+#   facet_grid(model ~ fossil_sampling, scales = "free_y") +
+  
+#   # Colors and Labels
+#   scale_fill_viridis_d(option = "plasma") + # 'plasma' is distinct and looks scientific
+#   labs(title = "Method Accuracy by Model & Fossil Density",
+#        subtitle = "Metric: Sum Quant (Log Abs Error) - Lower/More Negative is Better",
+#        y = "Log Absolute Error",
+#        x = "Method") +
+  
+#   # Clean Theme
+#   theme_bw() +
+#   theme(axis.text.x = element_blank(), # Hide x-axis labels (redundant with legend)
+#         axis.ticks.x = element_blank(),
+#         strip.text = element_text(face = "bold", size = 11),
+#         legend.position = "bottom")
+
+
+# ############################################################################################
+# # 1. Prepare Data
+# df_all <- as.data.frame(by_method)
+
+# # 2. Filter for your metric
+# # Equivalent to: filter(metric == "sum_quant")
+# df_sub <- df_all[df_all$metric == "sum_quant", ]
+
+# # 3. Calculate Minimum Score per Group
+# # "ave" applies a function (min) to subsets of data (grouped by model & fossil)
+# # This creates a vector of the "best score" corresponding to every row
+# df_sub$min_score <- ave(df_sub$emmean, 
+#                         df_sub$model, 
+#                         df_sub$fossil_sampling, 
+#                         FUN = min)
+
+# # 4. Filter to keep only the Winners
+# # Equivalent to: filter(emmean == min_score)
+# winners_df <- df_sub[df_sub$emmean == df_sub$min_score, ]
+
+# # 5. Handle Factors (Ordering for the plot)
+# winners_df$fossil_sampling <- factor(winners_df$fossil_sampling, 
+#                                      levels = c("living", "low", "med", "high", "all"))
+# winners_df$model <- as.factor(winners_df$model)
+
+# # 6. Create numeric coordinates for plotting (Base R needs numbers, not factors, for x/y)
+# winners_df$x_coord <- as.numeric(winners_df$fossil_sampling)
+# winners_df$y_coord <- as.numeric(winners_df$model)
+
+
+# # --- SETUP PALETTE ---
+# # Define colors for your methods manually (Clean, professional look)
+# # Adjust names to match your exact method names
+# method_colors <- c("pre_ord_sample" = "#377EB8",  # Blue
+#                    "post_ord_sample" = "#4DAF4A", # Green
+#                    "no_ace" = "#E41A1C",          # Red
+#                    "pre_ord_point" = "#984EA3",   # Purple
+#                    "post_ord_point" = "#FF7F00")  # Orange
+
+# # Map methods to colors in the dataframe
+# winners_df$color <- method_colors[as.character(winners_df$method)]
+# # Fallback to grey if a method name doesn't match the list above
+# winners_df$color[is.na(winners_df$color)] <- "grey"
+
+# # --- DRAW PLOT ---
+# # 1. Setup Canvas (type="n" means 'none', just setup axes)
+# par(mar = c(5, 5, 4, 7)) # Increase right margin for legend
+# plot(x = range(winners_df$x_coord), 
+#      y = range(winners_df$y_coord), 
+#      type = "n", 
+#      axes = FALSE, 
+#      xlab = "Fossil Availability", 
+#      ylab = "Evolutionary Model",
+#      main = "Optimal Ancestral Reconstruction Strategy",
+#      xlim = c(0.5, 5.5), 
+#      ylim = c(0.5, length(unique(winners_df$model)) + 0.5))
+
+# # 2. Draw Tiles (rectangles)
+# # We draw a box centered on the x,y coordinate
+# rect(xleft = winners_df$x_coord - 0.5, 
+#      ybottom = winners_df$y_coord - 0.5, 
+#      xright = winners_df$x_coord + 0.5, 
+#      ytop = winners_df$y_coord + 0.5, 
+#      col = winners_df$color, 
+#      border = "white", 
+#      lwd = 2) # White grid lines
+
+# # 3. Add Text Labels (Method Names)
+# text(x = winners_df$x_coord, 
+#      y = winners_df$y_coord, 
+#      labels = winners_df$method, 
+#      col = "white", 
+#      font = 2, # Bold
+#      cex = 0.8) # Slightly smaller text
+
+# # 4. Add "Statistical Tie" Points
+# # Check if .group is NOT "a" (using trimws to remove spaces like "a ")
+# ties <- winners_df[trimws(winners_df$.group) != "a", ]
+
+# if(nrow(ties) > 0) {
+#   points(x = ties$x_coord, 
+#          y = ties$y_coord, 
+#          pch = 21, # Circle with outline
+#          bg = "white", 
+#          col = "black", 
+#          cex = 1.5)
+# }
+
+# # 5. Custom Axes
+# axis(1, at = 1:5, labels = levels(winners_df$fossil_sampling), tick = FALSE)
+# axis(2, at = 1:length(levels(winners_df$model)), labels = levels(winners_df$model), tick = FALSE, las = 2)
+
+# # 6. Add Legend
+# legend("right", 
+#        legend = c("Stat. Tie"), 
+#        pch = 21, 
+#        pt.bg = "white",
+#        col = "black",
+#        bty = "n",
+#        inset = c(-0.15, 0), # Move outside plot
+#        xpd = TRUE)

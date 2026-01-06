@@ -14,6 +14,7 @@
 \usepackage{xcolor}
 \usepackage[hidelinks]{hyperref}
 \usepackage{multirow}
+\usepackage{float}
 \setcitestyle{aysep={}}  % Removes comma between authoer and year.
 \newcommand{\ASE}{Ancestral state estimation }
 \newcommand{\ase}{ancestral state estimation }
@@ -319,19 +320,31 @@ Then Tukey test.
 \section{Results}
 % \subsection{Overall disparity error}
 \subsection{Effect of estimation method}
-For continuous characters, method of estimation had a significant effect on disparity signal accuracy ($F = 320,~ p < .001$).
+For continuous characters, method of estimation had a significant effect on disparity accuracy ($F = 875,~ p < .001$).
 Notably, ancestral state estimation methods performed better overall than bypassing ancestral state estimation, reducing disparity error by 6.6\%.
-Specifically, post-hoc pairwise comparisons of estimated marginal means (\textit{emmean}) revealed both pre- and post-ordination distributions of ancestral state estimations returned the lowest disparity error ($emmean \approx -3.33$) and were indistinguishable from each other, while using point estimates performed worse than bypassing ancestral state estimation.
+Specifically, post-hoc pairwise comparisons of estimated marginal means (\textit{emmean}) revealed both pre- and post-ordination distributions of ancestral state estimations returned the lowest disparity error ($emmean \approx -3.33$) and were indistinguishable from each other, while using point estimates performed worse than bypassing ancestral state estimation (Table \ref{tab:continuous method cld}).
 
-\subsection{Effect of fossil sampling}
-As expected, fossil sampling was the strongest driver of recovery of an accurate disparity signal ($F = 13126,~ p < .001$).
+\subsection{Effect of fossil sampling X estimation method}
+As expected, fossil sampling was the strongest driver of recovery of an accurate disparity signal ($F = 22400,~ p < .001$).
 Every increase in fossil sampling level resulted in a significant reduction in disparity error.
 Specifically, estimations lacking fossil data recovered disparity error five times larger than those with complete fossil records.
-While ancestral state estimations performed best at high fossil sampling levels (100, 50 and 15\%), at low fossil sampling levels (5 and 0\%) bypassing ancestral state estimation was the best performing method. 
-However, this pattern is both model- and disparity metric-dependent.
+Furthermore, the interaction between estimation method:fossil sampling was highly significant ($F = 1314, p < .001$).
+While ancestral state estimations performed best at high fossil sampling levels (100, 50 and 15\%), at low fossil sampling levels (5 and 0\%) bypassing ancestral state estimation was the best performing approach .
+However, this pattern was both model- and disparity metric-dependent.
+
+\subsection{Effect of model of evolution X estimation method}
+For continuous characters, the model of trait evolution also had a significant impact on the recovery of an accurate disparity signal($F = 3610,~ p < .001$).
+% Interestingly the easiest continuous model to recover the true disparity signal was the \textit{BM + trend} model (Table \ref{tab:continuous model cld}).
+
+
+The interaction between model:estimation method was also a strong driver of disparity accuracy ($F = 1710$)
 
 \subsection{Effect of disparity metric}
+Disparity metric 
 
+
+\subsection{Interactions}
+Since a four way interaction is extremely hard to comprehend, we split the linear mixed model up by disparity metric.
 
 
 
@@ -341,11 +354,6 @@ However, this pattern is both model- and disparity metric-dependent.
 % For discrete characters, the pre-ordination estimation (pre-OASE) methods were more accurate at recovering the true disparity value than post-ordination estimation (post-OASE) methods.
 % In particular, the pre-OASE distribution method was the best performing ancestral state estimation method.
 % The null model of bypassing ASE consistently recovers an underestimate of disparity.
-
-
-\subsection{Effect of model of evolution}
-For discrete characters, disparity outputs from slower rates of character evolution were easier to recover than faster rates of evolution.
-In general, each estimation method performed better at recovering slow rates than fast rates, 
 
 
 
@@ -464,7 +472,7 @@ In general, each estimation method performed better at recovering slow rates tha
 
 \section*{Tables}
 
-\begin{table}[ht]
+\begin{table}[H]
 \centering
 \caption{Trait simulation models and parameters used across each phylogeny. For continuous characters, the root state was always set as 0. $P_{ij}$ = transition probability;  $\sigma$ = variance; $\alpha$ = rate of adaptation toward the optimum; $\theta$ = optimum.} %TG: table is top notch! Maybe you could expand it to also include the tree simulation parameters, the point estimate vs distribution ones and the mass extinction ones? Note that also another good addition could be to do a glossary table: i.e. a list of all the specific words in the manuscript and what they mean. This would probably go to the supplementaries but I think it makes it crystal clear for the reader (and you) of what do you mean with what term. (e.g. disparity = space occupancy; mass extinction = removal of a %age of taxa at a specific time point; taxa = a simulated OTU; etc.)
 
@@ -493,26 +501,163 @@ In general, each estimation method performed better at recovering slow rates tha
 \end{table}
 
 
-\begin{table}[ht]
+
+\begin{table}[H]
+\caption{\textbf{Continuous traits: estimated marginal means of each method averaged over the levels of: model, fossil sampling, disparity metric and tree size.} Confidence level used: 0.95. Significance level: 0.05. Note that emmeans were log transformed, so the lowest value means the most accurate (closest to 0).}
+\label{tab:continuous method cld}
+
 \centering
+\begin{tabular}{lrrrrrl}
+  \hline
+Estimation method & emmean & SE & df & asymp.LCL & asymp.UCL & .group \\ 
+  \hline
+Pre-ordination dist & -3.3381 & 0.0127 & Inf & -3.3630 & -3.3132 &  a   \\ 
+  Post-ordination dist & -3.3188 & 0.0127 & Inf & -3.3438 & -3.2939 &  a   \\ 
+  No ASE & -3.1366 & 0.0127 & Inf & -3.1615 & -3.1117 &   b  \\ 
+  Pre-ordination point & -3.0866 & 0.0127 & Inf & -3.1115 & -3.0617 &    c \\ 
+  Post-ordination  & -3.0770 & 0.0127 & Inf & -3.1019 & -3.0521 &    c \\ 
+   \hline
+\end{tabular}
+\end{table}
+
+
+% latex table generated in R 4.5.2 by xtable 1.8-4 package
+% Mon Jan  5 12:28:45 2026
+\begin{table}[H]
+\caption{\textbf{Continuous traits: estimated marginal means of each fossil sampling level averaged over the levels of: model, estimation method, disparity metric and tree size.} Confidence level used: 0.95. Significance level: 0.05. Note that emmeans were log transformed, so the lowest value means the most accurate (closest to 0).}
+\label{tab:continuous fossil sample cld}
+\centering
+\begin{tabular}{lrrrrrl}
+  \hline
+Fossil sampling & emmean & SE & df & asymp.LCL & asymp.UCL & .group \\ 
+  \hline
+100\% & -3.9663 & 0.0127 & Inf & -3.9912 & -3.9414 &  a     \\ 
+  50\% & -3.6524 & 0.0127 & Inf & -3.6773 & -3.6275 &   b    \\ 
+  15\% & -3.1574 & 0.0127 & Inf & -3.1823 & -3.1325 &    c   \\ 
+  5\% & -2.8385 & 0.0127 & Inf & -2.8634 & -2.8136 &     d  \\ 
+  0\% & -2.3425 & 0.0127 & Inf & -2.3674 & -2.3176 &      e \\ 
+   \hline
+\end{tabular}
+\end{table}
+
+
+% latex table generated in R 4.5.2 by xtable 1.8-4 package
+% Mon Jan  5 15:37:13 2026
+\begin{table}[H]
+\caption{\textbf{Continuous traits: interaction between fossil sampling:estimation method, averaged over model of evolution, disparity metric and tree size} Confidence level used: 0.95. Significance level: 0.05. Note that emmeans were log transformed, so the lowest value means the most accurate (closest to 0).}
+\label{tab:continuous fossil method interaction cld}
+\centering
+\begin{tabular}{llrrrrrl}
+  \hline
+method & fossil\_sampling & emmean & SE & df & asymp.LCL & asymp.UCL & .group \\ 
+  \hline
+Pre-ord dist & 100\% & -4.3476 & 0.0185 & Inf & -4.3838 & -4.3113 &  a              \\ 
+  Post-ord dist & 100\% & -4.3075 & 0.0185 & Inf & -4.3438 & -4.2712 &  a              \\ 
+  pre\_ord\_point & 100\% & -3.7910 & 0.0185 & Inf & -3.8273 & -3.7547 &   b             \\ 
+  post\_ord\_point & 100\% & -3.7746 & 0.0185 & Inf & -3.8108 & -3.7383 &   bc            \\ 
+  Pre-ord dist & 50\% & -3.7734 & 0.0185 & Inf & -3.8096 & -3.7371 &   bc            \\ 
+  Post-ord dist & 50\% & -3.7608 & 0.0185 & Inf & -3.7970 & -3.7245 &   bcd           \\ 
+  pre\_ord\_point & 50\% & -3.7036 & 0.0185 & Inf & -3.7399 & -3.6673 &    cd           \\ 
+  post\_ord\_point & 50\% & -3.6883 & 0.0185 & Inf & -3.7246 & -3.6520 &     de          \\ 
+  No ASE & 100\% & -3.6107 & 0.0185 & Inf & -3.6470 & -3.5744 &      e          \\ 
+  No ASE & 50\% & -3.3361 & 0.0185 & Inf & -3.3724 & -3.2998 &       f         \\ 
+  Pre-ord dist & med & -3.2275 & 0.0185 & Inf & -3.2638 & -3.1912 &        g        \\ 
+  Post-ord dist & med & -3.2178 & 0.0185 & Inf & -3.2541 & -3.1815 &        g        \\ 
+  No ASE & med & -3.1806 & 0.0185 & Inf & -3.2169 & -3.1443 &        g        \\ 
+  post\_ord\_point & med & -3.0807 & 0.0185 & Inf & -3.1170 & -3.0444 &         h       \\ 
+  pre\_ord\_point & med & -3.0803 & 0.0185 & Inf & -3.1166 & -3.0440 &         h       \\ 
+  No ASE & low & -2.9970 & 0.0185 & Inf & -3.0333 & -2.9607 &          i      \\ 
+  Pre-ord dist & low & -2.9148 & 0.0185 & Inf & -2.9510 & -2.8785 &           j     \\ 
+  Post-ord dist & low & -2.8981 & 0.0185 & Inf & -2.9344 & -2.8619 &           j     \\ 
+  pre\_ord\_point & low & -2.6994 & 0.0185 & Inf & -2.7357 & -2.6632 &            k    \\ 
+  post\_ord\_point & low & -2.6833 & 0.0185 & Inf & -2.7196 & -2.6471 &            k    \\ 
+  No ASE & living & -2.5585 & 0.0185 & Inf & -2.5947 & -2.5222 &             l   \\ 
+  Pre-ord dist & living & -2.4272 & 0.0185 & Inf & -2.4635 & -2.3910 &              m  \\ 
+  Post-ord dist & living & -2.4100 & 0.0185 & Inf & -2.4462 & -2.3737 &              m  \\ 
+  pre\_ord\_point & living & -2.1585 & 0.0185 & Inf & -2.1947 & -2.1222 &               n \\ 
+  post\_ord\_point & living & -2.1582 & 0.0185 & Inf & -2.1945 & -2.1220 &               n \\ 
+   \hline
+\end{tabular}
+\end{table}
+
+% latex table generated in R 4.5.2 by xtable 1.8-4 package
+% Mon Jan  5 12:45:44 2026
+\begin{table}[H]
+\caption{\textbf{Continuous traits: estimated marginal means of each model of evolution averaged over: estimation method, fossil sampling, disparity metric and tree size.} Confidence level used: 0.95. Significance level: 0.05. Note that emmeans were log transformed, so the lowest value means the most accurate (closest to 0).}
+\label{tab:continuous model cld}
+\centering
+\begin{tabular}{lrrrrrl}
+  \hline
+model & emmean & SE & df & asymp.LCL & asymp.UCL & .group \\ 
+  \hline
+BM + trend & -3.3983 & 0.0120 & Inf & -3.4217 & -3.3748 &  a   \\ 
+  BM & -3.3074 & 0.0120 & Inf & -3.3309 & -3.2840 &   b  \\ 
+  OU (strong) & -2.8686 & 0.0120 & Inf & -2.8920 & -2.8451 &    c \\ 
+   \hline
+\end{tabular}
+\end{table}
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\begin{table}[H]
+\centering
+% \footnotesize
 \label{tab:cld continuous sum quant}
 \begin{tabular}{|c|c|c|c|c|c|}
 \hline
 \textbf{Model} & \textbf{0\%} &\textbf{5\%} & \textbf{15\%}  & \textbf{50\%} & \textbf{100\%} \\
 \hline
 % \multirow{3}{*}{\textbf{Discrete}} & $Fast$ & $P_{ij}=0.9$ \\
-\textbf{BM} & No decision & ASE (dist)  & All ASE & All ASE & ASE (distribution) \\
+\textbf{BM} & Pre-ord dist & Pre-ord dist  & pre-ord dist & pre-ord dist & pre-ord dist \\
 \hline
-\textbf{BM + trend} & No ASE & ASE (dist)  & All ASE & All ASE & ASE (distribution) \\
+\textbf{BM + trend} & No ASE & No ASE & pre-ord dist & pre-ord dist & pre-ord dist \\
 \hline
-\textbf{OU} & ASE (dist) & $P_{ij}=0.1$ & & &  \\
-
-
-
+\textbf{OU} & No ASE & No ASE & No ASE & No ASE & No ASE \\
 \hline
 \end{tabular}
 \end{table}
 
+\begin{table}[H]
+\centering
+% \footnotesize
+\label{tab:cld continuous sum var}
+\begin{tabular}{|c|c|c|c|c|c|}
+\hline
+\textbf{Model} & \textbf{0\%} &\textbf{5\%} & \textbf{15\%}  & \textbf{50\%} & \textbf{100\%} \\
+\hline
+% \multirow{3}{*}{\textbf{Discrete}} & $Fast$ & $P_{ij}=0.9$ \\
+\textbf{BM} & Post-ord point & Post-ord point  & Post-ord point & Post-ord point & Pre-ord dist \\
+\hline
+\textbf{BM + trend} & No ASE & No ASE & pre-ord dist & pre-ord dist & pre-ord dist \\
+\hline
+\textbf{OU} & No ASE & No ASE & No ASE & No ASE & No ASE \\
+\hline
+\end{tabular}
+\end{table}
+
+
+\begin{table}[H]
+\centering
+% \footnotesize
+\label{tab:cld continuous pairwise distances}
+\begin{tabular}{|c|c|c|c|c|c|}
+\hline
+\textbf{Model} & \textbf{0\%} &\textbf{5\%} & \textbf{15\%}  & \textbf{50\%} & \textbf{100\%} \\
+\hline
+% \multirow{3}{*}{\textbf{Discrete}} & $Fast$ & $P_{ij}=0.9$ \\
+\textbf{BM} & Post-ord point & Post-ord point  & Post-ord point & Post-ord point & Pre-ord dist \\
+\hline
+\textbf{BM + trend} & No ASE & No ASE & pre-ord dist & pre-ord dist & pre-ord dist \\
+\hline
+\textbf{OU} & No ASE & No ASE & No ASE & No ASE & No ASE \\
+\hline
+\end{tabular}
+\end{table}
 
 %NC: Be consistent - Maximum Likelihood, or maximum likelihood or Maximum-Likelihood?
 
@@ -520,7 +665,7 @@ In general, each estimation method performed better at recovering slow rates tha
 
 %NC: use "where" rather than "whereby" which is archaic. You can aslso just say "To" rather than "In order to" and "and" rather than "as well as". I'd also use "First" rather than "Firstly". Try and keep it short and snappy.
 
-
+\clearpage
 
 \bibliographystyle{plainnat}
 \bibliography{references.bib}
