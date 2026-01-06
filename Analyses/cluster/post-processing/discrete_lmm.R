@@ -5,6 +5,7 @@ library(lmerTest)
 library(emmeans)
 library(multcomp)
 library(multcompView)
+library(xtable)
 # Define job IDs for each tree size
 # job_ids <- list(
 #   "50t" = "8558401",
@@ -20,7 +21,7 @@ job_ids <- list(
 )
 
 tree_sizes <- c("50t", "100t", "150t")
-methods <- c("pre_ord_point_tiebreaker", "pre_ord_sample",
+methods <- c("pre_ord_point_tiebreaker", "pre_ord_sample", "post_ord_point",
              "post_ord_sample", "no_ace")
 
 results <- list()
@@ -183,6 +184,7 @@ lmm_model <- lmer(log_abs_error ~ model * method * fossil_sampling * metric + tr
                                   (1|tree_unique_id),
                     data = results_df_long, REML = TRUE)
 saveRDS(lmm_model, "../Data/cluster/discrete_crown/lmm/raw/lmm_model_four_way.rds")
+lmm_model <- readRDS("../Data/cluster/discrete_crown/lmm/raw/lmm_model_four_way.rds")
 
 
 
@@ -281,6 +283,9 @@ print(xtable(cld(emm_method_fossil, Letters = letters, alpha = 0.05), include.ro
 cat("\n--- Method × Metric Interaction ---\n")
 emm_method_metric <- emmeans(lmm_model, ~ method * metric)
 write.csv(cld(emm_method_metric, Letters = letters, alpha = 0.05), paste0(lmm_path, "tables/method_metric_multcomp.csv"))
+print(xtable(cld(emm_method_metric, Letters = letters, alpha = 0.05), include.rownames = FALSE))
+
+
 #################################################################################################
 
 # Three-way interaction

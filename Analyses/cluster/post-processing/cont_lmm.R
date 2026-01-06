@@ -316,10 +316,11 @@ print(xtable(cld_metric), include.rownames = FALSE)
 
 #################################################################################################
 
-# Rate × Method interaction
+# Model × Method interaction
 cat("\n--- Model × Method Interaction ---\n")
 emm_model_method <- emmeans(lmm_model, ~ model * method)
 write.csv(cld(emm_model_method, Letters = letters, alpha = 0.05), paste0(lmm_path, "tables/model_method_multcomp.csv"))
+print(xtable(cld(emm_model_method, Letters = letters, alpha = 0.05)))
 
 # Method × Fossil sampling interaction
 cat("\n--- Method × Fossil sampling Interaction ---\n")
@@ -332,6 +333,8 @@ print(xtable(cld(emm_method_fossil, Letters = letters, alpha = 0.05), include.ro
 cat("\n--- Method × Metric Interaction ---\n")
 emm_method_metric <- emmeans(lmm_model, ~ method * metric)
 write.csv(cld(emm_method_metric, Letters = letters, alpha = 0.05), paste0(lmm_path, "tables/method_metric_multcomp.csv"))
+print(xtable(cld(emm_method_metric, Letters = letters, alpha = 0.05), include.rownames = FALSE))
+
 #################################################################################################
 
 # Three-way interaction
@@ -449,34 +452,33 @@ chunks_nested <- lapply(split(fossil_method_model_metric, fossil_method_model_me
 #         legend.position = "bottom")
 
 
-# ############################################################################################
-# # 1. Prepare Data
-# df_all <- as.data.frame(by_method)
+############################################################################################
+# 1. Prepare Data
+df_all <- as.data.frame(by_method)
 
-# # 2. Filter for your metric
-# # Equivalent to: filter(metric == "sum_quant")
-# df_sub <- df_all[df_all$metric == "sum_quant", ]
+# 2. Filter for your metric
+# Equivalent to: filter(metric == "sum_quant")
 
-# # 3. Calculate Minimum Score per Group
-# # "ave" applies a function (min) to subsets of data (grouped by model & fossil)
-# # This creates a vector of the "best score" corresponding to every row
-# df_sub$min_score <- ave(df_sub$emmean, 
-#                         df_sub$model, 
-#                         df_sub$fossil_sampling, 
-#                         FUN = min)
 
-# # 4. Filter to keep only the Winners
-# # Equivalent to: filter(emmean == min_score)
-# winners_df <- df_sub[df_sub$emmean == df_sub$min_score, ]
+winners <- list()
+metrics <- c("sum_quant", "sum_var", "pairwise")
+for (metric in metrics) {
+  df_sub <- df_all[df_all$metric == metric, ]
 
-# # 5. Handle Factors (Ordering for the plot)
-# winners_df$fossil_sampling <- factor(winners_df$fossil_sampling, 
-#                                      levels = c("living", "low", "med", "high", "all"))
-# winners_df$model <- as.factor(winners_df$model)
+  # 3. Calculate Minimum Score per Group
+  # "ave" applies a function (min) to subsets of data (grouped by model & fossil)
+  # This creates a vector of the "best score" corresponding to every row
+  df_sub$min_score <- ave(df_sub$emmean, 
+                          df_sub$model, 
+                          df_sub$fossil_sampling, 
+                          FUN = min)
 
-# # 6. Create numeric coordinates for plotting (Base R needs numbers, not factors, for x/y)
-# winners_df$x_coord <- as.numeric(winners_df$fossil_sampling)
-# winners_df$y_coord <- as.numeric(winners_df$model)
+  # 4. Filter to keep only the Winners
+  # Equivalent to: filter(emmean == min_score)
+  winners_df <- df_sub[df_sub$emmean == df_sub$min_score, ]
+
+  winners[[metric]] <- winners_df
+}
 
 
 # # --- SETUP PALETTE ---
