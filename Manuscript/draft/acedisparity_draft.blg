@@ -8,36 +8,36 @@ Warning--empty journal in gearty2024impact
 Warning--empty journal in wills2001morphological
 You've used 72 entries,
             2773 wiz_defined-function locations,
-            1018 strings with 19052 characters,
-and the built_in function-call counts, 35636 in all, are:
-= -- 3198
-> -- 2100
-< -- 42
-+ -- 715
-- -- 642
-* -- 3100
-:= -- 5483
+            1018 strings with 19084 characters,
+and the built_in function-call counts, 35751 in all, are:
+= -- 3204
+> -- 2129
+< -- 41
++ -- 724
+- -- 651
+* -- 3117
+:= -- 5505
 add.period$ -- 219
 call.type$ -- 72
-change.case$ -- 426
+change.case$ -- 429
 chr.to.int$ -- 71
 cite$ -- 147
-duplicate$ -- 1497
-empty$ -- 2869
-format.name$ -- 750
-if$ -- 7363
+duplicate$ -- 1498
+empty$ -- 2864
+format.name$ -- 759
+if$ -- 7383
 int.to.chr$ -- 2
 int.to.str$ -- 1
 missing$ -- 71
 newline$ -- 371
 num.names$ -- 288
-pop$ -- 757
+pop$ -- 762
 preamble$ -- 1
-purify$ -- 356
+purify$ -- 359
 quote$ -- 0
-skip$ -- 1155
+skip$ -- 1158
 stack$ -- 0
-substring$ -- 1760
+substring$ -- 1745
 swap$ -- 107
 text.length$ -- 4
 text.prefix$ -- 0

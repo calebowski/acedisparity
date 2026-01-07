@@ -352,6 +352,8 @@ write.csv(cld(emm_four_way, Letters = letters, alpha = 0.05), paste0(lmm_path, "
 
 by_method <- emmeans(lmm_model, ~ method | model * fossil_sampling * metric)
 write.csv(cld(by_method, Letters = letters, alpha = 0.05), paste0(lmm_path, "tables/method_model_fossil_by_metric_multcomp.csv"))
+by_method_cld <- cld(by_method, Letters = letters, alpha = 0.05)
+print(xtable(by_method_cld, include.rownames = FALSE))
 
 #################################################################################################
 
@@ -454,7 +456,7 @@ chunks_nested <- lapply(split(fossil_method_model_metric, fossil_method_model_me
 
 ############################################################################################
 # 1. Prepare Data
-df_all <- as.data.frame(by_method)
+df_all <- as.data.frame(by_method_cld)
 
 # 2. Filter for your metric
 # Equivalent to: filter(metric == "sum_quant")
@@ -465,21 +467,22 @@ metrics <- c("sum_quant", "sum_var", "pairwise")
 for (metric in metrics) {
   df_sub <- df_all[df_all$metric == metric, ]
 
-  # 3. Calculate Minimum Score per Group
-  # "ave" applies a function (min) to subsets of data (grouped by model & fossil)
-  # This creates a vector of the "best score" corresponding to every row
+  df_sub$shared_a <- ave(grepl("a", trimws(df_sub$.group)),
+                                           df_sub$model, df_sub$fossil_sampling,
+                                           FUN = function(x) sum(x)>1)
+
   df_sub$min_score <- ave(df_sub$emmean, 
                           df_sub$model, 
                           df_sub$fossil_sampling, 
                           FUN = min)
 
-  # 4. Filter to keep only the Winners
-  # Equivalent to: filter(emmean == min_score)
+  # Filter to keep only the Winners
   winners_df <- df_sub[df_sub$emmean == df_sub$min_score, ]
+  
+
 
   winners[[metric]] <- winners_df
 }
-
 
 # # --- SETUP PALETTE ---
 # # Define colors for your methods manually (Clean, professional look)

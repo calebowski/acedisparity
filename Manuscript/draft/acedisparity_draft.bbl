@@ -35,6 +35,11 @@ David~W Bapst, Peter~C Bullock, Michael~J Melchin, H~David Sheets, and Charles~E
 \newblock Graptoloid diversity and disparity became decoupled during the ordovician mass extinction.
 \newblock \emph{Proceedings of the National Academy of Sciences}, 109\penalty0 (9):\penalty0 3428--3433, 2012.
 
+\bibitem[Bates et~al.(2015)Bates, M{\"a}chler, Bolker, and Walker]{bates2015fitting}
+Douglas Bates, Martin M{\"a}chler, Ben Bolker, and Steve Walker.
+\newblock Fitting linear mixed-effects models using lme4.
+\newblock \emph{Journal of statistical software}, 67:\penalty0 1--48, 2015.
+
 \bibitem[Betancur-R et~al.(2015)Betancur-R, Ort{\'\i}, and Pyron]{betancur2015fossil}
 Ricardo Betancur-R, Guillermo Ort{\'\i}, and Robert~Alexander Pyron.
 \newblock Fossil-based comparative analyses reveal ancient marine ancestry erased by extinction in ray-finned fishes.
@@ -192,11 +197,6 @@ Thomas John~Dixon Halliday and Anjali Goswami.
 Luke~J Harmon, Jonathan~B Losos, T~Jonathan~Davies, Rosemary~G Gillespie, John~L Gittleman, W~Bryan~Jennings, Kenneth~H Kozak, Mark~A McPeek, Franck Moreno-Roark, Thomas~J Near, et~al.
 \newblock Early bursts of body size and shape evolution are rare in comparative data.
 \newblock \emph{Evolution}, 64\penalty0 (8):\penalty0 2385--2396, 2010.
-
-\bibitem[Heard(1992)]{heard1992patterns}
-Stephen~B Heard.
-\newblock Patterns in tree balance among cladistic, phenetic, and randomly generated phylogenetic trees.
-\newblock \emph{Evolution}, 46\penalty0 (6):\penalty0 1818--1826, 1992.
 
 \bibitem[Henao~Diaz et~al.(2019)Henao~Diaz, Harmon, Sugawara, Miller, and Pennell]{henao2019macroevolutionary}
 L~Francisco Henao~Diaz, Luke~J Harmon, Mauro~TC Sugawara, Eliot~T Miller, and Matthew~W Pennell.
