@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2024.11.5)  7 JAN 2026 15:44
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2024.11.5)  8 JAN 2026 11:43
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -412,11 +412,7 @@ Package translations Info: No language package found. I am going to use `english
 File: l3backend-pdftex.def 2024-01-04 L3 backend support: PDF output (pdfTeX)
 \l__color_backend_stack_int=\count323
 \l__pdf_internal_box=\box67
-) (./supplementary.aux
-
-LaTeX Warning: Label `tab:discrete model method interaction cld' multiply defined.
-
-)
+) (./supplementary.aux)
 \openout1 = `supplementary.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 28.
@@ -590,18 +586,14 @@ Package pdftex.def Info: figures/discrete_boxplot_rm_axes.pdf  used on input lin
 LaTeX2e <2023-11-01> patch level 1
 L3 programming layer <2024-01-22>
  ***********
-
-
-LaTeX Warning: There were multiply-defined labels.
-
 Package rerunfilecheck Info: File `supplementary.out' has not changed.
 (rerunfilecheck)             Checksum: 7273FE011E314F16BB7A8F1B236BE6EB;297.
  ) 
 Here is how much of TeX's memory you used:
- 18859 strings out of 474222
- 356574 string characters out of 5748733
+ 18860 strings out of 474222
+ 356620 string characters out of 5748733
  1951975 words of memory out of 5000000
- 40769 multiletter control sequences out of 15000+600000
+ 40770 multiletter control sequences out of 15000+600000
  578697 words of font info for 136 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  73i,10n,80p,1066b,921s stack positions out of 10000i,1000n,20000p,200000b,200000s

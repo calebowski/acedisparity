@@ -273,8 +273,6 @@ Both procedures were implemented using the \texttt{sample = 100} argument in the
 %TG: I think a figure here is a really good idea! You could try to squeeze it in the pipeline one but maybe it's clearer as a standalone. maybe try both and see? %NC: Yeah see if it'll fit in Fig 2 first, it could also go in the supplemental if you've got too many figures
 
 \subsection{Disparity analyses}
-To ensure fair comparison among different fossil sampling levels, only the nodes present across all fossil sampling levels were retained from the ancestral state estimation outputs for each phylogeny; therefore, comparisons in disparity calculations among fossil sampling levels differed solely on the difference in number of fossil tips and the estimations of node states.
-
 When assessing overall disparity, we wanted to understand how well ancestral state estimation can recover true patterns in size and density in trait space occupancy \citep{guillerme2020shifting}.
 % Since we were assessing overall disparity, position was not a metric that can be discerned due to the centring of ordinated matrices. TG: this sentence is probably not necessary. But might bring it back if a reviewer asks for why no position?
 Size-based metrics describe the spread of points in the trait space \citep{guillerme2020shifting}.
@@ -336,58 +334,134 @@ We carried out post-hoc pairwise comparisons using estimated marginal means, adj
 
 \section{Results}
 % \subsection{Overall disparity error}
-\subsection{Effect of estimation method}
-For continuous characters, method of estimation had a significant effect on disparity accuracy ($F = 358,~ p < .001$) (\autoref{fig:continuous boxplot}).
-Notably, ancestral state estimation methods performed better overall than excluding ancestral states.
-Specifically, post-hoc pairwise comparisons of estimated marginal means (\textit{emmeans}) revealed both pre- and post-ordination distributions of ancestral state estimations returned the lowest log disparity errors while using point estimates performed worse than bypassing ancestral state estimation (\autoref{tab:continuous method cld}).
-For discrete characters, the method of estimation also was a significant driver of disparity estimation accuracy ($F = 10767,~ p < .001$) (\autoref{fig:discrete raw boxplot}).
-A similar pattern was observed to continuous characters, with ancestral state estimation methods outperforming bypassing ancestral state estimation.
-Estimated marginal means averaged across all other parameters revealed that pre-ordination point estimates were the best performing method (\autoref{tab:discrete method cld}). 
-
-\subsection{Effect of estimation method and fossil sampling}
-Fossil sampling was the strongest driver of recovery of an accurate disparity signal for continuous traits ($F = 9169,~ p < .001$).
-Every increase in fossil sampling level resulted in a significant reduction in disparity error.
-Specifically, estimations lacking fossil data recovered disparity error five times larger than those with complete fossil records.
-Furthermore, the interaction between estimation method:fossil sampling was highly significant ($F = 134,~ p < .001$).
-While ancestral state estimations performed best at high fossil sampling levels (100, 50 and 15\%), at low fossil sampling levels (5 and 0\%) bypassing ancestral state estimation was the best performing approach.
-However, this pattern was both model- and disparity metric-dependent.
-
-Fossil sampling was also a key driver for discrete traits ($F = 22191,~ p < .001$) and a similar pattern observed, with increases in fossil sampling returning more accurate disparity values
-The interaction between estimation method and fossil sampling was also significant ($F = 2710,~ p < .001$), but with a different pattern to continuous traits.
-Instead, ancestral state estimation methods performed better than no ancestral state estimations at all fossil sampling levels.
-At higher fossil sampling levels, pre-ordination point estimates were most accurate and at lower sampling levels distribution estimation methods performed best (\autoref{tab:discrete fossil method interaction cld}). 
-
-\subsection{Effect of estimation method and model of evolution}
-For continuous characters, the model of trait evolution also had a significant impact on the recovery of an accurate disparity signal($F = 2956,~ p < .001$) and interaction with estimation method ($F = 1454, p < .001$).
-For Brownian motion (BM) and BM + trend, the best methods were the pre- and post-ordination distribution estimations (\autoref{tab:continuous model method interaction cld}).
-The point estimations also returned less disparity error than bypassing ancestral state estimations for these BM models.
-In contrast, bypassing ancestral state estimation was the best approach for an OU model (\autoref{tab:continuous model method interaction cld}).
-
-For discrete characters, the transition rate was a key driver ($F = 6957, p < .001$).
-Generally, fast rates were harder to estimate disparity from than slow rates.
-The interaction between transition rate and estimation method was also significant ($F = 1541, p < .001$). 
-Specifically, slow rates were best recovered using pre-ordination distribution estimations, whereas medium and fast rates were best recovered using pre-ordination point estimates.
-
-\subsection{Effect of disparity metric}
-The disparity metric was a substantial driver of the estimation accuracy from continuous characters ($F = 5028,~ p < .001$). 
-The sum of quantiles was the easiest metric to estimate, while the sum of variances was the hardest (see table).
-However, there was little interaction between the disparity metric and estimation method on estimation accuracy ($F = 7, p < .001$).
-For all metrics, the pre-ordination ancestral state estimation method was the best performing method (see table). 
-
-For discrete characters, the disparity metric was the largest driver of variation in estimation accuracy across all parameters ($F = 26174, p < .001$) and its interaction with estimation method also significant ($F = 230, p < .001$).
-Specifically, the pre-ordination point estimation was the best method for across all three metrics; of which the mean pairwise distance was the easiest to recover and sum of quantiles the hardest (\autoref{tab:discrete metric method interaction cld}).
 
 
-\subsection{Three-way interaction}
-We assessed the three-way interaction between the estimation method, fossil sampling level and model of evolution per each disparity metric, since this was found to be a clear driver of variation for both continuous ($F = 60, p < .001$) and discrete ($F = 588, p < .001$) derived disparity errors.
-For continuous characters, a clear pattern emerges across all three metrics.
-Methods of ancestral state estimation were most accurate across each metric under BM at all fossil sampling levels.
-Under BM + trend, the pre-ordination distribution estimations were best across all three metrics at higher fossil sampling levels (100, 50, and 15\%), but at low fossil sampling levels not using ancestral state estimations returned the lowest disparity error.
-Estimations of disparity from an OU model were always most accurate when not using ancestral state estimations under all three metrics and all fossil sampling levels.
+\subsection{Continuous traits}
+For continuous characters, the method of estimation had a significant effect on disparity accuracy ($F = 358,~ p < .001$) (\autoref{fig:continuous boxplot})
+\subsubsection{Methods of estimation}
+Notably, using ancestral state estimation methods were found to improve estimates of disparity compared to excluding ancestral states when averaged over all scenarios (\autoref{tab:continuous method cld}).
+Post-hoc pairwise comparisons of estimated marginal means (\textit{emmeans}) revealed both pre- and post-ordination distributions of ancestral state estimations returned the lowest log disparity errors. 
+In contrast, point estimates performed worse overall than bypassing ancestral state estimation (\autoref{tab:continuous method cld}).
 
-For discrete characters, we found that disparity errors from fast and medium rates largely followed the same pattern across fossil sampling levels. 
-This was characterised by point estimates, specifically pre-ordination, being most accurate at high fossil sampling levels and distribution approaches being most accurate at low fossil sampling levels.
-At slow rates, the pre-ordination distribution method was the most accurate across all three metrics and fossil sampling levels.
+\subsubsection{Contextual effects}
+However, this pattern was predominantly context-specific.
+Fossil sampling was the strongest driver of recovery of an accurate disparity signal for continuous traits ($F = 9169,~ p < .001$), as each increase in fossil sampling level resulted in a significant reduction in disparity error.
+There was a significant interaction between estimation method and fossil sampling ($F = 134,~ p < .001$). 
+At high fossil sampling levels, pre-ordination distribution estimations were the most accurate method, whereas at low sampling levels exclusion of ancestral states returned the lowest disparity error.
+This pattern was found to be model-specific, however, signified by a significant three-way interaction  ($F = 60, p < .001$). 
+For Brownian motion (BM) the best methods across all fossil sampling levels was the pre-ordination distribution method.
+When BM undergoes a trend, however, then excluding ancestral states becomes the best approach when fossil sampling is below 15\%.
+In contrast, under an OU model excluding ancestral states is the best approach across all fossil sampling levels.  
+While the disparity metric had a large effect on the overall estimation accuracy ($F = 5028,~ p < .001$), it was a relatively lower driver of variation regarding its interaction with the estimation method ($F = 7, p < .001$).
+Therefore, while estimation accuracy differed between metrics, the hierarchy between optimal methods was relatively consistent across metrics. 
+
+\textbf{Key takeaways:}
+\begin{itemize}
+    \item Use \textbf{pre-ordination distribution} estimations when trait data is BM (+ trend) and/or when fossil sampling is high
+\end{itemize}
+
+
+
+\subsection{Discrete traits}
+For discrete characters, the method of estimation also had a significant effect on disparity accuracy ($F = 10767, p < .001$) (\autoref{fig:discrete raw boxplot}).
+\subsubsection{Methods of estimation} Similar to continuous traits, methods of ancestral state estimation consistently improved disparity estimates compared to excluding ancestral states (\autoref{tab:discrete method cld}). 
+However, the optimal type of estimation differed. 
+Post-hoc pairwise comparisons of estimated marginal means revealed that pre-ordination point estimates returned the lowest log disparity errors. 
+In contrast to continuous traits, distribution methods generally performed worse than point estimates on average, and post-ordination point estimates performed worse than excluding ancestral states entirely (\autoref{tab:discrete method cld}).
+\subsubsection{Contextual effects} 
+The efficacy of these methods was again strictly context-dependent.
+Fossil sampling remained a strong driver of accuracy ($F = 22191,~ p < .001$) and there was a strong significant interaction between estimation method and fossil sampling ($F = 2710, p < .001$).
+At high fossil sampling levels (>15\%), pre-ordination point estimates returned the most accurate disparity values.
+However, at low sampling levels (<5\%), the optimal method shifted to distribution estimations.
+
+This pattern was mirrored by the transition rate, which also had a significant  interaction with estimation method ($F = 1541, p < .001$). 
+Generally, fast and medium rates were harder to estimate disparity from than slow rates.
+At fast and medium transition rates, point estimates are favourable at high fossil sampling levels, but distribution estimates are best at low fossil sampling levels.
+AT slow transition rates, using pre-ordination distribution is best across all fossil sampling levels.
+
+
+
+
+
+\begin{table}[h]
+\centering
+\begin{tabular}{l l l}
+\hline
+\textbf{Data Type} & \textbf{Condition} & \textbf{Optimal Method} \\
+\hline
+\textbf{Continuous} & BM / Trend (High Fossils) & \textbf{Pre-ord Distribution} \\
+& OU Model \textit{or} Low Fossils & \textbf{No ASE} \\
+\hline
+\textbf{Discrete} & Med-Fast Rates / High Fossils & \textbf{Pre-ord Point Estimate} \\
+& Slow Rates \textit{or} Low Fossils & \textbf{Pre-ord Distribution} \\
+\hline
+\end{tabular}
+\caption{Summary of optimal estimation strategies based on interactions between model, sampling, and method.}
+\label{tab:best_methods}
+\end{table}
+
+
+When averaged across models of evolution and disparity metrics, ancestral state estimations were the best performing method at high fossil sampling levels (100, 50 and 15\%),  whereas at low fossil sampling levels (5 and 0\%) excluding ancestral states was the best performing method (\autoref{tab:continuous fossil method interaction cld}).
+
+
+% For continuous characters, the model of trait evolution also had a significant impact on the recovery of an accurate disparity signal ($F = 2956,~ p < .001$) and interaction with estimation method ($F = 1454, p < .001$).
+% For Brownian motion (BM) and BM + trend, the best methods averaged across all fossil sampling levels and disparity metrics were pre- and post-ordination distribution estimations (\autoref{tab:continuous model method interaction cld}).
+% The point estimations also returned less disparity error than excluding ancestral state estimations for these BM models.
+% In contrast, bypassing ancestral state estimation was the best approach for an OU model (\autoref{tab:continuous model method interaction cld}).
+
+
+The three-way interaction between ($F = 60, p < .001$)
+
+
+
+
+
+
+
+
+
+
+
+% Fossil sampling was also a key driver for discrete traits ($F = 22191,~ p < .001$) with increases in fossil sampling also returning more accurate disparity values.
+% The interaction between estimation method and fossil sampling was also significant ($F = 2710,~ p < .001$), but with a different pattern to continuous traits.
+% Instead, ancestral state estimation methods performed better than no ancestral state estimations at all fossil sampling levels, when averaged across all transition rates and disparity metrics.
+% At higher fossil sampling levels, pre-ordination point estimates were most accurate and at lower sampling levels distribution estimation methods performed best (\autoref{tab:discrete fossil method interaction cld}). 
+
+% \subsection{Effect of estimation method and model of evolution}
+% For continuous characters, the model of trait evolution also had a significant impact on the recovery of an accurate disparity signal ($F = 2956,~ p < .001$) and interaction with estimation method ($F = 1454, p < .001$).
+% For Brownian motion (BM) and BM + trend, the best methods averaged across all fossil sampling levels and disparity metrics were pre- and post-ordination distribution estimations (\autoref{tab:continuous model method interaction cld}).
+% The point estimations also returned less disparity error than excluding ancestral state estimations for these BM models.
+% In contrast, bypassing ancestral state estimation was the best approach for an OU model (\autoref{tab:continuous model method interaction cld}).
+% % main takeaway: if data is brownian (incl trend) use ASE; if data is OU do not use ASE
+
+% For discrete characters, the transition rate was a key driver ($F = 6957, p < .001$).
+% Generally, fast and medium rates were harder to estimate disparity from than slow rates.
+% The interaction between transition rate and estimation method was also significant ($F = 1541, p < .001$). 
+% Slow rates were most accurately recovered using pre-ordination distribution estimations, whereas medium and fast rates were best recovered using pre-ordination point estimates (\autoref{tab:discrete model method interaction cld}).
+
+% \subsection{Effect of disparity metric}
+% The disparity metric was also substantial driver of the estimation accuracy from continuous characters ($F = 5028,~ p < .001$). 
+% Disparity values returned using the sum of quantiles were generally the easiest to estimate, whereas sum of variances were the hardest.
+% However, there was little interaction between the disparity metric and estimation method on estimation accuracy ($F = 7, p < .001$).
+% For all three disparity metrics, pre-ordination ancestral state estimations returned the most accurate disparity values, averaged across all other parameters (\autoref{tab:continuous metric method interaction cld}). 
+
+% For discrete characters, the disparity metric was the largest driver of variation in estimation accuracy across all parameters ($F = 26174, p < .001$) and its interaction with estimation method also significant ($F = 230, p < .001$).
+% Specifically, the pre-ordination point estimation was the best method for across all three metrics, when averaged across all other parameters; of which the mean pairwise distance was the easiest to recover and sum of quantiles the hardest (\autoref{tab:discrete metric method interaction cld}).
+
+
+% \subsection{Three-way interaction}
+% We assessed the three-way interaction between the estimation method, fossil sampling level and model of evolution per each disparity metric, since this was found to be a clear driver of variation for both continuous ($F = 60, p < .001$) and discrete ($F = 588, p < .001$) derived disparity errors.
+% For continuous characters simulated using BM, the pre-ordination distribution method was most accurate across all fossil sampling levels.
+
+
+
+% Methods of ancestral state estimation were most accurate across each metric under BM at all fossil sampling levels.
+% Under BM + trend, the pre-ordination distribution estimations were best across all three metrics at higher fossil sampling levels (100, 50, and 15\%), but at low fossil sampling levels not using ancestral state estimations returned the lowest disparity error.
+% Estimations of disparity from an OU model were always most accurate when not using ancestral state estimations under all three metrics and all fossil sampling levels.
+
+% For discrete characters, we found that disparity errors from fast and medium rates largely followed the same pattern across fossil sampling levels. 
+% This was characterised by point estimates, specifically pre-ordination, being most accurate at high fossil sampling levels and distribution approaches being most accurate at low fossil sampling levels.
+% At slow rates, the pre-ordination distribution method was the most accurate across all three metrics and fossil sampling levels.
 
 
 
@@ -495,7 +569,7 @@ At slow rates, the pre-ordination distribution method was the most accurate acro
 \begin{figure}[h]
 \centering
 \includegraphics[width=1\textwidth]{figures/discrete_boxplot.pdf}
-\caption{\textbf{Results discrete (raw)} Relative disparity errors across all dimensions returned by ordinations.} 
+\caption{\textbf{Results discrete} Relative disparity errors across all dimensions returned by ordinations.} 
 \label{fig:discrete raw boxplot} 
 \end{figure}
 
@@ -540,271 +614,6 @@ At slow rates, the pre-ordination distribution method was the most accurate acro
 \hline
 \end{tabular}
 \end{table}
-
-
-
-% \begin{table}[H]
-% \caption{\textbf{Continuous traits: estimated marginal means of each method averaged over the levels of: model, fossil sampling, disparity metric and tree size.} Confidence level used: 0.95. Significance level: 0.05. Note that emmeans were log transformed, so the most negative value means the most accurate (closest to 0).}
-% \label{tab:continuous method cld}
-
-% \centering
-% \begin{tabular}{lrrrrrl}
-%   \hline
-% Estimation method & emmean & SE & df & asymp.LCL & asymp.UCL & .group \\ 
-%   \hline
-% Pre-ord dist & -3.3381 & 0.0127 & Inf & -3.3630 & -3.3132 &  a   \\ 
-%   Post-ord dist & -3.3188 & 0.0127 & Inf & -3.3438 & -3.2939 &  a   \\ 
-%   No ASE & -3.1366 & 0.0127 & Inf & -3.1615 & -3.1117 &   b  \\ 
-%   Pre-ord point & -3.0866 & 0.0127 & Inf & -3.1115 & -3.0617 &    c \\ 
-%   Post-ord point  & -3.0770 & 0.0127 & Inf & -3.1019 & -3.0521 &    c \\ 
-%    \hline
-% \end{tabular}
-% \end{table}
-
-
-% % latex table generated in R 4.5.2 by xtable 1.8-4 package
-% % Tue Jan  6 12:34:58 2026
-% \begin{table}[H]
-% \caption{\textbf{Discrete traits: estimated marginal means of each method averaged over the levels of: transition rate, fossil sampling, disparity metric and tree size.} Confidence level used: 0.95. Significance level: 0.05. Note that emmeans were log transformed, so the most negative value means the most accurate (closest to 0).}
-% \label{tab:discrete method cld}
-% \centering
-% \begin{tabular}{lrrrrrl}
-%   \hline
-% Estimation method & emmean & SE & df & asymp.LCL & asymp.UCL & .group \\ 
-%   \hline
-% Pre-ord point & -1.1202 & 0.0057 & Inf & -1.1314 & -1.1090 &  a     \\ 
-% Pre-ord dist & -1.0552 & 0.0057 & Inf & -1.0664 & -1.0439 &   b    \\ 
-% Post-ord dist & -0.7685 & 0.0057 & Inf & -0.7797 & -0.7572 &    c   \\ 
-% No ASE & -0.6474 & 0.0057 & Inf & -0.6587 & -0.6362 &     d  \\ 
-% Post-ord point & -0.4679 & 0.0057 & Inf & -0.4791 & -0.4567 &      e \\ 
-%    \hline
-% \end{tabular}
-% \end{table}
-
-
-
-% % latex table generated in R 4.5.2 by xtable 1.8-4 package
-% % Mon Jan  5 15:37:13 2026
-% \begin{table}[H]
-% \caption{\textbf{Continuous traits: interaction between fossil sampling:estimation method, averaged over model of evolution, disparity metric and tree size} Confidence level used: 0.95. Significance level: 0.05. Note that emmeans were log transformed, so the most negative value means the most accurate (closest to 0).}
-% \label{tab:continuous fossil method interaction cld}
-% \centering
-% \begin{tabular}{llrrrrrl}
-%   \hline
-% Estimation method & Fossil sampling & emmean & SE & df & asymp.LCL & asymp.UCL & .group \\ 
-%   \hline
-% Pre-ord dist & 100\% & -4.3476 & 0.0185 & Inf & -4.3838 & -4.3113 &  a              \\ 
-%   Post-ord dist & 100\% & -4.3075 & 0.0185 & Inf & -4.3438 & -4.2712 &  a              \\ 
-%   Pre-ord point & 100\% & -3.7910 & 0.0185 & Inf & -3.8273 & -3.7547 &   b             \\ 
-%   Post-ord point & 100\% & -3.7746 & 0.0185 & Inf & -3.8108 & -3.7383 &   bc            \\ 
-%   Pre-ord dist & 50\% & -3.7734 & 0.0185 & Inf & -3.8096 & -3.7371 &   bc            \\ 
-%   Post-ord dist & 50\% & -3.7608 & 0.0185 & Inf & -3.7970 & -3.7245 &   bcd           \\ 
-%   Pre-ord point & 50\% & -3.7036 & 0.0185 & Inf & -3.7399 & -3.6673 &    cd           \\ 
-%   Post-ord point & 50\% & -3.6883 & 0.0185 & Inf & -3.7246 & -3.6520 &     de          \\ 
-%   No ASE & 100\% & -3.6107 & 0.0185 & Inf & -3.6470 & -3.5744 &      e          \\ 
-%   No ASE & 50\% & -3.3361 & 0.0185 & Inf & -3.3724 & -3.2998 &       f         \\ 
-%   Pre-ord dist & 15\% & -3.2275 & 0.0185 & Inf & -3.2638 & -3.1912 &        g        \\ 
-%   Post-ord dist & 15\% & -3.2178 & 0.0185 & Inf & -3.2541 & -3.1815 &        g        \\ 
-%   No ASE & 15\% & -3.1806 & 0.0185 & Inf & -3.2169 & -3.1443 &        g        \\ 
-%   Post-ord point & 15\% & -3.0807 & 0.0185 & Inf & -3.1170 & -3.0444 &         h       \\ 
-%   Pre-ord point & 15\% & -3.0803 & 0.0185 & Inf & -3.1166 & -3.0440 &         h       \\ 
-%   No ASE & 5\% & -2.9970 & 0.0185 & Inf & -3.0333 & -2.9607 &          i      \\ 
-%   Pre-ord dist & 5\% & -2.9148 & 0.0185 & Inf & -2.9510 & -2.8785 &           j     \\ 
-%   Post-ord dist & 5\% & -2.8981 & 0.0185 & Inf & -2.9344 & -2.8619 &           j     \\ 
-%   Pre-ord point & 5\% & -2.6994 & 0.0185 & Inf & -2.7357 & -2.6632 &            k    \\ 
-%   Post-ord point & 5\% & -2.6833 & 0.0185 & Inf & -2.7196 & -2.6471 &            k    \\ 
-%   No ASE & 0\% & -2.5585 & 0.0185 & Inf & -2.5947 & -2.5222 &             l   \\ 
-%   Pre-ord dist & 0\% & -2.4272 & 0.0185 & Inf & -2.4635 & -2.3910 &              m  \\ 
-%   Post-ord dist & 0\% & -2.4100 & 0.0185 & Inf & -2.4462 & -2.3737 &              m  \\ 
-%   Pre-ord point & 0\% & -2.1585 & 0.0185 & Inf & -2.1947 & -2.1222 &               n \\ 
-%   Post-ord point & 0\% & -2.1582 & 0.0185 & Inf & -2.1945 & -2.1220 &               n \\ 
-%    \hline
-% \end{tabular}
-% \end{table}
-
-
-% % latex table generated in R 4.5.2 by xtable 1.8-4 package
-% % Tue Jan  6 12:43:26 2026
-% \begin{table}[H]
-% \caption{\textbf{Discrete traits: interaction between fossil sampling:estimation method, averaged over transition rate, disparity metric and tree size} Confidence level used: 0.95. Significance level: 0.05. Note that emmeans were log transformed, so the most negative value means the most accurate (closest to 0).}
-% \label{tab:discrete fossil method interaction cld}
-% \centering
-% \begin{tabular}{llrrrrrl}
-%   \hline
-% method & fossil\_sampling & emmean & SE & df & asymp.LCL & asymp.UCL & .group \\ 
-%   \hline
-% Pre-ord point & 100\% & -2.4764 & 0.0078 & Inf & -2.4917 & -2.4611 &  a                  \\ 
-%   Pre-ord dist & 100\% & -2.1638 & 0.0078 & Inf & -2.1791 & -2.1485 &   b                 \\ 
-%   Pre-ord point & 50\% & -1.1561 & 0.0078 & Inf & -1.1714 & -1.1408 &    c                \\ 
-%   Pre-ord dist & 50\% & -1.1034 & 0.0078 & Inf & -1.1187 & -1.0881 &     d               \\ 
-%   No ASE & 100\% & -1.0478 & 0.0078 & Inf & -1.0631 & -1.0325 &      e              \\ 
-%   Post-ord dist & 100\% & -0.9627 & 0.0078 & Inf & -0.9779 & -0.9474 &       f             \\ 
-%   Post-ord dist & 50\% & -0.7620 & 0.0078 & Inf & -0.7773 & -0.7468 &        g            \\ 
-%   Pre-ord point & 15\% & -0.7589 & 0.0078 & Inf & -0.7742 & -0.7436 &        gh           \\ 
-%   Pre-ord dist & 15\% & -0.7559 & 0.0078 & Inf & -0.7712 & -0.7406 &        gh           \\ 
-%   No ASE & 50\% & -0.7441 & 0.0078 & Inf & -0.7594 & -0.7288 &        gh           \\ 
-%   Post-ord point & 100\% & -0.7362 & 0.0078 & Inf & -0.7515 & -0.7209 &        gh           \\ 
-%   Post-ord dist & 0\% & -0.7285 & 0.0078 & Inf & -0.7438 & -0.7132 &         hi          \\ 
-%   Post-ord dist & 5\% & -0.7006 & 0.0078 & Inf & -0.7159 & -0.6853 &          ij         \\ 
-%   Post-ord dist & 15\% & -0.6885 & 0.0078 & Inf & -0.7038 & -0.6732 &           j         \\ 
-%   Pre-ord dist & 5\% & -0.6531 & 0.0078 & Inf & -0.6684 & -0.6378 &            k        \\ 
-%   Pre-ord point & 5\% & -0.6388 & 0.0078 & Inf & -0.6541 & -0.6235 &            k        \\ 
-%   Pre-ord dist & 0\% & -0.5996 & 0.0078 & Inf & -0.6148 & -0.5843 &             l       \\ 
-%   Pre-ord point & 0\% & -0.5708 & 0.0078 & Inf & -0.5861 & -0.5555 &             lm      \\ 
-%   Post-ord point & 50\% & -0.5438 & 0.0078 & Inf & -0.5591 & -0.5285 &              m      \\ 
-%   No ASE & 15\% & -0.5417 & 0.0078 & Inf & -0.5570 & -0.5264 &              m      \\ 
-%   No ASE & 5\% & -0.4720 & 0.0078 & Inf & -0.4873 & -0.4567 &               n     \\ 
-%   No ASE & 0\% & -0.4316 & 0.0078 & Inf & -0.4469 & -0.4163 &                o    \\ 
-%   Post-ord point & 15\% & -0.4001 & 0.0078 & Inf & -0.4154 & -0.3848 &                 p   \\ 
-%   Post-ord point & 5\% & -0.3473 & 0.0078 & Inf & -0.3626 & -0.3320 &                  q  \\ 
-%   Post-ord point & 0\% & -0.3122 & 0.0078 & Inf & -0.3274 & -0.2969 &                   r \\ 
-%    \hline
-% \end{tabular}
-% \end{table}
-
-% latex table generated in R 4.5.2 by xtable 1.8-4 package
-% Mon Jan  5 12:45:44 2026
-% \begin{table}[H]
-% \caption{\textbf{Continuous traits: estimated marginal means of each model of evolution averaged over: estimation method, fossil sampling, disparity metric and tree size.} Confidence level used: 0.95. Significance level: 0.05. Note that emmeans were log transformed, so the most negative value means the most accurate (closest to 0).}
-% \label{tab:continuous model cld}
-% \centering
-% \begin{tabular}{lrrrrrl}
-%   \hline
-% model & emmean & SE & df & asymp.LCL & asymp.UCL & .group \\ 
-%   \hline
-% BM + trend & -3.3983 & 0.0120 & Inf & -3.4217 & -3.3748 &  a   \\ 
-%   BM & -3.3074 & 0.0120 & Inf & -3.3309 & -3.2840 &   b  \\ 
-%   OU (strong) & -2.8686 & 0.0120 & Inf & -2.8920 & -2.8451 &    c \\ 
-%    \hline
-% \end{tabular}
-% \end{table}
-
-
-% % latex table generated in R 4.5.2 by xtable 1.8-4 package
-% % Tue Jan  6 12:09:31 2026
-% \begin{table}[H]
-% \caption{\textbf{Continuous traits: interaction between model:estimation method, averaged over fossil sampling, disparity metric and tree size} Confidence level used: 0.95. Significance level: 0.05. Note that emmeans were log transformed, so the most negative value means the most accurate (closest to 0).}
-% \label{tab:continuous model method interaction cld}
-% \centering
-% \begin{tabular}{llrrrrrl}
-%   \hline
-% Model & Estimation method & emmean & SE & df & asymp.LCL & asymp.UCL & .group \\ 
-%   \hline
-% OU & No ASE & -3.6422 & 0.0159 & Inf & -3.6733 & -3.6111 &  a        \\ 
-%   BM & Pre-ord dist& -3.5494 & 0.0159 & Inf & -3.5806 & -3.5183 &   b       \\ 
-%   BM + trend & Pre-ord dist& -3.5444 & 0.0159 & Inf & -3.5755 & -3.5133 &   b       \\ 
-%   BM & Post-ord dist & -3.5326 & 0.0159 & Inf & -3.5637 & -3.5015 &   b       \\ 
-%   BM + trend & Post-ord dist & -3.5120 & 0.0159 & Inf & -3.5431 & -3.4809 &   b       \\ 
-%   BM & Post-ord point & -3.4530 & 0.0159 & Inf & -3.4841 & -3.4218 &    c      \\ 
-%   BM & Pre-ord point & -3.4506 & 0.0159 & Inf & -3.4818 & -3.4195 &    c      \\ 
-%   BM + trend & Pre-ord point & -3.3730 & 0.0159 & Inf & -3.4041 & -3.3419 &     d     \\ 
-%   BM + trend & Post-ord point & -3.3459 & 0.0159 & Inf & -3.3770 & -3.3148 &     d     \\ 
-%   BM + trend & No ASE & -3.2160 & 0.0159 & Inf & -3.2471 & -3.1849 &      e    \\ 
-%   OU & Pre-ord dist& -2.9204 & 0.0159 & Inf & -2.9516 & -2.8893 &       f   \\ 
-%   OU & Post-ord dist & -2.9119 & 0.0159 & Inf & -2.9430 & -2.8808 &       f   \\ 
-%   BM & No ASE & -2.5515 & 0.0159 & Inf & -2.5826 & -2.5203 &        g  \\ 
-%   OU & Pre-ord point & -2.4361 & 0.0159 & Inf & -2.4672 & -2.4050 &         h \\ 
-%   OU & Post-ord point & -2.4322 & 0.0159 & Inf & -2.4633 & -2.4011 &         h \\ 
-%    \hline
-% \end{tabular}
-% \end{table}
-
-% % latex table generated in R 4.5.2 by xtable 1.8-4 package
-% % Tue Jan  6 12:56:11 2026
-
-
-% \begin{table}[H]
-% \caption{\textbf{Discrete traits: interaction between model:estimation method, averaged over fossil sampling, disparity metric and tree size} Confidence level used: 0.95. Significance level: 0.05. Note that emmeans were log transformed, so the most negative value means the most accurate (closest to 0).}
-% \label{tab:discrete model method interaction cld}
-% \centering
-% \begin{tabular}{llrrrrrl}
-%   \hline
-% model & method & emmean & SE & df & asymp.LCL & asymp.UCL & .group \\ 
-%   \hline
-% slow & Pre-ord dist & -1.4945 & 0.0068 & Inf & -1.5079 & -1.4811 &  a          \\ 
-%   slow & Pre-ord point & -1.3649 & 0.0068 & Inf & -1.3783 & -1.3515 &   b         \\ 
-%   med & Pre-ord point & -1.2201 & 0.0068 & Inf & -1.2335 & -1.2067 &    c        \\ 
-%   med & Pre-ord dist & -0.9866 & 0.0068 & Inf & -1.0000 & -0.9732 &     d       \\ 
-%   med & Post-ord dist & -0.8436 & 0.0068 & Inf & -0.8570 & -0.8302 &      e      \\ 
-%   fast & Pre-ord point & -0.7756 & 0.0068 & Inf & -0.7890 & -0.7622 &       f     \\ 
-%   slow & Post-ord dist & -0.7569 & 0.0068 & Inf & -0.7703 & -0.7435 &       f     \\ 
-%   fast & Post-ord dist & -0.7049 & 0.0068 & Inf & -0.7183 & -0.6915 &        g    \\ 
-%   med & No ASE & -0.6947 & 0.0068 & Inf & -0.7081 & -0.6813 &        g    \\ 
-%   slow & No ASE & -0.6846 & 0.0068 & Inf & -0.6980 & -0.6712 &        g    \\ 
-%   fast & Pre-ord dist & -0.6844 & 0.0068 & Inf & -0.6978 & -0.6710 &        g    \\ 
-%   fast & No ASE & -0.5630 & 0.0068 & Inf & -0.5764 & -0.5496 &         h   \\ 
-%   slow & Post-ord point & -0.5098 & 0.0068 & Inf & -0.5232 & -0.4964 &          i  \\ 
-%   med & Post-ord point & -0.4924 & 0.0068 & Inf & -0.5058 & -0.4790 &          i  \\ 
-%   fast & Post-ord point & -0.4015 & 0.0068 & Inf & -0.4149 & -0.3881 &           j \\ 
-%    \hline
-% \end{tabular}
-% \end{table}
-
-
-% \begin{table}[H]
-%   \caption{\textbf{Continuous traits: interaction between disparity metric:estimation method, averaged over fossil sampling, model of evolution and tree size} Confidence level used: 0.95. Significance level: 0.05. Note that emmeans were log transformed, so the most negative value means the most accurate (closest to 0).}
-% \label{tab:discrete model method interaction cld}
-% \centering
-% \begin{tabular}{llrrrrrl}
-%   \hline
-% method & metric & emmean & SE & df & asymp.LCL & asymp.UCL & .group \\ 
-%   \hline
-% Pre-ord dist & Sum of quantiles & -3.5846 & 0.0159 & Inf & -3.6157 & -3.5535 &  a      \\ 
-%   Post-ord dist & Sum of quantiles & -3.5389 & 0.0159 & Inf & -3.5700 & -3.5078 &  ab     \\ 
-%   Pre-ord dist & Mean pairwise distance & -3.5292 & 0.0159 & Inf & -3.5603 & -3.4980 &  ab     \\ 
-%   Post-ord dist & Mean pairwise distance & -3.5218 & 0.0159 & Inf & -3.5529 & -3.4906 &   b     \\ 
-%   No ASE & Sum of quantiles & -3.4235 & 0.0159 & Inf & -3.4546 & -3.3924 &    c    \\ 
-%   No ASE & Mean pairwise distance & -3.3001 & 0.0159 & Inf & -3.3312 & -3.2690 &     d   \\ 
-%   Pre-ord point & Sum of quantiles & -3.2961 & 0.0159 & Inf & -3.3272 & -3.2650 &     d   \\ 
-%   Pre-ord point & Mean pairwise distance & -3.2906 & 0.0159 & Inf & -3.3218 & -3.2595 &     d   \\ 
-%   Post-ord point & Mean pairwise distance & -3.2871 & 0.0159 & Inf & -3.3182 & -3.2560 &     d   \\ 
-%   Post-ord point & Sum of quantiles & -3.2726 & 0.0159 & Inf & -3.3037 & -3.2415 &     d   \\ 
-%   Pre-ord dist & Sum of variances & -2.9005 & 0.0159 & Inf & -2.9316 & -2.8694 &      e  \\ 
-%   Post-ord dist & Sum of variances & -2.8959 & 0.0159 & Inf & -2.9270 & -2.8648 &      e  \\ 
-%   No ASE & Sum of variances & -2.6862 & 0.0159 & Inf & -2.7173 & -2.6550 &       f \\ 
-%   Pre-ord point & Sum of variances & -2.6730 & 0.0159 & Inf & -2.7041 & -2.6418 &       f \\ 
-%   Post-ord point & Sum of variances & -2.6714 & 0.0159 & Inf & -2.7025 & -2.6402 &       f \\ 
-%    \hline
-% \end{tabular}
-% \end{table}
-
-
-
-% % latex table generated in R 4.5.2 by xtable 1.8-4 package
-% % Tue Jan  6 12:52:33 2026
-% \begin{table}[H]
-% \caption{\textbf{Discrete traits: interaction between disparity metric:estimation method, averaged over fossil sampling, transition rate and tree size} Confidence level used: 0.95. Significance level: 0.05. Note that emmeans were log transformed, so the most negative value means the most accurate (closest to 0).}
-% \label{tab:discrete metric method interaction cld}
-% \centering
-% \begin{tabular}{llrrrrrl}
-%   \hline
-% method & metric & emmean & SE & df & asymp.LCL & asymp.UCL & .group \\ 
-%   \hline
-% Pre-ord point & Mean pairwise distance & -1.4925 & 0.0068 & Inf & -1.5059 & -1.4791 &  a             \\ 
-%   Pre-ord dist & Mean pairwise distance & -1.4381 & 0.0068 & Inf & -1.4516 & -1.4247 &   b            \\ 
-%   Post-ord dist & Mean pairwise distance & -1.1981 & 0.0068 & Inf & -1.2115 & -1.1846 &    c           \\ 
-%   No ASE & Mean pairwise distance & -1.0385 & 0.0068 & Inf & -1.0519 & -1.0250 &     d          \\ 
-%   Pre-ord point & Sum of variances & -0.9633 & 0.0068 & Inf & -0.9767 & -0.9499 &      e         \\ 
-%   Pre-ord dist & Sum of variances & -0.9138 & 0.0068 & Inf & -0.9272 & -0.9004 &       f        \\ 
-%   Pre-ord point & Sum of quantiles & -0.9049 & 0.0068 & Inf & -0.9183 & -0.8915 &       f        \\ 
-%   Pre-ord dist & Sum of quantiles & -0.8136 & 0.0068 & Inf & -0.8270 & -0.8001 &        g       \\ 
-%   Post-ord point & Mean pairwise distance & -0.7568 & 0.0068 & Inf & -0.7702 & -0.7434 &         h      \\ 
-%   Post-ord dist & Sum of variances & -0.7072 & 0.0068 & Inf & -0.7206 & -0.6938 &          i     \\ 
-%   No ASE & Sum of variances & -0.5579 & 0.0068 & Inf & -0.5713 & -0.5445 &           j    \\ 
-%   Post-ord dist & Sum of quantiles & -0.4002 & 0.0068 & Inf & -0.4136 & -0.3868 &            k   \\ 
-%   Post-ord point & Sum of variances & -0.3594 & 0.0068 & Inf & -0.3728 & -0.3460 &             l  \\ 
-%   No ASE & Sum of quantiles & -0.3460 & 0.0068 & Inf & -0.3594 & -0.3326 &             l  \\ 
-%   Post-ord point & Sum of quantiles & -0.2875 & 0.0068 & Inf & -0.3009 & -0.2741 &              m \\ 
-%    \hline
-% \end{tabular}
-% \end{table}
-
-
-
-
-
-
-
 
 
 
