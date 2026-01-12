@@ -337,143 +337,59 @@ We carried out post-hoc pairwise comparisons using estimated marginal means, adj
 
 
 \subsection{Continuous traits}
-For continuous characters, the method of estimation had a significant effect on disparity accuracy ($F = 358,~ p < .001$) (\autoref{fig:continuous boxplot})
 \subsubsection{Methods of estimation}
+For continuous characters, the method of estimation had a significant effect on disparity accuracy ($F = 358,~ p < .001$) (\autoref{fig:continuous boxplot}, \autoref{tab: anova continuous lmm}).
 Notably, using ancestral state estimation methods were found to improve estimates of disparity compared to excluding ancestral states when averaged over all scenarios (\autoref{tab:continuous method cld}).
 Post-hoc pairwise comparisons of estimated marginal means (\textit{emmeans}) revealed both pre- and post-ordination distributions of ancestral state estimations returned the lowest log disparity errors. 
 In contrast, point estimates performed worse overall than bypassing ancestral state estimation (\autoref{tab:continuous method cld}).
 
-\subsubsection{Contextual effects}
-However, this pattern was predominantly context-specific.
+\subsubsection{Interaction effects}
+However, this pattern was context-specific.
 Fossil sampling was the strongest driver of recovery of an accurate disparity signal for continuous traits ($F = 9169,~ p < .001$), as each increase in fossil sampling level resulted in a significant reduction in disparity error.
-There was a significant interaction between estimation method and fossil sampling ($F = 134,~ p < .001$). 
-At high fossil sampling levels, pre-ordination distribution estimations were the most accurate method, whereas at low sampling levels exclusion of ancestral states returned the lowest disparity error.
-This pattern was found to be model-specific, however, signified by a significant three-way interaction  ($F = 60, p < .001$). 
-For Brownian motion (BM) the best methods across all fossil sampling levels was the pre-ordination distribution method.
-When BM undergoes a trend, however, then excluding ancestral states becomes the best approach when fossil sampling is below 15\%.
-In contrast, under an OU model excluding ancestral states is the best approach across all fossil sampling levels.  
+Similarly, the evolutionary model ($F = 2956, p < .001$) and disparity metric ($F = 5028, p < .001$) were also strong drivers of variation in error.
+Tree size had a minor effect in comparison ($F = 43, p < .001$).
+The three-way interaction between estimation method, fossil sampling and evolutionary model was significant ($F = 60, p < .001$) and the post-hoc estimated marginal means can be used to identify the optimal method for models at each fossil sampling levels.
+For Brownian motion (BM) at 100\% fossil sampling, the distribution estimations were most accurate. 
+At 50\% and below, methods of \ase generally performed equally well and significantly better than excluding ancestral states. 
+Under BM + trend, a similar pattern was followed at high fossil sampling levels, yet when fossil sampling drops below 15\% methods of \ase perform worse than excluding ancestral states. 
+In contrast, under an OU model excluding ancestral states was the best approach across all fossil sampling levels.
 While the disparity metric had a large effect on the overall estimation accuracy ($F = 5028,~ p < .001$), it was a relatively lower driver of variation regarding its interaction with the estimation method ($F = 7, p < .001$).
-Therefore, while estimation accuracy differed between metrics, the hierarchy between optimal methods was relatively consistent across metrics. 
+Therefore, while estimation accuracy differed between metrics, the hierarchy between optimal methods was generally consistent across metrics.
 
 \textbf{Key takeaways:}
 \begin{itemize}
-    \item Use \textbf{pre-ordination distribution} estimations when trait data is BM (+ trend) and/or when fossil sampling is high
+    \item Use \textbf{distribution} estimations when trait data is BM (+ trend) and/or when fossil sampling is high.
+    \item If trait data has a trend, fossil sampling is essential to get reliable ancestral states.
+    \item When trait data is OU, it is most accurate to exclude ancestral states at all fossil sampling levels.
+    \item Generally, there is little discrepancy between pre- and post-ordination estimations.
 \end{itemize}
 
 
 
 \subsection{Discrete traits}
+\subsubsection{Methods of estimation} 
 For discrete characters, the method of estimation also had a significant effect on disparity accuracy ($F = 10767, p < .001$) (\autoref{fig:discrete raw boxplot}).
-\subsubsection{Methods of estimation} Similar to continuous traits, methods of ancestral state estimation consistently improved disparity estimates compared to excluding ancestral states (\autoref{tab:discrete method cld}). 
+Similar to continuous traits, methods of ancestral state estimation consistently improved disparity estimates compared to excluding ancestral states (\autoref{tab:discrete method cld}). 
 However, the optimal type of estimation differed. 
-Post-hoc pairwise comparisons of estimated marginal means revealed that pre-ordination point estimates returned the lowest log disparity errors. 
-In contrast to continuous traits, distribution methods generally performed worse than point estimates on average, and post-ordination point estimates performed worse than excluding ancestral states entirely (\autoref{tab:discrete method cld}).
-\subsubsection{Contextual effects} 
-The efficacy of these methods was again strictly context-dependent.
-Fossil sampling remained a strong driver of accuracy ($F = 22191,~ p < .001$) and there was a strong significant interaction between estimation method and fossil sampling ($F = 2710, p < .001$).
-At high fossil sampling levels (>15\%), pre-ordination point estimates returned the most accurate disparity values.
-However, at low sampling levels (<5\%), the optimal method shifted to distribution estimations.
+Post-hoc pairwise comparisons of estimated marginal means revealed that pre-ordination point estimates returned the lowest log disparity errors overall. 
+In contrast to continuous traits, distribution methods generally performed worse than pre-ordination point estimates on average, but post-ordination point estimates performed worse than excluding ancestral states (\autoref{tab:discrete method cld}).
+\subsubsection{Interaction effects} 
+Similar to continuous traits, fossil sampling ($F = 22191,~ p < .001$), transition rate ($F = 6957, p < .001$) and metric ($F = 26174, p < .001$) were again major drivers of variation in accuracy.
+As expected, increased fossil sampling and decreased transition rate led to lower disparity errors, and the mean pairwise distance was the easiest metric to recover, whereas the sum of quantiles was the hardest.
+The three-way interaction between estimation method, fossil sampling and transition rate explained much of the variation in the data ($F = 588, p < .001$).
+The broad pattern was that at high fossil sampling levels, pre-ordination point estimates were the best method, whereas at lower fossil sampling levels both pre- and post-ordination distributions returned the most accurate disparity values.
+This pattern was model-dependent, however, as under a slow rate the pre-ordination distribution method was the best performing method across all fossil sampling levels.
+At fast and medium rates under low fossil sampling (< 15\%), the post-ordination distribution method returned the lowest disparity errors.
+Notably, methods of ancestral state estimation outperformed their exclusion across all combinations of transition rate, fossil sampling level and disparity metric.
+Again, while the disparity metric was a significant driver to overall accuracy, it had little effect on the hierarchy in methods set by the transition rate and fossil sampling level, signified by a weak four-way interaction ($F = 10, p < .001$.)
 
-This pattern was mirrored by the transition rate, which also had a significant  interaction with estimation method ($F = 1541, p < .001$). 
-Generally, fast and medium rates were harder to estimate disparity from than slow rates.
-At fast and medium transition rates, point estimates are favourable at high fossil sampling levels, but distribution estimates are best at low fossil sampling levels.
-AT slow transition rates, using pre-ordination distribution is best across all fossil sampling levels.
-
-
-
-
-
-\begin{table}[h]
-\centering
-\begin{tabular}{l l l}
-\hline
-\textbf{Data Type} & \textbf{Condition} & \textbf{Optimal Method} \\
-\hline
-\textbf{Continuous} & BM / Trend (High Fossils) & \textbf{Pre-ord Distribution} \\
-& OU Model \textit{or} Low Fossils & \textbf{No ASE} \\
-\hline
-\textbf{Discrete} & Med-Fast Rates / High Fossils & \textbf{Pre-ord Point Estimate} \\
-& Slow Rates \textit{or} Low Fossils & \textbf{Pre-ord Distribution} \\
-\hline
-\end{tabular}
-\caption{Summary of optimal estimation strategies based on interactions between model, sampling, and method.}
-\label{tab:best_methods}
-\end{table}
-
-
-When averaged across models of evolution and disparity metrics, ancestral state estimations were the best performing method at high fossil sampling levels (100, 50 and 15\%),  whereas at low fossil sampling levels (5 and 0\%) excluding ancestral states was the best performing method (\autoref{tab:continuous fossil method interaction cld}).
-
-
-% For continuous characters, the model of trait evolution also had a significant impact on the recovery of an accurate disparity signal ($F = 2956,~ p < .001$) and interaction with estimation method ($F = 1454, p < .001$).
-% For Brownian motion (BM) and BM + trend, the best methods averaged across all fossil sampling levels and disparity metrics were pre- and post-ordination distribution estimations (\autoref{tab:continuous model method interaction cld}).
-% The point estimations also returned less disparity error than excluding ancestral state estimations for these BM models.
-% In contrast, bypassing ancestral state estimation was the best approach for an OU model (\autoref{tab:continuous model method interaction cld}).
-
-
-The three-way interaction between ($F = 60, p < .001$)
-
-
-
-
-
-
-
-
-
-
-
-% Fossil sampling was also a key driver for discrete traits ($F = 22191,~ p < .001$) with increases in fossil sampling also returning more accurate disparity values.
-% The interaction between estimation method and fossil sampling was also significant ($F = 2710,~ p < .001$), but with a different pattern to continuous traits.
-% Instead, ancestral state estimation methods performed better than no ancestral state estimations at all fossil sampling levels, when averaged across all transition rates and disparity metrics.
-% At higher fossil sampling levels, pre-ordination point estimates were most accurate and at lower sampling levels distribution estimation methods performed best (\autoref{tab:discrete fossil method interaction cld}). 
-
-% \subsection{Effect of estimation method and model of evolution}
-% For continuous characters, the model of trait evolution also had a significant impact on the recovery of an accurate disparity signal ($F = 2956,~ p < .001$) and interaction with estimation method ($F = 1454, p < .001$).
-% For Brownian motion (BM) and BM + trend, the best methods averaged across all fossil sampling levels and disparity metrics were pre- and post-ordination distribution estimations (\autoref{tab:continuous model method interaction cld}).
-% The point estimations also returned less disparity error than excluding ancestral state estimations for these BM models.
-% In contrast, bypassing ancestral state estimation was the best approach for an OU model (\autoref{tab:continuous model method interaction cld}).
-% % main takeaway: if data is brownian (incl trend) use ASE; if data is OU do not use ASE
-
-% For discrete characters, the transition rate was a key driver ($F = 6957, p < .001$).
-% Generally, fast and medium rates were harder to estimate disparity from than slow rates.
-% The interaction between transition rate and estimation method was also significant ($F = 1541, p < .001$). 
-% Slow rates were most accurately recovered using pre-ordination distribution estimations, whereas medium and fast rates were best recovered using pre-ordination point estimates (\autoref{tab:discrete model method interaction cld}).
-
-% \subsection{Effect of disparity metric}
-% The disparity metric was also substantial driver of the estimation accuracy from continuous characters ($F = 5028,~ p < .001$). 
-% Disparity values returned using the sum of quantiles were generally the easiest to estimate, whereas sum of variances were the hardest.
-% However, there was little interaction between the disparity metric and estimation method on estimation accuracy ($F = 7, p < .001$).
-% For all three disparity metrics, pre-ordination ancestral state estimations returned the most accurate disparity values, averaged across all other parameters (\autoref{tab:continuous metric method interaction cld}). 
-
-% For discrete characters, the disparity metric was the largest driver of variation in estimation accuracy across all parameters ($F = 26174, p < .001$) and its interaction with estimation method also significant ($F = 230, p < .001$).
-% Specifically, the pre-ordination point estimation was the best method for across all three metrics, when averaged across all other parameters; of which the mean pairwise distance was the easiest to recover and sum of quantiles the hardest (\autoref{tab:discrete metric method interaction cld}).
-
-
-% \subsection{Three-way interaction}
-% We assessed the three-way interaction between the estimation method, fossil sampling level and model of evolution per each disparity metric, since this was found to be a clear driver of variation for both continuous ($F = 60, p < .001$) and discrete ($F = 588, p < .001$) derived disparity errors.
-% For continuous characters simulated using BM, the pre-ordination distribution method was most accurate across all fossil sampling levels.
-
-
-
-% Methods of ancestral state estimation were most accurate across each metric under BM at all fossil sampling levels.
-% Under BM + trend, the pre-ordination distribution estimations were best across all three metrics at higher fossil sampling levels (100, 50, and 15\%), but at low fossil sampling levels not using ancestral state estimations returned the lowest disparity error.
-% Estimations of disparity from an OU model were always most accurate when not using ancestral state estimations under all three metrics and all fossil sampling levels.
-
-% For discrete characters, we found that disparity errors from fast and medium rates largely followed the same pattern across fossil sampling levels. 
-% This was characterised by point estimates, specifically pre-ordination, being most accurate at high fossil sampling levels and distribution approaches being most accurate at low fossil sampling levels.
-% At slow rates, the pre-ordination distribution method was the most accurate across all three metrics and fossil sampling levels.
-
-
-
-
-
-
-% discrete characters
-
-% For discrete characters, the pre-ordination estimation (pre-OASE) methods were more accurate at recovering the true disparity value than post-ordination estimation (post-OASE) methods.
-% In particular, the pre-OASE distribution method was the best performing ancestral state estimation method.
-% The null model of bypassing ASE consistently recovers an underestimate of disparity.
-
+\textbf{Key takeaways:}
+\begin{itemize}
+    \item Use \textbf{pre-ordination point} estimations when fossil sampling is dense >15\% and transition rates are medium/fast
+    \item Use \textbf{post-ordination distribution} when fossil sampling is low <15\% and transition rates are medium/fast
+    \item If rates are slow, the \textbf{pre-ordination distribution} method is best across all fossil sampling levels
+    \item It is encouraged to always use \ase, since it improve estimations across all scenarios.
+\end{itemize}
 
 
 
@@ -509,6 +425,15 @@ The three-way interaction between ($F = 60, p < .001$)
 
 
 \section{Discussion}
+
+% 1. Main takeaway: it does not matter too much what type, just that most methods are better than not using ASE.
+%     a) other than OU model for continuous characters -> then it is better to use NO ASE
+%     b) 
+
+
+
+
+
 
 % being able to estimate the transition rate may be enough for disparity, rather than exact states? i.e. in a situation of fast rates, where say none of the states are estimated correctly, but disparity signal is accurate, because a similar dispersion of morphospace has been reached.
 
@@ -551,18 +476,25 @@ The three-way interaction between ($F = 60, p < .001$)
 % \end{figure}
 
 
-\begin{figure}[h]
+\begin{figure}[H]
 \centering
 \includegraphics[width=1\textwidth]{figures/ACEDisparity_pipeline.pdf}
 \caption{\textbf{Simulation workflow}} 
 \label{fig:pipeline} 
 \end{figure}
 
-\begin{figure}[h]
+\begin{figure}[H]
 \centering
 \includegraphics[width=1\textwidth]{figures/continuous_boxplot.pdf}
 \caption{\textbf{Results continuous} Continuous} 
 \label{fig:continuous boxplot} 
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=1\textwidth]{figures/cont_heatmap.pdf}
+\caption{\textbf{Heatmap continuous} Continuous} 
+\label{fig:continuous heatmap} 
 \end{figure}
 
 
@@ -572,6 +504,15 @@ The three-way interaction between ($F = 60, p < .001$)
 \caption{\textbf{Results discrete} Relative disparity errors across all dimensions returned by ordinations.} 
 \label{fig:discrete raw boxplot} 
 \end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=1\textwidth]{figures/discrete_heatmap.pdf}
+\caption{\textbf{Heatmap discrete} Continuous} 
+\label{fig:discrete heatmap} 
+\end{figure}
+
+
 
 
 

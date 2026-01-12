@@ -15,6 +15,7 @@
 \usepackage[hidelinks]{hyperref}
 \usepackage{multirow}
 \usepackage{float}
+\usepackage{longtable}
 \makeatletter
 \renewcommand \thesection{S\@arabic\c@section}
 \renewcommand\thetable{S\@arabic\c@table}
@@ -43,6 +44,39 @@
 
 
 \section{Supplementary Tables}
+
+
+
+% latex table generated in R 4.5.2 by xtable 1.8-4 package
+% Mon Jan 12 16:33:28 2026
+\begin{table}[H]
+\centering
+\label{tab: anova continuous lmm}
+\caption{\textbf{ANOVA}. Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1}
+\begin{tabular}{lrrrrrr}
+  \hline
+ & Sum Sq & Mean Sq & NumDF & DenDF & F value & Pr($>$F) \\ 
+  \hline
+model & 3610.77 & 1805.39 & 2.00 & 66976.00 & 2956.21 & *** \\ 
+  method & 875.31 & 218.83 & 4.00 & 66976.00 & 358.32 & *** \\ 
+  fossil\_sampling & 22400.41 & 5600.10 & 4.00 & 66976.00 & 9169.83 & *** \\ 
+  metric & 6141.84 & 3070.92 & 2.00 & 66976.00 & 5028.44 & *** \\ 
+  tree\_size & 53.30 & 26.65 & 2.00 & 297.00 & 43.64 & *** \\ 
+  model:method & 7107.48 & 888.44 & 8.00 & 66976.00 & 1454.76 & *** \\ 
+  model:fossil\_sampling & 6995.41 & 874.43 & 8.00 & 66976.00 & 1431.82 & *** \\ 
+  method:fossil\_sampling & 1314.70 & 82.17 & 16.00 & 66976.00 & 134.55 & *** \\ 
+  model:metric & 1063.46 & 265.87 & 4.00 & 66976.00 & 435.34 & *** \\ 
+  method:metric & 35.47 & 4.43 & 8.00 & 66976.00 & 7.26 & *** \\ 
+  fossil\_sampling:metric & 162.49 & 20.31 & 8.00 & 66976.00 & 33.26 & *** \\ 
+  model:method:fossil\_sampling & 1183.55 & 36.99 & 32.00 & 66976.00 & 60.56 & *** \\ 
+  model:method:metric & 198.89 & 12.43 & 16.00 & 66976.00 & 20.35 & *** \\ 
+  model:fossil\_sampling:metric & 893.10 & 55.82 & 16.00 & 66976.00 & 91.40 & *** \\ 
+  method:fossil\_sampling:metric & 293.85 & 9.18 & 32.00 & 66976.00 & 15.04 & *** \\ 
+  model:method:fossil\_sampling:metric & 144.63 & 2.26 & 64.00 & 66976.00 & 3.70 & *** \\ 
+   \hline
+\end{tabular}
+\end{table}
+
 
 \begin{table}[H]
 \caption{\textbf{Continuous traits: estimated marginal means of each method averaged over the levels of: model, fossil sampling, disparity metric and tree size.} Confidence level used: 0.95. Significance level: 0.05. Note that emmeans were log transformed, so the most negative value means the most accurate (closest to 0).}
@@ -84,205 +118,319 @@ Post-ord point & -0.4679 & 0.0057 & Inf & -0.4791 & -0.4567 &      e \\
 
 
 
-% latex table generated in R 4.5.2 by xtable 1.8-4 package
-% Mon Jan  5 15:37:13 2026
-\begin{table}[H]
-\caption{\textbf{Continuous traits: interaction between fossil sampling:estimation method, averaged over model of evolution, disparity metric and tree size} Confidence level used: 0.95. Significance level: 0.05. Note that emmeans were log transformed, so the most negative value means the most accurate (closest to 0).}
-\label{tab:continuous fossil method interaction cld}
-\centering
-\begin{tabular}{llrrrrrl}
-  \hline
-Estimation method & Fossil sampling & emmean & SE & df & asymp.LCL & asymp.UCL & .group \\ 
-  \hline
-Pre-ord dist & 100\% & -4.3476 & 0.0185 & Inf & -4.3838 & -4.3113 &  a              \\ 
-  Post-ord dist & 100\% & -4.3075 & 0.0185 & Inf & -4.3438 & -4.2712 &  a              \\ 
-  Pre-ord point & 100\% & -3.7910 & 0.0185 & Inf & -3.8273 & -3.7547 &   b             \\ 
-  Post-ord point & 100\% & -3.7746 & 0.0185 & Inf & -3.8108 & -3.7383 &   bc            \\ 
-  Pre-ord dist & 50\% & -3.7734 & 0.0185 & Inf & -3.8096 & -3.7371 &   bc            \\ 
-  Post-ord dist & 50\% & -3.7608 & 0.0185 & Inf & -3.7970 & -3.7245 &   bcd           \\ 
-  Pre-ord point & 50\% & -3.7036 & 0.0185 & Inf & -3.7399 & -3.6673 &    cd           \\ 
-  Post-ord point & 50\% & -3.6883 & 0.0185 & Inf & -3.7246 & -3.6520 &     de          \\ 
-  No ASE & 100\% & -3.6107 & 0.0185 & Inf & -3.6470 & -3.5744 &      e          \\ 
-  No ASE & 50\% & -3.3361 & 0.0185 & Inf & -3.3724 & -3.2998 &       f         \\ 
-  Pre-ord dist & 15\% & -3.2275 & 0.0185 & Inf & -3.2638 & -3.1912 &        g        \\ 
-  Post-ord dist & 15\% & -3.2178 & 0.0185 & Inf & -3.2541 & -3.1815 &        g        \\ 
-  No ASE & 15\% & -3.1806 & 0.0185 & Inf & -3.2169 & -3.1443 &        g        \\ 
-  Post-ord point & 15\% & -3.0807 & 0.0185 & Inf & -3.1170 & -3.0444 &         h       \\ 
-  Pre-ord point & 15\% & -3.0803 & 0.0185 & Inf & -3.1166 & -3.0440 &         h       \\ 
-  No ASE & 5\% & -2.9970 & 0.0185 & Inf & -3.0333 & -2.9607 &          i      \\ 
-  Pre-ord dist & 5\% & -2.9148 & 0.0185 & Inf & -2.9510 & -2.8785 &           j     \\ 
-  Post-ord dist & 5\% & -2.8981 & 0.0185 & Inf & -2.9344 & -2.8619 &           j     \\ 
-  Pre-ord point & 5\% & -2.6994 & 0.0185 & Inf & -2.7357 & -2.6632 &            k    \\ 
-  Post-ord point & 5\% & -2.6833 & 0.0185 & Inf & -2.7196 & -2.6471 &            k    \\ 
-  No ASE & 0\% & -2.5585 & 0.0185 & Inf & -2.5947 & -2.5222 &             l   \\ 
-  Pre-ord dist & 0\% & -2.4272 & 0.0185 & Inf & -2.4635 & -2.3910 &              m  \\ 
-  Post-ord dist & 0\% & -2.4100 & 0.0185 & Inf & -2.4462 & -2.3737 &              m  \\ 
-  Pre-ord point & 0\% & -2.1585 & 0.0185 & Inf & -2.1947 & -2.1222 &               n \\ 
-  Post-ord point & 0\% & -2.1582 & 0.0185 & Inf & -2.1945 & -2.1220 &               n \\ 
-   \hline
-\end{tabular}
-\end{table}
+% % latex table generated in R 4.5.2 by xtable 1.8-4 package
+% % Mon Jan  5 15:37:13 2026
+% \begin{table}[H]
+% \caption{\textbf{Continuous traits: interaction between fossil sampling:estimation method, averaged over model of evolution, disparity metric and tree size} Confidence level used: 0.95. Significance level: 0.05. Note that emmeans were log transformed, so the most negative value means the most accurate (closest to 0).}
+% \label{tab:continuous fossil method interaction cld}
+% \centering
+% \begin{tabular}{llrrrrrl}
+%   \hline
+% Estimation method & Fossil sampling & emmean & SE & df & asymp.LCL & asymp.UCL & .group \\ 
+%   \hline
+% Pre-ord dist & 100\% & -4.3476 & 0.0185 & Inf & -4.3838 & -4.3113 &  a              \\ 
+%   Post-ord dist & 100\% & -4.3075 & 0.0185 & Inf & -4.3438 & -4.2712 &  a              \\ 
+%   Pre-ord point & 100\% & -3.7910 & 0.0185 & Inf & -3.8273 & -3.7547 &   b             \\ 
+%   Post-ord point & 100\% & -3.7746 & 0.0185 & Inf & -3.8108 & -3.7383 &   bc            \\ 
+%   Pre-ord dist & 50\% & -3.7734 & 0.0185 & Inf & -3.8096 & -3.7371 &   bc            \\ 
+%   Post-ord dist & 50\% & -3.7608 & 0.0185 & Inf & -3.7970 & -3.7245 &   bcd           \\ 
+%   Pre-ord point & 50\% & -3.7036 & 0.0185 & Inf & -3.7399 & -3.6673 &    cd           \\ 
+%   Post-ord point & 50\% & -3.6883 & 0.0185 & Inf & -3.7246 & -3.6520 &     de          \\ 
+%   No ASE & 100\% & -3.6107 & 0.0185 & Inf & -3.6470 & -3.5744 &      e          \\ 
+%   No ASE & 50\% & -3.3361 & 0.0185 & Inf & -3.3724 & -3.2998 &       f         \\ 
+%   Pre-ord dist & 15\% & -3.2275 & 0.0185 & Inf & -3.2638 & -3.1912 &        g        \\ 
+%   Post-ord dist & 15\% & -3.2178 & 0.0185 & Inf & -3.2541 & -3.1815 &        g        \\ 
+%   No ASE & 15\% & -3.1806 & 0.0185 & Inf & -3.2169 & -3.1443 &        g        \\ 
+%   Post-ord point & 15\% & -3.0807 & 0.0185 & Inf & -3.1170 & -3.0444 &         h       \\ 
+%   Pre-ord point & 15\% & -3.0803 & 0.0185 & Inf & -3.1166 & -3.0440 &         h       \\ 
+%   No ASE & 5\% & -2.9970 & 0.0185 & Inf & -3.0333 & -2.9607 &          i      \\ 
+%   Pre-ord dist & 5\% & -2.9148 & 0.0185 & Inf & -2.9510 & -2.8785 &           j     \\ 
+%   Post-ord dist & 5\% & -2.8981 & 0.0185 & Inf & -2.9344 & -2.8619 &           j     \\ 
+%   Pre-ord point & 5\% & -2.6994 & 0.0185 & Inf & -2.7357 & -2.6632 &            k    \\ 
+%   Post-ord point & 5\% & -2.6833 & 0.0185 & Inf & -2.7196 & -2.6471 &            k    \\ 
+%   No ASE & 0\% & -2.5585 & 0.0185 & Inf & -2.5947 & -2.5222 &             l   \\ 
+%   Pre-ord dist & 0\% & -2.4272 & 0.0185 & Inf & -2.4635 & -2.3910 &              m  \\ 
+%   Post-ord dist & 0\% & -2.4100 & 0.0185 & Inf & -2.4462 & -2.3737 &              m  \\ 
+%   Pre-ord point & 0\% & -2.1585 & 0.0185 & Inf & -2.1947 & -2.1222 &               n \\ 
+%   Post-ord point & 0\% & -2.1582 & 0.0185 & Inf & -2.1945 & -2.1220 &               n \\ 
+%    \hline
+% \end{tabular}
+% \end{table}
+
+
+% % latex table generated in R 4.5.2 by xtable 1.8-4 package
+% % Tue Jan  6 12:43:26 2026
+% \begin{table}[H]
+% \caption{\textbf{Discrete traits: interaction between fossil sampling:estimation method, averaged over transition rate, disparity metric and tree size} Confidence level used: 0.95. Significance level: 0.05. Note that emmeans were log transformed, so the most negative value means the most accurate (closest to 0).}
+% \label{tab:discrete fossil method interaction cld}
+% \centering
+% \begin{tabular}{llrrrrrl}
+%   \hline
+% method & fossil\_sampling & emmean & SE & df & asymp.LCL & asymp.UCL & .group \\ 
+%   \hline
+% Pre-ord point & 100\% & -2.4764 & 0.0078 & Inf & -2.4917 & -2.4611 &  a                  \\ 
+%   Pre-ord dist & 100\% & -2.1638 & 0.0078 & Inf & -2.1791 & -2.1485 &   b                 \\ 
+%   Pre-ord point & 50\% & -1.1561 & 0.0078 & Inf & -1.1714 & -1.1408 &    c                \\ 
+%   Pre-ord dist & 50\% & -1.1034 & 0.0078 & Inf & -1.1187 & -1.0881 &     d               \\ 
+%   No ASE & 100\% & -1.0478 & 0.0078 & Inf & -1.0631 & -1.0325 &      e              \\ 
+%   Post-ord dist & 100\% & -0.9627 & 0.0078 & Inf & -0.9779 & -0.9474 &       f             \\ 
+%   Post-ord dist & 50\% & -0.7620 & 0.0078 & Inf & -0.7773 & -0.7468 &        g            \\ 
+%   Pre-ord point & 15\% & -0.7589 & 0.0078 & Inf & -0.7742 & -0.7436 &        gh           \\ 
+%   Pre-ord dist & 15\% & -0.7559 & 0.0078 & Inf & -0.7712 & -0.7406 &        gh           \\ 
+%   No ASE & 50\% & -0.7441 & 0.0078 & Inf & -0.7594 & -0.7288 &        gh           \\ 
+%   Post-ord point & 100\% & -0.7362 & 0.0078 & Inf & -0.7515 & -0.7209 &        gh           \\ 
+%   Post-ord dist & 0\% & -0.7285 & 0.0078 & Inf & -0.7438 & -0.7132 &         hi          \\ 
+%   Post-ord dist & 5\% & -0.7006 & 0.0078 & Inf & -0.7159 & -0.6853 &          ij         \\ 
+%   Post-ord dist & 15\% & -0.6885 & 0.0078 & Inf & -0.7038 & -0.6732 &           j         \\ 
+%   Pre-ord dist & 5\% & -0.6531 & 0.0078 & Inf & -0.6684 & -0.6378 &            k        \\ 
+%   Pre-ord point & 5\% & -0.6388 & 0.0078 & Inf & -0.6541 & -0.6235 &            k        \\ 
+%   Pre-ord dist & 0\% & -0.5996 & 0.0078 & Inf & -0.6148 & -0.5843 &             l       \\ 
+%   Pre-ord point & 0\% & -0.5708 & 0.0078 & Inf & -0.5861 & -0.5555 &             lm      \\ 
+%   Post-ord point & 50\% & -0.5438 & 0.0078 & Inf & -0.5591 & -0.5285 &              m      \\ 
+%   No ASE & 15\% & -0.5417 & 0.0078 & Inf & -0.5570 & -0.5264 &              m      \\ 
+%   No ASE & 5\% & -0.4720 & 0.0078 & Inf & -0.4873 & -0.4567 &               n     \\ 
+%   No ASE & 0\% & -0.4316 & 0.0078 & Inf & -0.4469 & -0.4163 &                o    \\ 
+%   Post-ord point & 15\% & -0.4001 & 0.0078 & Inf & -0.4154 & -0.3848 &                 p   \\ 
+%   Post-ord point & 5\% & -0.3473 & 0.0078 & Inf & -0.3626 & -0.3320 &                  q  \\ 
+%   Post-ord point & 0\% & -0.3122 & 0.0078 & Inf & -0.3274 & -0.2969 &                   r \\ 
+%    \hline
+% \end{tabular}
+% \end{table}
+
+
+
+% % latex table generated in R 4.5.2 by xtable 1.8-4 package
+% % Tue Jan  6 12:09:31 2026
+% \begin{table}[H]
+% \caption{\textbf{Continuous traits: interaction between model:estimation method, averaged over fossil sampling, disparity metric and tree size} Confidence level used: 0.95. Significance level: 0.05. Note that emmeans were log transformed, so the most negative value means the most accurate (closest to 0).}
+% \label{tab:continuous model method interaction cld}
+% \centering
+% \begin{tabular}{llrrrrrl}
+%   \hline
+% Model & Estimation method & emmean & SE & df & asymp.LCL & asymp.UCL & .group \\ 
+%   \hline
+% OU & No ASE & -3.6422 & 0.0159 & Inf & -3.6733 & -3.6111 &  a        \\ 
+%   BM & Pre-ord dist& -3.5494 & 0.0159 & Inf & -3.5806 & -3.5183 &   b       \\ 
+%   BM + trend & Pre-ord dist& -3.5444 & 0.0159 & Inf & -3.5755 & -3.5133 &   b       \\ 
+%   BM & Post-ord dist & -3.5326 & 0.0159 & Inf & -3.5637 & -3.5015 &   b       \\ 
+%   BM + trend & Post-ord dist & -3.5120 & 0.0159 & Inf & -3.5431 & -3.4809 &   b       \\ 
+%   BM & Post-ord point & -3.4530 & 0.0159 & Inf & -3.4841 & -3.4218 &    c      \\ 
+%   BM & Pre-ord point & -3.4506 & 0.0159 & Inf & -3.4818 & -3.4195 &    c      \\ 
+%   BM + trend & Pre-ord point & -3.3730 & 0.0159 & Inf & -3.4041 & -3.3419 &     d     \\ 
+%   BM + trend & Post-ord point & -3.3459 & 0.0159 & Inf & -3.3770 & -3.3148 &     d     \\ 
+%   BM + trend & No ASE & -3.2160 & 0.0159 & Inf & -3.2471 & -3.1849 &      e    \\ 
+%   OU & Pre-ord dist& -2.9204 & 0.0159 & Inf & -2.9516 & -2.8893 &       f   \\ 
+%   OU & Post-ord dist & -2.9119 & 0.0159 & Inf & -2.9430 & -2.8808 &       f   \\ 
+%   BM & No ASE & -2.5515 & 0.0159 & Inf & -2.5826 & -2.5203 &        g  \\ 
+%   OU & Pre-ord point & -2.4361 & 0.0159 & Inf & -2.4672 & -2.4050 &         h \\ 
+%   OU & Post-ord point & -2.4322 & 0.0159 & Inf & -2.4633 & -2.4011 &         h \\ 
+%    \hline
+% \end{tabular}
+% \end{table}
+
+% % latex table generated in R 4.5.2 by xtable 1.8-4 package
+% % Tue Jan  6 12:56:11 2026
+
+
+% \begin{table}[H]
+% \caption{\textbf{Discrete traits: interaction between model:estimation method, averaged over fossil sampling, disparity metric and tree size} Confidence level used: 0.95. Significance level: 0.05. Note that emmeans were log transformed, so the most negative value means the most accurate (closest to 0).}
+% \label{tab:discrete model method interaction cld}
+% \centering
+% \begin{tabular}{llrrrrrl}
+%   \hline
+% model & method & emmean & SE & df & asymp.LCL & asymp.UCL & .group \\ 
+%   \hline
+% slow & Pre-ord dist & -1.4945 & 0.0068 & Inf & -1.5079 & -1.4811 &  a          \\ 
+%   slow & Pre-ord point & -1.3649 & 0.0068 & Inf & -1.3783 & -1.3515 &   b         \\ 
+%   med & Pre-ord point & -1.2201 & 0.0068 & Inf & -1.2335 & -1.2067 &    c        \\ 
+%   med & Pre-ord dist & -0.9866 & 0.0068 & Inf & -1.0000 & -0.9732 &     d       \\ 
+%   med & Post-ord dist & -0.8436 & 0.0068 & Inf & -0.8570 & -0.8302 &      e      \\ 
+%   fast & Pre-ord point & -0.7756 & 0.0068 & Inf & -0.7890 & -0.7622 &       f     \\ 
+%   slow & Post-ord dist & -0.7569 & 0.0068 & Inf & -0.7703 & -0.7435 &       f     \\ 
+%   fast & Post-ord dist & -0.7049 & 0.0068 & Inf & -0.7183 & -0.6915 &        g    \\ 
+%   med & No ASE & -0.6947 & 0.0068 & Inf & -0.7081 & -0.6813 &        g    \\ 
+%   slow & No ASE & -0.6846 & 0.0068 & Inf & -0.6980 & -0.6712 &        g    \\ 
+%   fast & Pre-ord dist & -0.6844 & 0.0068 & Inf & -0.6978 & -0.6710 &        g    \\ 
+%   fast & No ASE & -0.5630 & 0.0068 & Inf & -0.5764 & -0.5496 &         h   \\ 
+%   slow & Post-ord point & -0.5098 & 0.0068 & Inf & -0.5232 & -0.4964 &          i  \\ 
+%   med & Post-ord point & -0.4924 & 0.0068 & Inf & -0.5058 & -0.4790 &          i  \\ 
+%   fast & Post-ord point & -0.4015 & 0.0068 & Inf & -0.4149 & -0.3881 &           j \\ 
+%    \hline
+% \end{tabular}
+% \end{table}
+
+
+% \begin{table}[H]
+%   \caption{\textbf{Continuous traits: interaction between disparity metric:estimation method, averaged over fossil sampling, model of evolution and tree size} Confidence level used: 0.95. Significance level: 0.05. Note that emmeans were log transformed, so the most negative value means the most accurate (closest to 0).}
+% \label{tab:continuous metric method interaction cld}
+% \centering
+% \begin{tabular}{llrrrrrl}
+%   \hline
+% method & metric & emmean & SE & df & asymp.LCL & asymp.UCL & .group \\ 
+%   \hline
+% Pre-ord dist & Sum of quantiles & -3.5846 & 0.0159 & Inf & -3.6157 & -3.5535 &  a      \\ 
+%   Post-ord dist & Sum of quantiles & -3.5389 & 0.0159 & Inf & -3.5700 & -3.5078 &  ab     \\ 
+%   Pre-ord dist & Mean pairwise distance & -3.5292 & 0.0159 & Inf & -3.5603 & -3.4980 &  ab     \\ 
+%   Post-ord dist & Mean pairwise distance & -3.5218 & 0.0159 & Inf & -3.5529 & -3.4906 &   b     \\ 
+%   No ASE & Sum of quantiles & -3.4235 & 0.0159 & Inf & -3.4546 & -3.3924 &    c    \\ 
+%   No ASE & Mean pairwise distance & -3.3001 & 0.0159 & Inf & -3.3312 & -3.2690 &     d   \\ 
+%   Pre-ord point & Sum of quantiles & -3.2961 & 0.0159 & Inf & -3.3272 & -3.2650 &     d   \\ 
+%   Pre-ord point & Mean pairwise distance & -3.2906 & 0.0159 & Inf & -3.3218 & -3.2595 &     d   \\ 
+%   Post-ord point & Mean pairwise distance & -3.2871 & 0.0159 & Inf & -3.3182 & -3.2560 &     d   \\ 
+%   Post-ord point & Sum of quantiles & -3.2726 & 0.0159 & Inf & -3.3037 & -3.2415 &     d   \\ 
+%   Pre-ord dist & Sum of variances & -2.9005 & 0.0159 & Inf & -2.9316 & -2.8694 &      e  \\ 
+%   Post-ord dist & Sum of variances & -2.8959 & 0.0159 & Inf & -2.9270 & -2.8648 &      e  \\ 
+%   No ASE & Sum of variances & -2.6862 & 0.0159 & Inf & -2.7173 & -2.6550 &       f \\ 
+%   Pre-ord point & Sum of variances & -2.6730 & 0.0159 & Inf & -2.7041 & -2.6418 &       f \\ 
+%   Post-ord point & Sum of variances & -2.6714 & 0.0159 & Inf & -2.7025 & -2.6402 &       f \\ 
+%    \hline
+% \end{tabular}
+% \end{table}
+
+
+
+% % latex table generated in R 4.5.2 by xtable 1.8-4 package
+% % Tue Jan  6 12:52:33 2026
+% \begin{table}[H]
+% \caption{\textbf{Discrete traits: interaction between disparity metric:estimation method, averaged over fossil sampling, transition rate and tree size} Confidence level used: 0.95. Significance level: 0.05. Note that emmeans were log transformed, so the most negative value means the most accurate (closest to 0).}
+% \label{tab:discrete metric method interaction cld}
+% \centering
+% \begin{tabular}{llrrrrrl}
+%   \hline
+% method & metric & emmean & SE & df & asymp.LCL & asymp.UCL & .group \\ 
+%   \hline
+% Pre-ord point & Mean pairwise distance & -1.4925 & 0.0068 & Inf & -1.5059 & -1.4791 &  a             \\ 
+%   Pre-ord dist & Mean pairwise distance & -1.4381 & 0.0068 & Inf & -1.4516 & -1.4247 &   b            \\ 
+%   Post-ord dist & Mean pairwise distance & -1.1981 & 0.0068 & Inf & -1.2115 & -1.1846 &    c           \\ 
+%   No ASE & Mean pairwise distance & -1.0385 & 0.0068 & Inf & -1.0519 & -1.0250 &     d          \\ 
+%   Pre-ord point & Sum of variances & -0.9633 & 0.0068 & Inf & -0.9767 & -0.9499 &      e         \\ 
+%   Pre-ord dist & Sum of variances & -0.9138 & 0.0068 & Inf & -0.9272 & -0.9004 &       f        \\ 
+%   Pre-ord point & Sum of quantiles & -0.9049 & 0.0068 & Inf & -0.9183 & -0.8915 &       f        \\ 
+%   Pre-ord dist & Sum of quantiles & -0.8136 & 0.0068 & Inf & -0.8270 & -0.8001 &        g       \\ 
+%   Post-ord point & Mean pairwise distance & -0.7568 & 0.0068 & Inf & -0.7702 & -0.7434 &         h      \\ 
+%   Post-ord dist & Sum of variances & -0.7072 & 0.0068 & Inf & -0.7206 & -0.6938 &          i     \\ 
+%   No ASE & Sum of variances & -0.5579 & 0.0068 & Inf & -0.5713 & -0.5445 &           j    \\ 
+%   Post-ord dist & Sum of quantiles & -0.4002 & 0.0068 & Inf & -0.4136 & -0.3868 &            k   \\ 
+%   Post-ord point & Sum of variances & -0.3594 & 0.0068 & Inf & -0.3728 & -0.3460 &             l  \\ 
+%   No ASE & Sum of quantiles & -0.3460 & 0.0068 & Inf & -0.3594 & -0.3326 &             l  \\ 
+%   Post-ord point & Sum of quantiles & -0.2875 & 0.0068 & Inf & -0.3009 & -0.2741 &              m \\ 
+%    \hline
+% \end{tabular}
+% \end{table}
+
+
+
+
+
+
 
 
 % latex table generated in R 4.5.2 by xtable 1.8-4 package
-% Tue Jan  6 12:43:26 2026
-\begin{table}[H]
-\caption{\textbf{Discrete traits: interaction between fossil sampling:estimation method, averaged over transition rate, disparity metric and tree size} Confidence level used: 0.95. Significance level: 0.05. Note that emmeans were log transformed, so the most negative value means the most accurate (closest to 0).}
-\label{tab:discrete fossil method interaction cld}
-\centering
-\begin{tabular}{llrrrrrl}
-  \hline
-method & fossil\_sampling & emmean & SE & df & asymp.LCL & asymp.UCL & .group \\ 
-  \hline
-Pre-ord point & 100\% & -2.4764 & 0.0078 & Inf & -2.4917 & -2.4611 &  a                  \\ 
-  Pre-ord dist & 100\% & -2.1638 & 0.0078 & Inf & -2.1791 & -2.1485 &   b                 \\ 
-  Pre-ord point & 50\% & -1.1561 & 0.0078 & Inf & -1.1714 & -1.1408 &    c                \\ 
-  Pre-ord dist & 50\% & -1.1034 & 0.0078 & Inf & -1.1187 & -1.0881 &     d               \\ 
-  No ASE & 100\% & -1.0478 & 0.0078 & Inf & -1.0631 & -1.0325 &      e              \\ 
-  Post-ord dist & 100\% & -0.9627 & 0.0078 & Inf & -0.9779 & -0.9474 &       f             \\ 
-  Post-ord dist & 50\% & -0.7620 & 0.0078 & Inf & -0.7773 & -0.7468 &        g            \\ 
-  Pre-ord point & 15\% & -0.7589 & 0.0078 & Inf & -0.7742 & -0.7436 &        gh           \\ 
-  Pre-ord dist & 15\% & -0.7559 & 0.0078 & Inf & -0.7712 & -0.7406 &        gh           \\ 
-  No ASE & 50\% & -0.7441 & 0.0078 & Inf & -0.7594 & -0.7288 &        gh           \\ 
-  Post-ord point & 100\% & -0.7362 & 0.0078 & Inf & -0.7515 & -0.7209 &        gh           \\ 
-  Post-ord dist & 0\% & -0.7285 & 0.0078 & Inf & -0.7438 & -0.7132 &         hi          \\ 
-  Post-ord dist & 5\% & -0.7006 & 0.0078 & Inf & -0.7159 & -0.6853 &          ij         \\ 
-  Post-ord dist & 15\% & -0.6885 & 0.0078 & Inf & -0.7038 & -0.6732 &           j         \\ 
-  Pre-ord dist & 5\% & -0.6531 & 0.0078 & Inf & -0.6684 & -0.6378 &            k        \\ 
-  Pre-ord point & 5\% & -0.6388 & 0.0078 & Inf & -0.6541 & -0.6235 &            k        \\ 
-  Pre-ord dist & 0\% & -0.5996 & 0.0078 & Inf & -0.6148 & -0.5843 &             l       \\ 
-  Pre-ord point & 0\% & -0.5708 & 0.0078 & Inf & -0.5861 & -0.5555 &             lm      \\ 
-  Post-ord point & 50\% & -0.5438 & 0.0078 & Inf & -0.5591 & -0.5285 &              m      \\ 
-  No ASE & 15\% & -0.5417 & 0.0078 & Inf & -0.5570 & -0.5264 &              m      \\ 
-  No ASE & 5\% & -0.4720 & 0.0078 & Inf & -0.4873 & -0.4567 &               n     \\ 
-  No ASE & 0\% & -0.4316 & 0.0078 & Inf & -0.4469 & -0.4163 &                o    \\ 
-  Post-ord point & 15\% & -0.4001 & 0.0078 & Inf & -0.4154 & -0.3848 &                 p   \\ 
-  Post-ord point & 5\% & -0.3473 & 0.0078 & Inf & -0.3626 & -0.3320 &                  q  \\ 
-  Post-ord point & 0\% & -0.3122 & 0.0078 & Inf & -0.3274 & -0.2969 &                   r \\ 
+% Mon Jan 12 16:22:26 2026
+% \begin{center}
+\setlength{\tabcolsep}{4pt}  % Reduce column spacing
+\small
+\begin{longtable}{lllrrrrrl}
+
+\caption{\textbf{Discrete traits: three-way interaction between model:fossil sampling:estimation method, averaged over disparity metric and tree size} Confidence level used: 0.95. Significance level: 0.05. Note that emmeans were log transformed, so the most negative value means the most accurate (closest to 0).}
+\label{tab:discrete three-way interaction cld} \\
+\hline
+Method & Model & Fossil sampling & emmean & SE & df & asymp.LCL & asymp.UCL & .group \\ 
+\hline
+\endfirsthead
+
+\multicolumn{9}{c}{\tablename\ \thetable\ -- \textit{Continued from previous page}} \\
+\hline
+Method & Model & Fossil sampling & emmean & SE & df & asymp.LCL & asymp.UCL & .group \\ 
+\hline
+\endhead
+
+\hline \multicolumn{9}{r}{\textit{Continued on next page}} \\
+\endfoot
+
+\hline
+\endlastfoot
+
+pre\_ord\_sample & slow & all & -3.7606 & 0.0114 & Inf & -3.7830 & -3.7381 &  a  \\ 
+pre\_ord\_point\_tiebreaker & slow & all & -3.4609 & 0.0114 & Inf & -3.4833 & -3.4385 &   b  \\ 
+pre\_ord\_point\_tiebreaker & med & all & -2.6572 & 0.0114 & Inf & -2.6796 & -2.6348 &    c  \\ 
+pre\_ord\_sample & med & all & -1.6908 & 0.0114 & Inf & -1.7132 & -1.6684 &     d  \\ 
+pre\_ord\_sample & slow & high & -1.4747 & 0.0114 & Inf & -1.4972 & -1.4523 &      e  \\ 
+pre\_ord\_point\_tiebreaker & slow & high & -1.3633 & 0.0114 & Inf & -1.3857 & -1.3409 &       f  \\ 
+pre\_ord\_point\_tiebreaker & fast & all & -1.3111 & 0.0114 & Inf & -1.3336 & -1.2887 &       fg  \\ 
+no\_ace & slow & all & -1.2516 & 0.0114 & Inf & -1.2741 & -1.2292 &        gh  \\ 
+pre\_ord\_point\_tiebreaker & med & high & -1.2498 & 0.0114 & Inf & -1.2723 & -1.2274 &         h  \\ 
+post\_ord\_sample & slow & all & -1.1467 & 0.0114 & Inf & -1.1691 & -1.1242 &          i  \\ 
+pre\_ord\_sample & med & high & -1.0790 & 0.0114 & Inf & -1.1014 & -1.0566 &           j  \\ 
+no\_ace & med & all & -1.0597 & 0.0114 & Inf & -1.0821 & -1.0372 &           j  \\ 
+pre\_ord\_sample & fast & all & -1.0401 & 0.0114 & Inf & -1.0625 & -1.0177 &           j  \\ 
+post\_ord\_sample & med & all & -0.9666 & 0.0114 & Inf & -0.9890 & -0.9442 &            k  \\ 
+pre\_ord\_sample & slow & med & -0.8874 & 0.0114 & Inf & -0.9098 & -0.8650 &             l  \\ 
+post\_ord\_point & slow & all & -0.8789 & 0.0114 & Inf & -0.9013 & -0.8564 &             lm  \\ 
+pre\_ord\_point\_tiebreaker & fast & high & -0.8551 & 0.0114 & Inf & -0.8776 & -0.8327 &             lmn  \\ 
+post\_ord\_sample & med & living & -0.8440 & 0.0114 & Inf & -0.8664 & -0.8216 &             lmno  \\ 
+no\_ace & fast & all & -0.8321 & 0.0114 & Inf & -0.8545 & -0.8096 &             lmnop  \\ 
+pre\_ord\_point\_tiebreaker & med & med & -0.8297 & 0.0114 & Inf & -0.8521 & -0.8073 &             lmnop  \\ 
+pre\_ord\_point\_tiebreaker & slow & med & -0.8222 & 0.0114 & Inf & -0.8446 & -0.7998 &              mnop  \\ 
+post\_ord\_sample & slow & high & -0.8169 & 0.0114 & Inf & -0.8393 & -0.7945 &               nopq  \\ 
+post\_ord\_sample & med & high & -0.8131 & 0.0114 & Inf & -0.8356 & -0.7907 &               nopq  \\ 
+post\_ord\_sample & med & low & -0.8121 & 0.0114 & Inf & -0.8345 & -0.7897 &               nopq  \\ 
+no\_ace & slow & high & -0.8027 & 0.0114 & Inf & -0.8251 & -0.7803 &               nopq  \\ 
+no\_ace & med & high & -0.7949 & 0.0114 & Inf & -0.8173 & -0.7725 &               nopqr  \\ 
+pre\_ord\_sample & med & med & -0.7940 & 0.0114 & Inf & -0.8165 & -0.7716 &                opqr  \\ 
+post\_ord\_sample & med & med & -0.7823 & 0.0114 & Inf & -0.8048 & -0.7599 &                 pqr  \\ 
+post\_ord\_sample & fast & all & -0.7748 & 0.0114 & Inf & -0.7972 & -0.7523 &                 pqrs  \\ 
+post\_ord\_sample & fast & living & -0.7570 & 0.0114 & Inf & -0.7794 & -0.7346 &                  qrst  \\ 
+pre\_ord\_sample & fast & high & -0.7564 & 0.0114 & Inf & -0.7788 & -0.7340 &                  qrst  \\ 
+post\_ord\_point & med & all & -0.7377 & 0.0114 & Inf & -0.7601 & -0.7153 &                   rstu  \\ 
+pre\_ord\_point\_tiebreaker & med & low & -0.7175 & 0.0114 & Inf & -0.7399 & -0.6951 &                    stuv  \\ 
+pre\_ord\_sample & slow & low & -0.7166 & 0.0114 & Inf & -0.7391 & -0.6942 &                    stuv  \\ 
+pre\_ord\_sample & med & low & -0.7084 & 0.0114 & Inf & -0.7308 & -0.6859 &                     tuvw  \\ 
+post\_ord\_sample & fast & low & -0.6923 & 0.0114 & Inf & -0.7147 & -0.6698 &                      uvwx  \\ 
+pre\_ord\_sample & med & living & -0.6607 & 0.0114 & Inf & -0.6831 & -0.6383 &                       vwxy  \\ 
+post\_ord\_sample & fast & high & -0.6561 & 0.0114 & Inf & -0.6785 & -0.6336 &                        wxyza  \\ 
+pre\_ord\_point\_tiebreaker & med & living & -0.6465 & 0.0114 & Inf & -0.6689 & -0.6241 &                         xyzazb  \\ 
+post\_ord\_sample & fast & med & -0.6444 & 0.0114 & Inf & -0.6668 & -0.6220 &                         xyzazbzc  \\ 
+post\_ord\_sample & slow & med & -0.6389 & 0.0114 & Inf & -0.6613 & -0.6164 &                         xyzazbzc  \\ 
+pre\_ord\_point\_tiebreaker & slow & low & -0.6358 & 0.0114 & Inf & -0.6582 & -0.6134 &                         xyzazbzc  \\ 
+no\_ace & fast & high & -0.6347 & 0.0114 & Inf & -0.6571 & -0.6123 &                         xyzazbzc  \\ 
+pre\_ord\_sample & slow & living & -0.6330 & 0.0114 & Inf & -0.6554 & -0.6106 &                         xyzazbzc  \\ 
+pre\_ord\_point\_tiebreaker & fast & med & -0.6247 & 0.0114 & Inf & -0.6472 & -0.6023 &                          yzazbzczd  \\ 
+post\_ord\_point & slow & high & -0.6060 & 0.0114 & Inf & -0.6284 & -0.5836 &                          yzazbzczdze  \\ 
+no\_ace & med & med & -0.6004 & 0.0114 & Inf & -0.6228 & -0.5780 &                          yzazbzczdzezf  \\ 
+post\_ord\_sample & slow & low & -0.5975 & 0.0114 & Inf & -0.6200 & -0.5751 &                           zazbzczdzezf  \\ 
+post\_ord\_point & fast & all & -0.5920 & 0.0114 & Inf & -0.6144 & -0.5696 &                             zbzczdzezfzg  \\ 
+pre\_ord\_sample & fast & med & -0.5863 & 0.0114 & Inf & -0.6087 & -0.5639 &                             zbzczdzezfzgzh  \\ 
+post\_ord\_sample & slow & living & -0.5844 & 0.0114 & Inf & -0.6069 & -0.5620 &                               zczdzezfzgzh  \\ 
+post\_ord\_point & med & high & -0.5683 & 0.0114 & Inf & -0.5907 & -0.5458 &                                 zdzezfzgzhzi  \\ 
+pre\_ord\_point\_tiebreaker & fast & low & -0.5632 & 0.0114 & Inf & -0.5856 & -0.5408 &                                   zezfzgzhzizj  \\ 
+pre\_ord\_point\_tiebreaker & slow & living & -0.5422 & 0.0114 & Inf & -0.5646 & -0.5198 &                                     zfzgzhzizjzk  \\ 
+pre\_ord\_sample & fast & low & -0.5342 & 0.0114 & Inf & -0.5567 & -0.5118 &                                       zgzhzizjzk  \\ 
+no\_ace & slow & med & -0.5312 & 0.0114 & Inf & -0.5536 & -0.5088 &                                         zhzizjzk  \\ 
+no\_ace & med & low & -0.5298 & 0.0114 & Inf & -0.5522 & -0.5074 &                                         zhzizjzk  \\ 
+pre\_ord\_point\_tiebreaker & fast & living & -0.5237 & 0.0114 & Inf & -0.5461 & -0.5013 &                                           zizjzk  \\ 
+pre\_ord\_sample & fast & living & -0.5050 & 0.0114 & Inf & -0.5274 & -0.4826 &                                             zjzkzl  \\ 
+no\_ace & fast & med & -0.4934 & 0.0114 & Inf & -0.5159 & -0.4710 &                                               zkzlzm  \\ 
+no\_ace & med & living & -0.4887 & 0.0114 & Inf & -0.5112 & -0.4663 &                                               zkzlzmzn  \\ 
+post\_ord\_point & fast & high & -0.4571 & 0.0114 & Inf & -0.4795 & -0.4347 &                                                 zlzmznzo  \\ 
+no\_ace & slow & low & -0.4434 & 0.0114 & Inf & -0.4658 & -0.4209 &                                                   zmznzozp  \\ 
+no\_ace & fast & low & -0.4428 & 0.0114 & Inf & -0.4652 & -0.4204 &                                                   zmznzozp  \\ 
+post\_ord\_point & med & med & -0.4323 & 0.0114 & Inf & -0.4547 & -0.4099 &                                                     znzozpzq  \\ 
+post\_ord\_point & slow & med & -0.4133 & 0.0114 & Inf & -0.4357 & -0.3909 &                                                       zozpzqzr  \\ 
+no\_ace & fast & living & -0.4120 & 0.0114 & Inf & -0.4344 & -0.3896 &                                                       zozpzqzr  \\ 
+no\_ace & slow & living & -0.3941 & 0.0114 & Inf & -0.4165 & -0.3717 &                                                         zpzqzrzs  \\ 
+post\_ord\_point & med & low & -0.3798 & 0.0114 & Inf & -0.4022 & -0.3574 &                                                           zqzrzs  \\ 
+post\_ord\_point & fast & med & -0.3546 & 0.0114 & Inf & -0.3770 & -0.3322 &                                                             zrzszt  \\ 
+post\_ord\_point & slow & low & -0.3461 & 0.0114 & Inf & -0.3685 & -0.3237 &                                                               zsztzu  \\ 
+post\_ord\_point & med & living & -0.3438 & 0.0114 & Inf & -0.3662 & -0.3214 &                                                               zsztzu  \\ 
+post\_ord\_point & fast & low & -0.3160 & 0.0114 & Inf & -0.3384 & -0.2936 &                                                                 ztzu  \\ 
+post\_ord\_point & slow & living & -0.3048 & 0.0114 & Inf & -0.3272 & -0.2824 &                                                                 ztzu  \\ 
+post\_ord\_point & fast & living & -0.2879 & 0.0114 & Inf & -0.3103 & -0.2655 &                                                                   zu \\ 
    \hline
-\end{tabular}
-\end{table}
 
+\end{longtable}
 
-
-% latex table generated in R 4.5.2 by xtable 1.8-4 package
-% Tue Jan  6 12:09:31 2026
-\begin{table}[H]
-\caption{\textbf{Continuous traits: interaction between model:estimation method, averaged over fossil sampling, disparity metric and tree size} Confidence level used: 0.95. Significance level: 0.05. Note that emmeans were log transformed, so the most negative value means the most accurate (closest to 0).}
-\label{tab:continuous model method interaction cld}
-\centering
-\begin{tabular}{llrrrrrl}
-  \hline
-Model & Estimation method & emmean & SE & df & asymp.LCL & asymp.UCL & .group \\ 
-  \hline
-OU & No ASE & -3.6422 & 0.0159 & Inf & -3.6733 & -3.6111 &  a        \\ 
-  BM & Pre-ord dist& -3.5494 & 0.0159 & Inf & -3.5806 & -3.5183 &   b       \\ 
-  BM + trend & Pre-ord dist& -3.5444 & 0.0159 & Inf & -3.5755 & -3.5133 &   b       \\ 
-  BM & Post-ord dist & -3.5326 & 0.0159 & Inf & -3.5637 & -3.5015 &   b       \\ 
-  BM + trend & Post-ord dist & -3.5120 & 0.0159 & Inf & -3.5431 & -3.4809 &   b       \\ 
-  BM & Post-ord point & -3.4530 & 0.0159 & Inf & -3.4841 & -3.4218 &    c      \\ 
-  BM & Pre-ord point & -3.4506 & 0.0159 & Inf & -3.4818 & -3.4195 &    c      \\ 
-  BM + trend & Pre-ord point & -3.3730 & 0.0159 & Inf & -3.4041 & -3.3419 &     d     \\ 
-  BM + trend & Post-ord point & -3.3459 & 0.0159 & Inf & -3.3770 & -3.3148 &     d     \\ 
-  BM + trend & No ASE & -3.2160 & 0.0159 & Inf & -3.2471 & -3.1849 &      e    \\ 
-  OU & Pre-ord dist& -2.9204 & 0.0159 & Inf & -2.9516 & -2.8893 &       f   \\ 
-  OU & Post-ord dist & -2.9119 & 0.0159 & Inf & -2.9430 & -2.8808 &       f   \\ 
-  BM & No ASE & -2.5515 & 0.0159 & Inf & -2.5826 & -2.5203 &        g  \\ 
-  OU & Pre-ord point & -2.4361 & 0.0159 & Inf & -2.4672 & -2.4050 &         h \\ 
-  OU & Post-ord point & -2.4322 & 0.0159 & Inf & -2.4633 & -2.4011 &         h \\ 
-   \hline
-\end{tabular}
-\end{table}
-
-% latex table generated in R 4.5.2 by xtable 1.8-4 package
-% Tue Jan  6 12:56:11 2026
-
-
-\begin{table}[H]
-\caption{\textbf{Discrete traits: interaction between model:estimation method, averaged over fossil sampling, disparity metric and tree size} Confidence level used: 0.95. Significance level: 0.05. Note that emmeans were log transformed, so the most negative value means the most accurate (closest to 0).}
-\label{tab:discrete model method interaction cld}
-\centering
-\begin{tabular}{llrrrrrl}
-  \hline
-model & method & emmean & SE & df & asymp.LCL & asymp.UCL & .group \\ 
-  \hline
-slow & Pre-ord dist & -1.4945 & 0.0068 & Inf & -1.5079 & -1.4811 &  a          \\ 
-  slow & Pre-ord point & -1.3649 & 0.0068 & Inf & -1.3783 & -1.3515 &   b         \\ 
-  med & Pre-ord point & -1.2201 & 0.0068 & Inf & -1.2335 & -1.2067 &    c        \\ 
-  med & Pre-ord dist & -0.9866 & 0.0068 & Inf & -1.0000 & -0.9732 &     d       \\ 
-  med & Post-ord dist & -0.8436 & 0.0068 & Inf & -0.8570 & -0.8302 &      e      \\ 
-  fast & Pre-ord point & -0.7756 & 0.0068 & Inf & -0.7890 & -0.7622 &       f     \\ 
-  slow & Post-ord dist & -0.7569 & 0.0068 & Inf & -0.7703 & -0.7435 &       f     \\ 
-  fast & Post-ord dist & -0.7049 & 0.0068 & Inf & -0.7183 & -0.6915 &        g    \\ 
-  med & No ASE & -0.6947 & 0.0068 & Inf & -0.7081 & -0.6813 &        g    \\ 
-  slow & No ASE & -0.6846 & 0.0068 & Inf & -0.6980 & -0.6712 &        g    \\ 
-  fast & Pre-ord dist & -0.6844 & 0.0068 & Inf & -0.6978 & -0.6710 &        g    \\ 
-  fast & No ASE & -0.5630 & 0.0068 & Inf & -0.5764 & -0.5496 &         h   \\ 
-  slow & Post-ord point & -0.5098 & 0.0068 & Inf & -0.5232 & -0.4964 &          i  \\ 
-  med & Post-ord point & -0.4924 & 0.0068 & Inf & -0.5058 & -0.4790 &          i  \\ 
-  fast & Post-ord point & -0.4015 & 0.0068 & Inf & -0.4149 & -0.3881 &           j \\ 
-   \hline
-\end{tabular}
-\end{table}
-
-
-\begin{table}[H]
-  \caption{\textbf{Continuous traits: interaction between disparity metric:estimation method, averaged over fossil sampling, model of evolution and tree size} Confidence level used: 0.95. Significance level: 0.05. Note that emmeans were log transformed, so the most negative value means the most accurate (closest to 0).}
-\label{tab:continuous metric method interaction cld}
-\centering
-\begin{tabular}{llrrrrrl}
-  \hline
-method & metric & emmean & SE & df & asymp.LCL & asymp.UCL & .group \\ 
-  \hline
-Pre-ord dist & Sum of quantiles & -3.5846 & 0.0159 & Inf & -3.6157 & -3.5535 &  a      \\ 
-  Post-ord dist & Sum of quantiles & -3.5389 & 0.0159 & Inf & -3.5700 & -3.5078 &  ab     \\ 
-  Pre-ord dist & Mean pairwise distance & -3.5292 & 0.0159 & Inf & -3.5603 & -3.4980 &  ab     \\ 
-  Post-ord dist & Mean pairwise distance & -3.5218 & 0.0159 & Inf & -3.5529 & -3.4906 &   b     \\ 
-  No ASE & Sum of quantiles & -3.4235 & 0.0159 & Inf & -3.4546 & -3.3924 &    c    \\ 
-  No ASE & Mean pairwise distance & -3.3001 & 0.0159 & Inf & -3.3312 & -3.2690 &     d   \\ 
-  Pre-ord point & Sum of quantiles & -3.2961 & 0.0159 & Inf & -3.3272 & -3.2650 &     d   \\ 
-  Pre-ord point & Mean pairwise distance & -3.2906 & 0.0159 & Inf & -3.3218 & -3.2595 &     d   \\ 
-  Post-ord point & Mean pairwise distance & -3.2871 & 0.0159 & Inf & -3.3182 & -3.2560 &     d   \\ 
-  Post-ord point & Sum of quantiles & -3.2726 & 0.0159 & Inf & -3.3037 & -3.2415 &     d   \\ 
-  Pre-ord dist & Sum of variances & -2.9005 & 0.0159 & Inf & -2.9316 & -2.8694 &      e  \\ 
-  Post-ord dist & Sum of variances & -2.8959 & 0.0159 & Inf & -2.9270 & -2.8648 &      e  \\ 
-  No ASE & Sum of variances & -2.6862 & 0.0159 & Inf & -2.7173 & -2.6550 &       f \\ 
-  Pre-ord point & Sum of variances & -2.6730 & 0.0159 & Inf & -2.7041 & -2.6418 &       f \\ 
-  Post-ord point & Sum of variances & -2.6714 & 0.0159 & Inf & -2.7025 & -2.6402 &       f \\ 
-   \hline
-\end{tabular}
-\end{table}
-
-
-
-% latex table generated in R 4.5.2 by xtable 1.8-4 package
-% Tue Jan  6 12:52:33 2026
-\begin{table}[H]
-\caption{\textbf{Discrete traits: interaction between disparity metric:estimation method, averaged over fossil sampling, transition rate and tree size} Confidence level used: 0.95. Significance level: 0.05. Note that emmeans were log transformed, so the most negative value means the most accurate (closest to 0).}
-\label{tab:discrete metric method interaction cld}
-\centering
-\begin{tabular}{llrrrrrl}
-  \hline
-method & metric & emmean & SE & df & asymp.LCL & asymp.UCL & .group \\ 
-  \hline
-Pre-ord point & Mean pairwise distance & -1.4925 & 0.0068 & Inf & -1.5059 & -1.4791 &  a             \\ 
-  Pre-ord dist & Mean pairwise distance & -1.4381 & 0.0068 & Inf & -1.4516 & -1.4247 &   b            \\ 
-  Post-ord dist & Mean pairwise distance & -1.1981 & 0.0068 & Inf & -1.2115 & -1.1846 &    c           \\ 
-  No ASE & Mean pairwise distance & -1.0385 & 0.0068 & Inf & -1.0519 & -1.0250 &     d          \\ 
-  Pre-ord point & Sum of variances & -0.9633 & 0.0068 & Inf & -0.9767 & -0.9499 &      e         \\ 
-  Pre-ord dist & Sum of variances & -0.9138 & 0.0068 & Inf & -0.9272 & -0.9004 &       f        \\ 
-  Pre-ord point & Sum of quantiles & -0.9049 & 0.0068 & Inf & -0.9183 & -0.8915 &       f        \\ 
-  Pre-ord dist & Sum of quantiles & -0.8136 & 0.0068 & Inf & -0.8270 & -0.8001 &        g       \\ 
-  Post-ord point & Mean pairwise distance & -0.7568 & 0.0068 & Inf & -0.7702 & -0.7434 &         h      \\ 
-  Post-ord dist & Sum of variances & -0.7072 & 0.0068 & Inf & -0.7206 & -0.6938 &          i     \\ 
-  No ASE & Sum of variances & -0.5579 & 0.0068 & Inf & -0.5713 & -0.5445 &           j    \\ 
-  Post-ord dist & Sum of quantiles & -0.4002 & 0.0068 & Inf & -0.4136 & -0.3868 &            k   \\ 
-  Post-ord point & Sum of variances & -0.3594 & 0.0068 & Inf & -0.3728 & -0.3460 &             l  \\ 
-  No ASE & Sum of quantiles & -0.3460 & 0.0068 & Inf & -0.3594 & -0.3326 &             l  \\ 
-  Post-ord point & Sum of quantiles & -0.2875 & 0.0068 & Inf & -0.3009 & -0.2741 &              m \\ 
-   \hline
-\end{tabular}
-\end{table}
+% \end{center}
 
 
 \section{Supplementary Figures}

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2024.11.5)  8 JAN 2026 11:43
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2024.11.5)  12 JAN 2026 16:38
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -406,33 +406,51 @@ Package: float 2001/11/08 v1.3d Float enhancements (AL)
 \float@box=\box65
 \@float@everytoks=\toks31
 \@floatcapt=\box66
+) (/usr/share/texlive/texmf-dist/tex/latex/tools/longtable.sty
+Package: longtable 2023-11-01 v4.19 Multi-page Table package (DPC)
+\LTleft=\skip61
+\LTright=\skip62
+\LTpre=\skip63
+\LTpost=\skip64
+\LTchunksize=\count323
+\LTcapwidth=\dimen199
+\LT@head=\box67
+\LT@firsthead=\box68
+\LT@foot=\box69
+\LT@lastfoot=\box70
+\LT@gbox=\box71
+\LT@cols=\count324
+\LT@rows=\count325
+\c@LT@tables=\count326
+\c@LT@chunks=\count327
+\LT@p@ftn=\toks32
 )
-Package translations Info: No language package found. I am going to use `english' as default language. on input line 28.
+Package translations Info: No language package found. I am going to use `english' as default language. on input line 29.
  (/usr/share/texlive/texmf-dist/tex/latex/l3backend/l3backend-pdftex.def
 File: l3backend-pdftex.def 2024-01-04 L3 backend support: PDF output (pdfTeX)
-\l__color_backend_stack_int=\count323
-\l__pdf_internal_box=\box67
+\l__color_backend_stack_int=\count328
+\l__pdf_internal_box=\box72
 ) (./supplementary.aux)
 \openout1 = `supplementary.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 28.
-LaTeX Font Info:    ... okay on input line 28.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 28.
-LaTeX Font Info:    ... okay on input line 28.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 28.
-LaTeX Font Info:    ... okay on input line 28.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 28.
-LaTeX Font Info:    ... okay on input line 28.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 28.
-LaTeX Font Info:    ... okay on input line 28.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 28.
-LaTeX Font Info:    ... okay on input line 28.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 28.
-LaTeX Font Info:    ... okay on input line 28.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 28.
-LaTeX Font Info:    ... okay on input line 28.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 28.
-LaTeX Font Info:    ... okay on input line 28.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 29.
+LaTeX Font Info:    ... okay on input line 29.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 29.
+LaTeX Font Info:    ... okay on input line 29.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 29.
+LaTeX Font Info:    ... okay on input line 29.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 29.
+LaTeX Font Info:    ... okay on input line 29.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 29.
+LaTeX Font Info:    ... okay on input line 29.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 29.
+LaTeX Font Info:    ... okay on input line 29.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 29.
+LaTeX Font Info:    ... okay on input line 29.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 29.
+LaTeX Font Info:    ... okay on input line 29.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 29.
+LaTeX Font Info:    ... okay on input line 29.
 
 *geometry* driver: auto-detecting
 *geometry* detected driver: pdftex
@@ -468,19 +486,19 @@ LaTeX Font Info:    ... okay on input line 28.
 * \@reversemarginfalse
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
-LaTeX Info: Redefining \microtypecontext on input line 28.
-Package microtype Info: Applying patch `item' on input line 28.
-Package microtype Info: Applying patch `toc' on input line 28.
-Package microtype Info: Applying patch `eqnum' on input line 28.
-Package microtype Info: Applying patch `footnote' on input line 28.
-Package microtype Info: Applying patch `verbatim' on input line 28.
+LaTeX Info: Redefining \microtypecontext on input line 29.
+Package microtype Info: Applying patch `item' on input line 29.
+Package microtype Info: Applying patch `toc' on input line 29.
+Package microtype Info: Applying patch `eqnum' on input line 29.
+Package microtype Info: Applying patch `footnote' on input line 29.
+Package microtype Info: Applying patch `verbatim' on input line 29.
 Package microtype Info: Generating PDF output.
 Package microtype Info: Character protrusion enabled (level 2).
 Package microtype Info: Using default protrusion set `alltext'.
 Package microtype Info: Automatic font expansion enabled (level 2),
 (microtype)             stretch: 20, shrink: 20, step: 1, non-selected.
 Package microtype Info: Using default expansion set `alltext-nott'.
-LaTeX Info: Redefining \showhyphens on input line 28.
+LaTeX Info: Redefining \showhyphens on input line 29.
 Package microtype Info: No adjustment of tracking.
 Package microtype Info: No adjustment of interword spacing.
 Package microtype Info: No adjustment of character kerning.
@@ -488,17 +506,17 @@ Package microtype Info: No adjustment of character kerning.
 File: mt-cmr.cfg 2013/05/19 v2.2 microtype config. file: Computer Modern Roman (RS)
 ) (/usr/share/texlive/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count324
-\scratchdimen=\dimen199
-\scratchbox=\box68
-\nofMPsegments=\count325
-\nofMParguments=\count326
-\everyMPshowfont=\toks32
-\MPscratchCnt=\count327
-\MPscratchDim=\dimen256
-\MPnumerator=\count328
-\makeMPintoPDFobject=\count329
-\everyMPtoPDFconversion=\toks33
+\scratchcounter=\count329
+\scratchdimen=\dimen256
+\scratchbox=\box73
+\nofMPsegments=\count330
+\nofMParguments=\count331
+\everyMPshowfont=\toks33
+\MPscratchCnt=\count332
+\MPscratchDim=\dimen257
+\MPnumerator=\count333
+\makeMPintoPDFobject=\count334
+\everyMPtoPDFconversion=\toks34
 ) (/usr/share/texlive/texmf-dist/tex/latex/epstopdf-pkg/epstopdf-base.sty
 Package: epstopdf-base 2020-01-24 v2.11 Base part for package epstopdf
 Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 485.
@@ -508,17 +526,21 @@ File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Live
 Package caption Info: Begin \AtBeginDocument code.
 Package caption Info: float package is loaded.
 Package caption Info: hyperref package is loaded.
+Package caption Info: longtable package is loaded.
+ (/usr/share/texlive/texmf-dist/tex/latex/caption/ltcaption.sty
+Package: ltcaption 2021/01/08 v1.4c longtable captions (AR)
+)
 Package caption Info: End \AtBeginDocument code.
  (/usr/share/texlive/texmf-dist/tex/latex/translations/translations-basic-dictionary-english.trsl
 File: translations-basic-dictionary-english.trsl (english translation file `translations-basic-dictionary')
 )
-Package translations Info: loading dictionary `translations-basic-dictionary' for `english'. on input line 28.
-Package hyperref Info: Link coloring OFF on input line 28.
+Package translations Info: loading dictionary `translations-basic-dictionary' for `english'. on input line 29.
+Package hyperref Info: Link coloring OFF on input line 29.
  (./supplementary.out) (./supplementary.out)
 \@outlinefile=\write3
 \openout3 = `supplementary.out'.
 
-LaTeX Font Info:    Trying to load font information for T1+cmss on input line 34.
+LaTeX Font Info:    Trying to load font information for T1+cmss on input line 35.
  (/usr/share/texlive/texmf-dist/tex/latex/base/t1cmss.fd
 File: t1cmss.fd 2023/04/13 v2.5m Standard LaTeX font definitions
 )
@@ -526,62 +548,72 @@ Package microtype Info: Loading generic protrusion settings for font family
 (microtype)             `cmss' (encoding: T1).
 (microtype)             For optimal results, create family-specific settings.
 (microtype)             See the microtype manual for details.
-LaTeX Font Info:    Trying to load font information for U+msa on input line 34.
+LaTeX Font Info:    Trying to load font information for U+msa on input line 35.
  (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 ) (/usr/share/texlive/texmf-dist/tex/latex/microtype/mt-msa.cfg
 File: mt-msa.cfg 2006/02/04 v1.1 microtype config. file: AMS symbols (a) (RS)
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 34.
+LaTeX Font Info:    Trying to load font information for U+msb on input line 35.
  (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 ) (/usr/share/texlive/texmf-dist/tex/latex/microtype/mt-msb.cfg
 File: mt-msb.cfg 2005/06/01 v1.0 microtype config. file: AMS symbols (b) (RS)
-) [1
-
-{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}{/usr/share/texmf/fonts/enc/dvips/cm-super/cm-super-t1.enc}]
-Overfull \hbox (31.86542pt too wide) in paragraph at lines 93--124
+)
+Overfull \hbox (43.48018pt too wide) in paragraph at lines 56--78
  [][] 
  []
 
-[2]
-Overfull \hbox (10.85045pt too wide) in paragraph at lines 133--164
- [][] 
+[1
+
+{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}{/usr/share/texmf/fonts/enc/dvips/cm-super/cm-super-t1.enc}] [2]
+Underfull \hbox (badness 1400) in paragraph at lines 335--335
+[]\T1/cmr/m/n/10.95 (+20) Table S4: |\T1/cmr/bx/n/10.95 (+20) Dis-crete traits: three-way in-ter-ac-tion be-tween model:fossil sam-
  []
 
-[3]
-Overfull \hbox (18.36401pt too wide) in paragraph at lines 174--195
- [][] 
+
+Overfull \hbox (73.75453pt too wide) in alignment at lines 333--340
+ [] [] [] [] [] [] [] [] [] 
  []
 
-[4] [5]
-Overfull \hbox (47.68567pt too wide) in paragraph at lines 233--254
- [][] 
+
+Overfull \hbox (73.75453pt too wide) in alignment at lines 340--346
+ [] [] [] [] [] [] [] [] [] 
  []
 
-[6]
-Overfull \hbox (47.68567pt too wide) in paragraph at lines 264--285
- [][] 
+
+Overfull \hbox (73.75453pt too wide) in alignment at lines 346--349
+ [] [] [] [] [] [] [] [] [] 
  []
 
-[7]
-<figures/net_div_hist_overall_trees.pdf, id=58, 505.89pt x 505.89pt>
+
+Overfull \hbox (73.75453pt too wide) in alignment at lines 349--352
+ [] [] [] [] [] [] [] [] [] 
+ []
+
+
+Overfull \hbox (73.75453pt too wide) in alignment at lines 352--431
+ [] [] [] [] [] [] [] [] [] 
+ []
+
+[3] [4]
+<figures/net_div_hist_overall_trees.pdf, id=44, 505.89pt x 505.89pt>
 File: figures/net_div_hist_overall_trees.pdf Graphic file (type pdf)
 <use figures/net_div_hist_overall_trees.pdf>
-Package pdftex.def Info: figures/net_div_hist_overall_trees.pdf  used on input line 292.
+Package pdftex.def Info: figures/net_div_hist_overall_trees.pdf  used on input line 440.
 (pdftex.def)             Requested size: 226.48395pt x 226.48277pt.
- [8]
-<figures/symmetry.pdf, id=64, 505.89pt x 505.89pt>
+ [5]
+<figures/symmetry.pdf, id=49, 505.89pt x 505.89pt>
 File: figures/symmetry.pdf Graphic file (type pdf)
 <use figures/symmetry.pdf>
-Package pdftex.def Info: figures/symmetry.pdf  used on input line 300.
+Package pdftex.def Info: figures/symmetry.pdf  used on input line 448.
 (pdftex.def)             Requested size: 226.48395pt x 226.48277pt.
-<figures/discrete_boxplot_rm_axes.pdf, id=67, 1300.86pt x 1011.78pt>
+<figures/discrete_boxplot_rm_axes.pdf, id=52, 1300.86pt x 1011.78pt>
 File: figures/discrete_boxplot_rm_axes.pdf Graphic file (type pdf)
 <use figures/discrete_boxplot_rm_axes.pdf>
-Package pdftex.def Info: figures/discrete_boxplot_rm_axes.pdf  used on input line 308.
+Package pdftex.def Info: figures/discrete_boxplot_rm_axes.pdf  used on input line 456.
 (pdftex.def)             Requested size: 452.9679pt x 352.30656pt.
- [9 <./figures/net_div_hist_overall_trees.pdf> <./figures/symmetry.pdf>] (./supplementary.bbl) [10 <./figures/discrete_boxplot_rm_axes.pdf>] (./supplementary.aux)
+ [6 <./figures/net_div_hist_overall_trees.pdf> <./figures/symmetry.pdf>] (./supplementary.bbl) [7 <./figures/discrete_boxplot_rm_axes.pdf>] (./supplementary.aux)
  ***********
 LaTeX2e <2023-11-01> patch level 1
 L3 programming layer <2024-01-22>
@@ -590,18 +622,18 @@ Package rerunfilecheck Info: File `supplementary.out' has not changed.
 (rerunfilecheck)             Checksum: 7273FE011E314F16BB7A8F1B236BE6EB;297.
  ) 
 Here is how much of TeX's memory you used:
- 18860 strings out of 474222
- 356620 string characters out of 5748733
- 1951975 words of memory out of 5000000
- 40770 multiletter control sequences out of 15000+600000
- 578697 words of font info for 136 fonts, out of 8000000 for 9000
+ 18973 strings out of 474222
+ 358515 string characters out of 5748733
+ 1982975 words of memory out of 5000000
+ 40909 multiletter control sequences out of 15000+600000
+ 577864 words of font info for 124 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 73i,10n,80p,1066b,921s stack positions out of 10000i,1000n,20000p,200000b,200000s
-</usr/share/texmf/fonts/type1/public/cm-super/sfbx1095.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfbx1440.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfrm0700.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfrm0800.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfrm1000.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfrm1095.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfrm1200.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfrm1728.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfss0800.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfti1095.pfb>
-Output written on supplementary.pdf (10 pages, 191908 bytes).
+ 73i,10n,80p,1066b,1039s stack positions out of 10000i,1000n,20000p,200000b,200000s
+</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfbx1095.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfbx1440.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfrm0700.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfrm0800.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfrm1000.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfrm1095.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfrm1200.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfrm1728.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfss0800.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfti1000.pfb>
+Output written on supplementary.pdf (7 pages, 202016 bytes).
 PDF statistics:
- 156 PDF objects out of 1000 (max. 8388607)
- 116 compressed objects within 2 object streams
- 26 named destinations out of 1000 (max. 500000)
+ 144 PDF objects out of 1000 (max. 8388607)
+ 105 compressed objects within 2 object streams
+ 19 named destinations out of 1000 (max. 500000)
  38944 words of extra memory for PDF output out of 42996 (max. 10000000)
 

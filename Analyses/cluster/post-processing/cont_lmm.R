@@ -7,6 +7,7 @@ library(multcomp)
 library(multcompView)
 library(xtable)
 library(tatoo)
+library(partykit)
 
 job_ids <- list(
   "50t" = "8690335",
@@ -281,7 +282,7 @@ print(VarCorr(lmm_model))
 
 # ANOVA table type 3 due to unequal sample sizes
 cat("\n ANOVA table type 3 due to unequal sample sizes \n")
-print(anova(lmm_model, type = 3))
+print(xtable((anova(lmm_model, type = 3))))
 sink()
 
 #################################################################################################
@@ -407,51 +408,56 @@ chunks_nested <- lapply(split(fossil_method_model_metric, fossil_method_model_me
 })
 
 
-# #########################################################################################################
-# ## HEATMAP
-# library(ggplot2)
-# library(dplyr)
+#########################################################################################################
+## HEATMAP
+library(ggplot2)
+library(dplyr)
 
-# # 1. Prepare the Data
-# # Convert emmeans object to a standard dataframe
-# plot_df <- as.data.frame(by_method)
+# 1. Prepare the Data
+# Convert emmeans object to a standard dataframe
+# 1. Prepare the data
+plot_df <- as.data.frame(emm_three_way)
 
-# # 2. FILTER: Isolate only ONE metric to avoid the overlay mess
-# # Change "sum_quant" to match exactly what is in your 'metric' column
-# df_to_plot <- plot_df %>% 
-#   filter(metric == "sum_quant") 
+# 2. Clean up factors
+plot_df$fossil_sampling <- factor(plot_df$fossil_sampling, 
+                                   levels = c("living", "low", "med", "high", "all"),labels = c("0%", "5%", "15%", "50%", "100%"))
 
-# # 3. Clean up factors for the plot logic
-# # Ensure Fossils are in the logical order (Living -> Low -> Med -> High -> All)
-# df_to_plot$fossil_sampling <- factor(df_to_plot$fossil_sampling, 
-#                                      levels = c("living", "low", "med", "high", "all"))
+plot_df$method <- factor(plot_df$method, 
+                                   levels = c("pre_ord_point", "pre_ord_sample", "post_ord_point", "post_ord_sample", "no_ace"),
+                                   labels = c("Pre-ord point", "Pre-ord dist", "Post-ord point", "Post-ord dist", "No ASE"))
 
-# # 4. Generate the "Graphical Table"
-# ggplot(df_to_plot, aes(x = method, y = emmean, fill = method)) +
-  
-#   # create side-by-side bars for each method
-#   geom_col(position = position_dodge(), width = 0.7) +
-  
-#   # Add Error Bars (Crucial for showing the overlap/significance)
-#   geom_errorbar(aes(ymin = asymp.LCL, ymax = asymp.UCL), 
-#                 width = 0.2, position = position_dodge(0.7)) +
-  
-#   # THE GRID: Rows = Model, Columns = Fossils
-#   facet_grid(model ~ fossil_sampling, scales = "free_y") +
-  
-#   # Colors and Labels
-#   scale_fill_viridis_d(option = "plasma") + # 'plasma' is distinct and looks scientific
-#   labs(title = "Method Accuracy by Model & Fossil Density",
-#        subtitle = "Metric: Sum Quant (Log Abs Error) - Lower/More Negative is Better",
-#        y = "Log Absolute Error",
-#        x = "Method") +
-  
-#   # Clean Theme
-#   theme_bw() +
-#   theme(axis.text.x = element_blank(), # Hide x-axis labels (redundant with legend)
-#         axis.ticks.x = element_blank(),
-#         strip.text = element_text(face = "bold", size = 11),
-#         legend.position = "bottom")
+plot_df$model <- factor(plot_df$model, 
+                                   levels = c("bm", "bm_t", "ou_st" ),
+                                   labels = c("BM", "BM + trend", "OU"))
+
+plot_df$e_emmean <- exp(plot_df$emmean)
+
+
+
+p <- ggplot(plot_df, aes(x = fossil_sampling, y = method, fill = emmean)) +
+    geom_tile(color = "white", linewidth = 1) +
+    # geom_text(aes(label = sprintf("%.2f", emmean)), color = "white", size = 3) +
+    facet_wrap(~ model, nrow = 1) +
+    scale_fill_viridis_c(option = "rocket", direction = -1, 
+                         name = "Emmean Log\nDisparity Error") +
+    # scale_fill_distiller("RdYlBu", direction = +1) +
+    # labs(title = paste("Metric:", metric_name)) +
+    theme_minimal() +
+    theme(
+      axis.text.x = element_text(angle = 45, hjust = 1),
+      axis.text = element_text(size = 14),
+      strip.text = element_text(size = 20, face = "bold"),
+      axis.title = element_text(size = 20, face = "bold", color = "black"),
+      ) +
+      labs(x = "Fossil Sampling", y = "Estimation method") +
+      coord_equal() +
+      scale_y_discrete(limits = rev)
+
+ggsave("../Manuscript/draft/figures/cont_heatmap.pdf", p, "pdf", width = 10, height = 4, units = "in")
+
+
+
+
 
 
 ############################################################################################
@@ -484,74 +490,92 @@ for (metric in metrics) {
   winners[[metric]] <- winners_df
 }
 
-# # --- SETUP PALETTE ---
-# # Define colors for your methods manually (Clean, professional look)
-# # Adjust names to match your exact method names
-# method_colors <- c("pre_ord_sample" = "#377EB8",  # Blue
-#                    "post_ord_sample" = "#4DAF4A", # Green
-#                    "no_ace" = "#E41A1C",          # Red
-#                    "pre_ord_point" = "#984EA3",   # Purple
-#                    "post_ord_point" = "#FF7F00")  # Orange
+# --- SETUP PALETTE ---
+# Define colors for your methods manually (Clean, professional look)
+# Adjust names to match your exact method names
+method_colors <- c("pre_ord_sample" = "#377EB8",  # Blue
+                   "post_ord_sample" = "#4DAF4A", # Green
+                   "no_ace" = "#E41A1C",          # Red
+                   "pre_ord_point" = "#984EA3",   # Purple
+                   "post_ord_point" = "#FF7F00")  # Orange
 
-# # Map methods to colors in the dataframe
-# winners_df$color <- method_colors[as.character(winners_df$method)]
-# # Fallback to grey if a method name doesn't match the list above
-# winners_df$color[is.na(winners_df$color)] <- "grey"
+# Map methods to colors in the dataframe
+winners_df$color <- method_colors[as.character(winners_df$method)]
+# Fallback to grey if a method name doesn't match the list above
+winners_df$color[is.na(winners_df$color)] <- "grey"
 
-# # --- DRAW PLOT ---
-# # 1. Setup Canvas (type="n" means 'none', just setup axes)
-# par(mar = c(5, 5, 4, 7)) # Increase right margin for legend
-# plot(x = range(winners_df$x_coord), 
-#      y = range(winners_df$y_coord), 
-#      type = "n", 
-#      axes = FALSE, 
-#      xlab = "Fossil Availability", 
-#      ylab = "Evolutionary Model",
-#      main = "Optimal Ancestral Reconstruction Strategy",
-#      xlim = c(0.5, 5.5), 
-#      ylim = c(0.5, length(unique(winners_df$model)) + 0.5))
+# --- DRAW PLOT ---
+# 1. Setup Canvas (type="n" means 'none', just setup axes)
+par(mar = c(5, 5, 4, 7)) # Increase right margin for legend
+plot(x = range(winners_df$x_coord), 
+     y = range(winners_df$y_coord), 
+     type = "n", 
+     axes = FALSE, 
+     xlab = "Fossil Availability", 
+     ylab = "Evolutionary Model",
+     main = "Optimal Ancestral Reconstruction Strategy",
+     xlim = c(0.5, 5.5), 
+     ylim = c(0.5, length(unique(winners_df$model)) + 0.5))
 
-# # 2. Draw Tiles (rectangles)
-# # We draw a box centered on the x,y coordinate
-# rect(xleft = winners_df$x_coord - 0.5, 
-#      ybottom = winners_df$y_coord - 0.5, 
-#      xright = winners_df$x_coord + 0.5, 
-#      ytop = winners_df$y_coord + 0.5, 
-#      col = winners_df$color, 
-#      border = "white", 
-#      lwd = 2) # White grid lines
+# 2. Draw Tiles (rectangles)
+# We draw a box centered on the x,y coordinate
+rect(xleft = winners_df$x_coord - 0.5, 
+     ybottom = winners_df$y_coord - 0.5, 
+     xright = winners_df$x_coord + 0.5, 
+     ytop = winners_df$y_coord + 0.5, 
+     col = winners_df$color, 
+     border = "white", 
+     lwd = 2) # White grid lines
 
-# # 3. Add Text Labels (Method Names)
-# text(x = winners_df$x_coord, 
-#      y = winners_df$y_coord, 
-#      labels = winners_df$method, 
-#      col = "white", 
-#      font = 2, # Bold
-#      cex = 0.8) # Slightly smaller text
+# 3. Add Text Labels (Method Names)
+text(x = winners_df$x_coord, 
+     y = winners_df$y_coord, 
+     labels = winners_df$method, 
+     col = "white", 
+     font = 2, # Bold
+     cex = 0.8) # Slightly smaller text
 
-# # 4. Add "Statistical Tie" Points
-# # Check if .group is NOT "a" (using trimws to remove spaces like "a ")
-# ties <- winners_df[trimws(winners_df$.group) != "a", ]
+# 4. Add "Statistical Tie" Points
+# Check if .group is NOT "a" (using trimws to remove spaces like "a ")
+ties <- winners_df[trimws(winners_df$.group) != "a", ]
 
-# if(nrow(ties) > 0) {
-#   points(x = ties$x_coord, 
-#          y = ties$y_coord, 
-#          pch = 21, # Circle with outline
-#          bg = "white", 
-#          col = "black", 
-#          cex = 1.5)
-# }
+if(nrow(ties) > 0) {
+  points(x = ties$x_coord, 
+         y = ties$y_coord, 
+         pch = 21, # Circle with outline
+         bg = "white", 
+         col = "black", 
+         cex = 1.5)
+}
 
-# # 5. Custom Axes
-# axis(1, at = 1:5, labels = levels(winners_df$fossil_sampling), tick = FALSE)
-# axis(2, at = 1:length(levels(winners_df$model)), labels = levels(winners_df$model), tick = FALSE, las = 2)
+# 5. Custom Axes
+ggplot(plot_df, aes(x = fossil_sampling, y = emmean, color = method, group = method)) +
+  # Add error bars (assuming you have SE)
+  geom_errorbar(aes(ymin = emmean - SE, ymax = emmean + SE), width = 0.2) +
+  # Add points and lines
+  geom_point(size = 2) +
+  geom_line(size = 1) +
+  # Facet by Metric (rows) and Model (cols)
+  facet_grid(metric ~ model) +
+  # Flip the axis if 'emmean' is error (so lower is visually lower)
+  # If negative values are 'good', keep as is. If positive values are error:
+  scale_y_continuous(trans = "reverse") + 
+  labs(
+    y = "Log Disparity Error (Lower is Better)",
+    x = "Fossil Sampling Intensity",
+    title = "Method Performance across Evolutionary Contexts"
+  ) +
+  theme_bw()
+###########################################################################
+axis(1, at = 1:5, labels = levels(winners_df$fossil_sampling), tick = FALSE)
+axis(2, at = 1:length(levels(winners_df$model)), labels = levels(winners_df$model), tick = FALSE, las = 2)
 
-# # 6. Add Legend
-# legend("right", 
-#        legend = c("Stat. Tie"), 
-#        pch = 21, 
-#        pt.bg = "white",
-#        col = "black",
-#        bty = "n",
-#        inset = c(-0.15, 0), # Move outside plot
-#        xpd = TRUE)
+# 6. Add Legend
+legend("right", 
+       legend = c("Stat. Tie"), 
+       pch = 21, 
+       pt.bg = "white",
+       col = "black",
+       bty = "n",
+       inset = c(-0.15, 0), # Move outside plot
+       xpd = TRUE)

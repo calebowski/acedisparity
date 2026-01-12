@@ -291,7 +291,10 @@ print(xtable(cld(emm_method_metric, Letters = letters, alpha = 0.05), include.ro
 # Three-way interaction
 cat("\n Method x Fossil sampling x model \n")
 emm_three_way <- emmeans(lmm_model, ~ method * model * fossil_sampling)
+
 write.csv(cld(emm_three_way, Letters = letters, alpha = 0.05), paste0(lmm_path, "tables/method_model_fossil_multcomp.csv"))
+print(xtable(cld(emm_three_way, Letters = letters, alpha = 0.05), include.rownames = FALSE))
+
 #################################################################################################
 
 
@@ -337,33 +340,70 @@ cat("Finished LMM continuos...\n")
 
 
 
-df_all <- as.data.frame(by_method_cld)
+library(ggplot2)
+library(dplyr)
 
-# 2. Filter for your metric
-# Equivalent to: filter(metric == "sum_quant")
+# 1. Prepare the Data
+# Convert emmeans object to a standard dataframe
+# 1. Prepare the data
+plot_df <- as.data.frame(emm_three_way)
 
+# 2. Clean up factors
+plot_df$fossil_sampling <- factor(plot_df$fossil_sampling, 
+                                   levels = c("living", "low", "med", "high", "all"),labels = c("0%", "5%", "15%", "50%", "100%"))
 
-winners <- list()
-metrics <- c("sum_quant", "sum_var", "pairwise")
-for (metric in metrics) {
-  df_sub <- df_all[df_all$metric == metric, ]
+plot_df$method <- factor(plot_df$method, 
+                                   levels = c("pre_ord_point_tiebreaker", "pre_ord_sample", "post_ord_point", "post_ord_sample", "no_ace"),
+                                   labels = c("Pre-ord point", "Pre-ord dist", "Post-ord point", "Post-ord dist", "No ASE"))
 
-  df_sub$shared_a <- ave(grepl("a", trimws(df_sub$.group)),
-                                           df_sub$model, df_sub$fossil_sampling,
-                                           FUN = function(x) sum(x)>1)
-
-  df_sub$min_score <- ave(df_sub$emmean, 
-                          df_sub$model, 
-                          df_sub$fossil_sampling, 
-                          FUN = min)
-
-  # Filter to keep only the Winners
-  winners_df <- df_sub[df_sub$emmean == df_sub$min_score, ]
-  
+plot_df$model <- factor(plot_df$model, 
+                                   levels = c("fast", "med", "slow" ),
+                                   labels = c("Fast", "Medium", "Slow"))
 
 
-  winners[[metric]] <- winners_df
-}
+my_breaks <- quantile(plot_df$emmean, probs = seq(0, 1, 0.25))
+
+p <- ggplot(plot_df, aes(x = fossil_sampling, y = method, fill = emmean)) +
+    geom_tile(color = "white", linewidth = 1) +
+    # geom_text(aes(label = sprintf("%.2f", emmean)), color = "white", size = 3) +
+    facet_wrap(~ model, nrow = 1) +
+    scale_fill_viridis_c(option = "rocket", direction = -1, 
+                         name = "Emmean Log\nDisparity Error", values = scales::rescale(my_breaks)) +
+    # scale_fill_distiller("RdYlBu", direction = +1) +
+    # labs(title = paste("Metric:", metric_name)) +
+    theme_minimal() +
+    theme(
+      axis.text.x = element_text(angle = 45, hjust = 1),
+      axis.text = element_text(size = 14),
+      strip.text = element_text(size = 20, face = "bold"),
+      axis.title = element_text(size = 20, face = "bold", color = "black"),
+      ) +
+      labs(x = "Fossil Sampling", y = "Estimation method") +
+      coord_equal() +
+      scale_y_discrete(limits = rev)
+
+p <- ggplot(plot_df, aes(x = fossil_sampling, y = method, fill = emmean)) +
+    geom_tile(color = "white", linewidth = 1) +
+    # geom_text(aes(label = sprintf("%.2f", emmean)), color = "white", size = 3) +
+    facet_wrap(~ model, nrow = 1) +
+    scale_fill_viridis_c(option = "rocket", direction = -1, 
+                         name = "Emmean Log\nDisparity Error", trans = scales::modulus_trans(p = 0.0000001)) +
+    # scale_fill_distiller("RdYlBu", direction = +1) +
+    # labs(title = paste("Metric:", metric_name)) +
+    theme_minimal() +
+    theme(
+      axis.text.x = element_text(angle = 45, hjust = 1),
+      axis.text = element_text(size = 14),
+      strip.text = element_text(size = 20, face = "bold"),
+      axis.title = element_text(size = 20, face = "bold", color = "black"),
+      ) +
+      labs(x = "Fossil Sampling", y = "Estimation method") +
+      coord_equal() +
+      scale_y_discrete(limits = rev)
+
+ggsave("../Manuscript/draft/figures/discrete_heatmap.pdf", p, "pdf", width = 10, height = 4, units = "in")
+
+
 
 
 
