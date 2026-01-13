@@ -342,6 +342,8 @@ print(xtable(cld(emm_method_metric, Letters = letters, alpha = 0.05), include.ro
 cat("\n Method x Fossil sampling x model \n")
 emm_three_way <- emmeans(lmm_model, ~ method * model * fossil_sampling)
 write.csv(cld(emm_three_way, Letters = letters, alpha = 0.05), paste0(lmm_path, "tables/method_model_fossil_multcomp.csv"))
+print(xtable(cld(emm_three_way, Letters = letters, alpha = 0.05), include.rownames = FALSE))
+
 #################################################################################################
 
 

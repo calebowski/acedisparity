@@ -426,9 +426,78 @@ Again, while the disparity metric was a significant driver to overall accuracy, 
 
 \section{Discussion}
 
-% 1. Main takeaway: it does not matter too much what type, just that most methods are better than not using ASE.
-%     a) other than OU model for continuous characters -> then it is better to use NO ASE
-%     b) 
+\subsection{Continuous characters}
+\subsubsection{Pre- versus post ordination \& Uncertainty}
+1. Little discrepancy between pre versus post ordination 
+    (a) Same method used for both, hence why don't see same discrepancy as in discrete traits 
+    (c) Virtually identical, since it is simply a rotation of the data.
+    (c) When would you use either one?
+2. Distribution wins over point estimate
+    (a)
+
+
+For continuous characters, there was virtually no difference between pre- and post-ordination ancestral state estimations.
+Given that continuous traits exist within a Euclidean space, the linear transformation of PCA and the linear estimation of ancestral states under BM mean that estimated node states exist within the same relative positions to the observed tip data both pre- and post-ordination.
+Therefore, there for continuous characters the timing of \ase is insignificant.
+
+However, distribution methods outperformed point estimates overall across all models, fossil sampling levels and disparity metrics.
+This can be explained 
+
+1. At high fossil sampling levels, distribution is best
+    a) why at lower are they equal, but bigger difference at higher fossil sampling levels?
+        (i) The 100\% fossils constrains the 95\% confidence intervals that are sampled, so less noisy and more `accurate' info 
+        (ii) When fossils drop, those CI's get super wide, meaning there is more noise (some of it good, some of it bad). Therefore, point estimates and distributions perform about the same.
+        (iii) So the takeaway: for continuous characters, the advantage of using distributions is only apparent at high fossil sampling levels where the noise can be contained
+
+    b) Interestingly, under an OU model and BM + trend, distribution performs better than point estimates.
+        (i) Basically, with model misspecification, using distribution is best, creates a cloud of ancestors, and this may rougly overlap with the stationary distribution of the OU process. We don't see the crossover because the tips are clustered (low variance) so the distribution error remains bounded and never worse than point estimates.
+
+
+
+
+\subsubsection{Model misspecification}
+As expected, we found that the differences in disparity errors between models of evolution reflect model misspecification in ancestral state estimation. 
+The inclusion of ancestral state estimations in calculation of disparity under Brownian motion were more accurate than excluding ancestral states across all fossil sampling levels and disparity metrics.
+This is intuitive, since ancestral state estimation of continuous characters uses the BM model as an assumption for the evolution of traits.
+The assumptions of BM include a fixed mean and trait variance increasing linearly through time \citep{felsenstein1985phylogenies,omeara2006testing}.
+We found that when these assumptions of BM were violated, disparity errors returned by methods of \ase increased.
+For example, under low/absent fossil sampling, methods of \ase performed worse than bypassing ancestral state estimation.
+In this case, disparity estimates tended to be underestimated, since state estimations will be intermediates of the observed tip data, absent to the directional trend that occured.
+This finding supports previous work that highlights the critical impact of fossil inclusion when directional trends are present in the trait data \citep{finarelli2006ancestral,slater2012integrating,finarelli2013potential}.
+We found that there is a crossover between 5-15\% fossil sampling where \ase becomes optimal, which would equate to a densely sampled empirical phylogeny (\autoref{fig:continuous heatmap}).
+Similarly, calculations of disparity derived from OU simulations were also underestimated when using ancestral state estimations.
+The OU process is characterised by a stationary variance, which contrasts the BM assumption of an increase in variance through time.
+Therefore, since BM estimates internal nodes as a weighted average of the observed tip data, the ancestral nodes are compressed towards the centroid of the morphospace
+This explains why, even with 100\% fossil sampling, bypassing \ase always outperformed the use of ancestral state estimation, since the fundamental model of estimation was incorrect.
+
+
+
+\subsection{Disparity metric?}
+
+
+
+
+
+
+% 1. continuous traits
+%     a) Continuous ase use BM and are sensitive to model misspecification -> unless fossils are present.
+%     b) Howver, if data is OU then model ASE is best avoided
+%     c) Still, the advantages offered by ASE should not be ruled out, and there is a tradeoff betweeen marginally higher disparity error but being able to increase resolution of data.
+% 2. discrete traits
+%     a) Main takeaway: using ace is always better than not running ancestral state estimation
+%         Clear pattern - under high certainty with fossils -> hard to estimate transition rate -> post-ord distribution wins.
+%     b) seems there is a nuance between low fossils and high transition rates
+%         (i) with low fossils, there is an absence of data -> therefore, distribution forces us to consider alternative (and possibly true) routes of evolution -> distribution wins because it needs to cover all bases of evolution (whereas point estimate will choose the simplest path, which is also why it loses on slow rates)
+%         (ii) with high transition rates, but high fossils, it is able to estimate the transition rates better with more data available, therefore precision becomes more of an impact for accuracy, as you should rely on the marginal differences in likelihood states as they are likely correct. whereas sampling over all possibilities returns noisy data.
+
+% 3. Other considerations: 
+%     a) How this translates to disparity through time
+%     b) Different methods of ancestral state estimation
+%         (i) other there are other methods of ace (some of which have been shown to perform better than Mk model used here), then we could expect estimations of disparity to improve.
+%         (i) Main consideration is that generally using a distribution is best.
+%     c) Rate heterogeneity was not considered, but we expect for disparity that it would not change results much -> it seems for disparity, raw accuracy of states does not have a cascading effect on innacacy of disparity as much as the actual absence of points in morphospace.
+
+
 
 
 
@@ -498,7 +567,7 @@ Again, while the disparity metric was a significant driver to overall accuracy, 
 \end{figure}
 
 
-\begin{figure}[h]
+\begin{figure}[H]
 \centering
 \includegraphics[width=1\textwidth]{figures/discrete_boxplot.pdf}
 \caption{\textbf{Results discrete} Relative disparity errors across all dimensions returned by ordinations.} 

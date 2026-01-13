@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2024.11.5)  12 JAN 2026 16:38
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2024.11.5)  13 JAN 2026 15:17
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -567,53 +567,78 @@ Overfull \hbox (43.48018pt too wide) in paragraph at lines 56--78
 [1
 
 {/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}{/usr/share/texmf/fonts/enc/dvips/cm-super/cm-super-t1.enc}] [2]
-Underfull \hbox (badness 1400) in paragraph at lines 335--335
-[]\T1/cmr/m/n/10.95 (+20) Table S4: |\T1/cmr/bx/n/10.95 (+20) Dis-crete traits: three-way in-ter-ac-tion be-tween model:fossil sam-
- []
-
-
-Overfull \hbox (73.75453pt too wide) in alignment at lines 333--340
+Overfull \hbox (24.21107pt too wide) in alignment at lines 327--334
  [] [] [] [] [] [] [] [] [] 
  []
 
 
-Overfull \hbox (73.75453pt too wide) in alignment at lines 340--346
+Overfull \hbox (24.21107pt too wide) in alignment at lines 334--340
  [] [] [] [] [] [] [] [] [] 
  []
 
 
-Overfull \hbox (73.75453pt too wide) in alignment at lines 346--349
+Overfull \hbox (24.21107pt too wide) in alignment at lines 340--343
  [] [] [] [] [] [] [] [] [] 
  []
 
 
-Overfull \hbox (73.75453pt too wide) in alignment at lines 349--352
+Overfull \hbox (24.21107pt too wide) in alignment at lines 343--346
  [] [] [] [] [] [] [] [] [] 
  []
 
 
-Overfull \hbox (73.75453pt too wide) in alignment at lines 352--431
+Overfull \hbox (24.21107pt too wide) in alignment at lines 346--425
  [] [] [] [] [] [] [] [] [] 
  []
 
 [3] [4]
-<figures/net_div_hist_overall_trees.pdf, id=44, 505.89pt x 505.89pt>
+Underfull \hbox (badness 1400) in paragraph at lines 437--437
+[]\T1/cmr/m/n/10.95 (+20) Table S5: |\T1/cmr/bx/n/10.95 (+20) Dis-crete traits: three-way in-ter-ac-tion be-tween model:fossil sam-
+ []
+
+
+Overfull \hbox (73.75453pt too wide) in alignment at lines 435--442
+ [] [] [] [] [] [] [] [] [] 
+ []
+
+
+Overfull \hbox (73.75453pt too wide) in alignment at lines 442--448
+ [] [] [] [] [] [] [] [] [] 
+ []
+
+
+Overfull \hbox (73.75453pt too wide) in alignment at lines 448--451
+ [] [] [] [] [] [] [] [] [] 
+ []
+
+
+Overfull \hbox (73.75453pt too wide) in alignment at lines 451--454
+ [] [] [] [] [] [] [] [] [] 
+ []
+
+
+Overfull \hbox (73.75453pt too wide) in alignment at lines 454--533
+ [] [] [] [] [] [] [] [] [] 
+ []
+
+[5] [6] [7]
+<figures/net_div_hist_overall_trees.pdf, id=58, 505.89pt x 505.89pt>
 File: figures/net_div_hist_overall_trees.pdf Graphic file (type pdf)
 <use figures/net_div_hist_overall_trees.pdf>
-Package pdftex.def Info: figures/net_div_hist_overall_trees.pdf  used on input line 440.
+Package pdftex.def Info: figures/net_div_hist_overall_trees.pdf  used on input line 542.
 (pdftex.def)             Requested size: 226.48395pt x 226.48277pt.
- [5]
-<figures/symmetry.pdf, id=49, 505.89pt x 505.89pt>
+<figures/symmetry.pdf, id=59, 505.89pt x 505.89pt>
 File: figures/symmetry.pdf Graphic file (type pdf)
 <use figures/symmetry.pdf>
-Package pdftex.def Info: figures/symmetry.pdf  used on input line 448.
+Package pdftex.def Info: figures/symmetry.pdf  used on input line 550.
 (pdftex.def)             Requested size: 226.48395pt x 226.48277pt.
-<figures/discrete_boxplot_rm_axes.pdf, id=52, 1300.86pt x 1011.78pt>
+ [8 <./figures/net_div_hist_overall_trees.pdf>]
+<figures/discrete_boxplot_rm_axes.pdf, id=73, 1300.86pt x 1011.78pt>
 File: figures/discrete_boxplot_rm_axes.pdf Graphic file (type pdf)
 <use figures/discrete_boxplot_rm_axes.pdf>
-Package pdftex.def Info: figures/discrete_boxplot_rm_axes.pdf  used on input line 456.
+Package pdftex.def Info: figures/discrete_boxplot_rm_axes.pdf  used on input line 558.
 (pdftex.def)             Requested size: 452.9679pt x 352.30656pt.
- [6 <./figures/net_div_hist_overall_trees.pdf> <./figures/symmetry.pdf>] (./supplementary.bbl) [7 <./figures/discrete_boxplot_rm_axes.pdf>] (./supplementary.aux)
+ (./supplementary.bbl [9 <./figures/symmetry.pdf> <./figures/discrete_boxplot_rm_axes.pdf>]) [10] (./supplementary.aux)
  ***********
 LaTeX2e <2023-11-01> patch level 1
 L3 programming layer <2024-01-22>
@@ -622,18 +647,18 @@ Package rerunfilecheck Info: File `supplementary.out' has not changed.
 (rerunfilecheck)             Checksum: 7273FE011E314F16BB7A8F1B236BE6EB;297.
  ) 
 Here is how much of TeX's memory you used:
- 18973 strings out of 474222
- 358515 string characters out of 5748733
- 1982975 words of memory out of 5000000
- 40909 multiletter control sequences out of 15000+600000
+ 18979 strings out of 474222
+ 358588 string characters out of 5748733
+ 1991975 words of memory out of 5000000
+ 40911 multiletter control sequences out of 15000+600000
  577864 words of font info for 124 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  73i,10n,80p,1066b,1039s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfbx1095.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfbx1440.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfrm0700.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfrm0800.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfrm1000.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfrm1095.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfrm1200.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfrm1728.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfss0800.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfti1000.pfb>
-Output written on supplementary.pdf (7 pages, 202016 bytes).
+Output written on supplementary.pdf (10 pages, 206260 bytes).
 PDF statistics:
- 144 PDF objects out of 1000 (max. 8388607)
- 105 compressed objects within 2 object streams
- 19 named destinations out of 1000 (max. 500000)
+ 157 PDF objects out of 1000 (max. 8388607)
+ 115 compressed objects within 2 object streams
+ 23 named destinations out of 1000 (max. 500000)
  38944 words of extra memory for PDF output out of 42996 (max. 10000000)
 
