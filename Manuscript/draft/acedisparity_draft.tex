@@ -358,10 +358,9 @@ Therefore, while estimation accuracy differed between metrics, the hierarchy bet
 
 \textbf{Key takeaways:}
 \begin{itemize}
-    \item Use \textbf{distribution} estimations when trait data is BM (+ trend) and/or when fossil sampling is high.
-    \item If trait data has a trend, fossil sampling is essential to get reliable ancestral states.
+    \item Use \textbf{pre/post ord distribution} estimations when trait data is BM (+ trend).
+    \item If trait data has a trend, fossil sampling >5\% is essential to return reliable disparity signal.
     \item When trait data is OU, it is most accurate to exclude ancestral states at all fossil sampling levels.
-    \item Generally, there is little discrepancy between pre- and post-ordination estimations.
 \end{itemize}
 
 
@@ -425,37 +424,45 @@ Again, while the disparity metric was a significant driver to overall accuracy, 
 
 
 \section{Discussion}
+Our results suggest that, overall, the inclusion of ancestral state can improve our estimations of disparity.
+However, under model misspecification this is contingent on a substantial inclusion of fossils.
 
-\subsection{Continuous characters}
-\subsubsection{Pre- versus post ordination \& Uncertainty}
-1. Little discrepancy between pre versus post ordination 
-    (a) Same method used for both, hence why don't see same discrepancy as in discrete traits 
-    (c) Virtually identical, since it is simply a rotation of the data.
-    (c) When would you use either one?
-2. Distribution wins over point estimate
-    (a)
+
+% \subsection{Continuous characters}
+\subsubsection{Pre versus post ord \& Point vs dist}
+1. 
+    a)Little discrepancy between pre versus post ordination for continuous
+        (i) Same method used for both, hence why don't see same discrepancy as in discrete traits 
+        (ii) Virtually identical, since it is simply a rotation of the data.
+        (iii) When would you use either one?
+    b) 1. At high fossil sampling levels, distribution is best
+         why at lower are they equal, but bigger difference at higher fossil sampling levels?
+        (i) The 100\% fossils constrains the 95\% confidence intervals that are sampled, so less noisy and more `accurate' info 
+        (ii) When fossils drop, those CI's get super wide, meaning there is more noise (some of it good, some of it bad). Therefore, point estimates and distributions perform about the same.
+        (iii) So the takeaway: for continuous characters, the advantage of using distributions is only apparent at high fossil sampling levels where the noise can be contained
+
+    c) Interestingly, under an OU model and BM + trend, distribution performs better than point estimates.
+        (i) Basically, with model misspecification, using distribution is best, creates a cloud of ancestors, and this may rougly overlap with the stationary distribution of the OU process. We don't see the crossover because the tips are clustered (low variance) so the distribution error remains bounded and never worse than point estimates.
+
+
+2.
+    a) Big discrepancy between pre versus post ord for discrete
+        (i) Pre-ordination tends to win over post-ordination for discrete characters
+        (ii) This was discussed in graeme lloyd's paper, but is likely to do with the distortion involved in projecting non-Euclidean distances into Euclidean ordination spaces.
+        (iii) Notably, a clear pattern is that with post-ordination methods for discrete characters, you are constrained within your sphere of morphospace, so you are forced to assume that observed tip values represent the most extreme morphologies that have existed within that clade, hence the underestimates of disparity when using point estimates. \citep{stayton2015definition}.
+    b) Crossover between point estimate and distribution
+        (i) At fast/medium rates, we need less variance to filter out the saturation/noise -> point estimate wins (also at high fossil sampling)
+        (ii) At low fossil sampling/slow rates, we face the Darwin's uncertainty principle (hard to estimate transition rates) -> therefore, we need distribution / introduction of variance to find hidden homoplasy.
+        (iii) Post-ordination distribution was best performing at fast rates but low fossils, which may be because there are less fossils to anchor node estimates, so there is more space within the ordination space for the points to lie, so it recovers true morphospace pattern.
+
 
 
 For continuous characters, there was virtually no difference between pre- and post-ordination ancestral state estimations.
 Given that continuous traits exist within a Euclidean space, the linear transformation of PCA and the linear estimation of ancestral states under BM mean that estimated node states exist within the same relative positions to the observed tip data both pre- and post-ordination.
 Therefore, there for continuous characters the timing of \ase is insignificant.
 
-However, distribution methods outperformed point estimates overall across all models, fossil sampling levels and disparity metrics.
-This can be explained 
 
-1. At high fossil sampling levels, distribution is best
-    a) why at lower are they equal, but bigger difference at higher fossil sampling levels?
-        (i) The 100\% fossils constrains the 95\% confidence intervals that are sampled, so less noisy and more `accurate' info 
-        (ii) When fossils drop, those CI's get super wide, meaning there is more noise (some of it good, some of it bad). Therefore, point estimates and distributions perform about the same.
-        (iii) So the takeaway: for continuous characters, the advantage of using distributions is only apparent at high fossil sampling levels where the noise can be contained
-
-    b) Interestingly, under an OU model and BM + trend, distribution performs better than point estimates.
-        (i) Basically, with model misspecification, using distribution is best, creates a cloud of ancestors, and this may rougly overlap with the stationary distribution of the OU process. We don't see the crossover because the tips are clustered (low variance) so the distribution error remains bounded and never worse than point estimates.
-
-
-
-
-\subsubsection{Model misspecification}
+\subsubsection{Model misspecification \& Fossil inclusion}
 As expected, we found that the differences in disparity errors between models of evolution reflect model misspecification in ancestral state estimation. 
 The inclusion of ancestral state estimations in calculation of disparity under Brownian motion were more accurate than excluding ancestral states across all fossil sampling levels and disparity metrics.
 This is intuitive, since ancestral state estimation of continuous characters uses the BM model as an assumption for the evolution of traits.
@@ -472,8 +479,12 @@ This explains why, even with 100\% fossil sampling, bypassing \ase always outper
 
 
 
-\subsection{Disparity metric?}
-
+\subsection{Disparity metric}
+1. Generally, the disparity metric did not change the hierarchy of methods
+    (a) Some methods were easier to estimate than others
+    (b) Sum of quantiles
+        (i) Distribution methods were best performing here
+        (ii) For discrete characters, it is essential to use pre-ordination distribution if using a range based metric, because post-ordination will constrain your range within the sample of tip data, and point estimates do not allow the expansion of variance that is needed. 
 
 
 
@@ -496,6 +507,7 @@ This explains why, even with 100\% fossil sampling, bypassing \ase always outper
 %         (i) other there are other methods of ace (some of which have been shown to perform better than Mk model used here), then we could expect estimations of disparity to improve.
 %         (i) Main consideration is that generally using a distribution is best.
 %     c) Rate heterogeneity was not considered, but we expect for disparity that it would not change results much -> it seems for disparity, raw accuracy of states does not have a cascading effect on innacacy of disparity as much as the actual absence of points in morphospace.
+%     d) subclade disparity etc, how well partitioned in morphospace subclades are to the ground-truth.
 
 
 
