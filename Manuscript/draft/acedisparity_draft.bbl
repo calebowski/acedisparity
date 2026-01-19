@@ -1,4 +1,4 @@
-\begin{thebibliography}{74}
+\begin{thebibliography}{75}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -157,6 +157,11 @@ Olivier Gascuel and Mike Steel.
 William Gearty, Bethany Allen, Pedro~L Godoy, and Alfio~Alessandro Chiarenza.
 \newblock The impact of tip age distribution on reconstructing trait evolution using phylogenetic comparative methods.
 \newblock 2024.
+
+\bibitem[Gerber(2019)]{gerber2019use}
+Sylvain Gerber.
+\newblock Use and misuse of discrete character data for morphospace and disparity analyses.
+\newblock \emph{Palaeontology}, 62\penalty0 (2):\penalty0 305--319, 2019.
 
 \bibitem[Goswami and Clavel(2025)]{goswami2025morphological}
 Anjali Goswami and Julien Clavel.
