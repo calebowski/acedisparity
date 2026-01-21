@@ -212,3 +212,12 @@ Plot cumulative variance vs axis number for each level.
 Ensure that truncating to the chosen k axes still captures most variation.
 
 This avoids losing too much signal while maintaining comparability.
+
+
+
+## Thinking about theoretical morphospace and vertecies in discrete morphospace.
+
+In a hypercube, there are 2p (p = characters) vertices. i.e. 2 state 1 trait, (2 characters,) so 2 vertecies (0 or 1).
+
+By definition, all vertices are (sqrt(p) / 2) distance from centroid.
+So therefore, disparity metrics should be relativised against the theoretical maxima of disparity. 

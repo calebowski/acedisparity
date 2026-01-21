@@ -419,6 +419,9 @@ library(dplyr)
 # Convert emmeans object to a standard dataframe
 # 1. Prepare the data
 plot_df <- as.data.frame(emm_three_way)
+emm_three_way <- emmeans(lmm_model, ~ method * model * fossil_sampling, type = "response")
+plot_df <- as.data.frame(emm_three_way)
+
 
 # 2. Clean up factors
 plot_df$fossil_sampling <- factor(plot_df$fossil_sampling, 
@@ -434,14 +437,15 @@ plot_df$model <- factor(plot_df$model,
 
 plot_df$e_emmean <- exp(plot_df$emmean)
 
+my_breaks <- quantile(plot_df$e_emmean, probs = seq(0, 1, 0.25))
 
 
-p <- ggplot(plot_df, aes(x = fossil_sampling, y = method, fill = emmean)) +
+p <- ggplot(plot_df, aes(x = fossil_sampling, y = method, fill = e_emmean)) +
     geom_tile(color = "white", linewidth = 1) +
     # geom_text(aes(label = sprintf("%.2f", emmean)), color = "white", size = 3) +
     facet_wrap(~ model, nrow = 1) +
     scale_fill_viridis_c(option = "rocket", direction = -1, 
-                         name = "Emmean Log\nDisparity Error") +
+                         name = "Emmean Relative\nDisparity Error", values = scales::rescale(my_breaks)) +
     # scale_fill_distiller("RdYlBu", direction = +1) +
     # labs(title = paste("Metric:", metric_name)) +
     theme_minimal() +
