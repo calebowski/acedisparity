@@ -201,11 +201,11 @@ Any tip included in the analyses was a descendant of the most basal node conside
 
 
 \subsubsection{Trait simulations} \label{trait simulation}
-For each phylogeny, we simulated continuous and discrete trait data separately. %NC: I swapped d and c around as you talk about cont data first.
+For each phylogeny, we simulated continuous and discrete trait data separately (\autoref{fig:pipeline} step 2). 
 Continuous trait data were simulated under variations of Brownian motion (BM) and Ornstein-Uhlenbeck (OU) models (table \ref{tab:models}). 
 We simulated BM with variance = 0.25.
 We also simulated BM with a trend ($BM_t$), where the ancestral trait value increased by an increment of 0.1 multiplied by branch length.
-For OU models, the data were simulated with strong attraction to the optimum ($\alpha$) %NC: strong what? pull towards the optimum? 
+For OU models, the data were simulated with strong attraction to the optimum ($\alpha$) 
 ($OU_{st}$), weak $\alpha$ ($OU_w$) and with differing optimum and root states ($OU_{sh}$).
 Following \cite{gearty2024impact}, the $\alpha$ parameter was set based on phylogenetic half life ($\frac{\mathit{ln(2)}} {\alpha}$) to account for differing tree heights across simulations \citep{cooper2016cautionary}.
 For the strong and weak OU models, $\alpha$ was set as 25\% and 75\% of the tree height respectively.
@@ -218,7 +218,7 @@ For each category, 85 binary characters and 15 three-state characters were simul
 
 %NC: It's probably ok but maybe we should think if there is a better term than fossil sampling we can use here? Maybe it should be simulating fossil sampling or something similar? I think adding the word simulation somehwere might remove possible confusion, same in Fig 2? As otherwise you have tree simulation and trait simulation but then fossil sampling makes it sound like you really have fossils?
 \subsection{Fossil sampling simulation}
-To simulate different levels of fossil sampling, extinct tips were either retained (`fossilized') or pruned using a Bernoulli sampling method at five different probabilities: 0\%, 5\%, 15\%, 50\% and 100\%. 
+To simulate different levels of fossil sampling, extinct tips were either retained (`fossilized') or pruned using a Bernoulli sampling method at five different probabilities: 0\%, 5\%, 15\%, 50\% and 100\% (\autoref{fig:pipeline} step 3). 
 This method means each extinct tip had an equal probability of being `fossilized' at each sample level, irrespective of the total tree size.
 The corresponding trait matrices were subset to match each downsampled tree.
 % Here i can reference a csv with all the tree tip and downsampled tree tip counts???
@@ -281,17 +281,17 @@ The sum of quantiles calculates the range on each PC axis for the 95\% of the da
 This metric has similar properties to the often used sum of ranges metric by describing the total trait space exploited \citep{foote1992rarefaction}, but with less sensitivity to outliers and sample size.
 For density, we used the sum of variances \citep{ciampaglio2001detecting,wills2001morphological} and the average nearest neighbour distance \citep{foote1992rarefaction}. 
 % The sum of variances is a very widely used metric in disparity analyses. %TG: pro intuition writing tip: if you say "the most used" I'd probably want to see a meta analysis to prove it. if you say "very widely used" I can agree with you without any extra reference/work ;)
-Disparity values were calculated across each ancestral state estimation and the true simulated values so that a relative disparity error could be calculated (Fig. \ref{fig:pipeline} Step 5).
+Disparity values were calculated across each ancestral state estimation and the true simulated values so that a relative disparity error could be calculated (\autoref{fig:pipeline} step 5).
 
 \begin{equation}
 \text{Relative disparity error} = \frac{\text{Estimated disparity} - \text{True disparity}}{\text{True disparity}}
 \end{equation}
 
-We calculated disparity across three different treatments of the ordinated matrices.
-First, we used the untreated ordination output to examine how well ancestral state estimation recovers the true disparity signal across all PC axes. 
-Second, we min-max standardised the PC axes so that the absolute magnitude in PC scores did not influence the disparity metric scores (i.e. in this case, the max-score for PC1 was always standardised to 1).
-Third, we only used the minimum number of dimensions that were contained across all fossil sampling levels for that specific phylogeny so that each fossil sampling level, i.e., the first 48, 98 and 148 dimensions for the 50, 100 and 150 living taxa simulations, respectively.
-This was to negate any effect that higher-dimensional trait space estimations were more likely to be closer the true disparity signal.
+% We calculated disparity across three different treatments of the ordinated matrices.
+% First, we used the untreated ordination output to examine how well ancestral state estimation recovers the true disparity signal across all PC axes. 
+% Second, we min-max standardised the PC axes so that the absolute magnitude in PC scores did not influence the disparity metric scores (i.e. in this case, the max-score for PC1 was always standardised to 1).
+% Third, we only used the minimum number of dimensions that were contained across all fossil sampling levels for that specific phylogeny so that each fossil sampling level, i.e., the first 48, 98 and 148 dimensions for the 50, 100 and 150 living taxa simulations, respectively.
+% This was to negate any effect that higher-dimensional trait space estimations were more likely to be closer the true disparity signal.
 
 
 %TG: I think towards the methods, you should also refer to the relevant sections in the figure (i.e. kind of "you are here" on the map). But I'll get back to the figure at the end.
@@ -584,6 +584,7 @@ Below we have written a TL;DR
 \centering
 \includegraphics[width=0.8\textwidth]{figures/ACEDisparity_pipeline.pdf}
 \caption{Overall simulation pipeline, highlighting the five different estimation routes (pre-ordination point, pre-ordination distribution, post-ordination point, post-ordination distribution and no ancestral state estimation) as well as the `true' route, from which ground-truth disparity value is calculated from the untreated simulation.}
+\label{fig:pipeline}
 \end{figure}
 
 \begin{figure}[H]
