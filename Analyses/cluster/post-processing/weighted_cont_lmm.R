@@ -180,18 +180,18 @@ results_df_long$metric <- factor(results_df_long$metric)
 
 results_df_long$tree_unique_id <- interaction(results_df_long$tree_size, 
                                               results_df_long$replicate)
-
-table(results_df_long$method)
-
 results_df_long_filtered <- results_df_long[results_df_long$model %in% c("bm", "bm_t", "ou_st"),]
 
-results_df_long$abs_error <- abs(results_df_long$error)
-results_df_long$log_abs_error <- log(results_df_long$abs_error + 0.001)
+table(results_df_long_filtered$method)
+
+
+results_df_long_filtered$abs_error <- abs(results_df_long_filtered$error)
+results_df_long_filtered$log_abs_error <- log(results_df_long_filtered$abs_error + 0.001)
 
 
 lmm_model_weighted <- lmer(log_abs_error ~ model * method * fossil_sampling * metric + tree_size +
                                   (1|tree_unique_id), weights = weight,
-                    data = results_df_long, REML = TRUE)
+                    data = results_df_long_filtered, REML = TRUE)
 
 
 

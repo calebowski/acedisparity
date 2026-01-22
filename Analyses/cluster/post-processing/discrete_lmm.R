@@ -528,6 +528,8 @@ emm_three_way <- emmeans(lmm_model, ~ method * model * fossil_sampling)
 write.csv(cld(emm_three_way, Letters = letters, alpha = 0.05), paste0(lmm_path, "tables/method_model_fossil_multcomp.csv"))
 print(xtable(cld(emm_three_way, Letters = letters, alpha = 0.05), include.rownames = FALSE))
 
+emm_three_way <- readRDS(paste0(lmm_path, "three_way_emm.rds"))
+
 #################################################################################################
 
 
@@ -570,3 +572,50 @@ write.csv(as.data.frame(summary(point_vs_distribution)), paste0(lmm_path, "table
 
 
 cat("Finished LMM continuos...\n")
+
+
+library(ggplot2)
+library(dplyr)
+
+# 1. Prepare the Data
+# Convert emmeans object to a standard dataframe
+# 1. Prepare the data
+plot_df <- as.data.frame(emm_three_way)
+
+# 2. Clean up factors
+plot_df$fossil_sampling <- factor(plot_df$fossil_sampling, 
+                                   levels = c("living", "low", "med", "high", "all"),labels = c("0%", "5%", "15%", "50%", "100%"))
+
+plot_df$method <- factor(plot_df$method, 
+                                   levels = c("pre_ord_point_tiebreaker", "pre_ord_sample", "post_ord_point", "post_ord_sample", "no_ace"),
+                                   labels = c("Pre-ord point", "Pre-ord dist", "Post-ord point", "Post-ord dist", "No ASE"))
+
+plot_df$model <- factor(plot_df$model, 
+                                   levels = c("fast", "med", "slow" ),
+                                   labels = c("Fast", "Medium", "Slow"))
+
+plot_df$e_emmean <- exp(plot_df$emmean)
+
+
+my_breaks <- quantile(plot_df$e_emmean, probs = seq(0, 1, 0.25))
+
+p <- ggplot(plot_df, aes(x = fossil_sampling, y = method, fill = e_emmean)) +
+    geom_tile(color = "white", linewidth = 1) +
+    # geom_text(aes(label = sprintf("%.2f", emmean)), color = "white", size = 3) +
+    facet_wrap(~ model, nrow = 1) +
+    scale_fill_viridis_c(option = "rocket", direction = -1, 
+                         name = "Emmean Relative\nDisparity Error", values = scales::rescale(my_breaks)) +
+    # scale_fill_distiller("RdYlBu", direction = +1) +
+    # labs(title = paste("Metric:", metric_name)) +
+    theme_minimal() +
+    theme(
+      axis.text.x = element_text(angle = 45, hjust = 1),
+      axis.text = element_text(size = 14),
+      strip.text = element_text(size = 20, face = "bold"),
+      axis.title = element_text(size = 20, face = "bold", color = "black"),
+      ) +
+      labs(x = "Fossil Sampling", y = "Estimation method") +
+      coord_equal() +
+      scale_y_discrete(limits = rev)
+
+ggsave("../Manuscript/draft/figures/discrete_weighted_heatmap.pdf", p, "pdf", width = 10, height = 4, units = "in")

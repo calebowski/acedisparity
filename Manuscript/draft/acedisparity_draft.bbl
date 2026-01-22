@@ -1,4 +1,4 @@
-\begin{thebibliography}{75}
+\begin{thebibliography}{80}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -74,6 +74,11 @@ Daniel~M Casali, Alberto Boscaini, Timothy~J Gaudin, and Fernando~A Perini.
 Charles~N Ciampaglio, Matthieu Kemp, and Daniel~W McShea.
 \newblock Detecting changes in morphospace occupation patterns in the fossil record: characterization and analysis of measures of disparity.
 \newblock \emph{Paleobiology}, 27\penalty0 (4):\penalty0 695--715, 2001.
+
+\bibitem[Clavel et~al.(2015)Clavel, Escarguel, and Merceron]{clavel2015mvmorph}
+Julien Clavel, Gilles Escarguel, and Gildas Merceron.
+\newblock mvmorph: an r package for fitting multivariate evolutionary models to morphometric data.
+\newblock \emph{Methods in Ecology and Evolution}, 6\penalty0 (11):\penalty0 1311--1319, 2015.
 
 \bibitem[Cole and Hopkins(2021)]{cole2021selectivity}
 Selina~R Cole and Melanie~J Hopkins.
@@ -282,6 +287,11 @@ Emmanuel Paradis and Klaus Schliep.
 \newblock ape 5.0: an environment for modern phylogenetics and evolutionary analyses in r.
 \newblock \emph{Bioinformatics}, 35\penalty0 (3):\penalty0 526--528, 2019.
 
+\bibitem[Pennell et~al.(2014)Pennell, Eastman, Slater, Brown, Uyeda, FitzJohn, Alfaro, and Harmon]{pennell2014geiger}
+Matthew~W Pennell, Jonathan~M Eastman, Graham~J Slater, Joseph~W Brown, Josef~C Uyeda, Richard~G FitzJohn, Michael~E Alfaro, and Luke~J Harmon.
+\newblock geiger v2. 0: an expanded suite of methods for fitting macroevolutionary models to phylogenetic trees.
+\newblock \emph{Bioinformatics}, 30\penalty0 (15):\penalty0 2216--2218, 2014.
+
 \bibitem[Pires et~al.(2018)Pires, Rankin, Silvestro, and Quental]{pires2018diversification}
 Mathias~M Pires, Brian~D Rankin, Daniele Silvestro, and Tiago~B Quental.
 \newblock Diversification dynamics of mammalian clades during the k--pg mass extinction.
@@ -292,6 +302,11 @@ Mathias~M Pires, Brian~D Rankin, Daniele Silvestro, and Tiago~B Quental.
 \newblock \emph{R: A Language and Environment for Statistical Computing}.
 \newblock R Foundation for Statistical Computing, Vienna, Austria, 2025.
 \newblock URL \url{https://www.R-project.org/}.
+
+\bibitem[Revell(2012)]{revell2012phytools}
+Liam~J Revell.
+\newblock phytools: an r package for phylogenetic comparative biology (and other things).
+\newblock \emph{Methods in ecology and evolution}, \penalty0 (2):\penalty0 217--223, 2012.
 
 \bibitem[Revell(2025)]{revell2025ancestral}
 Liam~J Revell.
@@ -312,6 +327,11 @@ F~James Rohlf.
 Manuela Royer-Carenzi and Gilles Didier.
 \newblock A comparison of ancestral state reconstruction methods for quantitative characters.
 \newblock \emph{Journal of Theoretical Biology}, 404:\penalty0 126--142, 2016.
+
+\bibitem[Ruta et~al.(2013)Ruta, Angielczyk, Fr{\"o}bisch, and Benton]{ruta2013decoupling}
+Marcello Ruta, Kenneth~D Angielczyk, J{\"o}rg Fr{\"o}bisch, and Michael~J Benton.
+\newblock Decoupling of morphological disparity and taxic diversity during the adaptive radiation of anomodont therapsids.
+\newblock \emph{Proceedings of the Royal Society B: Biological Sciences}, 280\penalty0 (1768):\penalty0 20131071, 2013.
 
 \bibitem[Schluter et~al.(1997)Schluter, Price, Mooers, and Ludwig]{schluter1997likelihood}
 Dolph Schluter, Trevor Price, Arne~{\O} Mooers, and Donald Ludwig.
@@ -357,6 +377,11 @@ Thomas~J Smith, Robert~S Sansom, Davide Pisani, and Philip~CJ Donoghue.
 C~Tristan Stayton.
 \newblock The definition, recognition, and interpretation of convergent evolution, and two new measures for quantifying and assessing the significance of convergence.
 \newblock \emph{Evolution}, 69\penalty0 (8):\penalty0 2140--2153, 2015.
+
+\bibitem[Stroud and Losos(2016)]{stroud2016ecological}
+James~T Stroud and Jonathan~B Losos.
+\newblock Ecological opportunity and adaptive radiation.
+\newblock \emph{Annual Review of Ecology, Evolution, and Systematics}, 47\penalty0 (1):\penalty0 507--532, 2016.
 
 \bibitem[Vanderpoorten and Goffinet(2006)]{vanderpoorten2006mapping}
 Alain Vanderpoorten and B~Goffinet.

@@ -85,36 +85,33 @@
 \citation{gerber2019use}
 \citation{brusatte2011phylogenetic}
 \citation{gerber2019use}
+\citation{erwin_disparity_2007}
 \@writefile{toc}{\contentsline {section}{\numberline {4}Discussion}{12}{section.4}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.1}Pre versus post ord}{12}{subsection.4.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.1}Pre- versus post-ordination estimation}{12}{subsection.4.1}\protected@file@percent }
 \citation{boyko2024dentist,boyko2025uncertainty}
 \citation{gascuel2020darwinian}
 \@writefile{toc}{\contentsline {subsection}{\numberline {4.2}Treatment of uncertainty}{13}{subsection.4.2}\protected@file@percent }
 \citation{felsenstein1985phylogenies,omeara2006testing}
 \citation{finarelli2006ancestral,slater2012integrating,finarelli2013potential}
-\citation{guillerme2020shifting}
+\citation{revell2012phytools,pennell2014geiger,clavel2015mvmorph}
+\citation{ruta2013decoupling,stroud2016ecological}
+\citation{bapst2012graptoloid,halliday2016eutherian,liu2024heterogeneous}
 \@writefile{toc}{\contentsline {subsection}{\numberline {4.3}Model misspecification \& Fossil inclusion}{14}{subsection.4.3}\protected@file@percent }
 \citation{guillerme2020shifting}
 \@writefile{toc}{\contentsline {subsection}{\numberline {4.4}Disparity metric \& Recovering a true trait space}{15}{subsection.4.4}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.5}Conclusions}{16}{subsection.4.5}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {5}Conclusions}{16}{section.5}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces \textbf  {Simulation workflow}}}{17}{figure.caption.6}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.5}Conclusions \& Recommendations}{16}{subsection.4.5}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces Overall simulation pipeline, highlighting the five different estimation routes (pre-ordination point, pre-ordination distribution, post-ordination point, post-ordination distribution and no ancestral state estimation) as well as the `true' route, from which ground-truth disparity value is calculated from the untreated simulation.}}{19}{figure.caption.6}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces Relative disparity error returned from pre-ordination point ASE (ancestral state estimation), pre-ordination distribution ASE, post-ordination point ASE, post-ordination distribution ASE and no ASE. These disparity errors were calculated across three evolutionary models (Brownian motion (BM), BM + trend and OU), five simulated fossil sampling regimes (100\%, 50\%, 15\%, 5\% and 0\%) and three disparity metrics (Sum of variances, sum of quantiles and mean pairwise distance). Values closest to 0 (dotted horizontal line) were most accurate; negative errors are underestimates and positive are overestimates.}}{20}{figure.caption.7}\protected@file@percent }
 \providecommand*\caption@xref[2]{\@setref\relax\@undefined{#1}}
-\newlabel{fig:pipeline}{{1}{17}{\textbf {Simulation workflow}}{figure.caption.6}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces \textbf  {Results continuous} Continuous}}{18}{figure.caption.7}\protected@file@percent }
-\newlabel{fig:continuous boxplot}{{2}{18}{\textbf {Results continuous} Continuous}{figure.caption.7}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces \textbf  {Heatmap continuous} Continuous}}{18}{figure.caption.8}\protected@file@percent }
-\newlabel{fig:continuous heatmap}{{3}{18}{\textbf {Heatmap continuous} Continuous}{figure.caption.8}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces \textbf  {Results discrete} Relative disparity errors across all dimensions returned by ordinations.}}{19}{figure.caption.9}\protected@file@percent }
-\newlabel{fig:discrete raw boxplot}{{4}{19}{\textbf {Results discrete} Relative disparity errors across all dimensions returned by ordinations}{figure.caption.9}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces \textbf  {Heatmap discrete} Continuous}}{19}{figure.caption.10}\protected@file@percent }
-\newlabel{fig:discrete heatmap}{{5}{19}{\textbf {Heatmap discrete} Continuous}{figure.caption.10}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces Trait simulation models and parameters used across each phylogeny. For continuous characters, the root state was always set as 0. $P_{ij}$ = transition probability; $\sigma $ = variance; $\alpha $ = rate of adaptation toward the optimum; $\theta $ = optimum.}}{20}{table.caption.12}\protected@file@percent }
-\newlabel{tab:models}{{1}{20}{Trait simulation models and parameters used across each phylogeny. For continuous characters, the root state was always set as 0. $P_{ij}$ = transition probability; $\sigma $ = variance; $\alpha $ = rate of adaptation toward the optimum; $\theta $ = optimum}{table.caption.12}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {2}{\ignorespaces \textbf  {Continuous traits: best performing estimation method for each combination of model and fossil sample level.} The best performing method was selected as the most negative estimated marginal mean. In some cases, the method with the lowest log error was not significantly different to other methods, in which case it is denoted with `\textbf  {*}'. See }}{21}{table.caption.13}\protected@file@percent }
-\newlabel{tab:cld continuous three-way}{{2}{21}{\textbf {Continuous traits: best performing estimation method for each combination of model and fossil sample level.} The best performing method was selected as the most negative estimated marginal mean. In some cases, the method with the lowest log error was not significantly different to other methods, in which case it is denoted with `\textbf {*}'. See}{table.caption.13}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {3}{\ignorespaces \textbf  {Discrete traits: best performing estimation method for each combination of model and fossil sample level.} * means tie (not significantly different to others, but the lowest emmean).}}{22}{table.caption.14}\protected@file@percent }
-\newlabel{tab:cld discrete three-way}{{3}{22}{\textbf {Discrete traits: best performing estimation method for each combination of model and fossil sample level.} * means tie (not significantly different to others, but the lowest emmean)}{table.caption.14}{}}
+\newlabel{fig:continuous boxplot}{{2}{20}{Relative disparity error returned from pre-ordination point ASE (ancestral state estimation), pre-ordination distribution ASE, post-ordination point ASE, post-ordination distribution ASE and no ASE. These disparity errors were calculated across three evolutionary models (Brownian motion (BM), BM + trend and OU), five simulated fossil sampling regimes (100\%, 50\%, 15\%, 5\% and 0\%) and three disparity metrics (Sum of variances, sum of quantiles and mean pairwise distance). Values closest to 0 (dotted horizontal line) were most accurate; negative errors are underestimates and positive are overestimates}{figure.caption.7}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces Heatmap presenting the continuous estimated marginal mean (emmean) relative disparity errors for every combination of estimation method, evolutionary model and simulated fossil sampling level. Estimated marginal means were calculated from a three-way interaction linear mixed model, averaged across disparity metrics.}}{21}{figure.caption.8}\protected@file@percent }
+\newlabel{fig:continuous heatmap}{{3}{21}{Heatmap presenting the continuous estimated marginal mean (emmean) relative disparity errors for every combination of estimation method, evolutionary model and simulated fossil sampling level. Estimated marginal means were calculated from a three-way interaction linear mixed model, averaged across disparity metrics}{figure.caption.8}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces Relative disparity error returned from pre-ordination point ASE (ancestral state estimation), pre-ordination distribution ASE, post-ordination point ASE, post-ordination distribution ASE and no ASE. These disparity errors were calculated across three transition rates (fast (0.9), medium (0.1) and slow (0.01)), five simulated fossil sampling regimes (100\%, 50\%, 15\%, 5\% and 0\%) and three disparity metrics (Sum of variances, sum of quantiles and mean pairwise distance). Values closest to 0 (dotted horizontal line) were most accurate; negative errors are underestimates and positive are overestimates.}}{22}{figure.caption.9}\protected@file@percent }
+\newlabel{fig:discrete raw boxplot}{{4}{22}{Relative disparity error returned from pre-ordination point ASE (ancestral state estimation), pre-ordination distribution ASE, post-ordination point ASE, post-ordination distribution ASE and no ASE. These disparity errors were calculated across three transition rates (fast (0.9), medium (0.1) and slow (0.01)), five simulated fossil sampling regimes (100\%, 50\%, 15\%, 5\% and 0\%) and three disparity metrics (Sum of variances, sum of quantiles and mean pairwise distance). Values closest to 0 (dotted horizontal line) were most accurate; negative errors are underestimates and positive are overestimates}{figure.caption.9}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces Heatmap presenting the discrete estimated marginal mean (emmean) relative disparity errors for every combination of estimation method, transition rate and simulated fossil sampling level. Estimated marginal means were calculated from a three-way interaction linear mixed model, averaged across disparity metrics.}}{23}{figure.caption.10}\protected@file@percent }
+\newlabel{fig:discrete heatmap}{{5}{23}{Heatmap presenting the discrete estimated marginal mean (emmean) relative disparity errors for every combination of estimation method, transition rate and simulated fossil sampling level. Estimated marginal means were calculated from a three-way interaction linear mixed model, averaged across disparity metrics}{figure.caption.10}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces Trait simulation models and parameters used across each phylogeny. For continuous characters, the root state was always set as 0. $P_{ij}$ = transition probability; $\sigma $ = variance; $\alpha $ = rate of adaptation toward the optimum; $\theta $ = optimum.}}{24}{table.caption.12}\protected@file@percent }
+\newlabel{tab:models}{{1}{24}{Trait simulation models and parameters used across each phylogeny. For continuous characters, the root state was always set as 0. $P_{ij}$ = transition probability; $\sigma $ = variance; $\alpha $ = rate of adaptation toward the optimum; $\theta $ = optimum}{table.caption.12}{}}
 \bibstyle{plainnat}
 \bibdata{references.bib}
 \bibcite{ackerly2006niche}{{1}{2006}{{Ackerly et~al.}}{{Ackerly, Schwilk, and Webb}}}
@@ -131,65 +128,70 @@
 \bibcite{butler2012geological}{{12}{2012}{{Butler et~al.}}{{Butler, Brusatte, Andres, and Benson}}}
 \bibcite{casali2023morphological}{{13}{2023}{{Casali et~al.}}{{Casali, Boscaini, Gaudin, and Perini}}}
 \bibcite{ciampaglio2001detecting}{{14}{2001}{{Ciampaglio et~al.}}{{Ciampaglio, Kemp, and McShea}}}
-\bibcite{cole2021selectivity}{{15}{2021}{{Cole and Hopkins}}{{}}}
-\bibcite{cooper2016cautionary}{{16}{2016}{{Cooper et~al.}}{{Cooper, Thomas, Venditti, Meade, and Freckleton}}}
-\bibcite{cunningham1998reconstructing}{{17}{1998}{{Cunningham et~al.}}{{Cunningham, Omland, and Oakley}}}
-\bibcite{elliot2014inferring}{{18}{2014}{{Elliot and Mooers}}{{}}}
-\bibcite{erwin_disparity_2007}{{19}{2007}{{Erwin}}{{}}}
-\bibcite{felsenstein1985phylogenies}{{20}{1985}{{Felsenstein}}{{}}}
-\bibcite{finarelli2006ancestral}{{21}{2006}{{Finarelli and Flynn}}{{}}}
-\bibcite{finarelli2013potential}{{22}{2013}{{Finarelli and Goswami}}{{}}}
-\bibcite{flannery2019does}{{23}{2019}{{Flannery~Sutherland et~al.}}{{Flannery~Sutherland, Moon, Stubbs, and Benton}}}
-\bibcite{foote1992rarefaction}{{24}{1992}{{Foote}}{{}}}
-\bibcite{foote1994morphological}{{25}{1994}{{Foote}}{{}}}
-\bibcite{foth2021rapid}{{26}{2021}{{Foth et~al.}}{{Foth, Sookias, and Ezcurra}}}
-\bibcite{garcia2017phenotypic}{{27}{2017}{{Garc{\'\i }a-Navas et~al.}}{{Garc{\'\i }a-Navas, Noguerales, Cordero, and Ortego}}}
-\bibcite{gascuel2014predicting}{{28}{2014}{{Gascuel and Steel}}{{}}}
-\bibcite{gascuel2020darwinian}{{29}{2020}{{Gascuel and Steel}}{{}}}
-\bibcite{gearty2024impact}{{30}{2024}{{Gearty et~al.}}{{Gearty, Allen, Godoy, and Chiarenza}}}
-\bibcite{gerber2019use}{{31}{2019}{{Gerber}}{{}}}
-\bibcite{goswami2025morphological}{{32}{2025}{{Goswami and Clavel}}{{}}}
-\bibcite{guillerme2018disprity}{{33}{2018}{{Guillerme}}{{}}}
-\bibcite{guillerme2024treats}{{34}{2024}{{Guillerme}}{{}}}
-\bibcite{guillerme2016effects}{{35}{2016}{{Guillerme and Cooper}}{{}}}
-\bibcite{guillerme2020disparities}{{36}{2020{a}}{{Guillerme et~al.}}{{Guillerme, Cooper, Brusatte, Davis, Jackson, Gerber, Goswami, Healy, Hopkins, Jones, et~al.}}}
-\bibcite{guillerme2020shifting}{{37}{2020{b}}{{Guillerme et~al.}}{{Guillerme, Puttick, Marcy, and Weisbecker}}}
-\bibcite{halliday2016eutherian}{{38}{2016}{{Halliday and Goswami}}{{}}}
-\bibcite{harmon2010early}{{39}{2010}{{Harmon et~al.}}{{Harmon, Losos, Jonathan~Davies, Gillespie, Gittleman, Bryan~Jennings, Kozak, McPeek, Moreno-Roark, Near, et~al.}}}
-\bibcite{henao2019macroevolutionary}{{40}{2019}{{Henao~Diaz et~al.}}{{Henao~Diaz, Harmon, Sugawara, Miller, and Pennell}}}
-\bibcite{holland2020accuracy}{{41}{2020}{{Holland et~al.}}{{Holland, Ketelaar-Jones, o’Mara, Woodhams, and Jordan}}}
-\bibcite{jetz2018interplay}{{42}{2018}{{Jetz and Pyron}}{{}}}
-\bibcite{joy2016ancestral}{{43}{2016}{{Joy et~al.}}{{Joy, Liang, McCloskey, Nguyen, and Poon}}}
-\bibcite{keating2023best}{{44}{2023}{{Keating}}{{}}}
-\bibcite{liu2024heterogeneous}{{45}{2024}{{Liu et~al.}}{{Liu, Song, Chu, Dai, Wang, and Silvestro}}}
-\bibcite{lloyd2016estimating}{{46}{2016}{{Lloyd}}{{}}}
-\bibcite{lloyd2018journeys}{{47}{2018}{{Lloyd}}{{}}}
-\bibcite{losos1999uncertainty}{{48}{1999}{{Losos}}{{}}}
-\bibcite{lotterhos2022simulation}{{49}{2022}{{Lotterhos et~al.}}{{Lotterhos, Fitzpatrick, and Blackmon}}}
-\bibcite{mitchell2015extant}{{50}{2015}{{Mitchell}}{{}}}
-\bibcite{monson2022keeping}{{51}{2022}{{Monson et~al.}}{{Monson, Brasil, Mahaney, Schmitt, Taylor, and Hlusko}}}
-\bibcite{morlon2024phylogenetic}{{52}{2024}{{Morlon et~al.}}{{Morlon, Andr{\'e}oletti, Barido-Sottani, Lambert, Perez-Lamarque, Quintero, Senderov, and Veron}}}
-\bibcite{omeara2006testing}{{53}{2006}{{O'Meara et~al.}}{{O'Meara, An{\'e}, Sanderson, and Wainwright}}}
-\bibcite{pagel1999maximum}{{54}{1999}{{Pagel}}{{}}}
-\bibcite{paradis2019ape}{{55}{2019}{{Paradis and Schliep}}{{}}}
-\bibcite{pires2018diversification}{{56}{2018}{{Pires et~al.}}{{Pires, Rankin, Silvestro, and Quental}}}
-\bibcite{Rlanguage}{{57}{2025}{{R Core Team}}{{}}}
-\bibcite{revell2025ancestral}{{58}{2025}{{Revell}}{{}}}
-\bibcite{reyes2018testing}{{59}{2018}{{Reyes et~al.}}{{Reyes, Nadot, Von~Balthazar, Sch{\"o}nenberger, and Sauquet}}}
-\bibcite{rohlf2001comparative}{{60}{2001}{{Rohlf}}{{}}}
-\bibcite{royer2016comparison}{{61}{2016}{{Royer-Carenzi and Didier}}{{}}}
-\bibcite{schluter1997likelihood}{{62}{1997}{{Schluter et~al.}}{{Schluter, Price, Mooers, and Ludwig}}}
-\bibcite{scholl2016diversification}{{63}{2016}{{Scholl and Wiens}}{{}}}
-\bibcite{sidlauskas2008continuous}{{64}{2008}{{Sidlauskas}}{{}}}
-\bibcite{silvestro2015measurement}{{65}{2015}{{Silvestro et~al.}}{{Silvestro, Kostikova, Litsios, Pearman, and Salamin}}}
-\bibcite{slater2012integrating}{{66}{2012}{{Slater et~al.}}{{Slater, Harmon, and Alfaro}}}
-\bibcite{smith2022evolution}{{67}{2022}{{Smith and Donoghue}}{{}}}
-\bibcite{smith2021phylogenetic}{{68}{2021}{{Smith et~al.}}{{Smith, Puttick, O’Reilly, Pisani, and Donoghue}}}
-\bibcite{smith2023fossilization}{{69}{2023}{{Smith et~al.}}{{Smith, Sansom, Pisani, and Donoghue}}}
-\bibcite{stayton2015definition}{{70}{2015}{{Stayton}}{{}}}
-\bibcite{vanderpoorten2006mapping}{{71}{2006}{{Vanderpoorten and Goffinet}}{{}}}
-\bibcite{webster2002testing}{{72}{2002}{{Webster and Purvis}}{{}}}
-\bibcite{wills2001morphological}{{73}{2001}{{Wills}}{{}}}
-\bibcite{wisniewski2022extant}{{74}{2022}{{Wisniewski et~al.}}{{Wisniewski, Lloyd, and Slater}}}
-\bibcite{yang2006computational}{{75}{2006}{{Yang}}{{}}}
-\gdef \@abspage@last{29}
+\bibcite{clavel2015mvmorph}{{15}{2015}{{Clavel et~al.}}{{Clavel, Escarguel, and Merceron}}}
+\bibcite{cole2021selectivity}{{16}{2021}{{Cole and Hopkins}}{{}}}
+\bibcite{cooper2016cautionary}{{17}{2016}{{Cooper et~al.}}{{Cooper, Thomas, Venditti, Meade, and Freckleton}}}
+\bibcite{cunningham1998reconstructing}{{18}{1998}{{Cunningham et~al.}}{{Cunningham, Omland, and Oakley}}}
+\bibcite{elliot2014inferring}{{19}{2014}{{Elliot and Mooers}}{{}}}
+\bibcite{erwin_disparity_2007}{{20}{2007}{{Erwin}}{{}}}
+\bibcite{felsenstein1985phylogenies}{{21}{1985}{{Felsenstein}}{{}}}
+\bibcite{finarelli2006ancestral}{{22}{2006}{{Finarelli and Flynn}}{{}}}
+\bibcite{finarelli2013potential}{{23}{2013}{{Finarelli and Goswami}}{{}}}
+\bibcite{flannery2019does}{{24}{2019}{{Flannery~Sutherland et~al.}}{{Flannery~Sutherland, Moon, Stubbs, and Benton}}}
+\bibcite{foote1992rarefaction}{{25}{1992}{{Foote}}{{}}}
+\bibcite{foote1994morphological}{{26}{1994}{{Foote}}{{}}}
+\bibcite{foth2021rapid}{{27}{2021}{{Foth et~al.}}{{Foth, Sookias, and Ezcurra}}}
+\bibcite{garcia2017phenotypic}{{28}{2017}{{Garc{\'\i }a-Navas et~al.}}{{Garc{\'\i }a-Navas, Noguerales, Cordero, and Ortego}}}
+\bibcite{gascuel2014predicting}{{29}{2014}{{Gascuel and Steel}}{{}}}
+\bibcite{gascuel2020darwinian}{{30}{2020}{{Gascuel and Steel}}{{}}}
+\bibcite{gearty2024impact}{{31}{2024}{{Gearty et~al.}}{{Gearty, Allen, Godoy, and Chiarenza}}}
+\bibcite{gerber2019use}{{32}{2019}{{Gerber}}{{}}}
+\bibcite{goswami2025morphological}{{33}{2025}{{Goswami and Clavel}}{{}}}
+\bibcite{guillerme2018disprity}{{34}{2018}{{Guillerme}}{{}}}
+\bibcite{guillerme2024treats}{{35}{2024}{{Guillerme}}{{}}}
+\bibcite{guillerme2016effects}{{36}{2016}{{Guillerme and Cooper}}{{}}}
+\bibcite{guillerme2020disparities}{{37}{2020{a}}{{Guillerme et~al.}}{{Guillerme, Cooper, Brusatte, Davis, Jackson, Gerber, Goswami, Healy, Hopkins, Jones, et~al.}}}
+\bibcite{guillerme2020shifting}{{38}{2020{b}}{{Guillerme et~al.}}{{Guillerme, Puttick, Marcy, and Weisbecker}}}
+\bibcite{halliday2016eutherian}{{39}{2016}{{Halliday and Goswami}}{{}}}
+\bibcite{harmon2010early}{{40}{2010}{{Harmon et~al.}}{{Harmon, Losos, Jonathan~Davies, Gillespie, Gittleman, Bryan~Jennings, Kozak, McPeek, Moreno-Roark, Near, et~al.}}}
+\bibcite{henao2019macroevolutionary}{{41}{2019}{{Henao~Diaz et~al.}}{{Henao~Diaz, Harmon, Sugawara, Miller, and Pennell}}}
+\bibcite{holland2020accuracy}{{42}{2020}{{Holland et~al.}}{{Holland, Ketelaar-Jones, o’Mara, Woodhams, and Jordan}}}
+\bibcite{jetz2018interplay}{{43}{2018}{{Jetz and Pyron}}{{}}}
+\bibcite{joy2016ancestral}{{44}{2016}{{Joy et~al.}}{{Joy, Liang, McCloskey, Nguyen, and Poon}}}
+\bibcite{keating2023best}{{45}{2023}{{Keating}}{{}}}
+\bibcite{liu2024heterogeneous}{{46}{2024}{{Liu et~al.}}{{Liu, Song, Chu, Dai, Wang, and Silvestro}}}
+\bibcite{lloyd2016estimating}{{47}{2016}{{Lloyd}}{{}}}
+\bibcite{lloyd2018journeys}{{48}{2018}{{Lloyd}}{{}}}
+\bibcite{losos1999uncertainty}{{49}{1999}{{Losos}}{{}}}
+\bibcite{lotterhos2022simulation}{{50}{2022}{{Lotterhos et~al.}}{{Lotterhos, Fitzpatrick, and Blackmon}}}
+\bibcite{mitchell2015extant}{{51}{2015}{{Mitchell}}{{}}}
+\bibcite{monson2022keeping}{{52}{2022}{{Monson et~al.}}{{Monson, Brasil, Mahaney, Schmitt, Taylor, and Hlusko}}}
+\bibcite{morlon2024phylogenetic}{{53}{2024}{{Morlon et~al.}}{{Morlon, Andr{\'e}oletti, Barido-Sottani, Lambert, Perez-Lamarque, Quintero, Senderov, and Veron}}}
+\bibcite{omeara2006testing}{{54}{2006}{{O'Meara et~al.}}{{O'Meara, An{\'e}, Sanderson, and Wainwright}}}
+\bibcite{pagel1999maximum}{{55}{1999}{{Pagel}}{{}}}
+\bibcite{paradis2019ape}{{56}{2019}{{Paradis and Schliep}}{{}}}
+\bibcite{pennell2014geiger}{{57}{2014}{{Pennell et~al.}}{{Pennell, Eastman, Slater, Brown, Uyeda, FitzJohn, Alfaro, and Harmon}}}
+\bibcite{pires2018diversification}{{58}{2018}{{Pires et~al.}}{{Pires, Rankin, Silvestro, and Quental}}}
+\bibcite{Rlanguage}{{59}{2025}{{R Core Team}}{{}}}
+\bibcite{revell2012phytools}{{60}{2012}{{Revell}}{{}}}
+\bibcite{revell2025ancestral}{{61}{2025}{{Revell}}{{}}}
+\bibcite{reyes2018testing}{{62}{2018}{{Reyes et~al.}}{{Reyes, Nadot, Von~Balthazar, Sch{\"o}nenberger, and Sauquet}}}
+\bibcite{rohlf2001comparative}{{63}{2001}{{Rohlf}}{{}}}
+\bibcite{royer2016comparison}{{64}{2016}{{Royer-Carenzi and Didier}}{{}}}
+\bibcite{ruta2013decoupling}{{65}{2013}{{Ruta et~al.}}{{Ruta, Angielczyk, Fr{\"o}bisch, and Benton}}}
+\bibcite{schluter1997likelihood}{{66}{1997}{{Schluter et~al.}}{{Schluter, Price, Mooers, and Ludwig}}}
+\bibcite{scholl2016diversification}{{67}{2016}{{Scholl and Wiens}}{{}}}
+\bibcite{sidlauskas2008continuous}{{68}{2008}{{Sidlauskas}}{{}}}
+\bibcite{silvestro2015measurement}{{69}{2015}{{Silvestro et~al.}}{{Silvestro, Kostikova, Litsios, Pearman, and Salamin}}}
+\bibcite{slater2012integrating}{{70}{2012}{{Slater et~al.}}{{Slater, Harmon, and Alfaro}}}
+\bibcite{smith2022evolution}{{71}{2022}{{Smith and Donoghue}}{{}}}
+\bibcite{smith2021phylogenetic}{{72}{2021}{{Smith et~al.}}{{Smith, Puttick, O’Reilly, Pisani, and Donoghue}}}
+\bibcite{smith2023fossilization}{{73}{2023}{{Smith et~al.}}{{Smith, Sansom, Pisani, and Donoghue}}}
+\bibcite{stayton2015definition}{{74}{2015}{{Stayton}}{{}}}
+\bibcite{stroud2016ecological}{{75}{2016}{{Stroud and Losos}}{{}}}
+\bibcite{vanderpoorten2006mapping}{{76}{2006}{{Vanderpoorten and Goffinet}}{{}}}
+\bibcite{webster2002testing}{{77}{2002}{{Webster and Purvis}}{{}}}
+\bibcite{wills2001morphological}{{78}{2001}{{Wills}}{{}}}
+\bibcite{wisniewski2022extant}{{79}{2022}{{Wisniewski et~al.}}{{Wisniewski, Lloyd, and Slater}}}
+\bibcite{yang2006computational}{{80}{2006}{{Yang}}{{}}}
+\gdef \@abspage@last{32}
