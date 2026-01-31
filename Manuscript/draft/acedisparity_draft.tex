@@ -432,7 +432,8 @@ If we use the hypercube analogy again, the state scaled likelihoods at each node
 Therefore, since point estimations essentially recover the most parsimonious evolutionary history, ancestral nodes will be constrained within a certain region of vertices in the trait space.
 In contrast, pre-ordination distribution estimations allow the exploration of other vertices by sampling across alternative discrete state combinations.
 In the case of slow rates and low fossil sampling, this was found to improve disparity estimations (\autoref{fig:discrete heatmap}).
-The opposite side of the spectrum of discrete state `uncertainty' is the issue of saturated data, where the paradox is flipped and instead, we have an abundance of information, thus transition rates are easy to estimate, yet due to the rate of change most nodes are left with inconclusive scaled likelihoods.
+The opposite side of the spectrum of discrete state `uncertainty' %TG: why putting quotes?
+ is the issue of saturated data, where the paradox is flipped and instead, we have an abundance of information, thus transition rates are easy to estimate, yet due to the rate of change most nodes are left with inconclusive scaled likelihoods.
 Under the fast rates simulated in this study, character transitions are saturated, so there is very little phylogenetic signal.
 The use of distributions amplifies the noise in this scenario, thus point estimates can be used to filter out the noise. 
 
@@ -440,23 +441,25 @@ The use of distributions amplifies the noise in this scenario, thus point estima
 
 
 \subsection{Model misspecification \& Fossil inclusion}
-As expected, we found that the differences in disparity errors between models of evolution reflect model misspecification in ancestral state estimation. 
+As expected, we found that the differences in disparity errors between models of evolution reflect model misspecification in ancestral state estimation. %TG: this sentence is not very clear to me. Do you mean disparity errors between simulation scenarios?
 The inclusion of ancestral state estimations recovered a more accurate trait space than excluding ancestral states across all fossil sampling levels and disparity metrics when Brownian motion was the evolutionary model.
-This is intuitive, since ancestral state estimation of continuous characters uses the BM model as an assumption for the evolution of traits.
+This is intuitive, %TG: minor point here with the word "intuitive" it tends to be very subjective. Might be worth changing to "this makes sense" or something like that (although what makes senses is also intuitive...)
+ since ancestral state estimation of continuous characters uses the BM model as an assumption for the evolution of traits.
 The assumptions of BM include a fixed mean and trait variance increasing linearly through time \citep{felsenstein1985phylogenies,omeara2006testing}.
 We found that when these assumptions of BM were violated, such as under BM + trend and OU models, disparity accuracy returned by methods of \ase decreased.
 For example, under low/absent fossil sampling, methods of \ase performed worse than bypassing ancestral state estimation for BM + trend.
-In this case, disparity estimates tended to be underestimated, since state estimations will be intermediates of the observed tip data, absent to the directional trend that occurred and thus missing past diversity.
+In this case, disparity estimates tended to be underestimated, since state estimations will be intermediates of the observed tip data, absent to the directional trend that occurred and thus missing past diversity. %TG: this sentence is a bit convoluted
 This finding supports previous work that highlights the critical impact of fossil inclusion when directional trends are present in the trait data \citep{finarelli2006ancestral,slater2012integrating,finarelli2013potential}.
-However, our results suggest a threshold between 5-15\% fossil sampling where \ase becomes optimal over its exclusion (\autoref{fig:continuous heatmap}), which would equate to a densely sampled empirical phylogeny.
+However, our results suggest a threshold between 5-15\% fossil sampling where \ase becomes optimal over its exclusion (\autoref{fig:continuous heatmap}), which would equate to a densely sampled empirical phylogeny. %TG: This is right but I guess it's hard to estimate in practice. Maybe worth checking in one of Natalie's papers (either led by Gustavo Burin or Travis Park) that uses fossils in PCM and see what's their percentage of fossils? So you can give an empirical example and give our friends a cite ;)
+
 
 
 Similarly, calculations of disparity derived from OU simulations were also underestimated when using ancestral state estimations.
 The OU process is characterised by a stationary variance, which contrasts the BM assumption of an increase in variance through time.
-Therefore, since BM estimates internal nodes as a weighted average of the observed tip data, the ancestral nodes are compressed towards the centroid of the trait space.
-This explains why, even with 100\% fossil sampling, bypassing \ase outperformed the use of ancestral state estimation, since the fundamental model of estimation was incorrect.
-We therefore encourage model-fitting prior to performing \ase to avoid model misspecification; several R packages allow model-fitting and estimation of continuous traits under an OU model \citep{revell2012phytools,pennell2014geiger,clavel2015mvmorph}.
-It is worth noting that empirical studies of disparity tend to focus on clades that are suspected to have undergone major evolutionary changes, such as adaptive radiations \citep{ruta2013decoupling,stroud2016ecological} or mass extinctions \citep{bapst2012graptoloid,halliday2016eutherian,liu2024heterogeneous}, which are often associated with shifts in evolutionary rates or models.
+Therefore, since BM estimates internal nodes as a weighted average of the observed tip data, the ancestral nodes are compressed towards the centroid of the trait space. %TG: technically that's even the center
+This explains why, even with 100\% fossil sampling, bypassing \ase outperformed the use of ancestral state estimation, since the fundamental model of estimation was incorrect. %TG: this sentence is a bit convoluted (passive form?) Might be worth changing it to something like "This explains why when a model is misspecified (e.g. OU), not doing ase is often better than using it, even with 100% fossils"
+We therefore encourage model-fitting prior to performing \ase to avoid model misspecification; several \texttt{R} packages allow model-fitting and estimation of continuous traits under an OU model \citep{revell2012phytools,pennell2014geiger,clavel2015mvmorph}.
+It is worth noting that empirical studies of disparity tend to focus on clades that are suspected to have undergone major evolutionary changes, such as adaptive radiations \citep{ruta2013decoupling,stroud2016ecological} or mass extinctions \citep{bapst2012graptoloid,halliday2016eutherian,liu2024heterogeneous}, which are often associated with shifts in evolutionary rates or models. %TG: hehehe I see where you're going there ;)
 Although not explicitly explored in this study, we expect that ancestral state estimations of disparity would remain robust in such scenarios, provided sufficient fossil sampling (> 5\%), since the primary driver of disparity accuracy appears to be the presence of fossil data to anchor the trait space, as opposed to precise specification of rate/model parameters.
 
 
@@ -491,12 +494,12 @@ Although not explicitly explored in this study, we expect that ancestral state e
 %         (ii) Although comparing discrete vs continuous estimation of disparity not a main question in this study, it would be interesting
 
 
-Previously, the choice of disparity metric has been probed as a critical step in the disparity pipeline, specifically for examining different aspects of trait space \citep{guillerme2020shifting}.
+Previously, the choice of disparity metric has been probed as a critical step in the disparity pipeline, specifically for examining different aspects of trait space \citep{guillerme2020shifting}. %TG: you could also cite the what/how/why paper here ;)
 Indeed, our results do exhibit significant differences in disparity error between different metrics.
 For example, recovering the sum of quantiles was ultimately harder than recovering the sum of variances or mean pairwise distance when using discrete traits.
-However, the hierarchy of methods was relatively consistent across disparity metrics, suggesting that the relative performance of ancestral state estimation methods is robust to different disparity metrics.
+However, the hierarchy of methods was relatively consistent across disparity metrics, suggesting that the relative performance of ancestral state estimation methods is robust to different disparity metrics. %TG: very good!
 Consistent performance across multiple disparity metrics can reassure us that multiple aspects of the true trait space are recovered, including size, dispersion and density.
-Where there is inconsistency in methods across metrics, then we can infer that the true disparity value has been attained artificially, rather than the recovery of a true trait space pattern.
+Where there is inconsistency in methods across metrics, then we can infer that the true disparity value has been attained artificially, rather than the recovery of a true trait space pattern. %TG: what do you mean by artificially?
 This can be observed in the post-ordination distribution estimation of discrete traits, which performed well under the sum of variances and mean pairwise distance metrics, but noticeably worse under sum of quantiles.
 From this we can infer that while the internal density of taxa was correctly recovered, the geometric constraint of post-ordination estimation ultimately limited its ability to recover true trait space expansion.
 % This was a ubiquitous problem across methods, indicating that, without the impossible achievement of a complete fossil dataset, our calculations of the absolute size of trait spaces will always be an underestimation. 
@@ -504,9 +507,9 @@ From this we can infer that while the internal density of taxa was correctly rec
 \subsection{Conclusions \& Recommendations}
 Our findings present a convincing case for the use of ancestral state estimation in disparity analyses, a method that has often been neglected in disparity workflows.
 Furthermore, they issue a stark reminder of the essential need for fossils during macroevolutionary workflows.
-Understandably, these results may seem fatalistic, given that realistic fossil sampling across most clades is less than 5\%.
+Understandably, these results may seem fatalistic, given that realistic fossil sampling across most clades is less than 5\%. %TG: again, this is a number out of our ass, might be worth mentioning some paper here to show an example.
 However, in the case of discrete traits, the incorporation of ancestral states is more optimal than their exclusion at all fossil sampling levels, and the same is true of continuous traits given the correct model is used for estimation.
-Below we have written a TL;DR
+% Below we have written a TL;DR
 
 
 \textbf{Key takeaways (continuous):}
