@@ -8,7 +8,7 @@
 \usepackage{subcaption}
 \usepackage{booktabs}
 \usepackage{amsmath,amssymb}
-\usepackage{siunitx}
+% \usepackage{siunitx}
 \usepackage[authoryear,round]{natbib}\usepackage{setspace}
 \usepackage{lineno}
 \usepackage{xcolor}
@@ -64,7 +64,7 @@ We then extended this framework to evaluate the recovery of changes in disparity
 We find that pre-ordination probabilistic estimations outperform post-ordination and point estimation methods and that omission of ancestral state estimations leads to underestimates of disparity.
 As expected, higher fossil sampling improves estimation accuracy, although recovered disparity accuracy was robust even at low fossil sampling. 
 Similar patterns were observed when recovering changes in disparity across mass extinction events but declined significantly when fossil sampling was low, highlighting that fossil inclusion is essential when assessing disparity in deep time.
-These results demonstrate that explicitly propagating uncertainty, rather than collapsing states into point estimates, is more likely to recover accurate patterns in disparity, reinforcing the need to move beyond point estimates when working with the incomplete fossil record.
+These results show that explicitly propagating uncertainty, rather than collapsing states into point estimates, is more likely to recover accurate patterns in disparity, reinforcing the need to move beyond point estimates when working with the incomplete fossil record.
 \end{abstract}
 
 \noindent\textbf{Keywords:} ancestral state estimation; disparity; fossils; simulation; uncertainty; macroevolution
@@ -119,7 +119,7 @@ Inferring ancestral states also allows disparity across time analyses to be expl
 
 % TG: kind of general semantic thought: Maybe we should call it Ancestral traits estimations rather than states? States refer more to discrete characters in my mind (although for a continuous trait - e.g. body length - technically 42 is the state for that trait). Might be worth discussing in the pub: are you estimating a trait or a trait state (I think the later but ancestral trait state estimations is a mouthful...).
 
-\subsection{Issues with ASE}
+\subsection{Issues with \ASE}
 Despite its theoretical advantages, %TG: it's not clear from the reading what advantages you mean here
  integration of \ase within the disparity analysis pipeline has often been neglected.
 Much of the apprehension towards the use of \ase has likely stemmed from the notion that estimates are inherently uncertain; root-ward estimates in particular are often associated with large confidence intervals or inconclusive scaled likelihoods \citep{schluter1997likelihood, losos1999uncertainty,gascuel2014predicting}.
@@ -321,7 +321,7 @@ Disparity values were calculated across each ancestral state estimation and the 
 \subsection{Statistical tests}
 The relative disparity error values were converted to absolute errors to measure the magnitude of deviation from the true disparity, regardless of direction.
 Due to the zero-inflated and right-skewed nature of the error distribution, we applied a log-transformation ($log(|x|+0.001)$).
-Since these errors were now log-errors, the more negative the log error the more accurate (closer to 0) the original relative error is.
+Since these errors were now log-errors, the more negative the log error the more accurate (closer to 0) the original results are.
 Given the imbalance in sample sizes between the different methods, i.e., distribution approaches return 100 disparity values for every 1 point estimate, we aggregated the distribution outputs by taking the median prior to analyses.
 We also performed analyses where the distribution was retained, but each individual point returned by distributions was weighted 1/100th of the single point estimate.
 We found results were consistent between both treatments (supplements).
@@ -331,7 +331,7 @@ The log-transformed relative error was treated as the response variable.
 Based on our experimental design, we fitted a four-way interaction between the estimation method, model of evolution, fossil sampling level and disparity metric.
 We also included tree size as a further non-interactive fixed effect.
 To account for the variation with each simulation run, each tree replicate was included as a random intercept.
-We carried out post-hoc pairwise comparisons using estimated marginal means, adjusted using Tukey's HSD.
+We carried out post-hoc pairwise comparisons using estimated marginal means, adjusted using Tukey's HSD. %TG: probably needs a cite here for the method
 
 
 \section{Results}
@@ -339,11 +339,13 @@ We carried out post-hoc pairwise comparisons using estimated marginal means, adj
 
 
 \subsection{Continuous traits}
-\subsubsection{Methods of estimation}
+\subsubsection{Estimation methods} %TG: throughout, I think it's better to change method of estimation to estimation methods?
 For continuous characters, the method of estimation had a significant effect on disparity accuracy ($F = 358,~ p < .001$) (\autoref{fig:continuous boxplot}, \autoref{tab: anova continuous lmm}).
 Notably, using ancestral state estimation methods were found to improve estimates of disparity compared to excluding ancestral states when averaged over all scenarios (\autoref{tab:continuous method cld}).
 Post-hoc pairwise comparisons of estimated marginal means (emmeans) revealed both pre- and post-ordination distributions of ancestral state estimations returned the lowest log disparity errors. 
 In contrast, point estimates performed worse overall than bypassing ancestral state estimation (\autoref{tab:continuous method cld}).
+
+%TG: Throughout the results, might be better to show the effect size (you can calculate it easily with the package named effectsize) rather than the F statistic/
 
 \subsubsection{Interaction effects}
 However, this pattern was context-specific.
@@ -361,7 +363,7 @@ Therefore, while estimation accuracy differed between metrics, the hierarchy bet
 
 
 \subsection{Discrete traits}
-\subsubsection{Methods of estimation} 
+\subsubsection{Estimation methods} 
 For discrete characters, the method of estimation also had a significant effect on disparity accuracy ($F = 10767, p < .001$) (\autoref{fig:discrete raw boxplot}).
 Similar to continuous traits, methods of ancestral state estimation consistently improved disparity estimates compared to excluding ancestral states (\autoref{tab:discrete method cld}). 
 However, the optimal type of estimation differed. 
@@ -385,37 +387,39 @@ Again, while the disparity metric was a significant driver to overall accuracy, 
 
 
 \section{Discussion}
-Our results suggest that, overall, the inclusion of ancestral state can improve our estimations of disparity compared to their exclusion.
+Our results suggest that, overall, the inclusion of ancestral state % can improve our estimations of disparity compared to their exclusion. %TG: or "does noticeably improve disparity results as opposed to not using any". Actually both your phrasing and my suggestion sound a bit clunky. Might need a think.
 However, we found this pattern to be context-specific, particularly dependent on fossil sampling and model of evolution.
-Overall, we can recommend that ancestral state estimations always be used in estimations of disparity from discrete characters, but recommend caution for continuous characters.
+Overall, we can recommend that ancestral state estimations always be used in estimations of disparity from discrete characters, but recommend caution for continuous characters. %TG: super nice!
 
 % \subsection{Continuous characters}
 \subsection{Pre- versus post-ordination estimation}
 For continuous characters, we found virtually no discrepancy between the effect of pre- and post-ordination estimation of ancestral states on disparity.
-Given that continuous traits exist within a Euclidean space, the linear transformations of both PCA and \ase under Brownian motion (BM) mean that estimated node states exist within the same relative positions to the observed tip data for both pre- and post-ordination estimation.
+Given that continuous traits exist within a Euclidean space, the linear transformations of both PCA and \ase under Brownian motion (BM) mean that estimated node states exist within the same relative positions to the observed tip data for both pre- and post-ordination estimation. %TG: I think yes a bit. However the PCA does create orthogonality between the dimensions. I think if you had some correlations between your traits it would be a bit different maybe? Worth noting here (but no need to test - in your case you're effectively having orthogonal traits because they're uncorrelated).
 
-For discrete traits, the timing of \ase was a key driver in disparity accuracy.
+For discrete traits, the timing %TG: do you mean the age of the tree or when in the analyses you do it? This could be clarified
+ of \ase was a key driver in disparity accuracy.
 Overall, pre-ordination estimation led to more accurate disparity estimations than post-ordination estimation, a finding consistent with \cite{lloyd2018journeys}.
 Post-ordination estimation is ultimately limited by its geometric assumptions.
-Since axes of the trait space are treated as continuous traits evolving under BM, the ancestral nodes are inevitably constrained within the convex hull defined by the observed tip data \citep{stayton2015definition,lloyd2018journeys,gerber2019use}.
+Since axes of the trait space are treated as continuous traits evolving under BM, the ancestral nodes are inevitably constrained within the convex hull defined by the observed tip data \citep{stayton2015definition,lloyd2018journeys,gerber2019use}. %TG: Maybe worth saying it's a hyperdimensional convex hull?
 This forces the implicit assumption that our observed trait data accounts for the extremes of morphological diversity for the clade of interest and that past diversity was only a subset of modern diversity.
 Disparity is therefore underestimated, particularly with range-based metrics such as sum of quantiles (\autoref{fig:discrete raw boxplot}).
 Estimation of discrete ancestral states prior to ordination does not encounter these same limitations.
 A discrete trait matrix can be said to exist within a hypercube, where each vertex corresponds to a unique combination of traits \citep{gerber2019use}.
-When the ancestral states  are estimated prior to ordination, there is no constraint preventing an ancestor from occupying a vertex that lies peripheral to the observed data.
+When the ancestral states are estimated prior to ordination, there is no constraint preventing an ancestor from occupying a vertex that lies peripheral to the observed data.
+%TG: maybe worth adding a sentence to repeat and clarify here. Soemthing like "In post-ordinations, the estimated states are bound to the observed states whilst in pre-ordination, these estimates are theoretically only bound by the combinatorics of the traits. In theory any non-observed trait state combination could be observed". Or maybe it's too much/repetitive. Might be worth seeing with Natalie and Gavin. Also important to highlight the theory here. In practice, I'm not convinced we get any new trait state combination because the ase tends to actually reduce the trait combinations, e.g. for three tips A(0);B(1);C(0), the root will likely be (O) so it actually reduces the combinations. But in theory it could increase it. I guess?
 Previously authors have interpreted estimated ancestral nodes that fall outside the observed range (convex hull) as an artificial inflation of disparity \citep{brusatte2011phylogenetic}.
 However, as \cite{gerber2019use} clarifies, this interpretation is flawed, since the convex hull is a two-dimensional projection of the true trait space.
 As \autoref{fig:discrete raw boxplot} shows, underestimation of disparity is ubiquitous to all discrete character estimation methods and thus an apparent inevitable issue when investigating discrete-trait disparity, which has previously been linked to character exhaustion \citep{erwin_disparity_2007}.
 Therefore, since pre-ordination discrete estimations are not bound to a cloud of averages in the way post-ordination estimation is, they are optimal at recovering true trait space expanse.
 
-
+%TG: this is a super good paragraph!
 
 \subsection{Treatment of uncertainty}
 The choice of estimation method for continuous characters was largely driven by the treatment of uncertainty.
 At high fossil sampling levels, incorporating uncertainty through the use of distributions performed better than point estimates (\autoref{fig:continuous boxplot}; \autoref{fig:continuous heatmap}).
 This advantage stems from the tendency of point estimates to smooth over evolutionary history \citep{boyko2024dentist,boyko2025uncertainty}, underestimating the variance of the true evolutionary path.
 However, in contrast to discrete traits, continuous estimation distributions are unbounded and thus sensitive to data quality.
-Therefore, the variation introduced from sampling across a distribution was dependent on the density of fossils; at high fossil density, confidence intervals are constrained due to higher certainty in estimates.
+Therefore, the variation introduced from sampling across a distribution was dependent on the density of fossils; at high fossil density, confidence intervals are constrained due to lower uncertainty in estimates. %TG: changed to uncertainty for consistency
 As fossil sampling decreases, these confidence intervals are widened and more noise is introduced as a result of using distribution, negating the advantage observed at higher fossil sampling.
 
 For discrete characters, we found an inverse pattern where distribution methods were optimal at low fossil sampling levels and point estimates were optimal at high fossil sampling levels.
