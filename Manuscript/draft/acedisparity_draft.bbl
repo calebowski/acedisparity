@@ -1,4 +1,4 @@
-\begin{thebibliography}{80}
+\begin{thebibliography}{81}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -39,6 +39,11 @@ David~W Bapst, Peter~C Bullock, Michael~J Melchin, H~David Sheets, and Charles~E
 Douglas Bates, Martin M{\"a}chler, Ben Bolker, and Steve Walker.
 \newblock Fitting linear mixed-effects models using lme4.
 \newblock \emph{Journal of statistical software}, 67:\penalty0 1--48, 2015.
+
+\bibitem[Benton et~al.(2011)Benton, Dunhill, Lloyd, and Marx]{benton2011assessing}
+Michael~J Benton, Alexander~M Dunhill, Graeme~T Lloyd, and Felix~G Marx.
+\newblock Assessing the quality of the fossil record: insights from vertebrates.
+\newblock 2011.
 
 \bibitem[Betancur-R et~al.(2015)Betancur-R, Ort{\'\i}, and Pyron]{betancur2015fossil}
 Ricardo Betancur-R, Guillermo Ort{\'\i}, and Robert~Alexander Pyron.
@@ -158,11 +163,6 @@ Olivier Gascuel and Mike Steel.
 \newblock A darwinian uncertainty principle.
 \newblock \emph{Systematic Biology}, 69\penalty0 (3):\penalty0 521--529, 2020.
 
-\bibitem[Gearty et~al.(2024)Gearty, Allen, Godoy, and Chiarenza]{gearty2024impact}
-William Gearty, Bethany Allen, Pedro~L Godoy, and Alfio~Alessandro Chiarenza.
-\newblock The impact of tip age distribution on reconstructing trait evolution using phylogenetic comparative methods.
-\newblock 2024.
-
 \bibitem[Gerber(2019)]{gerber2019use}
 Sylvain Gerber.
 \newblock Use and misuse of discrete character data for morphospace and disparity analyses.
@@ -232,6 +232,12 @@ Jeffrey~B Joy, Richard~H Liang, Rosemary~M McCloskey, T~Nguyen, and Art~FY Poon.
 Joseph~N Keating.
 \newblock What is the best method for estimating ancestral states from discrete characters?
 \newblock \emph{bioRxiv}, pages 2023--08, 2023.
+
+\bibitem[Lenth and Piaskowski(2025)]{lenth2025emmeans}
+Russell~V. Lenth and Julia Piaskowski.
+\newblock \emph{emmeans: Estimated Marginal Means, aka Least-Squares Means}, 2025.
+\newblock URL \url{https://rvlenth.github.io/emmeans/}.
+\newblock R package version 2.0.1.
 
 \bibitem[Liu et~al.(2024)Liu, Song, Chu, Dai, Wang, and Silvestro]{liu2024heterogeneous}
 Xiaokang Liu, Haijun Song, Daoliang Chu, Xu~Dai, Fengyu Wang, and Daniele Silvestro.
