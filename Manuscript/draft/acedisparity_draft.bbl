@@ -1,4 +1,4 @@
-\begin{thebibliography}{81}
+\begin{thebibliography}{86}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -90,11 +90,6 @@ Selina~R Cole and Melanie~J Hopkins.
 \newblock Selectivity and the effect of mass extinctions on disparity and functional ecology.
 \newblock \emph{Science Advances}, 7\penalty0 (19):\penalty0 eabf4072, 2021.
 
-\bibitem[Cooper et~al.(2016)Cooper, Thomas, Venditti, Meade, and Freckleton]{cooper2016cautionary}
-Natalie Cooper, Gavin~H Thomas, Chris Venditti, Andrew Meade, and Rob~P Freckleton.
-\newblock A cautionary note on the use of ornstein uhlenbeck models in macroevolutionary studies.
-\newblock \emph{Biological journal of the Linnean Society}, 118\penalty0 (1):\penalty0 64--77, 2016.
-
 \bibitem[Cunningham et~al.(1998)Cunningham, Omland, and Oakley]{cunningham1998reconstructing}
 Clifford~W Cunningham, Kevin~E Omland, and Todd~H Oakley.
 \newblock Reconstructing ancestral character states: a critical reappraisal.
@@ -143,11 +138,6 @@ Mike Foote.
 \newblock Morphological disparity in ordovician-devonian crinoids and the early saturation of morphological space.
 \newblock \emph{Paleobiology}, 20\penalty0 (3):\penalty0 320--344, 1994.
 
-\bibitem[Foth et~al.(2021)Foth, Sookias, and Ezcurra]{foth2021rapid}
-Christian Foth, Roland~B Sookias, and Mart{\'\i}n~D Ezcurra.
-\newblock Rapid initial morphospace expansion and delayed morphological disparity peak in the first 100 million years of the archosauromorph evolutionary radiation.
-\newblock \emph{Frontiers in Earth Science}, 9:\penalty0 723973, 2021.
-
 \bibitem[Garc{\'\i}a-Navas et~al.(2017)Garc{\'\i}a-Navas, Noguerales, Cordero, and Ortego]{garcia2017phenotypic}
 Vicente Garc{\'\i}a-Navas, V{\'\i}ctor Noguerales, Pedro~J Cordero, and Joaqu{\'\i}n Ortego.
 \newblock Phenotypic disparity in iberian short-horned grasshoppers (acrididae): the role of ecology and phylogeny.
@@ -162,6 +152,11 @@ Olivier Gascuel and Mike Steel.
 Olivier Gascuel and Mike Steel.
 \newblock A darwinian uncertainty principle.
 \newblock \emph{Systematic Biology}, 69\penalty0 (3):\penalty0 521--529, 2020.
+
+\bibitem[Gearty et~al.(2024)Gearty, Allen, Godoy, and Chiarenza]{gearty2024impact}
+William Gearty, Bethany Allen, Pedro~L Godoy, and Alfio~Alessandro Chiarenza.
+\newblock The impact of tip age distribution on reconstructing trait evolution using phylogenetic comparative methods.
+\newblock 2024.
 
 \bibitem[Gerber(2019)]{gerber2019use}
 Sylvain Gerber.
@@ -203,6 +198,11 @@ Thomas John~Dixon Halliday and Anjali Goswami.
 \newblock Eutherian morphological disparity across the end-cretaceous mass extinction.
 \newblock \emph{Biological Journal of the Linnean Society}, 118\penalty0 (1):\penalty0 152--168, 2016.
 
+\bibitem[Harmon et~al.(2003)Harmon, Schulte, Larson, and Losos]{harmon2003tempo}
+Luke~J Harmon, James~A Schulte, Allan Larson, and Jonathan~B Losos.
+\newblock Tempo and mode of evolutionary radiation in iguanian lizards.
+\newblock \emph{Science}, 301\penalty0 (5635):\penalty0 961--964, 2003.
+
 \bibitem[Harmon et~al.(2010)Harmon, Losos, Jonathan~Davies, Gillespie, Gittleman, Bryan~Jennings, Kozak, McPeek, Moreno-Roark, Near, et~al.]{harmon2010early}
 Luke~J Harmon, Jonathan~B Losos, T~Jonathan~Davies, Rosemary~G Gillespie, John~L Gittleman, W~Bryan~Jennings, Kenneth~H Kozak, Mark~A McPeek, Franck Moreno-Roark, Thomas~J Near, et~al.
 \newblock Early bursts of body size and shape evolution are rare in comparative data.
@@ -217,6 +217,11 @@ L~Francisco Henao~Diaz, Luke~J Harmon, Mauro~TC Sugawara, Eliot~T Miller, and Ma
 Barbara~R Holland, Saan Ketelaar-Jones, Aidan~R o’Mara, Michael~D Woodhams, and Gregory~J Jordan.
 \newblock Accuracy of ancestral state reconstruction for non-neutral traits.
 \newblock \emph{Scientific Reports}, 10\penalty0 (1):\penalty0 7644, 2020.
+
+\bibitem[Hughes et~al.(2013)Hughes, Gerber, and Wills]{hughes2013clades}
+Martin Hughes, Sylvain Gerber, and Matthew~Albion Wills.
+\newblock Clades reach highest morphological disparity early in their evolution.
+\newblock \emph{Proceedings of the National Academy of Sciences}, 110\penalty0 (34):\penalty0 13875--13879, 2013.
 
 \bibitem[Jetz and Pyron(2018)]{jetz2018interplay}
 Walter Jetz and R~Alexander Pyron.
@@ -263,6 +268,16 @@ Katie~E Lotterhos, Matthew~C Fitzpatrick, and Heath Blackmon.
 \newblock Simulation tests of methods in evolution, ecology, and systematics: pitfalls, progress, and principles.
 \newblock \emph{Annual Review of Ecology, Evolution, and Systematics}, 53\penalty0 (1):\penalty0 113--136, 2022.
 
+\bibitem[Mahler(2010)]{mahler2010adaptive}
+D~Luke Mahler.
+\newblock Adaptive radiation: the interaction of ecological opportunity, adaptation, and speciation.
+\newblock \emph{Evolution since Darwin: the first 150 years}, 2010.
+
+\bibitem[Martins(1999)]{martins1999estimation}
+Emilia~P Martins.
+\newblock Estimation of ancestral states of continuous characters: a computer simulation study.
+\newblock \emph{Systematic Biology}, 48\penalty0 (3):\penalty0 642--650, 1999.
+
 \bibitem[Mitchell(2015)]{mitchell2015extant}
 Jonathan~S Mitchell.
 \newblock Extant-only comparative methods fail to recover the disparity preserved in the bird fossil record.
@@ -277,6 +292,11 @@ Tesla~A Monson, Marianne~F Brasil, Michael~C Mahaney, Christopher~A Schmitt, Cat
 H{\'e}l{\`e}ne Morlon, J{\'e}r{\'e}my Andr{\'e}oletti, Jo{\"e}lle Barido-Sottani, Sophia Lambert, Beno{\^\i}t Perez-Lamarque, Ignacio Quintero, Viktor Senderov, and Pierre Veron.
 \newblock Phylogenetic insights into diversification.
 \newblock \emph{Annual Review of Ecology, Evolution, and Systematics}, 55, 2024.
+
+\bibitem[Muschick et~al.(2012)Muschick, Indermaur, and Salzburger]{muschick2012convergent}
+Moritz Muschick, Adrian Indermaur, and Walter Salzburger.
+\newblock Convergent evolution within an adaptive radiation of cichlid fishes.
+\newblock \emph{Current biology}, 22\penalty0 (24):\penalty0 2362--2368, 2012.
 
 \bibitem[O'Meara et~al.(2006)O'Meara, An{\'e}, Sanderson, and Wainwright]{omeara2006testing}
 Brian~C O'Meara, C{\'e}cile An{\'e}, Michael~J Sanderson, and Peter~C Wainwright.
@@ -383,6 +403,11 @@ Thomas~J Smith, Robert~S Sansom, Davide Pisani, and Philip~CJ Donoghue.
 C~Tristan Stayton.
 \newblock The definition, recognition, and interpretation of convergent evolution, and two new measures for quantifying and assessing the significance of convergence.
 \newblock \emph{Evolution}, 69\penalty0 (8):\penalty0 2140--2153, 2015.
+
+\bibitem[Stayton(2024)]{stayton2024does}
+C~Tristan Stayton.
+\newblock Does phenotypic integration promote convergent evolution?
+\newblock \emph{Integrative and Comparative Biology}, 64\penalty0 (5):\penalty0 1484--1493, 2024.
 
 \bibitem[Stroud and Losos(2016)]{stroud2016ecological}
 James~T Stroud and Jonathan~B Losos.
