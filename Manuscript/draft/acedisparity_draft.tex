@@ -52,7 +52,7 @@ Using simulations, we evaluated pre- and post-ordination estimation methods, and
 We found that ancestral state estimations generally improved our recovery of true disparity, although the choice of optimal estimation method was driven by the interaction between trait models and fossil sampling density.
 For continuous traits, we found that probabilistic approaches were most accurate, but were sensitive to model misspecification under low fossil sampling.
 For discrete traits, we found that pre-ordination ancestral state estimation methods were superior and that probabilistic methods were optimal under low fossil sampling, whereas point estimates became more reliable as fossil sampling increased.
-Ultimately, we found that while the estimation method was an important factor in disparity accuracy, fossil sampling density remains the strongest driver of accuracy.
+Ultimately, we found that while the estimation method was an important factor in disparity accuracy, fossil sampling density remains the strongest predictor of accuracy.
 Our findings provide robust methodological guidelines for navigating the trade-offs of using ancestral state estimation for recovering accurate disparity signals.
 
 \end{abstract}
@@ -458,10 +458,10 @@ Although not explicitly explored in this study, we expect that ancestral state e
 %         (ii) Although comparing discrete vs continuous estimation of disparity not a main question in this study, it would be interesting
 
 
-Previously, the choice of disparity metric has been probed as a critical step in the disparity pipeline, specifically for examining different aspects of trait space \citep{guillerme2020shifting}. %TG: you could also cite the what/how/why paper here ;)
+Previously, the choice of disparity metric has been probed as a critical step in the disparity pipeline, specifically for examining different aspects of trait space \citep{guillerme2020shifting, guillerme2025and}. %TG: you could also cite the what/how/why paper here ;)
 Indeed, our results exhibit significant differences in disparity error among metrics.
 For example, recovering the sum of quantiles was ultimately harder than recovering the sum of variances or mean pairwise distance when using discrete traits.
-However, the hierarchy of methods was relatively consistent across disparity metrics, suggesting that the relative performance of ancestral state estimation methods is robust to different disparity metrics. %TG: very good!
+However, the hierarchy of methods was relatively consistent across disparity metrics, suggesting that the relative performance of ancestral state estimation methods is robust to different disparity metrics.
 Consistent performance across multiple disparity metrics can reassure us that multiple aspects of the true trait space are recoverable, including size, dispersion and density.
 Where there is inconsistency in methods across metrics, we can infer that the true disparity value has been attained as a methodological artifact, rather than the recovery of a true trait space pattern. 
 This can be observed in the post-ordination distribution estimation of discrete traits, which performed well under the sum of variances and mean pairwise distance metrics, but noticeably worse under sum of quantiles.
