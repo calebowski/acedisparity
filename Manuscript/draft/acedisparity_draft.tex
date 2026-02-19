@@ -414,7 +414,7 @@ The assumptions of BM include a fixed mean and trait variance increasing linearl
 We found that when these assumptions of BM were violated, such as under BM + trend and OU models, disparity accuracy returned by methods with \ase decreased.
 For example, under low/absent fossil sampling, methods of \ase performed worse than bypassing ancestral state estimation for BM + trend.
 In this case, disparity estimates tended to be underestimated, because state estimations will be intermediates of the observed tip data, absent to the directional trend that occurred and thus missing past diversity. %TG: this sentence is a bit convoluted
-This finding supports previous work that highlights the critical impact of fossil inclusion when directional trends are present in the trait data \citep{finarelli2006ancestral,albert2009fossils,slater2012integrating,finarelli2013potential}.
+This finding supports previous work that highlights the critical impact of fossil inclusion when directional trends are present in the trait data \citep{finarelli2006ancestral,albert2009fossils,slater2012integrating,finarelli2013potential,gearty2024impact}.
 Our results suggest a threshold between 5-15\% fossil sampling where \ase becomes optimal in disparity calculation over its exclusion (\autoref{fig:continuous heatmap}), which would equate to a densely sampled empirical phylogeny \citep{benton2011assessing}. 
 
 
@@ -475,23 +475,28 @@ Realistic fossil sampling across clades is less than 5\%\citep{raup1976species},
 However, in the case of discrete traits, the incorporation of ancestral states is more optimal than their exclusion across all fossil sampling densities, and the same is true of continuous traits when the correct model is used for estimation.
 % Below we have written a TL;DR
 
+Based on these findings, we can recommend the following guidelines for the use of ancestral state estimation in disparity analyses:
+\begin{enumerate}
+    \item For continuous traits, use distributions of estimations, rather than point estimates. If the trait data is suspected to have evolved under OU model, estimation of ancestral states assuming an OU model is critical.
+    \item For discrete traits, pre-ordination point estimations are optimal when transition rates are
+\end{enumerate}
 
-\textbf{Key takeaways (continuous):}
-\begin{itemize}
-    \item Use \textbf{distribution} estimations when trait data fits a BM (or BM + trend) model of evolution.
-    \item If trait data is best fitted by a BM + trend model, fossil sampling >5\% is essential to return a reliable disparity signal.
-    \item If trait data is best fitted by an OU model, ancestral states should be excluded at all fossil sampling densities (but still relatively accurate using ancestral states).
-\end{itemize}
+% \textbf{Key takeaways (continuous):}
+% \begin{itemize}
+%     \item Use \textbf{distribution} estimations when trait data fits a BM (or BM + trend) model of evolution.
+%     \item If trait data is best fitted by a BM + trend model, fossil sampling >5\% is essential to return a reliable disparity signal.
+%     \item If trait data is best fitted by an OU model, ancestral states should be excluded at all fossil sampling densities (but still relatively accurate using ancestral states).
+% \end{itemize}
 
 
 
-\textbf{Key takeaways (discrete):}
-\begin{itemize}
-    \item Use \textbf{pre-ordination point} estimations when fossil sampling is dense >15\% and transition rates are medium/fast
-    \item Use \textbf{post-ordination distribution} when fossil sampling is low <15\% and transition rates are medium/fast
-    \item If rates are slow, the \textbf{pre-ordination distribution} method is best across all fossil sampling densities
-    \item It is encouraged to always use \ase, because it improved estimations of disparity across all scenarios.
-\end{itemize}
+% \textbf{Key takeaways (discrete):}
+% \begin{itemize}
+%     \item Use \textbf{pre-ordination point} estimations when fossil sampling is dense >15\% and transition rates are medium/fast
+%     \item Use \textbf{post-ordination distribution} when fossil sampling is low <15\% and transition rates are medium/fast
+%     \item If rates are slow, the \textbf{pre-ordination distribution} method is best across all fossil sampling densities
+%     \item It is encouraged to always use \ase, because it improved estimations of disparity across all scenarios.
+% \end{itemize}
 
 
 

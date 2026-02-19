@@ -1,15 +1,15 @@
 # Fdb version 4
-["bibtex acedisparity_draft"] 1770298124.91359 "acedisparity_draft.aux" "acedisparity_draft.bbl" "acedisparity_draft" 1770298125.76489 0
-  "./references.bib" 1770297284.84414 32533 47a99399fb39c689f530c27b429d2e87 ""
+["bibtex acedisparity_draft"] 1771433262.08965 "acedisparity_draft.aux" "acedisparity_draft.bbl" "acedisparity_draft" 1771433262.92036 0
+  "./references.bib" 1770743444.94671 34715 ef3eaf44f98a11161288155e4da73885 ""
   "/usr/share/texlive/texmf-dist/bibtex/bst/natbib/plainnat.bst" 1233624470 26816 ffe5423d2019860bad9f54bc402fac15 ""
-  "acedisparity_draft.aux" 1770298125.5696 20815 5f886361784d9766f8478e87a7d5156e "pdflatex"
+  "acedisparity_draft.aux" 1771433262.72118 20897 50448aa6a81e8210d1c566a45f3a78a6 "pdflatex"
   (generated)
   "acedisparity_draft.bbl"
   "acedisparity_draft.blg"
   (rewritten before read)
-["pdflatex"] 1770298124.99272 "/home/caleb/Documents/PhD/acedisparity/Manuscript/draft/acedisparity_draft.tex" "acedisparity_draft.pdf" "acedisparity_draft" 1770298125.76505 0
+["pdflatex"] 1771433262.1695 "/home/caleb/Documents/PhD/acedisparity/Manuscript/draft/acedisparity_draft.tex" "acedisparity_draft.pdf" "acedisparity_draft" 1771433262.9206 0
   "/etc/texmf/web2c/texmf.cnf" 1730844760.28548 475 c0e671620eb5563b2130f56340a5fde8 ""
-  "/home/caleb/Documents/PhD/acedisparity/Manuscript/draft/acedisparity_draft.tex" 1770298123.89948 77109 fc70f65d266c95f9a6042316f865d3ef ""
+  "/home/caleb/Documents/PhD/acedisparity/Manuscript/draft/acedisparity_draft.tex" 1771433261.02015 66510 42626f215b5f96c892c31813d34ee4b0 ""
   "/usr/share/texlive/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/jknappen/ec/ecbx1000.tfm" 1136768653 3584 2d666ecf6d466d8b007246bc2f94d9da ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/jknappen/ec/ecbx1095.tfm" 1136768653 3584 21b378cca2e40816b0e6d74a4dc98f04 ""
@@ -26,7 +26,6 @@
   "/usr/share/texlive/texmf-dist/fonts/tfm/jknappen/ec/ecss0800.tfm" 1136768653 3584 885a9b5d0df19657ad7066a0c4430437 ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/jknappen/ec/ecti1095.tfm" 1136768653 3072 b73d2778cc3af44970de4de5e032d7f6 ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/jknappen/ec/ectt1095.tfm" 1136768653 1536 a988bfe554c1f79514bd46d13c3c64ce ""
-  "/usr/share/texlive/texmf-dist/fonts/tfm/jknappen/ec/tcrm1095.tfm" 1136768653 1536 02c06700a42be0f5a28664c7273f82e7 ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmex7.tfm" 1246382020 1004 54797486969f23fa377b128694d548df ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmex8.tfm" 1246382020 988 bdf658c3bfc2d96d3c8b02cfc1c94c20 ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/public/amsfonts/symbols/msam10.tfm" 1246382020 916 f87d7c45f9c908e672703b83b72241a3 ""
@@ -50,6 +49,7 @@
   "/usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb" 1248133631 36299 5f9df58c2139e7edcf37c8fca4bd384d ""
   "/usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb" 1248133631 35469 70d41d2b9ea31d5d813066df7c99281c ""
   "/usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb" 1248133631 35752 024fb6c41858982481f6968b5fc26508 ""
+  "/usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb" 1248133631 32726 0a1aea6fcd6468ee2cf64d891f5c43c8 ""
   "/usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb" 1248133631 32569 5e5ddc8df908dea60932f3c484a54c0d ""
   "/usr/share/texlive/texmf-dist/tex/context/base/mkii/supp-pdf.mkii" 1461363279 71627 94eb9990bed73c364d7f53f960cc8c5b ""
   "/usr/share/texlive/texmf-dist/tex/generic/atbegshi/atbegshi.sty" 1575674566 24708 5584a51a7101caf7e6bbf1fc27d8f7b1 ""
@@ -127,7 +127,6 @@
   "/usr/share/texlive/texmf-dist/tex/latex/xcolor/xcolor.sty" 1700082560 55487 80a65caedd3722f4c20a14a69e785d8f ""
   "/usr/share/texlive/texmf-dist/web2c/texmf.cnf" 1707919699 40399 f2c302f7d2af602abb742093540a5834 ""
   "/usr/share/texmf/fonts/enc/dvips/cm-super/cm-super-t1.enc" 1636152094 2971 def0b6c1f0b107b3b936def894055589 ""
-  "/usr/share/texmf/fonts/enc/dvips/cm-super/cm-super-ts1.enc" 1636152094 2900 1537cc8184ad1792082cd229ecc269f4 ""
   "/usr/share/texmf/fonts/type1/public/cm-super/sfbx1000.pfb" 1636152094 145408 43d44302ca7d82d487f511f83e309505 ""
   "/usr/share/texmf/fonts/type1/public/cm-super/sfbx1095.pfb" 1730844772.87467 154600 ea54091d31de803b613ba9e80ca51709 ""
   "/usr/share/texmf/fonts/type1/public/cm-super/sfbx1200.pfb" 1730844772.87567 140176 d4962f948b4cc0adf4d3dde77a128c95 ""
@@ -144,10 +143,10 @@
   "/usr/share/texmf/web2c/texmf.cnf" 1707919699 40399 f2c302f7d2af602abb742093540a5834 ""
   "/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map" 1730844780.91279 5472669 54eaf61a88b6b7896ebd0dac973cb29c ""
   "/var/lib/texmf/web2c/pdftex/pdflatex.fmt" 1730844870 8215263 37da5ff08623ce8426d1176d844cce83 ""
-  "acedisparity_draft.aux" 1770298125.5696 20815 5f886361784d9766f8478e87a7d5156e "pdflatex"
-  "acedisparity_draft.bbl" 1770298124.98856 26445 1510f41dc627bb29685974e3549d8bc2 "bibtex acedisparity_draft"
-  "acedisparity_draft.out" 1770298125.5706 4821 fb30bfd29abf91145ac7ada5830bef50 "pdflatex"
-  "acedisparity_draft.tex" 1770298123.89948 77109 fc70f65d266c95f9a6042316f865d3ef ""
+  "acedisparity_draft.aux" 1771433262.72118 20897 50448aa6a81e8210d1c566a45f3a78a6 "pdflatex"
+  "acedisparity_draft.bbl" 1771433262.16417 27759 7b860825c651d0397ba5b2af9130639e "bibtex acedisparity_draft"
+  "acedisparity_draft.out" 1771433262.72218 4354 71cb924d2fe60b6ba91592a93676ab09 "pdflatex"
+  "acedisparity_draft.tex" 1771433261.02015 66510 42626f215b5f96c892c31813d34ee4b0 ""
   "figures/ACEDisparity_pipeline.pdf" 1768835875.61406 29625 d84890aa6b32f9862f1cadff45a39005 ""
   "figures/cont_heatmap_weighted.pdf" 1769096638.98775 6892 ac03ccd3afec73e663fd077aeff4bc77 ""
   "figures/continuous_boxplot.pdf" 1765550642.68182 18490 47c080a542fc8b4cfb9f00460b0d6e08 ""

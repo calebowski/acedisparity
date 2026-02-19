@@ -99,7 +99,7 @@ saveRDS(matrices, write.path("matrices", "matrices_%03d.rds"))
 cat("Trait matrices saved...\n")
 
 source("/users/bip24cns/acedisparity/discrete/scripts/fossil.pres.R")
-set_seed <- 100 + replicate_id
+# set_seed <- 100 + replicate_id
 living <- lapply(matrices, remove.fossil, trees = crown_tree, type = "continuous")
 fossilised_high <- lapply(matrices, fossil.pres, trees = crown_tree, preservation = 0.5, type = "continuous", seed = set_seed)
 all_fossil <- lapply(matrices, fossil.pres, trees = crown_tree, preservation = 1.0, type = "continuous", seed = set_seed)

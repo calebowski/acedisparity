@@ -1,4 +1,4 @@
-\begin{thebibliography}{86}
+\begin{thebibliography}{90}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -65,11 +65,6 @@ Stephen~L Brusatte, Shaena Montanari, Hong-yu Yi, and Mark~A Norell.
 \newblock Phylogenetic corrections for morphological disparity analysis: new methodology and case studies.
 \newblock \emph{Paleobiology}, 37\penalty0 (1):\penalty0 1--22, 2011.
 
-\bibitem[Butler et~al.(2012)Butler, Brusatte, Andres, and Benson]{butler2012geological}
-Richard~J Butler, Stephen~L Brusatte, Brian Andres, and Roger~BJ Benson.
-\newblock How do geological sampling biases affect studies of morphological evolution in deep time? a case study of pterosaur (reptilia: Archosauria) disparity.
-\newblock \emph{Evolution}, 66\penalty0 (1):\penalty0 147--162, 2012.
-
 \bibitem[Casali et~al.(2023)Casali, Boscaini, Gaudin, and Perini]{casali2023morphological}
 Daniel~M Casali, Alberto Boscaini, Timothy~J Gaudin, and Fernando~A Perini.
 \newblock Morphological disparity and evolutionary rates of cranial and postcranial characters in sloths (mammalia, pilosa, folivora).
@@ -107,6 +102,11 @@ Douglas~H. Erwin.
 \newblock ISSN 1475-4983.
 \newblock \doi{10.1111/j.1475-4983.2006.00614.x}.
 \newblock Publisher: John Wiley \& Sons, Ltd.
+
+\bibitem[Esquerr{\'e} et~al.(2019)Esquerr{\'e}, Brennan, Catullo, Torres-P{\'e}rez, and Keogh]{esquerre2019mountains}
+Damien Esquerr{\'e}, Ian~G Brennan, Renee~A Catullo, Fernando Torres-P{\'e}rez, and J~Scott Keogh.
+\newblock How mountains shape biodiversity: The role of the andes in biogeography, diversification, and reproductive biology in south america's most species-rich lizard radiation (squamata: Liolaemidae).
+\newblock \emph{Evolution}, 73\penalty0 (2):\penalty0 214--230, 2019.
 
 \bibitem[Felsenstein(1985)]{felsenstein1985phylogenies}
 Joseph Felsenstein.
@@ -193,6 +193,11 @@ Thomas Guillerme, Mark~N Puttick, Ariel~E Marcy, and Vera Weisbecker.
 \newblock Shifting spaces: Which disparity or dissimilarity measurement best summarize occupancy in multidimensional spaces?
 \newblock \emph{Ecology and evolution}, 10\penalty0 (14):\penalty0 7261--7275, 2020{\natexlab{b}}.
 
+\bibitem[Guillerme et~al.(2025)Guillerme, Cardoso, J{\o}rgensen, Mammola, and Matthews]{guillerme2025and}
+Thomas Guillerme, Pedro Cardoso, Maria~Wagner J{\o}rgensen, Stefano Mammola, and Thomas~J Matthews.
+\newblock The what, how, and why of trait-based analyses in ecology.
+\newblock \emph{Ecography}, page e07580, 2025.
+
 \bibitem[Halliday and Goswami(2016)]{halliday2016eutherian}
 Thomas John~Dixon Halliday and Anjali Goswami.
 \newblock Eutherian morphological disparity across the end-cretaceous mass extinction.
@@ -278,6 +283,11 @@ Emilia~P Martins.
 \newblock Estimation of ancestral states of continuous characters: a computer simulation study.
 \newblock \emph{Systematic Biology}, 48\penalty0 (3):\penalty0 642--650, 1999.
 
+\bibitem[Meloro and Jones(2012)]{meloro2012tooth}
+Carlo Meloro and MEH Jones.
+\newblock Tooth and cranial disparity in the fossil relatives of sphenodon (rhynchocephalia) dispute the persistent ‘living fossil’label.
+\newblock \emph{Journal of Evolutionary Biology}, 25\penalty0 (11):\penalty0 2194--2209, 2012.
+
 \bibitem[Mitchell(2015)]{mitchell2015extant}
 Jonathan~S Mitchell.
 \newblock Extant-only comparative methods fail to recover the disparity preserved in the bird fossil record.
@@ -292,6 +302,11 @@ Tesla~A Monson, Marianne~F Brasil, Michael~C Mahaney, Christopher~A Schmitt, Cat
 H{\'e}l{\`e}ne Morlon, J{\'e}r{\'e}my Andr{\'e}oletti, Jo{\"e}lle Barido-Sottani, Sophia Lambert, Beno{\^\i}t Perez-Lamarque, Ignacio Quintero, Viktor Senderov, and Pierre Veron.
 \newblock Phylogenetic insights into diversification.
 \newblock \emph{Annual Review of Ecology, Evolution, and Systematics}, 55, 2024.
+
+\bibitem[Morris et~al.(2019)Morris, Vliet, Abzhanov, and Pierce]{morris2019heterochronic}
+Zachary~S Morris, Kent~A Vliet, Arhat Abzhanov, and Stephanie~E Pierce.
+\newblock Heterochronic shifts and conserved embryonic shape underlie crocodylian craniofacial disparity and convergence.
+\newblock \emph{Proceedings of the Royal Society B}, 286\penalty0 (1897):\penalty0 20182389, 2019.
 
 \bibitem[Muschick et~al.(2012)Muschick, Indermaur, and Salzburger]{muschick2012convergent}
 Moritz Muschick, Adrian Indermaur, and Walter Salzburger.
@@ -328,6 +343,11 @@ Mathias~M Pires, Brian~D Rankin, Daniele Silvestro, and Tiago~B Quental.
 \newblock \emph{R: A Language and Environment for Statistical Computing}.
 \newblock R Foundation for Statistical Computing, Vienna, Austria, 2025.
 \newblock URL \url{https://www.R-project.org/}.
+
+\bibitem[Raup(1976)]{raup1976species}
+David~M Raup.
+\newblock Species diversity in the phanerozoic: an interpretation.
+\newblock \emph{Paleobiology}, 2\penalty0 (4):\penalty0 289--297, 1976.
 
 \bibitem[Revell(2012)]{revell2012phytools}
 Liam~J Revell.
