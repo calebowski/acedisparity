@@ -51,9 +51,9 @@ disp.diff <- function(ace, true){
 
 
 
-write.path <- function(folder, subfolder, filename){
-  file.path("..", "Data", "folder", "subfolder", sprintf(filename, replicate_id))
-}
+# write.path <- function(folder, subfolder, filename){
+#   file.path("..", "Data", "folder", "subfolder", sprintf(filename, replicate_id))
+# }
 
 BM.trend.process <- function(x0 = 0, edge.length = 1,
                              Sigma = diag(length(x0)), trend = 0.1, ...) {

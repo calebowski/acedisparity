@@ -4,9 +4,12 @@ if (!require(devtools, quietly = TRUE)) {
   library(devtools)
 }
 
-
+# Requires dev versions of treats & dispRity
 install_github("TGuillerme/treats", ref = "map.traits.events")
 library(treats)
+
+install_github("TGuillerme/dispRity")
+library(dispRity)
 
 
 dir.create("../Data/trees", recursive = TRUE, showWarnings = FALSE)
@@ -48,7 +51,7 @@ for(i in 1:n_replicates) {
         # seed_val <- seed_val + 100  # Change seed for next attempt
       }
     }
-    tree_file <- sprintf("../Data/trees/tree_%s_%03d.tre", tree_size, replicate_id)
+    tree_file <- sprintf("../Data/trees/tree_%dt_%03d.tre", tree_size, replicate_id)
     write.tree(tree, tree_file)
 
     est <- crude.bd.est(tree, "estimate")
@@ -76,5 +79,3 @@ all_metadata <- do.call(rbind, lapply(1:n_replicates, function(i) {
 
 # Save combined metadata
 write.csv(all_metadata, "../Data/trees/metadata/metadata_all.csv", row.names = FALSE)
-
-cat("\nTree generation complete!\n")

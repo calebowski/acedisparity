@@ -117,7 +117,6 @@ fossil_matrices <- lapply(names(matrices), function(level) {
     )
 })
 
-
 # Assign names to the outer list
 names(fossil_matrices) <- names(matrices)
 
@@ -132,7 +131,7 @@ saveRDS(fossil_matrices, write.path("matrices", "fossil_matrices_%03d.rds"))
 
 ########################################################################################################################
 ## ANC STATES
-tasks  <- expand.grid(rate = names(fossil_matrices), fossil_level = names(fossil_matrices[[1]]),  stringsAsFactors = FALSE) 
+tasks  <- expand.grid(rate = names(fossil_matrices), fossil_level = names(fossil_matrices[[1]]),  stringsAsFactors = FALSE)
 
 res_pre_ord_ace <- mclapply(seq_len(nrow(tasks)), function(i){ ## loop over each model combination by row
     task <- tasks[i,]

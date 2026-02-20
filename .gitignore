@@ -24,3 +24,4 @@ ord_*.Rds
 sampleanc.rds"
 Data/cluster/discrete
 Data/cluster/*
+published/Data/
