@@ -463,7 +463,7 @@ Indeed, our results exhibit significant differences in disparity error among met
 For example, recovering the sum of quantiles was ultimately harder than recovering the sum of variances or mean pairwise distance when using discrete traits.
 However, the hierarchy of methods was relatively consistent across disparity metrics, suggesting that the relative performance of ancestral state estimation methods is robust to different disparity metrics.
 Consistent performance across multiple disparity metrics can reassure us that multiple aspects of the true trait space are recoverable, including size, dispersion and density.
-Where there is inconsistency in methods across metrics, we can infer that the true disparity value has been attained as a methodological artifact, rather than the recovery of a true trait space pattern. 
+Where there is inconsistency in methods across metrics, we can infer that the true disparity value has been attained as a methodological artefact, rather than the recovery of a true trait space pattern. 
 This can be observed in the post-ordination distribution estimation of discrete traits, which performed well under the sum of variances and mean pairwise distance metrics, but noticeably worse under sum of quantiles.
 From this we can infer that while the internal density of taxa was correctly recovered, the geometric constraint of post-ordination estimation ultimately limited its ability to recover true trait space expansion.
 % This was a ubiquitous problem across methods, indicating that, without the impossible achievement of a complete fossil dataset, our calculations of the absolute size of trait spaces will always be an underestimation. 
@@ -471,15 +471,21 @@ From this we can infer that while the internal density of taxa was correctly rec
 \subsection{Conclusions \& Recommendations}
 Our findings present a convincing case for the use of ancestral state estimation in disparity analyses, a method that has often been neglected in disparity workflows.
 Furthermore, our results issue a stark reminder of the essential need for fossils during macroevolutionary workflows.
-Realistic fossil sampling across clades is less than 5\%\citep{raup1976species}, which poses issues for these methods. 
+Fossil sampling percentage across empirical datasets is typically less than 5\%\citep{raup1976species}, which ultimately limits our inferences into macroevolutionary patterns.
 However, in the case of discrete traits, the incorporation of ancestral states is more optimal than their exclusion across all fossil sampling densities, and the same is true of continuous traits when the correct model is used for estimation.
+Based on these findings, we can recommend the following guidelines for the use of ancestral state estimation in disparity analyses: 1) for continuous traits, perform model testing prior to running ancestral state estimation to infer the likely evolutionary model parameters, and then estimate ancestral states under this model, using the distributions of estimates in disparity analyses; 2) for fast/medium rate discrete traits, pre-ordination point estimates should be used when fossil sampling is suspected to be less than 15\% and post-ordination distribution when fossil sampling is lower than this. Pre-ordination distribution should be used when transition rates are slow. 
+
+
+
+
+
 % Below we have written a TL;DR
 
-Based on these findings, we can recommend the following guidelines for the use of ancestral state estimation in disparity analyses:
-\begin{enumerate}
-    \item For continuous traits, use distributions of estimations, rather than point estimates. If the trait data is suspected to have evolved under OU model, estimation of ancestral states assuming an OU model is critical.
-    \item For discrete traits, pre-ordination point estimations are optimal when transition rates are
-\end{enumerate}
+% Based on these findings, we can recommend the following guidelines for the use of ancestral state estimation in disparity analyses:
+% \begin{enumerate}
+%     \item For continuous traits, use distributions of estimations, rather than point estimates. If the trait data is suspected to have evolved under OU model, estimation of ancestral states assuming an OU model is critical.
+%     \item For discrete traits, pre-ordination point estimations are optimal when transition rates are
+% \end{enumerate}
 
 % \textbf{Key takeaways (continuous):}
 % \begin{itemize}

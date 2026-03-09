@@ -51,7 +51,7 @@ for(i in 1:n_replicates) {
         # seed_val <- seed_val + 100  # Change seed for next attempt
       }
     }
-    tree_file <- sprintf("../Data/trees/tree_%dt_%03d.tre", tree_size, replicate_id)
+    tree_file <- sprintf("../Data/trees/tree_%st_%03d.tre", tree_size, replicate_id)
     write.tree(tree, tree_file)
 
     est <- crude.bd.est(tree, "estimate")

@@ -221,7 +221,7 @@ elapsed <- difftime(Sys.time(), start_time, units = "mins")
 
 
 post_ord_ace  <- list()
-for(i in seq_along(res_post_ord_ace)){
+for(i in seq_along(res_post_ord_ace)) {
     m <- tasks_post_ord$model[i]
     l <- tasks_post_ord$fossil_level[i]
     post_ord_ace[[m]][[l]] <- res_post_ord_ace[[i]]
