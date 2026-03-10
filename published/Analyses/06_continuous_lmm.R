@@ -1,3 +1,8 @@
+---
+title: "Continuous LMM Analysis"
+output: html_document
+---
+
 library(lme4)
 library(lmerTest) 
 library(emmeans)
@@ -56,3 +61,87 @@ results_relisted <- setNames(lapply(metric_names, function(metric) {
     }), methods)
   }), tree_sizes)
 }), metric_names)
+
+
+
+# Build dataframe with tree_size
+results_df <- do.call(rbind, lapply(names(results_relisted), function(metric_name) {
+  metric_data <- results_relisted[[metric_name]]
+  
+  do.call(rbind, lapply(names(metric_data), function(size_name) {
+    size_data <- metric_data[[size_name]]
+    
+    do.call(rbind, lapply(names(size_data), function(method_name) {
+      method_data <- size_data[[method_name]]
+      
+      do.call(rbind, lapply(seq_along(method_data), function(rep_idx) {
+        rep_data <- method_data[[rep_idx]]
+        
+        if(is.null(rep_data)) return(NULL)
+        
+        do.call(rbind, lapply(names(rep_data), function(model_name) {
+          model_data <- rep_data[[model_name]]
+          
+          if(is.null(model_data)) return(NULL)
+          
+          data.frame(
+            replicate = rep_idx,
+            all = I(list(model_data$all)),
+            high = I(list(model_data$fossil_high)),
+            med = I(list(model_data$fossil_med)),
+            low = I(list(model_data$fossil_low)),
+            living = I(list(model_data$living)),
+            model = model_name,
+            method = method_name,
+            metric = metric_name,
+            tree_size = size_name,  #  Add tree size
+            stringsAsFactors = FALSE
+          )
+        }))
+      }))
+    }))
+  }))
+}))
+
+
+
+# Pivot to long format using base R - FIXED VERSION
+results_df_long <- do.call(rbind, lapply(1:nrow(results_df), function(i) {
+  row <- results_df[i, ]
+  
+  # Extract each fossil sampling level separately
+  fossil_levels <- c("all", "high", "med", "low", "living")
+  
+  # Build data frame by binding each fossil level
+  do.call(rbind, lapply(fossil_levels, function(fossil_level) {
+    values <- unlist(row[[fossil_level]])
+    if(length(values) > 0) {
+      data.frame(
+        tree_size = row$tree_size,
+        replicate = row$replicate,
+        model = row$model,
+        method = row$method,
+        metric = row$metric,
+        fossil_sampling = fossil_level,
+        error = values,
+        stringsAsFactors = FALSE,
+        row.names = NULL
+      )
+    } else {
+      NULL
+    }
+  }))
+}))
+
+
+# Aggregate sample methods, keep point methods as-is
+results_df_long$is_sample <- grepl("sample", results_df_long$method)
+
+# Split data by sample vs point methods
+sample_data <- results_df_long[results_df_long$is_sample, ]
+point_data <- results_df_long[!results_df_long$is_sample, ]
+
+# Aggregate only sample methods
+sample_aggregated <- aggregate(error ~ tree_size + replicate + model + method + metric + fossil_sampling,
+                               data = sample_data, 
+                               FUN = median)
