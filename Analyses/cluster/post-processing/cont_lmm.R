@@ -593,7 +593,7 @@ ggsave("../Manuscript/draft/figures/cont_heatmap.pdf", p, "pdf", width = 10, hei
 ## weighted
 
 lmm_path <- "/home/caleb/Documents/PhD/acedisparity/Data/cluster/continuous/lmm/weighted/"
-
+emm_three_way
 
 lmm_four_way <- readRDS(paste0(lmm_path, "lmm_4_way_weighted.rds"))
 summary(lmm_four_way,ddf = "Satterthwaite")
