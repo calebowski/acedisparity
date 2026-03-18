@@ -44,16 +44,29 @@
 
 \begin{abstract}
 \noindent
-Morphological disparity is widely used as a metric for inferring macroevolutionary patterns and processes.
-However, our ability to recover true patterns is limited by the incomplete fossil record.
-Ancestral state estimation can be used to infer unobserved traits across a phylogeny, extending disparity analyses beyond incomplete fossil data, but these estimates often have high uncertainty. 
-Determining the most robust workflow for integrating this uncertainty into disparity analyses remains a critical challenge.
+% Morphological disparity is widely used as a metric for inferring macroevolutionary patterns and processes.
+% However, our ability to recover true patterns is limited by the incomplete fossil record.
+% Ancestral state estimation can be used to infer unobserved traits across a phylogeny, extending disparity analyses beyond incomplete fossil data, but these estimates often have high uncertainty. 
+% Determining the most robust workflow for integrating this uncertainty into disparity analyses remains a critical challenge.
+% Using simulations, we evaluated pre- and post-ordination estimation methods, and point estimate and probabilistic approaches for incorporating uncertainty, across varying continuous and discrete trait models, fossil sampling densities and disparity metrics.
+% We found that ancestral state estimations generally improved our recovery of true disparity, although the choice of optimal estimation method was driven by the interaction between trait models and fossil sampling density.
+% For continuous traits, we found that probabilistic approaches were most accurate, but were sensitive to model misspecification under low fossil sampling.
+% For discrete traits, we found that pre-ordination ancestral state estimation methods were superior and that probabilistic methods were optimal under low fossil sampling, whereas point estimates became more reliable as fossil sampling increased.
+% Ultimately, we found that while the estimation method was an important factor in disparity accuracy, fossil sampling density remains the strongest predictor of accuracy.
+% Our findings provide robust methodological guidelines for navigating the trade-offs of using ancestral state estimation for recovering accurate disparity signals.
+
+
+\noindent
+Morphological trait datasets are increasingly integrated with phylogenies to enhance macroevolutionary inferences from disparity analyses.
+However, our ability to infer patterns in deep-time is limited by the incomplete fossil record.
+Ancestral state estimations can be used for both discrete and continuous traits to extend disparity analyses beyond incomplete fossil data, but these estimates often have high uncertainty.
+Determining the most robust workflow for integrating this trait state uncertainty into disparity analyses remains a critical challenge.
 Using simulations, we evaluated pre- and post-ordination estimation methods, and point estimate and probabilistic approaches for incorporating uncertainty, across varying continuous and discrete trait models, fossil sampling densities and disparity metrics.
 We found that ancestral state estimations generally improved our recovery of true disparity, although the choice of optimal estimation method was driven by the interaction between trait models and fossil sampling density.
-For continuous traits, we found that probabilistic approaches were most accurate, but were sensitive to model misspecification under low fossil sampling.
-For discrete traits, we found that pre-ordination ancestral state estimation methods were superior and that probabilistic methods were optimal under low fossil sampling, whereas point estimates became more reliable as fossil sampling increased.
-Ultimately, we found that while the estimation method was an important factor in disparity accuracy, fossil sampling density remains the strongest predictor of accuracy.
-Our findings provide robust methodological guidelines for navigating the trade-offs of using ancestral state estimation for recovering accurate disparity signals.
+For continuous traits, probabilistic approaches were most accurate, but were sensitive to model misspecification under low fossil sampling density.
+For discrete traits, pre-ordination ancestral state estimation methods were most reliable and that probabilistic methods were optimal under low fossil sampling density, whereas point estimates became more reliable as fossil sampling increased.
+Ultimately, we found that while the estimation method was an important factor in disparity accuracy, fossil sampling density was the strongest predictor of accuracy.
+Our findings provide robust methodological guidelines for navigating the trade-offs of using ancestral state estimation for recovering accurate disparity values.
 
 \end{abstract}
 
@@ -67,6 +80,7 @@ Morphological trait datasets are routinely integrated with phylogenies when exam
 These analyses can be used to investigate selectivity across mass extinctions \citep{bapst2012graptoloid,cole2021selectivity, liu2024heterogeneous}, reveal patterns in morphological convergence \citep{muschick2012convergent,stayton2015definition,stayton2024does} and characterise the tempo and mode of morphological diversification during adaptive radiations \citep{harmon2003tempo,mahler2010adaptive, hughes2013clades}.
 However, such analyses are inevitably limited by the incompleteness of the fossil record; only a biased subset of past diversity is preserved, leaving unsampled ghost lineages and obscuring large portions of a clade's evolutionary history \citep{flannery2019does,smith2021phylogenetic}.
 This missing data can result in both under- and over-estimations of disparity \citep{mitchell2015extant,smith2023fossilization}.
+Therefore, the biases imparted by the incomplete fossil record need to be accounted for.
 % For example, high amounts of missing data can result in `centroid-slippage', where an incompletely sampled taxon is pulled towards the centre of the trait space \citep{flannery2019does}.
 % Conversely, exceptional preservation, such as Lagerstätten, may result in inflated disparity, as seen in ichthyosaurs \citep{flannery2019does} and pterosaurs \citep{butler2012geological}.
 
@@ -195,8 +209,8 @@ For each category, 85 binary characters and 15 three-state characters were simul
 
 
 \subsection{Fossil sampling simulation}
-To simulate different levels of fossil sampling, extinct tips were either retained (`fossilized') or pruned using a Bernoulli sampling method at five different probabilities: 0\%, 5\%, 15\%, 50\% and 100\% (\autoref{fig:pipeline}: Step 3). 
-This method means each extinct tip had an equal probability of being `fossilized' at each sample level, irrespective of the total tree size.
+To simulate different levels of fossil sampling, extinct tips were either retained (`fossilised') or pruned using a Bernoulli sampling method at five different probabilities: 0\%, 5\%, 15\%, 50\% and 100\% (\autoref{fig:pipeline}: Step 3). 
+This method means each extinct tip had an equal probability of being `fossilised' at each sample level, irrespective of the total tree size.
 The corresponding trait matrices were subset to match each down-sampled tree.
 % Here i can reference a csv with all the tree tip and downsampled tree tip counts???
 % Have thought here about expanding this: trait-dependent preservation (i.e more likely if in state 0 to be preserved??); fossil can be sampled at any point along its branch. %TG: this is a really good idea! I like it! But maybe we should focus on getting this manuscript done first and see what people comment at SVP? NC: I think leave as is for now, you want to leave something for the reviewers to suggest :)
@@ -475,7 +489,7 @@ Fossil sampling percentage across empirical datasets is typically less than 5\%\
 However, in the case of discrete traits, the incorporation of ancestral states is more optimal than their exclusion across all fossil sampling densities, and the same is true of continuous traits when the correct model is used for estimation.
 Based on these findings, we can recommend the following guidelines for the use of ancestral state estimation in disparity analyses: 1) for continuous traits, perform model testing prior to running ancestral state estimation to infer the likely evolutionary model parameters, and then estimate ancestral states under this model, using the distributions of estimates in disparity analyses; 2) for fast/medium rate discrete traits, pre-ordination point estimates should be used when fossil sampling is suspected to be less than 15\% and post-ordination distribution when fossil sampling is lower than this. Pre-ordination distribution should be used when transition rates are slow. 
 
-
+% maybe see where \citep{voje2023measurement} can fit in, as to how continuous should be favoured over discrete traits.
 
 
 
