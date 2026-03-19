@@ -1,4 +1,4 @@
-\begin{thebibliography}{90}
+\begin{thebibliography}{92}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -103,11 +103,6 @@ Douglas~H. Erwin.
 \newblock \doi{10.1111/j.1475-4983.2006.00614.x}.
 \newblock Publisher: John Wiley \& Sons, Ltd.
 
-\bibitem[Esquerr{\'e} et~al.(2019)Esquerr{\'e}, Brennan, Catullo, Torres-P{\'e}rez, and Keogh]{esquerre2019mountains}
-Damien Esquerr{\'e}, Ian~G Brennan, Renee~A Catullo, Fernando Torres-P{\'e}rez, and J~Scott Keogh.
-\newblock How mountains shape biodiversity: The role of the andes in biogeography, diversification, and reproductive biology in south america's most species-rich lizard radiation (squamata: Liolaemidae).
-\newblock \emph{Evolution}, 73\penalty0 (2):\penalty0 214--230, 2019.
-
 \bibitem[Felsenstein(1985)]{felsenstein1985phylogenies}
 Joseph Felsenstein.
 \newblock Phylogenies and the comparative method.
@@ -138,6 +133,11 @@ Mike Foote.
 \newblock Morphological disparity in ordovician-devonian crinoids and the early saturation of morphological space.
 \newblock \emph{Paleobiology}, 20\penalty0 (3):\penalty0 320--344, 1994.
 
+\bibitem[Friedman et~al.(2020)Friedman, Price, Corn, Larouche, Martinez, and Wainwright]{friedman2020body}
+ST~Friedman, SA~Price, KA~Corn, O~Larouche, CM~Martinez, and PC~Wainwright.
+\newblock Body shape diversification along the benthic--pelagic axis in marine fishes.
+\newblock \emph{Proceedings of the Royal Society B: Biological Sciences}, 287\penalty0 (1931), 2020.
+
 \bibitem[Garc{\'\i}a-Navas et~al.(2017)Garc{\'\i}a-Navas, Noguerales, Cordero, and Ortego]{garcia2017phenotypic}
 Vicente Garc{\'\i}a-Navas, V{\'\i}ctor Noguerales, Pedro~J Cordero, and Joaqu{\'\i}n Ortego.
 \newblock Phenotypic disparity in iberian short-horned grasshoppers (acrididae): the role of ecology and phylogeny.
@@ -167,6 +167,11 @@ Sylvain Gerber.
 Anjali Goswami and Julien Clavel.
 \newblock Morphological evolution in a time of phenomics.
 \newblock \emph{Paleobiology}, 51\penalty0 (1):\penalty0 195--213, 2025.
+
+\bibitem[Gray et~al.(2019)Gray, Hutchinson, and Jones]{gray2019exceptional}
+Jaimi~A Gray, Mark~N Hutchinson, and Marc~EH Jones.
+\newblock Exceptional disparity in australian agamid lizards is a possible result of arrival into vacant niche.
+\newblock \emph{The Anatomical Record}, 302\penalty0 (9):\penalty0 1536--1543, 2019.
 
 \bibitem[Guillerme(2018)]{guillerme2018disprity}
 Thomas Guillerme.
@@ -249,6 +254,11 @@ Russell~V. Lenth and Julia Piaskowski.
 \newblock URL \url{https://rvlenth.github.io/emmeans/}.
 \newblock R package version 2.0.1.
 
+\bibitem[Lewis(2001)]{lewis2001likelihood}
+Paul~O Lewis.
+\newblock A likelihood approach to estimating phylogeny from discrete morphological character data.
+\newblock \emph{Systematic biology}, 50\penalty0 (6):\penalty0 913--925, 2001.
+
 \bibitem[Liu et~al.(2024)Liu, Song, Chu, Dai, Wang, and Silvestro]{liu2024heterogeneous}
 Xiaokang Liu, Haijun Song, Daoliang Chu, Xu~Dai, Fengyu Wang, and Daniele Silvestro.
 \newblock Heterogeneous selectivity and morphological evolution of marine clades during the permian--triassic mass extinction.
@@ -283,11 +293,6 @@ Emilia~P Martins.
 \newblock Estimation of ancestral states of continuous characters: a computer simulation study.
 \newblock \emph{Systematic Biology}, 48\penalty0 (3):\penalty0 642--650, 1999.
 
-\bibitem[Meloro and Jones(2012)]{meloro2012tooth}
-Carlo Meloro and MEH Jones.
-\newblock Tooth and cranial disparity in the fossil relatives of sphenodon (rhynchocephalia) dispute the persistent ‘living fossil’label.
-\newblock \emph{Journal of Evolutionary Biology}, 25\penalty0 (11):\penalty0 2194--2209, 2012.
-
 \bibitem[Mitchell(2015)]{mitchell2015extant}
 Jonathan~S Mitchell.
 \newblock Extant-only comparative methods fail to recover the disparity preserved in the bird fossil record.
@@ -298,15 +303,15 @@ Tesla~A Monson, Marianne~F Brasil, Michael~C Mahaney, Christopher~A Schmitt, Cat
 \newblock Keeping 21st century paleontology grounded: Quantitative genetic analyses and ancestral state reconstruction re-emphasize the essentiality of fossils.
 \newblock \emph{Biology}, 11\penalty0 (8):\penalty0 1218, 2022.
 
+\bibitem[Mooers and Schluter(1999)]{mooers1999reconstructing}
+Arne~{\O} Mooers and Dolph Schluter.
+\newblock Reconstructing ancestor states with maximum likelihood: support for one-and two-rate models.
+\newblock \emph{Systematic Biology}, 48\penalty0 (3):\penalty0 623--633, 1999.
+
 \bibitem[Morlon et~al.(2024)Morlon, Andr{\'e}oletti, Barido-Sottani, Lambert, Perez-Lamarque, Quintero, Senderov, and Veron]{morlon2024phylogenetic}
 H{\'e}l{\`e}ne Morlon, J{\'e}r{\'e}my Andr{\'e}oletti, Jo{\"e}lle Barido-Sottani, Sophia Lambert, Beno{\^\i}t Perez-Lamarque, Ignacio Quintero, Viktor Senderov, and Pierre Veron.
 \newblock Phylogenetic insights into diversification.
 \newblock \emph{Annual Review of Ecology, Evolution, and Systematics}, 55, 2024.
-
-\bibitem[Morris et~al.(2019)Morris, Vliet, Abzhanov, and Pierce]{morris2019heterochronic}
-Zachary~S Morris, Kent~A Vliet, Arhat Abzhanov, and Stephanie~E Pierce.
-\newblock Heterochronic shifts and conserved embryonic shape underlie crocodylian craniofacial disparity and convergence.
-\newblock \emph{Proceedings of the Royal Society B}, 286\penalty0 (1897):\penalty0 20182389, 2019.
 
 \bibitem[Muschick et~al.(2012)Muschick, Indermaur, and Salzburger]{muschick2012convergent}
 Moritz Muschick, Adrian Indermaur, and Walter Salzburger.
@@ -317,6 +322,11 @@ Moritz Muschick, Adrian Indermaur, and Walter Salzburger.
 Brian~C O'Meara, C{\'e}cile An{\'e}, Michael~J Sanderson, and Peter~C Wainwright.
 \newblock Testing for different rates of continuous trait evolution using likelihood.
 \newblock \emph{Evolution}, 60\penalty0 (5):\penalty0 922--933, 2006.
+
+\bibitem[Pagel(1994)]{pagel1994detecting}
+Mark Pagel.
+\newblock Detecting correlated evolution on phylogenies: a general method for the comparative analysis of discrete characters.
+\newblock \emph{Proceedings of the Royal Society of London. Series B: Biological Sciences}, 255\penalty0 (1342):\penalty0 37--45, 1994.
 
 \bibitem[Pagel(1999)]{pagel1999maximum}
 Mark Pagel.
