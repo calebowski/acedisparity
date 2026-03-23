@@ -1,0 +1,114 @@
+---
+title: "ACE Disparity Brief rundown"
+author: "Caleb"
+date: "`r Sys.Date()`"
+output:
+  html_document: default
+  pdf_document: default
+editor_options: 
+  markdown: 
+    wrap: 90
+---
+
+## The idea 
+
+```{R}
+
+
+ord_rel <- readRDS("../Data/cluster/discrete//ord/ord_rel_001.rds")
+# ord_sample <- readRDS("../Data/cluster/discrete/ord/ord_sample_001.rds")
+# ord_strict <- readRDS("../Data/cluster/discrete/ord/ord_strict_001.rds")
+# ord_no_ace <- readRDS("../Data/cluster/discrete/ord/ord_no_ace_001.rds")
+ord_true <- readRDS("../Data/cluster/discrete/ord/ord_true_001.rds")
+
+
+rel_all <- ord_rel$fast$all
+ord_all <- ord_true$fast
+
+dispRity(rel_all, metric = c(sum, variances))$disparity
+
+    c1  c2  c3  c4
+t1  0   1   0   1
+t2  1   1   1   1
+n1  0   0/1 0/1 1
+n2  0/1 0/1 0   0/1
+
+
+par(mfrow = c(1,2))
+
+plot(rel_all)
+plot(ord_all)
+
+
+
+
+
+# Generate a taxa x traits matrix with many "0/1" ambiguous states in node rows
+generate_tip_node_matrix <- function(n_taxa = 50, n_tips = 25, n_traits = 50,
+                                     prob_amb_in_nodes = 0.9, prop_ones_tips = 0.5,
+                                     seed = 123) {
+  set.seed(seed)
+  if (n_tips > n_taxa) stop("n_tips must be <= n_taxa")
+  n_nodes <- n_taxa - n_tips
+  
+  # row/col names
+  tip_names  <- paste0("t", seq_len(n_tips))
+  node_names <- paste0("n", seq_len(n_nodes))
+  row_names  <- c(tip_names, node_names)
+  col_names  <- paste0("c", seq_len(n_traits))
+  
+  # Tips: random 0/1 (characters)
+  tips_mat <- matrix(sample(c("0","1"), n_tips * n_traits, replace = TRUE,
+                            prob = c(1 - prop_ones_tips, prop_ones_tips)),
+                     nrow = n_tips, ncol = n_traits)
+  # Nodes: mostly 0/1 but with some "0/1" ambiguous entries
+  nodes_mat <- matrix(nrow = n_nodes, ncol = n_traits)
+  for (i in seq_len(n_nodes)) {
+    for (j in seq_len(n_traits)) {
+      if (runif(1) < prob_amb_in_nodes) {
+        nodes_mat[i, j] <- "0/1"
+      } else {
+        nodes_mat[i, j] <- sample(c("0","1"), 1)
+      }
+    }
+  }
+  
+  mat <- rbind(tips_mat, nodes_mat)
+  rownames(mat) <- row_names
+  colnames(mat) <- col_names
+  mode(mat) <- "character"
+  return(mat)
+}
+
+# Example
+mat50 <- generate_tip_node_matrix(n_taxa = 50, n_tips = 25, n_traits = 10000, prob_amb_in_nodes = 0.1, seed = 42)
+
+
+mat50_orig <- mat50
+
+# create a second matrix where ambiguous entries are NA
+mat50_na <- mat50_orig
+mat50_na[grepl("/", mat50_na)] <- NA_character_
+
+
+# all_na_rows <- apply(mat50_na, 1, function(x) all(is.na(x)))
+
+
+
+
+
+uncertain_dist <- char.diff(mat50, method = "mord", by.col = FALSE)
+na_dist <- char.diff(mat50_na, method = "mord", by.col = FALSE)
+
+
+uncertain_ord <- cmdscale(uncertain_dist, k = ncol(uncertain_dist) -2, add = TRUE)$points
+na_ord <- cmdscale(na_dist, k = ncol(na_dist) -2, add = TRUE)$points
+
+
+
+dispRity(uncertain_ord, metric = c(sum, variances))$disparity
+
+dispRity(na_ord, metric = c(sum, variances))$disparity
+
+
+```
