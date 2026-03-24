@@ -149,8 +149,8 @@ run.sim.cont.ace <- function(tree_size, replicate_id, samples = 100) {
 
 tree_sizes <- c(50, 100, 150)
 for(tree_size in tree_sizes) {
-    for(i in 1:5) {
-        run.sim.cont.ace(tree_size, i, samples = 5)
+    for(i in 1:3) {
+        run.sim.cont.ace(tree_size, i, samples = 2)
     }
 }
 
