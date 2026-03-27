@@ -23,10 +23,22 @@ Note, that the analyses take over 1.5 CPU years to run.
 
 * **01_tree_generation.R** generates the 300 trees (100 for each tree size level) used in both continuous and discrete analyses.
 * **02_continuous_sims_ace.R** & **03_discrete_sims_ace.R** simulates continuous and discrete traits across the trees, simulates fossil sampling, runs pre/post-ordination and point/distribution ancestral state estimation and generates trait spaces.
-* **05_continuous_disparity.R** & **06_discrete_disparity.R** calculates disparity errors across the estimated trait spaces.
-* **07_continuous_lmm.Rmd** & **08_continuous_lmm.Rmd** run the linear mixed models on the disparity errors.
+* **04_continuous_disparity.R** & **05_discrete_disparity.R** calculates disparity errors across the estimated trait spaces.
+* **06_continuous_lmm.Rmd** & **07_continuous_lmm.Rmd** run the linear mixed models on the disparity errors.
 
 ---
+
+## Packages & Functions
+
+The majority of the functions used in this paper come from the [`treats`](https://github.com/TGuillerme/treats/tree/map.traits.events) & [`dispRity`](https://github.com/TGuillerme/dispRity) packages. Note that the paper uses the latest development versions of these packages, i.e. the `map.traits.events` branch of `treats` (v1.1.7) and main branch of `dispRity` (v1.9.8). To use the exact versions of these packages used in this study, install with this;
+
+```{R}
+remotes::install_github("TGuillerme/treats", ref = "35c4c036d6b350f1a446c216c08a3c33e95a22b5")
+
+remotes::install_github("TGuillerme/dispRity", ref = "753bddb3da93f1e067e70fb1de7a120aa73e385a")
+```
+
+There are also custom functions used for simulating fossil sampling, contained within `Functions/`. 
 
 ## Vignette
 
