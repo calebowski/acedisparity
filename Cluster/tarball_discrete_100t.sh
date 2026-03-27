@@ -34,5 +34,7 @@ done
 
 echo "All folders have been successfully packaged!"
 
+# rsync -avP --inplace --no-owner --no-group --no-perms /mnt/parscratch/users/bip24cns/acedisparity/discrete/crown/100t/*.tar /shared/guillerme_group/User/bip24cns/acedisparity/discrete/100t
+
 
 

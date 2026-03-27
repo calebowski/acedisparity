@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2024.11.5)  19 MAR 2026 15:23
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2024.11.5)  25 MAR 2026 09:59
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -497,7 +497,7 @@ File: mt-msb.cfg 2005/06/01 v1.0 microtype config. file: AMS symbols (b) (RS)
 ) [1
 
 {/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}{/usr/share/texmf/fonts/enc/dvips/cm-super/cm-super-t1.enc}] [2] [3] [4]
-LaTeX Font Info:    Trying to load font information for T1+cmtt on input line 123.
+LaTeX Font Info:    Trying to load font information for T1+cmtt on input line 122.
  (/usr/share/texlive/texmf-dist/tex/latex/base/t1cmtt.fd
 File: t1cmtt.fd 2023/04/13 v2.5m Standard LaTeX font definitions
 )
@@ -511,7 +511,7 @@ pdfTeX warning: pdflatex (file ./figures/ACEDisparity_pipeline.pdf): PDF inclusi
 <figures/ACEDisparity_pipeline.pdf, id=374, 381.22424pt x 651.3334pt>
 File: figures/ACEDisparity_pipeline.pdf Graphic file (type pdf)
 <use figures/ACEDisparity_pipeline.pdf>
-Package pdftex.def Info: figures/ACEDisparity_pipeline.pdf  used on input line 143.
+Package pdftex.def Info: figures/ACEDisparity_pipeline.pdf  used on input line 142.
 (pdftex.def)             Requested size: 362.37569pt x 619.13095pt.
 [5] [6 <./figures/ACEDisparity_pipeline.pdf>] [7] [8] [9] [10]
 
@@ -519,29 +519,29 @@ Package caption Warning: \label without proper reference on input line 54.
 See the caption package documentation for explanation.
 
 
-LaTeX Warning: Reference `tab: anova continuous lmm' on page 11 undefined on input line 280.
+LaTeX Warning: Reference `tab: anova continuous lmm' on page 11 undefined on input line 279.
 
 <figures/continuous_boxplot.pdf, id=532, 1300.86pt x 1011.78pt>
 File: figures/continuous_boxplot.pdf Graphic file (type pdf)
 <use figures/continuous_boxplot.pdf>
-Package pdftex.def Info: figures/continuous_boxplot.pdf  used on input line 287.
+Package pdftex.def Info: figures/continuous_boxplot.pdf  used on input line 286.
 (pdftex.def)             Requested size: 452.9679pt x 352.30656pt.
 [11] [12 <./figures/continuous_boxplot.pdf>]
 <figures/cont_heatmap_weighted.pdf, id=555, 722.7pt x 289.08pt>
 File: figures/cont_heatmap_weighted.pdf Graphic file (type pdf)
 <use figures/cont_heatmap_weighted.pdf>
-Package pdftex.def Info: figures/cont_heatmap_weighted.pdf  used on input line 308.
+Package pdftex.def Info: figures/cont_heatmap_weighted.pdf  used on input line 307.
 (pdftex.def)             Requested size: 452.9679pt x 181.18622pt.
 <figures/discrete_boxplot.pdf, id=559, 1300.86pt x 1011.78pt>
 File: figures/discrete_boxplot.pdf Graphic file (type pdf)
 <use figures/discrete_boxplot.pdf>
-Package pdftex.def Info: figures/discrete_boxplot.pdf  used on input line 326.
+Package pdftex.def Info: figures/discrete_boxplot.pdf  used on input line 325.
 (pdftex.def)             Requested size: 452.9679pt x 352.30656pt.
  [13 <./figures/cont_heatmap_weighted.pdf>] [14 <./figures/discrete_boxplot.pdf>]
 <figures/discrete_weighted_heatmap.pdf, id=590, 722.7pt x 289.08pt>
 File: figures/discrete_weighted_heatmap.pdf Graphic file (type pdf)
 <use figures/discrete_weighted_heatmap.pdf>
-Package pdftex.def Info: figures/discrete_weighted_heatmap.pdf  used on input line 346.
+Package pdftex.def Info: figures/discrete_weighted_heatmap.pdf  used on input line 345.
 (pdftex.def)             Requested size: 452.9679pt x 181.18622pt.
  [15 <./figures/discrete_weighted_heatmap.pdf>] [16] [17] [18] [19] [20] [21
 

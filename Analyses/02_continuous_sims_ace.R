@@ -155,10 +155,10 @@ for(tree_size in tree_sizes) {
 }
 
 
-# Run all replicates
-tree_sizes <- c(50, 100, 150)
-for(tree_size in tree_sizes) {
-    for(i in 1:100) {
-        run.sim.cont.ace(tree_size, i, samples = 100)
-    }
-}
+# # Run all replicates
+# tree_sizes <- c(50, 100, 150)
+# for(tree_size in tree_sizes) {
+#     for(i in 1:100) {
+#         run.sim.cont.ace(tree_size, i, samples = 100)
+#     }
+# }
