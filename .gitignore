@@ -7,5 +7,7 @@
 Cluster/Data/*
 Data/continuous/ord
 Data/continuous/ace
+Data/continuous/disparity
 Data/discrete/ord
 Data/discrete/ace
+aceideas.md
