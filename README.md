@@ -33,9 +33,6 @@ Note, that the analyses take over 1.5 CPU years to run.
 ```{R}
 library(treats)
 
-source("Analyses/01_tree_generation.R")
-
-
 
 
 ```

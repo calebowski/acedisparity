@@ -5,5 +5,7 @@
 .vscode/
 *.html
 Cluster/Data/*
-Data/*
-
+Data/continuous/ord
+Data/continuous/ace
+Data/discrete/ord
+Data/discrete/ace
