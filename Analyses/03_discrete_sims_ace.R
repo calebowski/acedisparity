@@ -183,12 +183,8 @@ run.sim.discrete.ace <- function(tree_size, replicate_id, samples = 100) {
 }
 
 # Single replicate for testing reproducibility --------------------------------------
-tree_sizes <- c(50, 100, 150)
-for(tree_size in tree_sizes) {
-    for(i in 1:3) {
-        run.sim.discrete.ace(tree_size, i, samples = 2)
-    }
-}
+run.sim.discrete.ace(tree_size = 50, replicate_id = 1, samples = 10) ## lower sampling for computational speed
+
 
 # Run all replicates
 tree_sizes <- c(50, 100, 150)
