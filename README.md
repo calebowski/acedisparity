@@ -34,7 +34,7 @@ Sections 01-05 are formatted so that you can choose to run for either one replic
 
 The majority of the functions used in this paper come from the [`treats`](https://github.com/TGuillerme/treats/tree/map.traits.events) & [`dispRity`](https://github.com/TGuillerme/dispRity) packages. Note that the paper uses the **latest development versions of these packages** (as of March 2026). To use the exact versions of these packages used in this study, install with this:
 
-```{R}
+```r
 remotes::install_github("TGuillerme/treats", ref = "a02738522a05eb0f4da29806011acf9cbb4a6a83")
 
 remotes::install_github("TGuillerme/dispRity", ref = "753bddb3da93f1e067e70fb1de7a120aa73e385a")
