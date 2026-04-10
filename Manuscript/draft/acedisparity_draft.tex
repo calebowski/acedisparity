@@ -9,7 +9,8 @@
 \usepackage{booktabs}
 \usepackage{amsmath,amssymb}
 % \usepackage{siunitx}
-\usepackage[authoryear,round]{natbib}\usepackage{setspace}
+\usepackage[authoryear,round]{natbib}
+\usepackage{setspace}
 \usepackage{lineno}
 \usepackage{xcolor}
 \usepackage[hidelinks]{hyperref}
@@ -47,7 +48,6 @@
 Morphological traits and phylogenies are routinely used to investigate macroevolutionary patterns.
 However, our ability to infer patterns in deep-time is limited by the incomplete fossil record.
 Ancestral state estimations can be used for both discrete and continuous traits to extend these analyses beyond incomplete fossil data, but these estimates often have high uncertainty.
-% This can be particularly challenging when looking at the diversity of traits (disparity analyses).
 Determining the most robust workflow for treating this trait state uncertainty during disparity analyses remains a critical challenge.
 Using simulations, we evaluated pre- and post-ordination estimation methods, and point estimate and probabilistic approaches for incorporating uncertainty, across varying continuous and discrete trait models, fossil sampling densities and disparity metrics.
 We found that ancestral state estimations generally improved our recovery of true disparity, although the choice of optimal estimation method was driven by the interaction between trait models and fossil sampling density.
@@ -183,7 +183,7 @@ For each category, 85 binary characters and 15 three-state characters were simul
 \hline
 \multirow{3}{*}{\textbf{Continuous traits}} & $BM$ & $\sigma=0.25$ \\
 \cline{2-3}
- & $BM + trend$ & $\sigma=0.25,\ \text{trend}=0.1$ \\
+ & $BM + trend$ & $\sigma=0.25,\ \text{trend}=0.3$ \\
 \cline{2-3}
  & $OU$ & $\sigma=0.25,\ \alpha=\dfrac{\ln(2)}{\text{tree height $\times$ 0.25}}$ \\
 \cline{2-3}
