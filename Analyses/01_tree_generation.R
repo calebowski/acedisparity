@@ -5,10 +5,10 @@ if (!require(devtools, quietly = TRUE)) {
 }
 
 # Requires dev versions of treats & dispRity
-install_github("TGuillerme/treats", ref = "map.traits.events")
+install_github("TGuillerme/treats", ref = "35c4c036d6b350f1a446c216c08a3c33e95a22b5")
 library(treats)
 
-install_github("TGuillerme/dispRity")
+install_github("TGuillerme/dispRity", ref = "753bddb3da93f1e067e70fb1de7a120aa73e385a")
 library(dispRity)
 
 

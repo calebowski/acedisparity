@@ -73,6 +73,31 @@ run.discrete.disparity <- function(tree_size, replicate_id){
 run.discrete.disparity(tree_size = 50, replicate_id = 1)
 
 
+
+# results_raw <- list()
+# methods <- c("pre_ord_sample", "pre_ord_point", "no_ace", "post_ord_point", "post_ord_sample")
+# for(method in methods){
+#     results_raw[[method]] <- readRDS(paste0("../Data/discrete/disparity/", method, "_disparity_50t_001.rds"))
+# }
+
+# to_num <- function(x) as.numeric(unlist(x, recursive = TRUE, use.names = FALSE))
+
+# # One box per method (all metrics pooled)
+# boxplot(
+#   list(pre_ord_sample = to_num(results_raw$pre_ord_sample),
+#   pre_ord_point  = to_num(results_raw$pre_ord_point),
+#   no_ace         = to_num(results_raw$no_ace),
+#   post_ord_point = to_num(results_raw$post_ord_point),
+#   post_ord_sample= to_num(results_raw$post_ord_sample)),
+#   las = 2,
+#   ylab = "Relative error",
+#   main = "Discrete disparity error by method"
+# )
+# abline(h = 0, lty = 2, col = "red")
+
+
+
+
 ## Full reproducibility
 tree_sizes <- c(50, 100, 150)
 for(tree_size in tree_sizes) {

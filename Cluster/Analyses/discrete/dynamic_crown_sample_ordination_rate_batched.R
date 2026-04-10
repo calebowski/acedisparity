@@ -9,26 +9,25 @@ base_path <- paste0("/mnt/parscratch/users/bip24cns/acedisparity/discrete/crown/
 
 cat("Starting task", task_id, "\n")
 
-# ✅ Simple: List all 150,000 ordinations we need to do
 rates <- c("fast", "med", "slow")
 levels <- c("all", "fossil_high", "fossil_low", "fossil_med", "living")
 
 all_ordinations <- expand.grid(
-  sample = 1:100,         # ✅ Changes FASTEST (innermost loop)
+  sample = 1:100,         #  Changes FASTEST (innermost loop)
   fossil_level = levels,  
   rate = rates,           
-  replicate = 1:100,      # ✅ Changes SLOWEST (outermost loop)
+  replicate = 1:100,      #  Changes SLOWEST (outermost loop)
   stringsAsFactors = FALSE
 )
 
-# ✅ Simple: Each of 1000 tasks does 150 ordinations
+#  Simple: Each of 1000 tasks does 150 ordinations
 ordinations_per_task <- 150
 start <- (task_id - 1) * ordinations_per_task + 1
 end <- min(task_id * ordinations_per_task, nrow(all_ordinations))
 
 cat("Task", task_id, "will process ordinations", start, "to", end, "\n")
 
-# ✅ Simple: Loop through my assigned ordinations
+#  Simple: Loop through my assigned ordinations
 current_replicate <- -1
 sample_data <- NULL
 

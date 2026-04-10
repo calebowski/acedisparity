@@ -2,7 +2,7 @@
 #SBATCH --job-name=50t_discrete_ordinations_batched
 #SBATCH --output=/users/bip24cns/acedisparity/discrete_crown/logs/50t_discrete_sample_ord_batched_%A_%a.out
 #SBATCH --error=/users/bip24cns/acedisparity/discrete_crown/logs/50t_discrete_sample_ord_batched_%A_%a.err
-#SBATCH --array=1-1000%100  # ✅ 1,000 tasks, max 100 at once
+#SBATCH --array=1-1000%100  # 1,000 tasks, max 100 at once
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=1

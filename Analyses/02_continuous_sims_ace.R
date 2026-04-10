@@ -10,6 +10,8 @@ if(packageVersion("dispRity") != "1.9.8") {
 }
 library(MASS)
 source("../Functions/fossil.pres.R")
+source("../Functions/utility.R")
+
 
 dir.create("../Data/continuous", recursive = TRUE, showWarnings = FALSE)
 dir.create("../Data/continuous/matrices", recursive = TRUE, showWarnings = FALSE)
@@ -145,15 +147,7 @@ run.sim.cont.ace <- function(tree_size, replicate_id, samples = 100) {
 
 
 # Single replicate for testing reproducibility --------------------------------------
-# run.sim.cont.ace(tree_size = 50, replicate_id = 1, samples = 10) ## lower sampling for computational speed
-
-tree_sizes <- c(50, 100, 150)
-for(tree_size in tree_sizes) {
-    for(i in 1:5) {
-        run.sim.cont.ace(tree_size, i, samples = 5)
-    }
-}
-
+run.sim.cont.ace(tree_size = 50, replicate_id = 1, samples = 10) ## lower sampling for computational speed
 
 # Run all replicates
 tree_sizes <- c(50, 100, 150)
