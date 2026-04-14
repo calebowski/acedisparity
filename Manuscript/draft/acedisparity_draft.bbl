@@ -1,4 +1,4 @@
-\begin{thebibliography}{92}
+\begin{thebibliography}{97}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -69,6 +69,11 @@ Stephen~L Brusatte, Shaena Montanari, Hong-yu Yi, and Mark~A Norell.
 Daniel~M Casali, Alberto Boscaini, Timothy~J Gaudin, and Fernando~A Perini.
 \newblock Morphological disparity and evolutionary rates of cranial and postcranial characters in sloths (mammalia, pilosa, folivora).
 \newblock \emph{Palaeontology}, 66\penalty0 (1):\penalty0 e12639, 2023.
+
+\bibitem[Castiglione et~al.(2020)Castiglione, Serio, Mondanaro, Melchionna, Carotenuto, Di~Febbraro, Profico, Tamagnini, and Raia]{castiglione2020ancestral}
+Silvia Castiglione, Carmela Serio, Alessandro Mondanaro, Marina Melchionna, Francesco Carotenuto, Mirko Di~Febbraro, Antonio Profico, Davide Tamagnini, and Pasquale Raia.
+\newblock Ancestral state estimation with phylogenetic ridge regression.
+\newblock \emph{Evolutionary Biology}, 47\penalty0 (3):\penalty0 220--232, 2020.
 
 \bibitem[Ciampaglio et~al.(2001)Ciampaglio, Kemp, and McShea]{ciampaglio2001detecting}
 Charles~N Ciampaglio, Matthieu Kemp, and Daniel~W McShea.
@@ -162,6 +167,11 @@ William Gearty, Bethany Allen, Pedro~L Godoy, and Alfio~Alessandro Chiarenza.
 Sylvain Gerber.
 \newblock Use and misuse of discrete character data for morphospace and disparity analyses.
 \newblock \emph{Palaeontology}, 62\penalty0 (2):\penalty0 305--319, 2019.
+
+\bibitem[Goldberg and Igi{\'c}(2008)]{goldberg2008phylogenetic}
+Emma~E Goldberg and Boris Igi{\'c}.
+\newblock On phylogenetic tests of irreversible evolution.
+\newblock \emph{Evolution}, 62\penalty0 (11):\penalty0 2727--2741, 2008.
 
 \bibitem[Goswami and Clavel(2025)]{goswami2025morphological}
 Anjali Goswami and Julien Clavel.
@@ -293,6 +303,11 @@ Emilia~P Martins.
 \newblock Estimation of ancestral states of continuous characters: a computer simulation study.
 \newblock \emph{Systematic Biology}, 48\penalty0 (3):\penalty0 642--650, 1999.
 
+\bibitem[Meade and Pagel(2022)]{meade2022ancestral}
+Andrew Meade and Mark Pagel.
+\newblock Ancestral state reconstruction using bayestraits.
+\newblock In \emph{Environmental microbial evolution: methods and protocols}, pages 255--266. Springer, 2022.
+
 \bibitem[Mitchell(2015)]{mitchell2015extant}
 Jonathan~S Mitchell.
 \newblock Extant-only comparative methods fail to recover the disparity preserved in the bird fossil record.
@@ -317,6 +332,11 @@ H{\'e}l{\`e}ne Morlon, J{\'e}r{\'e}my Andr{\'e}oletti, Jo{\"e}lle Barido-Sottani
 Moritz Muschick, Adrian Indermaur, and Walter Salzburger.
 \newblock Convergent evolution within an adaptive radiation of cichlid fishes.
 \newblock \emph{Current biology}, 22\penalty0 (24):\penalty0 2362--2368, 2012.
+
+\bibitem[Ng and Smith(2014)]{ng2014traits}
+J~Ng and Stacey~D Smith.
+\newblock How traits shape trees: new approaches for detecting character state-dependent lineage diversification.
+\newblock \emph{Journal of evolutionary biology}, 27\penalty0 (10):\penalty0 2035--2045, 2014.
 
 \bibitem[O'Meara et~al.(2006)O'Meara, An{\'e}, Sanderson, and Wainwright]{omeara2006testing}
 Brian~C O'Meara, C{\'e}cile An{\'e}, Michael~J Sanderson, and Peter~C Wainwright.
@@ -347,6 +367,11 @@ Matthew~W Pennell, Jonathan~M Eastman, Graham~J Slater, Joseph~W Brown, Josef~C 
 Mathias~M Pires, Brian~D Rankin, Daniele Silvestro, and Tiago~B Quental.
 \newblock Diversification dynamics of mammalian clades during the k--pg mass extinction.
 \newblock \emph{Biology letters}, 14\penalty0 (9):\penalty0 20180458, 2018.
+
+\bibitem[Puttick and Thomas(2015)]{puttick2015fossils}
+Mark~N Puttick and Gavin~H Thomas.
+\newblock Fossils and living taxa agree on patterns of body mass evolution: a case study with afrotheria.
+\newblock \emph{Proceedings of the Royal Society B: Biological Sciences}, 282\penalty0 (1821), 2015.
 
 \bibitem[{R Core Team}(2025)]{Rlanguage}
 {R Core Team}.
