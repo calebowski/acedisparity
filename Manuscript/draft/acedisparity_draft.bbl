@@ -1,4 +1,4 @@
-\begin{thebibliography}{97}
+\begin{thebibliography}{98}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -64,6 +64,11 @@ James~D Boyko, Kyle~J Gontjes, Evan~S Snitkin, and Stephen~A Smith.
 Stephen~L Brusatte, Shaena Montanari, Hong-yu Yi, and Mark~A Norell.
 \newblock Phylogenetic corrections for morphological disparity analysis: new methodology and case studies.
 \newblock \emph{Paleobiology}, 37\penalty0 (1):\penalty0 1--22, 2011.
+
+\bibitem[Cailliez(1983)]{cailliez1983analytical}
+Francis Cailliez.
+\newblock The analytical solution of the additive constant problem.
+\newblock \emph{Psychometrika}, 48\penalty0 (2):\penalty0 305--308, 1983.
 
 \bibitem[Casali et~al.(2023)Casali, Boscaini, Gaudin, and Perini]{casali2023morphological}
 Daniel~M Casali, Alberto Boscaini, Timothy~J Gaudin, and Fernando~A Perini.

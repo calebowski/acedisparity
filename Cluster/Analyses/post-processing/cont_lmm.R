@@ -233,10 +233,8 @@ lmm_model <- lmer(log_abs_error ~ model * method * fossil_sampling * metric + tr
 # lmm_model_final <- lmer(final_formula, data = results_df_long_filtered)
 
 saveRDS(lmm_model, "../Data/cluster/continuous/lmm/lmm_model_four_way.rds")
-lmm_model <- readRDS("../Data/cluster/continuous/lmm/lmm_model_four_way.rds")
+lmm_model <- readRDS("../Data/continuous/lmm/lmm_model_four_way.rds")
 
-# final_terms <- attr(terms(lmm_model_final), "term.labels")
-# saveRDS(final_terms, file.path("/mnt", "parscratch", "users", "bip24cns", "acedisparity", "continuous","lmm", "final_model_terms.rds"))
 
 #################################################################################################
 lmm_path <- "/home/caleb/Documents/PhD/acedisparity/Data/cluster/continuous/lmm/"
@@ -447,7 +445,7 @@ p <- ggplot(plot_df, aes(x = fossil_sampling, y = method, fill = e_emmean)) +
     # geom_text(aes(label = sprintf("%.2f", emmean)), color = "white", size = 3) +
     facet_wrap(~ model, nrow = 1) +
     scale_fill_viridis_c(option = "rocket", direction = -1, 
-                         name = "Emmean Relative\nDisparity Error", values = scales::rescale(my_breaks)) +
+                         name = "EMM Relative\nDisparity Error", values = scales::rescale(my_breaks)) +
     # scale_fill_distiller("RdYlBu", direction = +1) +
     # labs(title = paste("Metric:", metric_name)) +
     theme_minimal() +
@@ -461,7 +459,7 @@ p <- ggplot(plot_df, aes(x = fossil_sampling, y = method, fill = e_emmean)) +
       coord_equal() +
       scale_y_discrete(limits = rev)
 
-ggsave("../Manuscript/draft/figures/cont_heatmap.pdf", p, "pdf", width = 10, height = 4, units = "in")
+ggsave("../../Manuscript/draft/figures/cont_heatmap.pdf", p, "pdf", width = 10, height = 4, units = "in")
 
 
 

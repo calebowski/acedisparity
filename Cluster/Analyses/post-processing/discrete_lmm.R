@@ -184,7 +184,7 @@ lmm_model <- lmer(log_abs_error ~ model * method * fossil_sampling * metric + tr
                                   (1|tree_unique_id),
                     data = results_df_long, REML = TRUE)
 saveRDS(lmm_model, "../Data/cluster/discrete_crown/lmm/raw/lmm_model_four_way.rds")
-lmm_model <- readRDS("../Data/cluster/discrete_crown/lmm/raw/lmm_model_four_way.rds")
+lmm_model <- readRDS("../Data/discrete/lmm/raw/lmm_model_four_way.rds")
 
 
 
@@ -370,7 +370,7 @@ p <- ggplot(plot_df, aes(x = fossil_sampling, y = method, fill = e_emmean)) +
     # geom_text(aes(label = sprintf("%.2f", emmean)), color = "white", size = 3) +
     facet_wrap(~ model, nrow = 1) +
     scale_fill_viridis_c(option = "rocket", direction = -1, 
-                         name = "Emmean Relative\nDisparity Error", values = scales::rescale(my_breaks)) +
+                         name = "EMM Relative\nDisparity Error", values = scales::rescale(my_breaks)) +
     # scale_fill_distiller("RdYlBu", direction = +1) +
     # labs(title = paste("Metric:", metric_name)) +
     theme_minimal() +
@@ -403,19 +403,19 @@ p <- ggplot(plot_df, aes(x = fossil_sampling, y = method, fill = e_emmean)) +
 #       coord_equal() +
 #       scale_y_discrete(limits = rev)
 
-ggsave("../Manuscript/draft/figures/discrete_heatmap.pdf", p, "pdf", width = 10, height = 4, units = "in")
+ggsave("../../Manuscript/draft/figures/discrete_heatmap.pdf", p, "pdf", width = 10, height = 4, units = "in")
 
 
 ########################################################################################################################
 
 ## Doing it with weightings
 
-lmm_model <- readRDS("../Data/cluster/discrete_crown/lmm/weighted/lmm_4_way_weighted.rds")
+lmm_model <- readRDS("../Data/discrete/lmm/weighted/lmm_4_way_weighted.rds")
 
 
 
 #################################################################################################
-lmm_path <- "/home/caleb/Documents/PhD/acedisparity/Data/cluster/discrete_crown/lmm/weighted/"
+lmm_path <- "/home/caleb/Documents/PhD/acedisparity/Cluster/Data/discrete/lmm/weighted/"
 
 # Residual plots
 # pdf(paste0(lmm_path, "diagnostics/diagnostic_plot.pdf"), width = 10, height = 8)
@@ -604,7 +604,7 @@ p <- ggplot(plot_df, aes(x = fossil_sampling, y = method, fill = e_emmean)) +
     # geom_text(aes(label = sprintf("%.2f", emmean)), color = "white", size = 3) +
     facet_wrap(~ model, nrow = 1) +
     scale_fill_viridis_c(option = "rocket", direction = -1, 
-                         name = "Emmean Relative\nDisparity Error", values = scales::rescale(my_breaks)) +
+                         name = "EMM Relative\nDisparity Error", values = scales::rescale(my_breaks)) +
     # scale_fill_distiller("RdYlBu", direction = +1) +
     # labs(title = paste("Metric:", metric_name)) +
     theme_minimal() +
@@ -618,4 +618,4 @@ p <- ggplot(plot_df, aes(x = fossil_sampling, y = method, fill = e_emmean)) +
       coord_equal() +
       scale_y_discrete(limits = rev)
 
-ggsave("../Manuscript/draft/figures/discrete_weighted_heatmap.pdf", p, "pdf", width = 10, height = 4, units = "in")
+ggsave("../../Manuscript/draft/figures/discrete_weighted_heatmap.pdf", p, "pdf", width = 10, height = 4, units = "in")
