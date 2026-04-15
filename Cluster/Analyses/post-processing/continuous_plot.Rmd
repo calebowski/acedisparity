@@ -43,7 +43,7 @@ for (size in tree_sizes) {
   for (method in methods) {
     results[[size]][[method]] <- list()
     for(i in 1:100) {
-      file_path <- file.path("..", "Data", "cluster", "continuous", size, 
+      file_path <- file.path("..", "Data", "continuous", size, 
                             "disparity",
                             sprintf("%s_%s_%03d.rds", job_id, method, i))      
       if(file.exists(file_path)) {
@@ -144,23 +144,23 @@ results_df_long$tree_size <- factor(
 
 results_df_long$method <- factor(
   results_df_long$method,
-  levels = c("pre_ord_poin", "pre_ord_point", "pre_ord_sample", 
+  levels = c("pre_ord_point", "pre_ord_sample", 
              "post_ord_point", "post_ord_sample", "no_ace"),
-  labels = c("Pre-ord ACE\n(point)", "Pre-ord ACE\n(point)", 
-             "Pre-ord ACE\n(dist)", "Post-ord ACE\n(point)", 
-             "Post-ord ACE\n(dist)", "No ACE")
+  labels = c( "Pre-ord ASE\n(point)", 
+             "Pre-ord ASE\n(dist)", "Post-ord ASE\n(point)", 
+             "Post-ord ASE\n(dist)", "Tip-only")
 )
 
 results_df_long$preservation_level <- factor(
   results_df_long$preservation_level,
   levels = c("living", "low", "mid", "high", "all"),
-  labels = c("0%", "5%", "15%", "50%", "100%")
+  labels = c("0", "5", "15", "50", "100")
 )
 
 results_df_long$model <- factor(
   results_df_long$model,
   levels = c("bm", "bm_t", "ou_w", "ou_st", "ou_sh"),
-  labels = c("BM", "BM + trend", "OU (weak)", "OU (strong)", "OU (shifting)")
+  labels = c("BM", "BM + trend", "OU (weak)", "OU", "OU (shifting)")
 )
 
 # traits <- list(bm = bm, bm_t = bm_t, ou_w = ou_w, ou_st = ou_st, ou_sh = ou_sh)
@@ -182,11 +182,11 @@ results_df_long$metric <- factor(
 
 library(tidyverse)
 ## filter so just have bm, bm+trend and ou strong
-results_df_long  <- results_df_long %>% filter(model %in% c("BM", "BM + trend", "OU (strong)"))
+results_df_long  <- results_df_long %>% filter(model %in% c("BM", "BM + trend", "OU"))
 
 
 # colours <- c("BM" = "#009999", "BM + trend" = "#F60018", "OU (strong)" = "#FFB000")
-colours <- c("BM" = "#F60018", "BM + trend" = "#FFB000", "OU (strong)" = "#009999")
+colours <- c("BM" = "#F60018", "BM + trend" = "#E69F00", "OU" = "#009999")
 
 
 boxplot_plot_continuous <- ggplot(results_df_long, 
@@ -202,16 +202,16 @@ boxplot_plot_continuous <- ggplot(results_df_long,
   labs(
     x = "Fossil Sampling (%)",
     y = "Relative Disparity Error",
-    fill = "Transition Rate"
+    fill = "Evolutionary model"
   ) +
   theme_minimal() +
   scale_fill_manual(
     values = colours,
-    labels = c("BM", "BM + trend", "OU (strong)")
+    labels = c("BM", "BM + trend", "OU")
   ) +
   scale_colour_manual(
     values = colours,
-    labels = c("BM", "BM + trend", "OU (strong)"),
+    labels = c("BM", "BM + trend", "OU"),
     guide = "none"
   ) +
   theme(
@@ -234,7 +234,7 @@ boxplot_plot_continuous <- ggplot(results_df_long,
   ) +
   coord_cartesian(ylim = c(-0.5, 0.5))
 
-ggsave("../Manuscript/draft/figures/continuous_boxplot.pdf", device = "pdf", boxplot_plot_continuous, width = 18, height = 14, dpi = 700, units = "in", bg = "white")
+ggsave("../../Manuscript/draft/figures/continuous_boxplot.pdf", device = "pdf", boxplot_plot_continuous, width = 18, height = 14, dpi = 700, units = "in", bg = "white")
 
 
 point_plot_all <- ggplot(results_df_long, 

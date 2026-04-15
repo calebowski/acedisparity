@@ -1,4 +1,4 @@
-\begin{thebibliography}{103}
+\begin{thebibliography}{104}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -147,6 +147,11 @@ Mike Foote.
 Mike Foote.
 \newblock Morphological disparity in ordovician-devonian crinoids and the early saturation of morphological space.
 \newblock \emph{Paleobiology}, 20\penalty0 (3):\penalty0 320--344, 1994.
+
+\bibitem[Foote(1997)]{foote1997evolution}
+Mike Foote.
+\newblock The evolution of morphological diversity.
+\newblock \emph{Annual Review of Ecology and Systematics}, 28\penalty0 (1):\penalty0 129--152, 1997.
 
 \bibitem[Friedman et~al.(2020)Friedman, Price, Corn, Larouche, Martinez, and Wainwright]{friedman2020body}
 ST~Friedman, SA~Price, KA~Corn, O~Larouche, CM~Martinez, and PC~Wainwright.
