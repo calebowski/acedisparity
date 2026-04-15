@@ -1,15 +1,15 @@
 # Fdb version 4
-["bibtex acedisparity_draft"] 1776186466.84342 "acedisparity_draft.aux" "acedisparity_draft.bbl" "acedisparity_draft" 1776186765.16448 0
-  "./references.bib" 1776172364.13864 39191 2589b8ded4df195a8cfd295168cb96b2 ""
+["bibtex acedisparity_draft"] 1776268969.3578 "acedisparity_draft.aux" "acedisparity_draft.bbl" "acedisparity_draft" 1776269354.53124 0
+  "./references.bib" 1776268838.76199 40570 ce400c3f8652ccc9d956afced3bf7fae ""
   "/usr/share/texlive/texmf-dist/bibtex/bst/natbib/plainnat.bst" 1233624470 26816 ffe5423d2019860bad9f54bc402fac15 ""
-  "acedisparity_draft.aux" 1776186764.95942 21697 00a8eb8f17f7bf7af515987835cd6733 "pdflatex"
+  "acedisparity_draft.aux" 1776269354.28204 22203 528745cc49033f2ec1f3b3c436c5d912 "pdflatex"
   (generated)
   "acedisparity_draft.bbl"
   "acedisparity_draft.blg"
   (rewritten before read)
-["pdflatex"] 1776186764.37176 "/home/caleb/Documents/PhD/acedisparity/Manuscript/draft/acedisparity_draft.tex" "acedisparity_draft.pdf" "acedisparity_draft" 1776186765.16466 0
+["pdflatex"] 1776269353.49255 "/home/caleb/Documents/PhD/acedisparity/Manuscript/draft/acedisparity_draft.tex" "acedisparity_draft.pdf" "acedisparity_draft" 1776269354.53166 0
   "/etc/texmf/web2c/texmf.cnf" 1730844760.28548 475 c0e671620eb5563b2130f56340a5fde8 ""
-  "/home/caleb/Documents/PhD/acedisparity/Manuscript/draft/acedisparity_draft.tex" 1776186764.20741 66879 69b8f740302d6786517d8069372a00c7 ""
+  "/home/caleb/Documents/PhD/acedisparity/Manuscript/draft/acedisparity_draft.tex" 1776269353.25802 67098 94de5a2ae13074b3dd97e9de1acef845 ""
   "/usr/share/texlive/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/jknappen/ec/ecbx1000.tfm" 1136768653 3584 2d666ecf6d466d8b007246bc2f94d9da ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/jknappen/ec/ecbx1095.tfm" 1136768653 3584 21b378cca2e40816b0e6d74a4dc98f04 ""
@@ -143,10 +143,10 @@
   "/usr/share/texmf/web2c/texmf.cnf" 1707919699 40399 f2c302f7d2af602abb742093540a5834 ""
   "/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map" 1730844780.91279 5472669 54eaf61a88b6b7896ebd0dac973cb29c ""
   "/var/lib/texmf/web2c/pdftex/pdflatex.fmt" 1730844870 8215263 37da5ff08623ce8426d1176d844cce83 ""
-  "acedisparity_draft.aux" 1776186764.95942 21697 00a8eb8f17f7bf7af515987835cd6733 "pdflatex"
-  "acedisparity_draft.bbl" 1776186466.91817 29856 55f44027508012eb1d5b54ece20ababc "bibtex acedisparity_draft"
-  "acedisparity_draft.out" 1776186764.96042 4354 71cb924d2fe60b6ba91592a93676ab09 "pdflatex"
-  "acedisparity_draft.tex" 1776186764.20741 66879 69b8f740302d6786517d8069372a00c7 ""
+  "acedisparity_draft.aux" 1776269354.28204 22203 528745cc49033f2ec1f3b3c436c5d912 "pdflatex"
+  "acedisparity_draft.bbl" 1776268969.49079 31404 8e11368268a78d080b87fcc2aa719fef "bibtex acedisparity_draft"
+  "acedisparity_draft.out" 1776269354.28304 4354 71cb924d2fe60b6ba91592a93676ab09 "pdflatex"
+  "acedisparity_draft.tex" 1776269353.25802 67098 94de5a2ae13074b3dd97e9de1acef845 ""
   "figures/ACEDisparity_pipeline.pdf" 1768835875.61406 29625 d84890aa6b32f9862f1cadff45a39005 ""
   "figures/cont_heatmap.pdf" 1776177969.66132 6878 40244bfd6f168a4c59d7a7ec5a1550cf ""
   "figures/continuous_boxplot.pdf" 1765550642.68182 18490 47c080a542fc8b4cfb9f00460b0d6e08 ""

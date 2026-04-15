@@ -1,4 +1,4 @@
-\begin{thebibliography}{98}
+\begin{thebibliography}{103}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -40,25 +40,25 @@ Douglas Bates, Martin M{\"a}chler, Ben Bolker, and Steve Walker.
 \newblock Fitting linear mixed-effects models using lme4.
 \newblock \emph{Journal of statistical software}, 67:\penalty0 1--48, 2015.
 
-\bibitem[Benton et~al.(2011)Benton, Dunhill, Lloyd, and Marx]{benton2011assessing}
-Michael~J Benton, Alexander~M Dunhill, Graeme~T Lloyd, and Felix~G Marx.
-\newblock Assessing the quality of the fossil record: insights from vertebrates.
-\newblock 2011.
-
 \bibitem[Betancur-R et~al.(2015)Betancur-R, Ort{\'\i}, and Pyron]{betancur2015fossil}
 Ricardo Betancur-R, Guillermo Ort{\'\i}, and Robert~Alexander Pyron.
 \newblock Fossil-based comparative analyses reveal ancient marine ancestry erased by extinction in ray-finned fishes.
 \newblock \emph{Ecology letters}, 18\penalty0 (5):\penalty0 441--450, 2015.
+
+\bibitem[Boyko and Beaulieu(2021)]{boyko2021generalized}
+James~D Boyko and Jeremy~M Beaulieu.
+\newblock Generalized hidden markov models for phylogenetic comparative datasets.
+\newblock \emph{Methods in Ecology and Evolution}, 12\penalty0 (3):\penalty0 468--478, 2021.
 
 \bibitem[Boyko and O'Meara(2024)]{boyko2024dentist}
 James~D Boyko and Brian~C O'Meara.
 \newblock dentist: Quantifying uncertainty by sampling points around maximum likelihood estimates.
 \newblock \emph{Methods in Ecology and Evolution}, 15\penalty0 (4):\penalty0 628--638, 2024.
 
-\bibitem[Boyko et~al.(2025)Boyko, Gontjes, Snitkin, and Smith]{boyko2025uncertainty}
+\bibitem[Boyko et~al.(2026)Boyko, Gontjes, Snitkin, and Smith]{boyko2026resolving}
 James~D Boyko, Kyle~J Gontjes, Evan~S Snitkin, and Stephen~A Smith.
-\newblock Uncertainty in joint ancestral state reconstruction: Improving accuracy and biological interpretability of ancestral state prediction.
-\newblock \emph{bioRxiv}, pages 2025--10, 2025.
+\newblock Resolving competing evolutionary histories in joint ancestral state reconstruction.
+\newblock \emph{Proceedings of the National Academy of Sciences}, 123\penalty0 (15):\penalty0 e2528064123, 2026.
 
 \bibitem[Brusatte et~al.(2011)Brusatte, Montanari, Yi, and Norell]{brusatte2011phylogenetic}
 Stephen~L Brusatte, Shaena Montanari, Hong-yu Yi, and Mark~A Norell.
@@ -79,6 +79,11 @@ Daniel~M Casali, Alberto Boscaini, Timothy~J Gaudin, and Fernando~A Perini.
 Silvia Castiglione, Carmela Serio, Alessandro Mondanaro, Marina Melchionna, Francesco Carotenuto, Mirko Di~Febbraro, Antonio Profico, Davide Tamagnini, and Pasquale Raia.
 \newblock Ancestral state estimation with phylogenetic ridge regression.
 \newblock \emph{Evolutionary Biology}, 47\penalty0 (3):\penalty0 220--232, 2020.
+
+\bibitem[Chira and Thomas(2016)]{chira2016impact}
+Angela-Maria Chira and Gavin~H Thomas.
+\newblock The impact of rate heterogeneity on inference of phylogenetic models of trait evolution.
+\newblock \emph{Journal of evolutionary biology}, 29\penalty0 (12):\penalty0 2502--2518, 2016.
 
 \bibitem[Ciampaglio et~al.(2001)Ciampaglio, Kemp, and McShea]{ciampaglio2001detecting}
 Charles~N Ciampaglio, Matthieu Kemp, and Daniel~W McShea.
@@ -233,6 +238,11 @@ Luke~J Harmon, Jonathan~B Losos, T~Jonathan~Davies, Rosemary~G Gillespie, John~L
 \newblock Early bursts of body size and shape evolution are rare in comparative data.
 \newblock \emph{Evolution}, 64\penalty0 (8):\penalty0 2385--2396, 2010.
 
+\bibitem[Harrington and Reeder(2017)]{harrington2017rate}
+Sean Harrington and Tod~W Reeder.
+\newblock Rate heterogeneity across squamata, misleading ancestral state reconstruction and the importance of proper null model specification.
+\newblock \emph{Journal of evolutionary biology}, 30\penalty0 (2):\penalty0 313--325, 2017.
+
 \bibitem[Henao~Diaz et~al.(2019)Henao~Diaz, Harmon, Sugawara, Miller, and Pennell]{henao2019macroevolutionary}
 L~Francisco Henao~Diaz, Luke~J Harmon, Mauro~TC Sugawara, Eliot~T Miller, and Matthew~W Pennell.
 \newblock Macroevolutionary diversification rates show time dependency.
@@ -262,6 +272,11 @@ Jeffrey~B Joy, Richard~H Liang, Rosemary~M McCloskey, T~Nguyen, and Art~FY Poon.
 Joseph~N Keating.
 \newblock What is the best method for estimating ancestral states from discrete characters?
 \newblock \emph{bioRxiv}, pages 2023--08, 2023.
+
+\bibitem[King and Lee(2015)]{king2015ancestral}
+Benedict King and Michael~SY Lee.
+\newblock Ancestral state reconstruction, rate heterogeneity, and the evolution of reptile viviparity.
+\newblock \emph{Systematic Biology}, 64\penalty0 (3):\penalty0 532--544, 2015.
 
 \bibitem[Lenth and Piaskowski(2025)]{lenth2025emmeans}
 Russell~V. Lenth and Julia Piaskowski.
@@ -399,6 +414,11 @@ Liam~J Revell.
 \newblock Ancestral state reconstruction of phenotypic characters.
 \newblock \emph{Evolutionary Biology}, pages 1--25, 2025.
 
+\bibitem[Revell and Harmon(2024)]{revell2024discrete}
+Liam~J Revell and Luke~J Harmon.
+\newblock A discrete character evolution model for phylogenetic comparative biology with $\gamma$-distributed rate heterogeneity among branches of the tree.
+\newblock \emph{BioRxiv}, pages 2024--05, 2024.
+
 \bibitem[Reyes et~al.(2018)Reyes, Nadot, Von~Balthazar, Sch{\"o}nenberger, and Sauquet]{reyes2018testing}
 Elisabeth Reyes, Sophie Nadot, Maria Von~Balthazar, J{\"u}rg Sch{\"o}nenberger, and Herv{\'e} Sauquet.
 \newblock Testing the impact of morphological rate heterogeneity on ancestral state reconstruction of five floral traits in angiosperms.
@@ -443,6 +463,11 @@ Daniele Silvestro, Anna Kostikova, Glenn Litsios, Peter~B Pearman, and Nicolas S
 Graham~J Slater, Luke~J Harmon, and Michael~E Alfaro.
 \newblock Integrating fossils with molecular phylogenies improves inference of trait evolution.
 \newblock \emph{Evolution}, 66\penalty0 (12):\penalty0 3931--3944, 2012.
+
+\bibitem[Smaers et~al.(2016)Smaers, Mongle, and Kandler]{smaers2016multiple}
+Jeroen~B Smaers, Carrie~S Mongle, and Anne Kandler.
+\newblock A multiple variance brownian motion framework for estimating variable rates and inferring ancestral states.
+\newblock \emph{Biological Journal of the Linnean Society}, 118\penalty0 (1):\penalty0 78--94, 2016.
 
 \bibitem[Smith and Donoghue(2022)]{smith2022evolution}
 Thomas~J Smith and Philip~CJ Donoghue.
