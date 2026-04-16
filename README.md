@@ -21,12 +21,12 @@ The `Analyses/` folder contains the scripts to reproduce the analyses, functiona
 The `Cluster/` folder contains scripts used to produce the analyses on the Sheffield HPC.
 Note, that the analyses take over 1.5 CPU years to run.
 
-Sections 01-05 are formatted so that you can choose to run for either one replicate, or the whole shebang.
+Sections 01-05 are formatted so that you can choose to run for either one replicate, or the whole analysis.
 
 * **01_tree_generation.R** generates the 300 trees (100 for each tree size level) used in both continuous and discrete analyses.
 * **02_continuous_sims_ace.R** & **03_discrete_sims_ace.R** simulates continuous and discrete traits across the trees, simulates fossil sampling, runs pre/post-ordination and point/distribution ancestral state estimation and generates trait spaces.
 * **04_continuous_disparity.R** & **05_discrete_disparity.R** calculates disparity errors across the estimated continuous and discrete trait spaces.
-* **06_continuous_lmm.Rmd** & **07_continuous_lmm.Rmd** runs the aggregated and weighted linear mixed models on the continuous and discrete disparity errors. It also plots the heatmaps of estimated marginal means from the three-way model.
+* **06_continuous_lmm.Rmd** & **07_discrete_lmm.Rmd** runs the aggregated and weighted linear mixed models on the continuous and discrete disparity errors. It also plots the heatmaps of estimated marginal means from the three-way model.
 
 ---
 
