@@ -50,7 +50,7 @@ Ancestral state estimation can be used for both continuous and discrete traits t
 However, when ancestral state estimation occur in the disparity pipeline, and the inevitable uncertainty in these estimates, complicate their integration.
 Determining the most robust workflow for integrating ancestral state estimation in disparity analyses remains a critical methodological challenge.
 Using simulations to attain a ground-truth disparity value, we evaluated different approaches to performing ancestral state estimation and incorporating uncertainty across varying continuous and discrete trait models, fossil sampling densities and disparity metrics.
-Ancestral state estimation generally improved recovery of true disparity relative to analyses with no fossils, though the optimal approach depended on the interaction between trait model and fossil sampling density.
+Ancestral state estimation generally improved recovery of true disparity relative to tip-only analyses, though the optimal approach depended on the interaction between trait model and fossil sampling density.
 For continuous traits, probabilistic approaches were most accurate, but were sensitive to model misspecification under low fossil sampling density.
 For discrete traits, pre-ordination methods were most reliable and probabilistic approaches outperformed point estimates under low sampling, while point estimates became increasingly accurate as sampling density increased.
 Fossil sampling density was a stronger predictor of disparity accuracy than estimation method choice, underscoring that methodologies are only as powerful as the data provided.
@@ -62,7 +62,7 @@ Our findings offer a practical decision framework for selecting the most appropr
 
 \section{Introduction}
 
-Morphological diversity, hereafter termed disparity, is widely used for investigating macroevolutionary dynamics \citep{foote1997evolution,wills2001morphological,guillerme2020disparities}. % aware that need more ref's here.
+Morphological diversity, hereafter termed disparity, is widely used for investigating macroevolutionary dynamics \citep{foote1997evolution,wills2001morphological,guillerme2020disparities}.
 Disparity can be described as the distribution or spread of taxa within a multidimensional trait space defined by morphological similarity \citep{erwin_disparity_2007} and can be quantified using both continuous \citep{garcia2017phenotypic,gray2019exceptional, friedman2020body} and discrete characters \citep{foote1994morphological, lloyd2016estimating}.
 Morphological trait datasets are routinely integrated with phylogenies when examining disparity across clades or time.
 These analyses can be used to investigate selectivity across mass extinctions \citep{bapst2012graptoloid,cole2021selectivity, liu2024heterogeneous}, reveal patterns in morphological convergence \citep{muschick2012convergent,stayton2015definition,stayton2024does} or characterise the tempo and mode of morphological diversification during adaptive radiations \citep{harmon2003tempo,mahler2010adaptive, hughes2013clades}.
@@ -99,7 +99,7 @@ Numerous simulation and empirical based studies have shown that ancestral state 
 Similar biases have been observed in extant-only disparity analyses \citep{mitchell2015extant}. 
 Despite this, many studies are forced to use extant-only trees for both ancestral state estimation \citep{jetz2018interplay, amador2021evolution} and disparity \citep{harmon2010early,baker2015adaptive,smith2022evolution} due to a lack of viable fossil data.
 
-Numerous studies have assessed the raw estimation error of \ase approaches under different models of evolution, methods of estimation and fossil sampling density \citep{elliot2014inferring,royer2016comparison, reyes2018testing, holland2020accuracy,keating2023best,boyko2026resolving}. 
+Numerous studies have assessed the raw estimation error of \ase approaches under different models of evolution, methods of estimation and fossil sampling density \citep{elliot2014inferring,royer2016comparison, reyes2018testing, holland2020accuracy,keating2023best,boyko2026resolving}.
 However, how trait estimation accuracy is propagated into the recovery of an accurate trait space is less understood, despite the continued use of \ase in disparity analyses.
 One methodological debate concerns whether \ase should be conducted before or after trait space ordination.
 Previous work has found that carrying out \ase on the axes of an ordination matrix rather than raw characters can distort the distribution of points in a trait space markedly, introducing unwanted phylogenetic signal and low levels of convergence \citep{lloyd2018journeys}.
@@ -110,7 +110,7 @@ Here we evaluate the ability of different \ase approaches to recover true dispar
 Simulations offer a robust approach for benchmarking methodologies because a ground-truth dataset can be generated, so trait values and the resulting disparity value are all known \textit{a priori} \citep{lotterhos2022simulation}.
 Different methodological choices and estimation scenarios can then be evaluated against the true disparity value. 
 Specifically, we directly compare pre- versus post-ordination ancestral state estimation approaches, as well as point-estimate versus probabilistic treatments of uncertainty.
-We also investigate how estimation error varies under different models of continuous (Brownian motion with and without trend and Ornstein-Uhlenbeck) and discrete traits (varying transition rates), fossil sampling densities (100\%, 50\%, 15\%, 5\% and 0\% of lineages) and disparity metrics examining size and density.
+We also investigate how estimation error varies under different models of continuous (Brownian motion with and without trend and Ornstein-Uhlenbeck) and discrete traits (varying transition rates), fossil sampling densities (100\%, 50\%, 15\%, 5\% and 0\% of extinct lineages) and disparity metrics examining size and density.
 This integrative approach provides a comprehensive evaluation of when \ase improves disparity estimation, when it introduces bias, and how uncertainty should be treated when working with an incomplete fossil record.
 
 \section{Materials and Methods}
@@ -334,8 +334,6 @@ At fast and medium rates under low fossil sampling (< 15\%), the post-ordination
 Notably, methods of ancestral state estimation outperformed their exclusion across all combinations of transition rate, fossil sampling density and disparity metric.
 Again, while the disparity metric was a significant driver to overall accuracy, it had little effect on the hierarchy in methods set by the transition rate and fossil sampling density, signified by a weak four-way interaction ($F_{64,66976} = 10,~ p < .001$).
 
-
-
 \begin{figure}[H]
 \centering
 \includegraphics[width=1\textwidth]{figures/discrete_heatmap.pdf}
@@ -531,7 +529,7 @@ All authors designed the study and wrote the manuscript. CS lead the work and ra
 
 \section*{Data Availability}
 
-The data and code to reproduce these results is available at @@@
+The code to reproduce the analyses is available here \url{https://github.com/calebowski/acedisparity}.
 %TG: add github + dryad link
 
 \section*{Competing Interests}

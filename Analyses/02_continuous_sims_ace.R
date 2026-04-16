@@ -78,6 +78,8 @@ run.sim.cont.ace <- function(tree_size, replicate_id, samples = 100) {
     tree <- level$tree
     })
 
+    saveRDS(fossil_trees, sprintf("../Data/trees/fossil_trees_%st_%03d.rds", tree_size, replicate_id))
+
     ## Run ace ----------------------------------
     res_pre_ord_ace <- lapply(fossil_matrices, lapply,function(x) { 
         multi.ace(x$matrix, x$tree, models = "BM", output = "multi.ace", verbose = TRUE)
