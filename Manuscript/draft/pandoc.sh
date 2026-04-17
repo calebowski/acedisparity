@@ -1,0 +1,1 @@
+pandoc acedisparity_draft.tex -o acedisparity.docx --bibliography=references.bib --citeproc --csl=palaeontology.csl

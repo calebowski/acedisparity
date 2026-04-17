@@ -16,6 +16,9 @@
 \usepackage{multirow}
 \usepackage{float}
 \usepackage{xr} % for referencing between different .tex files
+% \usepackage{citation-style-language}
+% \cslsetup{style = palaeontology}
+% \addbibresource{references.bib}
 \setcitestyle{aysep={}}  % Removes comma between author and year. need to reformat to match palaeontology journal style?
 \newcommand{\ASE}{Ancestral state estimation }
 \newcommand{\ase}{ancestral state estimation }
@@ -47,7 +50,7 @@
 Morphological trait datasets and phylogenies are routinely paired to investigate macroevolutionary patterns during disparity analyses.
 However, incomplete fossil sampling can distort disparity estimates, obscuring true evolutionary signals.
 Ancestral state estimation can be used for both continuous and discrete traits to extend these analyses beyond incomplete fossil data, such as investigations into disparity through time.
-However, when ancestral state estimation occur in the disparity pipeline, and the inevitable uncertainty in these estimates, complicate their integration.
+However, when ancestral state estimation occurs in the disparity pipeline, and the inevitable uncertainty in these estimates, complicate their integration.
 Determining the most robust workflow for integrating ancestral state estimation in disparity analyses remains a critical methodological challenge.
 Using simulations to attain a ground-truth disparity value, we evaluated different approaches to performing ancestral state estimation and incorporating uncertainty across varying continuous and discrete trait models, fossil sampling densities and disparity metrics.
 Ancestral state estimation generally improved recovery of true disparity relative to tip-only analyses, though the optimal approach depended on the interaction between trait model and fossil sampling density.
@@ -364,9 +367,9 @@ Pre-ordination estimation does not encounter these same limitations.
 A discrete trait matrix exists within a hypercube, where each vertex corresponds to a unique combination of traits.
 When ancestral states are estimated prior to ordination, there is no constraint preventing an ancestor from occupying a legitimate and theoretically possible vertex that lies peripheral to the observed data \citep{gerber2019use}.
 These ancestral nodes that lie outside the multidimensional convex hull defined by the tip data can inflate disparity relative to tip-only disparity \citep{brusatte2011phylogenetic}.
-Similarly, authors have previously noted that inclusion of ancestral nodes can inflate disparity by (nearly) doubling the number of datapoints included in the trait space \citep{brusatte2011phylogenetic}, raising questions about whether such increases reflect genuine biological signal.
+Similarly, authors have previously noted that inclusion of ancestral nodes can inflate disparity by (nearly) doubling the number of data points included in the trait space \citep{brusatte2011phylogenetic}, raising questions about whether such increases reflect genuine biological signal.
 However, our findings demonstrate that the trait space expansion from the inclusion of ancestors, particularly when fossil sampling density is high, does converge on the true disparity of the clade under pre-ordination estimation.
-We believe this was due to the choice of disparity metric (sum of quantiles) that is inhenrently less sensitive to sample size than other ones traditionally used (e.g. sum of ranges; \citealt{brusatte2011phylogenetic}). %TG: check if you agree with this or rephrase/delete. TL:DR; Brusatte's "raised questions" is just due to using inappropriate disparity metrics in that case.
+Furthermore, these concerns may be due to the choice of disparity metric (sum of quantiles) that is inhenrently less sensitive to sample size than other ones traditionally used (e.g. sum of ranges; \citealt{brusatte2011phylogenetic}). %TG: check if you agree with this or rephrase/delete. TL:DR; Brusatte's "raised questions" is just due to using inappropriate disparity metrics in that case.
 As \autoref{fig:discrete raw boxplot} shows, underestimation of disparity is ubiquitous to all discrete character estimation methods, which has previously been linked to character exhaustion \citep{erwin_disparity_2007}.
 Ultimately, pre-ordination discrete estimations are less susceptible to extreme underestimation because ancestral nodes are not bound to a weighted average of the tip data in the way post-ordination estimation is.
 
@@ -520,12 +523,14 @@ Based on these findings, we can recommend the following guidelines for the use o
 
 \section*{Acknowledgments}
 
-%TG: worth adding some people here! Maybe put a list of the people that you talked to about your work and won't review it. Robin Beck, Katie Davis, Russel Garwood, Vera Weisbecker. Some more? Also feel free to add people from the office that you think will appreciate it!
+%TG: worth adding some people here! Maybe put a list of the people that you talked to about your work and won't review it. Russell Garwood, Vera Weisbecker. Some more? Also feel free to add people from the office that you think will appreciate it!
+
+
+For thoughtful discussions about the study, CNS would like to thank Robin Beck, Russell Garwood and Vera Weisbecker. TG acknowledges funding from UKRI blah blah
 
 \section*{Author Contributions}
 
-All authors designed the study and wrote the manuscript. CS lead the work and ran all the analyses.
-%TG: or something like that
+\textbf{Conceptualisation} CN Scutt (CNS), GH Thomas (GHT), N Cooper (NC), T Guillerme (TG); \textbf{Data curation} CNS; \textbf{Formal analysis} CNS; \textbf{Funding acquisition} TG; \textbf{Investigation} CNS, TG; \textbf{Methodology} CNS, TG; \textbf{Project administration} CNS, GHT, NC, TG; \textbf{Resources} CNS, TG; \textbf{Software} CNS, TG; \textbf{Supervision} GHT, NC, TG; \textbf{Validation} CNS; \textbf{Visualisaton} CNS; \textbf{Writing - original draft} CNS; \textbf{Writing - review \& editing} CNS, GHT, NC, TG.
 
 \section*{Data Availability}
 
@@ -757,5 +762,7 @@ We declare no conflict of interest.
 
 \bibliographystyle{plainnat}
 \bibliography{references.bib}
+
+% \printbibliography
 
 \end{document}
