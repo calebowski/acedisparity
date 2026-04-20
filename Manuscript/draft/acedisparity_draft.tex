@@ -126,9 +126,9 @@ Fixing $\lambda = 1.0$ provides a convenient relative timescale, because only th
 These parameters correspond to a high turnover regime, consistent with the upper-empirical estimates from diversification studies of animal groups \citep{scholl2016diversification,pires2018diversification, henao2019macroevolutionary,morlon2024phylogenetic}. 
 This fraction of extinction ($\mu = 0.9$) produces trees that match our expectation of substantial extinct diversity based on the fossil record.
 
-We generated three sets of 100 birth-death trees with these parameters until the simulations reached 50, 100 or 150 extant taxa, with maximum tree size of 500, 1000 and 1500 tips, respectively. 
+We generated three sets of 100 birth-death trees with these parameters until the simulations reached 50, 100 or 150 extant taxa, with maximum tree size of 500, 1000 and 1500 tips, respectively (\autoref{fig:tree sizes}).
 The randomness of the birth-death model meant some simulated trees contained only extinct taxa, so we re-ran each individual simulation until we obtained the desired number of extant taxa (50, 100 or 150).
-This meant that although the parameters were set to $\lambda = 1$ and $\mu = 0.9$, the effective parameters slightly deviated from these input values (see Supplementary Figure \ref{fig:net div overall trees}).
+This meant that although the parameters were set to $\lambda = 1$ and $\mu = 0.9$, the effective parameters slightly deviated from these input values (\autoref{fig:net div overall trees}).
 Mean net diversification across all simulated trees was $0.30\pm0.09$.
 
 Trees were pruned to extract the crown clade of the tree for downstream analyses.
@@ -196,8 +196,7 @@ For each category, 85 binary characters and 15 three-state characters were simul
 To simulate different fossil sampling densities, extinct tips were either retained (`fossilised') or pruned using a Bernoulli sampling method at five different probabilities: 0\%, 5\%, 15\%, 50\% and 100\% (\autoref{fig:pipeline}: Step 3). 
 This method means each extinct tip had an equal probability of being `fossilised' at each sampling level, irrespective of the total tree size.
 The corresponding trait matrices were subset to match the tips remaining in each down-sampled tree.
-% Here i can reference a csv with all the tree tip and downsampled tree tip counts???
-% Have thought here about expanding this: trait-dependent preservation (i.e more likely if in state 0 to be preserved??); fossil can be sampled at any point along its branch. %TG: this is a really good idea! I like it! But maybe we should focus on getting this manuscript done first and see what people comment at SVP? NC: I think leave as is for now, you want to leave something for the reviewers to suggest :)
+
 
 \subsection{Ancestral state estimation (ASE)} 
 We estimated ancestral state on the down-sampled matrices using \texttt{dispRity::multi.ace} \citep{guillerme2018disprity}, which is a wrapper for \texttt{ape::ace} \citep{paradis2019ape}.
@@ -261,7 +260,7 @@ Given the imbalance in sample sizes between the different uncertainty treatments
 We also performed analyses where the distribution was retained, but each individual point returned by distributions was weighted 1/100th of the single point estimate.
 Results were consistent between both approaches (see supplements).
 
-We investigated the drivers of disparity estimation accuracy with linear-mixed models (LMM) using the \texttt{lme4} R package \citep{bates2015fitting}.
+We investigated the drivers of disparity estimation accuracy with linear-mixed models (LMM) using the \texttt{lme4} R package (\citealp{bates2015fitting}; \autoref{fig:cont lmm diagnostic aggregated}, \ref{fig:discrete lmm diagnostic aggregated})
 The log-transformed relative error was treated as the response variable. 
 Based on our experimental design, we fitted a four-way interaction between the estimation method, model of evolution, fossil sampling density and disparity metric.
 We also included tree size as a further non-interactive fixed effect.
@@ -271,10 +270,10 @@ We carried out \textit{post-hoc} pairwise comparisons using estimated marginal m
 
 \section{Results}
 The results reported herein are from the aggregated linear mixed-effects models (LMMs). 
-Results from the alternative weighted LMMs were consistent with these findings and provided in the supplemenatry.
+Results from the alternative weighted LMMs were consistent with these findings (\autoref{fig:weighted LMM continuous heatmap}, \ref{fig:weighted LMM discrete heatmap}).
 \subsection{Continuous traits}
 \subsubsection{Estimation methods}
-For continuous characters, the estimation method had a significant effect on disparity accuracy ($F_{4,66976} = 358, ~ p < .001$; \autoref{fig:continuous boxplot}, \autoref{tab: anova continuous lmm}).
+For continuous characters, the estimation method had a significant effect on disparity accuracy ($F_{4,66976} = 358, ~ p < .001$; \autoref{fig:continuous boxplot}).
 Notably, using ancestral state estimation methods improved estimates of disparity compared to excluding ancestral states when averaged over all scenarios (\autoref{tab:continuous method cld}).
 \textit{Post-hoc} pairwise comparisons of estimated marginal means (EMM) revealed both pre- and post-ordination distributions of ancestral state estimations returned the lowest log disparity errors. 
 In contrast, point estimates performed worse overall than bypassing ancestral state estimation altogether (\autoref{tab:continuous method cld}).

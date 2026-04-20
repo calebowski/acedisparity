@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2024.11.5)  20 APR 2026 13:12
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2024.11.5)  20 APR 2026 14:50
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -430,11 +430,7 @@ Package translations Info: No language package found. I am going to use `english
 File: l3backend-pdftex.def 2024-01-04 L3 backend support: PDF output (pdfTeX)
 \l__color_backend_stack_int=\count328
 \l__pdf_internal_box=\box72
-) (./supplementary.aux
-
-LaTeX Warning: Label `fig:cont lmm diagnostic aggregated' multiply defined.
-
-)
+) (./supplementary.aux)
 \openout1 = `supplementary.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 29.
@@ -564,61 +560,68 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 ) (/usr/share/texlive/texmf-dist/tex/latex/microtype/mt-msb.cfg
 File: mt-msb.cfg 2005/06/01 v1.0 microtype config. file: AMS symbols (b) (RS)
 )
-Overfull \hbox (43.48018pt too wide) in paragraph at lines 56--78
- [][] 
- []
-
-[1
-
-{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}{/usr/share/texmf/fonts/enc/dvips/cm-super/cm-super-t1.enc}] [2]
-<figures/net_div_hist_overall_trees.pdf, id=33, 505.89pt x 505.89pt>
+<figures/tree_size_hist.pdf, id=12, 471.7625pt x 235.88126pt>
+File: figures/tree_size_hist.pdf Graphic file (type pdf)
+<use figures/tree_size_hist.pdf>
+Package pdftex.def Info: figures/tree_size_hist.pdf  used on input line 51.
+(pdftex.def)             Requested size: 452.9679pt x 226.48662pt.
+<figures/net_div_hist_overall_trees.pdf, id=13, 505.89pt x 505.89pt>
 File: figures/net_div_hist_overall_trees.pdf Graphic file (type pdf)
 <use figures/net_div_hist_overall_trees.pdf>
-Package pdftex.def Info: figures/net_div_hist_overall_trees.pdf  used on input line 542.
+Package pdftex.def Info: figures/net_div_hist_overall_trees.pdf  used on input line 60.
 (pdftex.def)             Requested size: 452.9679pt x 452.97328pt.
- [3]
-<figures/symmetry.pdf, id=39, 1084.05pt x 650.43pt>
+ [1
+
+{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}{/usr/share/texmf/fonts/enc/dvips/cm-super/cm-super-t1.enc} <./figures/tree_size_hist.pdf>]
+<figures/symmetry.pdf, id=35, 1084.05pt x 650.43pt>
 File: figures/symmetry.pdf Graphic file (type pdf)
 <use figures/symmetry.pdf>
-Package pdftex.def Info: figures/symmetry.pdf  used on input line 550.
+Package pdftex.def Info: figures/symmetry.pdf  used on input line 68.
 (pdftex.def)             Requested size: 452.9679pt x 271.77934pt.
- [4 <./figures/net_div_hist_overall_trees.pdf>]
-<figures/aggregated_continuous_diagnostic_plot.pdf, id=53, 722.7pt x 578.16pt>
+ [2 <./figures/net_div_hist_overall_trees.pdf>]
+<figures/aggregated_continuous_diagnostic_plot.pdf, id=51, 722.7pt x 578.16pt>
 File: figures/aggregated_continuous_diagnostic_plot.pdf Graphic file (type pdf)
 <use figures/aggregated_continuous_diagnostic_plot.pdf>
-Package pdftex.def Info: figures/aggregated_continuous_diagnostic_plot.pdf  used on input line 559.
+Package pdftex.def Info: figures/aggregated_continuous_diagnostic_plot.pdf  used on input line 77.
 (pdftex.def)             Requested size: 452.9679pt x 362.37247pt.
- [5 <./figures/symmetry.pdf>]
-<figures/discrete_diagnostics_aggregated.pdf, id=66, 722.7pt x 578.16pt>
+ [3 <./figures/symmetry.pdf>]
+<figures/discrete_diagnostics_aggregated.pdf, id=64, 722.7pt x 578.16pt>
 File: figures/discrete_diagnostics_aggregated.pdf Graphic file (type pdf)
 <use figures/discrete_diagnostics_aggregated.pdf>
-Package pdftex.def Info: figures/discrete_diagnostics_aggregated.pdf  used on input line 577.
+Package pdftex.def Info: figures/discrete_diagnostics_aggregated.pdf  used on input line 95.
 (pdftex.def)             Requested size: 452.9679pt x 362.37247pt.
- [6 <./figures/aggregated_continuous_diagnostic_plot.pdf>] (./supplementary.bbl) [7 <./figures/discrete_diagnostics_aggregated.pdf>] (./supplementary.aux)
+ [4 <./figures/aggregated_continuous_diagnostic_plot.pdf>]
+<figures/cont_heatmap_weighted.pdf, id=76, 722.7pt x 289.08pt>
+File: figures/cont_heatmap_weighted.pdf Graphic file (type pdf)
+<use figures/cont_heatmap_weighted.pdf>
+Package pdftex.def Info: figures/cont_heatmap_weighted.pdf  used on input line 111.
+(pdftex.def)             Requested size: 452.9679pt x 181.18622pt.
+<figures/discrete_weighted_heatmap.pdf, id=77, 722.7pt x 289.08pt>
+File: figures/discrete_weighted_heatmap.pdf Graphic file (type pdf)
+<use figures/discrete_weighted_heatmap.pdf>
+Package pdftex.def Info: figures/discrete_weighted_heatmap.pdf  used on input line 121.
+(pdftex.def)             Requested size: 452.9679pt x 181.18622pt.
+ [5 <./figures/discrete_diagnostics_aggregated.pdf> <./figures/cont_heatmap_weighted.pdf>] (./supplementary.bbl) [6 <./figures/discrete_weighted_heatmap.pdf>] (./supplementary.aux)
  ***********
 LaTeX2e <2023-11-01> patch level 1
 L3 programming layer <2024-01-22>
  ***********
-
-
-LaTeX Warning: There were multiply-defined labels.
-
 Package rerunfilecheck Info: File `supplementary.out' has not changed.
 (rerunfilecheck)             Checksum: 7273FE011E314F16BB7A8F1B236BE6EB;297.
  ) 
 Here is how much of TeX's memory you used:
- 18981 strings out of 474222
- 358934 string characters out of 5748733
- 1941975 words of memory out of 5000000
- 40911 multiletter control sequences out of 15000+600000
- 578074 words of font info for 127 fonts, out of 8000000 for 9000
+ 18976 strings out of 474222
+ 359439 string characters out of 5748733
+ 1930975 words of memory out of 5000000
+ 40917 multiletter control sequences out of 15000+600000
+ 576521 words of font info for 117 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  73i,10n,80p,1066b,921s stack positions out of 10000i,1000n,20000p,200000b,200000s
-</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfbx1095.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfbx1440.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfrm0700.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfrm0800.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfrm1000.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfrm1095.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfrm1200.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfrm1728.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfss0800.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfti1095.pfb>
-Output written on supplementary.pdf (7 pages, 23186943 bytes).
+</usr/share/texmf/fonts/type1/public/cm-super/sfbx1095.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfbx1440.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfrm0700.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfrm0800.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfrm1000.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfrm1095.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfrm1200.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfrm1728.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfss0800.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfti1095.pfb>
+Output written on supplementary.pdf (6 pages, 23191353 bytes).
 PDF statistics:
- 148 PDF objects out of 1000 (max. 8388607)
- 107 compressed objects within 2 object streams
- 19 named destinations out of 1000 (max. 500000)
- 38949 words of extra memory for PDF output out of 42996 (max. 10000000)
+ 161 PDF objects out of 1000 (max. 8388607)
+ 113 compressed objects within 2 object streams
+ 18 named destinations out of 1000 (max. 500000)
+ 36916 words of extra memory for PDF output out of 42996 (max. 10000000)
 

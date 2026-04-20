@@ -1,15 +1,15 @@
 # Fdb version 4
-["bibtex supplementary"] 1776687178.72433 "supplementary.aux" "supplementary.bbl" "supplementary" 1776687179.55059 0
+["bibtex supplementary"] 1776693038.00161 "supplementary.aux" "supplementary.bbl" "supplementary" 1776693038.88252 0
   "./references.bib" 1776284327.39367 40889 1865a521d508a35ebaddca378f4d7913 ""
   "/usr/share/texlive/texmf-dist/bibtex/bst/natbib/plainnat.bst" 1233624470 26816 ffe5423d2019860bad9f54bc402fac15 ""
-  "supplementary.aux" 1776687179.34822 3871 d616150d919aa20473606a8935425daa "pdflatex"
+  "supplementary.aux" 1776693038.6749 3653 02a2b5cc51a15536960b2f10f7ed0927 "pdflatex"
   (generated)
   "supplementary.bbl"
   "supplementary.blg"
   (rewritten before read)
-["pdflatex"] 1776687178.8035 "/home/caleb/Documents/PhD/acedisparity/Manuscript/draft/supplementary.tex" "supplementary.pdf" "supplementary" 1776687179.55073 0
+["pdflatex"] 1776693038.07442 "/home/caleb/Documents/PhD/acedisparity/Manuscript/draft/supplementary.tex" "supplementary.pdf" "supplementary" 1776693038.88266 0
   "/etc/texmf/web2c/texmf.cnf" 1730844760.28548 475 c0e671620eb5563b2130f56340a5fde8 ""
-  "/home/caleb/Documents/PhD/acedisparity/Manuscript/draft/supplementary.tex" 1776687177.7112 41982 b5bc14c80403d04e72d96c37f28eaada ""
+  "/home/caleb/Documents/PhD/acedisparity/Manuscript/draft/supplementary.tex" 1776693037.06187 4119 9799283e5e45ab43f7c623c2e67e53a8 ""
   "/usr/share/texlive/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/jknappen/ec/ecbx1095.tfm" 1136768653 3584 21b378cca2e40816b0e6d74a4dc98f04 ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/jknappen/ec/ecbx1440.tfm" 1136768653 3584 13049b61b922a28b158a38aeff75ee9b ""
@@ -32,7 +32,6 @@
   "/usr/share/texlive/texmf-dist/fonts/tfm/public/amsfonts/symbols/msbm5.tfm" 1246382020 940 75ac932a52f80982a9f8ea75d03a34cf ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/public/amsfonts/symbols/msbm7.tfm" 1246382020 940 228d6584342e91276bf566bcf9716b83 ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/public/cm/cmex10.tfm" 1136768653 992 662f679a0b3d2d53c1b94050fdaa3f50 ""
-  "/usr/share/texlive/texmf-dist/fonts/tfm/public/cm/cmmi10.tfm" 1136768653 1528 abec98dbc43e172678c11b3b9031252a ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/public/cm/cmmi12.tfm" 1136768653 1524 4414a8315f39513458b80dfc63bff03a ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/public/cm/cmmi6.tfm" 1136768653 1512 f21f83efb36853c0b70002322c1ab3ad ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/public/cm/cmmi8.tfm" 1136768653 1520 eccf95517727cb11801f4f1aee3a21b4 ""
@@ -43,7 +42,6 @@
   "/usr/share/texlive/texmf-dist/fonts/tfm/public/cm/cmsy10.tfm" 1136768653 1124 6c73e740cf17375f03eec0ee63599741 ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/public/cm/cmsy6.tfm" 1136768653 1116 933a60c408fc0a863a92debe84b2d294 ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/public/cm/cmsy8.tfm" 1136768653 1120 8b7d695260f3cff42e636090a8002094 ""
-  "/usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb" 1248133631 36299 5f9df58c2139e7edcf37c8fca4bd384d ""
   "/usr/share/texlive/texmf-dist/tex/context/base/mkii/supp-pdf.mkii" 1461363279 71627 94eb9990bed73c364d7f53f960cc8c5b ""
   "/usr/share/texlive/texmf-dist/tex/generic/atbegshi/atbegshi.sty" 1575674566 24708 5584a51a7101caf7e6bbf1fc27d8f7b1 ""
   "/usr/share/texlive/texmf-dist/tex/generic/bigintcalc/bigintcalc.sty" 1576625341 40635 c40361e206be584d448876bba8a64a3b ""
@@ -139,13 +137,16 @@
   "/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map" 1730844780.91279 5472669 54eaf61a88b6b7896ebd0dac973cb29c ""
   "/var/lib/texmf/web2c/pdftex/pdflatex.fmt" 1730844870 8215263 37da5ff08623ce8426d1176d844cce83 ""
   "figures/aggregated_continuous_diagnostic_plot.pdf" 1767625454.882 11610917 e1e66943abf40cf87da2ce0e61b21d9b ""
+  "figures/cont_heatmap_weighted.pdf" 1769096638.98775 6892 ac03ccd3afec73e663fd077aeff4bc77 ""
   "figures/discrete_diagnostics_aggregated.pdf" 1767698341.30836 11398489 edba59039182148c02dbd383a422aa41 ""
+  "figures/discrete_weighted_heatmap.pdf" 1776177925.3727 7107 1050ede803eecdd26490c556aad652d3 ""
   "figures/net_div_hist_overall_trees.pdf" 1762785835.00109 4648 95cd5be7b3a92eb0dcb97b5cf2d36dc9 ""
   "figures/symmetry.pdf" 1776626769.55812 8462 e7151f314bcb83cc59dd7c4783a9906f ""
-  "supplementary.aux" 1776687179.34822 3871 d616150d919aa20473606a8935425daa "pdflatex"
-  "supplementary.bbl" 1776687178.80022 511 2d8be971b35e1de95763946705f06f7e "bibtex supplementary"
-  "supplementary.out" 1776687179.34922 297 7273fe011e314f16bb7a8f1b236be6eb "pdflatex"
-  "supplementary.tex" 1776687177.7112 41982 b5bc14c80403d04e72d96c37f28eaada ""
+  "figures/tree_size_hist.pdf" 1776690814.60065 5234 43e1cc57002570ee570dba25ee496911 ""
+  "supplementary.aux" 1776693038.6749 3653 02a2b5cc51a15536960b2f10f7ed0927 "pdflatex"
+  "supplementary.bbl" 1776693038.06889 511 2d8be971b35e1de95763946705f06f7e "bibtex supplementary"
+  "supplementary.out" 1776693038.6749 297 7273fe011e314f16bb7a8f1b236be6eb "pdflatex"
+  "supplementary.tex" 1776693037.06187 4119 9799283e5e45ab43f7c623c2e67e53a8 ""
   (generated)
   "supplementary.aux"
   "supplementary.log"

@@ -1,9 +1,9 @@
-metadata <- read.csv("Data/trees/metadata/metadata_all.csv")
+metadata <- read.csv("../Data/trees/metadata/metadata_all.csv")
 
 metadata$net_div <- metadata$speciation - metadata$extinction
 
 
-pdf("Manuscript/draft/figures/net_div_hist_overall_trees.pdf")
+pdf("../Manuscript/draft/figures/net_div_hist_overall_trees.pdf")
 hist(metadata$net_div, 
      xaxp = c(0, 1, 10), 
      main = "", 
@@ -30,6 +30,20 @@ for (size in tree_sizes) {
     }
 }
 
+
+
+pdf("../Manuscript/draft/figures/tree_size_hist.pdf", width = 166 / 25.4, height = 83 / 25.4)
+par(mfrow = c(1,3))
+
+small_trees <- metadata[metadata$living_size == 50,]
+hist(small_trees$total_size, main = "Tip size distribution (50 extant tips)", cex.main = 0.8, xlab = "Number of tips")
+
+medium_trees <- metadata[metadata$living_size == 100,]
+hist(medium_trees$total_size, main = "Tip size distribution (100 extant tips)", cex.main = 0.8, xlab = "Number of tips")
+
+large_trees <- metadata[metadata$living_size == 150,]
+hist(large_trees$total_size, main = "Tip size distribution (150 extant tips)", cex.main = 0.8, xlab = "Number of tips")
+dev.off()
 
 colless_indices_2 <- lapply(fossil_trees, lapply, lapply, lapply, colless_corr)
 
