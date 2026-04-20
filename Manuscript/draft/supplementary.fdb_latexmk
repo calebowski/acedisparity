@@ -1,15 +1,15 @@
 # Fdb version 4
-["bibtex supplementary"] 1776176268.10841 "supplementary.aux" "supplementary.bbl" "supplementary" 1776176276.22719 0
-  "./references.bib" 1776172364.13864 39191 2589b8ded4df195a8cfd295168cb96b2 ""
+["bibtex supplementary"] 1776687178.72433 "supplementary.aux" "supplementary.bbl" "supplementary" 1776687179.55059 0
+  "./references.bib" 1776284327.39367 40889 1865a521d508a35ebaddca378f4d7913 ""
   "/usr/share/texlive/texmf-dist/bibtex/bst/natbib/plainnat.bst" 1233624470 26816 ffe5423d2019860bad9f54bc402fac15 ""
-  "supplementary.aux" 1776176276.0393 3115 4d1eb88081a07ecdb49c3734fd3cab6f "pdflatex"
+  "supplementary.aux" 1776687179.34822 3871 d616150d919aa20473606a8935425daa "pdflatex"
   (generated)
   "supplementary.bbl"
   "supplementary.blg"
   (rewritten before read)
-["pdflatex"] 1776176275.57438 "/home/caleb/Documents/PhD/acedisparity/Manuscript/draft/supplementary.tex" "supplementary.pdf" "supplementary" 1776176276.22734 0
+["pdflatex"] 1776687178.8035 "/home/caleb/Documents/PhD/acedisparity/Manuscript/draft/supplementary.tex" "supplementary.pdf" "supplementary" 1776687179.55073 0
   "/etc/texmf/web2c/texmf.cnf" 1730844760.28548 475 c0e671620eb5563b2130f56340a5fde8 ""
-  "/home/caleb/Documents/PhD/acedisparity/Manuscript/draft/supplementary.tex" 1776176275.4033 40767 0af9f85d146e45925594513fbe6dd5e3 ""
+  "/home/caleb/Documents/PhD/acedisparity/Manuscript/draft/supplementary.tex" 1776687177.7112 41982 b5bc14c80403d04e72d96c37f28eaada ""
   "/usr/share/texlive/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/jknappen/ec/ecbx1095.tfm" 1136768653 3584 21b378cca2e40816b0e6d74a4dc98f04 ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/jknappen/ec/ecbx1440.tfm" 1136768653 3584 13049b61b922a28b158a38aeff75ee9b ""
@@ -138,12 +138,14 @@
   "/usr/share/texmf/web2c/texmf.cnf" 1707919699 40399 f2c302f7d2af602abb742093540a5834 ""
   "/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map" 1730844780.91279 5472669 54eaf61a88b6b7896ebd0dac973cb29c ""
   "/var/lib/texmf/web2c/pdftex/pdflatex.fmt" 1730844870 8215263 37da5ff08623ce8426d1176d844cce83 ""
+  "figures/aggregated_continuous_diagnostic_plot.pdf" 1767625454.882 11610917 e1e66943abf40cf87da2ce0e61b21d9b ""
+  "figures/discrete_diagnostics_aggregated.pdf" 1767698341.30836 11398489 edba59039182148c02dbd383a422aa41 ""
   "figures/net_div_hist_overall_trees.pdf" 1762785835.00109 4648 95cd5be7b3a92eb0dcb97b5cf2d36dc9 ""
-  "figures/symmetry.pdf" 1765897396.35606 4675 793812a45b42e69fb6ed7adc2122db48 ""
-  "supplementary.aux" 1776176276.0393 3115 4d1eb88081a07ecdb49c3734fd3cab6f "pdflatex"
-  "supplementary.bbl" 1776176268.18621 511 2d8be971b35e1de95763946705f06f7e "bibtex supplementary"
-  "supplementary.out" 1776176276.0403 297 7273fe011e314f16bb7a8f1b236be6eb "pdflatex"
-  "supplementary.tex" 1776176275.4033 40767 0af9f85d146e45925594513fbe6dd5e3 ""
+  "figures/symmetry.pdf" 1776626769.55812 8462 e7151f314bcb83cc59dd7c4783a9906f ""
+  "supplementary.aux" 1776687179.34822 3871 d616150d919aa20473606a8935425daa "pdflatex"
+  "supplementary.bbl" 1776687178.80022 511 2d8be971b35e1de95763946705f06f7e "bibtex supplementary"
+  "supplementary.out" 1776687179.34922 297 7273fe011e314f16bb7a8f1b236be6eb "pdflatex"
+  "supplementary.tex" 1776687177.7112 41982 b5bc14c80403d04e72d96c37f28eaada ""
   (generated)
   "supplementary.aux"
   "supplementary.log"
