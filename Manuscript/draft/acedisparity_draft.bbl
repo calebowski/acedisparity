@@ -1,4 +1,4 @@
-\begin{thebibliography}{104}
+\begin{thebibliography}{105}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -453,6 +453,11 @@ Dolph Schluter, Trevor Price, Arne~{\O} Mooers, and Donald Ludwig.
 Joshua~P Scholl and John~J Wiens.
 \newblock Diversification rates and species richness across the tree of life.
 \newblock \emph{Proceedings of the Royal Society B: Biological Sciences}, 283\penalty0 (1838):\penalty0 20161334, 2016.
+
+\bibitem[Scutt and Guillerme(2026)]{caleb_scutt_2026_19665049}
+Caleb Scutt and Thomas Guillerme.
+\newblock calebowski/acedisparity: Submission, April 2026.
+\newblock URL \url{https://doi.org/10.5281/zenodo.19665049}.
 
 \bibitem[Sidlauskas(2008)]{sidlauskas2008continuous}
 Brian Sidlauskas.

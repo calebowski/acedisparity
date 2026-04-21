@@ -274,9 +274,9 @@ Results from the alternative weighted LMMs were consistent with these findings (
 \subsection{Continuous traits}
 \subsubsection{Estimation methods}
 For continuous characters, the estimation method had a significant effect on disparity accuracy ($F_{4,66976} = 358, ~ p < .001$; \autoref{fig:continuous boxplot}).
-Notably, using ancestral state estimation methods improved estimates of disparity compared to excluding ancestral states when averaged over all scenarios (\autoref{tab:continuous method cld}).
-\textit{Post-hoc} pairwise comparisons of estimated marginal means (EMM) revealed both pre- and post-ordination distributions of ancestral state estimations returned the lowest log disparity errors. 
-In contrast, point estimates performed worse overall than bypassing ancestral state estimation altogether (\autoref{tab:continuous method cld}).
+Notably, using ancestral state estimation methods improved estimates of disparity compared to excluding ancestral states when averaged over all scenarios.
+\textit{Post-hoc} pairwise comparisons of estimated marginal means (EMM) revealed both pre- and post-ordination distributions of ancestral state estimations returned the lowest log disparity errors (Table S1). 
+In contrast, point estimates performed worse overall than bypassing ancestral state estimation altogether.
 
 \begin{figure}[H]
 \centering
@@ -292,7 +292,7 @@ Fossil sampling was the strongest driver of recovery of an accurate disparity si
 Similarly, the evolutionary model ($F_{2,66976} = 2956, p < .001$) and disparity metric ($F_{2,66976} = 5028,~ p < .001$) were also strong drivers of variation in error.
 Specifically, disparity outputted from the BM models and sum of quantiles metric were associated with better disparity estimates, whereas the OU model and sum of variances were the least accurate.
 Tree size had a minor effect in comparison ($F = 43_{2,297},~ p < .001$).
-The three-way interaction between estimation method, fossil sampling and evolutionary model was significant ($F_{32,66976} = 60,~ p < .001$) and the \textit{post-hoc} EMM can be used to identify the optimal method for models at each fossil sampling density.
+The three-way interaction between estimation method, fossil sampling and evolutionary model was significant ($F_{32,66976} = 60,~ p < .001$) and the \textit{post-hoc} EMM can be used to identify the optimal method for models at each fossil sampling density (Table S2).
 For Brownian motion (BM) at 100\% fossil sampling, the distribution estimations were most accurate. 
 At 50\% and below, methods of \ase generally performed equally well and significantly better than excluding ancestral states. 
 Under BM + trend, a similar pattern was followed at high fossil sampling densities, yet when fossil sampling dropped below 15\% methods of \ase performed worse than excluding ancestral states. 
@@ -313,10 +313,10 @@ Therefore, while estimation accuracy differed between metrics, the hierarchy bet
 \subsection{Discrete traits}
 \subsubsection{Estimation methods} 
 For discrete characters, the estimation method also had a significant effect on disparity accuracy ($F_{4,66976} = 10767,~ p < .001$; \autoref{fig:discrete raw boxplot}).
-Similar to continuous traits, methods of ancestral state estimation consistently improved disparity estimates compared to excluding ancestral states (\autoref{tab:discrete method cld}). 
+Similar to continuous traits, methods of ancestral state estimation consistently improved disparity estimates compared to excluding ancestral states. 
 However, the optimal type of estimation differed. 
 \textit{Post-hoc} pairwise comparisons of EMM revealed that pre-ordination point estimates returned the lowest log disparity errors overall. 
-In contrast to continuous traits, distribution methods generally performed worse than pre-ordination point estimates on average, but post-ordination point estimates performed worse than excluding ancestral states (\autoref{tab:discrete method cld}).
+In contrast to continuous traits, distribution methods generally performed worse than pre-ordination point estimates on average, but post-ordination point estimates performed worse than excluding ancestral states (Table S3).
 
 \begin{figure}[H]
 \centering
@@ -329,7 +329,7 @@ In contrast to continuous traits, distribution methods generally performed worse
 \subsubsection{Interaction effects} 
 Similar to continuous traits, fossil sampling ($F_{4, 66976} = 22191, ~ p < .001$), transition rate ($F_{2,66976} = 6957,~  p < .001$) and metric ($F_{2,66976} = 26174, ~ p < .001$) were again major drivers of variation in accuracy.
 As expected, increased fossil sampling and decreased transition rate led to lower disparity errors, and the mean pairwise distance was the easiest metric to recover, whereas the sum of quantiles was the hardest.
-The three-way interaction between estimation method, fossil sampling and transition rate explained much of the variation in the data ($F_{32,66976} = 588, ~p < .001$).
+The three-way interaction between estimation method, fossil sampling and transition rate explained much of the variation in the data ($F_{32,66976} = 588, ~p < .001$; Table S4).
 The broad pattern was that at high fossil sampling densities, pre-ordination point estimates were the best method, whereas at lower fossil sampling densities both pre- and post-ordination distributions returned the most accurate disparity values (\autoref{fig:discrete heatmap}).
 This pattern was model-dependent, however, as under a slow rate the pre-ordination distribution method was the best performing method across all fossil sampling densities.
 At fast and medium rates under low fossil sampling (< 15\%), the post-ordination distribution method returned the lowest disparity errors.
@@ -530,228 +530,12 @@ CNS would like to thank Robin Beck, Russell Garwood and Vera Weisbecker for thou
 
 \section*{Data Availability}
 
-The code to reproduce the analyses is available here \url{https://github.com/calebowski/acedisparity}.
-%TG: add github + dryad link
+The code to reproduce the analyses is available here \url{https://github.com/calebowski/acedisparity} \citep{caleb_scutt_2026_19665049}.
+Data is available at \url{https://doi.org/10.5061/dryad.280gb5n4p}.
 
 \section*{Competing Interests}
 
 We declare no conflict of interest.
-
-\clearpage
-
-\section*{Figures}
-
-% % supplementary
-% \begin{figure}[h]
-% \centering
-% \includegraphics[width=0.5\textwidth]{figures/net_div_hist_overall_trees.pdf}
-% \caption{\textbf{Birth-death parameters for tree simulation}} Distribution of net diversification values for all trees simulated.
-% \label{fig:net div overall trees} 
-% \end{figure}
-
-% \begin{figure}[h]
-% \centering
-% \includegraphics[width=0.5\textwidth]{figures/symmetry.pdf}
-% \caption{\textbf{Tree symmetry}} Distribution of symmetry values using corrected Colless index \citep{heard1992patterns}.
-% \label{fig:tree symmetry} 
-% \end{figure}
-
-
-% \begin{figure}[H]
-% \centering
-% \includegraphics[width=0.8\textwidth]{figures/ACEDisparity_pipeline.pdf}
-% \caption{Overall simulation pipeline, highlighting the five different estimation routes (pre-ordination point, pre-ordination distribution, post-ordination point, post-ordination distribution and no ancestral state estimation) as well as the true route, from which ground-truth disparity value is calculated from the untreated simulation.}
-% \label{fig:pipeline}
-% \end{figure}
-
-% \begin{figure}[H]
-% \centering
-% \includegraphics[width=1\textwidth]{figures/continuous_boxplot.pdf}
-% \caption{Relative disparity error returned from pre-ordination point ASE (ancestral state estimation), pre-ordination distribution ASE, post-ordination point ASE, post-ordination distribution ASE and no ASE. These disparity errors were calculated across three evolutionary models (Brownian motion (BM), BM + trend and OU), five simulated fossil sampling regimes (100\%, 50\%, 15\%, 5\% and 0\%) and three disparity metrics (Sum of variances, sum of quantiles and mean pairwise distance). Values closest to 0 (dotted horizontal line) were most accurate; negative errors are underestimates and positive are overestimates.} 
-% \label{fig:continuous boxplot} 
-% \end{figure}
-
-% \begin{figure}[H]
-% \centering
-% \includegraphics[width=1\textwidth]{figures/cont_heatmap_weighted.pdf}
-% \caption{Heatmap presenting the continuous estimated marginal mean (emmean) relative disparity errors for every combination of estimation method, evolutionary model and simulated fossil sampling density. Estimated marginal means were calculated from a three-way interaction linear mixed model, averaged across disparity metrics.} 
-% \label{fig:continuous heatmap} 
-% \end{figure}
-
-
-% \begin{figure}[H]
-% \centering
-% \includegraphics[width=1\textwidth]{figures/discrete_boxplot.pdf}
-% \caption{Relative disparity error returned from pre-ordination point ASE (ancestral state estimation), pre-ordination distribution ASE, post-ordination point ASE, post-ordination distribution ASE and no ASE. These disparity errors were calculated across three transition rates (fast (0.9), medium (0.1) and slow (0.01)), five simulated fossil sampling regimes (100\%, 50\%, 15\%, 5\% and 0\%) and three disparity metrics (Sum of variances, sum of quantiles and mean pairwise distance). Values closest to 0 (dotted horizontal line) were most accurate; negative errors are underestimates and positive are overestimates.} 
-% \label{fig:discrete raw boxplot} 
-% \end{figure}
-
-% \begin{figure}[H]
-% \centering
-% \includegraphics[width=1\textwidth]{figures/discrete_weighted_heatmap.pdf}
-% \caption{Heatmap presenting the discrete estimated marginal mean (emmean) relative disparity errors for every combination of estimation method, transition rate and simulated fossil sampling density. Estimated marginal means were calculated from a three-way interaction linear mixed model, averaged across disparity metrics.} 
-% \label{fig:discrete heatmap} 
-% \end{figure}
-
-
-
-
-
-% \begin{figure}[h]
-% \centering
-% \includegraphics[width=1\textwidth]{figures/discrete_boxplot_rm_axes.pdf}
-% \caption{\textbf{Results discrete (equal axes)} Relative disparity errors across minimum number of shared dimensions across fossil sample levels for each tree size.} 
-% \label{fig:discrete equal axes boxplot} 
-% \end{figure}
-
-
-\clearpage
-
-\section*{Tables}
-
-% \begin{table}[H]
-% \centering
-% \caption{Trait simulation models and parameters used across each phylogeny. For continuous characters, the root state was always set as 0. $P_{ij}$ = transition probability;  $\sigma$ = variance; $\alpha$ = rate of adaptation toward the optimum; $\theta$ = optimum.} %TG: table is top notch! Maybe you could expand it to also include the tree simulation parameters, the point estimate vs distribution ones and the mass extinction ones? Note that also another good addition could be to do a glossary table: i.e. a list of all the specific words in the manuscript and what they mean. This would probably go to the supplementaries but I think it makes it crystal clear for the reader (and you) of what do you mean with what term. (e.g. disparity = space occupancy; mass extinction = removal of a %age of taxa at a specific time point; taxa = a simulated OTU; etc.)
-
-% \label{tab:models}
-% \begin{tabular}{|c|c|c|}
-% \hline
-% \textbf{Type of data} & \textbf{Model} & \textbf{Parameters} \\
-% \hline
-% \multirow{3}{*}{\textbf{Discrete}} & $Fast$ & $P_{ij}=0.9$ \\
-% \cline{2-3}
-%  & $Medium$ & $P_{ij}=0.1$ \\
-% \cline{2-3}
-%  & $Slow$ & $P_{ij}=0.01$ \\
-% \hline
-% \multirow{5}{*}{\textbf{Continuous}} & $BM$ & $\sigma=0.25$ \\
-% \cline{2-3}
-%  & $BM + trend$ & $\sigma=0.25,\ \text{trend}=0.1$ \\
-% \cline{2-3}
-%  & $OU$ & $\sigma=0.25,\ \alpha=\dfrac{\ln(2)}{\text{tree height $\times$ 0.25}}$ \\
-% \cline{2-3}
-% %  & $OU_w$ & $\sigma=0.25,\ \alpha=\dfrac{\ln(2)}{\text{tree height $\times$ 0.75}}$ \\
-% % \cline{2-3}
-% %  & $OU_{sh}$  & $\sigma=0.25,\ \alpha=\dfrac{\ln(2)}{\text{tree height $\times$ 0.75}},\ \theta=2$ \\
-% \hline
-% \end{tabular}
-% \end{table}
-
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-% \begin{table}[H]
-% \centering
-% \caption{\textbf{Continuous traits: best performing estimation method for each combination of model and fossil sample level.} The best performing method was selected as the most negative estimated marginal mean. In some cases, the method with the lowest log error was not significantly different to other methods, in which case it is denoted with `\textbf{*}'. See }
-% \label{tab:cld continuous three-way}
-
-% \textbf{A) Sum of Quantiles}
-% \resizebox{\textwidth}{!}{%
-% \begin{tabular}{|c|c|c|c|c|c|}
-% \hline
-% \textbf{} & \textbf{0\%} &\textbf{5\%} & \textbf{15\%}  & \textbf{50\%} & \textbf{100\%} \\
-% \hline
-% \textbf{BM} & Pre-ord dist\textbf{*} & Pre-ord dist\textbf{*}  & Pre-ord dist\textbf{*} & Pre-ord dist\textbf{*} & Pre-ord dist\textbf{*} \\
-% \hline
-% \textbf{BM + trend} & No ASE & No ASE & Pre-ord dist\textbf{*} & Pre-ord dist\textbf{*} & Pre-ord dist\textbf{*} \\
-% \hline
-% \textbf{OU} & No ASE & No ASE & No ASE & No ASE & No ASE \\
-% \hline
-% \end{tabular}
-% }
-% \vspace{1em}
-
-% \textbf{B) Sum of Variances}
-% \resizebox{\textwidth}{!}{%
-
-% \begin{tabular}{|c|c|c|c|c|c|}
-% \hline
-% \textbf{} & \textbf{0\%} &\textbf{5\%} & \textbf{15\%}  & \textbf{50\%} & \textbf{100\%} \\
-% \hline
-% \textbf{BM} & Post-ord point\textbf{*} & Post-ord point\textbf{*}  & Post-ord point\textbf{*} & Post-ord point\textbf{*} & Pre-ord dist\textbf{*} \\
-% \hline
-% \textbf{BM + trend} & No ASE & No ASE\textbf{*} & Pre-ord dist\textbf{*} & Pre-ord dist\textbf{*} & Pre-ord dist\textbf{*} \\
-% \hline
-% \textbf{OU} & No ASE & No ASE & No ASE & No ASE & No ASE \\
-% \hline
-% \end{tabular}
-% }
-% \vspace{1em}
-
-% \textbf{C) Mean Pairwise Distance}
-% \resizebox{\textwidth}{!}{%
-% \begin{tabular}{|c|c|c|c|c|c|}
-% \hline
-% \textbf{} & \textbf{0\%} &\textbf{5\%} & \textbf{15\%}  & \textbf{50\%} & \textbf{100\%} \\
-% \hline
-% \textbf{BM} & Post-ord point\textbf{*} & Post-ord point\textbf{*}  & Post-ord point\textbf{*} & Post-ord point\textbf{*} & Pre-ord dist\textbf{*} \\
-% \hline
-% \textbf{BM + trend} & No ASE & No ASE\textbf{*} & Pre-ord dist\textbf{*} & Pre-ord dist\textbf{*} & Pre-ord dist\textbf{*} \\
-% \hline
-% \textbf{OU} & No ASE & No ASE & No ASE & No ASE & No ASE \\
-% \hline
-% \end{tabular}
-% }
-% \end{table}
-
-
-
-
-
-% \begin{table}[H]
-% \centering
-% \caption{\textbf{Discrete traits: best performing estimation method for each combination of model and fossil sample level.} * means tie (not significantly different to others, but the lowest emmean).}
-% \label{tab:cld discrete three-way}
-
-% \textbf{A) Sum of Quantiles}
-% \resizebox{\textwidth}{!}{%
-% \begin{tabular}{|c|c|c|c|c|c|}
-% \hline
-% \textbf{} & \textbf{0\%} &\textbf{5\%} & \textbf{15\%}  & \textbf{50\%} & \textbf{100\%} \\
-% \hline
-% \textbf{Fast} & Post-ord dist\textbf{*} & Pre-ord point\textbf{*}  & Pre-ord point\textbf{*} & Pre-ord point & Pre-ord point \\
-% \hline
-% \textbf{Medium} & Pre-ord dist\textbf{*} & Pre-ord point\textbf{*}& Pre-ord point\textbf{*} & Pre-ord point & Pre-ord point \\
-% \hline
-% \textbf{Slow} & Pre-ord dist\textbf{*} & Pre-ord dist\textbf{*} & Pre-ord dist\textbf{*} & Pre-ord dist\textbf{*} & Pre-ord dist\textbf{*} \\
-% \hline
-% \end{tabular}
-% }
-
-% \vspace{1em}
-
-% \textbf{B) Sum of Variances}
-% \resizebox{\textwidth}{!}{%
-% \begin{tabular}{|c|c|c|c|c|c|}
-% \hline
-% \textbf{} & \textbf{0\%} &\textbf{5\%} & \textbf{15\%}  & \textbf{50\%} & \textbf{100\%} \\
-% \hline
-% \textbf{Fast} & Post-ord dist & Post-ord dist  & Post-ord dist & Pre-ord point & Pre-ord point \\
-% \hline
-% \textbf{Medium} & Post-ord dist & Post-ord dist & Post-ord dist\textbf{*} & Pre-ord point & Pre-ord point \\
-% \hline
-% \textbf{Slow} & Pre-ord dist\textbf{*} & Pre-ord dist & Pre-ord dist & Pre-ord dist & Pre-ord dist \\
-% \hline
-% \end{tabular}
-% }
-% \vspace{1em}
-
-% \textbf{C) Mean Pairwise Distance}
-% \resizebox{\textwidth}{!}{%
-% \begin{tabular}{|c|c|c|c|c|c|}
-% \hline
-% \textbf{} & \textbf{0\%} &\textbf{5\%} & \textbf{15\%}  & \textbf{50\%} & \textbf{100\%} \\
-% \hline
-% \textbf{Fast} & Post-ord dist & Post-ord dist  & Post-ord dist\textbf{*} & Pre-ord point & Pre-ord point \\
-% \hline
-% \textbf{Medium} & Post-ord dist & Post-ord dist & Pre-ord point\textbf{*}  & Pre-ord point & Pre-ord point \\
-% \hline
-% \textbf{Slow} & Pre-ord dist\textbf{*} & Pre-ord dist & Pre-ord dist & Pre-ord dist & Pre-ord dist \\
-% \hline
-% \end{tabular}
-% }
-% \end{table}
 
 
 \clearpage

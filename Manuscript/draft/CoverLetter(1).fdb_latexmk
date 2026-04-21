@@ -1,7 +1,7 @@
 # Fdb version 4
-["pdflatex"] 1776419915.59689 "/home/caleb/Documents/PhD/acedisparity/Manuscript/draft/CoverLetter(1).tex" "CoverLetter(1).pdf" "CoverLetter(1)" 1776419915.9036 0
+["pdflatex"] 1776694720.55817 "/home/caleb/Documents/PhD/acedisparity/Manuscript/draft/CoverLetter(1).tex" "CoverLetter(1).pdf" "CoverLetter(1)" 1776694721.12902 0
   "/etc/texmf/web2c/texmf.cnf" 1730844760.28548 475 c0e671620eb5563b2130f56340a5fde8 ""
-  "/home/caleb/Documents/PhD/acedisparity/Manuscript/draft/CoverLetter(1).tex" 1776419915.44655 6937 c4cacc8bd4ef03e2dfb19ec3a20740e5 ""
+  "/home/caleb/Documents/PhD/acedisparity/Manuscript/draft/CoverLetter(1).tex" 1776694720.30477 6952 788ad5dac6b52d4cdc8d3a13edfb89ac ""
   "/usr/share/texlive/texmf-dist/fonts/enc/dvips/base/8r.enc" 1165713224 4850 80dc9bab7f31fb78a000ccfed0e27cab ""
   "/usr/share/texlive/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/adobe/palatino/pplr7t.tfm" 1136768653 1804 7b5f73028f6509167f47ace9d69509ed ""
@@ -68,9 +68,9 @@
   "/usr/share/texmf/web2c/texmf.cnf" 1707919699 40399 f2c302f7d2af602abb742093540a5834 ""
   "/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map" 1730844780.91279 5472669 54eaf61a88b6b7896ebd0dac973cb29c ""
   "/var/lib/texmf/web2c/pdftex/pdflatex.fmt" 1730844870 8215263 37da5ff08623ce8426d1176d844cce83 ""
-  "CoverLetter(1).aux" 1776419915.87856 208 8b4b2f4cab91294eabf982c18b8f35c9 "pdflatex"
-  "CoverLetter(1).out" 1776419915.82456 0 d41d8cd98f00b204e9800998ecf8427e "pdflatex"
-  "CoverLetter(1).tex" 1776419915.44655 6937 c4cacc8bd4ef03e2dfb19ec3a20740e5 ""
+  "CoverLetter(1).aux" 1776694721.09778 208 8b4b2f4cab91294eabf982c18b8f35c9 "pdflatex"
+  "CoverLetter(1).out" 1776694721.01378 0 d41d8cd98f00b204e9800998ecf8427e "pdflatex"
+  "CoverLetter(1).tex" 1776694720.30477 6952 788ad5dac6b52d4cdc8d3a13edfb89ac ""
   (generated)
   "CoverLetter(1).aux"
   "CoverLetter(1).log"

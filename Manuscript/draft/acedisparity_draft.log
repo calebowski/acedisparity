@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2024.11.5)  20 APR 2026 14:41
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2024.11.5)  21 APR 2026 09:47
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -519,41 +519,37 @@ Overfull \hbox (8.05872pt too wide) in paragraph at lines 202--205
  []
 
 [8] [9] [10]
-<figures/continuous_boxplot.pdf, id=568, 1300.86pt x 1011.78pt>
+<figures/continuous_boxplot.pdf, id=565, 1300.86pt x 1011.78pt>
 File: figures/continuous_boxplot.pdf Graphic file (type pdf)
 <use figures/continuous_boxplot.pdf>
 Package pdftex.def Info: figures/continuous_boxplot.pdf  used on input line 283.
 (pdftex.def)             Requested size: 452.9679pt x 352.30656pt.
  [11] [12 <./figures/continuous_boxplot.pdf>]
-<figures/cont_heatmap.pdf, id=592, 722.7pt x 289.08pt>
+<figures/cont_heatmap.pdf, id=589, 722.7pt x 289.08pt>
 File: figures/cont_heatmap.pdf Graphic file (type pdf)
 <use figures/cont_heatmap.pdf>
 Package pdftex.def Info: figures/cont_heatmap.pdf  used on input line 305.
 (pdftex.def)             Requested size: 452.9679pt x 181.18622pt.
  [13 <./figures/cont_heatmap.pdf>]
-<figures/discrete_boxplot.pdf, id=609, 1300.86pt x 1011.78pt>
+<figures/discrete_boxplot.pdf, id=603, 1300.86pt x 1011.78pt>
 File: figures/discrete_boxplot.pdf Graphic file (type pdf)
 <use figures/discrete_boxplot.pdf>
 Package pdftex.def Info: figures/discrete_boxplot.pdf  used on input line 323.
 (pdftex.def)             Requested size: 452.9679pt x 352.30656pt.
  [14 <./figures/discrete_boxplot.pdf>]
-<figures/discrete_heatmap.pdf, id=624, 722.7pt x 289.08pt>
+<figures/discrete_heatmap.pdf, id=618, 722.7pt x 289.08pt>
 File: figures/discrete_heatmap.pdf Graphic file (type pdf)
 <use figures/discrete_heatmap.pdf>
 Package pdftex.def Info: figures/discrete_heatmap.pdf  used on input line 341.
 (pdftex.def)             Requested size: 452.9679pt x 181.18622pt.
  [15 <./figures/discrete_heatmap.pdf>] [16] [17] [18] [19] [20]
-Overfull \hbox (21.99852pt too wide) in paragraph at lines 533--535
-\T1/cmr/m/n/10.95 (-20) The code to re-pro-duce the anal-y-ses is avail-able here []$\T1/cmtt/m/n/10.95 https : / / github . com / calebowski / acedisparity$[]\T1/cmr/m/n/10.95 (-20) . 
+Overfull \hbox (20.87317pt too wide) in paragraph at lines 533--535
+\T1/cmr/m/n/10.95 (-20) The code to re-pro-duce the anal-y-ses is avail-able here []$\T1/cmtt/m/n/10.95 https : / / github . com / calebowski / acedisparity$[]
  []
 
-[21] [22
+[21] (./acedisparity_draft.bbl [22
 
-] [23
-
-] (./acedisparity_draft.bbl [24
-
-] [25] [26] [27] [28] [29] [30] [31] [32]) [33] (./acedisparity_draft.aux)
+] [23] [24] [25] [26] [27] [28] [29] [30]) [31] (./acedisparity_draft.aux)
  ***********
 LaTeX2e <2023-11-01> patch level 1
 L3 programming layer <2024-01-22>
@@ -562,33 +558,24 @@ Package rerunfilecheck Info: File `acedisparity_draft.out' has not changed.
 (rerunfilecheck)             Checksum: 8663BB00E50BF1D3410433697C09EB92;4375.
  ) 
 Here is how much of TeX's memory you used:
- 15805 strings out of 474222
- 254466 string characters out of 5748733
+ 15799 strings out of 474222
+ 254432 string characters out of 5748733
  1938975 words of memory out of 5000000
  37441 multiletter control sequences out of 15000+600000
  585372 words of font info for 199 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  69i,14n,79p,1071b,791s stack positions out of 10000i,1000n,20000p,200000b,200000s
 
-pdfTeX warning (dest): name{table.caption.3} has been referenced but does not exist, replaced by a fixed one
-
-
-pdfTeX warning (dest): name{figure.caption.10} has been referenced but does not exist, replaced by a fixed one
-
-
-pdfTeX warning (dest): name{figure.caption.9} has been referenced but does not exist, replaced by a fixed one
-
-
-pdfTeX warning (dest): name{figure.caption.8} has been referenced but does not exist, replaced by a fixed one
-
-
 pdfTeX warning (dest): name{figure.caption.7} has been referenced but does not exist, replaced by a fixed one
 
+
+pdfTeX warning (dest): name{figure.caption.2} has been referenced but does not exist, replaced by a fixed one
+
 </usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfbx1000.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfbx1095.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfbx1200.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfbx1440.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfrm0700.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfrm0800.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfrm1000.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfrm1095.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfrm1200.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfrm1728.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfss0800.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfti1095.pfb></usr/share/texmf/fonts/type1/public/cm-super/sftt1095.pfb>
-Output written on acedisparity_draft.pdf (33 pages, 465498 bytes).
+Output written on acedisparity_draft.pdf (31 pages, 466306 bytes).
 PDF statistics:
- 951 PDF objects out of 1000 (max. 8388607)
- 860 compressed objects within 9 object streams
- 183 named destinations out of 1000 (max. 500000)
+ 937 PDF objects out of 1000 (max. 8388607)
+ 848 compressed objects within 9 object streams
+ 177 named destinations out of 1000 (max. 500000)
  43746 words of extra memory for PDF output out of 51595 (max. 10000000)
 

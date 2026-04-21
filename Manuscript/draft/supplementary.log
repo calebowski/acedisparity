@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2024.11.5)  20 APR 2026 14:50
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2024.11.5)  21 APR 2026 09:37
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -560,48 +560,62 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 ) (/usr/share/texlive/texmf-dist/tex/latex/microtype/mt-msb.cfg
 File: mt-msb.cfg 2005/06/01 v1.0 microtype config. file: AMS symbols (b) (RS)
 )
-<figures/tree_size_hist.pdf, id=12, 471.7625pt x 235.88126pt>
+LaTeX Font Info:    Trying to load font information for T1+cmtt on input line 45.
+ (/usr/share/texlive/texmf-dist/tex/latex/base/t1cmtt.fd
+File: t1cmtt.fd 2023/04/13 v2.5m Standard LaTeX font definitions
+)
+Package microtype Info: Loading generic protrusion settings for font family
+(microtype)             `cmtt' (encoding: T1).
+(microtype)             For optimal results, create family-specific settings.
+(microtype)             See the microtype manual for details.
+
+Underfull \hbox (badness 10000) in paragraph at lines 45--50
+
+ []
+
+<figures/tree_size_hist.pdf, id=13, 471.7625pt x 235.88126pt>
 File: figures/tree_size_hist.pdf Graphic file (type pdf)
 <use figures/tree_size_hist.pdf>
-Package pdftex.def Info: figures/tree_size_hist.pdf  used on input line 51.
+Package pdftex.def Info: figures/tree_size_hist.pdf  used on input line 57.
 (pdftex.def)             Requested size: 452.9679pt x 226.48662pt.
-<figures/net_div_hist_overall_trees.pdf, id=13, 505.89pt x 505.89pt>
+[1
+
+{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}{/usr/share/texmf/fonts/enc/dvips/cm-super/cm-super-t1.enc}]
+<figures/net_div_hist_overall_trees.pdf, id=29, 505.89pt x 505.89pt>
 File: figures/net_div_hist_overall_trees.pdf Graphic file (type pdf)
 <use figures/net_div_hist_overall_trees.pdf>
-Package pdftex.def Info: figures/net_div_hist_overall_trees.pdf  used on input line 60.
+Package pdftex.def Info: figures/net_div_hist_overall_trees.pdf  used on input line 66.
 (pdftex.def)             Requested size: 452.9679pt x 452.97328pt.
- [1
-
-{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}{/usr/share/texmf/fonts/enc/dvips/cm-super/cm-super-t1.enc} <./figures/tree_size_hist.pdf>]
-<figures/symmetry.pdf, id=35, 1084.05pt x 650.43pt>
+ [2 <./figures/tree_size_hist.pdf>]
+<figures/symmetry.pdf, id=41, 1084.05pt x 650.43pt>
 File: figures/symmetry.pdf Graphic file (type pdf)
 <use figures/symmetry.pdf>
-Package pdftex.def Info: figures/symmetry.pdf  used on input line 68.
+Package pdftex.def Info: figures/symmetry.pdf  used on input line 74.
 (pdftex.def)             Requested size: 452.9679pt x 271.77934pt.
- [2 <./figures/net_div_hist_overall_trees.pdf>]
-<figures/aggregated_continuous_diagnostic_plot.pdf, id=51, 722.7pt x 578.16pt>
+ [3 <./figures/net_div_hist_overall_trees.pdf>]
+<figures/aggregated_continuous_diagnostic_plot.pdf, id=57, 722.7pt x 578.16pt>
 File: figures/aggregated_continuous_diagnostic_plot.pdf Graphic file (type pdf)
 <use figures/aggregated_continuous_diagnostic_plot.pdf>
-Package pdftex.def Info: figures/aggregated_continuous_diagnostic_plot.pdf  used on input line 77.
+Package pdftex.def Info: figures/aggregated_continuous_diagnostic_plot.pdf  used on input line 83.
 (pdftex.def)             Requested size: 452.9679pt x 362.37247pt.
- [3 <./figures/symmetry.pdf>]
-<figures/discrete_diagnostics_aggregated.pdf, id=64, 722.7pt x 578.16pt>
+ [4 <./figures/symmetry.pdf>]
+<figures/discrete_diagnostics_aggregated.pdf, id=70, 722.7pt x 578.16pt>
 File: figures/discrete_diagnostics_aggregated.pdf Graphic file (type pdf)
 <use figures/discrete_diagnostics_aggregated.pdf>
-Package pdftex.def Info: figures/discrete_diagnostics_aggregated.pdf  used on input line 95.
+Package pdftex.def Info: figures/discrete_diagnostics_aggregated.pdf  used on input line 101.
 (pdftex.def)             Requested size: 452.9679pt x 362.37247pt.
- [4 <./figures/aggregated_continuous_diagnostic_plot.pdf>]
-<figures/cont_heatmap_weighted.pdf, id=76, 722.7pt x 289.08pt>
+ [5 <./figures/aggregated_continuous_diagnostic_plot.pdf>]
+<figures/cont_heatmap_weighted.pdf, id=82, 722.7pt x 289.08pt>
 File: figures/cont_heatmap_weighted.pdf Graphic file (type pdf)
 <use figures/cont_heatmap_weighted.pdf>
-Package pdftex.def Info: figures/cont_heatmap_weighted.pdf  used on input line 111.
+Package pdftex.def Info: figures/cont_heatmap_weighted.pdf  used on input line 117.
 (pdftex.def)             Requested size: 452.9679pt x 181.18622pt.
-<figures/discrete_weighted_heatmap.pdf, id=77, 722.7pt x 289.08pt>
+<figures/discrete_weighted_heatmap.pdf, id=83, 722.7pt x 289.08pt>
 File: figures/discrete_weighted_heatmap.pdf Graphic file (type pdf)
 <use figures/discrete_weighted_heatmap.pdf>
-Package pdftex.def Info: figures/discrete_weighted_heatmap.pdf  used on input line 121.
+Package pdftex.def Info: figures/discrete_weighted_heatmap.pdf  used on input line 127.
 (pdftex.def)             Requested size: 452.9679pt x 181.18622pt.
- [5 <./figures/discrete_diagnostics_aggregated.pdf> <./figures/cont_heatmap_weighted.pdf>] (./supplementary.bbl) [6 <./figures/discrete_weighted_heatmap.pdf>] (./supplementary.aux)
+ [6 <./figures/discrete_diagnostics_aggregated.pdf> <./figures/cont_heatmap_weighted.pdf>] (./supplementary.bbl) [7 <./figures/discrete_weighted_heatmap.pdf>] (./supplementary.aux)
  ***********
 LaTeX2e <2023-11-01> patch level 1
 L3 programming layer <2024-01-22>
@@ -610,18 +624,18 @@ Package rerunfilecheck Info: File `supplementary.out' has not changed.
 (rerunfilecheck)             Checksum: 7273FE011E314F16BB7A8F1B236BE6EB;297.
  ) 
 Here is how much of TeX's memory you used:
- 18976 strings out of 474222
- 359439 string characters out of 5748733
- 1930975 words of memory out of 5000000
- 40917 multiletter control sequences out of 15000+600000
- 576521 words of font info for 117 fonts, out of 8000000 for 9000
+ 19017 strings out of 474222
+ 360438 string characters out of 5748733
+ 1932975 words of memory out of 5000000
+ 40949 multiletter control sequences out of 15000+600000
+ 578185 words of font info for 125 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  73i,10n,80p,1066b,921s stack positions out of 10000i,1000n,20000p,200000b,200000s
-</usr/share/texmf/fonts/type1/public/cm-super/sfbx1095.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfbx1440.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfrm0700.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfrm0800.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfrm1000.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfrm1095.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfrm1200.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfrm1728.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfss0800.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfti1095.pfb>
-Output written on supplementary.pdf (6 pages, 23191353 bytes).
+</usr/share/texmf/fonts/type1/public/cm-super/sfbx1095.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfbx1440.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfrm0700.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfrm0800.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfrm1000.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfrm1095.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfrm1200.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfrm1728.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfss0800.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfti1095.pfb></usr/share/texmf/fonts/type1/public/cm-super/sftt1095.pfb>
+Output written on supplementary.pdf (7 pages, 23223236 bytes).
 PDF statistics:
- 161 PDF objects out of 1000 (max. 8388607)
- 113 compressed objects within 2 object streams
- 18 named destinations out of 1000 (max. 500000)
- 36916 words of extra memory for PDF output out of 42996 (max. 10000000)
+ 174 PDF objects out of 1000 (max. 8388607)
+ 123 compressed objects within 2 object streams
+ 19 named destinations out of 1000 (max. 500000)
+ 39476 words of extra memory for PDF output out of 42996 (max. 10000000)
 
