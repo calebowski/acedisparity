@@ -11,8 +11,8 @@ This repository contains the scripts to reproduce the analyses of the paper.
 
 ## Data
 
-The `Data/` folder contains the trees and simulated matrices that are used in the analyses. These are also easily reproduced using the `Analyses/` folder.
-The ancestral state estimations, ordinations, disparity and LMM outputs are on dryad (add link here when).
+The `Data/` folder contains the trees and simulated matrices that are used in the analyses. These are also easily reproduced using the `Analyses/` folder. 
+The LMM outputs are on [Dryad](https://doi.org/10.5061/dryad.280gb5n4p)
 
 ---
 
