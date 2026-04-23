@@ -1,6 +1,6 @@
 # Disparity analyses are robust to ancestral state estimation uncertainty
 
-Authors: [Caleb Scutt](mailto:cnscutt1.@sheffield.ac.uk), [Natalie Cooper](https://github.com/nhcooper123), [Gavin Thomas](https://github.com/ghthomas) and [Thomas Guillerme](https://github.com/TGuillerme)
+Authors: [Caleb Scutt](mailto:cnscutt1@sheffield.ac.uk), [Natalie Cooper](https://github.com/nhcooper123), [Gavin Thomas](https://github.com/ghthomas) and [Thomas Guillerme](https://github.com/TGuillerme)
 
 [Preprint here](https://www.biorxiv.org/content/10.64898/2026.04.21.719166v1)
 
