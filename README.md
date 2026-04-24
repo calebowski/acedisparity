@@ -1,6 +1,8 @@
 # Disparity analyses are robust to ancestral state estimation uncertainty
 
-Authors: [Caleb Scutt](mailto:cnscutt1.@sheffield.ac.uk), [Natalie Cooper](https://github.com/nhcooper123), [Gavin Thomas](https://github.com/ghthomas) and [Thomas Guillerme](https://github.com/TGuillerme)
+Authors: [Caleb Scutt](mailto:cnscutt1@sheffield.ac.uk), [Natalie Cooper](https://github.com/nhcooper123), [Gavin Thomas](https://github.com/ghthomas) and [Thomas Guillerme](https://github.com/TGuillerme)
+
+[Preprint here](https://www.biorxiv.org/content/10.64898/2026.04.21.719166v1)
 
 This study uses simulations to evaluate different methods of ancestral state estimation for recovering morphological disparity under varying evolutionary models, fossil sampling densities, and trait types.
 This repository contains the scripts to reproduce the analyses of the paper.
@@ -9,8 +11,8 @@ This repository contains the scripts to reproduce the analyses of the paper.
 
 ## Data
 
-The `Data/` folder contains the trees and simulated matrices that are used in the analyses. These are also easily reproduced using the `Analyses/` folder.
-The ancestral state estimations, ordinations, disparity and LMM outputs are on dryad (add link here when).
+The `Data/` folder contains the trees and simulated matrices that are used in the analyses. These are also easily reproduced using the `Analyses/` folder. 
+The LMM outputs are on [Dryad](https://doi.org/10.5061/dryad.280gb5n4p)
 
 ---
 
