@@ -82,7 +82,7 @@ Ultimately, the inclusion of ancestral states allows disparity through time anal
 
 Despite the aforementioned advantages, the use of \ase within disparity analyses has often been neglected.
 The hesitancy to incorporate \ase has likely stemmed from the notion that estimates are inherently uncertain; root-ward estimates in particular are often associated with large confidence intervals or inconclusive scaled likelihoods \citep{schluter1997likelihood, losos1999uncertainty,gascuel2014predicting}.
-While the propagation of uncertainty during comparative analyses is encouraged \citep{silvestro2015measurement,boyko2024dentist}, most computational implementations of \ase return point estimates, because there is little guidance on how to correctly treat \ase uncertainty downstream when constructing the trait space.
+Despite the encouragement to propagate uncertainty during comparative analyses \citep{silvestro2015measurement,boyko2024dentist}, ancestral state estimations are generally treated as point estimates during disparity analyses, because there is little guidance on how to correctly treat \ase uncertainty downstream when constructing the trait space.
 These point estimates are typically averages from confidence intervals for continuous characters or collapsed states returned from arbitrary thresholds for discrete characters \citep{smith2022evolution,casali2023morphological}. 
 By ignoring ancestral state estimation uncertainty, point estimates can lead to overconfidence in results and incorrect inferences in downstream analyses, all while obscuring potentially accurate signals \citep{ackerly2006niche,vanderpoorten2006mapping}.
 
@@ -91,9 +91,10 @@ Likelihood-based approaches to \ase require both a tree topology and a specified
 Continuous character estimations are typically modelled under Brownian motion (BM; but see \citealp{elliot2014inferring, castiglione2020ancestral, meade2022ancestral}), which describes a directionless, stochastic process where the trait divergence between related taxa is proportional to their shared evolutionary history and the rate of evolution \citep{felsenstein1985phylogenies,schluter1997likelihood,omeara2006testing}.
 However, deviations from BM in the trait data, such as directional trends or stabilising selection, inevitably returns biased estimates \citep{webster2002testing, finarelli2006ancestral, albert2009fossils,finarelli2013potential}. 
 % For example, both \cite{webster2002testing} and \cite{finarelli2006ancestral} were unable to recover accurate ancestral estimates of body size in planktonic Foraminifera and mammals, respectively, due to a trend of increase through time.
-Model-related issues can also arise for discrete traits, which are estimated using M\textit{k} \citep{lewis2001likelihood,pagel1994detecting,pagel1999maximum} or *SSE models \citep{ng2014traits, holland2020accuracy}.
+Model-related issues can also arise for discrete traits, which are estimated using M\textit{k} \citep{lewis2001likelihood,pagel1994detecting,pagel1999maximum} or SSE models \citep{ng2014traits, holland2020accuracy}.
 Estimation accuracy of discrete states appears prone to model over-parameterisation and sensitive to fast transition rates \citep{mooers1999reconstructing, keating2023best}.
 Furthermore, discrete \ase faces a paradoxical trade-off where a slow rate of evolution allows for an accurate estimation of the root state, but provides little information for calculating transition rates \citep{gascuel2020darwinian}.
+Similarly, the opposite is true whereby fast rates allow for an accurate estimation of transition rates, but ambiguity in the root state estimation.
 
 Given that uncertainty is often high in ancestral state estimation, how then can estimates be improved?
 \ASE is statistically inconsistent, meaning that even if the sample size of extant tips were infinite, estimates are not expected to converge on the true value \citep{ane2008analysis}.
