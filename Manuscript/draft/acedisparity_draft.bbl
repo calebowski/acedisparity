@@ -1,4 +1,4 @@
-\begin{thebibliography}{105}
+\begin{thebibliography}{106}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -352,6 +352,11 @@ Arne~{\O} Mooers and Dolph Schluter.
 H{\'e}l{\`e}ne Morlon, J{\'e}r{\'e}my Andr{\'e}oletti, Jo{\"e}lle Barido-Sottani, Sophia Lambert, Beno{\^\i}t Perez-Lamarque, Ignacio Quintero, Viktor Senderov, and Pierre Veron.
 \newblock Phylogenetic insights into diversification.
 \newblock \emph{Annual Review of Ecology, Evolution, and Systematics}, 55, 2024.
+
+\bibitem[Mu{\~n}iz-Trejo et~al.(2025)Mu{\~n}iz-Trejo, Park, and Thornton]{muniz2025robustness}
+Ricardo Mu{\~n}iz-Trejo, Yeonwoo Park, and Joseph~W Thornton.
+\newblock Robustness of ancestral sequence reconstruction to among-site and among-lineage evolutionary heterogeneity.
+\newblock \emph{Molecular Biology and Evolution}, 42\penalty0 (4):\penalty0 msaf084, 2025.
 
 \bibitem[Muschick et~al.(2012)Muschick, Indermaur, and Salzburger]{muschick2012convergent}
 Moritz Muschick, Adrian Indermaur, and Walter Salzburger.
