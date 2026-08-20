@@ -101,3 +101,177 @@ fossil.pres <- function(trees, matrices, preservation = c(0.05, 0.15, 0.5, 1.0),
 
   return(fossil_matrices)
 }
+
+
+## preservation should be a vector of two values
+# non.random.fossil.pres <- function(trees, matrices, preservation = c(0.05, 0.5), type = c("discrete", "continuous"), seed = NULL) {
+#   process.fossil <- function(tree, matrix, type, seed) {
+    
+#     root_node <- tree$node.label[1]
+#     clade_1 <- extract.clade(tree, tree$node.label[2])
+#     clade_2 <- extract.clade(tree, tree$node.label[3])
+#     clades <- list(clade_1, clade_2)
+#     tips <- lapply(clades, function(clade){
+#       ages <- tree.age(clade)
+#       tips <- ages$element[grepl("^t", ages$element)]
+#       # fossils <- ages$element[grepl("^t", ages$element)]
+#       return(tips)
+#     }) ## get ages of trees
+#     # living_tips_clade_1 <- sample()
+#     # living_tips <- subset(tree.age(tree), ages == 0)$elements
+
+#     set.seed(seed)
+#     max_attempts <- 20
+#     attempt <- 1
+#     repeat {
+
+#       if(length(tips[[1]]) == 0 || length(tips[[2]]) == 0){
+#         sample_fossil  <- character(0) 
+#         cat("No fossils in tree... \n")
+#         break
+
+#       } else {
+
+#       clade_1_keep <- as.logical(rbinom(length(tips[[1]]), size = 1, prob = preservation[1])) ## uses Bernoulli: samples tips independently
+#       clade_2_keep <- as.logical(rbinom(length(tips[[2]]), size = 1, prob = preservation[2])) ## uses Bernoulli: samples tips independently
+
+#       sample_fossil_1  <- tips[[1]][clade_1_keep]
+#       sample_fossil_2 <- tips[[2]][clade_2_keep]
+#         if (length(sample_fossil_1) > 0 && length(sample_fossil_2) > 0) break
+#       }
+
+#       # if(attempt >= max_attempts) {
+#       #   sample_fossil <- sample(fossils, 1) ## if reach max attempts just use one fossil
+#       # cat("Warning: Reached maximum attempts, accepting 1 fossil... \n")
+#       # break
+#       # }
+#       # attempt <- attempt + 1
+#     }
+
+#     kept <- c(unlist(c(sample_fossil_1, sample_fossil_2)))
+#     fossil_matrix <- matrix[rownames(matrix) %in% kept, ]
+
+#     # Discrete needs characters returned for ace, continuous needs numeric
+#     if (type == "discrete") {
+#       fossil_matrix <- apply(fossil_matrix, c(1, 2), as.character)
+#     } 
+
+#     if(type == "continuous") {
+#       fossil_matrix <- apply(fossil_matrix, c(1, 2), as.numeric)
+#       # fossil_matrix <- as.data.frame(fossil_matrix)
+#     }
+
+
+#     pruned <- keep.tip(tree, kept)
+#     return(list(matrix = fossil_matrix, tree = pruned))
+#   }
+
+#   # Check if inputs are lists or single objects
+#   if (is.list(trees) && is.list(matrices)) {
+#     # Use Map for lists of trees and matrices
+#     fossil_matrices <- Map(function(tree, matrix) process.fossil(tree, matrix, type, seed), trees, matrices)
+#   } else {
+#     # Process a single tree and matrix
+#     fossil_matrices <- process.fossil(trees, matrices, type, seed)
+#   }
+
+#   return(fossil_matrices)
+# }
+
+
+
+
+fossil.pres.alt <- function(trees, matrices, preservation = c(0.05, 0.15, 0.5, 1.0), type = c("discrete", "continuous"), seed = NULL) {
+  process.fossil.alt <- function(tree, matrix, type, seed) {
+    ages <- tree.age(tree)
+    tips <- ages$element[ages$ages == 0]  # Keep living species
+    fossils <- ages$element[ages$ages > 0]
+    set.seed(seed)
+    max_attempts <- 20
+    attempt <- 1
+    repeat {
+
+      if(length(fossils) == 0){
+        sample_fossil  <- character(0) 
+        cat("No fossils in tree... \n")
+        break
+
+      } else {
+
+      keep_vector <- as.logical(rbinom(length(fossils), size = 1, prob = preservation)) ## uses Bernoulli: samples fossils independently
+      sample_fossil  <- fossils[keep_vector]
+        if (length(sample_fossil) > 0) break
+
+      }
+
+      if(attempt >= max_attempts) {
+        sample_fossil <- sample(fossils, 1) ## if reach max attempts just use one fossil
+      cat("Warning: Reached maximum attempts, accepting 1 fossil... \n")
+      break
+      }
+
+      attempt <- attempt + 1
+
+    }
+
+    kept <- c(unlist(unname(sample_fossil)), tips)
+    fossil_matrix <- matrix[rownames(matrix) %in% kept, ]
+
+    # Discrete needs characters returned for ace, continuous needs numeric
+    if (type == "discrete") {
+      fossil_matrix <- apply(fossil_matrix, c(1, 2), as.character)
+    } 
+
+    if(type == "continuous") {
+      fossil_matrix <- apply(fossil_matrix, c(1, 2), as.numeric)
+      # fossil_matrix <- as.data.frame(fossil_matrix)
+    }
+
+    pruned <- bind.nodes.tips(tree,kept)
+    # pruned <- keep.tip(tree, kept)
+    return(list(matrix = fossil_matrix, tree = pruned))
+  }
+
+  # Check if inputs are lists or single objects
+  if (is.list(trees) && is.list(matrices)) {
+    # Use Map for lists of trees and matrices
+    fossil_matrices <- Map(function(tree, matrix) process.fossil.alt(tree, matrix, type, seed), trees, matrices)
+  } else {
+    # Process a single tree and matrix
+    fossil_matrices <- process.fossil.alt(trees, matrices, type, seed)
+  }
+
+  return(fossil_matrices)
+}
+
+# library(ape)
+# library(phytools) # Required for bind.tip()
+
+## 1. Separate your 'kept' vector into actual tips and internal nodes
+
+
+bind.nodes.tips <- function(tree, kept) {
+  kept_tips  <- kept[kept %in% tree$tip.label]
+  kept_nodes <- kept[kept %in% tree$node.label]
+
+  ## 2. Create a copy of the tree to safely modify
+  tree_with_fossils <- tree
+
+  ## 3. Loop through the kept internal nodes and convert them to zero-length tips
+  for (n_label in kept_nodes) {
+    
+
+    current_node_idx <- which(tree_with_fossils$node.label == n_label) + Ntip(tree_with_fossils)
+    
+.
+    tree_with_fossils <- bind.tip(tree_with_fossils, 
+                                  tip.label = n_label, 
+                                  where = current_node_idx, 
+                                  edge.length = 0)
+  }
+
+
+  pruned_tree <- keep.tip(tree_with_fossils, kept, collapse.singles = FALSE) ## keep single-child nodes
+  return(pruned_tree)
+
+}
