@@ -181,7 +181,7 @@ fossil.pres <- function(trees, matrices, preservation = c(0.05, 0.15, 0.5, 1.0),
 
 
 
-fossil.pres.alt <- function(trees, matrices, preservation = c(0.05, 0.15, 0.5, 1.0), type = c("discrete", "continuous"), seed = NULL) {
+fossil.pres.alt<- function(trees, matrices, preservation = c(0.05, 0.15, 0.5, 1.0), type = c("discrete", "continuous"), seed = NULL) {
   process.fossil.alt <- function(tree, matrix, type, seed) {
     ages <- tree.age(tree)
     tips <- ages$element[ages$ages == 0]  # Keep living species
@@ -191,18 +191,18 @@ fossil.pres.alt <- function(trees, matrices, preservation = c(0.05, 0.15, 0.5, 1
     attempt <- 1
     repeat {
 
-      if(length(fossils) == 0){
-        sample_fossil  <- character(0) 
-        cat("No fossils in tree... \n")
-        break
+      # if(length(fossils) == 0){
+      #   sample_fossil  <- character(0) 
+      #   cat("No fossils (extinct tips) found in tree... \n")
+      #   break
 
-      } else {
+      # } else {
 
       keep_vector <- as.logical(rbinom(length(fossils), size = 1, prob = preservation)) ## uses Bernoulli: samples fossils independently
       sample_fossil  <- fossils[keep_vector]
         if (length(sample_fossil) > 0) break
 
-      }
+      
 
       if(attempt >= max_attempts) {
         sample_fossil <- sample(fossils, 1) ## if reach max attempts just use one fossil
@@ -228,6 +228,7 @@ fossil.pres.alt <- function(trees, matrices, preservation = c(0.05, 0.15, 0.5, 1
     }
 
     pruned <- bind.nodes.tips(tree,kept)
+    rownames(fossil_matrix) <- ifelse(grepl("^n", rownames(fossil_matrix)), paste0("f_" , rownames(fossil_matrix)), rownames(fossil_matrix)) ## rename matrix as well
     # pruned <- keep.tip(tree, kept)
     return(list(matrix = fossil_matrix, tree = pruned))
   }
@@ -244,34 +245,28 @@ fossil.pres.alt <- function(trees, matrices, preservation = c(0.05, 0.15, 0.5, 1
   return(fossil_matrices)
 }
 
-# library(ape)
-# library(phytools) # Required for bind.tip()
-
-## 1. Separate your 'kept' vector into actual tips and internal nodes
-
 
 bind.nodes.tips <- function(tree, kept) {
   kept_tips  <- kept[kept %in% tree$tip.label]
   kept_nodes <- kept[kept %in% tree$node.label]
 
-  ## 2. Create a copy of the tree to safely modify
   tree_with_fossils <- tree
 
-  ## 3. Loop through the kept internal nodes and convert them to zero-length tips
   for (n_label in kept_nodes) {
     
 
     current_node_idx <- which(tree_with_fossils$node.label == n_label) + Ntip(tree_with_fossils)
     
-.
     tree_with_fossils <- bind.tip(tree_with_fossils, 
-                                  tip.label = n_label, 
+                                  tip.label = paste0("f_",n_label), ## give new name (f_x) to separate from node label
                                   where = current_node_idx, 
-                                  edge.length = 0)
-  }
+                                  edge.length = 1e-6)
+    }
 
-
-  pruned_tree <- keep.tip(tree_with_fossils, kept, collapse.singles = FALSE) ## keep single-child nodes
+  kept_nodes <- paste0("f_", kept_nodes) ## add "f_" logic to kept vector
+  kept <- c(kept_nodes, kept_tips)
+  pruned_tree <- keep.tip(tree_with_fossils, kept, collapse.singles = TRUE)
+  pruned_tree <- multi2di(pruned_tree)
+  pruned_tree$edge.length[pruned_tree$edge.length == 0] <- 1e-6
   return(pruned_tree)
-
 }
