@@ -1,4 +1,5 @@
 library(treats)
+library(treestats)
 ## Making asymmetric trees by modifying lineage selection:
 
 ## Base stuff
@@ -13,7 +14,7 @@ bias.select <- function(lineage) {
     ## The sample proportion is a decreasing log exponential distribution
     ## i.e. the last lineage has always more changes to be selected
     ## You can modify the rate parameter internally. Bigger = more ladderised
-    probs <- rev(dexp(seq(1, lineage$n, by = 1), rate = 0.5))
+    probs <- rev(dexp(seq(1, lineage$n, by = 1), rate = 0.8))
     return(sample(1:lineage$n, 1, prob = probs))
 }
 
@@ -23,14 +24,14 @@ bias.select <- function(lineage) {
 biased_modifier <- make.modifiers(selection = bias.select)
 
 ## Generating a new tree with this modifier
-set.seed(1)
+# set.seed(1)
 ladderised_tree <- treats(bd.params  = bd_params,
                           stop.rule  = stop_rule,
                           modifiers  = biased_modifier,
                       	  null.error = 100)
 ## Displaying the results
-plot(ladderize(ladderised_tree), main = "Asymmetric-ish tree")
-
+# plot(ladderize(ladderised_tree), main = "Asymmetric-ish tree")
+colless_corr(ladderised_tree)
 
 
 

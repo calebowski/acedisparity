@@ -1,7 +1,7 @@
 #!/bin/bash
 #SBATCH --job-name=wagner_discrete_sample_ords
-#SBATCH --output=/users/bip24cns/acedisparity/discrete_crown/logs/wagner_discrete_sample_ords_%A_%a.out
-#SBATCH --error=/users/bip24cns/acedisparity/discrete_crown/logs/wagner_discrete_sample_ords_%A_%a.err
+#SBATCH --output=/users/bip24cns/acedisparity/revisions/logs/wagner_discrete_sample_ords_%A_%a.out
+#SBATCH --error=/users/bip24cns/acedisparity/revisions/logs/wagner_discrete_sample_ords_%A_%a.err
 #SBATCH --array=1-1000%100  # 1,000 tasks, max 100 at once
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
@@ -14,4 +14,4 @@
 module load R/4.4.1-foss-2022b
 export R_LIBS_USER=/users/$USER/R/x86_64-pc-linux-gnu-library/4.4
 
-Rscript /users/$USER/acedisparity/discrete_crown/scripts/wagner_discrete_batch_sample_ord.R ${SLURM_ARRAY_TASK_ID} "50t" "11429393"
+Rscript /users/$USER/acedisparity/revisions/scripts/wagner_discrete_batch_sample_ord.R ${SLURM_ARRAY_TASK_ID} "50t" "11429393"
