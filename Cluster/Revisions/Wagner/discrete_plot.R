@@ -36,7 +36,7 @@ results_relisted <- setNames(lapply(metric_names, function(metric) {
     setNames(lapply(methods, function(method) {
       is_sample_method <- grepl("sample", method)
       
-      lapply(results[[size]][[method]], function(rep_data) {
+      lapply(results[[method]], function(rep_data) {
         metric_data <- rep_data[[metric]]
         
         if(is_sample_method) {
@@ -100,11 +100,11 @@ results_df_long <- results_df %>%
 
 results_df_long$method <- factor(
   results_df_long$method,
-  levels = c("pre_ord_point_tiebreaker", "pre_ord_sample", 
+  levels = c("pre_ord_point", "pre_ord_sample", 
              "post_ord_point", "post_ord_sample", "no_ace"),
   labels = c("Pre-ord ASE\n(point)",
              "Pre-ord ASE\n(dist)", "Post-ord ASE\n(point)", 
-             "Post-ord ASE\n(dist)", "Tip-only")
+             "Post-ord ASE\n(dist)", "Sampled taxa only")
 )
 
 results_df_long$preservation_level <- factor(
@@ -125,3 +125,53 @@ results_df_long$metric <- factor(
   labels = c("Sum of Variances", "Sum of Quantiles", "Mean Pairwise Distance")
 )
 
+## do boxplot
+
+colours <- c("Slow" = "#8805A8", "Medium" = "#00B945", "Fast" = "#FFB600")
+
+boxplot_plot_all <- ggplot(results_df_long, 
+                           aes(x = preservation_level, y = error, fill = rate, colour = rate)) +
+  geom_boxplot(
+    alpha = 0.7,
+    # outlier.alpha = 0.1,
+    outlier.shape = NA,  # Hide outliers for cleaner plot
+    position = position_dodge(width = 0.8)
+  ) +
+  geom_hline(yintercept = 0, colour = "black", linewidth = 0.8, linetype = "dashed") +
+  facet_grid(metric ~ method) +  #  Only facet by metric and method
+  labs(
+    x = "Fossil Sampling (%)",
+    y = "Relative Disparity Error",
+    fill = "Transition Rate"
+  ) +
+  theme_minimal() +
+  scale_fill_manual(
+    values = colours,
+    labels = c("Slow", "Medium", "Fast")
+  ) +
+  scale_colour_manual(
+    values = colours,
+    labels = c("Slow", "Medium", "Fast"),
+    guide = "none"
+  ) +
+  theme(
+    axis.text = element_text(size = 16, color = "black"),
+    axis.title = element_text(size = 20, face = "bold", color = "black"),
+    legend.position = "right",
+    legend.title = element_text(size = 18, face = "bold"),
+    legend.text = element_text(size = 15),
+    strip.text = element_text(size = 20, face = "bold"),
+    strip.background = element_rect(fill = "gray95", color = "black", linewidth = 0.3),
+    panel.border = element_rect(color = "black", fill = NA, linewidth = 0.4),
+    panel.grid.major.y = element_line(color = "gray90", linewidth = 0.3),
+    panel.grid.major.x = element_blank(),
+    panel.grid.minor = element_blank(),
+    panel.spacing = unit(0.3, "cm")
+  ) +
+  scale_y_continuous(
+    breaks = c(-1, -0.5, 0, 0.50, 1.0),
+    labels = c("-1.0", "-0.5", "0", "0.50", "1.0")
+  ) +
+  coord_cartesian(ylim = c(-1, 1))
+
+ggsave("../../Manuscript/draft/figures/discrete_boxplot_nodes_tips_sampled.png", boxplot_plot_all, , width = 18, height = 14, dpi = 700, units = "in", bg = "white")

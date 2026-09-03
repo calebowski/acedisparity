@@ -179,9 +179,7 @@ fossil.pres <- function(trees, matrices, preservation = c(0.05, 0.15, 0.5, 1.0),
 # }
 
 
-
-
-fossil.pres.alt<- function(trees, matrices, preservation = c(0.05, 0.15, 0.5, 1.0), type = c("discrete", "continuous"), seed = NULL) {
+fossil.pres.alt <- function(trees, matrices, preservation = c(0.05, 0.15, 0.5, 1.0), type = c("discrete", "continuous"), seed = NULL) {
   process.fossil.alt <- function(tree, matrix, type, seed) {
     ages <- tree.age(tree)
     tips <- ages$element[ages$ages == 0]  # Keep living species
@@ -270,3 +268,6 @@ bind.nodes.tips <- function(tree, kept) {
   pruned_tree$edge.length[pruned_tree$edge.length == 0] <- 1e-6
   return(pruned_tree)
 }
+
+
+

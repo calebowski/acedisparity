@@ -7,7 +7,7 @@ library(treats)
 cat("Starting replicate", replicate_id, "\n")
 set.seed(100 + replicate_id)
 # job_id <- Sys.getenv("SLURM_ARRAY_JOB_ID")
-base_path <- "/mnt/parscratch/users/bip24cns/acedisparity/revisions/discrete_wagner/"
+base_path <- "/mnt/parscratch/users/bip24cns/acedisparity/revisions/discrete_keating/"
 write.path <- function(subfolder, filename) {
   return(paste0(base_path, subfolder, "/", job_id, "_", sprintf(filename, replicate_id)))
 }

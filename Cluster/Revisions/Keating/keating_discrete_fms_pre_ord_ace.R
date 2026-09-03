@@ -10,7 +10,7 @@ cat("Starting replicate", replicate_id, "\n")
 
 set.seed(100 + replicate_id)
 
-base_path <- "/mnt/parscratch/users/bip24cns/acedisparity/revisions/discrete_wagner/"
+base_path <- "/mnt/parscratch/users/bip24cns/acedisparity/revisions/discrete_keating/"
 job_id <- Sys.getenv("SLURM_ARRAY_JOB_ID")
 
 
@@ -19,7 +19,7 @@ write.path <- function(subfolder, filename) {
 }
 
 
-tree <- read.tree(paste0("/mnt/parscratch/users/bip24cns/acedisparity/trees/overallDisparity/tree_", tree_size, sprintf("_%03d.tre", replicate_id)))
+tree <- read.tree(paste0("/mnt/parscratch/users/bip24cns/acedisparity/revisions/assymetrical_trees/assymetrical_tree_", tree_size, sprintf("_%03d.tre", replicate_id)))
 
 # tree <- set.root.time(tree)
 
@@ -102,13 +102,15 @@ cat("Trait matrices saved for replicate", replicate_id, "\n")
 source("/users/bip24cns/acedisparity/discrete/scripts/fossil.pres.R")
 set_seed <- 100 + replicate_id
 living <- lapply(matrices, remove.fossil, trees = crown_tree, type = "discrete")
-fossilised_high <- lapply(matrices, fossil.pres.alt, trees = crown_tree, preservation = 0.5, type = "discrete", seed = set_seed)
-fossilised_med <- lapply(matrices, fossil.pres.alt, trees = crown_tree, preservation = 0.15, type = "discrete", seed = set_seed)
-fossilised_low <- lapply(matrices, fossil.pres.alt, trees = crown_tree, preservation = 0.05, type = "discrete", seed = set_seed)
+fossilised_all <- lapply(matrices, fossil.pres, trees = crown_tree, preservation = 1.0, type = "discrete", seed = set_seed)
+fossilised_high <- lapply(matrices, fossil.pres, trees = crown_tree, preservation = 0.5, type = "discrete", seed = set_seed)
+fossilised_med <- lapply(matrices, fossil.pres, trees = crown_tree, preservation = 0.15, type = "discrete", seed = set_seed)
+fossilised_low <- lapply(matrices, fossil.pres, trees = crown_tree, preservation = 0.05, type = "discrete", seed = set_seed)
 
 
 fossil_matrices <- lapply(names(matrices), function(level) {
     list(
+        all = fossilised_all[[level]],
       fossil_high = fossilised_high[[level]],
       fossil_med = fossilised_med[[level]],
       fossil_low = fossilised_low[[level]],

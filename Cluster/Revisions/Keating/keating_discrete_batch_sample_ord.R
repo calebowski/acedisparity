@@ -5,12 +5,12 @@ job_id <- as.numeric(args[3])
 library(parallel)
 library(treats)
 
-base_path <- "/mnt/parscratch/users/bip24cns/acedisparity/revisions/discrete_wagner/"
+base_path <- "/mnt/parscratch/users/bip24cns/acedisparity/revisions/discrete_keating/"
 
 cat("Starting task", task_id, "\n")
 
 rates <- c("fast", "med", "slow")
-levels <- c("fossil_high", "fossil_low", "fossil_med", "living")
+levels <- c("all","fossil_high", "fossil_low", "fossil_med", "living")
 
 all_ordinations <- expand.grid(
   sample = 1:100,         #  Changes FASTEST (innermost loop)
@@ -21,7 +21,7 @@ all_ordinations <- expand.grid(
 )
 
 #  Each of 1000 tasks does 150 ordinations
-ordinations_per_task <- 120
+ordinations_per_task <- 150
 start <- (task_id - 1) * ordinations_per_task + 1
 end <- min(task_id * ordinations_per_task, nrow(all_ordinations))
 

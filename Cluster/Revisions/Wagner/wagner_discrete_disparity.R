@@ -6,7 +6,7 @@ source("/users/bip24cns/acedisparity/discrete/scripts/utility.R")
 
 library(dispRity)
 
-base_path <- "/mnt/parscratch/users/bip24cns/acedisparity/revisions/discrete/"
+base_path <- "/mnt/parscratch/users/bip24cns/acedisparity/revisions/discrete_wagner/"
 
 write.path <- function(subfolder, filename) {
   paste0(base_path, subfolder, "/", job_id, "_", sprintf(filename, replicate_id))

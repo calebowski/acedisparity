@@ -9,12 +9,12 @@ library(ape)
 
 task_id <- offset + task_id ## for sending in two batches (batch 1: 1:1000, batch 2: 1001-1200)
 
-base_path <- "/mnt/parscratch/users/bip24cns/acedisparity/revisions/discrete_wagner/"
+base_path <- "/mnt/parscratch/users/bip24cns/acedisparity/revisions/discrete_keating/"
 
 cat("Starting task", task_id, "\n")
 
 rates <- c("fast", "med", "slow")
-levels <- c("fossil_high", "fossil_low", "fossil_med", "living")
+levels <- c("all", "fossil_high", "fossil_low", "fossil_med", "living")
 
 all_ace_runs <- expand.grid(
   fossil_level = levels,  # Changes FASTEST
