@@ -2,7 +2,7 @@
 #SBATCH --job-name=keating_discrete_sample_ords
 #SBATCH --output=/users/bip24cns/acedisparity/revisions/logs/keating_discrete_sample_ords_%A_%a.out
 #SBATCH --error=/users/bip24cns/acedisparity/revisions/logs/keating_discrete_sample_ords_%A_%a.err
-#SBATCH --array=1-1000%100  # 1,000 tasks, max 100 at once
+#SBATCH --array=1-1000  # 1,000 tasks, max 100 at once
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=1

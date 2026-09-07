@@ -1,7 +1,7 @@
 #!/bin/bash
-#SBATCH --job-name=50t_non_sample_ord
-#SBATCH --output=/users/bip24cns/acedisparity/revisions/logs/50t_non_sample_ord_%A_%a.out
-#SBATCH --error=/users/bip24cns/acedisparity/revisions/logs/50t_non_sample_ord_%A_%a.err
+#SBATCH --job-name=keating_50t_non_sample_ord
+#SBATCH --output=/users/bip24cns/acedisparity/revisions/logs/keating_50t_non_sample_ord_%A_%a.out
+#SBATCH --error=/users/bip24cns/acedisparity/revisions/logs/keating_50t_non_sample_ord_%A_%a.err
 #SBATCH --array=1-100          # 100 replicates
 #SBATCH --nodes=1                     # 1 node per task
 #SBATCH --ntasks=1                    # 1 R process per task
