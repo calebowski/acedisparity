@@ -112,7 +112,7 @@ cat("Trait matrices saved for replicate", replicate_id, "\n")
 source("/users/bip24cns/acedisparity/discrete/scripts/fossil.pres.R")
 set_seed <- 100 + replicate_id
 living <- lapply(matrices, remove.fossil, trees = crown_tree, type = "discrete")
-fossilised_all <- lapply(matrices, fossil.pres.alt, trees = crown_tree, preservation = 0.5, type = "discrete", seed = set_seed)
+fossilised_all <- lapply(matrices, fossil.pres.alt, trees = crown_tree, preservation = 1.0, type = "discrete", seed = set_seed)
 fossilised_high <- lapply(matrices, fossil.pres.alt, trees = crown_tree, preservation = 0.5, type = "discrete", seed = set_seed)
 fossilised_med <- lapply(matrices, fossil.pres.alt, trees = crown_tree, preservation = 0.15, type = "discrete", seed = set_seed)
 fossilised_low <- lapply(matrices, fossil.pres.alt, trees = crown_tree, preservation = 0.05, type = "discrete", seed = set_seed)
@@ -120,6 +120,7 @@ fossilised_low <- lapply(matrices, fossil.pres.alt, trees = crown_tree, preserva
 
 fossil_matrices <- lapply(names(matrices), function(level) {
     list(
+      all = fossilised_all[[level]],
       fossil_high = fossilised_high[[level]],
       fossil_med = fossilised_med[[level]],
       fossil_low = fossilised_low[[level]],

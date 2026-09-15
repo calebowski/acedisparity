@@ -651,7 +651,7 @@ for (size in tree_sizes) {
   for (method in methods) {
     rmaxes_results[[size]][[method]] <- list()
     for(i in 1:100) {
-      file_path <- file.path("..", "Data", "cluster", "discrete_crown", size, 
+      file_path <- file.path("..", "Data", "discrete", size, 
                             "disparity", "rmaxes",
                             sprintf("%s_%s_%03d.rds", job_id, method, i))      
       if(file.exists(file_path)) {

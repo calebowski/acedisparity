@@ -1,17 +1,17 @@
 library(paleotree)
 library(ape)
+library(TreeSIm)
 
 # 1. Parameters
 p <- 0.75             # Speciation rate
-q <- 0.95 * p         # Extinction rate
+q <- 0.90 * p         # Extinction rate
 nTotalTaxa <- 200     # Fixed total taxa for the single true tree
 rho_levels <- c(rho_50 = 0.50, rho_15 = 0.15, rho_05 = 0.05)
 
-nchars <- 136
+nchars <- 100
 nstates <- c(
-  rep(2, nchars / 2),
-  rep(3, nchars / 4),
-  rep(4, nchars / 4)
+  rep(2, nchars / 1.176472),
+  rep(3, nchars / 6.666667)
 )
 
 # 2. Simulate 1 Full True Phylogeny (r = 0: no sampling during diversification)
@@ -21,6 +21,14 @@ simtrees <- simFossilRecord(
   r = 0,
   nTotalTaxa = nTotalTaxa
 )
+
+tree_full <- TreeSim::sim.bd.taxa(
+  n = n_extant,
+  numbsim = 1,
+  lambda = p,
+  mu = q,
+  complete = TRUE
+)[[1]]
 
 # Convert to fossilTaxa object and ape phylo tree
 taxa_full <- fossilRecord2fossilTaxa(simtrees)
