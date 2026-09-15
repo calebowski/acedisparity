@@ -10,7 +10,7 @@ library(phytools)
 cat("Starting replicate", replicate_id, "\n")
 
 
-base_path <- "/mnt/parscratch/users/bip24cns/acedisparity/continuous_wagner/"
+base_path <- "/mnt/parscratch/users/bip24cns/acedisparity/revisions/continuous_wagner/"
 source("/users/bip24cns/acedisparity/discrete/scripts/utility.R")
 
 write.path <- function(subfolder, filename) {

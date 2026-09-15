@@ -265,7 +265,7 @@ bind.nodes.tips <- function(tree, kept) {
   kept <- c(kept_nodes, kept_tips)
   pruned_tree <- keep.tip(tree_with_fossils, kept, collapse.singles = TRUE)
   pruned_tree <- multi2di(pruned_tree)
-  pruned_tree$edge.length[pruned_tree$edge.length == 0] <- 1e-6
+  pruned_tree$edge.length[pruned_tree$edge.length == 0] <- 1e-6 ## maybe change this to 1e-4
   return(pruned_tree)
 }
 
