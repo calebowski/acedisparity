@@ -2,7 +2,7 @@
 #SBATCH --job-name=wagner_post_ord_ace_batch_2
 #SBATCH --output=/users/bip24cns/acedisparity/revisions/logs/wagner_post_ord_ace_batch2_%A_%a.out
 #SBATCH --error=/users/bip24cns/acedisparity/revisions/logs/wagner_post_ord_ace_batch2_%A_%a.err
-#SBATCH --array=1-200%50          # First 1000 tasks
+#SBATCH --array=1-500%50          # First 1000 tasks
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=1
@@ -14,4 +14,4 @@
 module load R/4.4.1-foss-2022b
 export R_LIBS_USER=/users/$USER/R/x86_64-pc-linux-gnu-library/4.4
 
-Rscript /users/$USER/acedisparity/revisions/scripts/wagner_discrete_post_ord_ace.R ${SLURM_ARRAY_TASK_ID} "50t" "11429393" "1000"
+Rscript /users/$USER/acedisparity/revisions/scripts/wagner_discrete_post_ord_ace.R ${SLURM_ARRAY_TASK_ID} "50t" "11612532" "1000"

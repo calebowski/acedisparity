@@ -14,7 +14,7 @@ base_path <- "/mnt/parscratch/users/bip24cns/acedisparity/revisions/discrete_wag
 cat("Starting task", task_id, "\n")
 
 rates <- c("fast", "med", "slow")
-levels <- c("fossil_high", "fossil_low", "fossil_med", "living")
+levels <- c("all", "fossil_high", "fossil_low", "fossil_med", "living")
 
 all_ace_runs <- expand.grid(
   fossil_level = levels,  # Changes FASTEST

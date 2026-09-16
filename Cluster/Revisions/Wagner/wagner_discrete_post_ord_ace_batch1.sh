@@ -14,4 +14,4 @@
 module load R/4.4.1-foss-2022b
 export R_LIBS_USER=/users/$USER/R/x86_64-pc-linux-gnu-library/4.4
 
-Rscript /users/$USER/acedisparity/revisions/scripts/wagner_discrete_post_ord_ace.R ${SLURM_ARRAY_TASK_ID} "50t" "11429393" "0"
+Rscript /users/$USER/acedisparity/revisions/scripts/wagner_discrete_post_ord_ace.R ${SLURM_ARRAY_TASK_ID} "50t" "11612532" "0"

@@ -258,14 +258,16 @@ bind.nodes.tips <- function(tree, kept) {
     tree_with_fossils <- bind.tip(tree_with_fossils, 
                                   tip.label = paste0("f_",n_label), ## give new name (f_x) to separate from node label
                                   where = current_node_idx, 
-                                  edge.length = 1e-6)
+                                  edge.length = min(tree$edge.length[tree$edge.length>0]) * 0.1 ## take the smallest non zero tree branch (shouldnt be any 0 length branche sbut just in case)
+    )
     }
 
   kept_nodes <- paste0("f_", kept_nodes) ## add "f_" logic to kept vector
   kept <- c(kept_nodes, kept_tips)
   pruned_tree <- keep.tip(tree_with_fossils, kept, collapse.singles = TRUE)
   pruned_tree <- multi2di(pruned_tree)
-  pruned_tree$edge.length[pruned_tree$edge.length == 0] <- 1e-6 ## maybe change this to 1e-4
+  f_n_branch_length <- min(tree$edge.length[tree$edge.length>0]) * 0.1 
+  pruned_tree$edge.length[pruned_tree$edge.length == 0] <- f_n_branch_length ## maybe change this to 1e-4
   return(pruned_tree)
 }
 
