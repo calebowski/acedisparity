@@ -256,6 +256,11 @@ INPUT ./figures/symmetry.pdf
 INPUT ./figures/symmetry.pdf
 INPUT ./figures/symmetry.pdf
 INPUT ./figures/symmetry.pdf
+INPUT ./figures/assymetrical_trees_colless.pdf
+INPUT ./figures/assymetrical_trees_colless.pdf
+INPUT ./figures/assymetrical_trees_colless.pdf
+INPUT ./figures/assymetrical_trees_colless.pdf
+INPUT ./figures/assymetrical_trees_colless.pdf
 INPUT ./figures/aggregated_continuous_diagnostic_plot.pdf
 INPUT ./figures/aggregated_continuous_diagnostic_plot.pdf
 INPUT ./figures/aggregated_continuous_diagnostic_plot.pdf
@@ -276,6 +281,11 @@ INPUT ./figures/discrete_weighted_heatmap.pdf
 INPUT ./figures/discrete_weighted_heatmap.pdf
 INPUT ./figures/discrete_weighted_heatmap.pdf
 INPUT ./figures/discrete_weighted_heatmap.pdf
+INPUT ./figures/discrete_boxplot_assymetrical_50t_trees.pdf
+INPUT ./figures/discrete_boxplot_assymetrical_50t_trees.pdf
+INPUT ./figures/discrete_boxplot_assymetrical_50t_trees.pdf
+INPUT ./figures/discrete_boxplot_assymetrical_50t_trees.pdf
+INPUT ./figures/discrete_boxplot_assymetrical_50t_trees.pdf
 INPUT ./supplementary.bbl
 INPUT ./supplementary.bbl
 INPUT supplementary.bbl

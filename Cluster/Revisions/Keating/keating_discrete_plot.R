@@ -105,7 +105,7 @@ results_df_long$method <- factor(
              "post_ord_point", "post_ord_sample", "no_ace"),
   labels = c("Pre-ord ASE\n(point)",
              "Pre-ord ASE\n(dist)", "Post-ord ASE\n(point)", 
-             "Post-ord ASE\n(dist)", "Sampled taxa only")
+             "Post-ord ASE\n(dist)", "No ASE")
 )
 
 results_df_long$preservation_level <- factor(
@@ -159,8 +159,8 @@ boxplot_plot_all <- ggplot(results_df_long,
     axis.text = element_text(size = 16, color = "black"),
     axis.title = element_text(size = 20, face = "bold", color = "black"),
     legend.position = "right",
-    legend.title = element_text(size = 18, face = "bold"),
-    legend.text = element_text(size = 15),
+    legend.title = element_text(size = 20, face = "bold"),
+    legend.text = element_text(size = 20),
     strip.text = element_text(size = 20, face = "bold"),
     strip.background = element_rect(fill = "gray95", color = "black", linewidth = 0.3),
     panel.border = element_rect(color = "black", fill = NA, linewidth = 0.4),
@@ -170,9 +170,9 @@ boxplot_plot_all <- ggplot(results_df_long,
     panel.spacing = unit(0.3, "cm")
   ) +
   scale_y_continuous(
-    breaks = c(-1, -0.5, 0, 0.50, 1.0),
-    labels = c("-1.0", "-0.5", "0", "0.50", "1.0")
+    breaks = c(-1, -0.5, 0, 0.5),
+    labels = c("-1.0", "-0.5", "0", "0.50")
   ) +
-  coord_cartesian(ylim = c(-1, 1))
+  coord_cartesian(ylim = c(-1, 0.5))
 
-ggsave("../../../Manuscript/draft/figures/discrete_boxplot_assymetrical_50t_trees.png", boxplot_plot_all, , width = 18, height = 14, dpi = 700, units = "in", bg = "white")
+ggsave("../../../Manuscript/draft/figures/discrete_boxplot_assymetrical_50t_trees.pdf", boxplot_plot_all, , width = 18, height = 14, dpi = 700, units = "in", bg = "white")

@@ -13,7 +13,7 @@ write.path <- function(subfolder, filename) {
 }
 
 rates <- c("slow", "med", "fast")
-fossils <- c("fossil_high", "fossil_med", "fossil_low", "living")
+fossils <- c("all","fossil_high", "fossil_med", "fossil_low", "living")
 
 # LOAD DATA
 
@@ -105,7 +105,7 @@ metrics <- list(
 # Fix: Calculate with correct metric names
 results_raw <- lapply(names(metrics), function(metric_name) {
   metric <- metrics[[metric_name]]
-  true_disp <- lapply(ord_true, function(rate) get.disparity(dispRity(rate, metric = metric)))
+  true_disp <- lapply(ord_true, function(rate) get.disparity(dispRity(rate[,1:48], metric = metric)))
   
   list(
     pre_ord_sample = calc.error(sample_pre_ord_ace, true_disp, metric),

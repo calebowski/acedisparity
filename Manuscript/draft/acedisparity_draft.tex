@@ -132,9 +132,13 @@ The randomness of the birth-death model meant some simulated trees contained onl
 This meant that although the parameters were set to $\lambda = 1$ and $\mu = 0.9$, the effective parameters slightly deviated from these input values (\autoref{fig:net div overall trees}).
 Mean net diversification across all simulated trees was $0.30\pm0.09$.
 
+Constant birth death parameters meant that the simulated trees were highly symmetrical (\autoref{fig:main trees colless dist}). 
+As a sensitivity test, we simulated 100 birth-death trees with high asymmetry and ran the same pipeline (\autoref{fig:assymetrical trees colless dist}).
+
 Trees were pruned to extract the crown clade of the tree for downstream analyses.
 This ensured that all downsampled trees descending shared an identical root node and tree height with the original tree simulation.
 Therefore, any tip included in the analyses was a descendant of the most basal node considered, i.e., the MRCA of extant tips, ensuring that all ordinations and disparity values were calculated within a consistent clade. %@@@keating line 147
+
 
 \begin{figure}[H]
 \centering
@@ -191,11 +195,12 @@ For each category, 85 binary characters and 15 three-state characters were simul
 
 
 \subsection{Fossil sampling simulation}
+
 To simulate different fossil sampling densities, extinct tips were either retained (`fossilised') or pruned using a Bernoulli sampling method at five different probabilities: 0\%, 5\%, 15\%, 50\% and 100\% (\autoref{fig:pipeline}: Step 3). 
-This method means each extinct tip had an equal probability of being `fossilised' at each sampling level, irrespective of the total tree size.
+This method meant each extinct tip had an equal probability of being `fossilised' at each sampling level, irrespective of the total tree size.
+To test whether our fossil sampling scheme was biased by only sampling tips, we also used the same Bernoulli sampling method but allowed nodes to be sampled as well as tips.%@@@wagner line 175
+Sampled nodes were attached to the tree as tips using the \texttt{bind.tip} function from \texttt{phytools} \citep{revell2012phytools} with a non-zero branch length.
 The corresponding trait matrices were subset to match the tips remaining in each down-sampled tree.
-
-
 \subsection{Ancestral state estimation (ASE)} 
 We estimated ancestral state on the down-sampled matrices using \texttt{dispRity::multi.ace} \citep{guillerme2018disprity}, which is a wrapper for \texttt{ape::ace} \citep{paradis2019ape}.
 We used four combinations of two approaches to ancestral state estimation to evaluate each method's accuracy in recovering the true disparity signal (\autoref{fig:pipeline}: Step 4). 
