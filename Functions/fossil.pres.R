@@ -245,24 +245,28 @@ fossil.pres.alt <- function(trees, matrices, preservation = c(0.05, 0.15, 0.5, 1
 
 
 bind.nodes.tips <- function(tree, kept) {
+
   kept_tips  <- kept[kept %in% tree$tip.label]
   kept_nodes <- kept[kept %in% tree$node.label]
 
   tree_with_fossils <- tree
+   
+  if(length(kept_nodes) > 0 ) {
 
-  for (n_label in kept_nodes) {
-    
+    for (n_label in kept_nodes) {
+      
 
-    current_node_idx <- which(tree_with_fossils$node.label == n_label) + Ntip(tree_with_fossils)
-    
-    tree_with_fossils <- bind.tip(tree_with_fossils, 
-                                  tip.label = paste0("f_",n_label), ## give new name (f_x) to separate from node label
-                                  where = current_node_idx, 
-                                  edge.length = min(tree$edge.length[tree$edge.length>0]) * 0.1 ## take the smallest non zero tree branch (shouldnt be any 0 length branche sbut just in case)
-    )
+      current_node_idx <- which(tree_with_fossils$node.label == n_label) + Ntip(tree_with_fossils)
+      
+      tree_with_fossils <- bind.tip(tree_with_fossils, 
+                                    tip.label = paste0("f_",n_label), ## give new name (f_x) to separate from node label
+                                    where = current_node_idx, 
+                                    edge.length = min(tree$edge.length[tree$edge.length>0]) * 0.1 ## take the smallest non zero tree branch (shouldnt be any 0 length branche sbut just in case)
+      )
     }
 
-  kept_nodes <- paste0("f_", kept_nodes) ## add "f_" logic to kept vector
+    kept_nodes <- paste0("f_", kept_nodes) ## add "f_" logic to kept vector
+  }
   kept <- c(kept_nodes, kept_tips)
   pruned_tree <- keep.tip(tree_with_fossils, kept, collapse.singles = TRUE)
   pruned_tree <- multi2di(pruned_tree)
@@ -273,3 +277,87 @@ bind.nodes.tips <- function(tree, kept) {
 
 
 
+parent.child.branch.length <- function(tree) {
+tree_names <- c(tree$tip.label, tree$node.label)
+
+parent_child <- data.frame(
+    parent = tree_names[tree$edge[, 1]],
+    child = tree_names[tree$edge[, 2]],
+    branch_length = tree$edge.length,
+    stringsAsFactors = FALSE
+)
+return(parent_child)
+}
+
+
+poisson.fossil <- function(parent_child, rate){
+  parent_child$count <- rpois(n= length(parent_child$branch_length), lambda = rate * parent_child$branch_length)
+  return(parent_child)
+}
+
+
+
+fossil.pres.duration <- function(trees, matrices, sample.prob = c(0.05, 0.15, 0.5, 1.0), type = c("discrete", "continuous"), seed = NULL) {
+  process.fossil.duration <- function(tree, matrix, type, seed) {
+    ages <- tree.age(tree)
+    tips <- ages$element[ages$ages == 0]  # Keep living species
+    fossils <- ages$element[ages$ages > 0]
+    set.seed(seed)
+    max_attempts <- 20
+    attempt <- 1
+    parent_children <- parent.child.branch.length(tree)
+    parent_children_fossils <- parent_children[parent_children$child %in% fossils, , drop = FALSE]
+
+    repeat {
+
+      # if(length(fossils) == 0){
+      #   sample_fossil  <- character(0) 
+      #   cat("No fossils (extinct tips) found in tree... \n")
+      #   break
+
+      # } else {
+
+      fossil_counts <- poisson.fossil(parent_children_fossils, rate = -0.9/(1-(1/sample.prob))) ## rate is derived from the sample probability and extinction parameter (as per wagner review)
+      sample_fossil <- subset(fossil_counts, count >0)$child ## extract fossils that have been sampled
+        if (length(sample_fossil) > 0) break
+
+      if(attempt >= max_attempts) {
+        sample_fossil <- sample(fossils, 1) ## if reach max attempts just use one fossil
+      cat("Warning: Reached maximum attempts, accepting 1 fossil... \n")
+      break
+      }
+
+      attempt <- attempt + 1
+
+    }
+
+    kept <- c(sample_fossil, tips)
+    fossil_matrix <- matrix[rownames(matrix) %in% kept, ]
+
+    # Discrete needs characters returned for ace, continuous needs numeric
+    if (type == "discrete") {
+      fossil_matrix <- apply(fossil_matrix, c(1, 2), as.character)
+    } 
+
+    if(type == "continuous") {
+      fossil_matrix <- apply(fossil_matrix, c(1, 2), as.numeric)
+      # fossil_matrix <- as.data.frame(fossil_matrix)
+    }
+
+    pruned <- bind.nodes.tips(tree,kept)
+    rownames(fossil_matrix) <- ifelse(grepl("^n", rownames(fossil_matrix)), paste0("f_" , rownames(fossil_matrix)), rownames(fossil_matrix)) ## rename matrix as well
+    # pruned <- keep.tip(tree, kept)
+    return(list(matrix = fossil_matrix, tree = pruned))
+  }
+
+  # Check if inputs are lists or single objects
+  if (is.list(trees) && is.list(matrices)) {
+    # Use Map for lists of trees and matrices
+    fossil_matrices <- Map(function(tree, matrix) process.fossil.duration(tree, matrix, type, seed), trees, matrices)
+  } else {
+    # Process a single tree and matrix
+    fossil_matrices <- process.fossil.duration(trees, matrices, type, seed)
+  }
+
+  return(fossil_matrices)
+}

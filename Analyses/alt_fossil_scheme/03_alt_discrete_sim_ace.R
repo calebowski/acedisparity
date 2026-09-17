@@ -107,10 +107,10 @@ run.sim.discrete.ace <- function(tree_size, replicate_id, samples = 100) {
 
     ## Simulate fossil sampling ----------------------------------
     living <- lapply(matrices, remove.fossil, trees = crown_tree, type = "discrete")
-    fossilised_high <- lapply(matrices, fossil.pres.alt, trees = crown_tree, preservation = 0.5, type = "discrete", seed = seed)
-    all_fossil <- lapply(matrices, fossil.pres.alt, trees = crown_tree, preservation = 1.0, type = "discrete", seed = seed)
-    fossilised_med <- lapply(matrices, fossil.pres.alt, trees = crown_tree, preservation = 0.15, type = "discrete", seed = seed)
-    fossilised_low <- lapply(matrices, fossil.pres.alt, trees = crown_tree, preservation = 0.05, type = "discrete", seed = seed)
+    fossilised_high <- lapply(matrices, fossil.pres.duration, trees = crown_tree, sample.prob = 0.5, type = "discrete", seed = seed)
+    all_fossil <- lapply(matrices, fossil.pres.alt, trees = crown_tree, preservation = 1.0, type = "discrete", seed = seed) ## use this function because applying rates is leads to -Inf lambda value. is fine to do 
+    fossilised_med <- lapply(matrices, fossil.pres.duration, trees = crown_tree, sample.prob = 0.15, type = "discrete", seed = seed)
+    fossilised_low <- lapply(matrices, fossil.pres.duration, trees = crown_tree, sample.prob = 0.05, type = "discrete", seed = seed)
 
     fossil_matrices <- lapply(names(matrices), function(level) {
     list(

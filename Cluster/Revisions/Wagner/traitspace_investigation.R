@@ -279,7 +279,7 @@ get.disparity(dispRity(spaces$ace[grepl("^n", rownames(spaces$ace)),], metric = 
 ord_true_list <- list()
 trees <- list()
 for (i in 1:100){
-  ord_true_list[[i]] <- readRDS(paste0(sprintf("../../Data/revisions/wagner2/discrete/ord/11532243_ord_true_%03d.rds", i)))
+  # ord_true_list[[i]] <- readRDS(paste0(sprintf("../../Data/revisions/wagner2/discrete/ord/11532243_ord_true_%03d.rds", i)))
   trees[[i]] <- extract.crown.tree(read.tree(sprintf("../../Data/trees/tree_50t_%03d.tre", i)))
 }
 
@@ -290,16 +290,25 @@ get.parent.child <- function(tree) {
     parent = tree_names[tree$edge[, 1]],
     child = tree_names[tree$edge[, 2]],
     branch_length = tree$edge.length,
-    morphological_distance = NA_real_,
+    tip_vs_node = ifelse(grepl("^n", (tree_names[tree$edge[, 2]])), "node", "tip"),
     stringsAsFactors = FALSE
   )
 
   return(parent_child)
-
 }
 
-
 parent_children <- lapply(trees, get.parent.child)
+parent_children_df <- do.call(rbind, parent_children)
+
+boxplot(
+    (branch_length) ~ tip_vs_node,
+    data = parent_children_df,
+    xlab = "",
+    ylab = "Branch length"
+)
+
+
+
 
 
 parent.child.dist <- function(parent_child, ordination){

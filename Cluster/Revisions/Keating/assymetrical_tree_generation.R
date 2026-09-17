@@ -3,18 +3,6 @@ library(treestats)
  ## three tree sizes
 bd_params <- make.bd.params(speciation = 1, extinction = 0.90)
 
-# ## Biased selection
-# bias.select <- function(lineage) {
-#     ## Sample one lineage among the existing lineages
-#     ## "lineage" is an internal treats object details in manual.
-#     ## The sample proportion is a decreasing log exponential distribution
-#     ## i.e. the last lineage has always more changes to be selected
-#     ## You can modify the rate parameter internally. Bigger = more ladderised
-#     probs <- rev(dexp(seq(1, lineage$n, by = 1), rate = 1.39))
-#     return(sample(1:lineage$n, 1, prob = probs))
-# }
-
-
 ## Biased selection
 bias.select <- function(lineage) {
     ## Sample one lineage among the existing lineages
@@ -22,9 +10,21 @@ bias.select <- function(lineage) {
     ## The sample proportion is a decreasing log exponential distribution
     ## i.e. the last lineage has always more changes to be selected
     ## You can modify the rate parameter internally. Bigger = more ladderised
-    # probs <- rev(dexp(seq(1, lineage$n, by = 1), rate = 1.39))
-    return(lineage$n)
+    probs <- rev(dexp(seq(1, lineage$n, by = 1), rate = 1.39))
+    return(sample(1:lineage$n, 1, prob = probs))
 }
+
+
+# ## Biased selection
+# bias.select <- function(lineage) {
+#     ## Sample one lineage among the existing lineages
+#     ## "lineage" is an internal treats object details in manual.
+#     ## The sample proportion is a decreasing log exponential distribution
+#     ## i.e. the last lineage has always more changes to be selected
+#     ## You can modify the rate parameter internally. Bigger = more ladderised
+#     # probs <- rev(dexp(seq(1, lineage$n, by = 1), rate = 1.39))
+#     return(lineage$n)
+# }
 
 
 n <- 10
