@@ -470,10 +470,10 @@ summary(nearest_tip$nearest_tip_distance)
 ## TIP TO PARENT TEST WITH PUNCTUATED
 
 ord_true_list <- list()
-trees <- list()
+# trees <- list()
 for (i in 1:100){
-  ord_true_list[[i]] <- readRDS(paste0(sprintf("../../Data/revisions/wagner2/discrete/ord/11532243_ord_true_%03d.rds", i)))
-  trees[[i]] <- extract.crown.tree(read.tree(sprintf("../../Data/trees/tree_50t_%03d.tre", i)))
+  ord_true_list[[i]] <- readRDS(paste0(sprintf("../../Data/revisions/wagner/discrete/ord/11429393_ord_true_%03d.rds", i)))
+  # trees[[i]] <- extract.crown.tree(read.tree(sprintf("../../Data/trees/tree_50t_%03d.tre", i)))
 }
 
 slow <- lapply(ord_true_list, function(x) x$slow)
@@ -510,6 +510,87 @@ distance.from.centroid <- function(ordination) {
 
 centroid_distances <- do.call(rbind, do.call(rbind, lapply(ord_true_list, lapply, distance.from.centroid)))
 
+
+
+centroid_distances <- do.call(rbind, do.call(rbind, lapply(ord_true_list, lapply, dispRity, metric = c(mean, pairwise.dist))))
+
+
+
+pairwise_dist <- lapply(ord_true_list, lapply, dispRity, metric = pairwise.dist)
+
+library(ggplot2)
+pairwise_all <- function(ordination, replicate, transition_rate) {
+  row_names <- rownames(ordination)
+
+  type <- ifelse(
+    grepl("^t", row_names), "Tip",
+    ifelse(grepl("^(n|f_n)", row_names), "Node", NA)
+  )
+
+  keep <- !is.na(type)
+  ordination <- ordination[keep, , drop = FALSE]
+  type <- type[keep]
+  row_names <- row_names[keep]
+
+  distance_matrix <- as.matrix(dist(ordination))
+  pairs <- which(lower.tri(distance_matrix), arr.ind = TRUE)
+
+  pair_type <- ifelse(
+    type[pairs[, 1]] == "Tip" & type[pairs[, 2]] == "Tip",
+    "Tip-Tip",
+    ifelse(
+      type[pairs[, 1]] == "Node" & type[pairs[, 2]] == "Node",
+      "Node-Node",
+      "Tip-Node"
+    )
+  )
+
+  data.frame(
+    name_1 = row_names[pairs[, 1]],
+    name_2 = row_names[pairs[, 2]],
+    type_1 = type[pairs[, 1]],
+    type_2 = type[pairs[, 2]],
+    pair_type = pair_type,
+    distance = distance_matrix[pairs],
+    replicate = replicate,
+    transition_rate = transition_rate
+  )
+}
+
+all_pairwise_distances <- do.call(
+  rbind,
+  lapply(seq_along(ord_true_list), function(i) {
+    do.call(
+      rbind,
+      lapply(names(ord_true_list[[i]]), function(rate) {
+        pairwise_all(
+          ord_true_list[[i]][[rate]],
+          replicate = i,
+          transition_rate = rate
+        )
+      })
+    )
+  })
+)
+
+
+library(ggplot2)
+
+p <- ggplot(
+  all_pairwise_distances,
+  aes(x = pair_type, y = distance, fill = pair_type)
+) +
+  geom_boxplot(outlier.shape = NA) +
+  facet_wrap(~ transition_rate) +
+  labs(
+    x = "Node vs tip pair",
+    y = "Pairwise distance"
+  ) +
+  theme_classic() +
+  theme(legend.position = "none")
+
+
+ggsave("pd_3_way_ords.png", p)
 
 boxplot(
   distance_from_centroid ~ type,

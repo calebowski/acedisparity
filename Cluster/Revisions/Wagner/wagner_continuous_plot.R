@@ -170,5 +170,5 @@ boxplot_plot_all <- ggplot(results_df_long,
     panel.spacing = unit(0.3, "cm")
   ) 
 
-ggsave("../../../Manuscript/draft/figures/continuous_boxplot_nodes_tips_sampled.png", boxplot_plot_all, , width = 18, height = 14, dpi = 700, units = "in", bg = "white")
+ggsave("../../../Manuscript/draft/figures/continuous_boxplot_nodes_tips_sampled.pdf", boxplot_plot_all, , width = 18, height = 14, dpi = 700, units = "in", bg = "white")
 

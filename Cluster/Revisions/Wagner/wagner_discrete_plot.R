@@ -16,9 +16,9 @@ results <- list()
 for (method in methods) {
   results[[method]] <- list()
   for(i in 1:100) {
-    file_path <- file.path("..", "Data",  "revisions", "wagner", "discrete",
+    file_path <- file.path("..", "..", "Data",  "revisions", "wagner", "discrete",
                           "disparity",
-                          sprintf("11429393_%s_%03d.rds", method, i))
+                          sprintf("11612532_%s_%03d.rds", method, i))
     if(file.exists(file_path)) {
       results[[method]][[i]] <- readRDS(file_path)
     } else {
@@ -74,6 +74,7 @@ results_df <- do.call(rbind, lapply(names(results_relisted), function(metric_nam
         
         data.frame(
           replicate = rep_idx,
+          all = I(list(rate_data$all)),
           high = I(list(rate_data$fossil_high)),
           mid = I(list(rate_data$fossil_med)),
           low = I(list(rate_data$fossil_low)),
@@ -91,7 +92,7 @@ results_df <- do.call(rbind, lapply(names(results_relisted), function(metric_nam
 # Pivot to long format
 results_df_long <- results_df %>%
   pivot_longer(
-    cols = c("living", "low", "mid", "high"),
+    cols = c("living", "low", "mid", "high", "all"),
     names_to = "preservation_level",
     values_to = "error"
   ) %>%
@@ -109,8 +110,8 @@ results_df_long$method <- factor(
 
 results_df_long$preservation_level <- factor(
   results_df_long$preservation_level,
-  levels = c("living", "low", "mid", "high"),
-  labels = c("0", "5", "15", "50")
+  levels = c("living", "low", "mid", "high", "all"),
+  labels = c("0", "5", "15", "50", "100")
 )
 
 results_df_long$rate <- factor(
@@ -202,7 +203,7 @@ for (method in methods) {
   for(i in 1:100) {
     file_path <- file.path("..", "..", "Data",  "revisions", "wagner", "discrete",
                           "disparity_rm",
-                          sprintf("11429393_%s_%03d.rds", method, i))
+                          sprintf("11612532_%s_%03d.rds", method, i))
     if(file.exists(file_path)) {
       results[[method]][[i]] <- readRDS(file_path)
     } else {
@@ -258,6 +259,7 @@ results_df <- do.call(rbind, lapply(names(results_relisted), function(metric_nam
         
         data.frame(
           replicate = rep_idx,
+          all = I(list(rate_data$all)),
           high = I(list(rate_data$fossil_high)),
           mid = I(list(rate_data$fossil_med)),
           low = I(list(rate_data$fossil_low)),
@@ -275,7 +277,7 @@ results_df <- do.call(rbind, lapply(names(results_relisted), function(metric_nam
 # Pivot to long format
 results_df_long <- results_df %>%
   pivot_longer(
-    cols = c("living", "low", "mid", "high"),
+    cols = c("living", "low", "mid", "high", "all"),
     names_to = "preservation_level",
     values_to = "error"
   ) %>%
@@ -293,8 +295,8 @@ results_df_long$method <- factor(
 
 results_df_long$preservation_level <- factor(
   results_df_long$preservation_level,
-  levels = c("living", "low", "mid", "high"),
-  labels = c("0", "5", "15", "50")
+  levels = c("living", "low", "mid", "high", "all"),
+  labels = c("0", "5", "15", "50", "100")
 )
 
 results_df_long$rate <- factor(
@@ -358,4 +360,4 @@ boxplot_plot_all <- ggplot(results_df_long,
   ) +
   coord_cartesian(ylim = c(-1, 1))
 
-ggsave("../../Manuscript/draft/figures/discrete_boxplot_nodes_tips_sampled.png", boxplot_plot_all, , width = 18, height = 14, dpi = 700, units = "in", bg = "white")
+ggsave("../../../Manuscript/draft/figures/discrete_boxplot_nodes_tips_sampled_rm_axes.png", boxplot_plot_all, , width = 18, height = 14, dpi = 700, units = "in", bg = "white")

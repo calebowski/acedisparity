@@ -7,7 +7,7 @@
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=1
 #SBATCH --mem=18G
-#SBATCH --time=96:00:00              # 96 hours for "all" levels
+#SBATCH --time=18:00:00              # 96 hours for "all" levels
 #SBATCH --mail-user=cnscutt1@sheffield.ac.uk
 #SBATCH --mail-type=END,FAIL
 
