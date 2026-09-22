@@ -195,15 +195,16 @@ For each category, 85 binary characters and 15 three-state characters were simul
 
 
 \subsection{Fossil sampling simulation}
-
-To simulate different fossil sampling densities, extinct tips were either retained (`fossilised') or pruned using a Bernoulli sampling method at five different probabilities: 0\%, 5\%, 15\%, 50\% and 100\% (\autoref{fig:pipeline}: Step 3). 
+To explore the interaction of fossil sampling with estimation method on the disparity accuracy, we simulated fossil sampling in two ways. 
+The first way, labelled 'tip-only', is that extinct tips were either retained (`fossilised') or pruned using a Bernoulli sampling method at five different probabilities: 0\%, 5\%, 15\%, 50\% and 100\% (\autoref{fig:pipeline}: Step 3). 
 This method meant each extinct tip had an equal probability of being `fossilised' at each sampling level, irrespective of the total tree size.
+
 To test whether our fossil sampling scheme was biased by only sampling tips, we also used the same Bernoulli sampling method but allowed nodes to be sampled as well as tips.%@@@wagner line 175
 Sampled nodes were attached to the tree as tips using the \texttt{bind.tip} function from \texttt{phytools} \citep{revell2012phytools} with a non-zero branch length.
 The corresponding trait matrices were subset to match the tips remaining in each down-sampled tree.
 \subsection{Ancestral state estimation (ASE)} 
 We estimated ancestral state on the down-sampled matrices using \texttt{dispRity::multi.ace} \citep{guillerme2018disprity}, which is a wrapper for \texttt{ape::ace} \citep{paradis2019ape}.
-We used four combinations of two approaches to ancestral state estimation to evaluate each method's accuracy in recovering the true disparity signal (\autoref{fig:pipeline}: Step 4). 
+We used four combinations of two approaches to ancestral state estimation to evaluate each method's accuracy in recovering the true disparity signal (\autoref{fig:pipeline}    : Step 4). 
 These were then compared to a null model bypassing ancestral state estimation.
 
 \subsubsection{Pre-ordination estimation} \label{pre-ord}
@@ -298,14 +299,14 @@ Specifically, disparity outputted from the BM models and sum of quantiles metric
 Tree size had a minor effect in comparison ($F = 43_{2,297},~ p < .001$).
 The three-way interaction between estimation method, fossil sampling and evolutionary model was significant ($F_{32,66976} = 60,~ p < .001$) and the \textit{post-hoc} EMM can be used to identify the optimal method for models at each fossil sampling density (Table S2).
 For Brownian motion (BM) at 100\% fossil sampling, the distribution estimations were most accurate. 
-At 50\% and below, methods of \ase generally performed equally well and significantly better than excluding ancestral states. 
+At 50\% and below, methods of \ase generally performed equally well and significantly better than excluding ancestral states.
 Under BM + trend, a similar pattern was followed at high fossil sampling densities, yet when fossil sampling dropped below 15\% methods of \ase performed worse than excluding ancestral states. 
 In contrast, under an OU model the exclusion of ancestral states was the best approach across all fossil sampling densities.
 While the disparity metric had a large effect on the overall estimation accuracy, it was a relatively lower driver of variation regarding its interaction with the estimation method ($F_{8,66976} = 7,~ p < .001$).
 Therefore, while estimation accuracy differed between metrics, the hierarchy between optimal methods was generally consistent across metrics.
 
 \subsubsection{Sensitivity tests} 
-These findings were largely congruent under the alternative tips+nodes fossil sampling scheme, albeit we found that excluding ancestral states was marginally better performing when under the sum of quantiles metric across all models (\autoref{fig:Continuous nodes tips boxplot}).
+These findings were largely congruent under the alternative tips+nodes fossil sampling scheme, albeit we found that excluding ancestral states was marginally better performing when using the sum of quantiles metric across all models (\autoref{fig:Continuous nodes tips boxplot}).
 
 \begin{figure}[H]
 \centering
@@ -349,6 +350,7 @@ Again, while the disparity metric was a significant driver to overall accuracy, 
 
 \subsubsection{Sensitivity tests} 
 Our findings did not differ under the alternative fossil sampling scheme (tips+nodes) %@@@add figure reference
+or under asymmetrical trees (\autoref{fig:Asymmetrical trees boxplot}).
 When we account for unequal dimensionality, we found virtually the same results as when we preserved the full dimensionality of the trait space (\autoref{fig:rm axes discrete boxplot}).
 However, we note that the extent at which pre-ordination estimation methods are advantageous over excluding ancestral state estimations is slightly diminished, highlighting that there is a moderate effect of dimensionality.
 
@@ -441,31 +443,47 @@ Several recent methodological developments have aimed to accommodate for rate he
 
 
 
-\subsection{Disparity metrics and recovering a true trait space}
-% 1. Generally, the disparity metric did not change the hierarchy of methods
-%     (a) Some methods were easier to estimate than others
-%     (b) Sum of quantiles
-%         (i) Distribution methods were best performing here
-%         (ii) For discrete characters, it is essential to use pre-ordination distribution if using a range based metric, because post-ordination will constrain your range within the sample of tip data, and point estimates do not allow the expansion of variance that is needed.
-%     (c) Sum of variances / mean pairwise dist
-%         (i) Behaved very similarly
-%         (ii) Generally harder to estimate in continuous characters 
+
+\subsection{Sensitivity tests}
+
+% 1.
+%     a) asymmetry did not change results, we actually found an improvement
+%     b) link to keating's paper
+% 2. Generally, results did not change between fossil sampling approach
+%     a) tips-only is the conventional approach, given that when we sample a fossil we do not know whether it is represents a node or fossil
+%     b) we incorporated the nodes as a way for testing whether that biases our findings:
+%         (i) for discrete traits, we found no difference. this is because under discrete simulation, a tip and node are morphologically diverse as each other
+%         (ii) continuous traits, we did find this sampling method changed results, because ancestors are by definition less variant etc (recycle response to wagner)
+%     c) our results assume the bifurcating model of phylogeny as the evolutionary history, but acknoweldge that other mechanisms of speciation, such as budding or anagenesis, could affect the results. we acknowledge the simplicity in the fossil sampling scheme.
+% 3. Dimensionality
+%     a) whether the dimensionality is an attribute of a 'true disparity value' is up for debate.
 
 
-%The mercy of continuous traits
-%         (i) Near misses (i.e. guessing a trait value to be 11 when in truth it was 10) is more graceful on traitspace than getting a discrete state wrong?
-%         (ii) Although comparing discrete vs continuous estimation of disparity not a main question in this study, it would be interesting
+% \subsection{Disparity metrics and recovering a true trait space}
+% % 1. Generally, the disparity metric did not change the hierarchy of methods
+% %     (a) Some methods were easier to estimate than others
+% %     (b) Sum of quantiles
+% %         (i) Distribution methods were best performing here
+% %         (ii) For discrete characters, it is essential to use pre-ordination distribution if using a range based metric, because post-ordination will constrain your range within the sample of tip data, and point estimates do not allow the expansion of variance that is needed.
+% %     (c) Sum of variances / mean pairwise dist
+% %         (i) Behaved very similarly
+% %         (ii) Generally harder to estimate in continuous characters 
 
 
-Previously, the choice of disparity metric has been probed as a critical step in the disparity pipeline, specifically for examining different aspects of trait space \citep{guillerme2020shifting, guillerme2025and}.
-Indeed, our results exhibit significant differences in disparity error among metrics.
-For example, recovering the sum of quantiles was ultimately harder than recovering the sum of variances or mean pairwise distance when using discrete traits.
-However, the hierarchy of methods was relatively consistent across disparity metrics, suggesting that the relative performance of ancestral state estimation methods is robust to different disparity metrics.
-Consistent performance across multiple disparity metrics can reassure us that multiple aspects of the true trait space are recoverable, such as size and density.
-Where there is inconsistency in methods across metrics, we can infer that the true disparity value has been attained as a methodological artefact, rather than the recovery of a true trait space pattern. 
-This can be observed in the post-ordination distribution estimation of discrete traits, which performed well under the sum of variances and mean pairwise distance metrics, but noticeably worse under sum of quantiles.
-From this we can infer that while the internal density of taxa was correctly recovered, the geometric constraint of post-ordination estimation ultimately limited its ability to recover true trait space expansion.
-% This was a ubiquitous problem across methods, indicating that, without the impossible achievement of a complete fossil dataset, our calculations of the absolute size of trait spaces will always be an underestimation. 
+% %The mercy of continuous traits
+% %         (i) Near misses (i.e. guessing a trait value to be 11 when in truth it was 10) is more graceful on traitspace than getting a discrete state wrong?
+% %         (ii) Although comparing discrete vs continuous estimation of disparity not a main question in this study, it would be interesting
+
+
+% Previously, the choice of disparity metric has been probed as a critical step in the disparity pipeline, specifically for examining different aspects of trait space \citep{guillerme2020shifting, guillerme2025and}.
+% Indeed, our results exhibit significant differences in disparity error among metrics.
+% For example, recovering the sum of quantiles was ultimately harder than recovering the sum of variances or mean pairwise distance when using discrete traits.
+% However, the hierarchy of methods was relatively consistent across disparity metrics, suggesting that the relative performance of ancestral state estimation methods is robust to different disparity metrics.
+% Consistent performance across multiple disparity metrics can reassure us that multiple aspects of the true trait space are recoverable, such as size and density.
+% Where there is inconsistency in methods across metrics, we can infer that the true disparity value has been attained as a methodological artefact, rather than the recovery of a true trait space pattern. 
+% This can be observed in the post-ordination distribution estimation of discrete traits, which performed well under the sum of variances and mean pairwise distance metrics, but noticeably worse under sum of quantiles.
+% From this we can infer that while the internal density of taxa was correctly recovered, the geometric constraint of post-ordination estimation ultimately limited its ability to recover true trait space expansion.
+% % This was a ubiquitous problem across methods, indicating that, without the impossible achievement of a complete fossil dataset, our calculations of the absolute size of trait spaces will always be an underestimation. 
 
 \subsection{Conclusions and recommendations}
 Our findings present a convincing case for the use of ancestral state estimation in disparity analyses, a method that has often been neglected in disparity workflows.

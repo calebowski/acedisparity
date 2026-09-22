@@ -1,4 +1,4 @@
-\begin{thebibliography}{106}
+\begin{thebibliography}{105}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -222,11 +222,6 @@ Thomas Guillerme, Natalie Cooper, Stephen~L Brusatte, Katie~E Davis, Andrew~L Ja
 Thomas Guillerme, Mark~N Puttick, Ariel~E Marcy, and Vera Weisbecker.
 \newblock Shifting spaces: Which disparity or dissimilarity measurement best summarize occupancy in multidimensional spaces?
 \newblock \emph{Ecology and evolution}, 10\penalty0 (14):\penalty0 7261--7275, 2020{\natexlab{b}}.
-
-\bibitem[Guillerme et~al.(2025)Guillerme, Cardoso, J{\o}rgensen, Mammola, and Matthews]{guillerme2025and}
-Thomas Guillerme, Pedro Cardoso, Maria~Wagner J{\o}rgensen, Stefano Mammola, and Thomas~J Matthews.
-\newblock The what, how, and why of trait-based analyses in ecology.
-\newblock \emph{Ecography}, page e07580, 2025.
 
 \bibitem[Halliday and Goswami(2016)]{halliday2016eutherian}
 Thomas John~Dixon Halliday and Anjali Goswami.
