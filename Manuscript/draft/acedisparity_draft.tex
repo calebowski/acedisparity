@@ -444,7 +444,7 @@ Several recent methodological developments have aimed to accommodate for rate he
 
 
 
-\subsection{Sensitivity tests}
+\subsection{Simulation sensitivity tests}
 
 % 1.
 %     a) asymmetry did not change results, we actually found an improvement
@@ -456,7 +456,29 @@ Several recent methodological developments have aimed to accommodate for rate he
 %         (ii) continuous traits, we did find this sampling method changed results, because ancestors are by definition less variant etc (recycle response to wagner)
 %     c) our results assume the bifurcating model of phylogeny as the evolutionary history, but acknoweldge that other mechanisms of speciation, such as budding or anagenesis, could affect the results. we acknowledge the simplicity in the fossil sampling scheme.
 % 3. Dimensionality
-%     a) whether the dimensionality is an attribute of a 'true disparity value' is up for debate.
+%     a) whether the dimensionality is an attribute of a 'true disparity value' is up for debate.#
+
+
+Simulations are increasingly used across computational evolutionary biology to evaluate methodological approaches \citep{lotterhos2022simulation}.
+However, given the complexity of morphological evolution across clades, generalising simulation procedures is an endeavour that offsets empirical and biological realism \citep{goloboff2018parsimony,o2018empirical}.
+Our simulation procedures have focused on empirical realism to replicating the workflow that authors that use ancestral states and disparity estimations undergo.
+However, we acknowledge that this is at the expense of some biological realism.
+To account for these, we ran several sensitivity tests.
+For example, we tested for the effect of asymmetry on our results (\autoref{fig:Asymmetrical trees boxplot}) and found congruent patterns in estimation hierarchy across treatments to our main findings. 
+Raw ancestral state estimation accuracy has been shown to increase as tree asymmetry increases, since asymmetrical trees have fewer nested internal nodes, albeit the increased branch lengths can increase uncertainty in estimations \citep{keating2023best}.
+We observed this exact pattern, with the generally lower disparity error across asymmetry trees, albeit with wider error within pre-ordination estimation methods.
+
+% Similarly, we also tested whether our tip-only fossil sampling scheme was influencing our results, by implementing an alternative scheme that allowed nodes as well as tips to be sampled as fossils.
+While we found no influence in fossil sampling scheme on our discrete trait results, we found that the BM model results in continuous traits were influenced by the fossil sampling scheme; specifically that the sum of quantiles recovered by \ase methods was an underestimation compared to bypassing ancestral state estimation.
+This finding is indicative that restricting our sampling scheme to tips, which by definition will be the most morphologically distinct taxa under BM since they are the furthest patristic distance from the root, will inflate our disparity estimates, whereas
+
+% it could be said that our original fossil sampling scheme of only sampling fossils, represents the actual bias we find in our fossil sampling. When we sample a fossil, it is more likely to be a tip (on a new branch) due to cryptic fossil sampling.
+
+
+% however we note that the magnitude of error is small compared to other contrasts mentioned in the study.
+
+
+
 
 
 % \subsection{Disparity metrics and recovering a true trait space}

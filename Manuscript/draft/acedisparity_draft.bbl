@@ -1,4 +1,4 @@
-\begin{thebibliography}{105}
+\begin{thebibliography}{107}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -188,6 +188,11 @@ Emma~E Goldberg and Boris Igi{\'c}.
 \newblock On phylogenetic tests of irreversible evolution.
 \newblock \emph{Evolution}, 62\penalty0 (11):\penalty0 2727--2741, 2008.
 
+\bibitem[Goloboff et~al.(2018)Goloboff, Torres~Galvis, and Arias]{goloboff2018parsimony}
+Pablo~A Goloboff, Ambrosio Torres~Galvis, and J~Salvador Arias.
+\newblock Parsimony and model-based phylogenetic methods for morphological data: comments on o'reilly et al.
+\newblock \emph{Palaeontology}, 61\penalty0 (4):\penalty0 625--630, 2018.
+
 \bibitem[Goswami and Clavel(2025)]{goswami2025morphological}
 Anjali Goswami and Julien Clavel.
 \newblock Morphological evolution in a time of phenomics.
@@ -367,6 +372,11 @@ J~Ng and Stacey~D Smith.
 Brian~C O'Meara, C{\'e}cile An{\'e}, Michael~J Sanderson, and Peter~C Wainwright.
 \newblock Testing for different rates of continuous trait evolution using likelihood.
 \newblock \emph{Evolution}, 60\penalty0 (5):\penalty0 922--933, 2006.
+
+\bibitem[O'Reilly et~al.(2018)O'Reilly, Puttick, Pisani, and Donoghue]{o2018empirical}
+Joseph~E O'Reilly, Mark~N Puttick, Davide Pisani, and Philip~CJ Donoghue.
+\newblock Empirical realism of simulated data is more important than the model used to generate it: a reply to goloboff et al.
+\newblock \emph{Palaeontology}, 61\penalty0 (4):\penalty0 631--635, 2018.
 
 \bibitem[Pagel(1994)]{pagel1994detecting}
 Mark Pagel.
