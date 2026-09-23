@@ -1,4 +1,4 @@
-\begin{thebibliography}{107}
+\begin{thebibliography}{108}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -293,6 +293,11 @@ Russell~V. Lenth and Julia Piaskowski.
 Paul~O Lewis.
 \newblock A likelihood approach to estimating phylogeny from discrete morphological character data.
 \newblock \emph{Systematic biology}, 50\penalty0 (6):\penalty0 913--925, 2001.
+
+\bibitem[Li et~al.(2026)Li, Kundrata, Cai, and Donoghue]{li2026morphological}
+Yan-Da Li, Robin Kundrata, Chenyang Cai, and Philip~CJ Donoghue.
+\newblock Morphological disparity in elateriform beetles: patterns, trends and implications.
+\newblock \emph{Proceedings of the Royal Society B: Biological Sciences}, 293\penalty0 (2069):\penalty0 20253101, 2026.
 
 \bibitem[Liu et~al.(2024)Liu, Song, Chu, Dai, Wang, and Silvestro]{liu2024heterogeneous}
 Xiaokang Liu, Haijun Song, Daoliang Chu, Xu~Dai, Fengyu Wang, and Daniele Silvestro.

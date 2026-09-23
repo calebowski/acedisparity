@@ -83,7 +83,7 @@ Ultimately, the inclusion of ancestral states allows disparity through time anal
 Despite the aforementioned advantages, the use of \ase within disparity analyses has often been neglected.
 The hesitancy to incorporate \ase has likely stemmed from the notion that estimates are inherently uncertain; root-ward estimates in particular are often associated with large confidence intervals or inconclusive scaled likelihoods \citep{schluter1997likelihood, losos1999uncertainty,gascuel2014predicting}.
 Despite the encouragement to propagate uncertainty during comparative analyses \citep{silvestro2015measurement,boyko2024dentist}, ancestral state estimations are generally treated as point estimates during disparity analyses, because there is little guidance on how to correctly treat \ase uncertainty downstream when constructing the trait space. %@@@keating line 63
-These point estimates are typically averages from confidence intervals for continuous characters or collapsed states returned from arbitrary thresholds for discrete characters \citep{smith2022evolution,casali2023morphological}. 
+These point estimates are typically the maximum likelihood estimates for continuous characters or collapsed states returned from arbitrary thresholds for discrete characters \citep{smith2022evolution,casali2023morphological, li2026morphological}. 
 By ignoring ancestral state estimation uncertainty, point estimates can lead to overconfidence in results and incorrect inferences in downstream analyses, all while obscuring potentially accurate signals \citep{ackerly2006niche,vanderpoorten2006mapping}.
 
 Another key issue with \ase is its sensitivity to model misspecification.
@@ -470,9 +470,18 @@ We observed this exact pattern, with the generally lower disparity error across 
 
 % Similarly, we also tested whether our tip-only fossil sampling scheme was influencing our results, by implementing an alternative scheme that allowed nodes as well as tips to be sampled as fossils.
 While we found no influence in fossil sampling scheme on our discrete trait results, we found that the BM model results in continuous traits were influenced by the fossil sampling scheme; specifically that the sum of quantiles recovered by \ase methods was an underestimation compared to bypassing ancestral state estimation.
-This finding is indicative that restricting our sampling scheme to tips, which by definition will be the most morphologically distinct taxa under BM since they are the furthest patristic distance from the root, will inflate our disparity estimates, whereas
+This finding is indicative that restricting our sampling scheme to tips, which by definition will be the most morphologically distinct taxa under BM since they are the furthest patristic distance from the root, will inflate our disparity estimates.
+Naturally, we are not able to identify fossils as nodes or tips at the point of discovery, which is why our main findings use the fossil sampling scheme that represents empirical realism.
+However, we acknowledge that this is at the expense of biological realism.
 
-% it could be said that our original fossil sampling scheme of only sampling fossils, represents the actual bias we find in our fossil sampling. When we sample a fossil, it is more likely to be a tip (on a new branch) due to cryptic fossil sampling.
+Dimensionality was also shown to have an effect on disparity error.
+
+
+
+
+
+
+% it could be said that our original fossil sampling scheme of only sampling fossils, represents the actual bias we find in our fossil sampling. When we sample a fossil, it is more likely to be a tip (on a new branch) wheres nodes are less likely to be sampled due to cryptic species. So, our tip-only analysis in some ways represents empirical realism
 
 
 % however we note that the magnitude of error is small compared to other contrasts mentioned in the study.

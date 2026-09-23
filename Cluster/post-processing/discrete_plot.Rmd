@@ -751,17 +751,19 @@ rmaxes_results_df_long$tree_size <- factor(
 
 rmaxes_results_df_long$method <- factor(
   rmaxes_results_df_long$method,
-  levels = c("pre_ord_point_tiebreaker", "pre_ord_point", "pre_ord_sample", 
+  levels = c("pre_ord_point_tiebreaker", "pre_ord_sample", 
              "post_ord_point", "post_ord_sample", "no_ace"),
-  labels = c("Pre-ord ASE\n(point + tiebreaker)", "Pre-ord ASE\n(point)", 
+  labels = c("Pre-ord ASE\n(point)", 
              "Pre-ord ASE\n(dist)", "Post-ord ASE\n(point)", 
              "Post-ord ASE\n(dist)", "No ASE")
 )
 
+
+
 rmaxes_results_df_long$preservation_level <- factor(
   rmaxes_results_df_long$preservation_level,
   levels = c("living", "low", "mid", "high", "all"),
-  labels = c("0%", "5%", "15%", "50%", "100%")
+  labels = c("0", "5", "15", "50", "100")
 )
 
 rmaxes_results_df_long$rate <- factor(
