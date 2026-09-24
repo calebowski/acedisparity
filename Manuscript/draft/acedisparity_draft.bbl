@@ -1,4 +1,4 @@
-\begin{thebibliography}{108}
+\begin{thebibliography}{111}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -233,6 +233,11 @@ Thomas John~Dixon Halliday and Anjali Goswami.
 \newblock Eutherian morphological disparity across the end-cretaceous mass extinction.
 \newblock \emph{Biological Journal of the Linnean Society}, 118\penalty0 (1):\penalty0 152--168, 2016.
 
+\bibitem[Harcourt-Brown et~al.(2001)Harcourt-Brown, Pearson, and Wilkinson]{harcourt2001imbalance}
+Katherine~G Harcourt-Brown, Paul~N Pearson, and Mark Wilkinson.
+\newblock The imbalance of paleontological trees.
+\newblock \emph{Paleobiology}, 27\penalty0 (2):\penalty0 188--204, 2001.
+
 \bibitem[Harmon et~al.(2003)Harmon, Schulte, Larson, and Losos]{harmon2003tempo}
 Luke~J Harmon, James~A Schulte, Allan Larson, and Jonathan~B Losos.
 \newblock Tempo and mode of evolutionary radiation in iguanian lizards.
@@ -372,6 +377,11 @@ Moritz Muschick, Adrian Indermaur, and Walter Salzburger.
 J~Ng and Stacey~D Smith.
 \newblock How traits shape trees: new approaches for detecting character state-dependent lineage diversification.
 \newblock \emph{Journal of evolutionary biology}, 27\penalty0 (10):\penalty0 2035--2045, 2014.
+
+\bibitem[Norell(1993)]{norell1993tree}
+Mark~A Norell.
+\newblock Tree-based approaches to understanding history; comments on ranks, rules and the quality of the fossil record.
+\newblock \emph{American Journal of Science}, 293\penalty0 (A):\penalty0 407--417, 1993.
 
 \bibitem[O'Meara et~al.(2006)O'Meara, An{\'e}, Sanderson, and Wainwright]{omeara2006testing}
 Brian~C O'Meara, C{\'e}cile An{\'e}, Michael~J Sanderson, and Peter~C Wainwright.
@@ -528,6 +538,11 @@ James~T Stroud and Jonathan~B Losos.
 Alain Vanderpoorten and B~Goffinet.
 \newblock Mapping uncertainty and phylogenetic uncertainty in ancestral character state reconstruction: an example in the moss genus brachytheciastrum.
 \newblock \emph{Systematic Biology}, 55\penalty0 (6):\penalty0 957--971, 2006.
+
+\bibitem[Wagner(1995)]{wagner1995stratigraphic}
+Peter~J Wagner.
+\newblock Stratigraphic tests of cladistic hypotheses.
+\newblock \emph{Paleobiology}, 21\penalty0 (2):\penalty0 153--178, 1995.
 
 \bibitem[Webster and Purvis(2002)]{webster2002testing}
 Andrea~J Webster and Andy Purvis.
