@@ -131,8 +131,8 @@ We generated three sets of 100 birth-death trees with these parameters until the
 The randomness of the birth-death model meant some simulated trees contained only extinct taxa, so we re-ran each individual simulation until we obtained the desired number of extant taxa.
 This meant that although the parameters were set to $\lambda = 1$ and $\mu = 0.9$, the effective parameters slightly deviated from these input values (\autoref{fig:net div overall trees}).
 Mean net diversification across all simulated trees was $0.30\pm0.09$.
-Constant birth death parameters meant that the simulated trees were highly symmetrical (\autoref{fig:main trees colless dist}).
-Given that empirical palaeontological phylogenies tend to be imbalanced \citep{harcourt2001imbalance}, we also simulated 100 birth-death trees with high asymmetry and ran the same pipeline (\autoref{fig:assymetrical trees colless dist}).
+Constant birth-death parameters meant that the simulated trees were highly symmetrical (\autoref{fig:main trees colless dist}; \citealp{khurana2024limits}).
+Given that empirical phylogenies tend to be imbalanced \citep{mooers1997inferring, harcourt2001imbalance}, we also simulated 100 birth-death trees with high asymmetry and ran the same pipeline (\autoref{fig:assymetrical trees colless dist}).
 Trees were pruned to extract the crown clade of the tree for downstream analyses.
 This ensured that all downsampled trees shared an identical root node and tree height with the original tree simulation.
 Therefore, any tip included in the analyses was a descendant of the most basal node considered, i.e., the MRCA of extant tips, ensuring that all ordinations and disparity values were calculated within a consistent clade. %@@@keating line 147
@@ -303,9 +303,6 @@ While the disparity metric had a large effect on the overall estimation accuracy
 % Tree size had a minor effect in comparison ($F = 43_{2,297},~ p < .001$).
 Therefore, while estimation accuracy differed between metrics, the hierarchy between optimal methods was generally consistent across metrics.
 
-\subsubsection{Sensitivity tests} 
-These findings were largely congruent under the alternative tips+nodes fossil sampling scheme, albeit we found that excluding ancestral states was marginally better performing when using the sum of quantiles metric across all models (\autoref{fig:Continuous nodes tips boxplot}).
-
 \begin{figure}[H]
 \centering
 \includegraphics[width=1\textwidth]{figures/cont_heatmap.pdf}
@@ -313,10 +310,14 @@ These findings were largely congruent under the alternative tips+nodes fossil sa
 \label{fig:continuous heatmap} 
 \end{figure}
 
+\subsubsection{Sensitivity tests} 
+We found that the hierarchy of methods across continuous trait models and fossil sampling densities were largely congruent under the alternative 'tips+nodes' fossil sampling scheme, albeit we found that excluding ancestral states was marginally better performing when using the sum of quantiles metric on BM trait data (\autoref{fig:Continuous nodes tips boxplot}).
+%% add asymmetry of trees here
+
 \subsection{Discrete traits}
 \subsubsection{Estimation methods} 
 For discrete characters, the estimation method also had a significant effect on disparity accuracy ($F_{4,66976} = 10767,~ p < .001$; \autoref{fig:discrete raw boxplot}).
-Similar to continuous traits, methods of ancestral state estimation consistently improved disparity estimates compared to excluding ancestral states. 
+Similar to continuous traits, methods of ancestral state estimation consistently improved disparity estimates compared to excluding ancestral states.
 However, the optimal type of estimation differed. 
 \textit{Post-hoc} pairwise comparisons of EMM revealed that pre-ordination point estimates returned the lowest log disparity errors overall. 
 In contrast to continuous traits, distribution methods generally performed worse than pre-ordination point estimates on average, but post-ordination point estimates performed worse than excluding ancestral states (Table S3).
@@ -347,7 +348,7 @@ Again, while the disparity metric was a significant driver to overall accuracy, 
 \end{figure}
 
 \subsubsection{Sensitivity tests} 
-Our findings did not differ under the alternative fossil sampling scheme (tips+nodes) %@@@add figure reference
+Our findings did not differ under the alternative fossil sampling scheme where nodes were sampled as well as tips.  %@@@add figure reference
 or under asymmetrical trees (\autoref{fig:Asymmetrical trees boxplot}).
 When we account for unequal dimensionality, we found virtually the same hierarchy of estimation methods as when we preserved the full dimensionality of the trait space (\autoref{fig:discrete fixed axes boxplot}), but note that the extent at which pre-ordination estimation methods were advantageous over excluding ancestral state estimations was slightly diminished.
 

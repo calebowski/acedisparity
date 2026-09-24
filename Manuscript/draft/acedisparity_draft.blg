@@ -9,45 +9,45 @@ Warning--empty journal in ane2008analysis
 Warning--empty journal in gearty2024impact
 Warning--there's a number but no volume in revell2012phytools
 Warning--empty journal in wills2001morphological
-You've used 111 entries,
+You've used 113 entries,
             2773 wiz_defined-function locations,
-            1215 strings with 25421 characters,
-and the built_in function-call counts, 53996 in all, are:
-= -- 4891
-> -- 3057
-< -- 68
-+ -- 1042
-- -- 930
-* -- 4660
-:= -- 8275
-add.period$ -- 338
-call.type$ -- 111
-change.case$ -- 638
-chr.to.int$ -- 110
-cite$ -- 226
-duplicate$ -- 2293
-empty$ -- 4429
-format.name$ -- 1103
-if$ -- 11181
+            1227 strings with 25822 characters,
+and the built_in function-call counts, 55040 in all, are:
+= -- 4985
+> -- 3126
+< -- 69
++ -- 1065
+- -- 951
+* -- 4755
+:= -- 8436
+add.period$ -- 344
+call.type$ -- 113
+change.case$ -- 651
+chr.to.int$ -- 112
+cite$ -- 230
+duplicate$ -- 2334
+empty$ -- 4508
+format.name$ -- 1128
+if$ -- 11395
 int.to.chr$ -- 2
 int.to.str$ -- 1
-missing$ -- 108
-newline$ -- 567
-num.names$ -- 444
-pop$ -- 1129
+missing$ -- 110
+newline$ -- 577
+num.names$ -- 452
+pop$ -- 1151
 preamble$ -- 1
-purify$ -- 530
+purify$ -- 541
 quote$ -- 0
-skip$ -- 1756
+skip$ -- 1789
 stack$ -- 0
-substring$ -- 2755
-swap$ -- 157
+substring$ -- 2803
+swap$ -- 159
 text.length$ -- 5
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 1216
+type$ -- 1238
 warning$ -- 4
-while$ -- 520
+while$ -- 530
 width$ -- 0
-write$ -- 1449
+write$ -- 1475
 (There were 5 warnings)

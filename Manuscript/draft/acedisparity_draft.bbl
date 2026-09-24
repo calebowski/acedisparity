@@ -1,4 +1,4 @@
-\begin{thebibliography}{111}
+\begin{thebibliography}{113}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -283,6 +283,11 @@ Joseph~N Keating.
 \newblock What is the best method for estimating ancestral states from discrete characters?
 \newblock \emph{bioRxiv}, pages 2023--08, 2023.
 
+\bibitem[Khurana et~al.(2024)Khurana, Scheidwasser-Clow, Penn, Bhatt, and Duch{\^e}ne]{khurana2024limits}
+Mark~P Khurana, Neil Scheidwasser-Clow, Matthew~J Penn, Samir Bhatt, and David~A Duch{\^e}ne.
+\newblock The limits of the constant-rate birth--death prior for phylogenetic tree topology inference.
+\newblock \emph{Systematic biology}, 73\penalty0 (1):\penalty0 235--246, 2024.
+
 \bibitem[King and Lee(2015)]{king2015ancestral}
 Benedict King and Michael~SY Lee.
 \newblock Ancestral state reconstruction, rate heterogeneity, and the evolution of reptile viviparity.
@@ -352,6 +357,11 @@ Jonathan~S Mitchell.
 Tesla~A Monson, Marianne~F Brasil, Michael~C Mahaney, Christopher~A Schmitt, Catherine~E Taylor, and Leslea~J Hlusko.
 \newblock Keeping 21st century paleontology grounded: Quantitative genetic analyses and ancestral state reconstruction re-emphasize the essentiality of fossils.
 \newblock \emph{Biology}, 11\penalty0 (8):\penalty0 1218, 2022.
+
+\bibitem[Mooers and Heard(1997)]{mooers1997inferring}
+Arne~O Mooers and Stephen~B Heard.
+\newblock Inferring evolutionary process from phylogenetic tree shape.
+\newblock \emph{The quarterly review of Biology}, 72\penalty0 (1):\penalty0 31--54, 1997.
 
 \bibitem[Mooers and Schluter(1999)]{mooers1999reconstructing}
 Arne~{\O} Mooers and Dolph Schluter.
