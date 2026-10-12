@@ -27,7 +27,7 @@
 \doublespacing
 \linenumbers
 
-\title{Incorporating ancestral state estimation uncertainty can improve disparity analyses}
+\title{Including ancestral state estimation uncertainty can improve disparity analyses}
 
 \author{Caleb Scutt\textsuperscript{1,2*}, Natalie Cooper\textsuperscript{2}, Gavin H. Thomas\textsuperscript{1}, Thomas Guillerme\textsuperscript{1}}
 
@@ -190,12 +190,13 @@ For each category, 85 binary characters and 15 three-state characters were simul
 
 
 \subsection{Fossil sampling simulation}
-To explore the interaction of fossil sampling with estimation method on the disparity accuracy, we simulated fossil sampling in two ways.
-The first way, labelled 'tips-only', is that extinct tips were either retained (`fossilised') or pruned using a Bernoulli sampling method at five different probabilities: 0\%, 5\%, 15\%, 50\% and 100\% (\autoref{fig:pipeline}: Step 3).
+To explore the interaction of fossil sampling with estimation method on the disparity accuracy, we simulated fossil sampling using two approaches.
+The first approach, labelled 'tips-only', is that extinct tips were either retained (`fossilised') or pruned using a Bernoulli sampling method at five different probabilities: 0\%, 5\%, 15\%, 50\% and 100\% (\autoref{fig:pipeline}: Step 3).
 This method meant each extinct tip had an equal probability of being `fossilised' at each sampling level, irrespective of the total tree size.
 
-To test whether our fossil sampling scheme was biased by only sampling tips, we also used the same Bernoulli sampling method but allowed nodes to be sampled as well as tips, labelled 'tips+nodes'. %@@@wagner line 175
-Sampled nodes were attached to the tree as tips using the \texttt{phytools::bind.tip} function \citep{revell2012phytools} with a non-zero branch length.
+To test whether our fossil sampling scheme was biased by only sampling tips, we used the same Bernoulli sampling method but allowed nodes to be sampled as well as tips. %@@@wagner line 175
+This is labelled the `tips+nodes' fossil sampling scheme.
+Ancestral state estimation requires observed data to be coded as tips on a phylogeny, so sampled nodes were attached to the tree as tips using the \texttt{phytools::bind.tip} function \citep{revell2012phytools} with a non-zero branch length.
 The corresponding trait matrices were subset to match the tips remaining in each down-sampled tree, with all extant taxa sampled across all fossil sampling densities.
 From herein, these resulting downsampled trees and matrices are referred to as sampled-taxa.
 
@@ -207,10 +208,10 @@ These were then compared to a null of bypassing ancestral state estimation where
 \subsubsection{Pre-ordination estimation} \label{pre-ord}
 Ancestral state estimation of trait data can be carried out at two points either side of the ordination step in the pipeline (\autoref{fig:pipeline}: Step 4; \citealp{lloyd2018journeys}).
 Pre-ordination \ase estimation involves the estimation of the raw trait values for each node. 
-We performed pre-ordination estimation of continuous characters under a BM model, whereby ancestral state values lie within a multivariate normal distribution that is estimated given the observed tip data and the shared evolutionary history among taxa \citep{schluter1997likelihood,rohlf2001comparative}.
-The width of the estimated confidence interval returned reflects the uncertainty in continuous ancestral estimates, typically increasing with node depth and decreasing with the number of informative descendant lineages.
+We performed pre-ordination estimation of continuous characters under a BM model, whereby ancestral state values lie within a multivariate normal distribution that is estimated given the observed trait data and phylogeny \citep{schluter1997likelihood,rohlf2001comparative}.
+% The width of the estimated confidence interval returned reflects the uncertainty in continuous ancestral estimates, typically increasing with node depth and decreasing with the number of informative descendant lineages.
 
-Pre-ordination estimation of discrete characters involves estimating the marginal likelihoods for each discrete state at each node, based on a maximum likelihood derived estimate of the M\textit{k} transition matrix and the tree topology given \citep{pagel1999maximum,yang2006computational}.
+Pre-ordination estimation of discrete characters involves estimating the marginal likelihoods for each discrete state at each node, based on a maximum likelihood derived estimate of the M\textit{k} transition matrix and phylogeny given \citep{pagel1999maximum,yang2006computational}.
 Given that the transition rates were set \textit{a priori} during simulations, the equal-rates (ER) model was used to avoid model misspecification as a confounding factor on estimation accuracy \citep{keating2023best}.
 %CS: could do an analysis where ARD model is used to see if results change with model mispecification (Russell mentioned this)? TG: this is also a very good point like the one for the different fossilisation biases but I think we should keep it to what it is for now and then add/remove depending on the reviews.
 
@@ -310,7 +311,7 @@ Therefore, while estimation accuracy differed between metrics, the hierarchy bet
 \label{fig:continuous heatmap} 
 \end{figure}
 
-\subsubsection{Sensitivity tests} 
+\subsubsection{Sensitivity tests}
 We found that the hierarchy of methods across continuous trait models and fossil sampling densities were largely congruent under the alternative 'tips+nodes' fossil sampling scheme, albeit we found that excluding ancestral states was marginally better performing when using the sum of quantiles metric on BM trait data (\autoref{fig:Continuous nodes tips boxplot}).
 %% add asymmetry of trees here
 
@@ -348,8 +349,7 @@ Again, while the disparity metric was a significant driver to overall accuracy, 
 \end{figure}
 
 \subsubsection{Sensitivity tests} 
-Our findings did not differ under the alternative fossil sampling scheme under which nodes were sampled as well as tips.  %@@@add figure reference
-or under asymmetrical trees (\autoref{fig:Asymmetrical trees boxplot}).
+Our findings did not differ under the alternative `tip+nodes' fossil sampling scheme or under asymmetrical trees (\autoref{fig:Asymmetrical trees boxplot}).
 When we account for unequal dimensionality, we found virtually the same hierarchy of estimation methods as when we preserved the full dimensionality of the trait space (\autoref{fig:discrete fixed axes boxplot}), but note that the extent at which pre-ordination estimation methods were advantageous over excluding ancestral state estimations was slightly diminished.
 
 \begin{figure}[H]
@@ -400,7 +400,7 @@ This is likely due to the bounded nature of discrete traits; even with minimal i
 Regarding pre-ordination estimations, our results reveal two issues relating to uncertainty.
 At low fossil sampling or slow transition rates, the predominant issue facing the recovery of a true trait space is the lack of data.
 For fossil sampling, the lack of evidence in deeper time means our ancestral state estimates, and subsequent trait space pattern, are biased by the living tip data. 
-In the case of slow transition rates, we face a paradoxical situation in which the root state can be easily estimated, yet few transitions make the rate of change hard to estimate \citep{gascuel2020darwinian}.
+In the case of slow rates, we face a paradoxical situation in which the root state can be easily estimated, yet few transitions make the rate of change hard to estimate \citep{gascuel2020darwinian}.
 Using the hypercube analogy again, the state scaled likelihoods at each node under slow rates or low/absent fossils will be biased against transitions.
 Therefore, because point estimations essentially recover the most parsimonious evolutionary history, ancestral nodes will be constrained within a certain region of vertices in the trait space.
 In contrast, pre-ordination distribution estimations allow the exploration of other vertices by sampling across alternative discrete state combinations.
@@ -464,27 +464,28 @@ Several recent methodological developments have aimed to accommodate for rate he
 %     a) whether the dimensionality is an attribute of a 'true disparity value' is up for debate.#
 
 
-Simulations are increasingly used across computational evolutionary biology to evaluate methodological approaches \citep{lotterhos2022simulation}.
-However, given the complexity of morphological evolution across clades, generalising simulation procedures is an endeavour that offsets empirical and biological realism \citep{goloboff2018parsimony,o2018empirical}.
-Our simulation procedures have focused on empirical realism to replicating the workflow that authors that use ancestral states and disparity estimations undergo.
-However, we acknowledge that this is at the expense of some biological realism.
-To account for these, we ran several sensitivity tests.
-For example, we tested for the effect of asymmetry on our results (\autoref{fig:Asymmetrical trees boxplot}) and found congruent patterns in estimation hierarchy across treatments to our main findings. 
-Raw ancestral state estimation accuracy has been shown to increase as tree asymmetry increases, since asymmetrical trees have fewer nested internal nodes, albeit the increased branch lengths can increase uncertainty in estimations \citep{keating2023best}.
-We observed this exact pattern, with the generally lower disparity error across asymmetry trees, albeit with wider error within pre-ordination estimation methods.
+% Simulations are increasingly used across computational evolutionary biology to evaluate methodological approaches \citep{lotterhos2022simulation}.
+% However, given the complexity of morphological evolution across clades, generalising simulation procedures is an endeavour that offsets empirical and biological realism \citep{goloboff2018parsimony,o2018empirical}.
+% % Our simulation procedures have focused on empirical realism to replicating the workflow that authors that use ancestral states and disparity estimations undergo.
+% % However, we acknowledge that this is at the expense of some biological realism.
+%To account for aspects of biological realism, we ran several sensitivity tests.
+We tested for the effect of asymmetry on our results (\autoref{fig:Asymmetrical trees boxplot}) and found congruent patterns in estimation method hierarchy across treatments to our main findings. 
+Raw ancestral state estimation accuracy has been shown to increase as tree asymmetry increases, since asymmetrical trees have fewer nested internal nodes, although longer branch lengths can increase uncertainty in estimations \citep{keating2023best}.
+We observed this pattern, with the generally lower disparity error across asymmetry trees, albeit with wider error within pre-ordination estimation methods (\autoref{fig:Asymmetrical trees boxplot}).
 
-% Similarly, we also tested whether our tip-only fossil sampling scheme was influencing our results, by implementing an alternative scheme that allowed nodes as well as tips to be sampled as fossils.
-While we found no influence in fossil sampling scheme on our discrete trait results, we found that the BM model results in continuous traits were influenced by the fossil sampling scheme; specifically that the sum of quantiles recovered by \ase methods was an underestimation compared to bypassing ancestral state estimation.
+Similarly, we also tested whether our tip-only fossil sampling scheme was influencing our results, by implementing an alternative scheme (`tips+nodes') that allowed nodes as well as tips to be sampled as fossils.
+While we found no influence in fossil sampling scheme on our discrete trait results, we found that disparity returned under the BM model was influenced by the fossil sampling scheme; specifically that the sum of quantiles recovered by \ase methods was an underestimation compared to bypassing ancestral state estimation.
 This finding is indicative that restricting our sampling scheme to tips, which by definition will be the most morphologically distinct taxa under BM since they are the furthest patristic distance from the root, will inflate our disparity estimates.
 Naturally, we are not able to identify fossils as nodes or tips at the point of discovery, which is why our main findings use the fossil sampling scheme that represents empirical realism.
 However, we acknowledge that this is at the expense of biological realism.
 
-Dimensionality was also shown to have an effect on disparity error.
-
-There are still several assumptions/factors that we have not accounted for, that can influence both ancestral state estimaton and disparity analyses. 
-Firstly, is phylogenetic uncertainty.
-Secondly, is fossil preservation level; while we focus here on the lineage sampling, we assume perfect fossil preservation. 
-We advise that the Pre-OASE1 method of ancestral state estimation is implemented, so that only characters that have observed tip data descending from that node are estimated.
+There are still several assumptions/factors that we have not accounted for, that can influence both ancestral state estimation and disparity analyses.
+Firstly, we assumed a bifurcating evolutionary history, whereby every internal branch represents an ancestor that bifurcates at the node producing two daughter species.
+Our simulation framework, and indeed \ase as a general PCM, does not accommodate for budding speciation \citep{caetano2023important}.
+However, budding can confound estimations of ancestral states.
+Secondly, is phylogenetic uncertainty.
+Thirdly, is fossil preservation level; while we focus here on the lineage sampling, we assume perfect fossil preservation.
+We advise that the Pre-OASE1 method of ancestral state estimation is implemented, so that only characters that have observed tip data descending from that node are estimated. %% interested with this method about autapomorphies tho. lets say an extant taxa has an autapomorphy character. This character only appears in this one taxa. Now, with ancestral state estimation, because the relatives are all missing this character, all ancestors will have this trait. This therefore means that ancestral state estimation will remove the significance of autapomorphy states.
 
 
 

@@ -11,9 +11,9 @@
 #SBATCH --mail-user=cnscutt1@sheffield.ac.uk
 #SBATCH --mail-type=ALL
 
-module load R/4.4.1-foss-2022b
+module load R
 
-export R_LIBS_USER=/users/$USER/R/x86_64-pc-linux-gnu-library/4.4
+export R_LIBS_USER=/users/$USER/R/x86_64-pc-linux-gnu-library/4.5
 
 
 Rscript /users/$USER/acedisparity/revisions/scripts/wagner_discrete_disparity.R $SLURM_ARRAY_TASK_ID "50t" "11612532"
