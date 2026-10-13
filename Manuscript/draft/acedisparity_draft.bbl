@@ -1,4 +1,4 @@
-\begin{thebibliography}{113}
+\begin{thebibliography}{118}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -158,6 +158,11 @@ Mike Foote.
 \newblock Morphological disparity in ordovician-devonian crinoids and the early saturation of morphological space.
 \newblock \emph{Paleobiology}, 20\penalty0 (3):\penalty0 320--344, 1994.
 
+\bibitem[Foote(1996)]{foote1996probability}
+Mike Foote.
+\newblock On the probability of ancestors in the fossil record.
+\newblock \emph{Paleobiology}, 22\penalty0 (2):\penalty0 141--151, 1996.
+
 \bibitem[Foote(1997)]{foote1997evolution}
 Mike Foote.
 \newblock The evolution of morphological diversity.
@@ -197,6 +202,11 @@ Sylvain Gerber.
 Emma~E Goldberg and Boris Igi{\'c}.
 \newblock On phylogenetic tests of irreversible evolution.
 \newblock \emph{Evolution}, 62\penalty0 (11):\penalty0 2727--2741, 2008.
+
+\bibitem[Goloboff et~al.(2018)Goloboff, Torres~Galvis, and Arias]{goloboff2018parsimony}
+Pablo~A Goloboff, Ambrosio Torres~Galvis, and J~Salvador Arias.
+\newblock Parsimony and model-based phylogenetic methods for morphological data: comments on o'reilly et al.
+\newblock \emph{Palaeontology}, 61\penalty0 (4):\penalty0 625--630, 2018.
 
 \bibitem[Goswami and Clavel(2025)]{goswami2025morphological}
 Anjali Goswami and Julien Clavel.
@@ -403,6 +413,11 @@ Brian~C O'Meara, C{\'e}cile An{\'e}, Michael~J Sanderson, and Peter~C Wainwright
 \newblock Testing for different rates of continuous trait evolution using likelihood.
 \newblock \emph{Evolution}, 60\penalty0 (5):\penalty0 922--933, 2006.
 
+\bibitem[O'Reilly et~al.(2018)O'Reilly, Puttick, Pisani, and Donoghue]{o2018empirical}
+Joseph~E O'Reilly, Mark~N Puttick, Davide Pisani, and Philip~CJ Donoghue.
+\newblock Empirical realism of simulated data is more important than the model used to generate it: a reply to goloboff et al.
+\newblock \emph{Palaeontology}, 61\penalty0 (4):\penalty0 631--635, 2018.
+
 \bibitem[Pagel(1994)]{pagel1994detecting}
 Mark Pagel.
 \newblock Detecting correlated evolution on phylogenies: a general method for the comparative analysis of discrete characters.
@@ -417,6 +432,11 @@ Mark Pagel.
 Emmanuel Paradis and Klaus Schliep.
 \newblock ape 5.0: an environment for modern phylogenetics and evolutionary analyses in r.
 \newblock \emph{Bioinformatics}, 35\penalty0 (3):\penalty0 526--528, 2019.
+
+\bibitem[Parins-Fukuchi(2026)]{parins2026super}
+Tomomi Parins-Fukuchi.
+\newblock “super-progenitor” species and the distribution of sampled descendants.
+\newblock \emph{Paleobiology}, 52\penalty0 (2):\penalty0 221--232, 2026.
 
 \bibitem[Pennell et~al.(2014)Pennell, Eastman, Slater, Brown, Uyeda, FitzJohn, Alfaro, and Harmon]{pennell2014geiger}
 Matthew~W Pennell, Jonathan~M Eastman, Graham~J Slater, Joseph~W Brown, Josef~C Uyeda, Richard~G FitzJohn, Michael~E Alfaro, and Luke~J Harmon.
@@ -553,6 +573,11 @@ Alain Vanderpoorten and B~Goffinet.
 Peter~J Wagner.
 \newblock Stratigraphic tests of cladistic hypotheses.
 \newblock \emph{Paleobiology}, 21\penalty0 (2):\penalty0 153--178, 1995.
+
+\bibitem[Wagner(2000)]{wagner2000exhaustion}
+Peter~J Wagner.
+\newblock Exhaustion of morphologic character states among fossil taxa.
+\newblock \emph{Evolution}, 54\penalty0 (2):\penalty0 365--386, 2000.
 
 \bibitem[Webster and Purvis(2002)]{webster2002testing}
 Andrea~J Webster and Andy Purvis.

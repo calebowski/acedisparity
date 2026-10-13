@@ -464,28 +464,48 @@ Several recent methodological developments have aimed to accommodate for rate he
 %     a) whether the dimensionality is an attribute of a 'true disparity value' is up for debate.#
 
 
-% Simulations are increasingly used across computational evolutionary biology to evaluate methodological approaches \citep{lotterhos2022simulation}.
-% However, given the complexity of morphological evolution across clades, generalising simulation procedures is an endeavour that offsets empirical and biological realism \citep{goloboff2018parsimony,o2018empirical}.
-% % Our simulation procedures have focused on empirical realism to replicating the workflow that authors that use ancestral states and disparity estimations undergo.
-% % However, we acknowledge that this is at the expense of some biological realism.
-%To account for aspects of biological realism, we ran several sensitivity tests.
-We tested for the effect of asymmetry on our results (\autoref{fig:Asymmetrical trees boxplot}) and found congruent patterns in estimation method hierarchy across treatments to our main findings. 
+Simulations are increasingly used across computational evolutionary biology to evaluate methodological approaches \citep{lotterhos2022simulation}.
+However, given the complexity of morphological evolution across clades, generalising simulation procedures is an endeavour that offsets empirical and biological realism \citep{goloboff2018parsimony,o2018empirical}.
+Our conclusions hold under some of our simulation assumptions and depend on others.
+For empirical realism, our tip-only fossil sampling scheme is the more defensible default for our main analyses.
+A fossil cannot be identified as an ancestor or descendent when found, and fossil taxa are added to trees as tips, so this scheme emulates the typical procedure.
+However, the tip-only scheme excludes taxa that are ancestral to other sampled taxa, i.e., ancestral nodes are not sampled, despite evidence that ancestors being may be at least as likely to be sampled as descendent taxa (\citealp{foote1996probability,parins2026super}; note that our simulations assume a bifurcating dendogramic evolutionary history, thus if according to branch lengths internal branches are no more likely to be sampled than terminal branches, though this assumption changes if budding is considered as it is in the studies cited).
+The alternative `tips+nodes' sampling scheme highlighted where these assumptions may have introduced bias. 
+For discrete characters, the tip-only scheme appears to introduce little bias.
+Tips and nodes did not differ in their pairwise distances, %@@@add figure
+so excluding ancestors did not remove a distinct part of the trait space.
+This is consistent with character exhaustion in bounded discrete characters \citep{wagner2000exhaustion, erwin_disparity_2007}; once most character states have been expended, further change repeats existing pairwise distances, thus tips do not accumulate any more distinctness than internal nodes.
+This trait space saturation is reached faster as transition rates increase.
+In contrast, continuous characters are unbounded.
+Under BM, variance increases with distance from the root, so tips are expected to be the most morphologically distinct taxa.
+This explains why the tip-only sampling scheme overestimates BM sum of variances at low fossil sampling when using ancestral state estimations, whereas the `tips+nodes' scheme instead underestimated sum of variances.
+Our conclusions for both discrete and continuous characters are robust under both sampling schemes, but we note that the scheme does have a noticeable effect on continuous results.
+
+Given that empirical phylogenies tend to be asymmetrical \citep{mooers1997inferring}, we tested for the effect of asymmetry on our results (\autoref{fig:Asymmetrical trees boxplot}) and found congruent patterns in estimation method hierarchy across treatments to our main findings. 
 Raw ancestral state estimation accuracy has been shown to increase as tree asymmetry increases, since asymmetrical trees have fewer nested internal nodes, although longer branch lengths can increase uncertainty in estimations \citep{keating2023best}.
-We observed this pattern, with the generally lower disparity error across asymmetry trees, albeit with wider error within pre-ordination estimation methods (\autoref{fig:Asymmetrical trees boxplot}).
+We observed this exact pattern, with the generally lower disparity error across asymmetry trees, albeit with wider error within pre-ordination estimation methods (\autoref{fig:Asymmetrical trees boxplot}).
 
-Similarly, we also tested whether our tip-only fossil sampling scheme was influencing our results, by implementing an alternative scheme (`tips+nodes') that allowed nodes as well as tips to be sampled as fossils.
-While we found no influence in fossil sampling scheme on our discrete trait results, we found that disparity returned under the BM model was influenced by the fossil sampling scheme; specifically that the sum of quantiles recovered by \ase methods was an underestimation compared to bypassing ancestral state estimation.
-This finding is indicative that restricting our sampling scheme to tips, which by definition will be the most morphologically distinct taxa under BM since they are the furthest patristic distance from the root, will inflate our disparity estimates.
-Naturally, we are not able to identify fossils as nodes or tips at the point of discovery, which is why our main findings use the fossil sampling scheme that represents empirical realism.
-However, we acknowledge that this is at the expense of biological realism.
+Our findings also depend on our assumption of bifurcating cladogenesis, in which ancestors will split into two daughter species.
+Under budding cladogenesis, progenitors are able to persist alongside their descendents, thus long-lived lineages are more likely to be ancestral and sampled \citep{parins2026super}.
+Ancestral state estimation (and phylogenetic comparative methods in general) do not accommodate budding \citep{caetano2023important} and so whether our results hold when ancestors persist and overlap with their descendents remains to be tested.
+% could the incorporation of phylogenetic uncertainty deal with uncertainty in ancestor descendent issues??
 
-There are still several assumptions/factors that we have not accounted for, that can influence both ancestral state estimation and disparity analyses.
-Firstly, we assumed a bifurcating evolutionary history, whereby every internal branch represents an ancestor that bifurcates at the node producing two daughter species.
-Our simulation framework, and indeed \ase as a general PCM, does not accommodate for budding speciation \citep{caetano2023important}.
-However, budding can confound estimations of ancestral states.
-Secondly, is phylogenetic uncertainty.
-Thirdly, is fossil preservation level; while we focus here on the lineage sampling, we assume perfect fossil preservation.
-We advise that the Pre-OASE1 method of ancestral state estimation is implemented, so that only characters that have observed tip data descending from that node are estimated. %% interested with this method about autapomorphies tho. lets say an extant taxa has an autapomorphy character. This character only appears in this one taxa. Now, with ancestral state estimation, because the relatives are all missing this character, all ancestors will have this trait. This therefore means that ancestral state estimation will remove the significance of autapomorphy states.
+
+% Given that most empirical palaeontological trees exhibit high asymmetry, %@@@
+
+% Similarly, we also tested whether our tip-only fossil sampling scheme was influencing our results, by implementing an alternative scheme (`tips+nodes') that allowed nodes as well as tips to be sampled as fossils.
+% While we found no influence in fossil sampling scheme on our discrete trait results, we found that disparity returned under the continuous BM model was influenced by the fossil sampling scheme; specifically that the sum of quantiles recovered by \ase methods was an underestimation compared to bypassing ancestral state estimation.
+% This finding is indicative that constraining our sampling scheme to tips, which by definition will be the most morphologically distinct taxa under BM as they are the furthest distance from the root, inflated our disparity estimates.
+% Naturally, we are not able to identify fossils as nodes or tips at the point of discovery, which is why our main findings use the fossil sampling scheme that represents empirical realism.
+
+% There are still several assumptions/factors that we have not accounted for, that can influence both ancestral state estimation and disparity analyses.
+% Firstly, we assumed a bifurcating evolutionary history, whereby every internal branch represents an ancestor that bifurcates at the node producing two daughter species.
+% Our simulation framework, and indeed \ase as a phylogenetic comparative method, generally does not accommodate for budding cladogenesis \citep{caetano2023important}.
+% % However, budding can confound estimations of ancestral states.
+% For example, we did not test for the effect of phylogenetic uncertainty.
+% Topological characteristics can influence disparity; for example
+% Thirdly, is fossil preservation level; while we focus here on the lineage sampling, we assume perfect fossil preservation.
+% We advise that the Pre-OASE1 method of ancestral state estimation is implemented, so that only characters that have observed tip data descending from that node are estimated. %% interested with this method about autapomorphies tho. lets say an extant taxa has an autapomorphy character. This character only appears in this one taxa. Now, with ancestral state estimation, because the relatives are all missing this character, all ancestors will have this trait. This therefore means that ancestral state estimation will remove the significance of autapomorphy states.
 
 
 
