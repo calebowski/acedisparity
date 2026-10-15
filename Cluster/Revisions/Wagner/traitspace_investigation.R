@@ -479,7 +479,10 @@ for (i in 1:100){
 slow <- lapply(ord_true_list, function(x) x$slow)
 
 
-
+ord_true_list_cont <- list()
+for (i in 1:100) {
+  ord_true_list_cont[[i]] <- readRDS(paste0(sprintf("../../Data/revisions/wagner/continuous/ord/11603470_ord_true_%03d.rds", i)))
+}
 
 
 
@@ -574,11 +577,36 @@ all_pairwise_distances <- do.call(
 )
 
 
+all_pairwise_distances_cont <- do.call(
+  rbind,
+  lapply(seq_along(ord_true_list_cont), function(i) {
+    do.call(
+      rbind,
+      lapply(names(ord_true_list_cont[[i]]), function(model) {
+        pairwise_all(
+          ord_true_list_cont[[i]][[model]],
+          replicate = i,
+          transition_rate = model
+        )
+      })
+    )
+  })
+)
+
+centroid_distances <- do.call(rbind, do.call(rbind, lapply(ord_true_list_cont, lapply, distance.from.centroid)))
+
+
+
 library(ggplot2)
+colours <- c(
+  "slow" = "#8805A8",
+  "med" = "#00B945",
+  "fast" = "#FFB600"
+)
 
 p <- ggplot(
   all_pairwise_distances,
-  aes(x = pair_type, y = distance, fill = pair_type)
+  aes(x = pair_type, y = distance, fill = transition_rate)
 ) +
   geom_boxplot(outlier.shape = NA) +
   facet_wrap(~ transition_rate) +
@@ -586,11 +614,64 @@ p <- ggplot(
     x = "Node vs tip pair",
     y = "Pairwise distance"
   ) +
+  scale_fill_manual(values = colours) +
   theme_classic() +
-  theme(legend.position = "none")
+  theme(
+    legend.position = "none",
+    axis.title = element_text(size = 16),
+    axis.text = element_text(size = 14),
+    strip.text = element_text(size = 14)
+  )
+
+ggsave(
+  "../../../Manuscript/draft/figures/pd_discrete_3_way_ords.pdf",
+  plot = p,
+  width = 12,
+  height = 10,
+  units = "in",
+  device = cairo_pdf
+)
+dev.off()
 
 
-ggsave("pd_3_way_ords.png", p)
+
+library(ggplot2)
+colours <- c("bm" = "#F60018", "bm_t" = "#E69F00", "ou" = "#009999")
+model_labels <- c(
+  "bm" = "BM",
+  "bm_t" = "BM + trend",
+  "ou" = "OU"
+)
+
+p <- ggplot(
+  all_pairwise_distances_cont,
+  aes(x = pair_type, y = distance, fill = transition_rate)
+) +
+  geom_boxplot(outlier.shape = NA) +
+  facet_wrap(~ transition_rate, labeller = labeller(model_labels)) +
+  labs(
+    x = "Node vs tip pair",
+    y = "Pairwise distance"
+  ) +
+  scale_fill_manual(values = colours) +
+  theme_classic() +
+  theme(
+    legend.position = "none",
+    axis.title = element_text(size = 16),
+    axis.text = element_text(size = 14),
+    strip.text = element_text(size = 14)
+  ) +
+  ylim(0,20)
+
+ggsave(
+  "../../../Manuscript/draft/figures/pd_continuous_3_way_ords.pdf",
+  plot = p,
+  width = 12,
+  height = 10,
+  units = "in",
+  device = cairo_pdf
+)
+dev.off()
 
 boxplot(
   distance_from_centroid ~ type,
@@ -617,6 +698,106 @@ centroid_summary <- do.call(
   })
 )
 
+
+
+centroid_by_group <- function(ordination_list, group_name) {
+  do.call(
+    rbind,
+    lapply(seq_along(ordination_list), function(i) {
+      do.call(
+        rbind,
+        lapply(names(ordination_list[[i]]), function(group) {
+          data <- distance.from.centroid(ordination_list[[i]][[group]])
+          data[[group_name]] <- group
+          data$replicate <- i
+          data
+        })
+      )
+    })
+  )
+}
+
+centroid_discrete <- centroid_by_group(
+  ord_true_list,
+  "transition_rate"
+)
+
+centroid_continuous <- centroid_by_group(
+  ord_true_list_cont,
+  "trait_model"
+)
+library(ggplot2)
+
+centroid_discrete <- subset(
+  centroid_discrete,
+  type %in% c("tip", "node")
+)
+
+centroid_continuous <- subset(
+  centroid_continuous,
+  type %in% c("tip", "node")
+)
+
+type_colours <- c(
+  "tip" = "steelblue",
+  "node" = "firebrick"
+)
+
+p_discrete <- ggplot(
+  centroid_discrete,
+  aes(x = type, y = distance_from_centroid, fill = type)
+) +
+  geom_boxplot(outlier.shape = NA) +
+  facet_wrap(~ transition_rate) +
+  scale_fill_manual(values = type_colours) +
+  labs(
+    x = "Entity type",
+    y = "Distance from centroid"
+  ) +
+  theme_classic() +
+  theme(
+    legend.position = "none",
+    axis.title = element_text(size = 16),
+    axis.text = element_text(size = 14),
+    strip.text = element_text(size = 14)
+  )
+
+p_continuous <- ggplot(
+  centroid_continuous,
+  aes(x = type, y = distance_from_centroid, fill = type)
+) +
+  geom_boxplot(outlier.shape = NA) +
+  facet_wrap(~ trait_model) +
+  scale_fill_manual(values = type_colours) +
+  labs(
+    x = "Entity type",
+    y = "Distance from centroid"
+  ) +
+  theme_classic() +
+  theme(
+    legend.position = "none",
+    axis.title = element_text(size = 16),
+    axis.text = element_text(size = 14),
+    strip.text = element_text(size = 14)
+  )
+
+  ggsave(
+  "../../../Manuscript/draft/figures/centroid_distance_discrete.pdf",
+  p_discrete,
+  width = 10,
+  height = 7,
+  units = "in",
+  device = cairo_pdf
+)
+
+ggsave(
+  "../../../Manuscript/draft/figures/centroid_distance_continuous.pdf",
+  p_continuous,
+  width = 10,
+  height = 7,
+  units = "in",
+  device = cairo_pdf
+)
 # centroid_distances_slow <- do.call(rbind, lapply(slow, distance.from.centroid))
 
 

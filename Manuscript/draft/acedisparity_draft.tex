@@ -29,7 +29,7 @@
 
 \title{Including ancestral state estimation uncertainty can improve disparity analyses}
 
-\author{Caleb Scutt\textsuperscript{1,2*}, Natalie Cooper\textsuperscript{2}, Gavin H. Thomas\textsuperscript{1}, Thomas Guillerme\textsuperscript{1}}
+\author{Caleb N. Scutt\textsuperscript{1,2*}, Natalie Cooper\textsuperscript{2}, Gavin H. Thomas\textsuperscript{1}, Thomas Guillerme\textsuperscript{1}}
 
 \date{}
 
@@ -314,6 +314,7 @@ Therefore, while estimation accuracy differed between metrics, the hierarchy bet
 
 \subsubsection{Sensitivity tests}
 We found that the hierarchy of methods across continuous trait models and fossil sampling densities were largely congruent under the alternative 'tips+nodes' fossil sampling scheme, albeit we found that excluding ancestral states was marginally better performing when using the sum of quantiles metric on BM trait data (\autoref{fig:Continuous nodes tips boxplot}).
+We also found our findings were robust to asymmetry in trees (\autoref{fig:Asymmetrical trees continuous boxplot}).
 %% add asymmetry of trees here
 
 \subsection{Discrete traits}
@@ -350,7 +351,11 @@ Again, while the disparity metric was a significant driver to overall accuracy, 
 \end{figure}
 
 \subsubsection{Sensitivity tests} 
-Our findings did not differ under the alternative `tip+nodes' fossil sampling scheme or under asymmetrical trees (\autoref{fig:Asymmetrical trees boxplot}).
+Under the alternative `tips+nodes' fossil sampling scheme, we found that, generally, the hierarchy of methods remained consistent with our main findings up to 50\% fossil sampling density (\autoref{fig:Discrete nodes tips boxplot}, \autoref{fig:Discrete nodes tips boxplot rm axes}). 
+Beyond 50\% fossil sampling, we overestimate disparity with pre-ordination methods, because we now have twice as many points as the true trait space because we are estimating ancestors that did not exist.
+Essentially, under a `tips+nodes' sampling scheme ancestral state estimation becomes redundant beyond 50\% fossil sampling because all unsampled taxa are accounted for as ancestral nodes.
+Our findings also proved robust under asymmetrical trees (\autoref{fig:Asymmetrical trees discrete boxplot}).
+
 When we account for unequal dimensionality, we found virtually the same hierarchy of estimation methods as when we preserved the full dimensionality of the trait space (\autoref{fig:discrete fixed axes boxplot}), but note that the extent at which pre-ordination estimation methods were advantageous over excluding ancestral state estimations was slightly diminished.
 
 \begin{figure}[H]
@@ -473,12 +478,11 @@ A fossil cannot be identified as an ancestor or descendent when found, and fossi
 However, the tip-only scheme excludes taxa that are ancestral to other sampled taxa, i.e., ancestral nodes are not sampled, despite evidence that ancestors being may be at least as likely to be sampled as descendent taxa (\citealp{foote1996probability,parins2026super}; note that our simulations assume a bifurcating dendogramic evolutionary history, thus if according to branch lengths internal branches are no more likely to be sampled than terminal branches, though this assumption changes if budding is considered as it is in the studies cited).
 The alternative `tips+nodes' sampling scheme highlighted where these assumptions may have introduced bias. 
 For discrete characters, the tip-only scheme appears to introduce little bias.
-Tips and nodes did not differ in their pairwise distances, %@@@add figure
-so excluding ancestors did not remove a distinct part of the trait space.
+Tips and nodes did not differ in their pairwise distances (\autoref{fig:pairwise dist discrete tip node}), so excluding ancestors did not remove a distinct part of the trait space.
 This is consistent with character exhaustion in bounded discrete characters \citep{wagner2000exhaustion, erwin_disparity_2007}; once most character states have been expended, further change repeats existing pairwise distances, thus tips do not accumulate any more distinctness than internal nodes.
 This trait space saturation is reached faster as transition rates increase.
 In contrast, continuous characters are unbounded.
-Under BM, variance increases with distance from the root, so tips are expected to be the most morphologically distinct taxa.
+Under BM, variance increases with distance from the root, so tips are the most morphologically distinct taxa (\autoref{fig:pairwise dist continuous tip node}).
 This explains why the tip-only sampling scheme overestimates BM sum of variances at low fossil sampling when using ancestral state estimations, whereas the `tips+nodes' scheme instead underestimated sum of variances.
 Our conclusions for both discrete and continuous characters are robust under both sampling schemes, but we note that the scheme does have a noticeable effect on continuous results.
 
