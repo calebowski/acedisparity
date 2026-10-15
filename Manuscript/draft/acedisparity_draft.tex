@@ -196,6 +196,7 @@ This method meant each extinct tip had an equal probability of being `fossilised
 
 To test whether our fossil sampling scheme was biased by only sampling tips, we used the same Bernoulli sampling method but allowed nodes to be sampled as well as tips. %@@@wagner line 175
 This is labelled the `tips+nodes' fossil sampling scheme.
+Given the computational expense of the analyses, we ran this scheme on the 50 living tips (<500 total tips) trees only.
 Ancestral state estimation requires observed data to be coded as tips on a phylogeny, so sampled nodes were attached to the tree as tips using the \texttt{phytools::bind.tip} function \citep{revell2012phytools} with a non-zero branch length.
 The corresponding trait matrices were subset to match the tips remaining in each down-sampled tree, with all extant taxa sampled across all fossil sampling densities.
 From herein, these resulting downsampled trees and matrices are referred to as sampled-taxa.
@@ -414,8 +415,8 @@ The use of distributions amplifies the noise in this scenario, thus point estima
 
 \subsection{Model misspecification and fossil inclusion}
 As expected, we found that the differences in true and simulated disparity across models of evolution reflect model misspecification in ancestral state estimation.
-The inclusion of ancestral state estimations recovered a more accurate trait space than excluding ancestral states across all fossil sampling densities and disparity metrics when Brownian motion was the evolutionary model.
-Ancestral state estimation of continuous characters uses the BM model as an assumption for the evolution of traits, so this was expected.
+The inclusion of ancestral state estimations generally recovered a more accurate trait space than excluding ancestral states when BM was the simulated model.
+This was an expected finding, given that ancestral state estimations of continuous characters were modelled under BM.
 The assumptions of BM include a fixed mean and trait variance increasing linearly through time \citep{felsenstein1985phylogenies,omeara2006testing}.
 We found that when these assumptions of BM were violated, such as under BM + trend and OU models, disparity accuracy returned by methods with \ase decreased.
 For example, under low/absent fossil sampling, methods of \ase performed worse than bypassing ancestral state estimation for BM + trend.
@@ -465,9 +466,9 @@ Several recent methodological developments have aimed to accommodate for rate he
 
 
 Simulations are increasingly used across computational evolutionary biology to evaluate methodological approaches \citep{lotterhos2022simulation}.
-However, given the complexity of morphological evolution across clades, generalising simulation procedures is an endeavour that offsets empirical and biological realism \citep{goloboff2018parsimony,o2018empirical}.
-Our conclusions hold under some of our simulation assumptions and depend on others.
-For empirical realism, our tip-only fossil sampling scheme is the more defensible default for our main analyses.
+However, given the complexity of morphological evolution across clades, generalising simulation frameworks is an endeavour that offsets empirical and biological realism \citep{goloboff2018parsimony,o2018empirical}.
+Where tested, our conclusions generally hold under our simulation assumptions.
+For empirical realism, the tip-only fossil sampling scheme is the more defensible default for our main analyses.
 A fossil cannot be identified as an ancestor or descendent when found, and fossil taxa are added to trees as tips, so this scheme emulates the typical procedure.
 However, the tip-only scheme excludes taxa that are ancestral to other sampled taxa, i.e., ancestral nodes are not sampled, despite evidence that ancestors being may be at least as likely to be sampled as descendent taxa (\citealp{foote1996probability,parins2026super}; note that our simulations assume a bifurcating dendogramic evolutionary history, thus if according to branch lengths internal branches are no more likely to be sampled than terminal branches, though this assumption changes if budding is considered as it is in the studies cited).
 The alternative `tips+nodes' sampling scheme highlighted where these assumptions may have introduced bias. 
@@ -488,6 +489,10 @@ We observed this exact pattern, with the generally lower disparity error across 
 Our findings also depend on our assumption of bifurcating cladogenesis, in which ancestors will split into two daughter species.
 Under budding cladogenesis, progenitors are able to persist alongside their descendents, thus long-lived lineages are more likely to be ancestral and sampled \citep{parins2026super}.
 Ancestral state estimation (and phylogenetic comparative methods in general) do not accommodate budding \citep{caetano2023important} and so whether our results hold when ancestors persist and overlap with their descendents remains to be tested.
+
+Several assumptions remain untested.
+We did not model phylogenetic uncertainty; 
+
 % could the incorporation of phylogenetic uncertainty deal with uncertainty in ancestor descendent issues??
 
 

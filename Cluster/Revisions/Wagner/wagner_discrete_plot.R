@@ -360,4 +360,4 @@ boxplot_plot_all <- ggplot(results_df_long,
   ) +
   coord_cartesian(ylim = c(-1, 1))
 
-ggsave("../../../Manuscript/draft/figures/discrete_boxplot_nodes_tips_sampled_rm_axes.png", boxplot_plot_all, , width = 18, height = 14, dpi = 700, units = "in", bg = "white")
+ggsave("../../../Manuscript/draft/figures/discrete_boxplot_nodes_tips_sampled_rm_axes.pdf", boxplot_plot_all, , width = 18, height = 14, dpi = 700, units = "in", bg = "white")
