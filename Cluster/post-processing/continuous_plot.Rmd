@@ -148,7 +148,7 @@ results_df_long$method <- factor(
              "post_ord_point", "post_ord_sample", "no_ace"),
   labels = c( "Pre-ord ASE\n(point)", 
              "Pre-ord ASE\n(dist)", "Post-ord ASE\n(point)", 
-             "Post-ord ASE\n(dist)", "Tip-only")
+             "Post-ord ASE\n(dist)", "Sampled-taxa only\n(No ASE)")
 )
 
 results_df_long$preservation_level <- factor(
@@ -179,7 +179,6 @@ results_df_long$metric <- factor(
 ## Boxplot
 
 ```{R}
-
 library(tidyverse)
 ## filter so just have bm, bm+trend and ou strong
 results_df_long  <- results_df_long %>% filter(model %in% c("BM", "BM + trend", "OU"))
