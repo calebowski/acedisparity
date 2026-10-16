@@ -494,16 +494,20 @@ Ancestral state estimation (and phylogenetic comparative methods in general) do 
 
 Several assumptions remain untested.
 We did not model phylogenetic uncertainty; 
+Furthermore, fossil preservation was an assumption we did not model.
+While we varied fossil sampling density, every sampled fossil had complete character data.
+Fossil preservation, in other words character matrix completeness, is uneven across clades and time and can be concentrated at lagerst{\"a}tten, which can distort inferences from disparity analyses \citep{butler2012geological,flannery2019does} and also phylogenetic inference \citep{sansom2010non,woolley2024quantifying}
+How this exceptional preservation can bias the scaled likelihoods of states at ancestral nodes and affect disparity downstream remains to be tested.
+
+
+Similarly, fossil degradation can affect inference;
+How could Lagerst{\"a}tten effects be changed with ancestral state estimation?
+Given that these factors have not been accounted for, we recommend that phylogenetic corrections to disparity curves do not replace sampled-taxa only curves, but that both are used complimentary in analyses.
 
 % could the incorporation of phylogenetic uncertainty deal with uncertainty in ancestor descendent issues??
 
 
 % Given that most empirical palaeontological trees exhibit high asymmetry, %@@@
-
-% Similarly, we also tested whether our tip-only fossil sampling scheme was influencing our results, by implementing an alternative scheme (`tips+nodes') that allowed nodes as well as tips to be sampled as fossils.
-% While we found no influence in fossil sampling scheme on our discrete trait results, we found that disparity returned under the continuous BM model was influenced by the fossil sampling scheme; specifically that the sum of quantiles recovered by \ase methods was an underestimation compared to bypassing ancestral state estimation.
-% This finding is indicative that constraining our sampling scheme to tips, which by definition will be the most morphologically distinct taxa under BM as they are the furthest distance from the root, inflated our disparity estimates.
-% Naturally, we are not able to identify fossils as nodes or tips at the point of discovery, which is why our main findings use the fossil sampling scheme that represents empirical realism.
 
 % There are still several assumptions/factors that we have not accounted for, that can influence both ancestral state estimation and disparity analyses.
 % Firstly, we assumed a bifurcating evolutionary history, whereby every internal branch represents an ancestor that bifurcates at the node producing two daughter species.

@@ -1,4 +1,4 @@
-\begin{thebibliography}{118}
+\begin{thebibliography}{121}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -64,6 +64,11 @@ James~D Boyko, Kyle~J Gontjes, Evan~S Snitkin, and Stephen~A Smith.
 Stephen~L Brusatte, Shaena Montanari, Hong-yu Yi, and Mark~A Norell.
 \newblock Phylogenetic corrections for morphological disparity analysis: new methodology and case studies.
 \newblock \emph{Paleobiology}, 37\penalty0 (1):\penalty0 1--22, 2011.
+
+\bibitem[Butler et~al.(2012)Butler, Brusatte, Andres, and Benson]{butler2012geological}
+Richard~J Butler, Stephen~L Brusatte, Brian Andres, and Roger~BJ Benson.
+\newblock How do geological sampling biases affect studies of morphological evolution in deep time? a case study of pterosaur (reptilia: Archosauria) disparity.
+\newblock \emph{Evolution}, 66\penalty0 (1):\penalty0 147--162, 2012.
 
 \bibitem[Caetano and Quental(2023)]{caetano2023important}
 Daniel~S Caetano and Tiago~B Quental.
@@ -499,6 +504,11 @@ Marcello Ruta, Kenneth~D Angielczyk, J{\"o}rg Fr{\"o}bisch, and Michael~J Benton
 \newblock Decoupling of morphological disparity and taxic diversity during the adaptive radiation of anomodont therapsids.
 \newblock \emph{Proceedings of the Royal Society B: Biological Sciences}, 280\penalty0 (1768):\penalty0 20131071, 2013.
 
+\bibitem[Sansom et~al.(2010)Sansom, Gabbott, and Purnell]{sansom2010non}
+Robert~S Sansom, Sarah~E Gabbott, and Mark~A Purnell.
+\newblock Non-random decay of chordate characters causes bias in fossil interpretation.
+\newblock \emph{Nature}, 463\penalty0 (7282):\penalty0 797--800, 2010.
+
 \bibitem[Schluter et~al.(1997)Schluter, Price, Mooers, and Ludwig]{schluter1997likelihood}
 Dolph Schluter, Trevor Price, Arne~{\O} Mooers, and Donald Ludwig.
 \newblock Likelihood of ancestor states in adaptive radiation.
@@ -593,6 +603,11 @@ Matthew~A Wills.
 Anna~L Wisniewski, Graeme~T Lloyd, and Graham~J Slater.
 \newblock Extant species fail to estimate ancestral geographical ranges at older nodes in primate phylogeny.
 \newblock \emph{Proceedings of the Royal Society B}, 289\penalty0 (1975):\penalty0 20212535, 2022.
+
+\bibitem[Woolley et~al.(2024)Woolley, Bottjer, Corsetti, and Smith]{woolley2024quantifying}
+C~Henrik Woolley, David~J Bottjer, Frank~A Corsetti, and Nathan~D Smith.
+\newblock Quantifying the effects of exceptional fossil preservation on the global availability of phylogenetic data in deep time.
+\newblock \emph{PLoS One}, 19\penalty0 (2):\penalty0 e0297637, 2024.
 
 \bibitem[Yang(2006)]{yang2006computational}
 Ziheng Yang.

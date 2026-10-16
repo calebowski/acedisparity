@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2024.11.5)  15 OCT 2026 14:28
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2024.11.5)  16 OCT 2026 11:01
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -551,7 +551,7 @@ LaTeX Warning: Reference `fig:Asymmetrical trees boxplot' on page 21 undefined o
 LaTeX Warning: Reference `fig:Asymmetrical trees boxplot' on page 21 undefined on input line 489.
 
 [21] [22]
-Overfull \hbox (20.87317pt too wide) in paragraph at lines 625--627
+Overfull \hbox (20.87317pt too wide) in paragraph at lines 629--631
 \T1/cmr/m/n/10.95 (-20) The code to re-pro-duce the anal-y-ses is avail-able here []$\T1/cmtt/m/n/10.95 https : / / github . com / calebowski / acedisparity$[]
  []
 
@@ -570,10 +570,10 @@ Package rerunfilecheck Info: File `acedisparity_draft.out' has not changed.
 (rerunfilecheck)             Checksum: 1D36A189D6A8B1A915586FE4516933EE;4636.
  ) 
 Here is how much of TeX's memory you used:
- 15881 strings out of 474222
- 256718 string characters out of 5748733
+ 15893 strings out of 474222
+ 257025 string characters out of 5748733
  1938975 words of memory out of 5000000
- 37499 multiletter control sequences out of 15000+600000
+ 37508 multiletter control sequences out of 15000+600000
  585461 words of font info for 198 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  69i,14n,79p,1071b,813s stack positions out of 10000i,1000n,20000p,200000b,200000s
@@ -605,10 +605,10 @@ pdfTeX warning (dest): name{figure.caption.8} has been referenced but does not e
 pdfTeX warning (dest): name{figure.caption.2} has been referenced but does not exist, replaced by a fixed one
 
 </usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfbx1000.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfbx1095.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfbx1200.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfbx1440.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfrm0700.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfrm0800.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfrm1000.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfrm1095.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfrm1200.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfrm1728.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfss0800.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfti1095.pfb></usr/share/texmf/fonts/type1/public/cm-super/sftt1095.pfb>
-Output written on acedisparity_draft.pdf (34 pages, 495678 bytes).
+Output written on acedisparity_draft.pdf (34 pages, 497908 bytes).
 PDF statistics:
- 1044 PDF objects out of 1200 (max. 8388607)
- 949 compressed objects within 10 object streams
- 203 named destinations out of 1000 (max. 500000)
+ 1058 PDF objects out of 1200 (max. 8388607)
+ 963 compressed objects within 10 object streams
+ 206 named destinations out of 1000 (max. 500000)
  43767 words of extra memory for PDF output out of 51595 (max. 10000000)
 
