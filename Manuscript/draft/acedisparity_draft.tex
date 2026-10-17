@@ -484,25 +484,23 @@ Under BM, variance increases with distance from the root, so tips are the most m
 This explains why the tip-only sampling scheme overestimates BM sum of variances at low fossil sampling when using ancestral state estimations, whereas the `tips+nodes' scheme instead underestimated sum of variances.
 Our conclusions for both discrete and continuous characters are robust under both sampling schemes, but we note that the scheme does have a noticeable effect on continuous results.
 
-Given that empirical phylogenies tend to be asymmetrical \citep{mooers1997inferring}, we tested for the effect of asymmetry on our results (\autoref{fig:Asymmetrical trees boxplot}) and found congruent patterns in estimation method hierarchy across treatments to our main findings. 
+Given that empirical phylogenies tend to be asymmetrical \citep{mooers1997inferring}, we tested for the effect of asymmetry on our results  and found congruent patterns in estimation method hierarchy across treatments to our main findings (\autoref{fig:Asymmetrical trees continuous boxplot}, \autoref{fig:Asymmetrical trees discrete boxplot}). 
 Raw ancestral state estimation accuracy has been shown to increase as tree asymmetry increases, since asymmetrical trees have fewer nested internal nodes, although longer branch lengths can increase uncertainty in estimations \citep{keating2023best}.
-We observed this exact pattern, with the generally lower disparity error across asymmetry trees, albeit with wider error within pre-ordination estimation methods (\autoref{fig:Asymmetrical trees boxplot}).
+We observed this exact pattern, with the generally lower disparity error across asymmetry trees, albeit with wider error within pre-ordination estimation methods.
 
 Our findings also depend on our assumption of bifurcating cladogenesis, in which ancestors will split into two daughter species.
 Under budding cladogenesis, progenitors are able to persist alongside their descendents, thus long-lived lineages are more likely to be ancestral and sampled \citep{parins2026super}.
 Ancestral state estimation (and phylogenetic comparative methods in general) do not accommodate budding \citep{caetano2023important} and so whether our results hold when ancestors persist and overlap with their descendents remains to be tested.
 
 Several assumptions remain untested.
-We did not model phylogenetic uncertainty; 
+Firstly, when using phylogenetic corrections we assume that the applied topology is correct. 
+The choice of topology can change the inferred disparity pattern; different arthropod topologies led to contrasting patterns across the Cambrian-Ordovician boundary \citep{lofgren2003morphological}.
+While not tested explicitly in out study, the robustness of ancestral state estimation to topological uncertainty has been examined previously \citep{hanson2010robustness}.
+% In the same vein as this study, we recommend that phylogenetic uncertainty be accounted for during phylogenetic correction/PCM (phylogeny is essentially just a model-based prediction in the same was ASE is and so should be treated as such by accounting for error in estimation)...
 Furthermore, fossil preservation was an assumption we did not model.
 While we varied fossil sampling density, every sampled fossil had complete character data.
 Fossil preservation, in other words character matrix completeness, is uneven across clades and time and can be concentrated at lagerst{\"a}tten, which can distort inferences from disparity analyses \citep{butler2012geological,flannery2019does} and also phylogenetic inference \citep{sansom2010non,woolley2024quantifying}
 How this exceptional preservation can bias the scaled likelihoods of states at ancestral nodes and affect disparity downstream remains to be tested.
-
-
-Similarly, fossil degradation can affect inference;
-How could Lagerst{\"a}tten effects be changed with ancestral state estimation?
-Given that these factors have not been accounted for, we recommend that phylogenetic corrections to disparity curves do not replace sampled-taxa only curves, but that both are used complimentary in analyses.
 
 % could the incorporation of phylogenetic uncertainty deal with uncertainty in ancestor descendent issues??
 

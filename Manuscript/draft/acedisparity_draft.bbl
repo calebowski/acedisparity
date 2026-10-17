@@ -1,4 +1,4 @@
-\begin{thebibliography}{121}
+\begin{thebibliography}{123}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -253,6 +253,11 @@ Thomas John~Dixon Halliday and Anjali Goswami.
 \newblock Eutherian morphological disparity across the end-cretaceous mass extinction.
 \newblock \emph{Biological Journal of the Linnean Society}, 118\penalty0 (1):\penalty0 152--168, 2016.
 
+\bibitem[Hanson-Smith et~al.(2010)Hanson-Smith, Kolaczkowski, and Thornton]{hanson2010robustness}
+Victor Hanson-Smith, Bryan Kolaczkowski, and Joseph~W Thornton.
+\newblock Robustness of ancestral sequence reconstruction to phylogenetic uncertainty.
+\newblock \emph{Molecular biology and evolution}, 27\penalty0 (9):\penalty0 1988--1999, 2010.
+
 \bibitem[Harcourt-Brown et~al.(2001)Harcourt-Brown, Pearson, and Wilkinson]{harcourt2001imbalance}
 Katherine~G Harcourt-Brown, Paul~N Pearson, and Mark Wilkinson.
 \newblock The imbalance of paleontological trees.
@@ -343,6 +348,11 @@ Graeme~T Lloyd.
 Graeme~T Lloyd.
 \newblock Journeys through discrete-character morphospace: synthesizing phylogeny, tempo, and disparity.
 \newblock \emph{Palaeontology}, 61\penalty0 (5):\penalty0 637--645, 2018.
+
+\bibitem[Lofgren et~al.(2003)Lofgren, Plotnick, and Wagner]{lofgren2003morphological}
+Andrea~Stockmeyer Lofgren, Roy~E Plotnick, and Peter~J Wagner.
+\newblock Morphological diversity of carboniferous arthropods and insights on disparity patterns through the phanerozoic.
+\newblock \emph{Paleobiology}, 29\penalty0 (3):\penalty0 349--368, 2003.
 
 \bibitem[Losos(1999)]{losos1999uncertainty}
 Jonathan~B Losos.
