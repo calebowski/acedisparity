@@ -134,7 +134,7 @@ This meant that although the parameters were set to $\lambda = 1$ and $\mu = 0.9
 Mean net diversification across all simulated trees was $0.30\pm0.09$.
 Constant birth-death parameters meant that the simulated trees were highly symmetrical (\autoref{fig:main trees colless dist}; \citealp{khurana2024limits}).
 Given that empirical phylogenies tend to be imbalanced \citep{mooers1997inferring, harcourt2001imbalance}, we simulated 100 birth-death trees with maximum tree size of 50 extant and 500 total tips with high asymmetry and ran the same pipeline (\autoref{fig:assymetrical trees colless dist}, \autoref{fig:pipeline}).
-Trees were pruned to extract the crown clade of the tree for downstream analyses.
+Trees were pruned to include only the crown clade of the tree for downstream analyses.
 This ensured that all downsampled trees shared an identical root node and tree height with the original tree simulation.
 Therefore, any tip included in the analyses was a descendant of the most basal node considered, i.e., the MRCA of extant tips, ensuring that all ordinations and disparity values were calculated within a consistent clade. %@@@keating line 147
 
@@ -149,7 +149,7 @@ Therefore, any tip included in the analyses was a descendant of the most basal n
 \subsubsection{Trait simulations} \label{trait simulation}
 For each phylogeny, we simulated continuous and discrete trait data separately (\autoref{fig:pipeline} step 2). 
 Continuous trait data were simulated under variations of Brownian motion (BM) and Ornstein-Uhlenbeck (OU) models (\autoref{tab:models}).
-We simulated BM with variance = 0.25.
+We simulated BM with a variance of 0.25.
 We also simulated BM with a trend parameter of 0.3, by which the ancestral trait value increased incrementally proportional to branch length.
 OU trait data were simulated with the $\alpha$ parameter set based on phylogenetic half-life to account for differing tree heights across simulations \citep{gearty2024impact}.
 
@@ -205,7 +205,7 @@ From herein, these resulting downsampled trees and matrices are referred to as s
 \subsection{Ancestral state estimation (ASE)} 
 We estimated the ancestral states of the sampled-taxa using \texttt{dispRity::multi.ace} \citep{guillerme2018disprity}, which is a wrapper for \texttt{ape::ace} \citep{paradis2019ape}.
 We used four combinations of two approaches to ancestral state estimation to evaluate each method's accuracy in recovering true disparity values (\autoref{fig:pipeline}: Step 4).
-These were then compared to a null of bypassing ancestral state estimation whereby only sampled-taxa were used to generate trait spaces.
+These were then compared to a null model of bypassing ancestral state estimation whereby only sampled-taxa were used to generate trait spaces.
 
 \subsubsection{Pre-ordination estimation} \label{pre-ord}
 Ancestral state estimation of trait data can be carried out at two points either side of the ordination step in the pipeline (\autoref{fig:pipeline}: Step 4; \citealp{lloyd2018journeys}).
@@ -219,7 +219,7 @@ Given that the transition rates were set \textit{a priori} during simulations, t
 
 We constructed trait spaces for disparity estimation by ordinating the matrices of combined sampled-taxa and ancestral node states.
 Continuous data were ordinated using principal components analysis (PCA; \texttt{stats::prcomp}). 
-Because PCA requires raw continuous data to calculate covariance, discrete characters were instead converted to distance matrices using the Maximum Observed Rescaled Distance metric (MORD) \citep{lloyd2016estimating} and ordinated using principal coordinates analyses (PCoA; \texttt{stats::cmdscale}) using the Cailliez correction to handle negative eigenvalues \citep{cailliez1983analytical}.
+Because PCA requires continuous variables to calculate covariance, discrete characters were instead converted to distance matrices using the Maximum Observed Rescaled Distance metric (MORD) \citep{lloyd2016estimating} and ordinated using principal coordinates analyses (PCoA; \texttt{stats::cmdscale}) using the Cailliez correction to handle negative eigenvalues \citep{cailliez1983analytical}.
 
 \subsubsection{Post-ordination estimation} \label{post-ord}
 Post-ordination estimation calculates the continuous PC scores across each axis of an ordination matrix for each ancestral node.
@@ -246,11 +246,11 @@ Our aim for this study was to understand how well ancestral state estimation can
 % Since we were assessing overall disparity, position was not a metric that can be discerned due to the centring of ordinated matrices. TG: this sentence is probably not necessary. But might bring it back if a reviewer asks for why no position?
 Size-based metrics describe the volume of trait space the clade occupies \citep{guillerme2020shifting}.
 To examine how well the size of the trait space was recovered, we calculated the sum of quantiles.
-The sum of quantiles measures the 95\% interpercentile range on each PC axis and then sums these ranges.
+The sum of quantiles measures the sum of the 95\% interpercentile range on each PC axis.
 This metric has similar properties to the often used sum of ranges metric by describing the total trait space exploited \citep{foote1992rarefaction}, but with less sensitivity to outliers and sample size.
 For density, we calculated the sum of variances and mean pairwise distance \citep{foote1991morphological,foote1992paleozoic}. 
 To quantify methodological performance, we calculated these disparity metrics for the ground-truth simulated trait spaces, the sampled-taxa only trait spaces, and the spaces generated by each \ase approach so that relative disparity errors could be calculated (\autoref{fig:pipeline} step 5).
-Given that the dimensionality of discrete trait spaces varied across fossil sampling densities within the same replicate, we also ran disparity calculations with dimensionality in the true and estimated trait spaces constrained to the minimum number of axes reached across all fossil sampling levels, i.e., for the 50 living-taxa trees this equalled 48 axes.
+Given that the dimensionality of discrete trait spaces varied across fossil sampling densities within the same replicate, we also ran disparity calculations with dimensionality in the true and estimated trait spaces constrained to the minimum number of axes reached across all fossil sampling levels ($$\text{number of living species}-2$$, i.e. 48 axes for the 50 living-taxa trees).
 
 \begin{equation}
 \text{Relative disparity error} = \frac{\text{Estimated disparity} - \text{True disparity}}{\text{True disparity}}
