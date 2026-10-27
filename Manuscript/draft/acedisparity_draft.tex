@@ -27,7 +27,7 @@
 \doublespacing
 \linenumbers
 
-\title{Including ancestral state estimation uncertainty can improve disparity analyses}
+\title{When does ancestral state estimation improve disparity analyses? A simulation-based evaluation}
 
 \author{Caleb N. Scutt\textsuperscript{1,2*}, Natalie Cooper\textsuperscript{2}, Gavin H. Thomas\textsuperscript{1}, Thomas Guillerme\textsuperscript{1}}
 
@@ -313,9 +313,8 @@ Therefore, while estimation accuracy differed between metrics, the hierarchy bet
 \end{figure}
 
 \subsubsection{Sensitivity tests}
-We found that the hierarchy of methods across continuous trait models and fossil sampling densities were largely congruent under the alternative 'tips+nodes' fossil sampling scheme, albeit we found that excluding ancestral states was marginally better performing when using the sum of quantiles metric on BM trait data (\autoref{fig:Continuous nodes tips boxplot}).
+We found that the hierarchy of methods across continuous trait models and fossil sampling densities were largely congruent under the alternative `tips+nodes' fossil sampling scheme, albeit we found that excluding ancestral states was marginally better performing when using the sum of quantiles metric on BM trait data (\autoref{fig:Continuous nodes tips boxplot}).
 We also found our findings were robust to asymmetry in trees (\autoref{fig:Asymmetrical trees continuous boxplot}).
-%% add asymmetry of trees here
 
 \subsection{Discrete traits}
 \subsubsection{Estimation methods} 
@@ -362,7 +361,7 @@ When we account for unequal dimensionality, we found virtually the same hierarch
 \centering
 \includegraphics[width=1\textwidth]{figures/discrete_boxplot_rm_axes.pdf}
 \caption{\textbf{fixed axes} Relative disparity error returned from pre-ordination point ASE (ancestral state estimation), pre-ordination distribution ASE, post-ordination point ASE, post-ordination distribution ASE and no ASE. These disparity errors were calculated across three transition rates (fast [0.9], medium [0.1] and slow [0.01]), five simulated fossil sampling densities (100\%, 50\%, 15\%, 5\% and 0\%) and three disparity metrics (sum of variances, sum of quantiles and mean pairwise distance). Values closest to 0 (dashed horizontal line) are most accurate; negative errors are under-estimates and positive are over-estimates.}
-\label{fig:discrete fixed axes boxplot} 
+\label{fig:discrete fixed axes boxplot}
 \end{figure}
 
 \section{Discussion}
@@ -473,8 +472,8 @@ Simulations are increasingly used across computational evolutionary biology to e
 However, given the complexity of morphological evolution across clades, generalising simulation frameworks is an endeavour that offsets empirical and biological realism \citep{goloboff2018parsimony,o2018empirical}.
 Where tested, our conclusions generally hold under our simulation assumptions.
 For empirical realism, the tip-only fossil sampling scheme is the more defensible default for our main analyses.
-A fossil cannot be identified as an ancestor or descendent with certainty when found, and fossil taxa are most usually added to trees as tips, so this scheme emulates the typical procedure. %TG: added nuance to avoid another round of reviewer saying "Actually..."
-However, the tip-only scheme excludes taxa that are ancestral to other sampled taxa, i.e., ancestral nodes are not sampled, despite evidence that ancestors being may be at least as likely to be sampled as descendent taxa (\citealp{foote1996probability,parins2026super}; note that our simulations assume a bifurcating dendogramic evolutionary history, thus if according to branch lengths internal branches are no more likely to be sampled than terminal branches, though this assumption changes if budding is considered as it is in the studies cited).
+A fossil cannot be identified as an ancestor or descendent with certainty when found, and fossil taxa are most usually added to trees as tips, so this scheme emulates the typical procedure.
+However, the tip-only scheme excludes taxa that are ancestral to other sampled taxa, i.e., ancestral nodes are not sampled.
 The alternative `tips+nodes' sampling scheme highlighted where these assumptions may have introduced bias. 
 For discrete characters, the tip-only scheme appears to introduce little bias.
 Tips and nodes did not differ in their pairwise distances (\autoref{fig:pairwise dist discrete tip node}), so excluding ancestors did not remove a distinct part of the trait space.
@@ -482,23 +481,23 @@ This is consistent with character exhaustion in bounded discrete characters \cit
 This trait space saturation is reached faster as transition rates increase.
 In contrast, continuous characters are unbounded.
 Under BM, variance increases with distance from the root, so tips are the most morphologically distinct taxa (\autoref{fig:pairwise dist continuous tip node}).
-This explains why the tip-only sampling scheme overestimates BM sum of variances at low fossil sampling when using ancestral state estimations, whereas the `tips+nodes' scheme instead underestimated sum of variances.
-Our conclusions for both discrete and continuous characters are robust under both sampling schemes, but we note that the scheme does have a noticeable effect on continuous results. %TG: is this supposed to link to some suppelementaries?
+This explains why ancestral state estimations overestimated the sum of variances derived from BM traits at low fossil sampling under the tip-only scheme, whereas instead underestimated sum of variances under the `tips+nodes' scheme.
+Our conclusions for both discrete and continuous characters are robust under both sampling schemes, but we note that the scheme does have a noticeable effect on continuous results (Figures~\ref{fig:Continuous nodes tips boxplot}, \ref{fig:Discrete nodes tips boxplot}, and \ref{fig:Discrete nodes tips boxplot rm axes})
 
 Given that empirical phylogenies tend to be asymmetrical \citep{mooers1997inferring}, we tested for the effect of asymmetry on our results  and found congruent patterns in estimation method hierarchy across treatments to our main findings (\autoref{fig:Asymmetrical trees continuous boxplot}, \autoref{fig:Asymmetrical trees discrete boxplot}). 
 Raw ancestral state estimation accuracy has been shown to increase as tree asymmetry increases, since asymmetrical trees have fewer nested internal nodes, although longer branch lengths can increase uncertainty in estimations \citep{keating2023best}.
 We observed this exact pattern, with the generally lower disparity error across asymmetry trees, albeit with wider error within pre-ordination estimation methods.
 
-Our findings also depend on our assumption of bifurcating cladogenesis, in which ancestors will split into two daughter species.
-Under budding cladogenesis, progenitors are able to persist alongside their descendents, thus long-lived lineages are more likely to be ancestral and sampled \citep{parins2026super}.
-Ancestral state estimation (and phylogenetic comparative methods in general) do not accommodate budding \citep{caetano2023important} and so whether our results hold when ancestors persist and overlap with their descendents remains to be tested.
+% Our findings also depend on our assumption of bifurcating cladogenesis, in which ancestors will split into two daughter species.
+% Under budding cladogenesis, progenitors are able to persist alongside their descendents, thus long-lived lineages are more likely to be ancestral and sampled \citep{parins2026super}.
+% Ancestral state estimation (and phylogenetic comparative methods in general) do not accommodate budding \citep{caetano2023important} and so whether our results hold when ancestors persist and overlap with their descendents remains to be tested.
 % TG: not sure about this whole paragraph, it feels like a justification only called by reviewer and doesn't flow with the rest of the text. Also, it's not really convincing: you say that budding can have an effect but cannot be accomodated by our methods so it's ignored here. As we chatted before, I think whether it has an effect or not is more or less irrelevant. There is no data distinction between bifurcating (or even multifurcating) and budding as in each element in a tree (but the root) has an ancestor and points towards any number of descendants (including 0 descendants for tips). Budding then only makes sense in a trait context where one descendant has the same trait value (the one that's on the main lineage) and one has a different one (the one budding off). I think in your simulations with slow rates you must have loads of them actually. And this definition of budding is not even very good, I think some empirical lineages that do "budding" even have trait changes along their main lineage. TL;DR: I think budding only exists in a biologists sense, not in a biological/data one. 
 
 Several assumptions remain untested.
 Firstly, when using phylogenetic corrections we assume that the applied topology is correct. 
 The choice of topology can change the inferred disparity pattern; different arthropod topologies led to contrasting patterns across the Cambrian-Ordovician boundary \citep{lofgren2003morphological}.
 While not tested explicitly in out study, the robustness of ancestral state estimation to topological uncertainty has been examined previously \citep{hanson2010robustness}.
-% In the same vein as this study, we recommend that phylogenetic uncertainty be accounted for during phylogenetic correction/PCM (phylogeny is essentially just a model-based prediction in the same was ASE is and so should be treated as such by accounting for error in estimation)... %TG: I think you could add that to the discussion! It's a very good point!
+In the same vein as this study, we recommend that phylogenetic uncertainty be accounted for during phylogenetic correction/PCM (phylogeny is essentially just a model-based prediction in the same way \ase is and so should be treated as such by accounting for error in estimation). %TG: I think you could add that to the discussion! It's a very good point!
 Furthermore, fossil preservation was an assumption we did not model.
 While we varied fossil sampling density, every sampled fossil had complete character data.
 Fossil preservation, in other words character matrix completeness, is uneven across clades and time and can be concentrated at lagerst{\"a}tten, which can distort inferences from disparity analyses \citep{butler2012geological,flannery2019does} and also phylogenetic inference \citep{sansom2010non,woolley2024quantifying}

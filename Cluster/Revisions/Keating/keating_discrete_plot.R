@@ -105,7 +105,7 @@ results_df_long$method <- factor(
              "post_ord_point", "post_ord_sample", "no_ace"),
   labels = c("Pre-ord ASE\n(point)",
              "Pre-ord ASE\n(dist)", "Post-ord ASE\n(point)", 
-             "Post-ord ASE\n(dist)", "No ASE")
+             "Post-ord ASE\n(dist)", "Sampled-taxa only\n(No ASE)")
 )
 
 results_df_long$preservation_level <- factor(

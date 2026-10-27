@@ -1,4 +1,4 @@
-\begin{thebibliography}{123}
+\begin{thebibliography}{120}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -69,11 +69,6 @@ Stephen~L Brusatte, Shaena Montanari, Hong-yu Yi, and Mark~A Norell.
 Richard~J Butler, Stephen~L Brusatte, Brian Andres, and Roger~BJ Benson.
 \newblock How do geological sampling biases affect studies of morphological evolution in deep time? a case study of pterosaur (reptilia: Archosauria) disparity.
 \newblock \emph{Evolution}, 66\penalty0 (1):\penalty0 147--162, 2012.
-
-\bibitem[Caetano and Quental(2023)]{caetano2023important}
-Daniel~S Caetano and Tiago~B Quental.
-\newblock How important is budding speciation for comparative studies?
-\newblock \emph{Systematic Biology}, 72\penalty0 (6):\penalty0 1443--1453, 2023.
 
 \bibitem[Cailliez(1983)]{cailliez1983analytical}
 Francis Cailliez.
@@ -162,11 +157,6 @@ Mike Foote.
 Mike Foote.
 \newblock Morphological disparity in ordovician-devonian crinoids and the early saturation of morphological space.
 \newblock \emph{Paleobiology}, 20\penalty0 (3):\penalty0 320--344, 1994.
-
-\bibitem[Foote(1996)]{foote1996probability}
-Mike Foote.
-\newblock On the probability of ancestors in the fossil record.
-\newblock \emph{Paleobiology}, 22\penalty0 (2):\penalty0 141--151, 1996.
 
 \bibitem[Foote(1997)]{foote1997evolution}
 Mike Foote.
@@ -447,11 +437,6 @@ Mark Pagel.
 Emmanuel Paradis and Klaus Schliep.
 \newblock ape 5.0: an environment for modern phylogenetics and evolutionary analyses in r.
 \newblock \emph{Bioinformatics}, 35\penalty0 (3):\penalty0 526--528, 2019.
-
-\bibitem[Parins-Fukuchi(2026)]{parins2026super}
-Tomomi Parins-Fukuchi.
-\newblock “super-progenitor” species and the distribution of sampled descendants.
-\newblock \emph{Paleobiology}, 52\penalty0 (2):\penalty0 221--232, 2026.
 
 \bibitem[Pennell et~al.(2014)Pennell, Eastman, Slater, Brown, Uyeda, FitzJohn, Alfaro, and Harmon]{pennell2014geiger}
 Matthew~W Pennell, Jonathan~M Eastman, Graham~J Slater, Joseph~W Brown, Josef~C Uyeda, Richard~G FitzJohn, Michael~E Alfaro, and Luke~J Harmon.
