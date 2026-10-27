@@ -43,6 +43,70 @@ if f then
   end
 end
 
+local figure_count = 0
+local table_count = 0
+
+local function caption_starts_with_figure(caption)
+  local blocks = caption.long or caption
+  local text = pandoc.utils.stringify(blocks)
+  return text:match("^Figure%s+") ~= nil
+end
+
+local function caption_starts_with_table(caption)
+  local blocks = caption.long or caption
+  local text = pandoc.utils.stringify(blocks)
+  return text:match("^Table%s+") ~= nil
+end
+
+local function prepend_caption_prefix(caption, word, number)
+  local blocks = caption.long or caption
+  local first_block = blocks[1]
+
+  if first_block and (first_block.t == "Para" or first_block.t == "Plain") then
+    local prefix = {
+      pandoc.Str(word),
+      pandoc.Space(),
+      pandoc.Str(number),
+      pandoc.Str("."),
+      pandoc.Space()
+    }
+
+    for i = #prefix, 1, -1 do
+      table.insert(first_block.content, 1, prefix[i])
+    end
+  end
+end
+
+function Figure(el)
+  figure_count = figure_count + 1
+
+  local figure_number = tostring(figure_count)
+  if el.identifier and labels[el.identifier] then
+    figure_number = labels[el.identifier].num
+  end
+
+  if el.caption and not caption_starts_with_figure(el.caption) then
+    prepend_caption_prefix(el.caption, "Figure", figure_number)
+  end
+
+  return el
+end
+
+function Table(el)
+  table_count = table_count + 1
+
+  local table_number = tostring(table_count)
+  if el.identifier and labels[el.identifier] then
+    table_number = labels[el.identifier].num
+  end
+
+  if el.caption and not caption_starts_with_table(el.caption) then
+    prepend_caption_prefix(el.caption, "Table", table_number)
+  end
+
+  return el
+end
+
 function Inlines(inlines)
   for i, el in ipairs(inlines) do
     if el.t == "Link" and el.attributes["reference"] then
@@ -74,3 +138,6 @@ function Inlines(inlines)
   end
   return inlines
 end
+
+
+-- pandoc acedisparity_draft.tex -o acedisparity.docx   --citeproc --bibliography=references.bib   --number-sections --lua-filter=refs.lua

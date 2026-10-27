@@ -360,7 +360,7 @@ When we account for unequal dimensionality, we found virtually the same hierarch
 \begin{figure}[H]
 \centering
 \includegraphics[width=1\textwidth]{figures/discrete_boxplot_rm_axes.pdf}
-\caption{\textbf{fixed axes} Relative disparity error returned from pre-ordination point ASE (ancestral state estimation), pre-ordination distribution ASE, post-ordination point ASE, post-ordination distribution ASE and no ASE. These disparity errors were calculated across three transition rates (fast [0.9], medium [0.1] and slow [0.01]), five simulated fossil sampling densities (100\%, 50\%, 15\%, 5\% and 0\%) and three disparity metrics (sum of variances, sum of quantiles and mean pairwise distance). Values closest to 0 (dashed horizontal line) are most accurate; negative errors are under-estimates and positive are over-estimates.}
+\caption{Relative disparity error returned from pre-ordination point ASE (ancestral state estimation), pre-ordination distribution ASE, post-ordination point ASE, post-ordination distribution ASE and no ASE. \textit{Disparity metrics were applied to trait spaces of equal dimensionality across all fossil sampling densities}. These disparity errors were calculated across three transition rates (fast [0.9], medium [0.1] and slow [0.01]), five simulated fossil sampling densities (100\%, 50\%, 15\%, 5\% and 0\%) and three disparity metrics (sum of variances, sum of quantiles and mean pairwise distance). Values closest to 0 (dashed horizontal line) are most accurate; negative errors are under-estimates and positive are over-estimates.}
 \label{fig:discrete fixed axes boxplot}
 \end{figure}
 
@@ -472,7 +472,7 @@ Simulations are increasingly used across computational evolutionary biology to e
 However, given the complexity of morphological evolution across clades, generalising simulation frameworks is an endeavour that offsets empirical and biological realism \citep{goloboff2018parsimony,o2018empirical}.
 Where tested, our conclusions generally hold under our simulation assumptions.
 For empirical realism, the tip-only fossil sampling scheme is the more defensible default for our main analyses.
-A fossil cannot be identified as an ancestor or descendent with certainty when found, and fossil taxa are most usually added to trees as tips, so this scheme emulates the typical procedure.
+A fossil cannot be identified as an ancestor or descendant with certainty when found, and fossil taxa are usually added to trees as tips, so this scheme emulates the typical procedure.
 However, the tip-only scheme excludes taxa that are ancestral to other sampled taxa, i.e., ancestral nodes are not sampled.
 The alternative `tips+nodes' sampling scheme highlighted where these assumptions may have introduced bias. 
 For discrete characters, the tip-only scheme appears to introduce little bias.
@@ -486,7 +486,7 @@ Our conclusions for both discrete and continuous characters are robust under bot
 
 Given that empirical phylogenies tend to be asymmetrical \citep{mooers1997inferring}, we tested for the effect of asymmetry on our results  and found congruent patterns in estimation method hierarchy across treatments to our main findings (\autoref{fig:Asymmetrical trees continuous boxplot}, \autoref{fig:Asymmetrical trees discrete boxplot}). 
 Raw ancestral state estimation accuracy has been shown to increase as tree asymmetry increases, since asymmetrical trees have fewer nested internal nodes, although longer branch lengths can increase uncertainty in estimations \citep{keating2023best}.
-We observed this exact pattern, with the generally lower disparity error across asymmetry trees, albeit with wider error within pre-ordination estimation methods.
+We observed this exact pattern, with generally lower disparity error across asymmetry trees, albeit with wider error within pre-ordination estimation methods.
 
 % Our findings also depend on our assumption of bifurcating cladogenesis, in which ancestors will split into two daughter species.
 % Under budding cladogenesis, progenitors are able to persist alongside their descendents, thus long-lived lineages are more likely to be ancestral and sampled \citep{parins2026super}.
@@ -496,8 +496,8 @@ We observed this exact pattern, with the generally lower disparity error across 
 Several assumptions remain untested.
 Firstly, when using phylogenetic corrections we assume that the applied topology is correct. 
 The choice of topology can change the inferred disparity pattern; different arthropod topologies led to contrasting patterns across the Cambrian-Ordovician boundary \citep{lofgren2003morphological}.
-While not tested explicitly in out study, the robustness of ancestral state estimation to topological uncertainty has been examined previously \citep{hanson2010robustness}.
-In the same vein as this study, we recommend that phylogenetic uncertainty be accounted for during phylogenetic correction/PCM (phylogeny is essentially just a model-based prediction in the same way \ase is and so should be treated as such by accounting for error in estimation). %TG: I think you could add that to the discussion! It's a very good point!
+While not tested explicitly in this study, the robustness of ancestral state estimation to topological uncertainty has been examined previously \citep{hanson2010robustness, duchene2015phylogenetic}.
+Given that a phylogeny is essentially a model-based prediction in the same way \ase is, we recommend that phylogenetic uncertainty be accounted for during phylogenetic correction/PCM. %TG: I think you could add that to the discussion! It's a very good point!
 Furthermore, fossil preservation was an assumption we did not model.
 While we varied fossil sampling density, every sampled fossil had complete character data.
 Fossil preservation, in other words character matrix completeness, is uneven across clades and time and can be concentrated at lagerst{\"a}tten, which can distort inferences from disparity analyses \citep{butler2012geological,flannery2019does} and also phylogenetic inference \citep{sansom2010non,woolley2024quantifying}
@@ -626,7 +626,7 @@ CNS would like to thank Robin Beck, Russell Garwood and Vera Weisbecker for thou
 \section*{Data Availability}
 
 The code to reproduce the analyses is available here \url{https://github.com/calebowski/acedisparity} \citep{caleb_scutt_2026_19665049}.
-Data is available at \url{https://doi.org/10.5061/dryad.280gb5n4p}.
+Data is available at \url{http://datadryad.org/share/LINK_NOT_FOR_PUBLICATION/GgPGMvjbjKZk85ivFKdvPcWkortHVP-bLC3qY6Oe_to}.
 
 \section*{Competing Interests}
 
