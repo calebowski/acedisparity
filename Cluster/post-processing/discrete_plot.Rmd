@@ -245,7 +245,8 @@ boxplot_plot_all <- ggplot(raw_results_df_long,
     alpha = 0.7,
     # outlier.alpha = 0.1,
     outlier.shape = NA,  # Hide outliers for cleaner plot
-    position = position_dodge(width = 0.8)
+    position = position_dodge(width = 0.8),
+    linewidth = 0.35
   ) +
   geom_hline(yintercept = 0, colour = "black", linewidth = 0.8, linetype = "dashed") +
   facet_grid(metric ~ method) +  #  Only facet by metric and method
@@ -264,6 +265,14 @@ boxplot_plot_all <- ggplot(raw_results_df_long,
     labels = c("Slow", "Medium", "Fast"),
     guide = "none"
   ) +
+   guides(
+    fill = guide_legend(
+      override.aes = list(
+        colour = colours,
+        linewidth = 0.2
+      )
+    )
+  ) +
   theme(
     axis.text = element_text(size = 6, color = "black"),
     axis.title = element_text(size = 7, face = "bold", color = "black"),
@@ -276,7 +285,7 @@ boxplot_plot_all <- ggplot(raw_results_df_long,
     panel.grid.major.y = element_line(color = "gray90", linewidth = 0.3),
     panel.grid.major.x = element_blank(),
     panel.grid.minor = element_blank(),
-    panel.spacing = unit(0.3, "cm")
+    panel.spacing = unit(0.2, "cm")
   ) +
   scale_y_continuous(
     breaks = c(-1, -0.5, 0, 0.25),
@@ -806,9 +815,10 @@ boxplot_plot_all_rm_axes <- ggplot(rmaxes_results_df_long,
     alpha = 0.7,
     # outlier.alpha = 0.1,
     outlier.shape = NA,  # Hide outliers for cleaner plot
-    position = position_dodge(width = 0.8)
+    position = position_dodge(width = 0.8),
+    linewidth = 0.35
   ) +
-  geom_hline(yintercept = 0, colour = "black", linewidth = 0.8, linetype = "dashed") +
+  geom_hline(yintercept = 0, colour = "black", linewidth = 0.6, linetype = "dashed") +
   facet_grid(metric ~ method) +  #  Only facet by metric and method
   labs(
     x = "Fossil Sampling (%)",
@@ -825,6 +835,14 @@ boxplot_plot_all_rm_axes <- ggplot(rmaxes_results_df_long,
     labels = c("Slow", "Medium", "Fast"),
     guide = "none"
   ) +
+  guides(
+    fill = guide_legend(
+      override.aes = list(
+        colour = colours,
+        linewidth = 0.2
+      )
+    )
+  ) +
   theme(
     axis.text = element_text(size = 6, color = "black"),
     axis.title = element_text(size = 7, face = "bold", color = "black"),
@@ -837,7 +855,7 @@ boxplot_plot_all_rm_axes <- ggplot(rmaxes_results_df_long,
     panel.grid.major.y = element_line(color = "gray90", linewidth = 0.3),
     panel.grid.major.x = element_blank(),
     panel.grid.minor = element_blank(),
-    panel.spacing = unit(0.3, "cm")
+    panel.spacing = unit(0.2, "cm")
   ) +
   scale_y_continuous(
     breaks = c(-1, -0.5, 0, 0.5),

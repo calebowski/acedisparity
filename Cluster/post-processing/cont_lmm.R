@@ -411,6 +411,7 @@ chunks_nested <- lapply(split(fossil_method_model_metric, fossil_method_model_me
 
 
 #########################################################################################################
+
 ## HEATMAP
 library(ggplot2)
 library(dplyr)
@@ -425,7 +426,7 @@ plot_df <- as.data.frame(emm_three_way)
 
 # 2. Clean up factors
 plot_df$fossil_sampling <- factor(plot_df$fossil_sampling, 
-                                   levels = c("living", "low", "med", "high", "all"),labels = c("0%", "5%", "15%", "50%", "100%"))
+                                   levels = c("living", "low", "med", "high", "all"),labels = c("0", "5", "15", "50", "100"))
 
 plot_df$method <- factor(plot_df$method, 
                                    levels = c("pre_ord_point", "pre_ord_sample", "post_ord_point", "post_ord_sample", "no_ace"),
@@ -440,26 +441,30 @@ plot_df$e_emmean <- exp(plot_df$emmean)
 my_breaks <- quantile(plot_df$e_emmean, probs = seq(0, 1, 0.25))
 
 
+
 p <- ggplot(plot_df, aes(x = fossil_sampling, y = method, fill = e_emmean)) +
-    geom_tile(color = "white", linewidth = 1) +
-    # geom_text(aes(label = sprintf("%.2f", emmean)), color = "white", size = 3) +
+    geom_tile(color = "white", linewidth = 0.5) +
     facet_wrap(~ model, nrow = 1) +
     scale_fill_viridis_c(option = "rocket", direction = -1, 
                          name = "EMM Relative\nDisparity Error", values = scales::rescale(my_breaks)) +
-    # scale_fill_distiller("RdYlBu", direction = +1) +
-    # labs(title = paste("Metric:", metric_name)) +
     theme_minimal() +
     theme(
-      axis.text.x = element_text(angle = 45, hjust = 1),
-      axis.text = element_text(size = 14),
-      strip.text = element_text(size = 20, face = "bold"),
-      axis.title = element_text(size = 20, face = "bold", color = "black"),
+      axis.text.x = element_text(angle = 0, hjust = 0.5),
+      axis.text = element_text(size = 6),
+      strip.text = element_text(size = 7, face = "bold"),
+      axis.title = element_text(size = 7, face = "bold", color = "black"),
+      legend.title = element_text(size = 6, face = "bold"),
+      legend.text = element_text(size = 6),
+      legend.key.height = unit(3.5, units ="mm"),
+      legend.key.width = unit(5, units = "mm"),
+      plot.margin = margin(1, 1, 1, 1, unit = "mm"),
+      panel.spacing = unit(1, "mm")
       ) +
-      labs(x = "Fossil Sampling", y = "Estimation method") +
-      coord_equal() +
+      labs(x = "Fossil Sampling (%)", y = "Estimation method") +
+      coord_equal(expand = FALSE) +
       scale_y_discrete(limits = rev)
 
-ggsave("../../Manuscript/draft/figures/cont_heatmap.pdf", p, "pdf", width = 10, height = 4, units = "in")
+ggsave("../../Manuscript/draft/figures/cont_heatmap.pdf", p, "pdf", width = 129, height = 40.4, units = "mm")
 
 
 
