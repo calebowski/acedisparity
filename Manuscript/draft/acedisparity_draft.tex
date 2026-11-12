@@ -68,7 +68,7 @@ Our findings offer a practical decision framework for selecting the most appropr
 Morphological diversity, hereafter termed disparity, is widely used for investigating macroevolutionary dynamics \citep{foote1997evolution,wills2001morphological,guillerme2020disparities}.
 Disparity can be described as the distribution or spread of taxa within a multidimensional trait space defined by morphological similarity \citep{erwin_disparity_2007} and can be quantified using both continuous \citep{garcia2017phenotypic,gray2019exceptional, friedman2020body} and discrete characters \citep{foote1994morphological, lloyd2016estimating}.
 Morphological trait datasets are routinely integrated with phylogenies when examining disparity across clades or time.
-These analyses can be used to investigate selectivity across mass extinctions \citep{bapst2012graptoloid,cole2021selectivity, liu2024heterogeneous}, reveal patterns in morphological convergence \citep{muschick2012convergent,stayton2015definition,stayton2024does} or characterise the tempo and mode of morphological diversification during adaptive radiations \citep{harmon2003tempo,mahler2010adaptive, hughes2013clades}.
+These analyses can be used to investigate selectivity across mass extinctions \citep{bapst2012graptoloid,cole2021selectivity, liu2024heterogeneous}, reveal patterns in morphological convergence \citep{muschick2012convergent,stayton2015definition,stayton2024does} or characterise the tempo and mode of morphological diversification during adaptive radiations \citep{harmon2003tempo,losos2010adaptive, hughes2013clades}.
 However, such analyses are inevitably limited by the incompleteness of the fossil record; only a biased subset of past diversity is preserved, leaving phylogenetically-implied ghost taxa %TG: maybe it's good to replace "ghost taxa" with "unsampled lineage" no?
  and obscuring large portions of a clade's evolutionary history \citep{norell1993tree, wagner1995stratigraphic,flannery2019does,smith2021phylogenetic}.
 These missing data can result in both under- and over-estimations of disparity \citep{mitchell2015extant,smith2023fossilization}.
@@ -122,7 +122,7 @@ This integrative approach provides a comprehensive evaluation of when \ase impro
 
 \subsection{Simulation Framework}
 \subsubsection{Phylogenies}
-All simulations were generated  in R v.4.4.1 \citep{Rlanguage} using the \texttt{treats} R package \citep{guillerme2024treats}.
+All simulations were generated  in R v.4.4.1 \citep{Rlanguage} using the \texttt{treats} R package (v.1.1.7; \citealp{guillerme2024treats}.
 We simulated birth-death trees with the speciation ($\lambda$) parameter set to 1.0, and extinction ($\mu$) set to 0.9 (\autoref{fig:pipeline} Step 1).
 % Fixing $\lambda = 1.0$ provides a convenient relative timescale, because only the ratio of extinction to speciation affects the shape and balance of simulated trees.
 This fraction of extinction ($\mu = 0.9$) produces trees that match our expectation of substantial extinct diversity based on the fossil record \citep{scholl2016diversification,pires2018diversification, henao2019macroevolutionary,morlon2024phylogenetic}.
@@ -229,7 +229,7 @@ Ancestral node PC scores were then estimated under a Brownian motion model acros
 \subsubsection{Uncertainty treatment} \label{uncertainty}
 For each estimation method, we also compared point estimate and probabilistic approaches.
 The point estimate approach returned a fixed single value for each estimate.
-For continuous characters, the point estimate returned by \texttt{ape::ace} is the single maximum likelihood estimate of the ancestral state.
+For continuous characters, the point estimate returned by \texttt{ape::ace} is the maximum likelihood estimate of the ancestral state.
 For discrete characters, we used a strict majority rule with the state with the highest scaled likelihood selected at each node for each character.
 When state likelihoods were tied one state was selected at random.
 % We also used a relative majority rule, where any state at a scaled likelihood greater than the maximum observed scaled likelihood minus the inverse number of possible states was collapsed, otherwise states were left as uncertain (supplementary).
@@ -253,6 +253,7 @@ To quantify methodological performance, we calculated these disparity metrics fo
 \begin{equation}
 \text{Relative disparity error} = \frac{\text{Estimated disparity} - \text{True disparity}}{\text{True disparity}}
 \end{equation}
+Disparity calculations were conducted using the \texttt{dispRity} R package (v.1.9.12; \citealp{guillerme2018disprity})
 Given that the dimensionality of discrete trait spaces varied across fossil sampling densities within the same replicate, we also ran disparity calculations with dimensionality in the true and estimated trait spaces constrained to the minimum number of axes reached across all fossil sampling levels (number of living species minus two, i.e. 48 axes for the 50 living-taxa trees).
 \subsection{Statistical tests}
 The relative disparity errors were converted to absolute relative errors to measure the magnitude of deviation from the true disparity, regardless of direction.
@@ -261,7 +262,7 @@ Consequently, the more negative the log-error, the more accurate (closer to $log
 Given the imbalance in sample sizes between the different uncertainty treatments (i.e., distribution approaches returned 100 disparity values per estimate, whereas point estimates returned one), we aggregated the distribution outputs by taking the median prior to analyses.
 We also performed analyses in which the distribution was retained, but each individual point returned by distributions was weighted 1/100th of the single point estimate.
 
-We investigated the drivers of disparity estimation accuracy with linear mixed-effects models (LMM) using the \texttt{lme4} R package (\citealp{bates2015fitting}; \autoref{fig:cont lmm diagnostic aggregated}, \ref{fig:discrete lmm diagnostic aggregated})
+We investigated the drivers of disparity estimation accuracy with linear mixed-effects models (LMM) using the \texttt{lme4} R package (v.2.1.0; \citealp{bates2015fitting}; \autoref{fig:cont lmm diagnostic aggregated}, \ref{fig:discrete lmm diagnostic aggregated})
 The log-transformed relative disparity error was treated as the response variable.
 Based on our experimental design, we fitted a four-way interaction between the estimation method, model of evolution, fossil sampling density and disparity metric.
 We also included tree size as a further non-interactive fixed effect after finding it had no significant interaction with the other predictors.
