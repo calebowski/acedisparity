@@ -191,6 +191,12 @@
             </group>
             <text prefix=" " macro="publisher"/>
           </else-if>
+          <else-if type="software">
+            <text variable="title" suffix=". "/>
+            <text variable="publisher" suffix=". "/>
+            <text variable="version" prefix="Version " suffix=". "/>
+            <text variable="DOI" prefix="https://doi.org/"/>
+          </else-if>
           <else>
             <text variable="title" suffix=". "/>
             <group delimiter=", ">

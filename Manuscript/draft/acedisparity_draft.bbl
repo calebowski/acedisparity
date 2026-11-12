@@ -1,4 +1,4 @@
-\begin{thebibliography}{121}
+\begin{thebibliography}{120}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -191,7 +191,8 @@ Olivier Gascuel and Mike Steel.
 \bibitem[Gearty et~al.(2024)Gearty, Allen, Godoy, and Chiarenza]{gearty2024impact}
 William Gearty, Bethany Allen, Pedro~L Godoy, and Alfio~Alessandro Chiarenza.
 \newblock The impact of tip age distribution on reconstructing trait evolution using phylogenetic comparative methods.
-\newblock 2024.
+\newblock \emph{EcoEvoRxiv}, 2024.
+\newblock \doi{10.32942/X27K79}.
 
 \bibitem[Gerber(2019)]{gerber2019use}
 Sylvain Gerber.
@@ -302,6 +303,7 @@ Jeffrey~B Joy, Richard~H Liang, Rosemary~M McCloskey, T~Nguyen, and Art~FY Poon.
 Joseph~N Keating.
 \newblock What is the best method for estimating ancestral states from discrete characters?
 \newblock \emph{bioRxiv}, pages 2023--08, 2023.
+\newblock \doi{10.1101/2023.08.31.555762}.
 
 \bibitem[Khurana et~al.(2024)Khurana, Scheidwasser-Clow, Penn, Bhatt, and Duch{\^e}ne]{khurana2024limits}
 Mark~P Khurana, Neil Scheidwasser-Clow, Matthew~J Penn, Samir Bhatt, and David~A Duch{\^e}ne.
@@ -367,11 +369,6 @@ Katie~E Lotterhos, Matthew~C Fitzpatrick, and Heath Blackmon.
 Emilia~P Martins.
 \newblock Estimation of ancestral states of continuous characters: a computer simulation study.
 \newblock \emph{Systematic Biology}, 48\penalty0 (3):\penalty0 642--650, 1999.
-
-\bibitem[Meade and Pagel(2022)]{meade2022ancestral}
-Andrew Meade and Mark Pagel.
-\newblock Ancestral state reconstruction using bayestraits.
-\newblock In \emph{Environmental microbial evolution: methods and protocols}, pages 255--266. Springer, 2022.
 
 \bibitem[Mitchell(2015)]{mitchell2015extant}
 Jonathan~S Mitchell.
@@ -477,12 +474,13 @@ Liam~J Revell.
 \bibitem[Revell(2025)]{revell2025ancestral}
 Liam~J Revell.
 \newblock Ancestral state reconstruction of phenotypic characters.
-\newblock \emph{Evolutionary Biology}, pages 1--25, 2025.
+\newblock \emph{Evolutionary Biology}, 52\penalty0 (1):\penalty0 1--25, 2025.
 
 \bibitem[Revell and Harmon(2024)]{revell2024discrete}
 Liam~J Revell and Luke~J Harmon.
 \newblock A discrete character evolution model for phylogenetic comparative biology with $\gamma$-distributed rate heterogeneity among branches of the tree.
 \newblock \emph{BioRxiv}, pages 2024--05, 2024.
+\newblock \doi{10.1101/2024.05.25.595896}.
 
 \bibitem[Reyes et~al.(2018)Reyes, Nadot, Von~Balthazar, Sch{\"o}nenberger, and Sauquet]{reyes2018testing}
 Elisabeth Reyes, Sophie Nadot, Maria Von~Balthazar, J{\"u}rg Sch{\"o}nenberger, and Herv{\'e} Sauquet.
@@ -597,7 +595,7 @@ Andrea~J Webster and Andy Purvis.
 \bibitem[Wills(2001)]{wills2001morphological}
 Matthew~A Wills.
 \newblock Morphological disparity: a primer.
-\newblock pages 55--144, 2001.
+\newblock In Bruce S.~Lieberman Jonathan M.~Adrain, Gregory D.~Edgecombe, editor, \emph{Fossils, phylogeny, and form: an analytical approach}, pages 55--144. Springer, 2001.
 
 \bibitem[Wisniewski et~al.(2022)Wisniewski, Lloyd, and Slater]{wisniewski2022extant}
 Anna~L Wisniewski, Graeme~T Lloyd, and Graham~J Slater.
