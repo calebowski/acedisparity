@@ -4,49 +4,49 @@ The top-level auxiliary file: acedisparity_draft.aux
 The style file: plainnat.bst
 Database file #1: references.bib
 Warning--entry type for "caleb_scutt_2026_19665049" isn't style-file defined
---line 1332 of file references.bib
+--line 1334 of file references.bib
 Warning--empty journal in ane2008analysis
 Warning--empty journal in foote1991morphological
 Warning--there's a number but no volume in revell2012phytools
-You've used 120 entries,
+You've used 121 entries,
             2773 wiz_defined-function locations,
-            1269 strings with 27326 characters,
-and the built_in function-call counts, 58398 in all, are:
-= -- 5289
-> -- 3317
-< -- 69
-+ -- 1131
-- -- 1009
-* -- 5083
-:= -- 8968
-add.period$ -- 368
-call.type$ -- 120
-change.case$ -- 690
-chr.to.int$ -- 118
-cite$ -- 243
-duplicate$ -- 2465
-empty$ -- 4790
-format.name$ -- 1193
-if$ -- 12069
+            1272 strings with 27431 characters,
+and the built_in function-call counts, 58854 in all, are:
+= -- 5333
+> -- 3338
+< -- 70
++ -- 1138
+- -- 1015
+* -- 5120
+:= -- 9036
+add.period$ -- 371
+call.type$ -- 121
+change.case$ -- 695
+chr.to.int$ -- 119
+cite$ -- 245
+duplicate$ -- 2485
+empty$ -- 4830
+format.name$ -- 1202
+if$ -- 12165
 int.to.chr$ -- 3
 int.to.str$ -- 1
-missing$ -- 117
-newline$ -- 615
-num.names$ -- 482
-pop$ -- 1208
+missing$ -- 118
+newline$ -- 620
+num.names$ -- 486
+pop$ -- 1216
 preamble$ -- 1
-purify$ -- 573
+purify$ -- 577
 quote$ -- 0
-skip$ -- 1871
+skip$ -- 1887
 stack$ -- 0
-substring$ -- 2993
-swap$ -- 155
+substring$ -- 3020
+swap$ -- 156
 text.length$ -- 3
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 1315
+type$ -- 1326
 warning$ -- 3
-while$ -- 563
+while$ -- 568
 width$ -- 0
-write$ -- 1573
+write$ -- 1586
 (There were 4 warnings)

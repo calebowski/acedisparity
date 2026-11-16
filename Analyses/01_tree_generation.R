@@ -79,3 +79,6 @@ all_metadata <- do.call(rbind, lapply(1:n_replicates, function(i) {
 
 # Save combined metadata
 write.csv(all_metadata, "../Data/trees/metadata/metadata_all.csv", row.names = FALSE)
+
+
+

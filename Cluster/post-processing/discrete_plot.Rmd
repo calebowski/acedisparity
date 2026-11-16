@@ -248,7 +248,7 @@ boxplot_plot_all <- ggplot(raw_results_df_long,
     position = position_dodge(width = 0.8),
     linewidth = 0.35
   ) +
-  geom_hline(yintercept = 0, colour = "black", linewidth = 0.8, linetype = "dashed") +
+  geom_hline(yintercept = 0, colour = "black", linewidth = 0.5, linetype = "dashed") +
   facet_grid(metric ~ method) +  #  Only facet by metric and method
   labs(
     x = "Fossil Sampling (%)",
@@ -818,7 +818,7 @@ boxplot_plot_all_rm_axes <- ggplot(rmaxes_results_df_long,
     position = position_dodge(width = 0.8),
     linewidth = 0.35
   ) +
-  geom_hline(yintercept = 0, colour = "black", linewidth = 0.6, linetype = "dashed") +
+  geom_hline(yintercept = 0, colour = "black", linewidth = 0.5, linetype = "dashed") +
   facet_grid(metric ~ method) +  #  Only facet by metric and method
   labs(
     x = "Fossil Sampling (%)",
