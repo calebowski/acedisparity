@@ -3,6 +3,10 @@ library(treestats)
  ## three tree sizes
 bd_params <- make.bd.params(speciation = 1, extinction = 0.90)
 
+if (!dir.exists("../../Data/asymmetric_trees")) {
+  dir.create("../../Data/asymmetric_trees")
+}
+
 
 # n <- 10
 # lineages <- seq_len(n)
@@ -56,7 +60,7 @@ for(i in 1:n_replicates) {
         # seed_val <- seed_val + 100  # Change seed for next attempt
       }
     }
-    tree_file <- sprintf("../../Data/revisions/keating/trees/max_assymetrical_tree_%st_%03d.tre", tree_size, replicate_id)
+    tree_file <- sprintf("../../Data/asymmetric_trees/assymetrical_tree_%st_%03d.tre", tree_size, replicate_id)
     write.tree(tree, tree_file)
 
     est <- crude.bd.est(tree, "estimate")
@@ -74,5 +78,8 @@ for(i in 1:n_replicates) {
 }
 metadata_df <- do.call(rbind, metadata_list)
 hist(metadata_df$colless)
-metadata_file <- "../../Data/revisions/keating/trees/max_assymetrical_metadata_trees.csv"
+if (!dir.exists("../../Data/asymmetric_trees/metadata")){
+  dir.create("../../Data/asymmetric_trees/metadata")
+}
+metadata_file <- "../../Data/asymmetric_trees/metadata/metadata_asymmetric_trees.csv"
 write.csv(metadata_df, metadata_file, row.names = FALSE)

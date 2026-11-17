@@ -178,7 +178,7 @@ fossil.pres <- function(trees, matrices, preservation = c(0.05, 0.15, 0.5, 1.0),
 #   return(fossil_matrices)
 # }
 
-
+## This function samples nodes and tips ("tips+nodes" fossil sampling scheme)
 fossil.pres.alt <- function(trees, matrices, preservation = c(0.05, 0.15, 0.5, 1.0), type = c("discrete", "continuous"), seed = NULL) {
   process.fossil.alt <- function(tree, matrix, type, seed) {
     ages <- tree.age(tree)
