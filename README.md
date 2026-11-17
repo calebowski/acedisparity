@@ -1,4 +1,4 @@
-# Disparity analyses are robust to ancestral state estimation uncertainty
+# When does ancestral state estimation improve disparity analyses? A simulation-based evaluation
 
 Authors: [Caleb Scutt](mailto:cnscutt1@sheffield.ac.uk), [Natalie Cooper](https://github.com/nhcooper123), [Gavin Thomas](https://github.com/ghthomas) and [Thomas Guillerme](https://github.com/TGuillerme)
 
@@ -54,7 +54,7 @@ There are also custom functions used for simulating fossil sampling, contained w
 You can also use `multi.ace` to sample distributions instead of getting point estimates.
 For example, by default, when using `multi.ace` on continuous characters, the output estimation is the average most likely value for the trait at every specific nodes.
 
-```{r}
+```r
 set.seed(1)
 ## Creating a coalescent tree
 my_tree <- makeNodeLabel(rcoal(15))
@@ -70,7 +70,7 @@ point_estimates <- multi.ace(data, my_tree, estimation.details = list("CI95"))
 For example for trait 1 for Node 1, the estimated trait value is `r unname(round(point_estimates$estimations[1,1], 3))` but with a confidence interval of `r unname(round(point_estimates$details[[1]]$CI95[1,1], 3))` and `r unname(round(point_estimates$details[[1]]$CI95[1,2], 3))` which is quiet the spread.
 To avoid treating the ancestral estimation as a point estimate (here the average of a large spread) we can also just get a number of samples to get an estimation of the distribution instead of the point estimate using the `ml.collapse` argument and `type = "sample"`.
 
-```{r}
+```r
 ## Getting 1000 samples from the distribution
 distribution_estimates <- multi.ace(data, my_tree, ml.collapse = list(type = "sample", sample = 1000))
 ```
@@ -92,7 +92,7 @@ We can specify this by providing a named list containing the following two eleme
  1. `fun` that is the function to use for the sampling (`rnorm` in the example below);
  2. `param` that contains a list of functions or variables on how to calculate the extra arguments for `fun`. For example for `rnorm`, the function needs 1) a `mean` argument (here `mean = mean`, to use the function `mean` to calculate... the mean); and 2) a `sd` argument (here `sd = approx.sd`, a function to approximate the stnadard deviation knowing the confidence interval - assuming normality of the data).
 
-```{r}
+```r
 ## Function for approximating the standard deviation
 ## from the range of a confidence interval.
 approx.sd <- function(CI)return(diff(range(CI))/4)
@@ -118,7 +118,7 @@ However you can use any number of distributions for any number of traits: either
 
 To play around with different sampling strategies, but if your estimations take a lot of time, you can save your estimations as a `"multi.ace"` object that you can then recycle and reuse very easily:
 
-```{r}
+```r
 ## Saving the estimation without getting any estimate (raw):
 raw_estimates <- multi.ace(data, my_tree, output = "multi.ace")
 
