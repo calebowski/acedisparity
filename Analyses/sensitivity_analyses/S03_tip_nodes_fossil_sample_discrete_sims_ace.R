@@ -78,7 +78,6 @@ run.sim.discrete.ace <- function(tree_size, replicate_id, samples = 100) {
     fast_binary <- treats::make.traits(process = discrete.process, n = 85, process.args = list(transitions = fast_binary_transitions))
     fast_multi <- treats::make.traits(process = discrete.process, n = 15, process.args = list(transitions = fast_multi_transitions))
 
-    # Create list of trait objects
     trait_sets <- list(
     slow = list(binary = slow_binary, multi = slow_multi),
     med = list(binary = med_binary, multi = med_multi),
