@@ -82,7 +82,7 @@ True disparity in this context can be defined as the total trait space occupied 
 Crucially, the inclusion of ancestral states allows disparity through time analyses to be explored with higher temporal resolution \citep{brusatte2011phylogenetic, halliday2016eutherian, guillerme2018time}.
 
 Despite the aforementioned advantages, the use of \ase within disparity analyses has often been neglected.
-The hesitancy to incorporate \ase has likely stemmed from the notion that estimates are inherently uncertain; root-ward estimates in particular are often associated with large confidence intervals or inconclusive scaled likelihoods \citep{schluter1997likelihood, losos1999uncertainty,gascuel2014predicting}.
+The disinclination to incorporate \ase has likely stemmed from the notion that estimates are inherently uncertain; root-ward estimates in particular are often associated with large confidence intervals or inconclusive scaled likelihoods \citep{schluter1997likelihood, losos1999uncertainty,gascuel2014predicting}.
 Despite the encouragement to propagate uncertainty during comparative analyses \citep{silvestro2015measurement,boyko2024dentist}, ancestral state estimations are generally treated as point estimates during disparity analyses, because there is little guidance on how to correctly treat \ase uncertainty downstream when constructing the trait space. %@@@keating line 63
 These point estimates are typically the maximum likelihood estimates for continuous characters or collapsed states returned from arbitrary thresholds for discrete characters \citep{smith2022evolution,casali2023morphological, li2026morphological}.
 By ignoring ancestral state estimation uncertainty, point estimates can lead to overconfidence in results and incorrect inferences in downstream analyses, all while obscuring potentially accurate signals \citep{ackerly2006niche,vanderpoorten2006mapping}.
@@ -134,7 +134,7 @@ This meant that although the parameters were set to $\lambda = 1$ and $\mu = 0.9
 Mean net diversification across all simulated trees was $0.30\pm0.09$.
 Constant birth-death parameters meant that the simulated trees were highly symmetrical (\autoref{fig:main trees colless dist}; \citealp{khurana2024limits}).
 Given that empirical phylogenies tend to be imbalanced \citep{mooers1997inferring, harcourt2001imbalance}, we simulated 100 birth-death trees with maximum tree size of 50 extant and 500 total tips with high asymmetry and ran the same pipeline (\autoref{fig:assymetrical trees colless dist}, \autoref{fig:pipeline}).
-Trees were pruned to include only the crown clade of the tree for downstream analyses.
+All trees were pruned to include only the crown clade of the tree for downstream analyses.
 This ensured that all downsampled trees shared an identical root node and tree height with the original tree simulation.
 Therefore, any tip included in the analyses was a descendant of the most basal node considered, i.e., the most recent common ancestor of extant tips, ensuring that all ordinations and disparity values were calculated within a consistent clade. %@@@keating line 147
 
@@ -197,7 +197,7 @@ This method meant each extinct tip had an equal probability of being `fossilised
 
 To test whether the `tip-only' fossil sampling scheme was biased by only sampling tips, we used the same Bernoulli sampling method but allowed nodes to be sampled as well as tips. %@@@wagner line 175
 We refer to this as the `tips+nodes' fossil sampling scheme.
-Given the computational intensity of the analyses, we ran this alternative scheme on the 50 living tips (<500 total tips) trees only.
+Given the computational intensity of the analysis, we ran this alternative scheme on the 50 living tips (<500 total tips) trees only.
 Ancestral state estimation requires observed data to be coded as tips on a phylogeny, so sampled nodes were attached to the tree as tips using the \texttt{phytools::bind.tip} function \citep{revell2012phytools} with a non-zero branch length.
 The corresponding trait matrices were subset to match the tips remaining in each down-sampled tree, with all extant taxa sampled across all fossil sampling densities.
 From this point on, we refer to these resulting downsampled trees and matrices as sampled-taxa.
@@ -348,7 +348,7 @@ Again, while the disparity metric was a significant driver to overall accuracy, 
 
 \subsubsection{Sensitivity tests} 
 Under the alternative `tips+nodes' fossil sampling scheme, we found that, generally, the hierarchy of methods remained consistent with our main findings up to 50\% fossil sampling density (\autoref{fig:Discrete nodes tips boxplot}, \autoref{fig:Discrete nodes tips boxplot rm axes}). 
-Beyond 50\% fossil sampling, we overestimate disparity with pre-ordination methods because begin to estimate ancestors that never existed (at 100\% sampling we have nearly twice as many points in the trait space as the true trait space).
+Beyond 50\% fossil sampling, we overestimate disparity with pre-ordination methods because we begin to estimate ancestors that never existed (at 100\% sampling we have nearly twice as many points in the trait space as the true trait space).
 Essentially, under a `tips+nodes' sampling scheme ancestral state estimation becomes redundant beyond 50\% fossil sampling because all unsampled taxa are accounted for as ancestral nodes.
 Our findings also proved robust under asymmetric trees (\autoref{fig:Asymmetrical trees discrete boxplot}), with pre-ordination ancestral state estimation methods outperforming sampled-taxa only across all transition rate, fossil sampling density and metric combinations.
 
@@ -477,7 +477,7 @@ This is consistent with character exhaustion in bounded discrete characters \cit
 In contrast, continuous characters are unbounded.
 Under BM, variance increases with distance from the root, so tips are the most morphologically distinct taxa (\autoref{fig:pairwise dist continuous tip node}).
 This explains why ancestral state estimations overestimated the sum of variances derived from BM traits at low fossil sampling under the tip-only scheme, whereas instead underestimated sum of variances under the `tips+nodes' scheme.
-Our conclusions for discrete and continuous characters are robust under both sampling schemes, but we note that the scheme does have a noticeable effect on continuous results (Figures~\ref{fig:Continuous nodes tips boxplot}, \ref{fig:Discrete nodes tips boxplot}, and \ref{fig:Discrete nodes tips boxplot rm axes})
+Our conclusions for discrete and continuous characters are robust under both sampling schemes, but we note that the scheme does have a slight effect on continuous results, specifically the sum of quantiles (Figures~\ref{fig:Continuous nodes tips boxplot}, \ref{fig:Discrete nodes tips boxplot}, and \ref{fig:Discrete nodes tips boxplot rm axes}).
 
 Given that empirical phylogenies tend to be asymmetrical \citep{mooers1997inferring}, we tested for the effect of asymmetry on our results  and found congruent patterns in estimation method hierarchy across treatments to our main findings (\autoref{fig:Asymmetrical trees continuous boxplot}, \autoref{fig:Asymmetrical trees discrete boxplot}). 
 Raw ancestral state estimation accuracy has been shown to increase as tree asymmetry increases, since asymmetrical trees have fewer nested internal nodes (and more nodes that have tips as children), although longer branch lengths can increase uncertainty in estimations \citep{keating2023best}.
