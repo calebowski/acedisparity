@@ -1,4 +1,4 @@
-# Disparity analyses are robust to ancestral state estimation uncertainty
+# When does ancestral state estimation improve disparity analyses? A simulation-based evaluation
 
 Authors: [Caleb Scutt](mailto:cnscutt1@sheffield.ac.uk), [Natalie Cooper](https://github.com/nhcooper123), [Gavin Thomas](https://github.com/ghthomas) and [Thomas Guillerme](https://github.com/TGuillerme)
 
@@ -7,19 +7,20 @@ Authors: [Caleb Scutt](mailto:cnscutt1@sheffield.ac.uk), [Natalie Cooper](https:
 This study uses simulations to evaluate different methods of ancestral state estimation for recovering morphological disparity under varying evolutionary models, fossil sampling densities, and trait types.
 This repository contains the scripts to reproduce the analyses of the paper.
 
----
+<!-- ---
 
 ## Data
 
 The `Data/` folder contains the trees and simulated matrices that are used in the analyses. These are also easily reproduced using the `Analyses/` folder. 
 The LMM outputs are on [Dryad](https://doi.org/10.5061/dryad.280gb5n4p)
 
----
+--- -->
 
 ## Analyses
 
 All code used to run the analyses are contained in this repo. 
 The `Analyses/` folder contains the scripts to reproduce the analyses, functionalised so that you can reproduce the analyses with however many replicates you choose. Ensure your working directory is set to `Analyses/`.
+Within `Analyses/sensitivity_analyses`, there are scripts to complete the sensitivity analyses (namely running the pipeline with asymmetrical trees and sampling both tips+nodes during fossil sampling simulation). These scripts are prefixed with "S" and then a number, i.e., "S02_tip_nodes_fossil_sample_continuous_sims_ace.R", with the number corresponding which script in the main analysis it replaces.
 The `Cluster/` folder contains scripts used to produce the analyses on the Sheffield HPC.
 Note, that the analyses take over 1.5 CPU years to run.
 
@@ -46,15 +47,82 @@ remotes::install_github("TGuillerme/dispRity", ref = "753bddb3da93f1e067e70fb1de
 There are also custom functions used for simulating fossil sampling, contained within `Functions/`.
 
 ---
-<!-- 
-## Vignette
-
-```{R}
-library(treats)
-
-tree <- read.tree("Data/trees/tree_50t_001.tre")
-plot(tree)
 
 
+### Quick tutorial in using `dispRity::multi.ace` to sample distributions of ancestral state estimations
 
-``` -->
+*This tutorial is taken from the [dispRity gitbook](https://github.com/TGuillerme/dispRity/blob/master/inst/gitbook/05_other-functionalities.Rmd).*
+You can use `multi.ace` to sample distributions instead of getting point estimates.
+For example, by default, when using `multi.ace` on continuous characters, the output estimation is the average most likely value for the trait at every specific nodes.
+
+```r
+set.seed(1)
+## Creating a coalescent tree
+my_tree <- makeNodeLabel(rcoal(15))
+
+## Creating a matrix of continuous characters
+data <- space.maker(elements = 15, dimensions = 1, distribution = rnorm,
+                    elements.name = my_tree$tip.label)
+
+## Running the estimation with details
+point_estimates <- multi.ace(data, my_tree, estimation.details = list("CI95"))
+```
+
+To avoid treating the ancestral estimation as a point estimate we can also sample across the 95 CI using the `ml.collapse` argument and `type = "sample"`.
+
+```r
+## Getting 1000 samples from the distribution
+distribution_estimates <- multi.ace(data, my_tree, ml.collapse = list(type = "sample", sample = 1000))
+```
+
+This results in 1000 matrices that are sampled across a uniform distribution by default.
+
+We can visualise that for Node 1 that will be randomly sampled between the estimate's 95% confidence interval highlighted above.
+
+```r
+## Visualising the sampling of Node 1
+node_1_estimates <- unlist(lapply(distribution_estimates, function(x) x[1,1]))
+hist(node_1_estimates, main = "Distribution of estimates for Node 1")
+# Note that the two small bars are because of the
+# last and first bins should start/end at the actual 95 CI
+```
+
+Of course, we can change the type of function to use for sampling knowing the confidence interval of our estimations.
+We can specify this by providing a named list containing the following two elements:
+
+ 1. `fun` that is the function to use for the sampling (`rnorm` in the example below);
+ 2. `param` that contains a list of functions or variables on how to calculate the extra arguments for `fun`. For example for `rnorm`, the function needs 1) a `mean` argument (here `mean = mean`, to use the function `mean` to calculate... the mean); and 2) a `sd` argument (here `sd = approx.sd`, a function to approximate the standard deviation knowing the confidence interval - assuming normality of the data).
+
+```r
+## Function for approximating the standard deviation
+## from the range of a confidence interval.
+approx.sd <- function(CI)return(diff(range(CI))/4)
+
+## Getting 1000 samples from the distribution using a normal one
+distribution_estimates <- multi.ace(data, my_tree, ml.collapse = list(type = "sample", sample = 1000,
+                            sample.fun = list(fun = rnorm,
+                                              param = list(mean = mean,
+                                                           sd = approx.sd))))
+```
+
+And again, we can visualise that:
+
+```r
+## Visualising the sampling of Node 1
+node_1_estimates <- unlist(lapply(distribution_estimates, function(x) x[1,1]))
+hist(node_1_estimates, main = "Distribution of estimates for Node 1")
+# Which is now a neat normal distribution
+```
+
+In this example we used the default and a specified `sample.fun` argument for a matrix with only one trait.
+However you can use any number of distributions for any number of traits: either just the one to be applied to all traits or a list of the same length as the number of traits with a list of `fun` and `param` for each.
+
+To play around with different sampling strategies, but if your estimations take a lot of time, you can save your estimations as a `"multi.ace"` object that you can then recycle and reuse very easily:
+
+```r
+## Saving the estimation without getting any estimate (raw):
+raw_estimates <- multi.ace(data, my_tree, output = "multi.ace")
+
+## Sampling from the raw_estimates
+sampled_estimates <- multi.ace(raw_estimates, ml.collapse = list(type = "sample", sample = 100))
+```

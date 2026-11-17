@@ -20,7 +20,7 @@ fossils <- c("all", "fossil_high", "fossil_med", "fossil_low", "living")
 cat("Loading data...\n")
 
 # Load pre-ordination ACE
-point_pre_ord_ace <- readRDS(write.path("ord", "ord_point_%03d.rds"))
+point_pre_ord_ace <- readRDS(write.path("ord", "ord_tiebreaker_%03d.rds"))
 
 sample_pre_ord_ace <- lapply(setNames(rates, rates), function(rate) {
   lapply(setNames(fossils, fossils), function(fossil) {
@@ -112,49 +112,49 @@ saveRDS(lapply(results_raw, `[[`, "post_ord_sample"), write.path("disparity/raw"
 
 cat("Completed raw...!\n")
 
-# ################################################################################
-# # CALCULATE ERRORS FOR ALL METRICS USING MIN AXES
-# ################################################################################
-# cat("Beginning rm axes...\n")
+################################################################################
+# CALCULATE ERRORS FOR ALL METRICS USING MIN AXES
+################################################################################
+cat("Beginning rm axes...\n")
 
-# tree_num <- as.numeric(gsub("t", "", tree_size))  
+tree_num <- as.numeric(gsub("t", "", tree_size)) ## extract 50 from "50t" for example
 
-# remove.axes <- function(ord){
-#     select_axes <- ord[,1:(tree_num - 2)] ## the minimum dimensions will be living tips - 2
-#     return(select_axes)
-# }
+remove.axes <- function(ord){
+    select_axes <- ord[,1:(tree_num - 2)] ## the minimum dimensions will be living tips - 2
+    return(select_axes)
+}
 
-# pre_ord_sample_rm_axes <- lapply(sample_pre_ord_ace, lapply, lapply, remove.axes)
-# pre_ord_point_rm_axes <- lapply(point_pre_ord_ace, lapply, remove.axes)
-# no_ace_rm_axes <- lapply(ord_no_ace, lapply, remove.axes)
-# post_ord_point_rm_axes <- lapply(point_post_ord_ace,lapply, remove.axes)
-# post_ord_sample_rm_axes <- lapply(sample_post_ord_ace, lapply, lapply, remove.axes)
-# ord_true_rm_axes <- lapply(ord_true, remove.axes)
+pre_ord_sample_rm_axes <- lapply(sample_pre_ord_ace, lapply, lapply, remove.axes)
+pre_ord_point_rm_axes <- lapply(point_pre_ord_ace, lapply, remove.axes)
+no_ace_rm_axes <- lapply(ord_no_ace, lapply, remove.axes)
+post_ord_point_rm_axes <- lapply(point_post_ord_ace,lapply, remove.axes)
+post_ord_sample_rm_axes <- lapply(sample_post_ord_ace, lapply, lapply, remove.axes)
+ord_true_rm_axes <- lapply(ord_true, remove.axes)
 
-# results_rm_axes <- lapply(names(metrics), function(metric_name) {
-#   metric <- metrics[[metric_name]]
-#   true_disp <- lapply(ord_true_rm_axes, function(rate) get.disparity(dispRity(rate, metric = metric)))
+results_rm_axes <- lapply(names(metrics), function(metric_name) {
+  metric <- metrics[[metric_name]]
+  true_disp <- lapply(ord_true_rm_axes, function(rate) get.disparity(dispRity(rate, metric = metric)))
   
-#   list(
-#     pre_ord_sample = calc.error(pre_ord_sample_rm_axes, true_disp, metric),
-#     pre_ord_point = calc.error(pre_ord_point_rm_axes, true_disp, metric),
-#     no_ace = calc.error(no_ace_rm_axes, true_disp, metric),
-#     post_ord_point = calc.error(post_ord_point_rm_axes, true_disp, metric),
-#     post_ord_sample = calc.error(post_ord_sample_rm_axes, true_disp, metric)
-#   )
-# })
-# names(results_rm_axes) <- names(metrics)
+  list(
+    pre_ord_sample = calc.error(pre_ord_sample_rm_axes, true_disp, metric),
+    pre_ord_point = calc.error(pre_ord_point_rm_axes, true_disp, metric),
+    no_ace = calc.error(no_ace_rm_axes, true_disp, metric),
+    post_ord_point = calc.error(post_ord_point_rm_axes, true_disp, metric),
+    post_ord_sample = calc.error(post_ord_sample_rm_axes, true_disp, metric)
+  )
+})
+names(results_rm_axes) <- names(metrics)
 
-# rm_axes_disparity_dir <- paste0(base_path, "disparity/rm_axes")
-# if(!dir.exists(rm_axes_disparity_dir)) dir.create(rm_axes_disparity_dir, recursive = TRUE)
+rm_axes_disparity_dir <- paste0(base_path, "disparity/rm_axes")
+if(!dir.exists(rm_axes_disparity_dir)) dir.create(rm_axes_disparity_dir, recursive = TRUE)
 
-# saveRDS(lapply(results_rm_axes, `[[`, "pre_ord_sample"), write.path("disparity/rm_axes", "pre_ord_sample_%03d.rds"))
-# saveRDS(lapply(results_rm_axes, `[[`, "pre_ord_point"), write.path("disparity/rm_axes", "pre_ord_point_%03d.rds"))
-# saveRDS(lapply(results_rm_axes, `[[`, "no_ace"), write.path("disparity/rm_axes", "no_ace_%03d.rds"))
-# saveRDS(lapply(results_rm_axes, `[[`, "post_ord_point"), write.path("disparity/rm_axes", "post_ord_point_%03d.rds"))
-# saveRDS(lapply(results_rm_axes, `[[`, "post_ord_sample"), write.path("disparity/rm_axes", "post_ord_sample_%03d.rds"))
+saveRDS(lapply(results_rm_axes, `[[`, "pre_ord_sample"), write.path("disparity/rm_axes", "pre_ord_sample_%03d.rds"))
+saveRDS(lapply(results_rm_axes, `[[`, "pre_ord_point"), write.path("disparity/rm_axes", "pre_ord_point_%03d.rds"))
+saveRDS(lapply(results_rm_axes, `[[`, "no_ace"), write.path("disparity/rm_axes", "no_ace_%03d.rds"))
+saveRDS(lapply(results_rm_axes, `[[`, "post_ord_point"), write.path("disparity/rm_axes", "post_ord_point_%03d.rds"))
+saveRDS(lapply(results_rm_axes, `[[`, "post_ord_sample"), write.path("disparity/rm_axes", "post_ord_sample_%03d.rds"))
 
-# cat("Finished rm axes...\n")
+cat("Finished rm axes...\n")
 
 
 

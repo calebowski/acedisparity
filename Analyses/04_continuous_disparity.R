@@ -20,7 +20,7 @@ run.cont.disparity <- function(tree_size, replicate_id){
     ord_pre_point <- readRDS(sprintf("../Data/continuous/ord/ord_pre_point_%st_%03d.rds", tree_size, replicate_id))
     ord_no_ace <- readRDS( sprintf("../Data/continuous/ord/ord_no_ace_%st_%03d.rds", tree_size, replicate_id))
     ord_true <- readRDS( sprintf("../Data/continuous/ord/ord_true_%st_%03d.rds", tree_size, replicate_id))
-    post_ord_ace <- readRDS(sprintf("../Data/continuous/ace/post_ord_ace_%st_%03d.rds", tree_size, replicate_id))
+    # post_ord_ace <- readRDS(sprintf("../Data/continuous/ace/post_ord_ace_%st_%03d.rds", tree_size, replicate_id))
     point_post_ord_ace <- readRDS(sprintf("../Data/continuous/ord/ord_post_point_%st_%03d.rds", tree_size, replicate_id))
     sample_post_ord_ace <- readRDS(sprintf("../Data/continuous/ord/ord_post_sample_%st_%03d.rds", tree_size, replicate_id))
 

@@ -260,6 +260,11 @@ INPUT ./figures/discrete_heatmap.pdf
 INPUT ./figures/discrete_heatmap.pdf
 INPUT ./figures/discrete_heatmap.pdf
 INPUT ./figures/discrete_heatmap.pdf
+INPUT ./figures/discrete_boxplot_rm_axes.pdf
+INPUT ./figures/discrete_boxplot_rm_axes.pdf
+INPUT ./figures/discrete_boxplot_rm_axes.pdf
+INPUT ./figures/discrete_boxplot_rm_axes.pdf
+INPUT ./figures/discrete_boxplot_rm_axes.pdf
 INPUT ./acedisparity_draft.bbl
 INPUT ./acedisparity_draft.bbl
 INPUT acedisparity_draft.bbl

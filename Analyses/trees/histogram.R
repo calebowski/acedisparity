@@ -69,3 +69,45 @@ for (size in tree_sizes) {
   }
 }
 dev.off()
+
+
+
+##############################################################################################
+## assymetrical trees colless plot
+
+assymetrical_fossil_trees <- list()
+for(i in 1:100) {
+    file_path <- file.path("..","..",    "Cluster", "Data", "revisions", "keating", "discrete", "matrices",
+                          sprintf("11447785_fossil_matrices_%03d.rds", i))
+    if(file.exists(file_path)) {
+      assymetrical_fossil_trees[[i]] <- lapply(readRDS(file_path)$fast,`[[`,"tree") ## just take fast tree, doesnt matter which
+    } else {
+      warning("Missing file: ", file_path)
+      assymetrical_fossil_trees[[i]] <- NULL
+    }
+}
+
+colless_indices_assymetrical <- lapply(assymetrical_fossil_trees, lapply, colless_corr)
+
+sampling_levels <- c("all", "fossil_high", "fossil_med", "fossil_low", "living")
+level_titles <- c("all" = "100%", "fossil_high" = "50%", "fossil_med" = "15%", "fossil_low" = "5%", "living" = "0%")
+
+
+pdf("../../Manuscript/draft/figures/assymetrical_trees_colless.pdf", width = 15, height = 9)
+par(mfrow = c(1,5))
+
+for (level in sampling_levels) {
+    vals <- unlist(lapply(colless_indices_assymetrical, function(rep) {
+      rep[[level]]
+    }))
+    
+    hist(vals, 
+          main = paste(level_titles[level]), 
+          xlab = "Corrected Colless Index",
+          # col = "grey80", border = "white",
+          cex.main = 1.8,  
+          cex.lab  = 1.6, 
+          cex.axis = 1.4)
+  }
+
+dev.off()

@@ -41,7 +41,6 @@ for(dir in dirs) {
 }
 
 
-cat("\n=== STEP 1: Generating tree ===\n")
 set.seed(100 + replicate_id)  # Set seed for reproducible tree generation
 
 tree <- read.tree(paste0("/mnt/parscratch/users/bip24cns/acedisparity/trees/overallDisparity/tree_", tree_size, sprintf("_%03d.tre", replicate_id)))

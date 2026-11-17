@@ -20,14 +20,12 @@ all_ordinations <- expand.grid(
   stringsAsFactors = FALSE
 )
 
-#  Simple: Each of 1000 tasks does 150 ordinations
 ordinations_per_task <- 150
 start <- (task_id - 1) * ordinations_per_task + 1
 end <- min(task_id * ordinations_per_task, nrow(all_ordinations))
 
 cat("Task", task_id, "will process ordinations", start, "to", end, "\n")
 
-#  Simple: Loop through my assigned ordinations
 current_replicate <- -1
 sample_data <- NULL
 

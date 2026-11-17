@@ -1,0 +1,7 @@
+pandoc acedisparity_draft.tex \
+  -o acedisparity.docx \
+  --citeproc \
+  --bibliography=references.bib \
+  --csl=palaeontology.csl \
+  --number-sections \
+  --lua-filter=refs.lua
