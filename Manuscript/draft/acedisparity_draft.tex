@@ -319,13 +319,12 @@ The inclusion of ancestral state estimations also improved recovery of true disp
 \subsubsection{Estimation methods} 
 For discrete characters, the estimation method also had a significant effect on disparity accuracy ($F_{4,66976} = 10767,~ p < .001$; \autoref{fig:discrete raw boxplot}).
 Similar to continuous traits, methods of ancestral state estimation consistently improved disparity estimates compared to excluding ancestral states.
-However, the optimal type of estimation differed. 
 \textit{Post-hoc} pairwise comparisons of EMM revealed that pre-ordination estimations returned the lowest log disparity errors overall (Appendix 3). 
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=1\textwidth]{figures/discrete_boxplot.pdf}
-\caption{Relative disparity error returned from pre-ordination point ASE (ancestral state estimation), pre-ordination distribution ASE, post-ordination point ASE, post-ordination distribution ASE and no ASE. These disparity errors were calculated across three transition rates (fast [0.9], medium [0.1] and slow [0.01]), five simulated fossil sampling densities (100\%, 50\%, 15\%, 5\% and 0\%) and three disparity metrics (sum of variances, sum of quantiles and mean pairwise distance). Values closest to 0 (dashed horizontal line) were most accurate; negative errors are under-estimates and positive are over-estimates.} 
+\caption{Discrete relative disparity error across estimation methods using the `tip-only' fossil sampling scheme using the full dimensionality of each trait space. Relative disparity error returned from pre-ordination point ASE (ancestral state estimation), pre-ordination distribution ASE, post-ordination point ASE, post-ordination distribution ASE and no ASE. These disparity errors were calculated across three transition rates (fast [0.9], medium [0.1] and slow [0.01]), five simulated fossil sampling densities (100\%, 50\%, 15\%, 5\% and 0\%) and three disparity metrics (sum of variances, sum of quantiles and mean pairwise distance). Values closest to 0 (dashed horizontal line) were most accurate; negative errors are under-estimates and positive are over-estimates.} 
 \label{fig:discrete raw boxplot} 
 \end{figure}
 
@@ -349,7 +348,7 @@ Again, while the disparity metric was a significant driver to overall accuracy, 
 
 \subsubsection{Sensitivity tests} 
 Under the alternative `tips+nodes' fossil sampling scheme, we found that, generally, the hierarchy of methods remained consistent with our main findings up to 50\% fossil sampling density (\autoref{fig:Discrete nodes tips boxplot}, \autoref{fig:Discrete nodes tips boxplot rm axes}). 
-Beyond 50\% fossil sampling, we overestimate disparity with pre-ordination methods, because we now have twice as many points as the true trait space because we are estimating ancestors that did not exist.
+Beyond 50\% fossil sampling, we overestimate disparity with pre-ordination methods because begin to estimate ancestors that never existed (at 100\% sampling we have nearly twice as many points in the trait space as the true trait space).
 Essentially, under a `tips+nodes' sampling scheme ancestral state estimation becomes redundant beyond 50\% fossil sampling because all unsampled taxa are accounted for as ancestral nodes.
 Our findings also proved robust under asymmetric trees (\autoref{fig:Asymmetrical trees discrete boxplot}), with pre-ordination ancestral state estimation methods outperforming sampled-taxa only across all transition rate, fossil sampling density and metric combinations.
 
@@ -358,7 +357,7 @@ When we controlled for unequal dimensionality, we found virtually the same hiera
 \begin{figure}[H]
 \centering
 \includegraphics[width=1\textwidth]{figures/discrete_boxplot_rm_axes.pdf}
-\caption{Relative disparity error returned from pre-ordination point ASE (ancestral state estimation), pre-ordination distribution ASE, post-ordination point ASE, post-ordination distribution ASE and no ASE. \textit{Disparity metrics were applied to trait spaces of equal dimensionality across all fossil sampling densities}. These disparity errors were calculated across three transition rates (fast [0.9], medium [0.1] and slow [0.01]), five simulated fossil sampling densities (100\%, 50\%, 15\%, 5\% and 0\%) and three disparity metrics (sum of variances, sum of quantiles and mean pairwise distance). Values closest to 0 (dashed horizontal line) are most accurate; negative errors are under-estimates and positive are over-estimates.}
+\caption{Discrete relative disparity error across estimation methods using the `tip-only' fossil sampling scheme with common number of ordination axes across all fossil sampling densities. Estimation methods were pre-ordination point ASE (ancestral state estimation), pre-ordination distribution ASE, post-ordination point ASE, post-ordination distribution ASE and no ASE. These disparity errors were calculated across three transition rates (fast [0.9], medium [0.1] and slow [0.01]), five simulated fossil sampling densities (100\%, 50\%, 15\%, 5\% and 0\%) and three disparity metrics (sum of variances, sum of quantiles and mean pairwise distance). Values closest to 0 (dashed horizontal line) are most accurate; negative errors are under-estimates and positive are over-estimates.}
 \label{fig:discrete fixed axes boxplot}
 \end{figure}
 
