@@ -49,9 +49,10 @@ There are also custom functions used for simulating fossil sampling, contained w
 ---
 
 
-### Getting sampled distributions instead of point estimates from the estimations
+### Quick tutorial in using `dispRity::multi.ace` to sample distributions of ancestral state estimations
 
-You can also use `multi.ace` to sample distributions instead of getting point estimates.
+*This tutorial is taken from the [dispRity gitbook](https://github.com/TGuillerme/dispRity/blob/master/inst/gitbook/05_other-functionalities.Rmd).*
+You can use `multi.ace` to sample distributions instead of getting point estimates.
 For example, by default, when using `multi.ace` on continuous characters, the output estimation is the average most likely value for the trait at every specific nodes.
 
 ```r
@@ -67,18 +68,18 @@ data <- space.maker(elements = 15, dimensions = 1, distribution = rnorm,
 point_estimates <- multi.ace(data, my_tree, estimation.details = list("CI95"))
 ```
 
-For example for trait 1 for Node 1, the estimated trait value is `r unname(round(point_estimates$estimations[1,1], 3))` but with a confidence interval of `r unname(round(point_estimates$details[[1]]$CI95[1,1], 3))` and `r unname(round(point_estimates$details[[1]]$CI95[1,2], 3))` which is quiet the spread.
-To avoid treating the ancestral estimation as a point estimate (here the average of a large spread) we can also just get a number of samples to get an estimation of the distribution instead of the point estimate using the `ml.collapse` argument and `type = "sample"`.
+To avoid treating the ancestral estimation as a point estimate we can also sample across the 95 CI using the `ml.collapse` argument and `type = "sample"`.
 
 ```r
 ## Getting 1000 samples from the distribution
 distribution_estimates <- multi.ace(data, my_tree, ml.collapse = list(type = "sample", sample = 1000))
 ```
 
-This results in 1000 matrices that are sampled by default uniformaly.
+This results in 1000 matrices that are sampled across a uniform distribution by default.
+
 We can visualise that for Node 1 that will be randomly sampled between the estimate's 95% confidence interval highlighted above.
 
-```{r, fig.height = 4, fig.width = 4}
+```r
 ## Visualising the sampling of Node 1
 node_1_estimates <- unlist(lapply(distribution_estimates, function(x) x[1,1]))
 hist(node_1_estimates, main = "Distribution of estimates for Node 1")
@@ -90,7 +91,7 @@ Of course, we can change the type of function to use for sampling knowing the co
 We can specify this by providing a named list containing the following two elements:
 
  1. `fun` that is the function to use for the sampling (`rnorm` in the example below);
- 2. `param` that contains a list of functions or variables on how to calculate the extra arguments for `fun`. For example for `rnorm`, the function needs 1) a `mean` argument (here `mean = mean`, to use the function `mean` to calculate... the mean); and 2) a `sd` argument (here `sd = approx.sd`, a function to approximate the stnadard deviation knowing the confidence interval - assuming normality of the data).
+ 2. `param` that contains a list of functions or variables on how to calculate the extra arguments for `fun`. For example for `rnorm`, the function needs 1) a `mean` argument (here `mean = mean`, to use the function `mean` to calculate... the mean); and 2) a `sd` argument (here `sd = approx.sd`, a function to approximate the standard deviation knowing the confidence interval - assuming normality of the data).
 
 ```r
 ## Function for approximating the standard deviation
@@ -106,7 +107,7 @@ distribution_estimates <- multi.ace(data, my_tree, ml.collapse = list(type = "sa
 
 And again, we can visualise that:
 
-```{r, fig.height = 4, fig.width = 4}
+```r
 ## Visualising the sampling of Node 1
 node_1_estimates <- unlist(lapply(distribution_estimates, function(x) x[1,1]))
 hist(node_1_estimates, main = "Distribution of estimates for Node 1")
