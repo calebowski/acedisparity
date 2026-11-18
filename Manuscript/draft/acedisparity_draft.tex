@@ -277,7 +277,7 @@ Results from the weighted LMMs were consistent with these findings (\autoref{fig
 \subsubsection{Estimation methods}
 For continuous characters, the estimation method had a significant effect on disparity accuracy ($F_{4,66976} = 358, ~ p < .001$; \autoref{fig:continuous boxplot}).
 When averaged across all scenarios, ancestral state estimations improved estimates of disparity compared to excluding ancestral states.
-\textit{Post-hoc} pairwise comparisons of estimated marginal means (EMM) revealed both pre- and post-ordination distributions of ancestral state estimations returned the lowest log disparity errors (Appendix 1).
+\textit{Post-hoc} pairwise comparisons of estimated marginal means (EMM) revealed both pre- and post-ordination distributions of ancestral state estimations returned the lowest log disparity errors (Data S1).
 In contrast, point estimates performed worse overall than bypassing ancestral state estimation altogether.
 
 \begin{figure}[H]
@@ -294,7 +294,7 @@ The finding that \ase methods improved estimates of disparity was context-specif
 % Similarly, the evolutionary model ($F_{2,66976} = 2956, p < .001$) and disparity metric ($F_{2,66976} = 5028,~ p < .001$) were also strong drivers of variation in error.
 % Specifically, disparity outputted from the BM models and sum of quantiles metric were associated with better disparity estimates, whereas the OU model and sum of variances were the least accurate.
 % Tree size had a minor effect in comparison ($F = 43_{2,297},~ p < .001$).
-A three-way interaction between estimation method, fossil sampling and evolutionary model was significant ($F_{32,66976} = 60,~ p < .001$) and the \textit{post-hoc} EMM can be used to identify the optimal method for models at each fossil sampling density (Appendix 2).
+A three-way interaction between estimation method, fossil sampling and evolutionary model was significant ($F_{32,66976} = 60,~ p < .001$) and the \textit{post-hoc} EMM can be used to identify the optimal method for models at each fossil sampling density (Data S1).
 For BM at 100\% fossil sampling, the distribution estimations were most accurate.
 At 50\% and below, methods of \ase generally performed equally well and significantly better than excluding ancestral states.
 Under BM + trend, a similar pattern was found at high fossil sampling densities, yet when fossil sampling dropped below 15\% methods of \ase performed worse than excluding ancestral states. 
@@ -319,7 +319,7 @@ The inclusion of ancestral state estimations also improved recovery of true disp
 \subsubsection{Estimation methods} 
 For discrete characters, the estimation method also had a significant effect on disparity accuracy ($F_{4,66976} = 10767,~ p < .001$; \autoref{fig:discrete raw boxplot}).
 Similar to continuous traits, methods of ancestral state estimation consistently improved disparity estimates compared to excluding ancestral states.
-\textit{Post-hoc} pairwise comparisons of EMM revealed that pre-ordination estimations returned the lowest log disparity errors overall (Appendix 3). 
+\textit{Post-hoc} pairwise comparisons of EMM revealed that pre-ordination estimations returned the lowest log disparity errors overall (Data S2). 
 
 \begin{figure}[H]
 \centering
@@ -332,7 +332,7 @@ Similar to continuous traits, methods of ancestral state estimation consistently
 \subsubsection{Interaction effects} 
 % Similar to continuous traits, fossil sampling ($F_{4, 66976} = 22191, ~ p < .001$), transition rate ($F_{2,66976} = 6957,~  p < .001$) and metric ($F_{2,66976} = 26174, ~ p < .001$) were again major drivers of variation in accuracy.
 % As expected, increased fossil sampling and decreased transition rate led to lower disparity errors, and the mean pairwise distance was the easiest metric to recover, whereas the sum of quantiles was the hardest.
-Similarly to continuous traits, the three-way interaction between estimation method, fossil sampling and transition rate explained much of the variation in the data ($F_{32,66976} = 588, ~p < .001$; Appendix 4).
+Similarly to continuous traits, the three-way interaction between estimation method, fossil sampling and transition rate explained much of the variation in the data ($F_{32,66976} = 588, ~p < .001$; Data S2).
 The broad pattern was that at high fossil sampling densities, pre-ordination point estimates were the best method, whereas at lower fossil sampling densities both pre- and post-ordination distributions returned the most accurate disparity values (\autoref{fig:discrete heatmap}).
 This pattern was transition rate-dependent, however, as under a slow rate the pre-ordination distribution method was the best performing method across all fossil sampling densities.
 At fast and medium rates under low fossil sampling (< 15\%), the post-ordination distribution method returned the lowest disparity errors.
@@ -395,7 +395,7 @@ At high fossil sampling densities, incorporating uncertainty through the use of 
 This is due to the tendency for point estimates to smooth over evolutionary history \citep{boyko2024dentist,boyko2026resolving}, underestimating the morphological variation of ancestral taxa.
 In contrast to discrete traits however, continuous estimation distributions are unbounded and thus sensitive to data quality.
 Therefore, the variation introduced from sampling across a distribution was dependent on the density of fossils; at high fossil sampling density, confidence intervals are constrained due to lower uncertainty in estimates. %TG: changed to uncertainty for consistency
-As fossil density decreases, these confidence intervals widen and uncertainty increases because the estimates are sampled across a broader distribution \citep{schluter1997likelihood, martins1999estimation}, reducing advantage observed at higher fossil densities.
+As fossil density decreases, these confidence intervals widen and uncertainty increases because the estimates are sampled across a broader distribution \citep{schluter1997likelihood, martins1999estimation}, reducing the advantage observed at higher fossil densities.
 % Therefore the advantage observed at higher fossil sampling.
 
 For discrete characters, we found an inverse pattern in which distribution methods were optimal at low fossil sampling densities and point estimates were optimal at high fossil sampling densities.
@@ -489,7 +489,7 @@ We observed this pattern, with generally lower disparity error across asymmetric
 % TG: not sure about this whole paragraph, it feels like a justification only called by reviewer and doesn't flow with the rest of the text. Also, it's not really convincing: you say that budding can have an effect but cannot be accomodated by our methods so it's ignored here. As we chatted before, I think whether it has an effect or not is more or less irrelevant. There is no data distinction between bifurcating (or even multifurcating) and budding as in each element in a tree (but the root) has an ancestor and points towards any number of descendants (including 0 descendants for tips). Budding then only makes sense in a trait context where one descendant has the same trait value (the one that's on the main lineage) and one has a different one (the one budding off). I think in your simulations with slow rates you must have loads of them actually. And this definition of budding is not even very good, I think some empirical lineages that do "budding" even have trait changes along their main lineage. TL;DR: I think budding only exists in a biologists sense, not in a biological/data one. 
 
 Several assumptions remain untested.
-Firstly, when using phylogenetic corrections we assume that the applied topology is correct. 
+Firstly, when using phylogenetic comparative methods we assume that the applied topology is correct. 
 The choice of topology can change the inferred disparity pattern; different arthropod topologies led to contrasting patterns across the Cambrian-Ordovician boundary \citep{lofgren2003morphological}.
 While not tested explicitly in this study, the robustness of ancestral state estimation to topological uncertainty has been examined previously \citep{hanson2010robustness, duchene2015phylogenetic}.
 Given that a phylogeny is essentially a model-based prediction in the same way \ase is, we recommend that phylogenetic uncertainty be accounted for during ancestral state estimation/disparity analyses. %TG: I think you could add that to the discussion! It's a very good point!
@@ -622,7 +622,7 @@ We thank Peter Wagner and Joseph Keating for their thoughtful and helpful review
 \section*{Data Availability}
 
 The code to reproduce the analyses is available here \url{https://github.com/calebowski/acedisparity} \citep{caleb_scutt_2026_19665049}.
-Data are available at \url{http://datadryad.org/share/LINK_NOT_FOR_PUBLICATION/GgPGMvjbjKZk85ivFKdvPcWkortHVP-bLC3qY6Oe_to}.
+Data are available at \url{https://doi.org/10.5061/dryad.280gb5n4p}.
 
 \section*{Competing Interests}
 
