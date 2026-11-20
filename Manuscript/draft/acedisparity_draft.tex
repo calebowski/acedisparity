@@ -29,7 +29,17 @@
 
 \title{When does ancestral state estimation improve disparity analyses? A simulation-based evaluation}
 
-\author{Caleb N. Scutt\textsuperscript{1,2*}, Natalie Cooper\textsuperscript{2}, Gavin H. Thomas\textsuperscript{1}, Thomas Guillerme\textsuperscript{1}}
+\author{
+  Caleb N. Scutt\textsuperscript{1,2*} \href{https://orcid.org/0009-0009-2810-3427}
+       {(\mbox{ORCID: 0009-0009-2810-3427})},\\
+  Natalie Cooper\textsuperscript{2} \href{https://orcid.org/0000-0003-4919-8655}
+       {(\mbox{ORCID: 0000-0003-4919-8655})},\\
+  Gavin H. Thomas\textsuperscript{1}
+  \href{https://orcid.org/0000-0002-1982-6051}
+       {(\mbox{ORCID: 0000-0002-1982-6051})}, \\
+  Thomas Guillerme\textsuperscript{1}\href{https://orcid.org/0000-0003-4325-1275}
+       {(\mbox{ORCID: 0000-0003-4325-1275})}
+}
 
 \date{}
 
@@ -74,7 +84,7 @@ However, such analyses are inevitably limited by the incompleteness of the fossi
 These missing data can result in both under- and over-estimations of disparity \citep{mitchell2015extant,smith2023fossilization}.
 
 One way in which unsampled lineages can be accounted for is through the use of ancestral state estimation.
-\ASE is the method of estimating trait value(s) in a set of common ancestors, i.e., nodes on a phylogenetic tree, given a set of tip data \citep{schluter1997likelihood,cunningham1998reconstructing,revell2025ancestral}.
+\ASE is the method of estimating trait value(s) in a set of common ancestors, i.e., internal nodes on a phylogenetic tree, given a set of tip data \citep{schluter1997likelihood,cunningham1998reconstructing,revell2025ancestral}.
 % This involves the unification of our observed trait data with a phylogeny, enabling a switch from simply observing a pattern (points in trait space) to inferring a process through time. 
 % \ASE has been used extensively across macroevolutionary studies for inferring the likely character state at each node on a phylogeny for continuous or discrete traits of interest \citep{meloro2012tooth, esquerre2019mountains, morris2019heterochronic}.
 These estimated states can be combined with the observed tip data to generate a more complete trait space, filling the gaps left by an incomplete fossil record and, in theory, improving our ability to recover the true disparity of a group \citep{sidlauskas2008continuous,brusatte2011phylogenetic,lloyd2018journeys}.
@@ -136,7 +146,7 @@ Constant birth-death parameters meant that the simulated trees were highly symme
 Given that empirical phylogenies tend to be imbalanced \citep{mooers1997inferring, harcourt2001imbalance}, we simulated 100 birth-death trees with maximum tree size of 50 extant and 500 total tips with high asymmetry and ran the same pipeline (\autoref{fig:assymetrical trees colless dist}, \autoref{fig:pipeline}).
 All trees were pruned to include only the crown clade of the tree for downstream analyses.
 This ensured that all downsampled trees shared an identical root node and tree height with the original tree simulation.
-Therefore, any tip included in the analyses was a descendant of the most basal node considered, i.e., the most recent common ancestor of extant tips, ensuring that all ordinations and disparity values were calculated within a consistent clade. %@@@keating line 147
+Therefore, any tip included in the analyses was a descendant of the most basal internal node considered, i.e., the most recent common ancestor of extant tips, ensuring that all ordinations and disparity values were calculated within a consistent clade. %@@@keating line 147
 
 \begin{figure}[H]
 \centering
@@ -192,13 +202,13 @@ For each category, 85 binary characters and 15 three-state characters were simul
 
 \subsection{Fossil sampling simulation}
 To explore the interaction of fossil sampling with estimation method on the disparity accuracy, we simulated fossil sampling using two different schemes.
-The first scheme, which we refer to as `tip-only', is that extinct tips were either retained (`fossilised') or pruned using a Bernoulli sampling method at five different probabilities: 0\%, 5\%, 15\%, 50\% and 100\% (\autoref{fig:pipeline}: Step 3).
+The first scheme, which we refer to as `terminal-only', is that extinct tips were either retained (`fossilised') or pruned using a Bernoulli sampling method at five different probabilities: 0\%, 5\%, 15\%, 50\% and 100\% (\autoref{fig:pipeline}: Step 3).
 This method meant each extinct tip had an equal probability of being `fossilised' at each sampling level, irrespective of the total tree size.
 
-To test whether the `tip-only' fossil sampling scheme was biased by only sampling tips, we used the same Bernoulli sampling method but allowed nodes to be sampled as well as tips. %@@@wagner line 175
-We refer to this as the `tips+nodes' fossil sampling scheme.
+To test whether the `terminal-only' fossil sampling scheme was biased by only sampling tips, we used the same Bernoulli sampling method but allowed internal nodes to be sampled as well as tips. %@@@wagner line 175
+We refer to this as the `terminal+internal' fossil sampling scheme.
 Given the computational intensity of the analysis, we ran this alternative scheme on the 50 living tips (<500 total tips) trees only.
-Ancestral state estimation requires observed data to be coded as tips on a phylogeny, so sampled nodes were attached to the tree as tips using the \texttt{phytools::bind.tip} function \citep{revell2012phytools} with a non-zero branch length.
+Ancestral state estimation requires observed data to be coded as tips on a phylogeny, so sampled internal nodes were attached to the tree as tips using the \texttt{phytools::bind.tip} function \citep{revell2012phytools} with a non-zero branch length.
 The corresponding trait matrices were subset to match the tips remaining in each down-sampled tree, with all extant taxa sampled across all fossil sampling densities.
 From this point on, we refer to these resulting downsampled trees and matrices as sampled-taxa.
 
@@ -209,11 +219,11 @@ These were then compared to a null model  bypassing ancestral state estimation w
 
 \subsubsection{Pre-ordination estimation} \label{pre-ord}
 Ancestral state estimation of trait data can be carried out at two points either side of the ordination step in the pipeline (\autoref{fig:pipeline}: Step 4; \citealp{lloyd2018journeys}).
-Pre-ordination \ase estimation involves the estimation of the raw trait values for each node. 
+Pre-ordination \ase estimation involves the estimation of the raw trait values for each internal node. 
 We performed pre-ordination estimation of continuous characters under a BM model, where ancestral state values lie within a multivariate normal distribution that is estimated given the observed trait data and phylogeny \citep{schluter1997likelihood,rohlf2001comparative}.
 % The width of the estimated confidence interval returned reflects the uncertainty in continuous ancestral estimates, typically increasing with node depth and decreasing with the number of informative descendant lineages.
 
-Pre-ordination estimation of discrete characters involves estimating the marginal likelihoods for each discrete state at each node, based on a maximum likelihood derived estimate of the M\textit{k} transition matrix and phylogeny given \citep{pagel1999maximum,yang2006computational}.
+Pre-ordination estimation of discrete characters involves estimating the marginal likelihoods for each discrete state at each internal node, based on a maximum likelihood derived estimate of the M\textit{k} transition matrix and phylogeny given \citep{pagel1999maximum,yang2006computational}.
 Given that the transition rates were set \textit{a priori} during simulations, the equal-rates (ER) model was used to avoid model misspecification as a confounding factor on estimation accuracy \citep{keating2023best}.
 %CS: could do an analysis where ARD model is used to see if results change with model mispecification (Russell mentioned this)? TG: this is also a very good point like the one for the different fossilisation biases but I think we should keep it to what it is for now and then add/remove depending on the reviews.
 
@@ -230,7 +240,7 @@ Ancestral node PC scores were then estimated under a Brownian motion model acros
 For each estimation method, we also compared point estimate and probabilistic approaches.
 The point estimate approach returned a fixed single value for each estimate.
 For continuous characters, the point estimate returned by \texttt{ape::ace} is the maximum likelihood estimate of the ancestral state.
-For discrete characters, we used a strict majority rule with the state with the highest scaled likelihood selected at each node for each character.
+For discrete characters, we used a strict majority rule with the state with the highest scaled likelihood selected at each internal node for each character.
 When state likelihoods were tied one state was selected at random.
 % We also used a relative majority rule, where any state at a scaled likelihood greater than the maximum observed scaled likelihood minus the inverse number of possible states was collapsed, otherwise states were left as uncertain (supplementary).
 
@@ -268,10 +278,11 @@ Based on our experimental design, we fitted a four-way interaction between the e
 We also included tree size as a further non-interactive fixed effect after finding it had no significant interaction with the other predictors.
 To account for the variation with each simulation run, each tree replicate was included as a random intercept.
 We carried out \textit{post-hoc} pairwise comparisons using estimated marginal means, adjusted using Tukey's honestly significant difference (HSD) \citep{lenth2025emmeans}.
+The \textit{post-hoc} outputs, as well as the simulated trees and matrices, are deposited in the Dryad Digital Repository \citep{Scutt2026_dataset}.
 
 
 \section{Results}
-The main results reported here are from the aggregated linear mixed-effects models (LMMs) from the tip-only fossil sampling simulation analysis retaining all PC axes in trait space.
+The main results reported here are from the aggregated linear mixed-effects models (LMMs) from the terminal-only fossil sampling simulation analysis retaining all PC axes in trait space.
 Results from the weighted LMMs were consistent with these findings (\autoref{fig:weighted LMM continuous heatmap}, \ref{fig:weighted LMM discrete heatmap}).
 \subsection{Continuous traits}
 \subsubsection{Estimation methods}
@@ -283,7 +294,7 @@ In contrast, point estimates performed worse overall than bypassing ancestral st
 \begin{figure}[H]
 \centering
 \includegraphics[width=1\textwidth]{figures/continuous_boxplot.pdf}
-\caption{Relative error in continuous character disparity estimates across estimation methods under the `tip-only' fossil sampling scheme. Estimation methods were pre-ordination point ancestral state estimation (ASE), pre-ordination distribution ASE, post-ordination point ASE, post-ordination distribution ASE and no ASE. These disparity errors were calculated across three evolutionary models (Brownian motion [BM], BM+trend and Ornstein-Uhlenbeck [OU]), five simulated fossil sampling densities (100\%, 50\%, 15\%, 5\% and 0\%) and three disparity metrics (sum of variances, sum of quantiles and mean pairwise distance). Values closest to 0 (dashed horizontal line) are most accurate; negative errors are under-estimates and positive are over-estimates.}
+\caption{Relative error in continuous character disparity estimates across estimation methods under the `terminal-only' fossil sampling scheme. Estimation methods were pre-ordination point ancestral state estimation (ASE), pre-ordination distribution ASE, post-ordination point ASE, post-ordination distribution ASE and no ASE. These disparity errors were calculated across three evolutionary models (Brownian motion [BM], BM+trend and Ornstein-Uhlenbeck [OU]), five simulated fossil sampling densities (100\%, 50\%, 15\%, 5\% and 0\%) and three disparity metrics (sum of variances, sum of quantiles and mean pairwise distance). Values closest to 0 (dashed horizontal line) are most accurate; negative errors are under-estimates and positive are over-estimates.}
 \label{fig:continuous boxplot} 
 \end{figure}
 
@@ -312,7 +323,7 @@ Therefore, while estimation accuracy differed among metrics, the hierarchy among
 \end{figure}
 
 \subsubsection{Sensitivity tests}
-We found that the hierarchy of methods across continuous trait models and fossil sampling densities were largely congruent under the alternative `tips+nodes' fossil sampling scheme, except we found that excluding ancestral states was marginally better when using the sum of quantiles metric on BM trait data (\autoref{fig:Continuous nodes tips boxplot}).
+We found that the hierarchy of methods across continuous trait models and fossil sampling densities were largely congruent under the alternative `terminal+internal' fossil sampling scheme, except we found that excluding ancestral states was marginally better when using the sum of quantiles metric on BM trait data (\autoref{fig:Continuous nodes tips boxplot}).
 % We also found our findings were robust to asymmetry in trees (\autoref{fig:Asymmetrical trees continuous boxplot}).
 The inclusion of ancestral state estimations also improved recovery of true disparity under highly asymmetric trees (\autoref{fig:Asymmetrical trees continuous boxplot}), including under OU trait data across all three metrics, which contrasted our main findings using symmetric trees.
 \subsection{Discrete traits}
@@ -324,7 +335,7 @@ Similar to continuous traits, methods of ancestral state estimation consistently
 \begin{figure}[H]
 \centering
 \includegraphics[width=1\textwidth]{figures/discrete_boxplot.pdf}
-\caption{Relative error in discrete character disparity estimates across estimation methods under the `tip-only' fossil sampling scheme, calculated using the full dimensionality of each trait space. Estimation methods were pre-ordination point ASE (ancestral state estimation), pre-ordination distribution ASE, post-ordination point ASE, post-ordination distribution ASE and no ASE. These disparity errors were calculated across three transition rates (fast [0.9], medium [0.1] and slow [0.01]), five simulated fossil sampling densities (100\%, 50\%, 15\%, 5\% and 0\%) and three disparity metrics (sum of variances, sum of quantiles and mean pairwise distance). Values closest to 0 (dashed horizontal line) were most accurate; negative errors are under-estimates and positive are over-estimates.} 
+\caption{Relative error in discrete character disparity estimates across estimation methods under the `terminal-only' fossil sampling scheme, calculated using the full dimensionality of each trait space. Estimation methods were pre-ordination point ASE (ancestral state estimation), pre-ordination distribution ASE, post-ordination point ASE, post-ordination distribution ASE and no ASE. These disparity errors were calculated across three transition rates (fast [0.9], medium [0.1] and slow [0.01]), five simulated fossil sampling densities (100\%, 50\%, 15\%, 5\% and 0\%) and three disparity metrics (sum of variances, sum of quantiles and mean pairwise distance). Values closest to 0 (dashed horizontal line) were most accurate; negative errors are under-estimates and positive are over-estimates.} 
 \label{fig:discrete raw boxplot} 
 \end{figure}
 
@@ -342,14 +353,14 @@ Again, while the disparity metric was a significant driver to overall accuracy, 
 \begin{figure}[H]
 \centering
 \includegraphics[width=1\textwidth]{figures/discrete_heatmap.pdf}
-\caption{Heatmap showing the discrete estimated marginal mean (EMM) relative disparity errors for all combinations of estimation method, transition rate and simulated fossil sampling density (under tip-only fossil sampling scheme). EMM were calculated from a linear mixed model with a three-way interaction, averaged across disparity metrics.} 
+\caption{Heatmap showing the discrete estimated marginal mean (EMM) relative disparity errors for all combinations of estimation method, transition rate and simulated fossil sampling density (under terminal-only fossil sampling scheme). EMM were calculated from a linear mixed model with a three-way interaction, averaged across disparity metrics.} 
 \label{fig:discrete heatmap} 
 \end{figure}
 
 \subsubsection{Sensitivity tests} 
-Under the alternative `tips+nodes' fossil sampling scheme, we found that, generally, the hierarchy of methods remained consistent with our main findings up to 50\% fossil sampling density (\autoref{fig:Discrete nodes tips boxplot}, \autoref{fig:Discrete nodes tips boxplot rm axes}). 
+Under the alternative `terminal+internal' fossil sampling scheme, we found that, generally, the hierarchy of methods remained consistent with our main findings up to 50\% fossil sampling density (\autoref{fig:Discrete nodes tips boxplot}, \autoref{fig:Discrete nodes tips boxplot rm axes}). 
 Beyond 50\% fossil sampling, we overestimate disparity with pre-ordination methods because we begin to estimate ancestors that never existed (at 100\% sampling we have nearly twice as many points in the trait space as the true trait space).
-Essentially, under a `tips+nodes' sampling scheme ancestral state estimation becomes redundant beyond 50\% fossil sampling because all unsampled taxa are accounted for as ancestral nodes.
+Essentially, under a `terminal+internal' sampling scheme ancestral state estimation becomes redundant beyond 50\% fossil sampling because all unsampled taxa are accounted for as ancestral nodes.
 Our findings also proved robust under asymmetric trees (\autoref{fig:Asymmetrical trees discrete boxplot}), with pre-ordination ancestral state estimation methods outperforming sampled-taxa only across all transition rate, fossil sampling density and metric combinations.
 
 When we controlled for unequal dimensionality, we found virtually the same hierarchy of estimation methods as when we preserved the full dimensionality of the trait space (\autoref{fig:discrete fixed axes boxplot}, \autoref{fig:Discrete nodes tips boxplot rm axes}), but noted that the extent at which pre-ordination estimation methods were advantageous over excluding ancestral state estimations was slightly diminished.
@@ -357,7 +368,7 @@ When we controlled for unequal dimensionality, we found virtually the same hiera
 \begin{figure}[H]
 \centering
 \includegraphics[width=1\textwidth]{figures/discrete_boxplot_rm_axes.pdf}
-\caption{Relative error in discrete character disparity estimates across estimation methods under the `tip-only' fossil sampling scheme, using a common number of ordination axes across all fossil sampling densities. Estimation methods were pre-ordination point ASE (ancestral state estimation), pre-ordination distribution ASE, post-ordination point ASE, post-ordination distribution ASE and no ASE. These disparity errors were calculated across three transition rates (fast [0.9], medium [0.1] and slow [0.01]), five simulated fossil sampling densities (100\%, 50\%, 15\%, 5\% and 0\%) and three disparity metrics (sum of variances, sum of quantiles and mean pairwise distance). Values closest to 0 (dashed horizontal line) are most accurate; negative errors are under-estimates and positive are over-estimates.}
+\caption{Relative error in discrete character disparity estimates across estimation methods under the `terminal-only' fossil sampling scheme, using a common number of ordination axes across all fossil sampling densities. Estimation methods were pre-ordination point ASE (ancestral state estimation), pre-ordination distribution ASE, post-ordination point ASE, post-ordination distribution ASE and no ASE. These disparity errors were calculated across three transition rates (fast [0.9], medium [0.1] and slow [0.01]), five simulated fossil sampling densities (100\%, 50\%, 15\%, 5\% and 0\%) and three disparity metrics (sum of variances, sum of quantiles and mean pairwise distance). Values closest to 0 (dashed horizontal line) are most accurate; negative errors are under-estimates and positive are over-estimates.}
 \label{fig:discrete fixed axes boxplot}
 \end{figure}
 
@@ -466,17 +477,17 @@ Several recent methodological developments have aimed to accommodate rate hetero
 Simulations are increasingly used across computational evolutionary biology to evaluate methodological approaches \citep{lotterhos2022simulation}.
 However, given the complexity of morphological evolution across clades, generalising simulation frameworks offsets empirical and biological realism \citep{goloboff2018parsimony,o2018empirical}.
 Where tested, our conclusions generally hold under our simulation assumptions.
-For empirical realism, the tip-only fossil sampling scheme is the more defensible default for our main analyses.
+For empirical realism, the terminal-only fossil sampling scheme is the more defensible default for our main analyses.
 A fossil cannot be identified as an ancestor or descendant with certainty when found, and fossil taxa are usually added to trees as tips, so this scheme emulates the typical procedure.
-However, the tip-only scheme excludes taxa that are ancestral to other sampled taxa, i.e., ancestral nodes are not sampled.
-The alternative `tips+nodes' sampling scheme highlighted where this exclusion may have introduced bias. 
-For discrete characters, the tip-only scheme appears to introduce little bias.
+However, the terminal-only scheme excludes taxa that are ancestral to other sampled taxa, i.e., ancestral nodes are not sampled.
+The alternative `terminal+internal' sampling scheme highlighted where this exclusion may have introduced bias. 
+For discrete characters, the terminal-only scheme appears to introduce little bias.
 Tips and nodes did not differ in their pairwise distances (\autoref{fig:pairwise dist discrete tip node}), so excluding ancestors did not remove a distinct part of the trait space.
 This is consistent with character exhaustion in bounded discrete characters \citep{wagner2000exhaustion, erwin_disparity_2007}; once most character states have been expended, further change repeats existing pairwise distances, thus tips do not accumulate any more distinctness than internal nodes.
 % This trait space saturation is reached faster as transition rates increase.
 In contrast, continuous characters are unbounded.
 Under BM, variance increases with distance from the root, so tips are the most morphologically distinct taxa (\autoref{fig:pairwise dist continuous tip node}).
-This explains why ancestral state estimations overestimated the sum of variances derived from BM traits at low fossil sampling under the tip-only scheme, whereas instead underestimated sum of variances under the `tips+nodes' scheme.
+This explains why ancestral state estimations overestimated the sum of variances derived from BM traits at low fossil sampling under the terminal-only scheme, whereas instead underestimated sum of variances under the `terminal+internal' scheme.
 Our conclusions for discrete and continuous characters are robust under both sampling schemes, but we note that the scheme does have a slight effect on continuous results, specifically the sum of quantiles (Figures~\ref{fig:Continuous nodes tips boxplot}, \ref{fig:Discrete nodes tips boxplot}, and \ref{fig:Discrete nodes tips boxplot rm axes}).
 
 Given that empirical phylogenies tend to be asymmetrical \citep{mooers1997inferring}, we tested for the effect of asymmetry on our results  and found congruent patterns in estimation method hierarchy across treatments to our main findings (\autoref{fig:Asymmetrical trees continuous boxplot}, \autoref{fig:Asymmetrical trees discrete boxplot}). 
@@ -615,14 +626,18 @@ Based on these findings, we recommend the following guidelines for the use of an
 
 We thank Peter Wagner and Joseph Keating for their thoughtful and helpful reviews, Robin Beck, Russell Garwood and Vera Weisbecker for discussions, the IT team at the University of Sheffield for the use of Stanage HPC. TG acknowledges funding from NERC-UKRI Grant NE/X016781/1.
 
+\section*{Supporting information}
+\texttt{Supplementary.pdf} contains supplementary figures S1-S15.
+Data S1 \& S2 contain Excel 2007 files detailing the one way and three-way linear mixed-effects model outputs referenced in the text for continuous and discrete traits, respectively.
+
 \section*{Author Contributions}
 
 \textbf{Conceptualisation} CN Scutt (CNS), GH Thomas (GHT), N Cooper (NC), T Guillerme (TG); \textbf{Data curation} CNS; \textbf{Formal analysis} CNS; \textbf{Funding acquisition} TG; \textbf{Investigation} CNS, TG; \textbf{Methodology} CNS, TG; \textbf{Project administration} CNS, GHT, NC, TG; \textbf{Resources} CNS, TG; \textbf{Software} CNS, TG; \textbf{Supervision} GHT, NC, TG; \textbf{Validation} CNS; \textbf{Visualisaton} CNS; \textbf{Writing - original draft} CNS; \textbf{Writing - review \& editing} CNS, GHT, NC, TG.
 
 \section*{Data Availability}
 
-The code to reproduce the analyses is available here \url{https://github.com/calebowski/acedisparity} \citep{caleb_scutt_2026_19665049}.
-Data are available at \url{https://doi.org/10.5061/dryad.280gb5n4p}.
+The code to reproduce the analyses is available here \url{https://github.com/calebowski/acedisparity} \citep{caleb_scutt_2026_24373292}.
+Data are available at \url{http://datadryad.org/share/LINK_NOT_FOR_PUBLICATION/GgPGMvjbjKZk85ivFKdvPcWkortHVP-bLC3qY6Oe_to} \citep{Scutt2026_dataset}.
 
 \section*{Competing Interests}
 

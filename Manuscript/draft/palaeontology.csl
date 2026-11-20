@@ -195,7 +195,6 @@
             <text variable="title" suffix=". "/>
             <text variable="publisher" suffix=". "/>
             <text variable="version" prefix="Version " suffix=". "/>
-            <text variable="DOI" prefix="https://doi.org/"/>
           </else-if>
           <else>
             <text variable="title" suffix=". "/>
@@ -206,6 +205,7 @@
             </group>
           </else>
         </choose>
+        <text variable="DOI" prefix=". https://doi.org/"/>
       </group>
     </layout>
   </bibliography>

@@ -1,4 +1,4 @@
-\begin{thebibliography}{121}
+\begin{thebibliography}{122}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -20,10 +20,11 @@ Lucila~I Amador and Norberto~P Giannini.
 \newblock Evolution of diet in extant marsupials: emergent patterns from a broad phylogenetic perspective.
 \newblock \emph{Mammal Review}, 51\penalty0 (2):\penalty0 178--192, 2021.
 
-\bibitem[An{\'e}(2008)]{ane2008analysis}
-C{\'e}cile An{\'e}.
+\bibitem[Ané(2008)]{ane2008analysis}
+Cécile Ané.
 \newblock Analysis of comparative data with hierarchical autocorrelation.
-\newblock 2008.
+\newblock \emph{The Annals of Applied Statistics}, 2:\penalty0 1078--1102, 09 2008.
+\newblock \doi{10.1214/08-AOAS173}.
 
 \bibitem[Baker et~al.(2015)Baker, Meade, Pagel, and Venditti]{baker2015adaptive}
 Joanna Baker, Andrew Meade, Mark Pagel, and Chris Venditti.
@@ -145,8 +146,8 @@ Joseph~T Flannery~Sutherland, Benjamin~C Moon, Thomas~L Stubbs, and Michael~J Be
 
 \bibitem[Foote(1991)]{foote1991morphological}
 Mike Foote.
-\newblock Morphological and taxonomic diversity in clade's history: the blastoid record and stochastic simulations.
-\newblock 1991.
+\newblock Morphological and taxonomic diversity in clade's history: The blastoid record and stochastic simulations.
+\newblock \emph{Ann Arbor Mus. Paleontol.}, 28, 09 1991.
 
 \bibitem[Foote(1992{\natexlab{a}})]{foote1992paleozoic}
 Mike Foote.
@@ -356,14 +357,15 @@ Andrea~Stockmeyer Lofgren, Roy~E Plotnick, and Peter~J Wagner.
 \newblock Morphological diversity of carboniferous arthropods and insights on disparity patterns through the phanerozoic.
 \newblock \emph{Paleobiology}, 29\penalty0 (3):\penalty0 349--368, 2003.
 
+\bibitem[Losos and Mahler(2010)]{losos2010adaptive}
+Jonathan Losos and D.~Luke Mahler.
+\newblock Adaptive radiation: the interaction of ecological opportunity, adaptation, and speciation.
+\newblock \emph{Evolution Since Darwin: The First 150 Years}, pages 381--420, 01 2010.
+
 \bibitem[Losos(1999)]{losos1999uncertainty}
 Jonathan~B Losos.
-\newblock Uncertainty in the reconstruction of ancestral character states and limitations on the use of phylogenetic comparative methods, 1999.
-
-\bibitem[Losos et~al.(2010)Losos, Mahler, et~al.]{losos2010adaptive}
-Jonathan~B Losos, D~Luke Mahler, et~al.
-\newblock Adaptive radiation: the interaction of ecological opportunity, adaptation, and speciation.
-\newblock \emph{Evolution since Darwin: the first}, 150:\penalty0 381--420, 2010.
+\newblock Uncertainty in the reconstruction of ancestral character states and limitations on the use of phylogenetic comparative methods.
+\newblock \emph{Animal Behaviour}, 58\penalty0 (6):\penalty0 1319--1324, 1999.
 
 \bibitem[Lotterhos et~al.(2022)Lotterhos, Fitzpatrick, and Blackmon]{lotterhos2022simulation}
 Katie~E Lotterhos, Matthew~C Fitzpatrick, and Heath Blackmon.
@@ -522,10 +524,15 @@ Joshua~P Scholl and John~J Wiens.
 \newblock Diversification rates and species richness across the tree of life.
 \newblock \emph{Proceedings of the Royal Society B: Biological Sciences}, 283\penalty0 (1838):\penalty0 20161334, 2016.
 
-\bibitem[Scutt and Guillerme(2026)]{caleb_scutt_2026_19665049}
+\bibitem[Scutt and Guillerme(2026)]{caleb_scutt_2026_24373292}
 Caleb Scutt and Thomas Guillerme.
-\newblock calebowski/acedisparity: Submission, April 2026.
-\newblock URL \url{https://doi.org/10.5281/zenodo.19665049}.
+\newblock calebowski/acedisparity, November 2026.
+\newblock URL \url{https://doi.org/10.5281/zenodo.24373292}.
+
+\bibitem[Scutt et~al.(2026)Scutt, Cooper, Thomas, and Guillerme]{Scutt2026_dataset}
+Caleb Scutt, Natalie Cooper, Gavin Thomas, and Thomas Guillerme.
+\newblock {Data from: When does ancestral state estimation improve disparity analyses? A simulation-based evaluation [Dataset]}, 2026.
+\newblock URL \url{https://doi.org/10.5061/dryad.280gb5n4p}.
 
 \bibitem[Sidlauskas(2008)]{sidlauskas2008continuous}
 Brian Sidlauskas.

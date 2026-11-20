@@ -1,15 +1,15 @@
 # Fdb version 4
-["bibtex supplementary"] 1794997950.94301 "supplementary.aux" "supplementary.bbl" "supplementary" 1794997978.42688 0
-  "./references.bib" 1794916946.58249 48037 abf771816b122b08370ca0113e2b883d ""
+["bibtex supplementary"] 1795179340.83528 "supplementary.aux" "supplementary.bbl" "supplementary" 1795179340.99642 0
+  "./references.bib" 1795179340.68108 48488 79dddec6d07ddbde3c07681b5c6662df ""
   "/usr/share/texlive/texmf-dist/bibtex/bst/natbib/plainnat.bst" 1233624470 26816 ffe5423d2019860bad9f54bc402fac15 ""
-  "supplementary.aux" 1794997978.00153 15620 e42684d9f9dc328c5c3ed00d5bbe05a7 "pdflatex"
+  "supplementary.aux" 1795170073.33532 15656 32493d2980b14588c61528c9fbbee169 "pdflatex"
   (generated)
   "supplementary.bbl"
   "supplementary.blg"
   (rewritten before read)
-["pdflatex"] 1794997977.07297 "/home/caleb/Documents/PhD/acedisparity/Manuscript/draft/supplementary.tex" "supplementary.pdf" "supplementary" 1794997978.42728 0
+["pdflatex"] 1795170072.66786 "/home/caleb/Documents/PhD/acedisparity/Manuscript/draft/supplementary.tex" "supplementary.pdf" "supplementary" 1795179340.99647 0
   "/etc/texmf/web2c/texmf.cnf" 1730844760.28548 475 c0e671620eb5563b2130f56340a5fde8 ""
-  "/home/caleb/Documents/PhD/acedisparity/Manuscript/draft/supplementary.tex" 1794997976.78544 11809 c36c864e987b5ab2563f17f30b990cc0 ""
+  "/home/caleb/Documents/PhD/acedisparity/Manuscript/draft/supplementary.tex" 1795171958.80738 11827 2e699b9a92c055ecddb807ad0b655f5f ""
   "/usr/share/texlive/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/jknappen/ec/ecbx1095.tfm" 1136768653 3584 21b378cca2e40816b0e6d74a4dc98f04 ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/jknappen/ec/ecbx1440.tfm" 1136768653 3584 13049b61b922a28b158a38aeff75ee9b ""
@@ -151,10 +151,10 @@
   "figures/pd_discrete_3_way_ords.pdf" 1794916946.58249 12063 361bc7bb346ec16d3b9cf10b5f7795dd ""
   "figures/symmetry.pdf" 1776626769.55812 8462 e7151f314bcb83cc59dd7c4783a9906f ""
   "figures/tree_size_hist.pdf" 1776690814.60065 5234 43e1cc57002570ee570dba25ee496911 ""
-  "supplementary.aux" 1794997978.00153 15620 e42684d9f9dc328c5c3ed00d5bbe05a7 "pdflatex"
-  "supplementary.bbl" 1794997951.10248 511 2d8be971b35e1de95763946705f06f7e "bibtex supplementary"
-  "supplementary.out" 1794997978.00253 151 25369070850d935b7c2e7a80c9bc02db "pdflatex"
-  "supplementary.tex" 1794997976.78544 11809 c36c864e987b5ab2563f17f30b990cc0 ""
+  "supplementary.aux" 1795170073.33532 15656 32493d2980b14588c61528c9fbbee169 "pdflatex"
+  "supplementary.bbl" 1795179340.95409 511 2d8be971b35e1de95763946705f06f7e "bibtex supplementary"
+  "supplementary.out" 1795170073.33632 151 25369070850d935b7c2e7a80c9bc02db "pdflatex"
+  "supplementary.tex" 1795171958.80738 11827 2e699b9a92c055ecddb807ad0b655f5f ""
   (generated)
   "supplementary.aux"
   "supplementary.log"
