@@ -53,7 +53,7 @@ There are also custom functions used for simulating fossil sampling, contained w
 
 *This tutorial is taken from the [dispRity gitbook](https://github.com/TGuillerme/dispRity/blob/master/inst/gitbook/05_other-functionalities.Rmd).*
 You can use `multi.ace` to sample distributions instead of getting point estimates.
-For example, by default, when using `multi.ace` on continuous characters, the output estimation is the average most likely value for the trait at every specific nodes.
+For example, by default, when using `multi.ace` on continuous characters, the output estimation is the maximum likelihood estimate for each trait at each node.
 
 ```r
 set.seed(1)
